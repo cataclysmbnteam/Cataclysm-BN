@@ -108,6 +108,7 @@
 #include "weather_gen.h"
 #include "weighted_list.h"
 #include "game_info.h"
+#include "overmap_special.h"
 
 static const mtype_id mon_generator( "mon_generator" );
 
@@ -125,6 +126,7 @@ enum debug_menu_index {
     DEBUG_WISH,
     DEBUG_SHORT_TELEPORT,
     DEBUG_LONG_TELEPORT,
+    DEBUG_TELEPORT_TO_OVERMAP_SPECIAL,
     DEBUG_REVEAL_MAP,
     DEBUG_SPAWN_NPC,
     DEBUG_SPAWN_MON,
@@ -191,6 +193,7 @@ enum debug_menu_index {
     DEBUG_NESTED_MAPGEN,
     DEBUG_RESET_IGNORED_MESSAGES,
     DEBUG_RELOAD_TILES,
+    DEBUG_SWAP_CHAR,
 };
 
 class mission_debug
@@ -200,8 +203,9 @@ class mission_debug
         static void remove_mission( mission &m );
     public:
         static void edit_mission( mission &m );
-        static void edit( player &who );
+        static void edit( Character &who );
         static void edit_player();
+        static void control_npc_menu();
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
 };
@@ -249,6 +253,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( DEBUG_RESET_IGNORED_MESSAGES, true, 'I', _( "Reset ignored debug messages" ) ) },
+            { uilist_entry( DEBUG_SWAP_CHAR, true, 'x', _( "Control NPC follower" ) ) },
 #if defined(TILES)
             { uilist_entry( DEBUG_RELOAD_TILES, true, 'D', _( "Reload tileset and show missing tiles" ) ) },
 #endif
@@ -275,6 +280,7 @@ static int teleport_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( DEBUG_LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
+        { uilist_entry( DEBUG_TELEPORT_TO_OVERMAP_SPECIAL, true, 'a', _( "Teleport - overmap special" ) ) },
         { uilist_entry( DEBUG_OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
         { uilist_entry( DEBUG_OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
@@ -343,10 +349,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
         // insert debug-only menu right after "Info".
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
-
-        if( cata::has_lua() ) {
-            menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
-        }
+        menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
     }
 
     std::string msg;
@@ -449,6 +452,36 @@ void teleport_overmap( bool specific_coordinates )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
+static void teleport_to_overmap_special()
+{
+    std::vector<const overmap_special *> vec_os;
+    std::vector<std::pair<std::string, vproto_id>> area_strings;
+
+    uilist area_menu;
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
+        vec_os.push_back( &elem );
+        const std::string entry_text = elem.id.str();
+        area_menu.addentry( -1, true, 0, entry_text );
+    }
+
+    area_menu.text = _( "Choose area to teleport to" );
+    area_menu.query( true );
+    if( area_menu.ret == UILIST_CANCEL ) {
+        return;
+    }
+
+    const overmap_special *target = vec_os[area_menu.ret];
+    const overmap_special_id target_id = target->id;
+    mission_target_params t;
+    t.overmap_terrain = target->get_terrain_at( tripoint() )->get_mapgen_id();
+    t.overmap_special = target_id;
+    t.search_range = 0;
+    t.reveal_radius = 3;
+
+    g->place_player_overmap( mission_util::get_om_terrain_pos( t ) );
+    add_msg( _( "You teleport to submap %s." ), target_id );
+}
+
 void spawn_nested_mapgen()
 {
     uilist nest_menu;
@@ -515,6 +548,29 @@ static Character &pick_character( Character &preselected )
     const size_t index = charmenu.ret;
     Character *c = g->critter_at<Character>( locations[index] );
     return c != nullptr ? *c : preselected;
+}
+
+static void control_npc_menu()
+{
+    std::vector<shared_ptr_fast<npc>> followers;
+    uilist charmenu;
+    int charnum = 0;
+    for( const auto &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            followers.emplace_back( follower );
+            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
+        }
+    }
+    if( followers.empty() ) {
+        return;
+    }
+    charmenu.w_y_setup = 0;
+    charmenu.query();
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
+        return;
+    }
+    get_avatar().control_npc( *followers.at( charmenu.ret ) );
 }
 
 void character_edit_menu( Character &c )
@@ -652,6 +708,7 @@ void character_edit_menu( Character &c )
                 int value;
                 if( query_int( value, _( "Set the stat to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
+                    p.reset_bonuses();
                     p.reset_stats();
                 }
             }
@@ -966,19 +1023,22 @@ void character_edit_menu( Character &c )
             break;
         case edit_character::healthy: {
             uilist smenu;
-            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
-            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), static_cast<int>( p.get_healthy() ) );
+            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ),
+                            static_cast<int>( p.get_healthy_mod() ) );
             smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_healthy() ) ) {
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ),
+                                   static_cast<int>( p.get_healthy() ) ) ) {
                         p.set_healthy( value );
                     }
                     break;
                 case 1:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_healthy_mod() ) ) {
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ),
+                                   static_cast<int>( p.get_healthy_mod() ) ) ) {
                         p.set_healthy_mod( value );
                     }
                     break;
@@ -1189,7 +1249,7 @@ static void add_header( uilist &mmenu, const std::string &str )
     mmenu.entries.push_back( header );
 }
 
-void mission_debug::edit( player &who )
+void mission_debug::edit( Character &who )
 {
     if( who.is_player() ) {
         edit_player();
@@ -1436,6 +1496,10 @@ void debug()
 
         case DEBUG_LONG_TELEPORT:
             debug_menu::teleport_long();
+            break;
+
+        case DEBUG_TELEPORT_TO_OVERMAP_SPECIAL:
+            debug_menu::teleport_to_overmap_special();
             break;
 
         case DEBUG_REVEAL_MAP: {
@@ -1867,6 +1931,9 @@ void debug()
             break;
         case DEBUG_HOUR_TIMER:
             g->toggle_debug_hour_timer();
+            break;
+        case DEBUG_SWAP_CHAR:
+            control_npc_menu();
             break;
         case DEBUG_CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {

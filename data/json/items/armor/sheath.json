@@ -24,7 +24,7 @@
       "max_volume": "2500 ml",
       "flags": [ "SHEATH_AXE", "BELT_CLIP" ]
     },
-    "flags": [ "NONCONDUCTIVE", "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "NONCONDUCTIVE", "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "baldric",
@@ -169,7 +169,7 @@
       "max_volume": "2750 ml",
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "sheath",
@@ -196,7 +196,7 @@
       "draw_cost": 80,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "spearsling",
@@ -220,7 +220,7 @@
       "type": "holster",
       "holster_prompt": "Holster weapon",
       "holster_msg": "You holster your %s.",
-      "max_volume": "3500 ml",
+      "max_volume": "4000 ml",
       "draw_cost": 150,
       "flags": [ "SHEATH_SPEAR", "SHEATH_AXE" ]
     },

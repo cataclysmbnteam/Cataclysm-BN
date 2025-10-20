@@ -108,6 +108,16 @@ namespace io
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
+            case enchant_vals::mod::ITEM_DAMAGE_FIRE: return "ITEM_DAMAGE_FIRE";
+            case enchant_vals::mod::ITEM_DAMAGE_ACID: return "ITEM_DAMAGE_ACID";
+            case enchant_vals::mod::ITEM_DAMAGE_BIO: return "ITEM_DAMAGE_BIO";
+            case enchant_vals::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
+            case enchant_vals::mod::ITEM_DAMAGE_DARK: return "ITEM_DAMAGE_DARK";
+            case enchant_vals::mod::ITEM_DAMAGE_LIGHT: return "ITEM_DAMAGE_LIGHT";
+            case enchant_vals::mod::ITEM_DAMAGE_PSI: return "ITEM_DAMAGE_PSI";
+            case enchant_vals::mod::ITEM_DAMAGE_BULLET: return "ITEM_DAMAGE_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_ELECTRIC: return "ITEM_DAMAGE_ELECTRIC";
+            case enchant_vals::mod::ITEM_DAMAGE_TRUE: return "ITEM_DAMAGE_TRUE";
             case enchant_vals::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
             case enchant_vals::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
             case enchant_vals::mod::ITEM_ARMOR_DARK: return "ITEM_ARMOR_DARK";

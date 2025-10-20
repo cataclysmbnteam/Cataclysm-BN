@@ -50,6 +50,23 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "atomic_pseudo_churn",
+    "type": "TOOL",
+    "sub": "atomic_coffeepot",
+    "name": { "str": "deployed atomic butter churn" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "6464 g",
+    "volume": "11356 ml",
+    "price": "200 USD",
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "plastic", "steel" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 2 ], [ "BOIL", 1 ] ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "can_sealer",
     "type": "GENERIC",
     "category": "tools_cooking",
@@ -81,19 +98,25 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": {
       "type": "transform",
       "active": true,
       "target": "carver_on",
       "msg": "You turn on the electric carver.",
       "moves": 80,
-      "need_dry": true,
-      "transform_power": "1 kJ"
+      "transform_charges": 1,
+      "need_dry": true
     },
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "COMBAT_NPC_USE" ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "carver_on",
@@ -103,13 +126,14 @@
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
     "to_hit": 1,
-    "power_draw": "150 J",
+    "power_draw": 150000,
+    "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "revert_msg": "Your electric carver goes quiet",
     "use_action": { "type": "transform", "target": "carver_off", "msg": "You turn off the electric carver." },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE" ],
-    "battery_well": "500 ml"
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "char_purifier",
@@ -240,11 +264,17 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "power_draw": "10 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "dehydrator",
@@ -261,9 +291,15 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "eggs_ferment",
@@ -454,9 +490,15 @@
     "material": [ "iron" ],
     "symbol": "%",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "soda_machine",
@@ -474,9 +516,15 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "%",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "atomic_soda_machine",
@@ -500,8 +548,8 @@
     "id": "gasoline_cooker",
     "type": "TOOL",
     "category": "tools_cooking",
-    "name": { "str": "gasoline cooker" },
-    "description": "This is a simple heater powered by gasoline.  It is designed for cooking food.",
+    "name": { "str": "camping stove" },
+    "description": "This is a simple burner powered by pressurized fuel, such as butane or gasoline.  It is designed for cooking food.",
     "weight": "1944 g",
     "volume": "1250 ml",
     "price": "50 USD",
@@ -511,7 +559,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "green",
-    "ammo": "gasoline",
+    "ammo": [ "lighter_fluid", "gasoline" ],
+    "default_ammo": "chem_butane",
     "sub": "hotplate",
     "initial_charges": 500,
     "max_charges": 500,
@@ -551,10 +600,31 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
+    "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": "HOTPLATE",
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "afs_atompot",
+    "type": "TOOL",
+    "name": { "str": "atompot" },
+    "copy-from": "pressure_cooker",
+    "description": "Rivtech's premiere self-heating kitchen appliance, complete with lid, hand-crafted with the power of the atom to reach any temperature in thirty seconds.  As bulky as it is, its plutonium power source means that it can be used to cook an absurd amount of meals without ever worrying about running low on power.  Unsurprisingly, sales weren't particularly good because of the prospect of irradiating your food, but internal shielding ensures that only trace amounts find its way into the center.",
+    "price": "300 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "steel", "plastic" ],
+    "looks_like": "pot",
+    "symbol": ")",
+    "color": "light_green",
+    "use_action": "HOTPLATE",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "jar_eggs_pickled",
@@ -643,15 +713,21 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
   },
   {
     "id": "mess_kit",
     "type": "TOOL",
     "category": "tools_cooking",
     "name": { "str": "mess kit" },
-    "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.  This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled Esbit stove.",
+    "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.  This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled butane and Esbit stoves.",
     "weight": "1500 g",
     "volume": "1 L",
     "price": 5000,
@@ -661,12 +737,18 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
+    "ammo": "battery",
     "sub": "hotplate",
+    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "mess_tin",
@@ -701,12 +783,18 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
+    "ammo": "battery",
     "sub": "hotplate",
+    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "mortar_pestle",
@@ -739,19 +827,45 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "power_draw": "1500 J",
+    "ammo": "battery",
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "use_action": [
+      {
+        "type": "multicooker",
+        "do_hallu": true,
+        "charges_to_start": 50,
+        "charges_per_minute": 1,
+        "time_mult": 1,
+        "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
+        "temporary_tools": [ "tongs", "toolset", "pot" ]
+      }
+    ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
-    "id": "multi_cooker_filled",
+    "id": "multi_cooker_improved",
     "type": "TOOL",
     "copy-from": "multi_cooker",
-    "name": { "str": "multi cooker - cooking" },
-    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "name": { "str": "improved multi cooker" },
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating. This has been tinkered with.",
+    "use_action": [
+      {
+        "type": "multicooker",
+        "do_hallu": true,
+        "charges_to_start": 25,
+        "charges_per_minute": 1,
+        "time_mult": 0.75,
+        "recipes": [ "water_clean" ],
+        "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
+        "temporary_tools": [ "tongs", "toolset", "pot" ]
+      }
+    ]
   },
   {
     "id": "oil_cooker",
@@ -1001,9 +1115,15 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "waffleiron",
@@ -1037,19 +1157,25 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_blue",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": "1 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "type": "GENERIC",

@@ -105,6 +105,10 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
+    { "BALLOON", VPFLAG_BALLOON },
+    { "WING", VPFLAG_WING },
+    { "PROPELLER", VPFLAG_PROPELLER },
+    { "EXTENDABLE", VPFLAG_EXTENDABLE }
 };
 
 static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
@@ -247,6 +251,39 @@ void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObjec
     assert( roptr );
 }
 
+void vpart_info::load_propeller( std::optional<vpslot_propeller> &proptr, const JsonObject &jo )
+{
+    vpslot_propeller propeller_info{};
+    if( proptr ) {
+        propeller_info = *proptr;
+    }
+    assign( jo, "propeller_diameter", propeller_info.propeller_diameter );
+    proptr = propeller_info;
+    assert( proptr );
+}
+
+void vpart_info::load_wing( std::optional<vpslot_wing> &wptr, const JsonObject &jo )
+{
+    vpslot_wing wing_info{};
+    if( wptr ) {
+        wing_info = *wptr;
+    }
+    assign( jo, "lift_coff", wing_info.lift_coff );
+    wptr = wing_info;
+    assert( wptr );
+}
+
+void vpart_info::load_balloon( std::optional<vpslot_balloon> &balptr, const JsonObject &jo )
+{
+    vpslot_balloon balloon_info{};
+    if( balptr ) {
+        balloon_info = *balptr;
+    }
+    assign( jo, "height", balloon_info.height );
+    balptr = balloon_info;
+    assert( balptr );
+}
+
 void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
@@ -304,6 +341,23 @@ void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const J
 
     wbptr = wb_info;
     assert( wbptr );
+}
+
+void vpart_info::load_crafter( std::optional<vpslot_crafter> &craftptr, const JsonObject &jo )
+{
+    vpslot_crafter craft_info{};
+    if( craftptr ) {
+        craft_info = *craftptr;
+    }
+
+    JsonArray tools = jo.get_array( "integrated_tools" );
+
+    for( std::string cur : tools ) {
+        craft_info.fake_parts.emplace_back( itype_id( cur ) );
+    }
+
+    craftptr = craft_info;
+    assert( craftptr );
 }
 
 /**
@@ -365,6 +419,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         for( const std::string pre_flag : jttd.get_array( "pre_flags" ) ) {
             def.transform_terrain.pre_flags.emplace( pre_flag );
         }
+        def.transform_terrain.diggable = jttd.get_bool( "diggable", false );
         def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
         def.transform_terrain.post_furniture = jttd.get_string( "post_furniture", "f_null" );
         def.transform_terrain.post_field = jttd.get_string( "post_field", "fd_null" );
@@ -435,10 +490,24 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         load_rotor( def.rotor_info, jo );
     }
 
+    if( def.has_flag( "PROPELLER" ) ) {
+        load_propeller( def.propeller_info, jo );
+    }
+
+    if( def.has_flag( "BALLOON" ) ) {
+        load_balloon( def.balloon_info, jo );
+    }
+
+    if( def.has_flag( "WING" ) ) {
+        load_wing( def.wing_info, jo );
+    }
+
     if( def.has_flag( "WORKBENCH" ) ) {
         load_workbench( def.workbench_info, jo );
     }
-
+    if( def.has_flag( "CRAFTER" ) ) {
+        load_crafter( def.crafter_info, jo );
+    }
     // Dummy
     // TODO: Implement
     jo.get_string_array( "categories" );
@@ -805,36 +874,36 @@ bool vpart_info::is_repairable() const
     return !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &p )
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &who )
 {
     if( sk.empty() ) {
         return mv;
     }
 
-    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&p]( int lhs,
+    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&who]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( p.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
+        return lhs + std::max( std::min( who.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0, 0.5 ) )
-           * ( 10 - character_funcs::get_crafting_helpers( p, 3 ).size() ) / 10;
+           * ( 10 - character_funcs::get_crafting_helpers( who, 3 ).size() ) / 10;
 }
 
-int vpart_info::install_time( const player &p ) const
+int vpart_info::install_time( const Character &who ) const
 {
-    return scale_time( install_skills, install_moves, p );
+    return scale_time( install_skills, install_moves, who );
 }
 
-int vpart_info::removal_time( const player &p ) const
+int vpart_info::removal_time( const Character &who ) const
 {
-    return scale_time( removal_skills, removal_moves, p );
+    return scale_time( removal_skills, removal_moves, who );
 }
 
-int vpart_info::repair_time( const player &p ) const
+int vpart_info::repair_time( const Character &who ) const
 {
-    return scale_time( repair_skills, repair_moves, p );
+    return scale_time( repair_skills, repair_moves, who );
 }
 
 /**
@@ -912,6 +981,24 @@ int vpart_info::rotor_diameter() const
     return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
 }
 
+float vpart_info::balloon_height() const
+{
+    return has_flag( VPFLAG_BALLOON ) ? balloon_info->height : 0;
+}
+
+float vpart_info::lift_coff() const
+{
+    return has_flag( VPFLAG_WING ) ? wing_info->lift_coff : 0;
+}
+
+int vpart_info::propeller_diameter() const
+{
+    return has_flag( VPFLAG_PROPELLER ) ? propeller_info->propeller_diameter : 0;
+}
+const std::vector<itype_id> vpart_info::craftertools() const
+{
+    return crafter_info->fake_parts;
+}
 const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
@@ -1091,7 +1178,7 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
+            if( blueprint.install_part( pt.pos, pt.part, true ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );

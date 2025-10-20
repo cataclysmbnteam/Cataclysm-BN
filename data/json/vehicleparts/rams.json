@@ -23,21 +23,16 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 650,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
+    "breaks_into": "ig_vp_alloy",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": {
-        "skills": [ [ "mechanics", 5 ] ],
+        "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_superalloy", 1 ] ]
       }
     },
-    "damage_reduction": { "all": 120 }
+    "extend": { "flags": [ "SHOCK_IMMUNE" ] },
+    "damage_reduction": { "all": 156 }
   },
   {
     "id": "ram_hardsteel",
@@ -130,7 +125,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "nail_any_adhesive", 2 ], [ "wood_structural_small", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 75 }
   },
@@ -178,10 +177,15 @@
     "breaks_into": [ { "item": "rag", "count": [ 40, 55 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ], [ "tailor", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
+      }
     },
     "damage_reduction": { "bash": 20 },
-    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE" ]
+    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE", "SHOCK_IMMUNE" ]
   },
   {
     "id": "tearer",

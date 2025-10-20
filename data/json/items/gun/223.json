@@ -131,7 +131,7 @@
     "name": { "str_sp": "FAMAS G2" },
     "description": "A select fire bullpup assault rifle that was used by French armed forces until recently.  While the FAMAS was famous for its high fire rate and futuristic look, the failure of the disposable magazine design principle and lack of rails necessitated the invention of the G2 variant.  It can not utilize oversized STANAG snail and drum mags but it retains the integral bipod and blistering rate of fire.",
     "weight": "3800 g",
-    "volume": "4162 ml",
+    "volume": "1500 ml",
     "barrel_length": "250 ml",
     "price": "28 kUSD",
     "material": [ "steel", "plastic" ],
@@ -153,7 +153,6 @@
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
       [ "underbarrel", 1 ]
     ],
     "magazines": [

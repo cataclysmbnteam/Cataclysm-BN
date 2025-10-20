@@ -237,6 +237,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_metal_floor_underwater",
+    "looks_like": "t_metal_floor",
+    "name": "underwater metal floor",
+    "description": "High-quality and tough checkered flooring, with a matching roof.  Designed to reduce risk of slips and falls, but definitely needs a \"wet floor\" sign now.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_water_cube",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_floor",
     "name": "wooden floor",
     "description": "Interlocking wooden tiles that are more than likely treated against fire, with wooden posts and beams supporting a roof.",
@@ -324,7 +348,8 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_shingle_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
@@ -343,7 +368,8 @@
     "color": "brown",
     "move_cost": 2,
     "roof": "t_thatch_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
@@ -376,7 +402,7 @@
     "light_emitted": 240,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "INDOORS", "FLAT", "MINEABLE" ],
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_concrete",
       "items": [
         { "item": "cable", "charges": 4 },
         { "item": "power_supply", "count": 1 },
@@ -389,7 +415,7 @@
     "bash": {
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_concrete",
       "str_min": 20,
       "str_max": 70,
       "//": "Some extra wire and scrap metal from smash results matching vehicle floodlights",
@@ -634,7 +660,7 @@
     "id": "t_rad_platform",
     "looks_like": "t_blue_floor",
     "name": "radiation platform",
-    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within.  Operated from external console.",
+    "description": "A dual-purpose platform that exposes items placed on it to a radioactive source by temporarily hoisting the radioactive material stored within, while also safely containing all objects to avoid contaminating its surroundings.  Operated from an external console.",
     "symbol": "0",
     "color": "light_blue",
     "move_cost": 100,
@@ -670,7 +696,7 @@
     "roof": "t_flat_roof",
     "looks_like": "t_scrap_floor",
     "description": "A simple roof and floor of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope you like the sound of rain on corrugated metal.",
-    "symbol": "LINE_OXOX",
+    "symbol": "`",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
@@ -679,8 +705,9 @@
       "str_max": 200,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
+      "ter_set": "t_null",
+      "str_min_supported": 60,
+      "items": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
     }
   },
   {
@@ -694,7 +721,8 @@
     "move_cost": 2,
     "looks_like": "t_dirt",
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "PLOWABLE", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -708,8 +736,8 @@
     "looks_like": "t_sand",
     "move_cost": 2,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE" ],
-    "digging_result": "digging_sand_200L",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60, "items": "digging_sand_200L" },
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -730,7 +758,8 @@
     "color": "brown",
     "move_cost": 3,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -744,7 +773,8 @@
     "symbol": ".",
     "color": "light_green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -757,8 +787,8 @@
     "color": "light_red",
     "move_cost": 2,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
-    "digging_result": "digging_clay_200L",
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60, "items": "digging_clay_200L" },
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -778,8 +808,8 @@
     "color": "brown",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "BURROWABLE", "DIGGABLE", "SUPPORTS_ROOF", "INDOORS" ],
-    "digging_result": "digging_clay_mound_200L",
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SUPPORTS_ROOF", "INDOORS" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60, "items": "digging_clay_mound_200L" },
     "bash": {
       "sound": "thump",
       "sound_fail": "thump!",
@@ -896,5 +926,25 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_adobe_brick_floor",
+    "name": "adobe floor",
+    "description": "Adobe bricks and mortar smoothed out to make a clean fireproof floor, with a matching roof of adobe.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_thconc_floor",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 90,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+    }
   }
 ]

@@ -91,6 +91,12 @@ class avatar : public player
             save_id = id;
         }
 
+        /**
+        * Makes the avatar "take over" the given NPC, while the current avatar character
+        * becomes an NPC.
+        */
+        void control_npc( npc & );
+
         void toggle_map_memory();
         bool should_show_map_memory();
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
@@ -152,7 +158,7 @@ class avatar : public player
          * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
          * who can read and can read the fastest
          */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+        const Character *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
         /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
@@ -161,7 +167,8 @@ class avatar : public player
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        int time_to_read( const item &book, const Character &reader,
+                          const Character *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
         bool read( item *loc, bool continuous = false );
         /** Completes book reading action. **/
@@ -169,7 +176,11 @@ class avatar : public player
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const;
 
-        void wake_up();
+        void add_snippet( snippet_id snippet );
+        bool has_seen_snippet( const snippet_id &snippet ) const;
+        const std::set<snippet_id> &get_snippets();
+
+        void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
@@ -276,6 +287,28 @@ class avatar : public player
 
         /** Warnings from factions about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+        /**
+        * The NPC that would control the avatar's character in the avatar's absence.
+        * The Character data in this object is not relevant/used.
+        */
+        std::unique_ptr<npc> shadow_npc;
+
+    public:
+        // ---------------VALUES-----------------
+        tripoint view_offset;
+
+        // Snippets the player has seen
+        std::set<snippet_id> snippets_read;
+
+        bool random_start_location = false;
+        start_location_id start_location;
+
+        int movecounter = 0;
+
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
+        std::vector<mtype_id> starting_pets;
+
+        std::set<character_id> follower_ids;
 };
 
 avatar &get_avatar();

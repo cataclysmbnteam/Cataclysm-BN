@@ -100,7 +100,6 @@ std::pair<int, units::energy> pheromone( player *, item *, bool, const tripoint 
 std::pair<int, units::energy> pick_lock( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> portal( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> tazer( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> mp3( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> mp3_on( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> rpgdie( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> dive_tank( player *, item *, bool, const tripoint & );
@@ -170,6 +169,7 @@ std::pair<int, units::energy> toggle_ups_charging( player *, item *, bool, const
 std::pair<int, units::energy> report_grid_charge( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> report_grid_connections( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> modify_grid_connections( player *, item *, bool, const tripoint & );
+int bullet_vibe_on( player *, item *, bool, const tripoint & );
 
 // MACGUFFINS
 
@@ -178,8 +178,6 @@ std::pair<int, units::energy> radiocaron( player *, item *, bool, const tripoint
 std::pair<int, units::energy> radiocontrol( player *, item *, bool, const tripoint & );
 
 std::pair<int, units::energy> autoclave( player *, item *, bool, const tripoint & );
-
-std::pair<int, units::energy> multicooker( player *, item *, bool, const tripoint & );
 
 std::pair<int, units::energy> remoteveh( player *, item *, bool, const tripoint & );
 

@@ -1063,7 +1063,7 @@
     "flags": [
       "PLACE_ITEM",
       "TRANSPARENT",
-      "FLAMABLE_ASH",
+      "FLAMMABLE_ASH",
       "MOUNTABLE",
       "ALLOW_FIELD_EFFECT",
       "EASY_DECONSTRUCT",

@@ -57,7 +57,8 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "looks_like": "t_dirt",
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }

@@ -6,25 +6,31 @@
     "description": "This is a crudely made electric firestarter, which can function as an inefficient lighter.",
     "weight": "100 g",
     "volume": "250 ml",
+    "magazine_well": "250 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRESTARTER" ],
-    "category": "tools_cooking",
-    "power_draw": "5 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_plus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "flags": [ "FIRESTARTER", "CAN_HAVE_CHARGES" ],
+    "category": "tools_cooking"
   },
   {
     "id": "fire_drill",
@@ -91,16 +97,19 @@
     "name": { "str": "lighter" },
     "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": "14 g",
-    "volume": "14 ml",
+    "volume": "25 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-    "max_charges": 100,
+    "rand_charges": [ 1, 2, 3, 4, 5, 6, 11, 12, 17, 19, 21, 25 ],
+    "ammo": [ "lighter_fluid" ],
+    "max_charges": 25,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRESTARTER" ]
+    "//": "If we gain the ability to specify requiring specific tools to reload an item, allow reloading from butane cans only?",
+    "flags": [ "FIRESTARTER", "NO_RELOAD" ]
   },
   {
     "id": "magnifying_glass",
@@ -145,14 +154,15 @@
     "name": { "str": "refillable lighter" },
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": "20 g",
-    "volume": "31 ml",
+    "volume": "50 ml",
     "price": 3000,
     "price_postapoc": 150,
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "gasoline",
     "initial_charges": 25,
+    "ammo": [ "lighter_fluid", "gasoline" ],
+    "default_ammo": "chem_butane",
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [
@@ -177,18 +187,20 @@
     "name": { "str": "refillable lighter" },
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "weight": "20 g",
-    "volume": "31 ml",
+    "volume": "50 ml",
     "price": 3000,
     "price_postapoc": 150,
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "lighter_fluid", "gasoline" ],
+    "default_ammo": "chem_butane",
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "revert_to": "ref_lighter",
+    "attacks": [ { "id": "BASH", "to_hit": 0, "damage": { "values": [ { "damage_type": "heat", "amount": 1 } ] } } ],
     "use_action": [
       { "type": "firestarter", "moves": 40, "moves_slow": 500 },
       {
@@ -199,7 +211,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "tinderbox",
@@ -265,9 +277,9 @@
     "weight": "14 g",
     "volume": "50 ml",
     "looks_like": "lighter",
-    "power_draw": "1 kJ",
+    "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "battery_well": "50 ml",
-    "batteries": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+    "magazine_well": "50 ml",
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   }
 ]

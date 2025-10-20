@@ -1494,7 +1494,8 @@
     "color": "light_green",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "examine_action": "shrub_wildveggies",
     "bash": {
       "str_min": 4,
@@ -1515,17 +1516,8 @@
     "color": "green",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED"
-    ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -1546,17 +1538,8 @@
     "color": "green",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED"
-    ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -1577,17 +1560,8 @@
     "color": "green",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED"
-    ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -1608,17 +1582,8 @@
     "color": "green",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED"
-    ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "HARVESTED" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -2164,13 +2129,47 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "MUSHROOM_PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "MUSHROOM_PLANTABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_lake_trunk",
+    "name": "sunken tree trunk",
+    "looks_like": "t_trunk",
+    "description": "A section of trunk from a tree that has fallen from the shallows above and ended up down here at some point. It's waterlogged and seems to be partially eaten by worms.",
+    "symbol": "1",
+    "color": "brown",
+    "move_cost": 4,
+    "coverage": 50,
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "SWIMMABLE",
+      "DEEP_WATER",
+      "WATER_CUBE",
+      "GOES_UP",
+      "DIGGABLE",
+      "MOUNTABLE",
+      "SHORT",
+      "MUSHROOM_PLANTABLE",
+      "WATER"
+    ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glub.",
+      "sound_fail": "swish.",
+      "ter_set": "t_lake_bed",
       "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
       "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
     }
@@ -2185,7 +2184,8 @@
     "looks_like": "t_trunk",
     "move_cost": 3,
     "coverage": 35,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF", "MUSHROOM_PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF", "MUSHROOM_PLANTABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -2205,7 +2205,8 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2217,7 +2218,8 @@
     "symbol": ".",
     "color": "light_green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2228,7 +2230,8 @@
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2240,7 +2243,8 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2252,7 +2256,8 @@
     "symbol": ",",
     "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2265,7 +2270,8 @@
     "color": "green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW", "HIDE_PLACE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2277,7 +2283,8 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -2289,7 +2296,8 @@
     "symbol": ".",
     "color": "light_green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
@@ -2301,7 +2309,8 @@
     "symbol": "o",
     "color": "white",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PLOWABLE" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
@@ -2314,7 +2323,8 @@
     "color": [ "brown_green", "green", "green", "green" ],
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "THIN_OBSTACLE", "SHRUB", "VEH_TREAT_AS_BASH_BELOW" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ] } ],
     "transforms_into": "t_fern_harvested",
@@ -2337,7 +2347,8 @@
     "color": "green",
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "HARVESTED", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "THIN_OBSTACLE", "SHRUB", "HARVESTED", "VEH_TREAT_AS_BASH_BELOW" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "examine_action": "harvested_plant",
     "transforms_into": "t_fern",
     "bash": {

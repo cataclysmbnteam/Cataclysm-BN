@@ -106,6 +106,21 @@ struct map_bash_info {
     // ID as string, because 3 type weirdness...
     void check( const std::string &id, map_object_type type ) const;
 };
+
+struct map_dig_info {
+    // Minimum digging quality to dig this tile
+    int dig_min = 0;
+    // Terrain to become after digging
+    ter_str_id result_ter = ter_str_id::NULL_ID();
+    // Items to drop upon finishing digging
+    item_group_id result_items = item_group_id( "digging_soil_loam_200L" );
+    // number of minutes it takes to dig
+    int num_minutes = 0;
+
+    // Load in the actual data
+    void deserialize( JsonIn &jsin );
+};
+
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
@@ -194,7 +209,6 @@ struct pry_result {
  * DOOR - Can be opened (used for NPC pathfinding)
  * FLAMMABLE - Can be lit on fire
  * FLAMMABLE_HARD - Harder to light on fire, but still possible
- * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
  * SHARP - May do minor damage to players/monsters passing through it
@@ -275,7 +289,6 @@ enum ter_bitflags : int {
     TFLAG_FLAMMABLE_HARD,
     TFLAG_SUPPRESS_SMOKE,
     TFLAG_SHARP,
-    TFLAG_DIGGABLE,
     TFLAG_ROUGH,
     TFLAG_UNSTABLE,
     TFLAG_WALL,
@@ -452,8 +465,6 @@ struct map_data_common_t {
         int movecost = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
-        // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
-        std::string digging_result = "digging_soil_loam_200L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -539,7 +550,6 @@ struct ter_t : map_data_common_t {
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
-
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
@@ -553,6 +563,10 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
+    map_dig_info digging_results; // Dig action: resulting items, terrain, and min digging level
+    ter_str_id fill_result; // Fill action: resulting terrain
+    int fill_minutes; // Fill action: minutes to fill up
+
     int heat_radiation = 0; // In fire field intensity "units"
 
     ter_t();
@@ -564,6 +578,8 @@ struct ter_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<ter_t> &get_all();
+
+    bool is_diggable() const;
 
     LUA_TYPE_OPS( ter_t, id );
 };
@@ -649,7 +665,7 @@ extern ter_id t_null,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
-       t_metal_floor,
+       t_moss_underground, t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
@@ -711,7 +727,7 @@ extern ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
-       t_water_cube, t_lake_bed, t_water_pool, t_sewage,
+       t_water_cube, t_lake_bed, t_lake_moss, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -763,7 +779,8 @@ furn_id refers to a position in the furnlist[] where the furn_t struct is stored
 about ter_id above.
 */
 extern furn_id f_null,
-       f_hay, f_cattails,
+       f_hay, f_cattails, f_lake_pondweed, f_lake_detritus, f_lake_liverwort, f_lake_eelgrass,
+       f_lake_hornwort, f_cave_mushrooms,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
        f_barricade_road, f_sandbag_half, f_sandbag_wall,
        f_bulletin,

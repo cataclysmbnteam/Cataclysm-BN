@@ -999,9 +999,7 @@ void Item_factory::init()
     add_iuse( "MININUKE", &iuse::mininuke );
     add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
-    add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
-    add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
@@ -1065,6 +1063,7 @@ void Item_factory::init()
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "XANAX", &iuse::xanax );
+    add_iuse( "BULLET_VIBE_ON", &iuse::bullet_vibe_on );
 
     // Obsolete - just dummies, won't be called
     add_iuse( "HOTPLATE", &iuse::toggle_heats_food );
@@ -1109,6 +1108,9 @@ void Item_factory::init()
     add_actor( std::make_unique<weigh_self_actor>() );
     add_actor( std::make_unique<gps_device_actor>() );
     add_actor( std::make_unique<sew_advanced_actor>() );
+    add_actor( std::make_unique<multicooker_iuse>() );
+    add_actor( std::make_unique<sex_toy_actor>() );
+    add_actor( std::make_unique<iuse_music_player>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -1744,6 +1746,7 @@ void islot_ammo::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "drop_count", drop_count, -1 );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
     // Damage instance assign reader handles pierce and prop_damage
@@ -1756,6 +1759,9 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "show_stats", force_stat_display, std::nullopt );
     optional( jo, was_loaded, "shape", shape, std::nullopt );
+    assign( jo, "aimedcritmaxbonus", aimedcritmaxbonus );
+    assign( jo, "aimedcritbonus", aimedcritbonus );
+    assign( jo, "speed", speed );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )
@@ -1881,7 +1887,9 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
-
+    assign( jo, "speed", slot.speed );
+    assign( jo, "aimedcritbonus", slot.aimedcritbonus );
+    assign( jo, "aimedcritmaxbonus", slot.aimedcritmaxbonus );
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
         for( JsonArray curr : jo.get_array( "valid_mod_locations" ) ) {
@@ -2079,6 +2087,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
+    assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
@@ -2092,6 +2101,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+    assign( jo, "ups_eff_mult", slot.ups_eff_mult, strict );
+    assign( jo, "ups_recharge_rate", slot.ups_recharge_rate, strict );
 
     if( jo.has_array( "rand_charges" ) ) {
         jo.throw_error( "rand_charges is deprecated, and should be handled directly at mapgen/profession." );
@@ -2392,6 +2403,9 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
+    assign( jo, "speed", slot.speed );
+    assign( jo, "aimedcritbonus", slot.aimedcritbonus );
+    assign( jo, "aimedcritmaxbonus", slot.aimedcritmaxbonus );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {
@@ -3250,9 +3264,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
+    if( jsobj.has_bool( "purge" ) ) {
+        if( jsobj.get_bool( "purge" ) ) {
+            isd = nullptr;
+        }
+    }
+
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ), jsobj.get_int( "battery", 0 ) );
-
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
@@ -3294,6 +3313,18 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
+            }
+        }
+    }
+    if( jsobj.has_member( "delete" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "delete" ) ) {
+            if( entry.test_object() ) {
+                JsonObject obj = entry.get_object();
+                if( obj.has_member( "item" ) ) {
+                    ig->remove_specific_item( obj.get_string( "item" ) );
+                } else if( obj.has_member( "group" ) ) {
+                    ig->remove_specific_group( obj.get_string( "group" ) );
+                }
             }
         }
     }

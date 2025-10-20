@@ -18,6 +18,7 @@ sol::state make_lua_state()
 
     lua.open_libraries(
         sol::lib::base,
+        sol::lib::package,
         sol::lib::math,
         sol::lib::string,
         sol::lib::table

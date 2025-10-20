@@ -96,6 +96,9 @@ struct construction {
 
         bool is_blacklisted() const;
 
+        // Whether the construction needs diggable terrain
+        bool needs_diggable;
+
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;
 

@@ -14,7 +14,9 @@
 #include <stdexcept>
 #include <unordered_map>
 
+#include "advanced_inv_listitem.h"
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "catalua.h"
@@ -70,6 +72,7 @@
 #include "to_string_id.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
@@ -5904,6 +5907,18 @@ void map::draw_mine( mapgendata &dat )
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ) );
     }
+    // Add patches of cave moss
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( one_in( 10 ) && ter( tripoint( point( i, j ), get_abs_sub().z ) ) == t_rock_floor ) {
+                ter_set( point( i, j ), t_moss_underground );
+                if( one_in( 15 ) ) {
+                    // Some of that moss has mushrooms too.
+                    furn_set( point( i, j ), f_cave_mushrooms );
+                }
+            }
+        }
+    }
 }
 
 void map::draw_slimepit( mapgendata &dat )
@@ -6247,29 +6262,90 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
     }
 
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+
     for( int i = 0; i < spawn_count; i++ ) {
-        // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
-        auto is_valid_terrain = [this, ongrass]( point  p ) {
-            auto &terrain = ter( p ).obj();
-            return terrain.movecost == 0           &&
+        auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
+            const ter_t &terrain = ter( p ).obj();
+            return terrain.movecost == 0 &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
-                   !ongrass                                   &&
+                   !ongrass &&
                    !terrain.has_flag( "FLAT" );
         };
 
-        point p;
+        tripoint p;
         do {
             p.x = rng( p1.x, p2.x );
             p.y = rng( p1.y, p2.y );
+            p.z = abs_sub.z;
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
+
         if( tries < 20 ) {
-            auto put = put_items_from_loc( loc, tripoint( p, abs_sub.z ), turn );
-            res.insert( res.end(), put.begin(), put.end() );
+            std::vector<detached_ptr<item>> initial = item_group::items_from( loc, turn );
+
+            for( detached_ptr<item> &itm : initial ) {
+                const float cat_rate = item_category_spawn_rate( *itm );
+
+                if( cat_rate <= 1.0f ) {
+                    if( rng_float( 0.1f, 1.0f ) <= cat_rate ) {
+                        detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
+                        if( placed ) {
+                            res.push_back( std::move( &*placed ) );
+                        }
+                    }
+                } else {
+                    const item &real_item = *itm; // original item reference
+
+                    // Spawn the base item once (as before)
+                    detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
+                    if( placed ) {
+                        res.push_back( std::move( &*placed ) );
+                    }
+
+                    // Build the list of extra items of the same category
+                    std::vector<detached_ptr<item>> extra = item_group::items_from( loc, turn );
+                    extra.erase(
+                        std::remove_if(
+                            extra.begin(), extra.end(),
+                    [&real_item]( const detached_ptr<item> &it ) {
+                        return item_category_id( it->get_category_id() )
+                               != item_category_id( real_item.get_category_id() );
+                    }
+                        ),
+                    extra.end()
+                    );
+
+                    // Spawn additional items randomly rather than all
+                    int base_count = static_cast<int>( cat_rate );
+                    for( int i = 0; i < base_count; i++ ) {
+                        if( extra.empty() ) {
+                            break;
+                        }
+                        int idx = rng( 0, static_cast<int>( extra.size() ) - 1 );
+                        detached_ptr<item> spawned = add_item_or_charges( p, std::move( extra[idx] ) );
+                        if( spawned ) {
+                            res.push_back( std::move( &*spawned ) );
+                        }
+                    }
+
+                    // Handle fractional part (e.g. cat_rate = 2.7 => 70% chance of one more)
+                    if( rng_float( 0.0f, 1.0f ) < ( cat_rate - static_cast<float>( base_count ) ) ) {
+                        if( !extra.empty() ) {
+                            int idx = rng( 0, static_cast<int>( extra.size() ) - 1 );
+                            detached_ptr<item> spawned = add_item_or_charges( p, std::move( extra[idx] ) );
+                            if( spawned ) {
+                                res.push_back( std::move( &*spawned ) );
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+
+
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_current() &&
@@ -6403,7 +6479,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    //WARNING: CURSED CODE
+    //If changed to veh->can_float mass calculations are messed up
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) >= 1;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;

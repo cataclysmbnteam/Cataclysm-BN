@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "inventory.h"
 #include "item.h"
+#include "itype.h"
 #include "item_contents.h"
 #include "make_static.h"
 #include "map.h"
@@ -33,11 +34,9 @@
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_bio_armor( "bio_armor" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -48,6 +47,7 @@ static const bionic_id bio_ups( "bio_ups" );
 
 static const flag_id flag_IS_UPS( "IS_UPS" );
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const flag_id flag_IS_UPS( "IS_UPS" );
 
 /** @relates visitable */
 template <typename T>
@@ -950,6 +950,22 @@ void location_visitable<monster>::remove_items_with( const
         mon->get_tied_item()->attempt_detach( check_item );
     }
 }
+/** @relates visitable */
+
+template <typename T>
+static int charges_of_ups( const T &self, int limit,
+                           const std::function<bool( const item & )> &,
+                           std::function<void( int )> )
+{
+    int qty = 0;
+    self->visit_items( [&]( const item * e ) {
+        if( e->has_flag( flag_IS_UPS ) ) {
+            qty = sum_no_wrap( qty, e->ammo_remaining() * e->type->tool->ups_eff_mult );
+        }
+        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+    } );
+    return std::min( qty, limit );
+}
 
 template <typename T, typename M>
 static units::energy energy_of_internal( const T &self, const M &main, const itype_id &id,
@@ -1177,7 +1193,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
             return 0;
         }
     }
-
+    
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
 }
 

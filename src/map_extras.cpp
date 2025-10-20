@@ -61,7 +61,6 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FUNGUS( "FUNGUS" );
@@ -342,12 +341,12 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
-                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                m.ter( tripoint( x, y, abs_sub.z ) )->is_diggable() ) {
                 m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
             } else {
                 if( x >= c.x - dice( 1, 5 ) && x <= c.x + dice( 1, 5 ) && y >= c.y - dice( 1, 5 ) &&
                     y <= c.y + dice( 1, 5 ) ) {
-                    if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                    if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->is_diggable() ) {
                         m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                     }
                 }
@@ -355,12 +354,12 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     y <= c.y + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
                         m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage );
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->is_diggable() ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
                     } else if( m.is_bashable( point( x, y ) ) ) {
                         m.destroy( tripoint( x,  y, abs_sub.z ), true );
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->is_diggable() ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
                     }
@@ -369,7 +368,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                                          c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage );
                     if( !one_in( 3 ) ) {
-                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->is_diggable() ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
                     }
@@ -918,7 +917,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1020,7 +1019,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1168,7 +1167,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1304,7 +1303,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
-            if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1356,7 +1355,6 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.bash( tripoint( i,  j, abs_sub.z ), 999, true );
-                m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
             }
         }
     }

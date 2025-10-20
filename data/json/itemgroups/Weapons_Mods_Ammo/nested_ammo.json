@@ -36,32 +36,14 @@
     ]
   },
   {
-    "id": "on_hand_38super",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "38super_fmj", "prob": 100, "charges": [ 25, 50 ] } ]
-  },
-  {
-    "id": "on_hand_57",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "57mm", "prob": 100, "charges": [ 25, 50 ] } ]
-  },
-  {
-    "id": "on_hand_500",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "500_Magnum", "prob": 100, "charges": [ 6, 10 ] } ]
-  },
-  {
     "id": "on_hand_44paper",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
-    "entries": [ { "item": "44army", "prob": 100, "charges": [ 20, 40 ] } ]
+    "entries": [
+      { "item": "44army", "prob": 50, "charges": [ 20, 40 ] },
+      { "item": "44army_smokeless", "prob": 50, "charges": [ 20, 40 ] }
+    ]
   },
   {
     "id": "on_hand_36paper",
@@ -81,20 +63,6 @@
     ]
   },
   {
-    "id": "on_hand_454",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "454_Casull", "prob": 100, "charges": [ 25, 50 ] } ]
-  },
-  {
-    "id": "on_hand_46",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "46mm", "prob": 100, "charges": [ 20, 40 ] } ]
-  },
-  {
     "id": "on_hand_8x40",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
@@ -106,17 +74,6 @@
       { "item": "8mm_jhp", "prob": 100, "charges": [ 20, 40 ] },
       { "item": "8mm_hvp", "prob": 30, "charges": [ 20, 40 ] },
       { "item": "8mm_inc", "prob": 30, "charges": [ 20, 40 ] }
-    ]
-  },
-  {
-    "id": "on_hand_9x18",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "9x18mm", "prob": 100, "charges": [ 25, 50 ] },
-      { "item": "9x18mmP2", "prob": 100, "charges": [ 25, 50 ] },
-      { "item": "9x18mmfmj", "prob": 100, "charges": [ 25, 50 ] }
     ]
   },
   {
@@ -138,17 +95,6 @@
     "entries": [ { "item": "762_m43", "prob": 100, "charges": [ 15, 30 ] }, { "item": "762_m87", "prob": 100, "charges": [ 15, 30 ] } ]
   },
   {
-    "id": "on_hand_762x25",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "762_25", "prob": 100, "charges": [ 20, 40 ] },
-      { "item": "762_25hot", "prob": 100, "charges": [ 20, 40 ] },
-      { "item": "762_25typeP", "prob": 30, "charges": [ 20, 40 ] }
-    ]
-  },
-  {
     "id": "on_hand_40",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
@@ -161,16 +107,6 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [ { "item": "44fmj", "prob": 100, "charges": [ 20, 40 ] }, { "item": "44magnum", "prob": 100, "charges": [ 20, 40 ] } ]
-  },
-  {
-    "id": "on_hand_460",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "460_fmj", "prob": 100, "charges": [ 20, 40 ] },
-      { "item": "460_rowland", "prob": 100, "charges": [ 20, 40 ] }
-    ]
   },
   {
     "id": "on_hand_357sig",
@@ -279,13 +215,6 @@
     "entries": [ { "item": "762_54R", "prob": 100, "charges": [ 10, 20 ] } ]
   },
   {
-    "id": "on_hand_270win",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "270win_jsp", "prob": 100, "charges": [ 10, 20 ] } ]
-  },
-  {
     "id": "on_hand_300",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
@@ -311,20 +240,6 @@
       { "item": "50ss", "prob": 75, "charges": [ 10, 20 ] },
       { "item": "50_mk211", "prob": 30, "charges": [ 10, 20 ] }
     ]
-  },
-  {
-    "id": "on_hand_545x39",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "545", "prob": 100, "charges": [ 15, 30 ] }, { "item": "545_ap", "prob": 30, "charges": [ 15, 30 ] } ]
-  },
-  {
-    "id": "on_hand_700nx",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "700nx", "prob": 100, "charges": [ 5, 10 ] } ]
   },
   {
     "id": "on_hand_shot",
@@ -409,20 +324,6 @@
     "//": "Used for when a gun can freely use either .410 shotshells or .45 Colt, for example bond_410.",
     "subtype": "distribution",
     "entries": [ { "group": "on_hand_45colt", "prob": 100 }, { "group": "on_hand_410shot", "prob": 50 } ]
-  },
-  {
-    "id": "on_hand_454_or_45colt",
-    "type": "item_group",
-    "//": "Used for when a gun can freely use either .454 Casull or .45 Colt, for example raging_bull.",
-    "subtype": "distribution",
-    "entries": [ { "group": "on_hand_454", "prob": 100 }, { "group": "on_hand_45colt", "prob": 50 } ]
-  },
-  {
-    "id": "on_hand_454_mixed",
-    "type": "item_group",
-    "//": "Used for when a gun can freely use either .410 shotshells or .45 Colt, for example bond_410.",
-    "subtype": "distribution",
-    "entries": [ { "group": "on_hand_454", "prob": 100 }, { "group": "on_hand_410_or_45colt", "prob": 50 } ]
   },
   {
     "id": "on_hand_arrows",

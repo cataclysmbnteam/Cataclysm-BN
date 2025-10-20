@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
+    paths-ignore: [docs/**, scripts/**, "**.md", "**.mdx"]
 
 env:
   VCPKG_BINARY_SOURCES: "default"
@@ -20,12 +20,6 @@ jobs:
           - name: Windows Tiles x64 MSVC
             artifact: windows-tiles-x64-msvc
             arch: x64
-            os: windows-latest
-            ext: zip
-            content: application/zip
-          - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc
-            arch: x86
             os: windows-latest
             ext: zip
             content: application/zip
@@ -71,12 +65,6 @@ jobs:
             os: ubuntu-latest
             android: arm64
             artifact: android-x64
-            ext: apk
-            content: application/apk
-          - name: Android x32
-            os: ubuntu-latest
-            android: arm32
-            artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
@@ -154,7 +142,7 @@ jobs:
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel llvm astyle sqlite3 zlib
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel llvm@20 astyle sqlite3 zlib
           python3 -m venv ./venv
           source ./venv/bin/activate
           pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist polib luaparser
@@ -178,7 +166,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm@20)/bin/clang++ dmgdist
           mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-experimental.dmg
 
       - name: Set up JDK 11 (android)
@@ -226,7 +214,7 @@ jobs:
           TIMESTAMP=$(date "+%F %T")
 
           gh release upload experimental --clobber cbn-${{ matrix.artifact }}-experimental.${{ matrix.ext }}
-          gh release edit experimental --title "Experimental @ $TIMESTAMP (\`$SHA_SHORT\`)" --notes "Experimental build for commit $SHA_SHORT on $TIMESTAMP"
+          gh release edit experimental --title "Experimental @ $TIMESTAMP ($SHA_SHORT)" --notes "Experimental build for commit $SHA_SHORT on $TIMESTAMP"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash

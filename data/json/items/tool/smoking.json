@@ -13,31 +13,38 @@
     "material": "steel",
     "symbol": "!",
     "color": "white",
-    "power_draw": "1 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_disposable_cell",
-      "light_minus_disposable_cell",
-      "light_minus_atomic_battery_cell"
-    ],
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "power_draw": 7500,
     "use_action": [
       "PORTABLE_GAME",
       {
         "type": "consume_drug",
         "activation_message": "You take a puff from your boxmod vape.",
         "stat_adjustments": { "thirst": 1, "hunger": -10 },
-        "effects": [ { "id": "cig", "duration": "10 m" } ],
+        "effects": [ { "id": "cig", "duration": "300 s" } ],
         "fields_produced": { "fd_cigsmoke": 3 },
         "charges_needed": { "nicotine_liquid": 1 },
         "moves": 200,
         "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
         "fake_item": "fake_ecig"
       }
-    ]
+    ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "ecig",
@@ -52,14 +59,14 @@
     "symbol": "!",
     "color": "dark_gray",
     "flags": [ "NO_INGEST", "NO_RELOAD", "NO_UNLOAD" ],
-    "max_power": "40 kJ",
-    "initial_power": "40 kJ",
-    "power_draw": "1 kJ",
+    "max_charges": 40,
+    "initial_charges": 40,
+    "charges_per_use": 1,
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take a puff from your disposable vape.",
       "stat_adjustments": { "thirst": 1, "hunger": -10 },
-      "effects": [ { "id": "cig", "duration": "10 m" } ],
+      "effects": [ { "id": "cig", "duration": "300 s" } ],
       "fields_produced": { "fd_cigsmoke": 1 },
       "moves": 200,
       "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
@@ -146,7 +153,15 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "power_draw": "9 J",
+    "ammo": "battery",
+    "power_draw": 9000,
+    "magazines": [
+      [
+        "battery",
+        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      ]
+    ],
+    "charges_per_use": 1,
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
@@ -154,16 +169,14 @@
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "5 m" },
-        { "id": "smoke", "duration": "30 s" }
+        { "id": "pkill2", "duration": "5 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
       "tools_needed": { "thc_liquid": 1 },
       "charges_needed": { "thc_liquid": 1 },
       "fields_produced": { "fd_weedsmoke": 1 },
       "moves": 200
-    },
-    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+    }
   },
   {
     "type": "TOOL",
@@ -179,6 +192,9 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
+    "max_charges": 30,
+    "initial_charges": 30,
+    "charges_per_use": 1,
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
@@ -186,16 +202,12 @@
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "5 m" },
-        { "id": "smoke", "duration": "30 s" }
+        { "id": "pkill2", "duration": "5 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
       "fields_produced": { "fd_weedsmoke": 1 },
       "moves": 200
-    },
-    "power_draw": "1 kJ",
-    "initial_power": "30 kJ",
-    "max_power": "30 kJ"
+    }
   },
   {
     "type": "TOOL",
@@ -211,6 +223,7 @@
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "material": [ "steel", "wood" ],
+    "ammo": "battery",
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
@@ -219,8 +232,7 @@
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "1 m" },
-        { "id": "smoke", "duration": "30 s" }
+        { "id": "pkill2", "duration": "1 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
       "charges_needed": { "fire": 1, "thc_wax": 1 },

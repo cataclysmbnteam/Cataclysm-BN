@@ -1,4 +1,5 @@
 #include "vehicle.h"
+#include "units_mass.h"
 #include "vehicle_part.h" // IWYU pragma: associated
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
@@ -50,14 +51,12 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point_float.h"
@@ -69,10 +68,7 @@
 #include "translations.h"
 #include "units_utility.h"
 #include "veh_type.h"
-#include "vehicle_move.h"
-#include "vehicle_selector.h"
 #include "weather.h"
-#include "weather_gen.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -281,6 +277,9 @@ void vehicle::copy_static_from( const vehicle &source )
     loose_parts = source.loose_parts;
     wheelcache = source.wheelcache;
     rotors = source.rotors;
+    propellers = source.propellers;
+    wings = source.wings;
+    balloons = source.balloons;
     rail_wheelcache = source.rail_wheelcache;
     steering = source.steering;
     speciality = source.speciality;
@@ -391,7 +390,7 @@ vehicle::vehicle() : vehicle( vproto_id() )
 
 vehicle::~vehicle() = default;
 
-bool vehicle::player_in_control( const Character &p ) const
+bool vehicle::player_in_control( const Character &who ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
@@ -399,19 +398,19 @@ bool vehicle::player_in_control( const Character &p ) const
         return true;
     }
 
-    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    const optional_vpart_position vp = g->m.veh_at( who.pos() );
     if( vp && &vp->vehicle() == this &&
         ( ( part_with_feature( vp->part_index(), "CONTROL_ANIMAL", true ) >= 0 &&
             has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
           ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) ) &&
-        p.controlling_vehicle ) {
+        who.controlling_vehicle ) {
         return true;
     }
 
-    return remote_controlled( p );
+    return remote_controlled( who );
 }
 
-bool vehicle::remote_controlled( const Character &p ) const
+bool vehicle::remote_controlled( const Character &who ) const
 {
     vehicle *veh = g->remoteveh();
     if( veh != this ) {
@@ -419,7 +418,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     }
 
     for( const vpart_reference &vp : get_avail_parts( "REMOTE_CONTROLS" ) ) {
-        if( rl_dist( p.pos(), vp.pos() ) <= 40 ) {
+        if( rl_dist( who.pos(), vp.pos() ) <= 40 ) {
             return true;
         }
     }
@@ -1036,7 +1035,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
             accel_y = 1;
         }
-        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+        if( ( velocity < std::min( safe_velocity(), is_aircraft() &&
                                    is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
             accel_y = -1;
         }
@@ -1079,7 +1078,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         std::vector<int> parts_in_square = parts_at_relative( part.mount, true );
         int structures_found = 0;
         for( auto &square_part_index : parts_in_square ) {
-            if( part_info( square_part_index ).location == part_location_structure ) {
+            if( part_info( square_part_index ).location == part_location_structure ||
+                part_info( square_part_index ).has_flag( VPFLAG_EXTENDABLE ) ) {
                 structures_found++;
             }
         }
@@ -1382,6 +1382,18 @@ bool vehicle::has_structural_part( point dp ) const
     return false;
 }
 
+bool vehicle::has_structural_or_extendable_part( point dp ) const
+{
+    for( const int elem : parts_at_relative( dp, false ) ) {
+        if( ( part_info( elem ).location == part_location_structure &&
+              !part_info( elem ).has_flag( "PROTRUSION" ) ) ||
+            part_info( elem ).has_flag( VPFLAG_EXTENDABLE ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Returns whether or not the vehicle has a structural part queued for removal,
  * @return true if a structural is queue for removal, false if not.
@@ -1418,6 +1430,21 @@ bool vehicle::can_mount( point dp, const vpart_id &id ) const
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
+    //New Subpath for balloon type structures when on the edge
+    if( parts_in_square.empty() && part.has_flag( "EXTENDABLE" ) ) {
+        // There needs to be parts for these
+        if( !parts.empty() ) {
+            if( !has_structural_or_extendable_part( dp ) &&
+                !has_structural_or_extendable_part( dp + point_east ) &&
+                !has_structural_or_extendable_part( dp + point_south ) &&
+                !has_structural_or_extendable_part( dp + point_west ) &&
+                !has_structural_or_extendable_part( dp + point_north ) ) {
+                return false;
+            }
+            return true;
+        }
+        // If there are no parts, we go on our merry day
+    }
     //First part in an empty square MUST be a structural part
     if( parts_in_square.empty() && part.location != part_location_structure ) {
         return false;
@@ -1555,13 +1582,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     //Structural parts have extra requirements
-    if( part_info( p ).location == part_location_structure ) {
+    if( part_info( p ).location == part_location_structure ||
+        part_info( p ).has_flag( VPFLAG_EXTENDABLE ) ) {
 
         std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, false );
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for( auto &elem : parts_in_square ) {
-            if( part_info( elem ).location != part_location_structure ) {
+            if( part_info( elem ).location != part_location_structure &&
+                !part_info( elem ).has_flag( VPFLAG_EXTENDABLE ) ) {
                 reason = _( "Remove all other attached parts first." );
                 return false;
             }
@@ -1657,7 +1686,8 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
             std::vector<int> parts_there = parts_at_relative( next, true );
 
             if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
-                part_info( parts_there[ 0 ] ).location == "structure" &&
+                ( part_info( parts_there[ 0 ] ).location == "structure" ||
+                  part_info( parts_there[ 0 ] ).has_flag( VPFLAG_EXTENDABLE ) ) &&
                 !part_info( parts_there[ 0 ] ).has_flag( "PROTRUSION" ) ) {
                 //Only add the part if we haven't been here before
                 bool found = false;
@@ -2350,10 +2380,10 @@ bool vehicle::find_and_split_vehicles( int exclude )
     return false;
 }
 
-void vehicle::relocate_passengers( const std::vector<player *> &passengers )
+void vehicle::relocate_passengers( const std::vector<Character *> &passengers )
 {
     const auto boardables = get_avail_parts( "BOARDABLE" );
-    for( player *passenger : passengers ) {
+    for( auto *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
                 passenger->setpos( vp.pos() );
@@ -2429,7 +2459,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         }
         new_vehicle->last_fluid_check = last_fluid_check;
 
-        std::vector<player *> passengers;
+        std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
             point cur_mount = parts[ mov_part ].mount;
@@ -2724,6 +2754,13 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
     } );
 }
 
+bool vehicle::has_part( const vpart_bitflags &flag, bool enabled ) const
+{
+    return std::any_of( parts.begin(), parts.end(), [&flag, &enabled]( const vehicle_part & e ) {
+        return !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag );
+    } );
+}
+
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
 {
     const tripoint relative_pos = pos - global_pos3();
@@ -2933,6 +2970,24 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
 }
 
 /**
+ *
+ * Returns all the parts in the vehicle that are either a structural part or
+ * a extendable protusion part
+ * @return A list of indices to all parts with the structure location or otherwise standalone
+ */
+std::vector<int> vehicle::all_standalone_parts() const
+{
+    std::vector<int> parts_found;
+    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
+        if( ( part_info( part_index ).location == part_location_structure ||
+              part_info( part_index ).has_flag( VPFLAG_EXTENDABLE ) ) &&
+            !parts[part_index].removed ) {
+            parts_found.push_back( part_index );
+        }
+    }
+    return parts_found;
+}
+/**
  * Returns all parts in the vehicle that exist in the given location slot. If
  * the empty string is passed in, returns all parts with no slot.
  * @param location The location slot to get parts for.
@@ -2953,12 +3008,12 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 // as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
-int vehicle::get_next_shifted_index( int original_index, player &p )
+int vehicle::get_next_shifted_index( int original_index, Character &who )
 {
     int ret_index = original_index;
     bool found_shifted_index = false;
     for( std::vector<vehicle_part>::reverse_iterator it = parts.rbegin(); it != parts.rend(); ++it ) {
-        if( p.get_value( "veh_index_type" ) == it->info().name() ) {
+        if( who.get_value( "veh_index_type" ) == it->info().name() ) {
             ret_index = index_of_part( &*it );
             found_shifted_index = true;
             break;
@@ -3646,14 +3701,14 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
     return kj_per_hour / kj_per_mL;
 }
 
-int vehicle::total_power_w( const bool fueled, const bool safe ) const
+int vehicle::ideal_engine_power( bool safe ) const
 {
     int pwr = 0;
     int cnt = 0;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
+        if( is_engine_on( e ) ) {
+            int p = engines[e];
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
             if( parts[ engines[e] ].faults().contains( fault_filter_fuel ) ) {
                 m2c *= 0.6;
@@ -3669,6 +3724,39 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
             pwr += part_vpower_w( p ); // alternators have negative power
         }
     }
+
+    pwr = std::max( 0, pwr );
+
+    if( cnt > 1 ) {
+        pwr = pwr * 4 / ( 4 + cnt - 1 );
+    }
+    return pwr;
+}
+
+int vehicle::total_power_w( const bool fueled, const bool safe ) const
+{
+    int pwr = 0;
+    int cnt = 0;
+
+    for( size_t e = 0; e < engines.size(); e++ ) {
+        int p = engines[e];
+        if( engine_on && is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
+            int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
+            if( parts[ engines[e] ].faults().contains( fault_filter_fuel ) ) {
+                m2c *= 0.6;
+            }
+            pwr += part_vpower_w( p ) * m2c / 100;
+            cnt += static_cast<int>( !part_info( p ).has_flag( "E_NO_POWER_DECAY" ) );
+        }
+    }
+
+    for( size_t a = 0; a < alternators.size(); a++ ) {
+        int p = alternators[a];
+        if( is_alternator_on( a ) ) {
+            pwr += part_vpower_w( p ); // alternators have negative power
+        }
+    }
+
     pwr = std::max( 0, pwr );
 
     if( cnt > 1 ) {
@@ -3688,7 +3776,7 @@ bool vehicle::can_use_rails() const
     return !rail_wheelcache.empty() && wheelcache.size() == rail_wheelcache.size();
 }
 
-int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
+int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi, const bool ideal ) const
 {
     if( !( engine_on || skidding ) ) {
         return 0;
@@ -3702,24 +3790,28 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
             weight = weight + to_kilogram( other_veh->total_mass() );
         }
     }
-    int engine_power_ratio = total_power_w( fueled ) / weight;
+    int engine_power_ratio = ( ideal ? ideal_engine_power() : total_power_w( fueled ) ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg( m_debug, "%s: accel at %d vimph is %d", name, target_vmiph,
              cmps_to_vmiph( accel_at_vel ) );
     return cmps_to_vmiph( accel_at_vel );
 }
 
-int vehicle::rotor_acceleration( const bool fueled, int at_vel_in_vmi ) const
+int vehicle::aircraft_acceleration( const bool fueled, int at_vel_in_vmi, const bool ideal ) const
 {
     ( void )at_vel_in_vmi;
     if( !( engine_on || is_flying ) ) {
         return 0;
     }
-    const int accel_at_vel = 100 * lift_thrust_of_rotorcraft( fueled ) / to_kilogram( total_mass() );
+    const double thrust = total_thrust( fueled, ideal );
+    if( thrust == 0 ) {
+        return 0;
+    }
+    const int accel_at_vel = 100 * total_thrust( fueled, ideal ) / to_kilogram( total_mass() );
     return cmps_to_vmiph( accel_at_vel );
 }
 
-int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
+int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi, const bool ideal ) const
 {
     if( !( engine_on || skidding ) ) {
         return 0;
@@ -3734,7 +3826,7 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
             weight = weight + to_kilogram( other_veh->total_mass() );
         }
     }
-    int engine_power_ratio = total_power_w( fueled ) / weight;
+    int engine_power_ratio = ( ideal ? ideal_engine_power() : total_power_w( fueled ) ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg( m_debug, "%s: water accel at %d vimph is %d", name, target_vmiph,
              cmps_to_vmiph( accel_at_vel ) );
@@ -3779,8 +3871,8 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
-    } else if( is_rotorcraft() && is_flying ) {
-        return rotor_acceleration( fueled, at_vel_in_vmi );
+    } else if( is_aircraft() && is_flying ) {
+        return aircraft_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
 }
@@ -3815,9 +3907,9 @@ int vehicle::current_acceleration( const bool fueled ) const
 // c_air_drag * v^3 + c_rolling_drag * v^2 + c_rolling_drag * 33.3 * v - engine power = 0
 // solve for v with the simplified cubic equation solver
 // got it? quiz on Wednesday.
-int vehicle::max_ground_velocity( const bool fueled ) const
+int vehicle::max_ground_velocity( const bool fueled, const bool ideal ) const
 {
-    int total_engine_w = total_power_w( fueled );
+    int total_engine_w = ( ideal ? ideal_engine_power() : total_power_w( fueled ) );
     double c_rolling_drag = coeff_rolling_drag();
     double max_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                         c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -3837,9 +3929,9 @@ int vehicle::max_ground_velocity( const bool fueled ) const
 // engine_power = ( c_water_drag + c_air_drag ) * velocity^3
 // velocity^3 = engine_power / ( c_water_drag + c_air_drag )
 // velocity = cube root( engine_power / ( c_water_drag + c_air_drag ) )
-int vehicle::max_water_velocity( const bool fueled ) const
+int vehicle::max_water_velocity( const bool fueled, const bool ideal ) const
 {
-    int total_engine_w = total_power_w( fueled );
+    int total_engine_w = ( ideal ? ideal_engine_power() : total_power_w( fueled ) );
     double total_drag = coeff_water_drag() + coeff_air_drag();
     double max_in_mps = std::cbrt( total_engine_w / total_drag );
     add_msg( m_debug, "%s: power %d, c_air %3.2f, c_water %3.2f, water max_in_mps %3.2f",
@@ -3847,29 +3939,27 @@ int vehicle::max_water_velocity( const bool fueled ) const
     return mps_to_vmiph( max_in_mps );
 }
 
-int vehicle::max_rotor_velocity( const bool fueled ) const
+int vehicle::max_air_velocity( const bool fueled, const bool ideal ) const
 {
-    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled ) / coeff_air_drag() );
-    // helicopters just cannot go over 250mph at very maximum
-    // weird things start happening to their rotors if they do.
-    // due to the rotor tips going supersonic.
-    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
+    const double max_air_mps = std::sqrt( total_thrust( fueled, false, ideal ) / coeff_air_drag() );
+    // fly fast at your own risk
+    return mps_to_vmiph( max_air_mps );
 }
 
-int vehicle::max_velocity( const bool fueled ) const
+int vehicle::max_velocity( const bool fueled, const bool ideal ) const
 {
-    if( is_flying && is_rotorcraft() ) {
-        return max_rotor_velocity( fueled );
+    if( is_flying && is_aircraft() ) {
+        return max_air_velocity( fueled, ideal );
     } else if( is_watercraft() ) {
-        return max_water_velocity( fueled );
+        return max_water_velocity( fueled, ideal );
     } else {
-        return max_ground_velocity( fueled );
+        return max_ground_velocity( fueled, ideal );
     }
 }
 
-int vehicle::max_reverse_velocity( const bool fueled ) const
+int vehicle::max_reverse_velocity( const bool fueled, const bool ideal ) const
 {
-    int max_vel = max_velocity( fueled );
+    int max_vel = max_velocity( fueled, ideal );
     if( has_engine_type( fuel_type_battery, true ) ) {
         // Electric motors can go in reverse as well as forward
         return -max_vel;
@@ -3880,7 +3970,7 @@ int vehicle::max_reverse_velocity( const bool fueled ) const
 }
 
 // the same physics as max_ground_velocity, but with a smaller engine power
-int vehicle::safe_ground_velocity( const bool fueled ) const
+int vehicle::safe_ground_velocity( const bool fueled, const bool ideal ) const
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
@@ -3902,7 +3992,7 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
             return std::min( animal_vel, max_ground_velocity( fueled ) );
         }
     }
-    int effective_engine_w = total_power_w( fueled, true );
+    int effective_engine_w = ( ideal ? ideal_engine_power( true ) : total_power_w( fueled, true ) );
     double c_rolling_drag = coeff_rolling_drag();
     double safe_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                          c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -3910,17 +4000,19 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
     return mps_to_vmiph( safe_in_mps );
 }
 
-int vehicle::safe_rotor_velocity( const bool fueled ) const
+// TODO: Consider some kind of dynamic pressure based safe velocity
+// or something simpler maybe
+int vehicle::safe_aircraft_velocity( const bool fueled, const bool ideal ) const
 {
-    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled,
-                                          true ) / coeff_air_drag() );
+    const double max_air_mps = std::sqrt( total_thrust( fueled,
+                                          true, ideal ) / coeff_air_drag() );
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
 
 // the same physics as max_water_velocity, but with a smaller engine power
-int vehicle::safe_water_velocity( const bool fueled ) const
+int vehicle::safe_water_velocity( const bool fueled, const bool ideal ) const
 {
-    int total_engine_w = total_power_w( fueled, true );
+    int total_engine_w = ( ideal ? ideal_engine_power( true ) : total_power_w( fueled, true ) );
     double total_drag = coeff_water_drag() + coeff_air_drag();
     double safe_in_mps = std::cbrt( total_engine_w / total_drag );
     return mps_to_vmiph( safe_in_mps );
@@ -3928,8 +4020,8 @@ int vehicle::safe_water_velocity( const bool fueled ) const
 
 int vehicle::safe_velocity( const bool fueled ) const
 {
-    if( is_flying && is_rotorcraft() ) {
-        return safe_rotor_velocity( fueled );
+    if( is_flying && is_aircraft() ) {
+        return safe_aircraft_velocity( fueled );
     } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
     } else {
@@ -4051,7 +4143,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
-    if( is_flying && is_rotorcraft() ) {
+    if( is_flying && has_part( VPFLAG_ROTOR ) ) {
         noise *= 2;
     }
     // Cap engine noise to avoid deafening.
@@ -4066,8 +4158,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
+    // TODO: other noises for non-rotor aircraft?
     sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
-                   _( is_rotorcraft() ? heli_noise : sounds[lvl].first ), true );
+                   _( has_part( VPFLAG_ROTOR ) ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4119,6 +4212,7 @@ struct drag_column {
     int windmill = minrow;
     int sail = minrow;
     int rotor = minrow;
+    int ballon = minrow;
     int last = maxrow;
 };
 
@@ -4146,7 +4240,8 @@ double vehicle::coeff_air_drag() const
         if( p.info().location != part_location_center ) {
             return false;
         }
-        return !( p.inside || p.info().has_flag( "NO_ROOF_NEEDED" ) ||
+        return !( p.inside || p.info().has_flag( "EXTENDABLE" ) ||
+                  p.info().has_flag( "NO_ROOF_NEEDED" ) ||
                   p.info().has_flag( "WINDSHIELD" ) ||
                   p.info().has_flag( "OPENABLE" ) );
     };
@@ -4191,6 +4286,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
+            d_check_max( drag[ col ].ballon, pa, pa.info().has_flag( "BALLOON" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -4225,6 +4321,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
         // rotors are not great for drag!
         c_air_drag_c += ( dc.rotor > minrow ) ? 6 * c_air_mod : 0;
+        // Neither are balloons
+        c_air_drag_c += ( dc.ballon > minrow ) ? 6 * c_air_mod : 0;
         // having a sail is terrible for your drag
         c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
@@ -4313,6 +4411,9 @@ bool vehicle::can_float() const
         coeff_water_drag();
     }
     // Someday I'll deal with submarines, but now, you can only float if you have freeboard
+    if( hull_height == 0.3 ) {
+        return false;
+    }
     return draft_m < hull_height;
 }
 
@@ -4326,17 +4427,61 @@ double vehicle::total_rotor_area() const
     } );
 }
 
+double vehicle::total_propeller_area() const
+{
+    return std::accumulate( propellers.begin(), propellers.end(), 0.0,
+    [&]( double acc, int propeller ) {
+        const double radius{ parts[ propeller ].info().propeller_diameter() / 2.0 };
+        return acc + M_PI * std::pow( radius, 2 );
+    } );
+}
+
+// Balloons can lift ~1 kg per m^3
+// 1 tile is 1 m^2, but with an undefined height
+// So balloon height and balloon weight will be what changes
+// Returns a value in newtons
+double vehicle::total_balloon_lift() const
+{
+    return std::accumulate( balloons.begin(), balloons.end(), double{0.0},
+    [&]( double acc, int balloon ) {
+        const double height{ parts[ balloon ].info().balloon_height() };
+        return acc + ( height * GRAVITY_OF_EARTH );
+    } );
+}
+
+// Wing Lift
+// Based on air being 1kg/m^3
+double vehicle::total_wing_lift() const
+{
+    // Velocity is in mph * 100 (why oh why)
+    // Convert to km/h then m/s then m/s ^ 2
+    const double kilometerperhour = velocity / 100 * 1.609;
+    const double meterpersec = kilometerperhour / 3600 * 1000;
+    const double meterpersecsquared = std::pow( meterpersec, 2 );
+    return std::accumulate( wings.begin(), wings.end(), double{0.0},
+    [&]( double acc, int wing ) {
+        const double liftcoff{ parts[ wing ].info().lift_coff() };
+        // m^2 area is always 1
+        return acc + ( 0.5 * meterpersecsquared * liftcoff );
+    } );
+}
+
 // constants were converted from imperial to SI goodness
 // returns as newton
-double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
+double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe, const bool ideal ) const
 {
     constexpr double coefficient = 0.8642;
     constexpr double exponentiation = -0.3107;
 
     const double rotor_area = total_rotor_area();
+    if( rotor_area == 0 ) {
+        return 0;
+    }
     // take off 15 % due to the imaginary tail rotor power?
-    const int engine_power = total_power_w( fuelled, safe );
-
+    const int engine_power = ( ideal ? ideal_engine_power( safe ) : total_power_w( fuelled, safe ) );
+    if( engine_power <= 0 ) {
+        return 0;
+    }
     const double power_load = engine_power / rotor_area;
     const double lift_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
     add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %i",
@@ -4344,15 +4489,86 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
     return lift_thrust;
 }
 
-bool vehicle::has_sufficient_rotorlift() const
+// constants were converted from imperial to SI goodness
+// returns as newton
+double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe,
+        const bool ideal ) const
 {
-    return lift_thrust_of_rotorcraft( true ) > to_newton( total_mass() );
+    constexpr double coefficient = 0.8642;
+    constexpr double exponentiation = -0.3107;
+
+    const double rotor_area = total_propeller_area();
+    if( rotor_area == 0 ) {
+        return 0;
+    }
+    // take off 15 % due to the imaginary tail rotor power?
+    const int engine_power = ( ideal ? ideal_engine_power( safe ) : total_power_w( fuelled, safe ) );
+
+    const double power_load = engine_power / rotor_area;
+    const double foward_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
+    add_msg( m_debug, "foward thrust(N) of %s: %f, propeller area (m^2): %f, engine power (w): %i",
+             name, foward_thrust, rotor_area, engine_power );
+    return foward_thrust;
 }
 
-// requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
+// get sum of horizontal thrust from all lifting parts
+double vehicle::total_thrust( const bool fuelled, const bool safe, const bool ideal ) const
+{
+    return thrust_of_rotorcraft( fuelled, safe, ideal ) + foward_thrust_of_propellers( fuelled, safe,
+            ideal );
+}
+
+// get sum of lift from all lifting parts
+double vehicle::total_lift( const bool fuelled, const bool safe, const bool ideal ) const
+{
+    return thrust_of_rotorcraft( fuelled, safe, ideal ) + total_balloon_lift() + total_wing_lift();
+}
+
+int vehicle::get_takeoff_speed() const
+{
+    const int needed_force = to_newton( total_mass() ) - thrust_of_rotorcraft( true, false, true ) -
+                             total_balloon_lift();
+
+    const double liftwithoutspeed = std::accumulate( wings.begin(), wings.end(), double{0.0},
+    [&]( double acc, int wing ) {
+        const double liftcoff{ parts[ wing ].info().lift_coff() };
+        // m^2 area is always 1
+        return acc + ( 0.5 * liftcoff );
+    } );
+    const double needed_met_sec_squared = needed_force / liftwithoutspeed;
+    const double needed_met_sec = std::sqrt( needed_met_sec_squared );
+    const double needed_km_hour = needed_met_sec / 1000 * 3600;
+    std::string speed_type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+    if( speed_type == "km/h" ) {
+        return ceil( needed_km_hour );
+    } else if( speed_type == "mph" ) {
+        return ceil( needed_km_hour / 1.609 );
+    } else if( speed_type == "t/t" ) {
+        return ceil( needed_km_hour / 1.609 / 4 );
+    } else {
+        return INT_MAX;
+    }
+}
+// For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
+bool vehicle::has_lift() const
+{
+    return has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_BALLOON ) || has_part( VPFLAG_WING );
+}
+
+bool vehicle::has_sufficient_lift() const
+{
+    return total_lift( true ) > to_newton( total_mass() );
+}
+
 bool vehicle::is_rotorcraft() const
 {
-    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+    return ( has_part( VPFLAG_ROTOR ) ) && has_sufficient_lift();
+}
+// requires vehicle to have sufficient rotor lift
+bool vehicle::is_aircraft() const
+{
+    return ( has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
+           && has_sufficient_lift();
 }
 
 int vehicle::get_z_change() const
@@ -4446,7 +4662,8 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return can_float() ? 1.0f : -1.0f;
     }
     if( is_flying ) {
-        return is_rotorcraft() ? 1.0f : -1.0f;
+        // Dont prematurely kill our flight, we'll fall soon enough
+        return ( has_lift() ) ? 1.0f : -1.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
@@ -4626,7 +4843,8 @@ float vehicle::steering_effectiveness() const
     }
     if( is_flying ) {
         // I'M IN THE AIR
-        return is_rotorcraft() ? 1.0f : 0.0f;
+        // May need to add a separate check for planes, if/when they happen
+        return is_aircraft() ? 1.0f : 0.0f;
     }
     // irksome special case for boats in shallow water
     if( is_watercraft() && can_float() ) {
@@ -4732,6 +4950,9 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 {
     double st = strain();
+    if( current_acceleration() == 0 ) {
+        return;
+    }
     for( auto &fuel_pr : fuel_usage() ) {
         auto &ft = fuel_pr.first;
         if( skip_electric && ft == fuel_type_battery ) {
@@ -5422,17 +5643,24 @@ void vehicle::idle( bool on_map )
 {
     power_parts();
     if( engine_on && total_power_w() > 0 ) {
+        bool no_electric_power = true;
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
         // Helicopters use extra power just to stay in the air
         // 100 means 10% of power
+        /*
+            TODO: Consider different formula for idling aircraft, may need a formula to determine this
+            Possibly something like total lift / total engine power, maybe some factors for hovering efficiency of different types
+            Also consider adding a hover efficiency field
+        */
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 100;
+            no_electric_power = false;
         }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+            consume_fuel( idle_rate, to_turns<int>( 1_turns ), no_electric_power );
         }
 
         if( on_map ) {
@@ -5902,6 +6130,9 @@ void vehicle::refresh()
     wheelcache.clear();
     rail_wheelcache.clear();
     rotors.clear();
+    wings.clear();
+    propellers.clear();
+    balloons.clear();
     steering.clear();
     speciality.clear();
     floating.clear();
@@ -5967,6 +6198,15 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_PROPELLER ) ) {
+            propellers.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_WING ) ) {
+            wings.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_BALLOON ) ) {
+            balloons.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );

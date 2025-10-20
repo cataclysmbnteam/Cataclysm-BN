@@ -17,6 +17,7 @@
     "durability": 10,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
+    "ups_charges": 60,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -27,8 +28,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "power_draw": "60 kJ"
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "DRAW_LASER_BEAM", "EMP" ]
   },
   {
     "id": "gatling_mech_laser",
@@ -47,10 +47,10 @@
     "ranged_damage": { "damage_type": "heat", "amount": 40, "armor_penetration": 5 },
     "dispersion": 100,
     "loudness": 12,
+    "ups_charges": 50,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 5 ], [ "AUTO", "auto", 10 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "extend": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] },
-    "power_draw": "50 kJ"
+    "extend": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "gatling_mech_laser_rebuilt",
@@ -60,9 +60,9 @@
     "description": "A rapid-fire weapon system stripped from a combat mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, its rotating-barrel laser system can still spray death downrange with ease.",
     "weight": "40 kg",
     "dispersion": 200,
+    "ups_charges": 80,
     "extend": { "flags": [ "MOUNTED_GUN" ] },
-    "delete": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] },
-    "power_draw": "80 kJ"
+    "delete": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "recon_mech_laser",
@@ -83,9 +83,9 @@
     "ranged_damage": { "damage_type": "heat", "amount": 80, "armor_penetration": 10 },
     "dispersion": 15,
     "loudness": 1,
+    "ups_charges": 100,
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "extend": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] },
-    "power_draw": "100 kJ"
+    "extend": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "recon_mech_laser_rebuilt",
@@ -95,9 +95,9 @@
     "description": "A long-range weapon system stripped from a recon mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, it's still a quiet and relatively accurate marksman laser rifle.",
     "weight": "13 kg",
     "dispersion": 30,
+    "ups_charges": 160,
     "extend": { "flags": [ "MOUNTED_GUN" ] },
-    "delete": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] },
-    "power_draw": "160 kJ"
+    "delete": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "laser_cannon",
@@ -117,6 +117,7 @@
     "dispersion": 90,
     "durability": 7,
     "loudness": 8,
+    "ups_charges": 25,
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "lens", 1 ],
@@ -127,8 +128,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "power_draw": "25 kJ"
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "laser_cannon_turret_fake",
@@ -154,8 +154,8 @@
     "dispersion": 10,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "loudness": 12,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "power_draw": "40 kJ"
+    "ups_charges": 40,
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "v29",
@@ -170,11 +170,11 @@
     "material": [ "steel", "plastic" ],
     "color": "magenta",
     "range": 30,
-    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
+    "ranged_damage": { "damage_type": "heat", "amount": 16, "armor_penetration": 4 },
     "dispersion": 180,
     "loudness": 7,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "power_draw": "10 kJ"
+    "ups_charges": 20,
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "laser_rifle_cheap",
@@ -194,8 +194,8 @@
     "dispersion": 150,
     "durability": 6,
     "loudness": 14,
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "power_draw": "30 kJ"
+    "ups_charges": 30,
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "laser_maxim",

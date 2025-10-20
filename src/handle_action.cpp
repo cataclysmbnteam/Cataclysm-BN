@@ -1454,7 +1454,7 @@ static void cast_spell()
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
         }
-        if( temp_spell.has_flag( spell_flag::BRAWL ) ) {
+        if( temp_spell.has_flag( spell_flag::BRAWL ) || temp_spell.has_flag( spell_flag::PHYSICAL ) ) {
             has_brawler_spell = true;
         }
     }
@@ -1477,7 +1477,8 @@ static void cast_spell()
 
     spell &sp = *u.magic->get_spells()[spell_index];
 
-    if( !sp.has_flag( spell_flag::BRAWL ) && u.has_trait( trait_BRAWLER ) ) {
+    if( !( sp.has_flag( spell_flag::BRAWL ) || sp.has_flag( spell_flag::PHYSICAL ) ) &&
+        u.has_trait( trait_BRAWLER ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "Pfft, that spell is for COWARDS, and a Brawler like you is no coward!" ) );
         return;
@@ -1874,7 +1875,7 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
-                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_below );
                 }
                 break;
@@ -1889,11 +1890,15 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
-                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_above );
-                } else if( veh_ctrl && vp->vehicle().has_part( "ROTOR" ) &&
-                           !vp->vehicle().has_sufficient_rotorlift() ) {
-                    add_msg( m_bad, _( "The rotors struggle to generate enough lift!" ) );
+                } else if( veh_ctrl && ( vp->vehicle().has_part( "ROTOR" ) ||
+                                         vp->vehicle().has_part( "BALLOON" ) ||
+                                         vp->vehicle().has_part( "WING" ) ) &&
+                           !vp->vehicle().has_sufficient_lift() ) {
+                    add_msg( m_bad, _( "The craft struggles to generate enough lift!" ) );
+                } else {
+                    u.add_msg_if_player( _( "You need a propeller to take off!" ) );
                 }
                 break;
 

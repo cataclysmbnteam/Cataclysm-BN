@@ -58,6 +58,11 @@ enum spell_flag {
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
     BRAWL, // this spell can be used by brawlers
+    DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
+    ADD_MELEE_DAM, // Add melee damage to the spell's damage. Legacy method, "melee_dam" vector is preferred instead
+    PHYSICAL, // IMPLIES BRAWL. This spell is actually a Physical Technique / Weapon Arte / similar, and is sort-of a replacement of martial arts.
+    MOD_MELEE_MOVES, // Use melee attack cost as a base and add spell cost on top
+    MOD_MELEE_STAM, // Use melee stamina cost as a base and add spell cost on top
     LAST
 };
 
@@ -154,6 +159,12 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        // scale based on stats
+        bool scale_str;
+        bool scale_dex;
+        bool scale_per;
+        bool scale_int;
 
         // Mutations that block the spell from being cast
         std::set<trait_id> blocker_mutations;
@@ -285,6 +296,9 @@ class spell_type
 
         damage_type dmg_type = damage_type::DT_NULL;
 
+        // Melee damage types that the 'spell' uses
+        std::vector<damage_type> melee_dam;
+
         // list of valid targets to be affected by the area of effect.
         enum_bitset<valid_target> effect_targets;
 
@@ -335,6 +349,10 @@ class spell
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
+        // get the sum of the deltas of relevant stats away from 8
+        int get_stats_deltas( const Character &guy ) const;
+        // get the multiplier to spell stats from character stats
+        double get_stat_mult( bool decrease, const Character &guy ) const;
 
     public:
         spell() = default;
@@ -374,6 +392,10 @@ class spell
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
+        // damage with character stats taken into account
+        int damage_as_character( const Character &guy ) const;
+        dealt_damage_instance get_dealt_damage_instance( const Character &guy ) const;
+        damage_instance get_damage_instance( const Character &guy ) const;
         // how big is the spell's radius
         int aoe() const;
         // "accuracy" of spells (used for determining body part hit)
@@ -439,7 +461,7 @@ class spell
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
 
-        std::string damage_string() const;
+        std::string damage_string( const Character &guy ) const;
         std::string aoe_string() const;
         std::string duration_string() const;
 
@@ -467,7 +489,7 @@ class spell
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @you's inventory
-        void use_components( player &you ) const;
+        void use_components( Character &who ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 

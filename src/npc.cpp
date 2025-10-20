@@ -53,6 +53,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -96,7 +97,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
@@ -219,6 +220,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
+npc &npc::operator=( npc && ) noexcept = default;
+
 void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
@@ -321,7 +324,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     // If we're a shopkeeper force spawn of shopkeeper items here
-    if( mission == NPC_MISSION_SHOPKEEP ) {
+    if( is_shopkeeper() ) {
         const item_group_id &from = myclass->get_shopkeeper_items();
         if( from != item_group_id( "EMPTY_GROUP" ) ) {
             inv_clear();
@@ -728,6 +731,13 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void npc::onswapsetpos( const tripoint &pos )
+{
+    position = pos;
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+}
+
 void npc::travel_overmap( const tripoint &pos )
 {
     // TODO: fix point types
@@ -910,7 +920,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     return true;
 }
 
-int npc::time_to_read( const item &book, const player &reader ) const
+int npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -996,9 +1006,12 @@ void npc::finish_read( item *it )
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
-                // NPC reads until they gain a level, then stop.
-                revert_after_activity();
-                return;
+                // NPC continue reading until they can no longer learn from the book.
+                if( skill_level == reading->level ) {
+                    revert_after_activity();
+                    return;
+                }
+                continuous = true;
             }
         } else {
             continuous = true;
@@ -1036,7 +1049,7 @@ void npc::finish_read( item *it )
     revert_after_activity();
 }
 
-void npc::start_read( item &it, player *pl )
+void npc::start_read( item &it, Character *pl )
 {
     item &chosen = it;
     const int time_taken = time_to_read( chosen, *pl );
@@ -1265,7 +1278,7 @@ void npc::invalidate_range_cache()
     }
 }
 
-void npc::form_opinion( const player &u )
+void npc::form_opinion( const Character &u )
 {
     // FEAR
     if( u.primary_weapon().is_gun() ) {
@@ -1517,7 +1530,7 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<skill_id> npc::skills_offered_to( const player &p ) const
+std::vector<skill_id> npc::skills_offered_to( const Character &p ) const
 {
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
@@ -1529,7 +1542,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     return ret;
 }
 
-std::vector<matype_id> npc::styles_offered_to( const player &p ) const
+std::vector<matype_id> npc::styles_offered_to( const Character &p ) const
 {
     return p.martial_arts_data->get_unknown_styles( *martial_arts_data );
 }
@@ -1716,21 +1729,23 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
+    if( ( restock != calendar::turn_zero ) &&
+        ( ( calendar::turn - restock ) < 3_days * get_option<float>( "RESTOCK_DELAY_MULT" ) ) ) {
         return;
     }
 
-    restock = calendar::turn + 3_days;
+    restock = calendar::turn + 3_days * get_option<float>( "RESTOCK_DELAY_MULT" );
     if( is_player_ally() ) {
         return;
     }
+
     const item_group_id &from = myclass->get_shopkeeper_items();
     if( from == item_group_id( "EMPTY_GROUP" ) ) {
         return;
     }
 
     units::volume total_space = volume_capacity();
-    if( mission == NPC_MISSION_SHOPKEEP ) {
+    if( is_shopkeeper() ) {
         total_space = units::from_liter( 5000 );
     }
 
@@ -1738,7 +1753,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
+        if( is_shopkeeper() && !my_fac->currency.is_empty() ) {
             item *my_currency = item::spawn_temporary( my_fac->currency );
             if( !my_currency->is_null() ) {
                 my_currency->set_owner( *this );
@@ -1787,6 +1802,19 @@ void npc::shop_restock()
         inv.clear();
         inv.add_items( ret, false );
     }
+}
+
+std::string npc::get_restock_interval() const
+{
+    time_duration const restock_remaining = restock - calendar::turn;
+    std::string restock_rem = to_string( restock_remaining );
+    return restock_rem;
+}
+
+bool npc::is_shopkeeper() const
+{
+    const item_group_id &from = myclass->get_shopkeeper_items();
+    return mission == NPC_MISSION_SHOPKEEP || from != item_group_id( "EMPTY_GROUP" );
 }
 
 int npc::minimum_item_value() const
@@ -2017,7 +2045,7 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
-bool npc::has_faction_relationship( const player &p,
+bool npc::has_faction_relationship( const Character &p,
                                     const npc_factions::relationship flag ) const
 {
     faction *p_fac = p.get_faction();
@@ -2251,6 +2279,11 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
+    const int stamina_percent = static_cast<float>( get_stamina() ) / get_stamina_max() * 100;
+    // Quit early if we're below 20% stamina, plus or minus bravery and threat modifiers.
+    if( 20 + std::max( danger, 0.0f ) > stamina_percent + personality.bravery ) {
+        return true;
+    }
     return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
@@ -2888,11 +2921,6 @@ bool npc::dispose_item( item &obj, const std::string & )
 void npc::process_turn()
 {
     player::process_turn();
-
-    // NPCs shouldn't be using stamina, but if they have, set it back to max
-    if( calendar::once_every( 1_minutes ) && get_stamina() < get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
 
     if( is_player_ally() && calendar::once_every( 1_hours ) &&
         get_kcal_percent() > 0.95 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {

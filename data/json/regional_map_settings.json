@@ -804,7 +804,8 @@
         "cs_public_art_piece": 100,
         "cs_public_space": 100,
         "cs_city_dump_small": 100,
-        "cs_open_sewer": 100
+        "cs_open_sewer": 100,
+        "trailerpark_city": 10
       },
       "shops": {
         "bus_station": 200,
@@ -928,6 +929,7 @@
         "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
+        "s_dive_shop": 200,
         "museum": 100,
         "s_music": 200,
         "s_laundromat": 100,

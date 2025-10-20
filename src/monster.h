@@ -8,6 +8,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -310,7 +311,7 @@ class monster : public Creature, public location_visitable<monster>
         void knock_back_to( const tripoint &to ) override;
 
         // Combat
-        bool is_fleeing( player &u ) const; // True if we're fleeing
+        bool is_fleeing( Character &who ) const; // True if we're fleeing
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
@@ -334,6 +335,8 @@ class monster : public Creature, public location_visitable<monster>
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         using Creature::deal_projectile_attack;
+        void deal_projectile_attack( Creature *source, item *source_weapon,
+                                     dealt_projectile_attack &attack, bool manual_retaliation );
         void deal_projectile_attack( Creature *source, item *source_weapon,
                                      dealt_projectile_attack &attack ) override;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
@@ -408,6 +411,8 @@ class monster : public Creature, public location_visitable<monster>
         bool has_grab_break_tec() const override;
 
         float stability_roll() const override;
+        void on_hit( Creature *source, bodypart_id bp_hit,
+                     dealt_projectile_attack const *proj = nullptr, bool manual_retaliation = false );
         void on_hit( Creature *source, bodypart_id bp_hit,
                      dealt_projectile_attack const *proj = nullptr ) override;
         void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;

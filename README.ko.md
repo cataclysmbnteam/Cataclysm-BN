@@ -1,7 +1,7 @@
 # 카타클리즘: 밝은 밤
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
+  <a><img src="docs/en/contribute/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -50,12 +50,11 @@
 
 ## 빌드하기
 
-- [makefile](doc/src/content/docs/en/dev/guides/building/makefile.md)로 빌드하기: Linux, macOS,
+- [makefile](docs/en/dev/guides/building/makefile.md)로 빌드하기: Linux, macOS,
   BSD를 지원합니다.
-- [MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
-- [vcpkjg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
-- [cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
-- [지원하는 컴파일러 목록](doc/src/content/docs/en/dev/reference/compiler_support.md)
+- [MSYS2](docs/en/dev/guides/building/msys.md)
+- [vcpkjg](docs/en/dev/guides/building/vs_vcpkg.md)
+- [cmake](docs/en/dev/guides/building/cmake.md)
 
 자세한 내용은 [공식 문서](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/)를
 참고해주세요.
@@ -73,11 +72,11 @@
 
 ## 공식 사이트
 
-게임플레이 및 개발 가이드는 [doc](./doc/src/content/docs/) 디렉토리에 마크다운으로 작성되어
+게임플레이 및 개발 가이드는 [doc](./docs/) 디렉토리에 마크다운으로 작성되어
 있습니다. 또는
 
 - [공식 문서 사이트](https://docs.cataclysmbn.org/ko/)를 방문하거나
-- [로컬에서 사이트를 빌드하고 실행](./doc/src/content/docs/en/contribute/docs.md)할 수 있습니다.
+- [로컬에서 사이트를 빌드하고 실행](./docs/en/contribute/docs.md)할 수 있습니다.
 
 ## 커뮤니티
 
@@ -115,11 +114,11 @@
 
 게임 내에서 `Submit a bug report on github`를 실행하여 이슈를 제출할 수 있습니다.
 
-|              1. 옵션 (ESC) -> 디버그 메뉴 (a)               |                         2. 정보 (i)                         |
-| :---------------------------------------------------------: | :---------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
-|                   3. 버그 리포트 제출 (U)                   |                  4. 이슈 링크가 생성됩니다                  |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
+|      1. 옵션 (ESC) -> 디버그 메뉴 (a)       |                 2. 정보 (i)                 |
+| :-----------------------------------------: | :-----------------------------------------: |
+| ![](docs/en/contribute/img/readme-bug1.png) | ![](docs/en/contribute/img/readme-bug2.png) |
+|           3. 버그 리포트 제출 (U)           |          4. 이슈 링크가 생성됩니다          |
+| ![](docs/en/contribute/img/readme-bug3.png) | ![](docs/en/contribute/img/readme-bug4.png) |
 
 `버전 및 환경 설정(Version and configuration)` 항목이 채워진 이슈가 브라우저에서 열립니다.
 

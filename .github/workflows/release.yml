@@ -102,12 +102,6 @@ jobs:
             os: windows-latest
             ext: zip
             content: application/zip
-          - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc
-            arch: x86
-            os: windows-latest
-            ext: zip
-            content: application/zip
           - name: Linux Tiles x64
             os: ubuntu-latest
             android: none
@@ -150,12 +144,6 @@ jobs:
             os: ubuntu-latest
             android: arm64
             artifact: android-x64
-            ext: apk
-            content: application/apk
-          - name: Android x32
-            os: ubuntu-latest
-            android: arm32
-            artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
@@ -233,7 +221,7 @@ jobs:
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel llvm astyle sqlite3 zlib
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel llvm@20 astyle sqlite3 zlib
           python3 -m venv ./venv
           source ./venv/bin/activate
           pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist polib luaparser
@@ -257,7 +245,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm@20)/bin/clang++ dmgdist
           mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.metadata.outputs.tag_name }}.dmg
 
       - name: Set up JDK 11 (android)

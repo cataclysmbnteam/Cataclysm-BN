@@ -30,7 +30,6 @@
 #include "trap.h"
 #include "type_id.h"
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 static void set_furn_ids();
@@ -152,7 +151,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "UNSTABLE",                 TFLAG_UNSTABLE },       // monmove
         { "LIQUID",                   TFLAG_LIQUID },         // *move(), add/spawn_item*()
         { "FIRE_CONTAINER",           TFLAG_FIRE_CONTAINER }, // fire
-        { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
         { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
         { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
         { "SEALED",                   TFLAG_SEALED },         // Fire, acid
@@ -348,6 +346,21 @@ void map_bash_info::check( const std::string &id, map_object_type type ) const
     }
 }
 
+void map_dig_info::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+
+    assign( jo, "digging_min", dig_min );
+    assign( jo, "result_ter", result_ter );
+    assign( jo, "num_minutes", num_minutes );
+    // Support for individual items specified or an itemgroup
+    if( jo.has_array( "items" ) ) {
+        result_items = item_group::load_item_group( jo.get_member( "items" ), "collection" );
+    } else if( jo.has_string( "items" ) ) {
+        assign( jo, "items", result_items );
+    }
+}
+
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
@@ -487,7 +500,6 @@ ter_t null_terrain_t()
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
     new_terrain.set_flag( flag_TRANSPARENT );
-    new_terrain.set_flag( flag_DIGGABLE );
     new_terrain.examine = iexamine_function_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
@@ -640,7 +652,7 @@ ter_id t_null,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
-       t_metal_floor,
+       t_moss_underground, t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
@@ -705,7 +717,7 @@ ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
-       t_water_cube, t_lake_bed, t_water_pool, t_sewage,
+       t_water_cube, t_lake_bed, t_lake_moss, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -775,6 +787,7 @@ void set_ter_ids()
     t_grass_long = ter_id( "t_grass_long" );
     t_grass_tall = ter_id( "t_grass_tall" );
     t_moss = ter_id( "t_moss" );
+    t_moss_underground = ter_id( "t_moss_underground" );
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );
@@ -959,6 +972,7 @@ void set_ter_ids()
     t_swater_dp = ter_id( "t_swater_dp" );
     t_water_cube = ter_id( "t_water_cube" );
     t_lake_bed  = ter_id( "t_lake_bed" );
+    t_lake_moss  = ter_id( "t_lake_moss" );
     t_water_pool = ter_id( "t_water_pool" );
     t_sewage = ter_id( "t_sewage" );
     t_lava = ter_id( "t_lava" );
@@ -1096,7 +1110,8 @@ furn_id f_null,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
         f_skin_door_o, f_skin_groundsheet,
         f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump, f_dahlia, f_datura, f_dandelion,
-        f_cattails, f_bluebell,
+        f_cattails, f_bluebell, f_lake_pondweed, f_lake_detritus, f_lake_liverwort, f_lake_eelgrass,
+        f_lake_hornwort, f_cave_mushrooms,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
         f_fvat_empty, f_fvat_full,
@@ -1197,6 +1212,12 @@ void set_furn_ids()
     f_datura = furn_id( "f_datura" );
     f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
+    f_lake_pondweed = furn_id( "f_lake_pondweed" );
+    f_lake_detritus = furn_id( "f_lake_detritus" );
+    f_lake_liverwort = furn_id( "f_lake_liverwort" );
+    f_lake_eelgrass = furn_id( "f_lake_eelgrass" );
+    f_lake_hornwort = furn_id( "f_lake_hornwort" );
+    f_cave_mushrooms = furn_id( "f_cave_mushrooms" );
     f_safe_c = furn_id( "f_safe_c" );
     f_safe_l = furn_id( "f_safe_l" );
     f_safe_o = furn_id( "f_safe_o" );
@@ -1316,6 +1337,11 @@ bool ter_t::is_null() const
     return id == ter_str_id::NULL_ID();
 }
 
+bool ter_t::is_diggable() const
+{
+    return !digging_results.result_ter->is_null();
+}
+
 void ter_t::load( const JsonObject &jo, const std::string &src )
 {
     connect_group = TERCONN_NONE;
@@ -1323,7 +1349,6 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
     assign( jo, "coverage", coverage, is_json_check_strict( src ) );
-    assign( jo, "digging_result", digging_result, is_json_check_strict( src ) );
     assign( jo, "max_volume", max_volume, is_json_check_strict( src ) );
     assign( jo, "trap", trap_id_str, is_json_check_strict( src ) );
 
@@ -1366,8 +1391,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
+    optional( jo, was_loaded, "fill_result", fill_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "fill_minutes", fill_minutes, 15 );
+
     // Not assign, because we want to overwrite individual fields
     optional( jo, was_loaded, "bash", bash );
+    optional( jo, was_loaded, "digging_results", digging_results );
     deconstruct.load( jo, "deconstruct", false );
     pry.load( jo, "pry", pry_result::terrain );
 }
@@ -1537,7 +1566,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     optional( jo, was_loaded, "coverage", coverage );
-    optional( jo, was_loaded, "digging_result", digging_result );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "emissions", emissions );

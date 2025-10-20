@@ -29,8 +29,14 @@
     "material": [ "steel", "leather" ],
     "volume": "500 ml",
     "weight": "970 g",
-    "to_hit": 2,
-    "bashing": 12,
+    "//": "Roughly +25% fire damage",
+    "attacks": [
+      {
+        "id": "BASH",
+        "to_hit": 2,
+        "damage": { "values": [ { "damage_type": "bash", "amount": 12 }, { "damage_type": "heat", "amount": 3 } ] }
+      }
+    ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ]
   },

@@ -303,8 +303,7 @@ query_popup::result query_popup::query_once()
         res.evt = ctxt.get_raw_input();
     } while(
         // Always ignore mouse movement
-        ( res.evt.type == input_event_t::mouse &&
-          res.evt.get_first_input() == static_cast<int>( MouseInput::Move ) ) ||
+        ( res.evt.type == input_event_t::mouse && res.evt.get_first_input() == MOUSE_MOVE ) ||
         // Ignore window losing focus in SDL
         ( res.evt.type == input_event_t::keyboard && res.evt.sequence.empty() )
     );

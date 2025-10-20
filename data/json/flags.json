@@ -6,6 +6,66 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "ALLOWS_FLIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <info>allows flight</info> when active, at the cost of <info>power from a UPS</info>."
+  },
+  {
+    "id": "ALWAYS_ALLOWS_FLIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <info>allows flight</info>."
+  },
+  {
+    "id": "ALLOWS_TAIL_SNAKE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>serpentine bodies.</info>."
+  },
+  {
+    "id": "ALLOWS_CLAWS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>clawed fingers.</info>."
+  },
+  {
+    "id": "ALLOWS_CLAWS_FOOT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>toe claws.</info>."
+  },
+  {
+    "id": "ALLOWS_HOOVES",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>hooves, foot-paws, or otherwise altered feet.</info>."
+  },
+  {
+    "id": "ALLOWS_HORNS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>horns on their head.</info>."
+  },
+  {
+    "id": "ALLOWS_TAIL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>a tail.</info>."
+  },
+  {
+    "id": "ALLOWS_WINGS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>wings.</info>."
+  },
+  {
+    "id": "ALLOWS_MUZZLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>a snout, beak, or mandibles.</info>."
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"
@@ -989,6 +1049,12 @@
     "info": "This bionic is <bad>faulty</bad>."
   },
   {
+    "id": "BIONIC_FLIGHT",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "info": "This bionic allows flight."
+  },
+  {
     "id": "BIONIC_POWER_SOURCE",
     "type": "json_flag",
     "context": [ "BIONIC" ],
@@ -1614,6 +1680,11 @@
     "context": [  ]
   },
   {
+    "id": "ADD_UPS_TOGGLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "IS_UPS",
     "type": "json_flag",
     "context": [  ]
@@ -1772,6 +1843,16 @@
   },
   {
     "id": "NO_UNWIELD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "COMBAT_NPC_USE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "COMBAT_NPC_ON",
     "type": "json_flag",
     "context": [  ]
   },
@@ -2022,6 +2103,11 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MARIJUANA",
     "type": "json_flag",
     "context": [  ]
   },

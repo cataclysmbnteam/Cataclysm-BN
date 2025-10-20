@@ -221,7 +221,6 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -275,7 +274,6 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
@@ -339,7 +337,6 @@ static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_dog_thing( "mon_dog_thing" );
 static const mtype_id mon_fly( "mon_fly" );
-static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 static const mtype_id mon_hologram( "mon_hologram" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_spore( "mon_spore" );
@@ -352,7 +349,6 @@ static const bionic_id bio_shock( "bio_shock" );
 
 // terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );
-static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FISHABLE( "FISHABLE" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
@@ -1501,6 +1497,21 @@ std::pair<int, units::energy> iuse::petfood( player *p, item *it, bool, const tr
             return std::make_pair( 0, 0_J );
         }
 
+        if( !petfood.tamer_traits.empty() ) {
+            for( const TraitSet &trait_set : petfood.tamer_traits ) {
+                if( !p->has_one_of_traits( trait_set ) ) {
+                    can_feed = false;
+                } else {
+                    can_feed = true;
+                }
+            }
+            if( !can_feed ) {
+                p->add_msg_if_player( _( "The %s does not trust your kind." ),
+                                      mon.type->nname() );
+                return 0;
+            }
+        }
+
         if( mon.type->id == mon_dog_thing ) {
             p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
             p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );
@@ -2453,13 +2464,12 @@ std::pair<int, units::energy> iuse::makemound( player *p, item *it, bool t, cons
 
 struct digging_moves_and_byproducts {
     int moves;
-    int spawn_count;
     std::string byproducts_item_group;
     ter_id result_terrain;
 };
 
-static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
-        bool channel, const tripoint &pos )
+static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it,
+        const tripoint &pos, const bool channel )
 {
     // Vastly simplified version of DDA's version, which had a 77-line-long explanation.
     //
@@ -2475,9 +2485,6 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // So to keep it simple, 200 liters for shallow pits, 400 for deep pit. We're basically
     // assuming that the first step is about one-third of the total work.
 
-    constexpr int deep_pit_time = 120;
-    constexpr int shallow_pit_time = 60;
-
     // Get the dig quality of the tool.
     const int quality = it->get_quality( qual_DIG );
 
@@ -2487,18 +2494,14 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     const double attr = 10.0 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
-    int dig_minutes = deep ? deep_pit_time : shallow_pit_time;
+    int dig_minutes = channel ? 60 : g->m.ter( pos )->digging_results.num_minutes;
     int moves = to_moves<int>( std::max( 10_minutes,
                                          time_duration::from_minutes( dig_minutes * attr ) / quality ) );
+    // Channel can be assumed to always be moving water because it doesn't create magic terraforming in theory.
+    ter_id result_terrain = channel ? ter_id( "t_water_moving_sh" ) : g->m.ter(
+                                pos )->digging_results.result_ter;
 
-    ter_id result_terrain;
-    if( channel ) {
-        result_terrain = ter_id( "t_water_moving_sh" );
-    } else {
-        result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
-    }
-
-    return { moves, ( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
+    return { moves, g->m.ter( pos )->digging_results.result_items.str(), result_terrain };
 }
 
 std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -2513,7 +2516,7 @@ std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const trip
     }
     const tripoint dig_point = p->pos();
 
-    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) &&
+    const bool can_dig_here = g->m.ter( dig_point )->is_diggable() &&
                               !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() &&
                               ( g->m.ter( dig_point ) == t_grave_new || g->m.i_at( dig_point ).empty() ) &&
@@ -2524,16 +2527,17 @@ std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const trip
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return std::make_pair( 0, 0_J );
     }
-    const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
     const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
-        if( can_deepen ) {
-            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-            return std::make_pair( 0, 0_J );
-        } else if( grave ) {
-            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
-            return std::make_pair( 0, 0_J );
+
+    if( !( p->crafting_inventory().max_quality( qual_DIG ) >= g->m.ter(
+               dig_point )->digging_results.dig_min ) ) {
+        if( grave ) {
+            p->add_msg_if_player( _( "You can't exhume a grave without a better digging tool." ) );
+            return 0;
+        } else {
+            p->add_msg_if_player( _( "You don't have a good enough digging tool to dig there!" ) );
+            return 0;
         }
     }
 
@@ -2577,8 +2581,8 @@ std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const trip
         }
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen, false, dig_point );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point,
+            false );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2591,7 +2595,6 @@ std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const trip
                             dig_point,
                             moves_and_byproducts.result_terrain.id().str(),
                             deposit_point,
-                            moves_and_byproducts.spawn_count,
                             moves_and_byproducts.byproducts_item_group
                         ) ) );
 
@@ -2616,7 +2619,7 @@ std::pair<int, units::energy> iuse::dig_channel( player *p, item *it, bool t, co
     tripoint west = dig_point + point_west;
     tripoint east = dig_point + point_east;
 
-    const bool can_dig_here = g->m.has_flag( flag_DIGGABLE, dig_point ) &&
+    const bool can_dig_here = g->m.ter( dig_point )->is_diggable() &&
                               !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
                               ( g->m.has_flag( flag_CURRENT, north ) ||  g->m.has_flag( flag_CURRENT, south ) ||
@@ -2646,8 +2649,8 @@ std::pair<int, units::energy> iuse::dig_channel( player *p, item *it, bool t, co
         return std::make_pair( 0, 0_J );
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
-            true, dig_point );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point,
+            true );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2660,7 +2663,6 @@ std::pair<int, units::energy> iuse::dig_channel( player *p, item *it, bool t, co
                             dig_point,
                             moves_and_byproducts.result_terrain.id().str(),
                             deposit_point,
-                            moves_and_byproducts.spawn_count,
                             moves_and_byproducts.byproducts_item_group
                         ) ) );
     return res;
@@ -2677,21 +2679,13 @@ std::pair<int, units::energy> iuse::fill_pit( player *p, item *it, bool t, const
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return std::make_pair( 0, 0_J );
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_pit,
-        t_pit_spiked,
-        t_pit_glass,
-        t_pit_corpsed,
-        t_pit_shallow,
-        t_dirtmound
-    };
 
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
         const ter_id type = g->m.ter( pnt );
-        return ( allowed_ter_id.find( type ) != allowed_ter_id.end() );
+        return ( type->fill_result != ter_str_id::NULL_ID() );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -2710,17 +2704,7 @@ std::pair<int, units::energy> iuse::fill_pit( player *p, item *it, bool t, const
         return std::make_pair( 0, 0_J );
     }
 
-    int moves;
-    if( ter == t_pit || ter == t_pit_spiked ||
-        ter == t_pit_glass || ter == t_pit_corpsed ) {
-        moves = to_moves<int>( time_duration::from_minutes( 15 ) );
-    } else if( ter == t_pit_shallow ) {
-        moves = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( ter == t_dirtmound ) {
-        moves = to_moves<int>( time_duration::from_minutes( 5 ) );
-    } else {
-        return std::make_pair( 0, 0_J );
-    }
+    int moves = to_moves<int>( time_duration::from_minutes( ter->fill_minutes ) );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -3709,37 +3693,6 @@ std::pair<int, units::energy> iuse::tazer( player *p, item *it, bool, const trip
     return res;
 }
 
-std::pair<int, units::energy> iuse::mp3( player *p, item *it, bool, const tripoint & )
-{
-    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
-
-    // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient() || !it->energy_sufficient( *p ) ) {
-        p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
-    } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
-        p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
-    } else {
-        p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
-        if( it->typeId() == itype_mp3 ) {
-            it->convert( itype_mp3_on );
-            it->activate();
-        } else if( it->typeId() == itype_smart_phone ) {
-            it->convert( itype_smartphone_music );
-            it->activate();
-        } else if( it->typeId() == itype_afs_atomic_smartphone ) {
-            it->convert( itype_afs_atomic_smartphone_music );
-            it->activate();
-        } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
-            it->convert( itype_afs_atomic_wraitheon_music );
-            it->activate();
-        }
-        p->mod_moves( -200 );
-    }
-    return res;
-}
-
 static std::string get_music_description()
 {
     const std::array<std::string, 5> descriptions = {{
@@ -3811,23 +3764,15 @@ std::pair<int, units::energy> iuse::mp3_on( player *p, item *it, bool t, const t
             play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
-        if( it->typeId() == itype_mp3_on ) {
-            p->add_msg_if_player( _( "The mp3 player turns off." ) );
-            it->convert( itype_mp3 );
-            it->deactivate();
-        } else if( it->typeId() == itype_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_smart_phone );
-            it->deactivate();
-        } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_atomic_smartphone );
-            it->deactivate();
-        } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_wraitheon_smartphone );
-            it->deactivate();
-        }
+        // Creatively make it so that the reversion isn't hard-coded
+        // There's *probably* a better way to do this, but this works
+        std::string active_item = it->typeId().str();
+        std::string base_item = active_item.erase( active_item.rfind( '_' ) );
+
+        p->add_msg_if_player( _( "The %s turns off." ), it->display_name() );
+        it->convert( itype_id( base_item ) );
+        it->deactivate();
+
         p->mod_moves( -200 );
     }
     return res;
@@ -5244,14 +5189,14 @@ std::pair<int, units::energy> iuse::unfold_generic( player *p, item *it, bool, c
         g->m.destroy_vehicle( veh );
         return std::make_pair( 0, 0_J );
     }
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    const bool can_float = veh->can_float();
 
     const auto invalid_pos = []( const tripoint & pp, bool can_float ) {
         return ( g->m.has_flag_ter( TFLAG_DEEP_WATER, pp ) && !can_float ) ||
                g->m.veh_at( pp ) || g->m.impassable( pp );
     };
     for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "structure" ) {
+        if( vp.info().location != "structure" && !vp.info().has_flag( VPFLAG_EXTENDABLE ) ) {
             continue;
         }
         const tripoint pp = vp.pos();
@@ -5271,6 +5216,7 @@ std::pair<int, units::energy> iuse::unfold_generic( player *p, item *it, bool, c
         unfold_msg = _( unfold_msg );
     }
     veh->set_owner( *p );
+    g->m.board_vehicle( p->pos(), p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
@@ -5575,8 +5521,7 @@ std::pair<int, units::energy> iuse::toolmod_attach( player *p, item *it, bool, c
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
         if( it->has_flag( flag_USE_UPS ) &&
-            ( e.typeId() == itype_UPS_off || e.typeId() == itype_adv_UPS_off ||
-              e.has_flag( flag_USE_UPS ) ) ) {
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ) ) {
             return false;
         }
 
@@ -6993,6 +6938,9 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
         // position of <monster type string>
         const size_t mon_str_pos = monster_photos.find( "," + mtype + "," );
 
+        // monster gets recorded by the character, add to known types
+        p.set_knows_creature_type( monster_p->type->id );
+
         if( mon_str_pos == std::string::npos ) { // new monster
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
         } else { // replace quality character, if new photo is better
@@ -7960,368 +7908,13 @@ std::pair<int, units::energy> iuse::remoteveh( player *p, item *it, bool t, cons
     return res;
 }
 
-static bool multicooker_hallu( player &p )
-{
-    p.moves -= to_moves<int>( 2_seconds );
-    const int random_hallu = rng( 1, 7 );
-    switch( random_hallu ) {
-
-        case 1:
-            add_msg( m_info, _( "And when you gaze long into a screen, the screen also gazes into you." ) );
-            return true;
-
-        case 2:
-            add_msg( m_bad, _( "The multi-cooker boiled your head!" ) );
-            return true;
-
-        case 3:
-            add_msg( m_info, _( "The characters on the screen display an obscene joke.  Strange humor." ) );
-            return true;
-
-        case 4:
-            //~ Single-spaced & lowercase are intentional, conveying hurried speech-KA101
-            add_msg( m_warning, _( "Are you sure?!  the multi-cooker wants to poison your food!" ) );
-            return true;
-
-        case 5:
-            add_msg( m_info,
-                     _( "The multi-cooker argues with you about the taste preferences.  You don't want to deal with it." ) );
-            return true;
-
-        case 6:
-            if( !one_in( 5 ) ) {
-                add_msg( m_warning, _( "The multi-cooker runs away!" ) );
-                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
-                    m->hallucination = true;
-                    m->add_effect( effect_run, 100_turns );
-                }
-            } else {
-                p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
-
-                for( const tripoint &pn : g->m.points_in_radius( p.pos(), 1 ) ) {
-                    if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
-                        m->hallucination = true;
-                    }
-                }
-            }
-            return true;
-
-        default:
-            return false;
-    }
-
-}
-
 std::pair<int, units::energy> iuse::autoclave( player *p, item *, bool, const tripoint &pos )
 {
     iexamine::autoclave_empty( *p, pos );
     return std::make_pair( 0, 0_J );
 }
 
-std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
-{
-    static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
-    static const units::energy energy_to_start = 50_kJ;
-    if( t ) {
-        if( !( it->units_sufficient() || it->energy_sufficient( *p ) ) ) {
-            it->deactivate();
-            return std::make_pair( 0, 0_J );
-        }
-
-        int cooktime = it->get_var( "COOKTIME", 0 );
-        cooktime -= 100;
-
-        if( cooktime >= 300 && cooktime < 400 ) {
-            //Smart or good cook or careful
-            /** @EFFECT_INT increases chance of checking multi-cooker on time */
-
-            /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
-            if( p->int_cur + p->get_skill_level( skill_cooking ) + p->get_skill_level( skill_survival ) > 16 ) {
-                add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
-            }
-        }
-
-        if( cooktime <= 0 ) {
-
-            it->deactivate();
-            it->erase_var( "COOKTIME" );
-            it->put_in( item::spawn( it->get_var( "DISH" ) ) );
-            it->erase_var( "DISH" );
-            //~ sound of a multi-cooker finishing its cycle!
-            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
-
-            return std::make_pair( 0, 0_J );
-        } else {
-            it->set_var( "COOKTIME", cooktime );
-            return std::make_pair( 0, 0_J );
-        }
-
-    } else {
-        enum {
-            mc_start, mc_stop, mc_take, mc_upgrade
-        };
-
-        if( p->is_underwater() ) {
-            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return std::make_pair( 0, 0_J );
-        }
-
-        if( p->has_trait( trait_ILLITERATE ) ) {
-            p->add_msg_if_player( m_info,
-                                  _( "You cannot read, and don't understand the screen or the buttons!" ) );
-            return std::make_pair( 0, 0_J );
-        }
-
-        if( p->has_effect( effect_hallu ) || p->has_effect( effect_visuals ) ) {
-            if( multicooker_hallu( *p ) ) {
-                return std::make_pair( 0, 0_J );
-            }
-        }
-
-        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !p->has_effect( effect_contacts ) ) {
-            p->add_msg_if_player( m_info,
-                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
-            return std::make_pair( 0, 0_J );
-        }
-
-        uilist menu;
-        menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
-
-        item *dish_it = it->contents.get_item_with(
-        []( const item & it ) {
-            return !( it.is_toolmod() || it.is_magazine() );
-        } );
-
-        if( it->is_active() ) {
-            menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
-        } else {
-            if( dish_it == nullptr ) {
-                if( it->energy_sufficient( *p, energy_to_start ) ) {
-                    p->add_msg_if_player( _( "Batteries are low." ) );
-                    return std::make_pair( 0, 0_J );
-                }
-                menu.addentry( mc_start, true, 's', _( "Start cooking" ) );
-
-                /** @EFFECT_ELECTRONICS >3 allows multicooker upgrade */
-
-                /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
-                if( p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3 ) {
-                    const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
-                    if( upgr.empty() ) {
-                        menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
-                    } else {
-                        if( upgr == "UPGRADE" ) {
-                            menu.addentry( mc_upgrade, false, 'u', _( "Multi-cooker already upgraded" ) );
-                        } else {
-                            menu.addentry( mc_upgrade, false, 'u', _( "Multi-cooker unable to upgrade" ) );
-                        }
-                    }
-                }
-            } else {
-                menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
-            }
-        }
-
-        menu.query();
-        int choice = menu.ret;
-
-        if( choice < 0 ) {
-            return std::make_pair( 0, 0_J );
-        }
-
-        if( mc_stop == choice ) {
-            if( query_yn( _( "Really stop cooking?" ) ) ) {
-                it->deactivate();
-                it->erase_var( "DISH" );
-                it->erase_var( "COOKTIME" );
-                it->erase_var( "RECIPE" );
-            }
-            return std::make_pair( 0, 0_J );
-        }
-
-        if( mc_take == choice ) {
-
-            detached_ptr<item> dish = it->remove_item( *dish_it );
-            const std::string dish_name = dish->tname( dish->charges, false );
-            if( dish->made_of( LIQUID ) ) {
-                if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
-                    p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
-                                          dish_name );
-
-                    return std::make_pair( 0, 0_J );
-                }
-                liquid_handler::handle_all_liquid( std::move( dish ), PICKUP_RANGE );
-            } else {
-                p->i_add( std::move( dish ) );
-            }
-
-            it->erase_var( "RECIPE" );
-            it->convert( itype_multi_cooker );
-            p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
-                                  dish_name );
-
-            return std::make_pair( 0, 0_J );
-        }
-
-        if( mc_start == choice ) {
-            uilist dmenu;
-            dmenu.text = _( "Choose desired meal:" );
-
-            std::vector<const recipe *> dishes;
-
-            inventory crafting_inv = g->u.crafting_inventory();
-            //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
-            const time_point bday = calendar::start_of_cataclysm;
-
-            crafting_inv.add_item( *item::spawn_temporary( "hotplate", bday ), false ); //hotplate inside
-            crafting_inv.add_item( *item::spawn_temporary( "tongs", bday ),
-                                   false ); //some recipes requires tongs
-            crafting_inv.add_item( *item::spawn_temporary( "toolset", bday ),
-                                   false ); //toolset with CUT and other qualities inside
-            crafting_inv.add_item( *item::spawn_temporary( "pot", bday ),
-                                   false ); //good COOK, BOIL, CONTAIN qualities inside
-
-            int counter = 0;
-
-            for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
-                if( multicooked_subcats.contains( r->subcategory ) ) {
-                    dishes.push_back( r );
-                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
-                                              crafting_inv, r->get_component_filter() );
-
-                    dmenu.addentry( counter++, can_make, -1, r->result_name() );
-                }
-            }
-
-            dmenu.query();
-
-            int choice = dmenu.ret;
-
-            if( choice < 0 ) {
-                return std::make_pair( 0, 0_J );
-            } else {
-                const recipe *meal = dishes[choice];
-                int mealtime;
-                if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time / 100;
-                } else {
-                    mealtime = meal->time * 2 / 100;
-                }
-
-                const units::energy all_charges = energy_to_start + it->energy_required() * mealtime;
-
-                if( it->energy_sufficient( *p, all_charges ) ) {
-
-                    p->add_msg_if_player( m_warning,
-                                          _( "The multi-cooker needs %s to cook this dish." ),
-                                          units::display( all_charges ) );
-
-                    return std::make_pair( 0, 0_J );
-                }
-
-                const auto filter = is_crafting_component;
-                const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( *p, filter );
-                if( !reqs ) {
-                    return std::make_pair( 0, 0_J );
-                }
-
-                for( const auto &component : reqs->get_components() ) {
-                    p->consume_items( component, 1, filter );
-                }
-
-                it->set_var( "RECIPE", meal->ident().str() );
-                it->set_var( "DISH", meal->result().str() );
-                it->set_var( "COOKTIME", mealtime );
-
-                p->add_msg_if_player( m_good,
-                                      _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
-
-                it->convert( itype_multi_cooker_filled );
-                it->activate();
-                it->energy_consume( energy_to_start, pos );
-
-                p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
-
-                return std::make_pair( 0, 0_J );
-            }
-        }
-
-        if( mc_upgrade == choice ) {
-
-            if( !p->has_morale_to_craft() ) {
-                p->add_msg_if_player( m_info, _( "Your morale is too low to craft…" ) );
-                return std::make_pair( 0, 0_J );
-            }
-
-            bool has_tools = true;
-
-            const inventory &cinv = g->u.crafting_inventory();
-
-            if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
-                p->add_msg_if_player( m_warning, _( "You need a %s." ),
-                                      item::nname( itype_soldering_iron ) );
-                has_tools = false;
-            }
-
-            static const quality_id SCREW_FINE( "SCREW_FINE" );
-            if( !cinv.has_quality( SCREW_FINE ) ) {
-                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
-                                      SCREW_FINE.obj().name );
-                has_tools = false;
-            }
-
-            if( !has_tools ) {
-                return std::make_pair( 0, 0_J );
-            }
-
-            p->practice( skill_electronics, rng( 5, 10 ) );
-            p->practice( skill_fabrication, rng( 5, 10 ) );
-
-            p->moves -= to_moves<int>( 7_seconds );
-
-            /** @EFFECT_INT increases chance to successfully upgrade multi-cooker */
-
-            /** @EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker */
-
-            /** @EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker */
-            if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur >
-                rng( 20, 35 ) ) {
-
-                p->practice( skill_electronics, rng( 5, 20 ) );
-                p->practice( skill_fabrication, rng( 5, 20 ) );
-
-                p->add_msg_if_player( m_good,
-                                      _( "You've successfully upgraded the multi-cooker, master tinkerer!  Now it cooks faster!" ) );
-
-                it->set_var( "MULTI_COOK_UPGRADE", "UPGRADE" );
-
-                return std::make_pair( 0, 0_J );
-
-            } else {
-
-                if( !one_in( 5 ) ) {
-                    p->add_msg_if_player( m_neutral,
-                                          _( "You sagely examine and analyze the multi-cooker, but don't manage to accomplish anything." ) );
-                } else {
-                    p->add_msg_if_player( m_bad,
-                                          _( "Your tinkering nearly breaks the multi-cooker!  Fortunately, it still works, but best to stop messing with it." ) );
-                    it->set_var( "MULTI_COOK_UPGRADE", "DAMAGED" );
-                }
-
-                return std::make_pair( 0, 0_J );
-
-            }
-
-        }
-
-    }
-
-    return std::make_pair( 0, 0_J );
-}
-
-std::pair<int, units::energy> iuse::tow_attach( player *p, item *it, bool, const tripoint & )
+static auto confirm_source_vehicle( const tripoint_abs_ms &global )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
     if( !p ) {
@@ -8365,17 +7958,102 @@ std::pair<int, units::energy> iuse::tow_attach( player *p, item *it, bool, const
             it->set_var( "source_z", g->get_levz() );
             set_cable_active( p, it, "pay_out_cable" );
         }
-    } else {
-        const auto confirm_source_vehicle = []( player * p, item * it, const bool detach_if_missing ) {
-            tripoint source_global( it->get_var( "source_x", 0 ),
-                                    it->get_var( "source_y", 0 ),
-                                    it->get_var( "source_z", 0 ) );
-            tripoint source_local = g->m.getlocal( source_global );
-            const optional_vpart_position source_vp = g->m.veh_at( source_local );
-            vehicle *const source_veh = veh_pointer_or_null( source_vp );
-            if( detach_if_missing && source_veh == nullptr ) {
-                if( p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+        case state_grid: {
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( posp );
+            if( !grid_connector ) {
+                who->add_msg_if_player( _( "There's no grid connector there." ) );
+                return tripoint_abs_ms_min;
+            }
+            break;
+        }
+        default:
+            return tripoint_abs_ms_min;
+    }
+    return posp;
+}
+
+static cable_state cable_menu( Character *who, cable_state &state, cable_state &state_other )
+{
+    const bool has_bio_cable = !who->get_remote_fueled_bionic().is_empty();
+    // const bool has_solar_pack = who->worn_with_flag( flag_SOLARPACK );
+    const bool has_solar_pack_on = who->worn_with_flag( flag_SOLARPACK_ON );
+    //const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
+    const bool has_ups = who->has_charges( itype_UPS, 1 );
+
+    const bool allow_self = state != state_self && state_other != state_self;
+    const bool allow_ups =  state_other == state_self ||
+                            ( state == state_none && state_other == state_none );
+    const bool allow_grid = state_other != state_UPS && state_other != state_solar_pack;
+
+    // Currently those bools equal provided counterparts, feel free to change those if it's needed in future
+    const bool allow_solar = allow_ups;
+    const bool allow_vehicle = allow_grid;
+
+    uilist kmenu;
+    kmenu.text = _( "Using cable:" );
+    if( state != state_none || state_other != state_none ) {
+        kmenu.addentry( state_none, true, -1,
+                        _( "Detach and re-spool the cable" ) );
+    }
+    kmenu.addentry( state_self, has_bio_cable && allow_self, -1, _( "Attach cable to self" ) );
+    kmenu.addentry( state_vehicle, allow_vehicle, -1, _( "Attach cable to vehicle" ) );
+    kmenu.addentry( state_grid, allow_grid, -1, _( "Attach cable to grid connector" ) );
+    kmenu.addentry( state_UPS, has_ups && allow_ups, -1, _( "Attach cable to ups" ) );
+    kmenu.addentry( state_solar_pack, has_solar_pack_on && allow_solar,
+                    -1, _( "Attach cable to solar pack" ) );
+
+    kmenu.query();
+    return cable_state( kmenu.ret );
+}
+
+
+static cable_state tow_cable_menu( cable_state &state, cable_state &state_other, bool towed )
+{
+    uilist kmenu;
+    kmenu.text = towed
+                 ? _( "Using cable tow cable. Attached vehicle will be towed:" )
+                 : _( "Using cable tow cable. Attached vehicle will tow the other:" );
+    if( state != state_none || state_other != state_none ) {
+        kmenu.addentry( state_none, true, -1, _( "Detach and re-spool the cable" ) );
+    }
+    kmenu.addentry( state_vehicle, true, -1, _( "Attach loose end to vehicle" ) );
+
+    kmenu.query();
+    return cable_state( kmenu.ret );
+}
+
+static void set_cable_active( player *const who, item *const it,
+                              const cable_connection_data &data )
+{
+    data.set_vars( it );
+    it->activate();
+    it->attempt_detach( [&who]( detached_ptr<item> &&e ) {
+        return item::process( std::move( e ), who, who->pos(), false );
+    } );
+    who->mod_moves( -15 );
+};
+
+std::pair<int, units::energy> iuse::tow_attach( player *who, item *cable, bool, const tripoint & )
+{
+    if( !who ) {
+        return 0;
+    }
+    auto data = cable_connection_data::make_data( cable );
+    if( !data ) {
+        return 0;
+    }
+    cable_connection_data::connection *last = nullptr;
+
+    if( data->con1.empty() ) {
+        last = &data->con1;
+        switch( data->con1.state = tow_cable_menu( data->con1.state, data->con2.state, false ) ) {
+            case state_none:
+                cable->reset_cable( who );
+                return 0;
+            case state_vehicle:
+                data->con1.point = process_map_connection( who, state_vehicle, true );
+                if( data->con1.point_valid() ) {
+                    set_cable_active( who, cable, data.value() );
                 }
                 it->reset_cable( p );
             }
@@ -9416,6 +9094,36 @@ std::pair<int, units::energy> iuse::amputate( player *, item *it, bool, const tr
     return res;
 }
 
+std::pair<int, units::energy> use_function::call( player &p, item &it, bool active,
+        const tripoint &pos ) const
+{
+    return actor->use( p, it, active, pos );
+}
+
+int iuse::bullet_vibe_on( player *p, item *it, bool t, const tripoint & )
+{
+    if( t ) { // Normal use
+        if( p->has_item( *it ) ) {
+            // Only triggers every 1 minute so that fatigue isn't ridiculous
+            if( calendar::once_every( 1_minutes ) ) {
+                p->add_morale( MORALE_FEELING_GOOD, 1, 30, 20_minutes, 10_minutes, true );
+                p->mod_fatigue( 1 );
+            }
+        }
+    } else {
+        // Most generic way to figure out the base item I can think of
+        // There's *probably* a better way to do this, but this works
+        std::string active_item = it->typeId().str();
+        std::string base_item = active_item.erase( active_item.rfind( '_' ) );
+
+        p->add_msg_if_player( _( "The %s turns off." ), it->display_name() );
+        it->convert( itype_id( base_item ) );
+        it->deactivate();
+
+    }
+    return it->type->charges_to_use();
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {
@@ -9434,8 +9142,3 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
     return actor->can_use( p, it, t, pos );
 }
 
-std::pair<int, units::energy> use_function::call( player &p, item &it, bool active,
-        const tripoint &pos ) const
-{
-    return actor->use( p, it, active, pos );
-}

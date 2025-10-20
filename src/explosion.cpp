@@ -682,8 +682,8 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                                          rl_distance );
                 const auto shockwave_dmg = damage_instance::physical( blast_damage, 0, 0, 0.4f );
 
-                player *player_ptr = critter->as_player();
-                if( player_ptr != nullptr ) {
+                if( critter->is_player() ) {
+                    player *player_ptr = critter->as_player();
                     player_ptr->add_msg_if_player( m_bad, _( "You're caught in the explosion!" ) );
 
                     struct blastable_part {
@@ -705,7 +705,6 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
 
                     for( const auto &blast_part : blast_parts ) {
                         const int part_dam = rng( blast_damage * blast_part.low_mul, blast_damage * blast_part.high_mul );
-                        const std::string hit_part_name = body_part_name_accusative( blast_part.bp->token );
                         const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blast_part.armor_mul );
                         const auto result = player_ptr->deal_damage( emitter.value_or( nullptr ), blast_part.bp,
                                             dmg_instance );
@@ -739,9 +738,8 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                                        real_velocity;
 
                 if( velocity >= 1.0 ) {
-                    player *player_ptr = critter->as_player();
-
-                    if( player_ptr != nullptr ) {
+                    if( critter->is_player() ) {
+                        player *player_ptr = critter->as_player();
                         player_flung = std::make_optional( player_ptr );
                     }
 
@@ -1435,11 +1433,11 @@ void explosion_funcs::regular( const queued_explosion &qe )
         base_noise = shr.value().impact.total_damage();
     }
 
-    const int noise = base_noise / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
-    if( noise >= 30 ) {
+    const int noise = base_noise * ( ex.fire ? 2 : 10 );
+    if( noise >= 1000 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
-    } else if( noise >= 4 ) {
+    } else if( noise >= 100 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ), false, "explosion",
                        "default" );
     } else if( noise > 0 ) {

@@ -11,7 +11,7 @@
 #include "type_id.h"
 
 template<typename T>
-void test_serialization( const T &val, const std::string &s )
+static void test_serialization( const T &val, const std::string &s )
 {
     CAPTURE( val );
     {
@@ -85,7 +85,7 @@ static void test_translation_text_style_check( Matcher &&matcher, const std::str
     CHECK_THAT( dmsg, matcher );
 }
 
-TEST_CASE( "translation_text_style_check", "[json][translation]" )
+TEST_CASE( "translation_text_style_check", "[json][translation][.]" )
 {
     // this test case is mainly for checking the caret position.
     // the text style check itself is tested in the lit test of clang-tidy.
@@ -172,7 +172,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
         R"({"str": "\u2026foo. bar."})" ); // NOLINT(cata-text-style)
 }
 
-TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" )
+TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation][.]" )
 {
     restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
     error_log_format = error_log_format_t::human_readable;

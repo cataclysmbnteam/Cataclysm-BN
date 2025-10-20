@@ -84,7 +84,16 @@
         ]
       },
       {
-        "distribution": [ { "item": "cash_card", "prob": 75, "charges": [ 25000, 100000 ] }, { "group": "survivor_currency", "prob": 25 } ]
+        "distribution": [
+          {
+            "distribution": [
+              { "item": "cash_card", "prob": 50, "charges": [ 25000, 100000 ] },
+              { "item": "money_bundle", "prob": 50, "count": [ 2, 4 ] }
+            ],
+            "prob": 75
+          },
+          { "group": "survivor_currency", "prob": 25 }
+        ]
       },
       { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
     ]
@@ -209,7 +218,13 @@
       },
       {
         "distribution": [
-          { "item": "cash_card", "prob": 25, "charges": [ 50000, 150000 ] },
+          {
+            "distribution": [
+              { "item": "cash_card", "prob": 50, "charges": [ 50000, 150000 ] },
+              { "item": "money_bundle", "prob": 50, "count": [ 3, 6 ] }
+            ],
+            "prob": 25
+          },
           { "group": "survivor_currency", "prob": 75, "count": 2 }
         ]
       }

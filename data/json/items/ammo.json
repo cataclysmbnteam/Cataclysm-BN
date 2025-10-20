@@ -129,7 +129,6 @@
     "volume": "250 ml",
     "weight": "90 g",
     "ammo_type": "soap",
-    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "count": 10,
     "stack_size": 10
   },
@@ -173,7 +172,7 @@
     "id": "cable",
     "category": "scrap_electronics",
     "price": "20 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "4 USD",
     "name": { "str": "copper wire" },
     "symbol": "=",
     "color": "dark_gray",

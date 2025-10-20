@@ -293,11 +293,17 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
+    optional( jo, was_loaded, "allowed_items_only", allowed_items_only, false );
     optional( jo, was_loaded, "cost", cost, 0 );
     optional( jo, was_loaded, "time", cooldown, 0 );
     optional( jo, was_loaded, "hunger", hunger, false );
+    optional( jo, was_loaded, "bionic", bionic, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "stamina", stamina, false );
+    optional( jo, was_loaded, "mana", mana, false );
+    optional( jo, was_loaded, "health", health, false );
+    optional( jo, was_loaded, "pain", pain, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -384,6 +390,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "night_vision_range", night_vision_range, 0.0f );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "packmule_modifier", packmule_modifier, 1.0f );
+    optional( jo, was_loaded, "crafting_speed_modifier", crafting_speed_modifier, 1.0f );
+    optional( jo, was_loaded, "construction_speed_modifier", construction_speed_modifier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );
@@ -493,6 +502,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
         restricts_gear.insert( get_body_part_token( line ) );
+    }
+
+    for( const std::string line : jo.get_array( "allowed_items" ) ) {
+        allowed_items.insert( flag_id( line ) );
     }
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {

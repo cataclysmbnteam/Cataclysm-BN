@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -236,6 +237,7 @@ class game
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        std::optional<tripoint> find_stairs( map &mp, int z_after, bool peeking );
         std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
@@ -438,7 +440,7 @@ class game
          */
         bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -484,7 +486,7 @@ class game
         /** process vehicles that are following the player */
         void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, Character *who,
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
@@ -515,13 +517,17 @@ class game
         Creature *is_hostile_very_close();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( player &p );
+        point update_map( Character &who );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
+        void process_artifact( item &it, Character &who );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
         void add_artifact_dreams( );
+
+        static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type );
+        std::optional<tripoint> find_local_stairs_leading_to( map &mp, const int z_after );
+        void suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction );
 
         void peek();
         void peek( const tripoint &p );
@@ -580,11 +586,13 @@ class game
         void reload_tileset( const std::function<void( std::string )> &out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
-        void set_zoom( int level );
-        int get_zoom() const;
+        void set_zoom( float level );
+        float get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
@@ -1037,7 +1045,8 @@ class game
         int user_action_counter = 0; // Times the user has input an action
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom = 0;
+        float tileset_zoom = 0;
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0;

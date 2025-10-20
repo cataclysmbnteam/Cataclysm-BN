@@ -153,6 +153,12 @@ static q_result prompt_warnings( const Character &who, const item &target,
             return result;
         }
     }
+    if( recipe_dictionary::get_uncraft( target.typeId() ) ) {
+        auto result = yn_ignore_query( _( "This item could be disassembled instead, salvage anyway?" ) );
+        if( result != q_result::yes ) {
+            return result;
+        }
+    }
     return q_result::yes;
 }
 
@@ -169,10 +175,9 @@ static std::vector<std::pair< material_id, float>> salvage_result_proportions(
     return salvagable_materials;
 }
 
-//Returns vector of pairs <item id, count>
-std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
+std::unordered_map< itype_id, float> salvage_results( const item &target )
 {
-    std::vector<std::pair< itype_id, float>> salvagable_materials;
+    std::unordered_map<itype_id, float> salvagable_materials;
     //For now we assume that proportions for all materials are equal
     for( auto &material : salvage_result_proportions( target ) ) {
         auto res = material.first->salvaged_into();
@@ -181,8 +186,7 @@ std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
             auto t_mass = target.weight().value();
             auto r_mass = ( **res ).weight.value();
             //cuz we need actual float here
-            auto cnt = t_mass * material.second / r_mass;
-            salvagable_materials.emplace_back( *res, cnt );
+            salvagable_materials[*res] += t_mass * material.second / r_mass;
         }
     }
     return salvagable_materials;
@@ -229,13 +233,11 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     for( const auto &salvaged : salvage_results( cut ) ) {
         int amount = std::floor( salvagable_percent * salvaged.second );
         if( amount > 0 ) {
-            item &result = *item::spawn_temporary( salvaged.first, calendar::turn );
             // Time based on number of components.
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
-                     amount, result.display_name( amount ) );
-            for( ; amount > 0; --amount ) {
-                here.add_item_or_charges( pos_here, item::spawn( result ) );
-            }
+                     amount, salvaged.first->nname( amount ) );
+            // Done this way so that items with charges > 1 or no support for charges work correctly
+            here.spawn_item( pos_here, salvaged.first, amount, 1 );
         } else {
             add_msg( m_bad, _( "Could not salvage a %s." ), salvaged.first->nname( 1 ) );
         }
@@ -429,9 +431,15 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
                     case salvage::q_result::fail:
                     case salvage::q_result::skip:
                         targets.erase( targets.begin() );
+                        // If we skipped everything, cancel or we'll crash.
+                        if( targets.empty() ) {
+                            act.set_to_null();
+                            add_msg( _( "Never mind." ) );
+                        }
                         break;
                     case salvage::q_result::abort:
                         act.set_to_null();
+                        add_msg( _( "Never mind." ) );
                         break;
                     default:
                         break;

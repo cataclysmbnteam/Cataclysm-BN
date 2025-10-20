@@ -5,6 +5,7 @@
 #include <cstring>
 #include <chrono>
 
+#include "catacharset.h"
 #include "game.h"
 #include "avatar.h"
 #include "debug.h"
@@ -98,16 +99,6 @@ void WORLDINFO::COPY_WORLD( const WORLDINFO *world_to_copy )
     WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
     world_save_format = world_to_copy->world_save_format;
     active_mod_order = world_to_copy->active_mod_order;
-}
-
-bool WORLDINFO::needs_lua() const
-{
-    for( const mod_id &mod : active_mod_order ) {
-        if( mod.is_valid() && mod->lua_api_version ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool WORLDINFO::save_exists( const save_t &name ) const
@@ -650,7 +641,11 @@ sqlite3 *world::get_player_db()
     }
 
     if( last_save_id != g->u.get_save_id() ) {
-        throw std::runtime_error( "Save ID changed without reloading the world object" );
+        copy_file(
+            info->folder_path() + "/" + base64_encode( last_save_id ) + ".sqlite3",
+            info->folder_path() + "/" + base64_encode( g->u.get_save_id() ) + ".sqlite3"
+        );
+        save_db = open_db( info->folder_path() + "/" + get_player_path() + ".sqlite3" );
     }
 
     return save_db;

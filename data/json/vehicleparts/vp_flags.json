@@ -55,6 +55,13 @@
     "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
   },
   {
+    "id": "CONTROL_WITHOUT_HANDS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Allows you to fire two-handed weapons while driving.",
+    "requires_flag": "STEERABLE"
+  },
+  {
     "id": "COVERED",
     "type": "json_flag",
     "context": [ "vehicle_part" ],

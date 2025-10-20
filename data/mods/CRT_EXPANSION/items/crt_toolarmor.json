@@ -56,7 +56,8 @@
       "GAS_PROOF",
       "RECHARGE",
       "NO_UNLOAD",
-      "SLEEP_IGNORE"
+      "SLEEP_IGNORE",
+      "COMBAT_NPC_USE"
     ]
   },
   {
@@ -112,7 +113,9 @@
       "GAS_PROOF",
       "RECHARGE",
       "NO_UNLOAD",
-      "SLEEP_IGNORE"
+      "SLEEP_IGNORE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ]
   },
   {
@@ -166,7 +169,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER", "COMBAT_NPC_USE", "ALLOWS_WINGS" ]
   },
   {
     "id": "crt_em_vest_on",
@@ -221,7 +224,11 @@
       "RECHARGE",
       "NO_UNLOAD",
       "OUTER",
-      "HEAVY_WEAPON_SUPPORT"
+      "HEAVY_WEAPON_SUPPORT",
+      "ALLOWS_TAIL_SNAKE",
+      "ALLOWS_WINGS",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ]
   },
   {
@@ -290,5 +297,30 @@
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE"
+  },
+  {
+    "id": "crt_solarpack",
+    "copy-from": "molle_pack",
+    "type": "TOOL_ARMOR",
+    "name": "C.R.I.T solarpack",
+    "description": "C.R.I.T special-issue pack. This is based on the MOLLE backpack's design, but comes with a integrated UPS and a few protected but interwoven solar cells",
+    "storage": "9 L",
+    "encumbrance": 2,
+    "max_encumbrance": 7,
+    "material_thickness": 2,
+    "material": [ "leather", "kevlar", "glass" ],
+    "max_charges": 1000,
+    "initial_charges": 1000,
+    "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS", "ALLOWS_WINGS" ],
+    "relic_data": {
+      "recharge_scheme": [
+        {
+          "type": "solar",
+          "//": "Recharge 0.025 Kilojoule per second, sun produces ~680 W/m^2, so it realistic for protected panels",
+          "interval": "40 s",
+          "rate": 1
+        }
+      ]
+    }
   }
 ]

@@ -3,10 +3,8 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstddef>
 #include <cstdlib>
 #include <memory>
-#include <unordered_map>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -21,6 +19,7 @@
 #include "input.h"
 #include "melee.h"
 #include "mutation.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "pldata.h"
@@ -52,6 +51,23 @@ static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
+
+static nc_color encumb_color( int level )
+{
+    if( level < 0 ) {
+        return c_green;
+    }
+    if( level < 10 ) {
+        return c_light_gray;
+    }
+    if( level < 40 ) {
+        return c_yellow;
+    }
+    if( level < 70 ) {
+        return c_light_red;
+    }
+    return c_red;
+}
 
 static int get_temp_conv( const Character &c, const bodypart_str_id &bp )
 {
@@ -259,27 +275,27 @@ static std::string dodge_skill_text( double mod )
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
-static int get_encumbrance( const Character &p, body_part bp, bool combine )
+static int get_encumbrance( const Character &who, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
     const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
-    return p.encumb( convert_bp( bp ) ) * ( ( combine && combines_with_other ) ? 2 : 1 );
+    return who.encumb( convert_bp( bp ) ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const Character &p, const bodypart_str_id &bp,
+static std::string get_encumbrance_description( const Character &who, const bodypart_str_id &bp,
         bool combine )
 {
     std::string s;
 
-    const int eff_encumbrance = get_encumbrance( p, bp->token, combine );
+    const int eff_encumbrance = get_encumbrance( who, bp->token, combine );
 
     switch( bp->token ) {
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
+            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - who.get_skill_level(
                                      skill_swimming ) * 3 ) );
             s += melee_cost_text( eff_encumbrance );
             break;
@@ -314,12 +330,12 @@ static std::string get_encumbrance_description( const Character &p, const bodypa
                                 -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                ranged::aim_speed_encumbrance_modifier( p ) );
+                                ranged::aim_speed_encumbrance_modifier( who ) );
             break;
         case bp_leg_l:
         case bp_leg_r:
             s += run_cost_text( static_cast<int>( eff_encumbrance * 0.15 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - p.get_skill_level(
+            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - who.get_skill_level(
                                      skill_swimming ) * 2 ) / 2 );
             s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
             break;
@@ -1200,6 +1216,18 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         .query();
 
         you.custom_profession = popup.text();
+        add_msg( "You now consider yourself to be a %s.", popup.text() );
+        ui_tip.invalidate_ui();
+    } else if( action == "CHANGE_NAME" ) {
+        string_input_popup popup;
+        popup.title( _( "Name: " ) )
+        .width( 50 )
+        .text( "" )
+        .max_length( 50 )
+        .query();
+
+        you.name = popup.text();
+        add_msg( "From now on, you will refer to yourself as '%s.'", popup.text() );
         ui_tip.invalidate_ui();
     }
     return done;
@@ -1370,6 +1398,7 @@ void character_display::disp_info( Character &ch )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
+    ctxt.register_action( "CHANGE_NAME", to_translation( "Change name" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;

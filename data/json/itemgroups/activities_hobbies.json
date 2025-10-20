@@ -169,7 +169,8 @@
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
       [ "misc_repairkit", 5 ],
-      [ "mess_kit", 10 ],
+      [ "gasoline_cooker", 5 ],
+      [ "mess_kit", 5 ],
       [ "pot", 20 ],
       [ "inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
@@ -182,10 +183,12 @@
       [ "hotplate", 10 ],
       [ "popcan_stove", 10 ],
       [ "coffeemaker", 5 ],
+      [ "folding_wagon", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
       [ "gps_device", 5 ],
+      [ "scouter", 4 ],
       [ "knife_heat", 10 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
@@ -318,7 +321,8 @@
       [ "straw_hat", 5 ],
       [ "l-stick", 1 ],
       [ "tourist_table", 30 ],
-      [ "trailmap", 5 ],
+      [ "trailmap", 4 ],
+      [ "waterwaymap", 1 ],
       [ "chem_hexamine", 5 ],
       [ "flint_steel", 10 ],
       [ "bottle_metal", 5 ],
@@ -333,8 +337,8 @@
       [ "survival_kit", 30 ],
       [ "premium_survival_kit", 3 ],
       [ "wire_saw", 10 ],
-      [ "butane_can", 20 ],
-      [ "butane_tank", 15 ]
+      { "item": "chem_butane", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "chem_butane", "prob": 15, "container-item": "metal_tank_little" }
     ]
   },
   {

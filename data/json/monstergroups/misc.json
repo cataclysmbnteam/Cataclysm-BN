@@ -101,7 +101,9 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
+      { "monster": "mon_bat_pup", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_bat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_bat_vampire", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_bobcat", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_chicken", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_chipmunk", "freq": 10, "cost_multiplier": 1 },
@@ -181,6 +183,27 @@
         "pack_size": [ 6, 12 ],
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
+      {
+        "monster": "mon_bat_pup",
+        "freq": 1,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 6 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bat_vampire",
+        "freq": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bat_vampire_mutant",
+        "freq": 10,
+        "cost_multiplier": 15,
+        "pack_size": [ 1, 3 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_spider_widow_giant", "freq": 30, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_giant_cockroach", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
       { "monster": "mon_black_rat", "freq": 30, "cost_multiplier": 1, "pack_size": [ 4, 8 ] },
@@ -189,6 +212,23 @@
       { "monster": "mon_zombie", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_rot", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
       { "monster": "mon_beekeeper", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_UNDERWATER_PEST",
+    "default": "mon_zombie_swimmer",
+    "monsters": [
+      { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_sewer_fish", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_sewer_snake", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_gator", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zhark", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_mutant_carp", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_mutant_salmon", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_blob_carpet", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_giant_crayfish", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_razorclaw", "freq": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
   },
   {

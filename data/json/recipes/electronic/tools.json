@@ -665,7 +665,6 @@
     "time": "45 m",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
       [ [ "zinc_metal", 2 ] ],
@@ -685,7 +684,6 @@
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
       [ [ "zinc_metal", 6 ] ],
@@ -705,7 +703,6 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
       [ [ "zinc_metal", 24 ] ],
@@ -725,7 +722,6 @@
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
       [ [ "zinc_metal", 50 ] ],
@@ -893,5 +889,109 @@
       [ [ "pipe", 8 ] ],
       [ [ "sheet_metal_small", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "scouter",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 7,
+    "book_learn": [ [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "VOLT_MEASURE", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "game_watch", 1 ], [ "smart_phone", 1 ], [ "laptop", 1 ] ],
+      [ [ "gps_device", 1 ] ],
+      [ [ "geiger_off", 1 ] ],
+      [ [ "goggles_nv", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "e_scrap", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "gps_device",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "book_learn": [ [ "radio_book", 2 ], [ "textbook_anarch", 3 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "amplifier", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "mil_gps_device",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "computer",
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_lab_elec", 5 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "software_hacking", -1 ], [ "control_laptop", -1 ] ] ],
+    "components": [ [ [ "gps_device", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mil_scouter",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mil_gps_device", -1 ] ] ],
+    "components": [ [ [ "scouter", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "multi_cooker_improved",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "e_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bullet_vibrator",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
   }
 ]

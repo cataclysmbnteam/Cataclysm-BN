@@ -16,6 +16,14 @@
     "chance": 2
   },
   {
+    "id": "emit_blunt_trail",
+    "type": "emit",
+    "//": "Intermittent blunt smoke",
+    "field": "fd_bluntsmoke",
+    "intensity": 3,
+    "chance": 2
+  },
+  {
     "id": "emit_AEP_SMOKE",
     "type": "emit",
     "//": "Intermittent smoke from an artifact",
@@ -61,6 +69,14 @@
     "type": "emit",
     "//": "Steady stream of thick smoke (example: smoke bomb)",
     "field": "fd_smoke",
+    "intensity": 3,
+    "qty": 24
+  },
+  {
+    "id": "emit_toxic_stream",
+    "type": "emit",
+    "//": "Steady stream of toxic gas",
+    "field": "fd_toxic_gas",
     "intensity": 3,
     "qty": 24
   },
@@ -142,6 +158,14 @@
     "field": "fd_shadow",
     "intensity": 1,
     "qty": 10,
+    "chance": 100
+  },
+  {
+    "id": "emit_shadow_field_darkfield",
+    "type": "emit",
+    "field": "fd_shadow",
+    "intensity": 1,
+    "qty": 900,
     "chance": 100
   },
   {
@@ -266,6 +290,21 @@
     "qty": 1
   },
   {
+    "id": "emit_hot_air_geyser",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 1000,
+    "chance": 100
+  },
+  {
+    "id": "emit_hot_air_migo_clogged",
+    "type": "emit",
+    "field": "fd_hot_air_sauna",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
     "id": "emit_hot_air_migo_seep",
     "type": "emit",
     "field": "fd_hot_air_sauna",
@@ -285,6 +324,14 @@
     "field": "fd_migo_atmosphere",
     "intensity": 3,
     "qty": 300
+  },
+  {
+    "id": "emit_migo_atmosphere_clogged",
+    "type": "emit",
+    "field": "fd_migo_atmosphere",
+    "intensity": 1,
+    "qty": 1,
+    "chance": 10
   },
   {
     "id": "emit_migo_atmosphere_seep",

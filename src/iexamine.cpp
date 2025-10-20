@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "action.h"
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 // TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
@@ -129,6 +130,7 @@ static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_money_bundle( "money_bundle" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
@@ -190,6 +192,7 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
+static const trait_id trait_DEBUG_NOCLIP( "DEBUG_NOCLIP" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -213,6 +216,7 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLIMBABLE( "CLIMBABLE" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
@@ -399,7 +403,7 @@ class atm_menu
     public:
         // menu choices
         enum options : int {
-            cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
+            cancel, purchase_card, deposit_money, withdraw_money, deposit_cash, withdraw_cash, transfer_all_money
         };
 
         atm_menu()                           = delete;
@@ -424,6 +428,12 @@ class atm_menu
                     case withdraw_money:
                         result = do_withdraw_money();
                         break;
+                    case deposit_cash:
+                        result = do_deposit_cash();
+                        break;
+                    case withdraw_cash:
+                        result = do_withdraw_cash();
+                        break;
                     case transfer_all_money:
                         result = do_transfer_all_money();
                         break;
@@ -436,6 +446,9 @@ class atm_menu
             }
         }
     private:
+        int value_of_money_bundle = item::spawn_temporary( itype_money_bundle,
+                                    calendar::start_of_cataclysm )->price( false );
+
         void add_choice( const int i, const char *const title ) {
             amenu.addentry( i, true, -1, title );
         }
@@ -454,6 +467,7 @@ class atm_menu
 
         //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
         void reset( const bool clear = true ) {
+            const int cash_amount   = u.amount_of( itype_money_bundle );
             const int card_count   = u.amount_of( itype_cash_card );
             const int charge_count = card_count ? u.charges_of( itype_cash_card ) : 0;
 
@@ -467,32 +481,49 @@ class atm_menu
                                         format_money( u.cash ) );
 
             if( u.cash >= 1000 ) {
-                add_choice( purchase_card, _( "Purchase cash card?" ) );
+                add_choice( purchase_card, _( "Purchase cash card" ) );
             } else {
                 add_info( purchase_card, _( "You need $10.00 in your account to purchase a card." ) );
             }
 
+            if( u.cash > value_of_money_bundle ) {
+                add_choice( withdraw_cash, _( "Withdraw cash" ) );
+            } else if( u.cash < 0 ) {
+                add_info( withdraw_cash,
+                          _( "You need to pay down your debt before withdrawing cash!" ) );
+            } else {
+                add_info( withdraw_cash,
+                          _( "You don't have enough to withdraw a money bundle!" ) );
+            }
+
+            if( cash_amount > 0 ) {
+                add_choice( deposit_cash, _( "Deposit cash" ) );
+            } else {
+                add_info( deposit_cash,
+                          _( "You need cash to deposit!" ) );
+            }
+
             if( card_count && u.cash > 0 ) {
-                add_choice( withdraw_money, _( "Withdraw Money" ) );
+                add_choice( withdraw_money, _( "Withdraw onto cash card" ) );
             } else if( u.cash > 0 ) {
                 add_info( withdraw_money, _( "You need a cash card before you can withdraw money!" ) );
             } else if( u.cash < 0 ) {
                 add_info( withdraw_money,
-                          _( "You need to pay down your debt first!" ) );
+                          _( "You need to pay down your debt before withdrawing money onto a card!" ) );
             } else {
                 add_info( withdraw_money,
                           _( "You need money in your account before you can withdraw money!" ) );
             }
 
             if( charge_count ) {
-                add_choice( deposit_money, _( "Deposit Money" ) );
+                add_choice( deposit_money, _( "Deposit from cash card" ) );
             } else {
                 add_info( deposit_money,
                           _( "You need a charged cash card before you can deposit money!" ) );
             }
 
             if( card_count >= 2 && charge_count ) {
-                add_choice( transfer_all_money, _( "Transfer All Money" ) );
+                add_choice( transfer_all_money, _( "Combine cash cards" ) );
             }
         }
 
@@ -536,6 +567,32 @@ class atm_menu
             u.i_add( std::move( card ) );
             u.cash -= 1000;
             u.moves -= to_turns<int>( 5_seconds );
+            finish_interaction();
+
+            return true;
+        }
+
+        //!Deposit money from cash card into bank account.
+        bool do_deposit_cash() {
+            int money = u.charges_of( itype_money_bundle );
+
+            if( !money ) {
+                popup( _( "You can only deposit money from charged cash cards!" ) );
+                return false;
+            }
+
+            const int amount = prompt_for_amount( vgettext(
+                    "Deposit how many bundles?  Max: %d bundles.  (0 to cancel) ",
+                    "Deposit how many bundles?  Max: %d bundles.  (0 to cancel) ", money ),
+                                                  money );
+
+            if( !amount ) {
+                return false;
+            }
+
+            u.use_charges( itype_money_bundle, amount );
+            u.cash += amount * value_of_money_bundle;
+            u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -596,6 +653,31 @@ class atm_menu
             dst->charges += amount;
             u.cash -= amount;
             u.moves -= to_turns<int>( 10_seconds );
+            finish_interaction();
+
+            return true;
+        }
+
+        //!Move money from bank account onto cash card.
+        bool do_withdraw_cash() {
+            const int amount = prompt_for_amount( vgettext(
+                    "Withdraw how much?  Max: %d bundles.  (0 to cancel) ",
+                    "Withdraw how much?  Max: %d bundles.  (0 to cancel) ", u.cash / value_of_money_bundle ),
+                                                  u.cash / value_of_money_bundle );
+
+            if( !amount ) {
+                return false;
+            }
+
+            for( int i = 0; i < amount; i++ ) {
+                detached_ptr<item> card = item::spawn( "money_bundle", calendar::turn );
+
+                u.i_add( std::move( card ) );
+                u.cash -= value_of_money_bundle;
+            }
+
+            u.moves -= to_turns<int>( 5_seconds );
+
             finish_interaction();
 
             return true;
@@ -1357,6 +1439,22 @@ static void apply_prying_tool( player &p, item *it, const tripoint &examp )
     iuse::crowbar( &p, it, false, examp );
 }
 
+static time_duration safecracking_time( const player &p )
+{
+    time_duration time = 120_minutes;
+    time -= 10_minutes * p.get_skill_level( skill_mechanics );
+    if( p.get_per() > 10 ) {
+        time -= 5_minutes * ( p.get_per() - 10 );
+    }
+    // Count Safecracking tools (stethoscopes) as 2 perception
+    if( p.has_item_with_flag( flag_SAFECRACK ) ) {
+        time -= 10_minutes;
+    }
+    // Should take longer with poor hearing, hence the negative possibility
+    time -= ( 5_minutes * ( p.hearing_ability() - 1 ) );
+    return std::max( time, 5_minutes );
+}
+
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
  *
@@ -1419,8 +1517,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         add_msg( m_info, safecracking_message );
         // 120 minutes - 10 minutes per mechanics point, - 5 per perception point above 10;
         // capped at 5 minutes minimum.
-        const time_duration time = std::max( 120_minutes - 10_minutes * p.get_skill_level(
-                skill_mechanics ) - 5_minutes * ( std::max( p.get_per(), 10 ) - 10 ), 5_minutes );
+        const time_duration time = safecracking_time( p );
 
         p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
         p.activity->placement = examp;
@@ -1605,6 +1702,9 @@ void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
     std::string prompt;
+    const bool furn_is_deployed = !g->m.furn( pos ).obj().deployed_item.is_empty();
+    const bool can_climb = g->m.has_flag( flag_CLIMBABLE, pos ) ||
+                           g->m.has_flag( flag_CLIMB_SIMPLE, pos );
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
@@ -1618,6 +1718,12 @@ void iexamine::transform( player &p, const tripoint &pos )
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     selection_menu.addentry( 1, true, 't', !prompt.empty() ? _( prompt ) : _( "Transform furniture" ) );
+    if( furn_is_deployed ) {
+        selection_menu.addentry( 2, true, 'T', _( "Take down the %s" ), g->m.furnname( pos ) );
+    }
+    if( can_climb ) {
+        selection_menu.addentry( 3, true, 'c', _( "Climb %s" ), g->m.furnname( pos ) );
+    }
     selection_menu.query();
 
     switch( selection_menu.ret ) {
@@ -1637,6 +1743,18 @@ void iexamine::transform( player &p, const tripoint &pos )
                 }
                 g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
             }
+            return;
+        }
+        case 2: {
+            add_msg( m_info, _( "You take down the %s." ),
+                     g->m.furnname( pos ) );
+            const auto furn_item = g->m.furn( pos ).obj().deployed_item;
+            g->m.add_item_or_charges( pos, item::spawn( furn_item, calendar::turn ) );
+            g->m.furn_set( pos, f_null );
+            return;
+        }
+        case 3: {
+            iexamine::chainfence( p, pos );
             return;
         }
         default:
@@ -1862,6 +1980,14 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
+    if( harvest->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
+        harvest->set_flag( flag_HIDDEN_POISON );
+        harvest->poison = rng( 2, 7 );
+    }
+    if( harvest->has_flag( flag_FORAGE_HALLU ) && !harvest->has_flag( flag_HIDDEN_POISON ) &&
+        one_in( 10 ) ) {
+        harvest->set_flag( flag_HIDDEN_HALLU );
+    }
     // Drop items that're exceed available space and things that aren't comestibles
     if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -2059,7 +2185,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "both" );
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
         map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
@@ -2069,7 +2196,8 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "both" );
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
         map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
@@ -2081,6 +2209,7 @@ void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( harvest_common( p, examp, false, true, auto_forage ) ) {
         map &here = get_map();
@@ -2092,6 +2221,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( harvest_common( p, examp, false, false, auto_forage ) ) {
         map &here = get_map();
@@ -3466,6 +3596,9 @@ detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<it
             liquid->charges--;
         }
         add_msg( _( "You pour %1$s into the %2$s." ), obj.tname(), keg_name );
+        if( liquid->charges == 0 ) {
+            return detached_ptr<item>();
+        }
     }
 
     return std::move( liquid );
@@ -4636,6 +4769,34 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
+    if( p.in_vehicle ) {
+        if( !character_funcs::can_fly( p ) ) {
+            add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
+            return;
+        } else {
+            get_map().unboard_vehicle( p.pos() );
+        }
+    }
+    if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
+        tripoint where = p.pos();
+        tripoint below = where;
+        below.z--;
+
+        // Keep going down until we find a tile that is NOT open air
+        while( get_map().ter( below ).id().str() == "t_open_air" &&
+               get_map().valid_move( where, below, false, true ) ) {
+            where.z--;
+            below.z--;
+        }
+
+        // where now represents the first NON-open-air tile or the last valid move before hitting one
+        const int height = p.pos().z - below.z;
+
+        if( height > 0 ) {
+            g->vertical_move( -height, true );  // fall onto the solid tile
+            return;
+        }
+    }
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );

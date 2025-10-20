@@ -1886,7 +1886,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         }
         player_veh = &vp->vehicle();
         // for now we can only handle flyers if already in the air
-        const bool can_fly = player_veh->is_rotorcraft() && player_veh->is_flying_in_air();
+        const bool can_fly = player_veh->is_aircraft() && player_veh->is_flying_in_air();
         const bool can_float = player_veh->can_float();
         const bool can_drive = player_veh->valid_wheel_config();
         // TODO: check engines/fuel
@@ -1919,12 +1919,12 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
     }
 }
 
-static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
+static float overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                                  const draw_data_t &data = draw_data_t() )
 {
-    const int previous_zoom = g->get_zoom();
+    const float previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
     on_out_of_scope reset_zoom( [&]() {
         overmap_zoom_level = g->get_zoom();
@@ -2054,10 +2054,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
         } else if( action == "ZOOM_OUT" ) {
-            g->zoom_out();
+            g->zoom_out_overmap();
             ui.mark_resize();
         } else  if( action == "ZOOM_IN" ) {
-            g->zoom_in();
+            g->zoom_in_overmap();
             ui.mark_resize();
         } else if( action == "CONFIRM" ) {
             ret = curs;

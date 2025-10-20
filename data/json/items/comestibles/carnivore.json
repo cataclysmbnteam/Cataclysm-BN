@@ -682,7 +682,8 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -802,6 +803,7 @@
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
+    "spoils_in": "0 days",
     "quench": 5,
     "healthy": -8,
     "price_postapoc": "10 cent",
@@ -928,7 +930,7 @@
     "charges": 2,
     "stack_size": 4,
     "fun": -18,
-    "flags": [ "UNSAFE_CONSUME", "NO_SALVAGE", "UNRECOVERABLE" ],
+    "flags": [ "UNSAFE_CONSUME" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {

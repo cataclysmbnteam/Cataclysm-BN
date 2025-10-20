@@ -62,6 +62,8 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
+
 using item_count = std::pair<item *, int>;
 using pickup_map = std::map<std::string, item_count>;
 
@@ -158,15 +160,15 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     offered_swap = true;
     // TODO: Gray out if not enough hands
     // TODO: Calculate required hands vs freed hands
+    if( it.is_armor() ) {
+        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name() );
+    }
     if( u.is_armed() ) {
         amenu.addentry( WIELD, !u.primary_weapon().has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ), 'w',
                         _( "Dispose of %s and wield %s" ), u.primary_weapon().display_name(),
                         it.display_name() );
     } else {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
-    }
-    if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name() );
     }
     if( has_children ) {
         // TODO: Fix problematic pickup due to child weight when parent alone is also too heavy
@@ -1270,6 +1272,10 @@ int pickup::cost_to_move_item( const Character &who, const item &it )
         // No free hand? That will cost you extra
         ret += 20;
     }
+    if( who.has_trait( trait_DEBUG_STORAGE ) ) {
+        return ret;
+    }
+
     const int delta_weight = units::to_gram( it.weight() - who.weight_capacity() );
     // Is it too heavy? It'll take 10 moves per kg over limit
     ret += std::max( 0, delta_weight / 100 );

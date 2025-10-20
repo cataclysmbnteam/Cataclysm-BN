@@ -16,15 +16,19 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "sewing_standard", 2 ], [ "fabric_standard", 1 ] ] }
+      "repair": {
+        "skills": [ [ "tailor", 2 ], [ "tailor", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
+      }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": "ig_vp_cloth"
   },
   {
     "type": "vehicle_part",
     "abstract": "basketlg_abstract",
-    "name": { "str": "shopping cart basket" },
+    "name": { "str": "large wire basket" },
     "symbol": "o",
     "looks_like": "basketsm",
     "color": "brown",
@@ -62,7 +66,7 @@
   {
     "id": "basketlg_external",
     "type": "vehicle_part",
-    "name": { "str": "external shopping cart basket" },
+    "name": { "str": "external large wire basket" },
     "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
@@ -89,7 +93,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": { "str": "folding shopping cart basket" },
+    "name": { "str": "large folding wire basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -116,7 +120,7 @@
   {
     "type": "vehicle_part",
     "abstract": "basketsm_abstract",
-    "name": { "str": "wire bike basket" },
+    "name": { "str": "small folding wire basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -157,7 +161,7 @@
   {
     "id": "basketsm_external",
     "type": "vehicle_part",
-    "name": { "str": "external wire bike basket" },
+    "name": { "str": "external small wire basket" },
     "looks_like": "basketsm",
     "item": "bike_basket",
     "location": "structure",
@@ -218,6 +222,21 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "box",
+    "id": "box_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon fiber box" },
+    "size": "90 L",
+    "item": "frame_carbon",
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_carbon", 10 ] ] }
+    },
+    "durability": 120,
+    "damage_reduction": { "all": 34 },
+    "extend": { "flags": [ "SHOCK_RESISTANT" ] }
+  },
+  {
     "copy-from": "box_abstract",
     "id": "wood box",
     "type": "vehicle_part",
@@ -227,7 +246,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 15 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "30 m",
+        "using": [ [ "nail_any_adhesive", 2 ], [ "wood_structural_small", 1 ] ]
+      }
     },
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
@@ -244,7 +267,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "nail_any_adhesive", 2 ], [ "wood_structural_small", 1 ] ]
+      }
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
     "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
@@ -275,6 +302,25 @@
     "id": "trunk",
     "name": { "str": "trunk" },
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE" ]
+  },
+  {
+    "copy-from": "trunk",
+    "id": "trunk_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon fiber trunk" },
+    "size": "195 L",
+    "item": "frame_carbon",
+    "breaks_into": "ig_vp_carbon",
+    "durability": 420,
+    "damage_reduction": { "all": 34 },
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "extend": { "flags": [ "SHOCK_RESISTANT" ] }
   },
   {
     "copy-from": "trunk_abstract",
@@ -326,20 +372,30 @@
     "copy-from": "cargo_space",
     "id": "cargo_space_carbon",
     "type": "vehicle_part",
-    "name": { "str": "carbon cargo space" },
+    "name": { "str": "carbon fiber cargo space" },
     "size": "600 L",
     "item": "cargo_rack_carbon",
-    "breaks_into": [  ]
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "durability": 420,
+    "damage_reduction": { "all": 34 },
+    "extend": { "flags": [ "SHOCK_RESISTANT" ] }
   },
   {
     "copy-from": "cargo_space_carbon",
     "id": "cargo_space_carbon_external",
     "type": "vehicle_part",
-    "name": { "str": "external carbon cargo rack" },
+    "name": { "str": "external carbon fiber cargo rack" },
     "location": "structure",
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": "300 L",
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE", "SHOCK_RESISTANT" ]
   },
   {
     "copy-from": "cargo_space",
@@ -408,7 +464,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "SHOCK_RESISTANT" ],
     "damage_reduction": { "all": 10 }
   }
 ]

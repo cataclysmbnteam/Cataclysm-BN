@@ -538,7 +538,8 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
       [ "DRILL", 3 ],
-      [ "PULL", 2 ]
+      [ "PULL", 2 ],
+      [ "CASING_FORMING", 1 ]
     ],
     "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -799,7 +800,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ], [ "PULL", 1 ], [ "PULL_FINE", 2 ] ],
+    "qualities": [ [ "WRENCH", 1 ], [ "PULL", 1 ], [ "PULL_FINE", 2 ], [ "GRIP_HOT", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -915,7 +916,8 @@
       [ "WRENCH", 2 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
-      [ "CHISEL", 3 ]
+      [ "CHISEL", 3 ],
+      [ "CASING_FORMING", 1 ]
     ],
     "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],

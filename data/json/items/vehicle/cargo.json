@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "basket",
-    "name": { "str": "wire basket" },
+    "name": { "str": "large wire basket" },
     "description": "A large wire basket from a shopping cart.",
     "weight": "6000 g",
     "to_hit": -5,
@@ -50,7 +50,7 @@
   {
     "type": "GENERIC",
     "id": "folding_basket",
-    "name": { "str": "folding wire basket" },
+    "name": { "str": "large folding wire basket" },
     "description": "A large wire basket from a shopping cart, modified to be foldable.",
     "weight": "7000 g",
     "copy-from": "basket"
@@ -58,8 +58,8 @@
   {
     "type": "GENERIC",
     "id": "bike_basket",
-    "name": { "str": "bike basket" },
-    "description": "A simple bike basket.  It is small and foldable.",
+    "name": { "str": "small folding wire basket" },
+    "description": "A simple wire basket.  It is small and foldable.",
     "weight": "1200 g",
     "volume": "5 L",
     "price": "35 USD",

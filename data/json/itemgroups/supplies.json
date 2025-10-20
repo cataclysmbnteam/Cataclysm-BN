@@ -255,8 +255,8 @@
       [ "fertilizer_commercial", 30 ],
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
-      [ "butane_tank", 30 ],
-      [ "butane_can", 20 ],
+      { "item": "chem_butane", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "chem_butane", "prob": 20, "container-item": "metal_tank_little" },
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
       { "item": "zinc_metal", "prob": 5, "charges-min": 100 },
@@ -312,7 +312,7 @@
       [ "chem_agar", 10 ],
       [ "oxygen_tank", 6 ],
       [ "nitrogen_tank", 7 ],
-      [ "butane_tank", 5 ],
+      { "item": "chem_butane", "prob": 5, "container-item": "metal_tank_little" },
       [ "carbondioxide_tank", 5 ],
       { "item": "c_hydrogen_gas", "prob": 8, "container-item": "metal_tank_little", "charges": [ 10, 20 ] },
       [ "salt", 10 ],
@@ -595,8 +595,14 @@
   {
     "id": "civilian_helicopter_parts",
     "type": "item_group",
-    "//": "Parts for civilian helicopter",
-    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 40 ], [ "homebuilt_gyrocopter_rotor", 10 ] ]
+    "//": "Parts for civilian aircraft, not just helis anymore.  ID retained for compatibility.",
+    "items": [
+      [ "small_turbine_engine", 25 ],
+      [ "small_helicopter_rotor", 20 ],
+      [ "homebuilt_gyrocopter_rotor", 5 ],
+      [ "metal_propeller_item", 25 ],
+      { "item": "wing_metal_item", "count": [ 1, 2 ] }
+    ]
   },
   {
     "id": "military_helicopter_parts",
@@ -622,6 +628,77 @@
         "distribution": [ { "item": "rigid_plastic_sheet", "prob": 50 }, { "item": "plastic_sheet", "prob": 50 } ],
         "prob": 50
       }
+    ]
+  },
+  {
+    "id": "supplies_naval_cache",
+    "//": "Historic provisions, used in bastion forts and pirate ships.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "water_clean", "charges": [ 1, 40 ], "container-item": "wooden_barrel_small", "prob": 75 },
+      {
+        "distribution": [
+          { "item": "hardtack", "charges": [ 1, 40 ], "container-item": "bag_canvas_small", "prob": 50 },
+          { "item": "flour", "charges": [ 1, 20 ], "container-item": "bag_canvas_small", "prob": 25 },
+          { "item": "dry_beans", "charges": [ 1, 12 ], "container-item": "bag_canvas_small", "prob": 25 }
+        ],
+        "prob": 75
+      },
+      {
+        "distribution": [
+          { "item": "salted_fish", "charges": [ 1, 6 ], "container-item": "bag_canvas_small", "prob": 50 },
+          { "item": "potted_meat", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 25 },
+          { "item": "pemmican", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 15 },
+          { "item": "dry_meat", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 5 },
+          { "item": "jerky", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 5 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "dry_veggy", "charges": [ 1, 4 ], "container-item": "bag_canvas_small", "prob": 50 },
+          { "item": "dry_fruit", "charges": [ 1, 5 ], "container-item": "bag_canvas_small", "prob": 25 },
+          { "item": "fruit_leather", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 25 }
+        ],
+        "prob": 25
+      },
+      { "item": "rum", "charges": [ 1, 42 ], "container-item": "jar_3l_glass", "prob": 50 }
+    ]
+  },
+  {
+    "id": "supplies_cannonball",
+    "//": "Non-volatile components for cannon loading, used in bastion forts and pirate ships.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cannonball_4lb", "count": [ 1, 10 ] },
+      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
+      { "item": "lead", "prob": 25, "charges": [ 800, 1600 ] }
+    ]
+  },
+  {
+    "id": "supplies_powder_mag",
+    "//": "Volatile components for cannon loading, used in bastion forts and pirate ships.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
+      { "item": "fuse", "charges": [ 1, 5 ], "prob": 25 }
+    ]
+  },
+  {
+    "id": "supplies_ship_rigging",
+    "//": "Spare rope and sailcloth for a replica sailing vessel, and associated tools",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rope_30", "prob": 50 },
+      { "item": "rope_6", "count": [ 1, 5 ], "prob": 50 },
+      { "item": "sheet", "prob": 25 },
+      { "item": "bucket", "prob": 50 },
+      { "item": "hand_paddles", "prob": 25 }
     ]
   }
 ]

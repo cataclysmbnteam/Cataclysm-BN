@@ -138,11 +138,12 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( digs() && !g->m.has_flag( "DIGGABLE", p ) && !g->m.has_flag( "BURROWABLE", p ) ) {
+    if( digs() && !g->m.ter( p )->is_diggable() && !g->m.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
+    if( has_flag( MF_AQUATIC ) && ( !g->m.has_flag( "SWIMMABLE", p ) ||
+                                    g->m.veh_at( p ).part_with_feature( "BOARDABLE", true ) ) ) {
         return false;
     }
 
@@ -1357,6 +1358,8 @@ tripoint monster::scent_move()
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
+            // Waterbound monsters can only smell you if you're in deep water.
+            ( !has_flag( MF_AQUATIC ) || g->m.is_divable( dest ) ) &&
             ( ( can_move_to( dest ) && !get_map().obstructed_by_vehicle_rotation( pos(), dest ) ) ||
               ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
@@ -1380,7 +1383,7 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     const int source_cost = g->m.move_cost( f );
     const int dest_cost = g->m.move_cost( t );
     // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
+    if( flies() || ( digging() && g->m.ter( t )->is_diggable() ) ) {
         movecost = 100;
         // Swimming monsters move super fast in water
     } else if( swims() ) {
@@ -1503,7 +1506,8 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
+    // Tamed monsters won't wreck your stuff.
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0 && !is_pet();
     if( !can_bash ) {
         return false;
     }
@@ -1524,6 +1528,10 @@ bool monster::bash_at( const tripoint &p )
     }
 
     int bashskill = group_bash_skill( p );
+    // Non-aquatic enemies currently in deep water bash less effectively.
+    if( here.is_divable( pos() ) && !has_flag( MF_AQUATIC ) ) {
+        bashskill *= 0.5;
+    }
     g->m.bash( p, bashskill );
     moves -= 100;
     return true;
@@ -1755,6 +1763,11 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     setpos( destination );
     footsteps( destination );
     set_underwater( will_be_water );
+    // If an aquatic monster is aggressive and on the surface, have it swim where the player can see it
+    if( g->m.is_divable( destination ) && !g->m.has_flag( TFLAG_WATER_CUBE, destination ) &&
+        anger > 10 && has_flag( MF_AQUATIC ) ) {
+        set_underwater( false );
+    }
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
@@ -1790,10 +1803,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        set_underwater( g->m.has_flag( "DIGGABLE", pos() ) );
+        set_underwater( g->m.ter( pos() )->is_diggable() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
+    if( digging() && g->m.ter( pos() )->is_diggable() ) {
         int factor = 0;
         switch( type->size ) {
             case creature_size::tiny:

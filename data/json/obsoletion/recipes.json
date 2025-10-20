@@ -553,11 +553,6 @@
   },
   {
     "type": "recipe",
-    "result": "l_HFPackuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "laptop",
     "obsolete": true
   },
@@ -1294,72 +1289,7 @@
   },
   {
     "type": "recipe",
-    "result": "shishkebab_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "firemachete_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "broadfire_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "firekatana_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "zweifire_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "l_HFPack",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mosin91_30",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mosin44",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mosin91_30_ebr",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mosin44_ebr",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "l_car_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "l_mbr_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "l_dsr_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "l_lmg_223",
     "obsolete": true
   },
   {
@@ -2049,5 +1979,282 @@
     "result": "thermal_cooling",
     "id_suffix": "thermal_outfit_from_bits",
     "obsolete": true
+  },
+  {
+    "result": "bp_9x18mm",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_9x18mmfmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "9x18mm",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "9x18mmfmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "9x18mmP2",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "9x18mm_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "38_super",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "38super_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_38_super",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_38super_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "38super_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "700nx_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "700nx",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_700nx",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_460_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_460_rowland",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "460_fmj",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "460_rowland",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "460_casing",
+    "id_suffix": "resize",
+    "obsolete": true
+  },
+  {
+    "result": "460_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "454_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "454_Casull",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_454_Casull",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_500_Magnum",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "500_Magnum",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "500_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_57mm",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "57mm",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "57mm_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_46mm",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "46mm",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "46mm_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "545",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "545_ap",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_545",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_545_ap",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "545_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "270win_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "270win_jsp",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_270win_jsp",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "762_25_casing",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "bp_762_25",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "762_25",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "762_25hot",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "762_25typeP",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "chem_black_powder_generic",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "washing_machine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dishwasher",
+    "obsolete": true
+  },
+  {
+    "result": "washing_machine",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "cu_pipe", 3 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ]
+    ]
+  },
+  {
+    "result": "dishwasher",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "cu_pipe", 3 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ]
+    ]
   }
 ]
