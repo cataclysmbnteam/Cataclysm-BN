@@ -7368,6 +7368,11 @@ bool item::is_non_resealable_container() const
     return type->container && !type->container->seals && type->container->unseals_into;
 }
 
+bool item::is_in_container() const
+{
+    return static_cast<item_location *>( &*loc )->where() == item_location_type::container;
+}
+
 bool item::is_bucket() const
 {
     // That "preserves" part is a hack:
