@@ -303,7 +303,7 @@ function BookRecipe.new() end
 ---@field is_wearing_power_armor fun(arg1: Character, arg2: boolean): boolean
 ---@field is_wielding fun(arg1: Character, arg2: Item): boolean
 ---@field is_worn fun(arg1: Character, arg2: Item): boolean
----@field items_with fun(arg1: Character, arg2: any): Item[] @Filters items
+---@field items_with fun(arg1: Character, arg2: bool): Item[] @Filters items
 ---@field item_worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
 ---@field item_worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
 ---@field knows_recipe fun(arg1: Character, arg2: RecipeId): boolean
@@ -358,6 +358,8 @@ function BookRecipe.new() end
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
+---@field reset_encumbrance fun(arg1: Character)
+---@field reset_stats fun(arg1: Character)
 ---@field restore_scent fun(arg1: Character)
 ---@field rest_quality fun(arg1: Character): number
 ---@field rooted fun(arg1: Character)
@@ -395,7 +397,7 @@ function BookRecipe.new() end
 ---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
----@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer, arg4: any): Vector(CppVal<detached_ptr<item>>)
+---@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer, arg4: bool): Vector(CppVal<detached_ptr<item>>)
 ---@field use_charges_if_avail fun(arg1: Character, arg2: ItypeId, arg3: integer): boolean
 ---@field volume_capacity fun(arg1: Character): Volume
 ---@field volume_carried fun(arg1: Character): Volume
@@ -1247,9 +1249,9 @@ function JsonTraitFlagId.new() end
 ---@field get_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): integer
 ---@field get_furn_at fun(arg1: Map, arg2: Tripoint): FurnIntId
 ---@field get_items_at fun(arg1: Map, arg2: Tripoint): any
----@field get_items_at_with fun(arg1: Map, arg2: Tripoint, arg3: any): Item[]
+---@field get_items_at_with fun(arg1: Map, arg2: Tripoint, arg3: bool): Item[]
 ---@field get_items_in_radius fun(arg1: Map, arg2: Tripoint, arg3: integer): Item[]
----@field get_items_in_radius_with fun(arg1: Map, arg2: Tripoint, arg3: integer, arg4: any): Item[]
+---@field get_items_in_radius_with fun(arg1: Map, arg2: Tripoint, arg3: integer, arg4: bool): Item[]
 ---@field get_local_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert absolute ms -> local ms
 ---@field get_map_size fun(arg1: Map): integer @In map squares
 ---@field get_map_size_in_submaps fun(arg1: Map): integer

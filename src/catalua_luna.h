@@ -203,6 +203,25 @@ std::string doc_value( sol::types<std::pair<T, U>> )
     return ret + " )";
 }
 
+template<typename Ret, typename ...Args>
+std::string doc_value( sol::types<Ret(Args...)> )
+{
+    std::string ret = "Func";
+    ret += doc_value( sol::types<std::tuple<Args...>>() );
+    if constexpr (!std::is_same_v<Ret, void>) {
+        ret += " -> ";
+        ret += doc_value( sol::types<Ret>() );
+    }
+
+    return ret;
+}
+
+template<typename _Sig>
+std::string doc_value( sol::types<std::function<_Sig>> )
+{
+    return doc_value(sol::types<_Sig>());
+}
+
 template<typename Val>
 std::string doc_value( sol::types<Val> )
 {
@@ -216,7 +235,7 @@ std::vector<std::string> doc_arg_list()
 
     ( (
           ret.push_back(
-              doc_value( sol::types<Args>() ) )
+              doc_value( sol::types<std::remove_cvref_t<Args>>() ) )
       ), ... );
 
     return ret;

@@ -991,7 +991,7 @@ No constructors.
 
 #### items_with {#sol::Character::items_with}
 
-🇲 Method --> <code>( CppVal&lt;const std::function&lt;bool (const item &)&gt; &&gt; ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( Func ( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
 
 > Filters items
 
@@ -1157,12 +1157,12 @@ No constructors.
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
-🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>
+🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>\
+🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> bool</code>
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
-🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>\
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> bool</code>
+🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
@@ -1223,6 +1223,14 @@ No constructors.
 #### remove_mutation {#sol::Character::remove_mutation}
 
 🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId), bool )</code>
+
+#### reset_encumbrance {#sol::Character::reset_encumbrance}
+
+🇲 Method --> <code>( )</code>
+
+#### reset_stats {#sol::Character::reset_stats}
+
+🇲 Method --> <code>( )</code>
 
 #### restore_scent {#sol::Character::restore_scent}
 
@@ -1378,7 +1386,7 @@ No constructors.
 
 #### use_charges {#sol::Character::use_charges}
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int, CppVal&lt;const std::function&lt;bool (const item &)&gt; &&gt; ) -> Vector( CppVal&lt;detached_ptr&lt;item&gt;&gt; )</code>
+🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int, Func ( [Item](#sol::Item) ) -> bool ) -> Vector( CppVal&lt;detached_ptr&lt;item&gt;&gt; )</code>
 
 #### use_charges_if_avail {#sol::Character::use_charges_if_avail}
 
@@ -4534,7 +4542,7 @@ No constructors.
 
 #### get_items_at_with {#sol::Map::get_items_at_with}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), CppVal&lt;const std::function&lt;bool (const item &)&gt; &&gt; ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), Func ( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
 
 #### get_items_in_radius {#sol::Map::get_items_in_radius}
 
@@ -4542,7 +4550,7 @@ No constructors.
 
 #### get_items_in_radius_with {#sol::Map::get_items_in_radius_with}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int, CppVal&lt;const std::function&lt;bool (const item &)&gt; &&gt; ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int, Func ( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
 
 #### get_local_ms {#sol::Map::get_local_ms}
 
