@@ -991,7 +991,7 @@ No constructors.
 
 #### items_with {#sol::Character::items_with}
 
-🇲 Method --> <code>( Func ( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( Func( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
 
 > Filters items
 
@@ -1386,7 +1386,7 @@ No constructors.
 
 #### use_charges {#sol::Character::use_charges}
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int, Func ( [Item](#sol::Item) ) -> bool ) -> Vector( CppVal&lt;detached_ptr&lt;item&gt;&gt; )</code>
+🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int, Func( [Item](#sol::Item) ) -> bool ) -> Vector( CppVal&lt;detached_ptr&lt;item&gt;&gt; )</code>
 
 #### use_charges_if_avail {#sol::Character::use_charges_if_avail}
 
@@ -4542,7 +4542,7 @@ No constructors.
 
 #### get_items_at_with {#sol::Map::get_items_at_with}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), Func ( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), Func( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
 
 #### get_items_in_radius {#sol::Map::get_items_in_radius}
 
@@ -4550,7 +4550,7 @@ No constructors.
 
 #### get_items_in_radius_with {#sol::Map::get_items_in_radius_with}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int, Func ( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int, Func( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
 
 #### get_local_ms {#sol::Map::get_local_ms}
 

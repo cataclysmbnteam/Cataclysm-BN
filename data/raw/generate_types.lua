@@ -48,7 +48,7 @@ end
 -- Rudimentary mapping from C++/sol types to LuaLS types.
 ---@param cpp_type string
 ---@return string
-local map_cpp_type_to_lua = function(cpp_type)
+local function map_cpp_type_to_lua(cpp_type)
   -- NOTE: This mapping might need refinement based on actual types used
   if not cpp_type then return "any" end -- Handle nil input gracefully
   cpp_type = string.gsub(cpp_type, "const%s+", "") -- Remove const
@@ -111,15 +111,15 @@ local map_cpp_type_to_lua = function(cpp_type)
     if clean_type == "..." or string.match(clean_type, "^CppVal") then
       clean_type = "any"
     elseif string.match(clean_type, "^Vector%(%w+%)$") then
-      clean_type = string.gsub(clean_type, "^Vector%((%w+)%)$", "%1[]")
+      clean_type = string.gsub(clean_type, "^Vector%((%w+)%)$", function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end)
     elseif string.match(clean_type, "^Set%(%w+%)$") then
-      clean_type = string.gsub(clean_type, "^Set%((%w+)%)$", "%1[]")
+      clean_type = string.gsub(clean_type, "^Set%((%w+)%)$", function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end)
     elseif string.match(clean_type, "^Array%((%w+),(%d+)%)$") then
-      clean_type = string.gsub(clean_type, "^Array%((%w+),(%d+)%)$", "%1[]")
-    elseif string.match(clean_type, "^Map%((%w+),(%w+)%)$") then
-      clean_type = string.gsub(clean_type, "^Map%((%w+),(%w+)%)$", "table<%1, %2>")
+      clean_type = string.gsub(clean_type, "^Array%((%w+),(%d+)%)$", function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end)
+    elseif string.match(clean_type, "^Dict%((%w+),(%w+)%)$") then
+      clean_type = string.gsub(clean_type, "^Dict%((%w+),(%w+)%)$", function(k,v) return ("table<%s, %s>"):format(map_cpp_type_to_lua(k), map_cpp_type_to_lua(v)) end)
     elseif string.match(clean_type, "^Opt%((%w+)%)$") then
-      clean_type = string.gsub(clean_type, "^Opt%((%w+)%)$", "%1?")
+      clean_type = string.gsub(clean_type, "^Opt%((%w+)%)$", function(k) return ("%s"):format(map_cpp_type_to_lua(k)) end)
     end
 
     return clean_type or "any" -- Fallback to 'any' if nothing matches
