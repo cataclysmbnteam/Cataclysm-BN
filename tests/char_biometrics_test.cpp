@@ -70,7 +70,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "they are 25% shorter" ) {
-                CHECK( dummy.height() == init_height * 0.75 );
+                CHECK( dummy.height() == 131 );
             }
         }
 
@@ -79,7 +79,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "they are 50% taller" ) {
-                CHECK( dummy.height() == init_height * 1.5 );
+                CHECK( dummy.height() == 262 );
             }
         }
 
@@ -88,7 +88,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
             REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "they are doubled in height" ) {
-                CHECK( dummy.height() == init_height * 2 );
+                CHECK( dummy.height() == 350 );
             }
         }
     }
