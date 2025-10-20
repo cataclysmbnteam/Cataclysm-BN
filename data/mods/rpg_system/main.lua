@@ -399,7 +399,7 @@ mod.open_rpg_menu = function(who, item, pos)
 
   while keep_open do
     -- Refresh player stats to reflect any changes from class/trait selections
-    player:reset_stats()
+    player:reset()
 
     local exp = get_char_value(player, "rpg_exp", 0)
     local level = get_char_value(player, "rpg_level", 0)
