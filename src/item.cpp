@@ -7040,7 +7040,8 @@ bool item::is_two_handed( const Character &guy ) const
         return true;
     }
     // Large characters get a penalty when trying to wield two-handed weapons, Huge characters treat them like normal.
-    const float str_factor = has_flag( flag_ALWAYS_TWOHAND ) && guy.get_size() != creature_size::huge ?  2.0f : 4.0f;
+    const float str_factor = has_flag( flag_ALWAYS_TWOHAND ) &&
+                             guy.get_size() != creature_size::huge ?  2.0f : 4.0f;
     ///\EFFECT_STR determines which weapons can be wielded with one hand
     return ( ( weight() / 113_gram ) > guy.str_cur * str_factor );
 }
