@@ -2433,7 +2433,6 @@ int Character::attack_cost( const item &weap ) const
     if( weap.attack_cost() > 100 && !weap.is_two_handed( *this ) &&
         has_two_arms() && !worn_with_flag( flag_RESTRICT_HANDS ) ) {
         move_cost = std::pow( move_cost, 0.975f );
-        add_msg( m_info, "Bonus for two-handing a weapon we could swing one-handed triggered." );
     }
 
     move_cost += bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST, true );
