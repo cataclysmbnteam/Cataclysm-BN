@@ -1770,7 +1770,7 @@ class Character : public Creature, public location_visitable<Character>
         const item *get_item_with_id( const itype_id &item_id, bool need_charges = false ) const;
 
         // Adds item(s) to inventory
-        void add_item_with_id( const itype_id &itype, int count = 1 );
+        item &add_item_with_id( const itype_id &itype, int count = 1 );
 
         // Has a weapon, inventory item or worn item with id
         bool has_item_with_id( const itype_id &item_id, bool need_charges = false ) const;

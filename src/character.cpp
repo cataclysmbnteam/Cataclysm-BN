@@ -10302,10 +10302,10 @@ const item *Character::get_item_with_id( const itype_id &item_id, bool need_char
     return ret;
 }
 
-void Character::add_item_with_id( const itype_id &item_id, int count )
+item &Character::add_item_with_id( const itype_id &item_id, int count )
 {
     detached_ptr<item> new_item = item::spawn( item_id, calendar::turn, count );
-    i_add( std::move( new_item ), true );
+    return i_add( std::move( new_item ), true );
 }
 
 bool Character::has_item_with_id( const itype_id &item_id, bool need_charges ) const

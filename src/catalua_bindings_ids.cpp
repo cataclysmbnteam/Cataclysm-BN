@@ -30,6 +30,11 @@
 #include "skill.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ammo_effect.h"
+#include "mod_manager.h"
+#include "emit.h"
+#include "fault.h"
+#include "requirements.h"
 
 template<typename T, bool do_int_id>
 void reg_id( sol::state &lua )
@@ -127,7 +132,14 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<spell_type, false>( lua );
     reg_id<ter_t, true>( lua );
     reg_id<trap, true>( lua );
-
+    reg_id<ammo_effect, true>( lua );
+    reg_id<MOD_INFORMATION, false>( lua );
+    reg_id<mission_type, false>( lua );
+    reg_id<MonsterGroup, false>( lua );
+    reg_id<weapon_category, false>( lua );
+    reg_id<emit, false>( lua );
+    reg_id<fault, false>( lua );
+    reg_id<quality, false>( lua );
 }
 
 void cata::detail::reg_types( sol::state &lua )

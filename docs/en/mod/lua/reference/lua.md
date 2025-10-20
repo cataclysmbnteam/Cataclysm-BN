@@ -83,6 +83,75 @@ No base classes.
 
 🇲 Method --> <code>( ) -> string</code>
 
+## AmmunitionEffectId {#sol::AmmunitionEffectId}
+
+### Bases {#sol::AmmunitionEffectId::@bases}
+
+No base classes.
+
+### Constructors {#sol::AmmunitionEffectId::@ctors}
+
+- AmmunitionEffectId.new( )
+- AmmunitionEffectId.new( [AmmunitionEffectId](#sol::AmmunitionEffectId) )
+- AmmunitionEffectId.new( [AmmunitionEffectIntId](#sol::AmmunitionEffectIntId) )
+- AmmunitionEffectId.new( string )
+
+### Members {#sol::AmmunitionEffectId::@members}
+
+#### implements_int_id {#sol::AmmunitionEffectId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### int_id {#sol::AmmunitionEffectId::int_id}
+
+🇲 Method --> <code>( ) -> [AmmunitionEffectIntId](#sol::AmmunitionEffectIntId)</code>
+
+#### is_null {#sol::AmmunitionEffectId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::AmmunitionEffectId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::AmmunitionEffectId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [AmmunitionEffectId](#sol::AmmunitionEffectId)</code>
+
+#### obj {#sol::AmmunitionEffectId::obj}
+
+🇲 Method --> <code>( ) -> AmmunitionEffectRaw</code>
+
+#### str {#sol::AmmunitionEffectId::str}
+
+🇲 Method --> <code>( ) -> string</code>
+
+## AmmunitionEffectIntId {#sol::AmmunitionEffectIntId}
+
+### Bases {#sol::AmmunitionEffectIntId::@bases}
+
+No base classes.
+
+### Constructors {#sol::AmmunitionEffectIntId::@ctors}
+
+- AmmunitionEffectIntId.new( )
+- AmmunitionEffectIntId.new( [AmmunitionEffectIntId](#sol::AmmunitionEffectIntId) )
+- AmmunitionEffectIntId.new( [AmmunitionEffectId](#sol::AmmunitionEffectId) )
+
+### Members {#sol::AmmunitionEffectIntId::@members}
+
+#### is_valid {#sol::AmmunitionEffectIntId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### obj {#sol::AmmunitionEffectIntId::obj}
+
+🇲 Method --> <code>( ) -> AmmunitionEffectRaw</code>
+
+#### str_id {#sol::AmmunitionEffectIntId::str_id}
+
+🇲 Method --> <code>( ) -> [AmmunitionEffectId](#sol::AmmunitionEffectId)</code>
+
 ## AmmunitionTypeId {#sol::AmmunitionTypeId}
 
 ### Bases {#sol::AmmunitionTypeId::@bases}
@@ -374,9 +443,9 @@ No constructors.
 
 🇲 Method --> <code>( AddictionType ) -> int</code>
 
-#### add_item_with_id {#sol::Character::add_item_with_id}
+#### add_item {#sol::Character::add_item}
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int )</code>
+🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
 
 > Adds an item with the given id and amount
 
@@ -499,6 +568,12 @@ No constructors.
 #### cough {#sol::Character::cough}
 
 🇲 Method --> <code>( bool, int )</code>
+
+#### create_item {#sol::Character::create_item}
+
+🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int ) -> [Item](#sol::Item)</code>
+
+> Adds an item with the given id and amount to the player inventory
 
 #### crossed_threshold {#sol::Character::crossed_threshold}
 
@@ -891,12 +966,6 @@ No constructors.
 
 🇲 Method --> <code>( ) -> bool</code>
 
-#### inv_remove_item {#sol::Character::inv_remove_item}
-
-🇲 Method --> <code>( [Item](#sol::Item) ) -> CppVal&lt;detached_ptr&lt;item&gt;&gt;</code>
-
-> Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
-
 #### irradiate {#sol::Character::irradiate}
 
 🇲 Method --> <code>( double, bool ) -> bool</code>
@@ -1157,7 +1226,6 @@ No constructors.
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
-🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>\
 🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> bool</code>
 
 #### mutate_towards {#sol::Character::mutate_towards}
@@ -1166,6 +1234,7 @@ No constructors.
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
+🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>\
 🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> bool</code>
 
 #### mutation_armor {#sol::Character::mutation_armor}
@@ -1219,6 +1288,12 @@ No constructors.
 #### remove_child_flag {#sol::Character::remove_child_flag}
 
 🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+
+#### remove_item {#sol::Character::remove_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> [DetachedItem](#sol::DetachedItem)</code>
+
+> Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 
 #### remove_mutation {#sol::Character::remove_mutation}
 
@@ -1386,7 +1461,7 @@ No constructors.
 
 #### use_charges {#sol::Character::use_charges}
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int, Func( [Item](#sol::Item) ) -> bool ) -> Vector( CppVal&lt;detached_ptr&lt;item&gt;&gt; )</code>
+🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int, Func( [Item](#sol::Item) ) -> bool ) -> Vector( [DetachedItem](#sol::DetachedItem) )</code>
 
 #### use_charges_if_avail {#sol::Character::use_charges_if_avail}
 
@@ -1966,6 +2041,26 @@ No constructors.
 
 🇲 Method --> <code>( DamageType ) -> int</code>
 
+## DetachedItem {#sol::DetachedItem}
+
+### Bases {#sol::DetachedItem::@bases}
+
+No base classes.
+
+### Constructors {#sol::DetachedItem::@ctors}
+
+No constructors.
+
+### Members {#sol::DetachedItem::@members}
+
+#### get {#sol::DetachedItem::get}
+
+🇲 Method --> <code>( ) -> [Item](#sol::Item)</code>
+
+#### is_valid {#sol::DetachedItem::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
 ## DiseaseTypeId {#sol::DiseaseTypeId}
 
 ### Bases {#sol::DiseaseTypeId::@bases}
@@ -2163,6 +2258,82 @@ No constructors.
 #### str_id {#sol::FactionRaw::str_id}
 
 🇲 Method --> <code>( ) -> [FactionId](#sol::FactionId)</code>
+
+## FaultId {#sol::FaultId}
+
+### Bases {#sol::FaultId::@bases}
+
+No base classes.
+
+### Constructors {#sol::FaultId::@ctors}
+
+- FaultId.new( )
+- FaultId.new( [FaultId](#sol::FaultId) )
+- FaultId.new( string )
+
+### Members {#sol::FaultId::@members}
+
+#### implements_int_id {#sol::FaultId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### is_null {#sol::FaultId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::FaultId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::FaultId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [FaultId](#sol::FaultId)</code>
+
+#### obj {#sol::FaultId::obj}
+
+🇲 Method --> <code>( ) -> FaultRaw</code>
+
+#### str {#sol::FaultId::str}
+
+🇲 Method --> <code>( ) -> string</code>
+
+## FieldEmitId {#sol::FieldEmitId}
+
+### Bases {#sol::FieldEmitId::@bases}
+
+No base classes.
+
+### Constructors {#sol::FieldEmitId::@ctors}
+
+- FieldEmitId.new( )
+- FieldEmitId.new( [FieldEmitId](#sol::FieldEmitId) )
+- FieldEmitId.new( string )
+
+### Members {#sol::FieldEmitId::@members}
+
+#### implements_int_id {#sol::FieldEmitId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### is_null {#sol::FieldEmitId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::FieldEmitId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::FieldEmitId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [FieldEmitId](#sol::FieldEmitId)</code>
+
+#### obj {#sol::FieldEmitId::obj}
+
+🇲 Method --> <code>( ) -> FieldEmitRaw</code>
+
+#### str {#sol::FieldEmitId::str}
+
+🇲 Method --> <code>( ) -> string</code>
 
 ## FieldTypeId {#sol::FieldTypeId}
 
@@ -2396,7 +2567,7 @@ No constructors.
 
 #### ammo_effects {#sol::IslotAmmo::ammo_effects}
 
-🇻 Variable --> <code>Set( AmmunitionEffectId )</code>
+🇻 Variable --> <code>Set( [AmmunitionEffectId](#sol::AmmunitionEffectId) )</code>
 
 #### ammo_id {#sol::IslotAmmo::ammo_id}
 
@@ -2854,7 +3025,7 @@ No constructors.
 
 #### rot_spawn {#sol::IslotComestible::rot_spawn}
 
-🇻 Variable --> <code>MonsterGroupId</code>
+🇻 Variable --> <code>[MonsterGroupId](#sol::MonsterGroupId)</code>
 
 > The monster group that is drawn from when the item rots away
 
@@ -3008,7 +3179,7 @@ No constructors.
 
 #### ammo_effects {#sol::IslotGun::ammo_effects}
 
-🇻 Variable --> <code>Set( AmmunitionEffectId )</code>
+🇻 Variable --> <code>Set( [AmmunitionEffectId](#sol::AmmunitionEffectId) )</code>
 
 > Effects that are applied to the ammo when fired
 
@@ -3710,12 +3881,6 @@ No constructors.
 
 🇲 Method --> <code>( ) -> bool</code>
 
-#### is_battery {#sol::Item::is_battery}
-
-🇲 Method --> <code>( ) -> bool</code>
-
-> DEPRECATED: Is this a battery? (spoiler: it isn't)
-
 #### is_bionic {#sol::Item::is_bionic}
 
 🇲 Method --> <code>( ) -> bool</code>
@@ -3775,12 +3940,6 @@ No constructors.
 #### is_faulty {#sol::Item::is_faulty}
 
 🇲 Method --> <code>( ) -> bool</code>
-
-#### is_filthy {#sol::Item::is_filthy}
-
-🇫 Function --> <code>( ) -> bool</code>
-
-> DEPRECATED: Items are no longer filthy
 
 #### is_firearm {#sol::Item::is_firearm}
 
@@ -3972,15 +4131,15 @@ No constructors.
 
 #### set_owner {#sol::Item::set_owner}
 
-🇲 Method --> <code>( [FactionId](#sol::FactionId) )</code>
-
-> Sets the ownership of this item to a faction
-
-#### set_owner {#sol::Item::set_owner}
-
 🇲 Method --> <code>( [Character](#sol::Character) )</code>
 
 > Sets the ownership of this item to a character
+
+#### set_owner {#sol::Item::set_owner}
+
+🇲 Method --> <code>( [FactionId](#sol::FactionId) )</code>
+
+> Sets the ownership of this item to a faction
 
 #### set_var_num {#sol::Item::set_var_num}
 
@@ -3993,6 +4152,13 @@ No constructors.
 #### set_var_tri {#sol::Item::set_var_tri}
 
 🇲 Method --> <code>( string, [Tripoint](#sol::Tripoint) )</code>
+
+#### spawn {#sol::Item::spawn}
+
+🇫 Function --> <code>( [ItypeId](#sol::ItypeId), int ) -> [DetachedItem](#sol::DetachedItem)</code>
+
+> Spawns a new item\
+> same as gapi.create_item
 
 #### stamina_cost {#sol::Item::stamina_cost}
 
@@ -4043,6 +4209,54 @@ No base classes.
 No constructors.
 
 ### Members {#sol::ItemStack::@members}
+
+#### amount_can_fit {#sol::ItemStack::amount_can_fit}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> int</code>
+
+#### clear {#sol::ItemStack::clear}
+
+🇲 Method --> <code>( ) -> Vector( [DetachedItem](#sol::DetachedItem) )</code>
+
+#### count {#sol::ItemStack::count}
+
+🇲 Method --> <code>( ) -> CppVal&lt;unsigned long&gt;</code>
+
+#### count_limit {#sol::ItemStack::count_limit}
+
+🇲 Method --> <code>( ) -> int</code>
+
+#### free_volume {#sol::ItemStack::free_volume}
+
+🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+
+#### insert {#sol::ItemStack::insert}
+
+🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
+
+#### max_volume {#sol::ItemStack::max_volume}
+
+🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+
+#### move_all_to {#sol::ItemStack::move_all_to}
+
+🇲 Method --> <code>( [ItemStack](#sol::ItemStack) )</code>
+
+#### only_item {#sol::ItemStack::only_item}
+
+🇲 Method --> <code>( ) -> [Item](#sol::Item)</code>
+
+#### remove {#sol::ItemStack::remove}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> [DetachedItem](#sol::DetachedItem)</code>
+
+#### stacks_with {#sol::ItemStack::stacks_with}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> [Item](#sol::Item)</code>
+
+#### stored_volume {#sol::ItemStack::stored_volume}
+
+🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
 
 ## ItypeId {#sol::ItypeId}
 
@@ -4146,7 +4360,7 @@ No constructors.
 
 #### emits {#sol::ItypeRaw::emits}
 
-🇻 Variable --> <code>Set( FieldEmitId )</code>
+🇻 Variable --> <code>Set( [FieldEmitId](#sol::FieldEmitId) )</code>
 
 #### explode_in_fire {#sol::ItypeRaw::explode_in_fire}
 
@@ -4158,7 +4372,7 @@ No constructors.
 
 #### faults {#sol::ItypeRaw::faults}
 
-🇻 Variable --> <code>Set( FaultId )</code>
+🇻 Variable --> <code>Set( [FaultId](#sol::FaultId) )</code>
 
 #### get_countdown_action {#sol::ItypeRaw::get_countdown_action}
 
@@ -4270,7 +4484,7 @@ No constructors.
 
 #### qualities {#sol::ItypeRaw::qualities}
 
-🇻 Variable --> <code>Dict( QualityId, int )</code>
+🇻 Variable --> <code>Dict( [QualityId](#sol::QualityId), int )</code>
 
 #### recipes {#sol::ItypeRaw::recipes}
 
@@ -4374,7 +4588,7 @@ No constructors.
 
 #### source_mod {#sol::ItypeRaw::source_mod}
 
-🇲 Method --> <code>( ) -> Vector( ModInfoId )</code>
+🇲 Method --> <code>( ) -> Vector( [ModInfoId](#sol::ModInfoId) )</code>
 
 #### stack_size {#sol::ItypeRaw::stack_size}
 
@@ -4398,7 +4612,7 @@ No constructors.
 
 #### weapon_category {#sol::ItypeRaw::weapon_category}
 
-🇻 Variable --> <code>Set( WeaponCategoryId )</code>
+🇻 Variable --> <code>Set( [WeaponCategoryId](#sol::WeaponCategoryId) )</code>
 
 #### weight {#sol::ItypeRaw::weight}
 
@@ -4508,7 +4722,7 @@ No constructors.
 
 #### create_item_at {#sol::Map::create_item_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [ItypeId](#sol::ItypeId), int )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [ItypeId](#sol::ItypeId), int ) -> [Item](#sol::Item)</code>
 
 > Creates a new item(s) at a position on the map.
 
@@ -4538,19 +4752,11 @@ No constructors.
 
 #### get_items_at {#sol::Map::get_items_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> CppVal&lt;std::unique_ptr&lt;map_stack&gt;&gt;</code>
-
-#### get_items_at_with {#sol::Map::get_items_at_with}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), Func( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [MapStack](#sol::MapStack)</code>
 
 #### get_items_in_radius {#sol::Map::get_items_in_radius}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int ) -> Vector( [Item](#sol::Item) )</code>
-
-#### get_items_in_radius_with {#sol::Map::get_items_in_radius_with}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int, Func( [Item](#sol::Item) ) -> bool ) -> Vector( [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), int ) -> Vector( [MapStack](#sol::MapStack) )</code>
 
 #### get_local_ms {#sol::Map::get_local_ms}
 
@@ -5270,6 +5476,44 @@ No base classes.
 
 No members.
 
+## ModInfoId {#sol::ModInfoId}
+
+### Bases {#sol::ModInfoId::@bases}
+
+No base classes.
+
+### Constructors {#sol::ModInfoId::@ctors}
+
+- ModInfoId.new( )
+- ModInfoId.new( [ModInfoId](#sol::ModInfoId) )
+- ModInfoId.new( string )
+
+### Members {#sol::ModInfoId::@members}
+
+#### implements_int_id {#sol::ModInfoId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### is_null {#sol::ModInfoId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::ModInfoId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::ModInfoId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [ModInfoId](#sol::ModInfoId)</code>
+
+#### obj {#sol::ModInfoId::obj}
+
+🇲 Method --> <code>( ) -> ModInfoRaw</code>
+
+#### str {#sol::ModInfoId::str}
+
+🇲 Method --> <code>( ) -> string</code>
+
 ## Monster {#sol::Monster}
 
 ### Bases {#sol::Monster::@bases}
@@ -5494,6 +5738,44 @@ No base classes.
 #### str_id {#sol::MonsterFactionIntId::str_id}
 
 🇲 Method --> <code>( ) -> [MonsterFactionId](#sol::MonsterFactionId)</code>
+
+## MonsterGroupId {#sol::MonsterGroupId}
+
+### Bases {#sol::MonsterGroupId::@bases}
+
+No base classes.
+
+### Constructors {#sol::MonsterGroupId::@ctors}
+
+- MonsterGroupId.new( )
+- MonsterGroupId.new( [MonsterGroupId](#sol::MonsterGroupId) )
+- MonsterGroupId.new( string )
+
+### Members {#sol::MonsterGroupId::@members}
+
+#### implements_int_id {#sol::MonsterGroupId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### is_null {#sol::MonsterGroupId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::MonsterGroupId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::MonsterGroupId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [MonsterGroupId](#sol::MonsterGroupId)</code>
+
+#### obj {#sol::MonsterGroupId::obj}
+
+🇲 Method --> <code>( ) -> MonsterGroupRaw</code>
+
+#### str {#sol::MonsterGroupId::str}
+
+🇲 Method --> <code>( ) -> string</code>
 
 ## MonsterTypeId {#sol::MonsterTypeId}
 
@@ -6359,6 +6641,44 @@ No base classes.
 
 > `title` is on the left of input field.
 
+## QualityId {#sol::QualityId}
+
+### Bases {#sol::QualityId::@bases}
+
+No base classes.
+
+### Constructors {#sol::QualityId::@ctors}
+
+- QualityId.new( )
+- QualityId.new( [QualityId](#sol::QualityId) )
+- QualityId.new( string )
+
+### Members {#sol::QualityId::@members}
+
+#### implements_int_id {#sol::QualityId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### is_null {#sol::QualityId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::QualityId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::QualityId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [QualityId](#sol::QualityId)</code>
+
+#### obj {#sol::QualityId::obj}
+
+🇲 Method --> <code>( ) -> QualityRaw</code>
+
+#### str {#sol::QualityId::str}
+
+🇲 Method --> <code>( ) -> string</code>
+
 ## QueryPopup {#sol::QueryPopup}
 
 ### Bases {#sol::QueryPopup::@bases}
@@ -6516,12 +6836,6 @@ No constructors.
 #### has_flag {#sol::RecipeRaw::has_flag}
 
 🇲 Method --> <code>( string ) -> bool</code>
-
-#### ident {#sol::RecipeRaw::ident}
-
-🇲 Method --> <code>( ) -> [RecipeId](#sol::RecipeId)</code>
-
-> DEPRECATED: use recipe_id instead
 
 #### learn_by_disassembly {#sol::RecipeRaw::learn_by_disassembly}
 
@@ -7601,6 +7915,44 @@ No constructors.
 
 🇲 Method --> <code>( ) -> int</code>
 
+## WeaponCategoryId {#sol::WeaponCategoryId}
+
+### Bases {#sol::WeaponCategoryId::@bases}
+
+No base classes.
+
+### Constructors {#sol::WeaponCategoryId::@ctors}
+
+- WeaponCategoryId.new( )
+- WeaponCategoryId.new( [WeaponCategoryId](#sol::WeaponCategoryId) )
+- WeaponCategoryId.new( string )
+
+### Members {#sol::WeaponCategoryId::@members}
+
+#### implements_int_id {#sol::WeaponCategoryId::implements_int_id}
+
+🇫 Function --> <code>( ) -> bool</code>
+
+#### is_null {#sol::WeaponCategoryId::is_null}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### is_valid {#sol::WeaponCategoryId::is_valid}
+
+🇲 Method --> <code>( ) -> bool</code>
+
+#### NULL_ID {#sol::WeaponCategoryId::NULL_ID}
+
+🇫 Function --> <code>( ) -> [WeaponCategoryId](#sol::WeaponCategoryId)</code>
+
+#### obj {#sol::WeaponCategoryId::obj}
+
+🇲 Method --> <code>( ) -> WeaponCategoryRaw</code>
+
+#### str {#sol::WeaponCategoryId::str}
+
+🇲 Method --> <code>( ) -> string</code>
+
 # Enums
 
 ## AddictionType
@@ -8320,7 +8672,10 @@ Global game methods
 
 #### create_item {#sol::nil::create_item}
 
-🇫 Function --> <code>( [ItypeId](#sol::ItypeId), int ) -> CppVal&lt;std::unique_ptr&lt;item&gt;&gt;</code>
+🇫 Function --> <code>( [ItypeId](#sol::ItypeId), int ) -> [DetachedItem](#sol::DetachedItem)</code>
+
+> Spawns a new item\
+> same as Item::spawn
 
 #### current_turn {#sol::nil::current_turn}
 

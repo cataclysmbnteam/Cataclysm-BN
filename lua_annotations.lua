@@ -45,6 +45,35 @@ ActivityTypeId = {}
 ---@overload fun(arg1: string): ActivityTypeId
 function ActivityTypeId.new() end
 
+---@class AmmunitionEffectId
+---@field NULL_ID fun(): AmmunitionEffectId
+---@field implements_int_id fun(): boolean
+---@field int_id fun(arg1: AmmunitionEffectId): AmmunitionEffectIntId
+---@field is_null fun(arg1: AmmunitionEffectId): boolean
+---@field is_valid fun(arg1: AmmunitionEffectId): boolean
+---@field obj fun(arg1: AmmunitionEffectId): AmmunitionEffectRaw
+---@field str fun(arg1: AmmunitionEffectId): string
+---@field serialize fun(arg1: AmmunitionEffectId, arg2: any)
+---@field deserialize fun(arg1: AmmunitionEffectId, arg2: any)
+---@field __tostring fun(arg1: AmmunitionEffectId): string
+AmmunitionEffectId = {}
+---@return AmmunitionEffectId
+---@overload fun(arg1: AmmunitionEffectId): AmmunitionEffectId
+---@overload fun(arg1: AmmunitionEffectIntId): AmmunitionEffectId
+---@overload fun(arg1: string): AmmunitionEffectId
+function AmmunitionEffectId.new() end
+
+---@class AmmunitionEffectIntId
+---@field is_valid fun(arg1: AmmunitionEffectIntId): boolean
+---@field obj fun(arg1: AmmunitionEffectIntId): AmmunitionEffectRaw
+---@field str_id fun(arg1: AmmunitionEffectIntId): AmmunitionEffectId
+---@field __tostring fun(arg1: AmmunitionEffectIntId): string
+AmmunitionEffectIntId = {}
+---@return AmmunitionEffectIntId
+---@overload fun(arg1: AmmunitionEffectIntId): AmmunitionEffectIntId
+---@overload fun(arg1: AmmunitionEffectId): AmmunitionEffectIntId
+function AmmunitionEffectIntId.new() end
+
 ---@class AmmunitionTypeId
 ---@field NULL_ID fun(): AmmunitionTypeId
 ---@field implements_int_id fun(): boolean
@@ -157,7 +186,8 @@ function BookRecipe.new() end
 ---@field add_addiction fun(arg1: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
----@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer) @Adds an item with the given id and amount
+---@field add_item fun(arg1: Character, arg2: DetachedItem) @Adds an item with the given id and amount
+---@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @DEPRECATED: use create_item instead
 ---@field add_morale fun(arg1: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
 ---@field age fun(arg1: Character): integer
 ---@field all_items fun(arg1: Character, arg2: boolean): Item[] @Gets all items
@@ -186,6 +216,7 @@ function BookRecipe.new() end
 ---@field clear_mutations fun(arg1: Character)
 ---@field clear_skills fun(arg1: Character)
 ---@field cough fun(arg1: Character, arg2: boolean, arg3: integer)
+---@field create_item fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @Adds an item with the given id and amount to the player inventory
 ---@field crossed_threshold fun(arg1: Character): boolean
 ---@field deactivate_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field dismount fun(arg1: Character)
@@ -279,7 +310,7 @@ function BookRecipe.new() end
 ---@field hitall fun(arg1: Character, arg2: integer, arg3: integer, arg4: Creature): integer
 ---@field hurtall fun(arg1: Character, arg2: integer, arg3: Creature, arg4: boolean)
 ---@field in_climate_control fun(arg1: Character): boolean
----@field inv_remove_item fun(arg1: Character, arg2: Item): any @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+---@field inv_remove_item fun(arg1: Character, arg2: Item): DetachedItem @DEPRECATED: use remove_item instead
 ---@field irradiate fun(arg1: Character, arg2: number, arg3: boolean): boolean
 ---@field is_armed fun(arg1: Character): boolean
 ---@field is_blind fun(arg1: Character): boolean
@@ -357,6 +388,7 @@ function BookRecipe.new() end
 ---@field rem_morale fun(arg1: Character, arg2: MoraleTypeDataId)
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
+---@field remove_item fun(arg1: Character, arg2: Item): DetachedItem @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
 ---@field reset_encumbrance fun(arg1: Character)
 ---@field reset_stats fun(arg1: Character)
@@ -397,7 +429,7 @@ function BookRecipe.new() end
 ---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
----@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer, arg4: bool): Vector(CppVal<detached_ptr<item>>)
+---@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer, arg4: bool): DetachedItem[]
 ---@field use_charges_if_avail fun(arg1: Character, arg2: ItypeId, arg3: integer): boolean
 ---@field volume_capacity fun(arg1: Character): Volume
 ---@field volume_carried fun(arg1: Character): Volume
@@ -562,6 +594,13 @@ DealtDamageInstance = {}
 ---@return DealtDamageInstance
 function DealtDamageInstance.new() end
 
+---@class DetachedItem
+---@field get fun(arg1: DetachedItem): Item
+---@field is_valid fun(arg1: DetachedItem): boolean
+DetachedItem = {}
+---@return DetachedItem
+function DetachedItem.new() end
+
 ---@class DiseaseTypeId
 ---@field NULL_ID fun(): DiseaseTypeId
 ---@field implements_int_id fun(): boolean
@@ -640,6 +679,38 @@ function FactionId.new() end
 FactionRaw = {}
 ---@return FactionRaw
 function FactionRaw.new() end
+
+---@class FaultId
+---@field NULL_ID fun(): FaultId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: FaultId): boolean
+---@field is_valid fun(arg1: FaultId): boolean
+---@field obj fun(arg1: FaultId): FaultRaw
+---@field str fun(arg1: FaultId): string
+---@field serialize fun(arg1: FaultId, arg2: any)
+---@field deserialize fun(arg1: FaultId, arg2: any)
+---@field __tostring fun(arg1: FaultId): string
+FaultId = {}
+---@return FaultId
+---@overload fun(arg1: FaultId): FaultId
+---@overload fun(arg1: string): FaultId
+function FaultId.new() end
+
+---@class FieldEmitId
+---@field NULL_ID fun(): FieldEmitId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: FieldEmitId): boolean
+---@field is_valid fun(arg1: FieldEmitId): boolean
+---@field obj fun(arg1: FieldEmitId): FieldEmitRaw
+---@field str fun(arg1: FieldEmitId): string
+---@field serialize fun(arg1: FieldEmitId, arg2: any)
+---@field deserialize fun(arg1: FieldEmitId, arg2: any)
+---@field __tostring fun(arg1: FieldEmitId): string
+FieldEmitId = {}
+---@return FieldEmitId
+---@overload fun(arg1: FieldEmitId): FieldEmitId
+---@overload fun(arg1: string): FieldEmitId
+function FieldEmitId.new() end
 
 ---@class FieldTypeId
 ---@field NULL_ID fun(): FieldTypeId
@@ -723,34 +794,34 @@ function FurnRaw.new() end
 
 ---@class IslotAmmo : RangedData
 ---@field ammo_effects AmmunitionEffectId[]
----@field ammo_id AmmunitionTypeId @Ammo type, basically the "form" of the ammo that fits into the gun/tool
----@field casing_id ItypeId @Type id of casings, if any
----@field cookoff boolean @Should this ammo explode in fire?
----@field def_charges integer @Default charges
----@field dont_recover_one_in integer @Chance to fail to recover the ammo used.
+---@field ammo_id AmmunitionTypeId @
+---@field casing_id ItypeId @
+---@field cookoff boolean @
+---@field def_charges integer @
+---@field dont_recover_one_in integer @
 ---@field drop ItypeId
 ---@field drop_active boolean
 ---@field drop_count integer
 ---@field force_stat_display boolean
----@field loudness integer @Base loudness of ammo (possibly modified by gun/gunmods)
----@field recoil integer @Recoil (per shot), roughly equivalent to kinetic energy (in Joules)
----@field special_cookoff boolean @Should this ammo apply a special explosion effect when in fire?
+---@field loudness integer @
+---@field recoil integer @
+---@field special_cookoff boolean @
 IslotAmmo = {}
 ---@return IslotAmmo
 function IslotAmmo.new() end
 
 ---@class IslotArmor
----@field env_resist integer @Resistance to environmental effects
----@field env_resist_w_filter integer @Environmental protection of a gas mask with installed filter
----@field layer_data ArmorPortionData[] @Layer, encumbrance and coverage information
----@field resistance Resistances @Damage negated by this armor. Usually calculated from materials+thickness
----@field sided boolean @Whether this item can be worn on either side of the body
----@field storage Volume @How much storage this items provides when worn
----@field thickness integer @Multiplier on resistances provided by armor's materials.   Damaged armors have lower effective thickness, low capped at 1.   Note: 1 thickness means item retains full resistance when damaged.
----@field valid_mods string[] @Whitelisted clothing mods. Restricted clothing mods must be listed here by id to be compatible.
----@field warmth integer @How much warmth this item provides
----@field weight_capacity_bonus Mass @Bonus to weight capacity
----@field weight_capacity_modifier number @Factor modifying weight capacity
+---@field env_resist integer @
+---@field env_resist_w_filter integer @
+---@field layer_data ArmorPortionData[] @
+---@field resistance Resistances @
+---@field sided boolean @
+---@field storage Volume @
+---@field thickness integer @Multiplier on resistances provided by armor's materials.   Damaged armors have lower effective thickness, low capped at 1.  
+---@field valid_mods string[] @Whitelisted clothing mods.
+---@field warmth integer @
+---@field weight_capacity_bonus Mass @
+---@field weight_capacity_modifier number @
 IslotArmor = {}
 ---@return IslotArmor
 function IslotArmor.new() end
@@ -771,66 +842,66 @@ IslotArtifact = {}
 function IslotArtifact.new() end
 
 ---@class IslotBattery
----@field max_capacity Energy @Maximum energy the battery can store
+---@field max_capacity Energy @
 IslotBattery = {}
 ---@return IslotBattery
 function IslotBattery.new() end
 
 ---@class IslotBionic
----@field bionic_id BionicDataId @Id of the bionic
----@field difficulty integer @Arbitrary difficulty scale
----@field installation_data ItypeId @Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic
----@field is_upgrade boolean @Whether this CBM is an upgrade of another
+---@field bionic_id BionicDataId @
+---@field difficulty integer @
+---@field installation_data ItypeId @
+---@field is_upgrade boolean @
 IslotBionic = {}
 ---@return IslotBionic
 function IslotBionic.new() end
 
 ---@class IslotBook
----@field chapters integer @Fun books have chapters; after all are read, the book is less fun.
----@field fun integer @How fun reading this is, can be negative
----@field intelligence integer @Intelligence required to read it
----@field martial_art MartialArtsId @Which martial art it teaches.  Can be MartialArtsId.NULL_ID
----@field recipes BookRecipe[] @Recipes contained in this book
----@field skill SkillId @Which skill it upgrades, if any. Can be SkillId.NULL_ID
----@field skill_max integer @The skill level the book provides
----@field skill_min integer @The skill level required to understand it
----@field time integer @How long in minutes it takes to read.   "To read" means getting 1 skill point, not all of them.
+---@field chapters integer @
+---@field fun integer @
+---@field intelligence integer @
+---@field martial_art MartialArtsId @
+---@field recipes BookRecipe[] @
+---@field skill SkillId @
+---@field skill_max integer @
+---@field skill_min integer @
+---@field time integer @How long in minutes it takes to read.  
 IslotBook = {}
 ---@return IslotBook
 function IslotBook.new() end
 
 ---@class IslotBrewable
----@field results ItypeId[] @What are the results of fermenting this item
----@field time TimeDuration @How long for this brew to ferment
+---@field results ItypeId[] @
+---@field time TimeDuration @
 IslotBrewable = {}
 ---@return IslotBrewable
 function IslotBrewable.new() end
 
 ---@class IslotComestible
----@field addict_type AddictionType @effects of addiction
----@field addict_value integer @addiction potential
----@field comest_type string @comestible subtype - eg. FOOD, DRINK, MED
----@field contamination table<DiseaseTypeId, integer> @List of diseases carried by this comestible and their associated probability
----@field cooks_like ItypeId @Reference to other item that replaces this one as a component in recipe results
----@field default_nutrition any @Nutrition values to use for this type when they aren't calculated from components
----@field def_charges integer @Defaults # of charges (drugs, loaf of bread? etc)
----@field fatigue_mod integer @fatigue altering effect
----@field freeze_point integer @freezing point in degrees Fahrenheit, below this temperature item can freeze
+---@field addict_type AddictionType @
+---@field addict_value integer @
+---@field comest_type string @
+---@field contamination table<DiseaseTypeId, integer> @
+---@field cooks_like ItypeId @
+---@field default_nutrition any @
+---@field def_charges integer @
+---@field fatigue_mod integer @
+---@field freeze_point integer @
 ---@field healthy integer
 ---@field latent_heat number
----@field monotony_penalty integer @A penalty applied to fun for every time this food has been eaten in the last 48 hours
----@field parasites integer @chance (odds) of becoming parasitised when eating (zero if never occurs)
----@field petfood string[] @pet food category
----@field quench integer @effect on character thirst (may be negative)
----@field radiation integer @Amount of radiation you get from this comestible
----@field rot_spawn MonsterGroupId @The monster group that is drawn from when the item rots away
----@field rot_spawn_chance integer @Chance the above monster group spawns
----@field smoking_result ItypeId @Reference to item that will be received after smoking current item
----@field specific_heat_liquid number @specific heats in J/(g K) and latent heat in J/g
+---@field monotony_penalty integer @
+---@field parasites integer @
+---@field petfood string[] @
+---@field quench integer @
+---@field radiation integer @
+---@field rot_spawn MonsterGroupId @
+---@field rot_spawn_chance integer @
+---@field smoking_result ItypeId @
+---@field specific_heat_liquid number @
 ---@field specific_heat_solid number
----@field spoils TimeDuration @Time until becomes rotten at standard temperature, or zero if never spoils
----@field stimulant_type integer @stimulant effect
----@field tool ItypeId @tool needed to consume (e.g. lighter for cigarettes)
+---@field spoils TimeDuration @
+---@field stimulant_type integer @
+---@field tool ItypeId @
 ---@field get_default_nutr fun(arg1: IslotComestible): integer
 ---@field has_calories fun(arg1: IslotComestible): boolean
 IslotComestible = {}
@@ -838,23 +909,23 @@ IslotComestible = {}
 function IslotComestible.new() end
 
 ---@class IslotContainer
----@field contains Volume @Inner volume of the container
----@field preserves boolean @Contents do not spoil
----@field seals boolean @Can be resealed
----@field unseals_into ItypeId @If this is set to anything but "null", changing this container's contents in any way will turn this item into that type
----@field watertight boolean @Can hold liquids
+---@field contains Volume @
+---@field preserves boolean @
+---@field seals boolean @
+---@field unseals_into ItypeId @
+---@field watertight boolean @
 IslotContainer = {}
 ---@return IslotContainer
 function IslotContainer.new() end
 
 ---@class IslotEngine
----@field displacement integer @For combustion engines, the displacement
+---@field displacement integer @
 IslotEngine = {}
 ---@return IslotEngine
 function IslotEngine.new() end
 
 ---@class IslotFuel
----@field energy number @Energy of the fuel (kilojoules per charge)
+---@field energy number @
 ---@field explosion_data any
 ---@field has_explosion_data boolean
 ---@field pump_terrain TerIntId
@@ -863,26 +934,26 @@ IslotFuel = {}
 function IslotFuel.new() end
 
 ---@class IslotGun : RangedData
----@field ammo AmmunitionTypeId[] @What type of ammo this gun uses
----@field ammo_effects AmmunitionEffectId[] @Effects that are applied to the ammo when fired
----@field ammo_to_fire integer @How much ammo is consumed per shot
----@field barrel_volume Volume @Volume of material removed by sawing down the barrel, if left unspecified barrel can't be sawed down
----@field blackpowder_tolerance integer @One in X chance for gun to require major cleanup after firing blackpowder shot
----@field built_in_mods ItypeId[] @Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set
----@field burst integer @Burst size for AUTO mode (legacy field for items not migrated to specify modes )
----@field clip integer @For guns with an integral magazine what is the capacity?
----@field default_mods ItypeId[] @Default mods, string is id of mod. These mods are removable but are default on the weapon
----@field durability integer @Gun durability, affects gun being damaged during shooting
----@field handling integer @How easy is control of recoil? If unset value automatically derived from weapon type
----@field loudness integer @Modifies base loudness as provided by the currently loaded ammo
----@field min_cycle_recoil integer @Minimum ammo recoil for gun to be able to fire more than once per attack
----@field recoil integer @Additional recoil applied per shot before effects of handling are considered, useful for adding recoil effect to guns which otherwise consume no ammo
----@field reload_noise string @Noise displayed when reloading the weapon
----@field reload_noise_volume integer @Volume of the noise made when reloading this weapon
----@field reload_time integer @Reload time, in moves
----@field sight_dispersion integer @Maximum aim achievable using base weapon sights
----@field skill_used SkillId @What skill this gun uses
----@field ups_charges integer @If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all
+---@field ammo AmmunitionTypeId[] @
+---@field ammo_effects AmmunitionEffectId[] @
+---@field ammo_to_fire integer @
+---@field barrel_volume Volume @
+---@field blackpowder_tolerance integer @
+---@field built_in_mods ItypeId[] @
+---@field burst integer @
+---@field clip integer @
+---@field default_mods ItypeId[] @
+---@field durability integer @
+---@field handling integer @
+---@field loudness integer @
+---@field min_cycle_recoil integer @
+---@field recoil integer @
+---@field reload_noise string @
+---@field reload_noise_volume integer @
+---@field reload_time integer @
+---@field sight_dispersion integer @
+---@field skill_used SkillId @
+---@field ups_charges integer @
 ---@field get_gunmod_locations fun(arg1: IslotGun): table<string, integer> @Location for gun mods. Key is the location (untranslated!), value is the number of mods that the location can have. The value should be > 0
 ---@field get_modes fun(arg1: IslotGun): string[] @Firing modes are supported by the gun. Always contains at least DEFAULT mode
 IslotGun = {}
@@ -895,14 +966,14 @@ IslotGunmod = {}
 function IslotGunmod.new() end
 
 ---@class IslotMagazine
----@field ammo_type AmmunitionTypeId[] @What type of ammo this magazine can be loaded with
----@field capacity integer @Capacity of magazine (in equivalent units to ammo charges)
----@field count integer @Default amount of ammo contained by a magazine (often set for ammo belts)
----@field default_ammo ItypeId @Default type of ammo contained by a magazine (often set for ammo belts)
----@field linkage ItypeId @For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
----@field protects_contents boolean @If false, ammo will cook off if this mag is affected by fire
----@field reliability integer @How reliable this magazine on a range of 0 to 10?
----@field reload_time integer @How long it takes to load each unit of ammo into the magazine
+---@field ammo_type AmmunitionTypeId[] @
+---@field capacity integer @
+---@field count integer @
+---@field default_ammo ItypeId @
+---@field linkage ItypeId @
+---@field protects_contents boolean @
+---@field reliability integer @
+---@field reload_time integer @
 IslotMagazine = {}
 ---@return IslotMagazine
 function IslotMagazine.new() end
@@ -915,31 +986,31 @@ IslotMilling = {}
 function IslotMilling.new() end
 
 ---@class IslotMod
----@field acceptable_ammo AmmunitionTypeId[] @If non-empty restrict mod to items with those base (before modifiers) ammo types
----@field ammo_modifier AmmunitionTypeId[] @If set modifies parent ammo to this type
----@field capacity_multiplier number @Proportional adjustment of parent item ammo capacity
----@field magazine_adaptor Dict(AmmunitionTypeId,Set(ItypeId)) @If non-empty replaces the compatible magazines for the parent item
+---@field acceptable_ammo AmmunitionTypeId[] @
+---@field ammo_modifier AmmunitionTypeId[] @
+---@field capacity_multiplier number @
+---@field magazine_adaptor Dict(AmmunitionTypeId,Set(ItypeId)) @
 IslotMod = {}
 ---@return IslotMod
 function IslotMod.new() end
 
 ---@class IslotPetArmor
----@field bodytype string @What animal bodytype can wear this armor
----@field env_resist integer @Resistance to environmental effects
----@field env_resist_w_filter integer @Environmental protection of a gas mask with installed filter
----@field max_vol Volume @The maximum volume a pet can be and wear this armor
----@field min_vol Volume @The minimum volume a pet can be and wear this armor
----@field storage Volume @ How much storage this items provides when worn
----@field thickness integer @Multiplier on resistances provided by this armor
+---@field bodytype string @
+---@field env_resist integer @
+---@field env_resist_w_filter integer @
+---@field max_vol Volume @
+---@field min_vol Volume @
+---@field storage Volume @
+---@field thickness integer @
 IslotPetArmor = {}
 ---@return IslotPetArmor
 function IslotPetArmor.new() end
 
 ---@class IslotSeed
----@field byproducts ItypeId[] @Additionally items (a list of their item ids) that will spawn when harvesting the plant.
----@field fruit_div integer @Amount of harvested charges of fruits is divided by this number.
----@field fruit_id ItypeId @Type id of the fruit item.
----@field grow TimeDuration @Time it takes for a seed to grow (based of off a season length of 91 days).
+---@field byproducts ItypeId[] @
+---@field fruit_div integer @
+---@field fruit_id ItypeId @
+---@field grow TimeDuration @
 ---@field get_plant_name fun(arg1: IslotSeed, arg2: integer): string @Name of the plant.
 IslotSeed = {}
 ---@return IslotSeed
@@ -966,8 +1037,8 @@ IslotTool = {}
 function IslotTool.new() end
 
 ---@class IslotWheel
----@field diameter integer @Diameter of wheel in inches
----@field width integer @Width of wheel in inches
+---@field diameter integer @
+---@field width integer @
 IslotWheel = {}
 ---@return IslotWheel
 function IslotWheel.new() end
@@ -1089,6 +1160,7 @@ function IslotWheel.new() end
 ---@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
 ---@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
 ---@field set_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint)
+---@field spawn fun(arg1: ItypeId, arg2: integer): DetachedItem @Spawns a new item same as gapi.create_item 
 ---@field stamina_cost fun(arg1: Item): integer
 ---@field tname fun(arg1: Item, arg2: integer, arg3: boolean, arg4: integer): string @Translated item name with prefixes
 ---@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
@@ -1102,6 +1174,18 @@ function Item.new() end
 
 --- Iterate over this using pairs()
 ---@class ItemStack
+---@field amount_can_fit fun(arg1: ItemStack, arg2: Item): integer
+---@field clear fun(arg1: ItemStack): DetachedItem[]
+---@field count fun(arg1: ItemStack): any
+---@field count_limit fun(arg1: ItemStack): integer
+---@field free_volume fun(arg1: ItemStack): Volume
+---@field insert fun(arg1: ItemStack, arg2: DetachedItem)
+---@field max_volume fun(arg1: ItemStack): Volume
+---@field move_all_to fun(arg1: ItemStack, arg2: ItemStack)
+---@field only_item fun(arg1: ItemStack): Item
+---@field remove fun(arg1: ItemStack, arg2: Item): DetachedItem
+---@field stacks_with fun(arg1: ItemStack, arg2: Item): Item
+---@field stored_volume fun(arg1: ItemStack): Volume
 ---@field __pairs fun(arg1: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<item_stack_lua_it_state>>,nil)
 ItemStack = {}
 ---@return ItemStack
@@ -1242,16 +1326,14 @@ function JsonTraitFlagId.new() end
 ---@field add_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
 ---@field clear_items_at fun(arg1: Map, arg2: Tripoint)
 ---@field create_corpse_at fun(arg1: Map, arg2: Tripoint, arg3: MonsterTypeId, arg4: TimePoint, arg5: string, arg6: integer) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
----@field create_item_at fun(arg1: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer) @Creates a new item(s) at a position on the map.
+---@field create_item_at fun(arg1: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer): Item @Creates a new item(s) at a position on the map.
 ---@field disarm_trap_at fun(arg1: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
 ---@field get_abs_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
 ---@field get_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): TimeDuration
 ---@field get_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): integer
 ---@field get_furn_at fun(arg1: Map, arg2: Tripoint): FurnIntId
----@field get_items_at fun(arg1: Map, arg2: Tripoint): any
----@field get_items_at_with fun(arg1: Map, arg2: Tripoint, arg3: bool): Item[]
----@field get_items_in_radius fun(arg1: Map, arg2: Tripoint, arg3: integer): Item[]
----@field get_items_in_radius_with fun(arg1: Map, arg2: Tripoint, arg3: integer, arg4: bool): Item[]
+---@field get_items_at fun(arg1: Map, arg2: Tripoint): MapStack
+---@field get_items_in_radius fun(arg1: Map, arg2: Tripoint, arg3: integer): MapStack[]
 ---@field get_local_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert absolute ms -> local ms
 ---@field get_map_size fun(arg1: Map): integer @In map squares
 ---@field get_map_size_in_submaps fun(arg1: Map): integer
@@ -1275,6 +1357,7 @@ function Map.new() end
 
 ---@class MapStack : ItemStack
 ---@field as_item_stack fun(arg1: MapStack): ItemStack
+---@field __pairs fun(arg1: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<item_stack_lua_it_state>>,nil)
 MapStack = {}
 ---@return MapStack
 function MapStack.new() end
@@ -1424,25 +1507,25 @@ Mission = {}
 function Mission.new() end
 
 ---@class MissionType
----@field deadline_high TimeDuration @Returns the maximum allowed deadline for the mission.
----@field deadline_low TimeDuration @Returns the minimum allowed deadline for the mission.
----@field description any @Returns the mission's description as a string.
----@field dialogue Dict(string,CppVal<translation>) @Returns any associated dialogue for the mission.
----@field difficulty integer @Returns the mission's difficulty as an integer.
----@field empty_container ItypeId @Returns true if the mission requires the container to be empty.
----@field follow_up MissionTypeIdRaw @Returns any follow-up mission type ID.
----@field goal MissionGoal @Returns the mission's goal text.
----@field has_generic_rewards boolean @Returns true if the mission has generic rewards.
----@field item_count integer @Returns the count of items involved in the mission.
----@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
----@field likely_rewards Vector(CppVal<std_pair<int,string_id<itype>>>) @Returns a vector of likely rewards (chance, itype_id pairs).
----@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
----@field monster_type MonsterTypeId @Returns the monster type associated with the mission, if any.
----@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
----@field remove_container boolean @Returns true if the mission requires removing a container.
----@field target_npc_id CharacterId @Returns the ID of the target NPC for the mission, if any.
----@field urgent boolean @Returns true if the mission is marked as urgent.
----@field value integer @Returns the mission's reward value as an integer.
+---@field deadline_high TimeDuration @
+---@field deadline_low TimeDuration @
+---@field description any @
+---@field dialogue Dict(string,CppVal<translation>) @
+---@field difficulty integer @
+---@field empty_container ItypeId @
+---@field follow_up MissionTypeIdRaw @
+---@field goal MissionGoal @
+---@field has_generic_rewards boolean @
+---@field item_count integer @
+---@field item_id ItypeId @
+---@field likely_rewards Vector(CppVal<std_pair<int,string_id<itype>>>) @
+---@field monster_kill_goal integer @
+---@field monster_type MonsterTypeId @
+---@field origins MissionOrigin[] @
+---@field remove_container boolean @
+---@field target_npc_id CharacterId @
+---@field urgent boolean @
+---@field value integer @
 ---@field get_all fun(): any @Returns all available missions.
 ---@field get_random_mission_id fun(arg1: MissionOrigin, arg2: Tripoint): MissionTypeIdRaw @Returns a random mission type ID at the specified origin and overmap tile position.
 ---@field tname fun(arg1: MissionType): string
@@ -1455,6 +1538,22 @@ MissionTypeIdRaw = {}
 ---@return MissionTypeIdRaw
 ---@overload fun(arg1: string): MissionTypeIdRaw
 function MissionTypeIdRaw.new() end
+
+---@class ModInfoId
+---@field NULL_ID fun(): ModInfoId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: ModInfoId): boolean
+---@field is_valid fun(arg1: ModInfoId): boolean
+---@field obj fun(arg1: ModInfoId): ModInfoRaw
+---@field str fun(arg1: ModInfoId): string
+---@field serialize fun(arg1: ModInfoId, arg2: any)
+---@field deserialize fun(arg1: ModInfoId, arg2: any)
+---@field __tostring fun(arg1: ModInfoId): string
+ModInfoId = {}
+---@return ModInfoId
+---@overload fun(arg1: ModInfoId): ModInfoId
+---@overload fun(arg1: string): ModInfoId
+function ModInfoId.new() end
 
 ---@class Monster : Creature
 ---@field anger integer
@@ -1526,6 +1625,22 @@ MonsterFactionIntId = {}
 ---@overload fun(arg1: MonsterFactionId): MonsterFactionIntId
 function MonsterFactionIntId.new() end
 
+---@class MonsterGroupId
+---@field NULL_ID fun(): MonsterGroupId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: MonsterGroupId): boolean
+---@field is_valid fun(arg1: MonsterGroupId): boolean
+---@field obj fun(arg1: MonsterGroupId): MonsterGroupRaw
+---@field str fun(arg1: MonsterGroupId): string
+---@field serialize fun(arg1: MonsterGroupId, arg2: any)
+---@field deserialize fun(arg1: MonsterGroupId, arg2: any)
+---@field __tostring fun(arg1: MonsterGroupId): string
+MonsterGroupId = {}
+---@return MonsterGroupId
+---@overload fun(arg1: MonsterGroupId): MonsterGroupId
+---@overload fun(arg1: string): MonsterGroupId
+function MonsterGroupId.new() end
+
 ---@class MonsterTypeId
 ---@field NULL_ID fun(): MonsterTypeId
 ---@field implements_int_id fun(): boolean
@@ -1575,36 +1690,36 @@ MutationBranchId = {}
 function MutationBranchId.new() end
 
 ---@class MutationBranchRaw
----@field activated boolean @Whether this mutation can be activated at will.
----@field allow_soft_gear boolean @Mutation allows soft gear to be worn over otherwise-restricted parts.
+---@field activated boolean @
+---@field allow_soft_gear boolean @
 ---@field attackcost_modifier number
 ---@field bleed_resist number
 ---@field bodytemp_max_btu integer
 ---@field bodytemp_min_btu integer
 ---@field bodytemp_sleep_btu integer
----@field construction_speed_modifier number @Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
----@field cooldown integer @Costs are incurred every 'cooldown' turns.
+---@field construction_speed_modifier number @
+---@field cooldown integer @
 ---@field cost integer
----@field crafting_speed_modifier number @Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
----@field debug boolean @Whether or not this mutation is limited to debug use.
+---@field crafting_speed_modifier number @
+---@field debug boolean @
 ---@field dodge_modifier number
 ---@field falling_damage_multiplier number
----@field fatigue boolean @Mutation causes fatigue when used.
+---@field fatigue boolean @
 ---@field fatigue_modifier number
 ---@field fatigue_regen_modifier number
----@field healing_awake number @Healing per turn from mutation.
----@field healing_resting number @Healing per turn from mutation, while asleep.
----@field healthy_rate number @How quickly health (not HP) trends toward healthy_mod.
+---@field healing_awake number @
+---@field healing_resting number @
+---@field healthy_rate number @
 ---@field hearing_modifier number
----@field hp_adjustment number @Flat adjustment to HP.
----@field hp_modifier number @Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
----@field hp_modifier_secondary number @Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it.
----@field hunger boolean @Mutation deducts calories when used.
+---@field hp_adjustment number @
+---@field hp_modifier number @
+---@field hp_modifier_secondary number @
+---@field hunger boolean @
 ---@field id MutationBranchId
 ---@field max_stamina_modifier number
----@field mending_modifier number @Multiplier applied to broken limb regeneration. Normally 0.25; clamped to 0.25..1.0.
+---@field mending_modifier number @
 ---@field metabolism_modifier number
----@field mixed_effect boolean @Whether this mutation has positive /and/ negative effects.
+---@field mixed_effect boolean @
 ---@field movecost_flatground_modifier number
 ---@field movecost_modifier number
 ---@field movecost_obstacle_modifier number
@@ -1613,28 +1728,28 @@ function MutationBranchId.new() end
 ---@field noise_modifier number
 ---@field overmap_multiplier number
 ---@field overmap_sight number
----@field packmule_modifier number @Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
----@field pain_recovery number @Pain recovery per turn from mutation.
----@field player_display boolean @Whether or not this mutation shows up in the status (`@`) menu.
----@field points integer @Point cost in character creation(?).
----@field profession boolean @Whether this trait is ONLY gained through professional training/experience (and/or quests).
----@field purifiable boolean @Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
+---@field packmule_modifier number @
+---@field pain_recovery number @
+---@field player_display boolean @
+---@field points integer @
+---@field profession boolean @
+---@field purifiable boolean @
 ---@field reading_speed_multiplier number
 ---@field scent_modifier number
 ---@field skill_rust_multiplier number
 ---@field speed_modifier number
 ---@field stamina_regen_modifier number
----@field starting_trait boolean @Whether this trait can normally be taken during character generation.
----@field starts_active boolean @Whether a mutation activates when granted.
+---@field starting_trait boolean @
+---@field starts_active boolean @
 ---@field stealth_modifier number
----@field str_modifier number @Adjustment to Strength that doesn't affect HP.
+---@field str_modifier number @
 ---@field temperature_speed_modifier number
----@field thirst boolean @Mutation dehydrates when used.
+---@field thirst boolean @
 ---@field thirst_modifier number
----@field threshold boolean @Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
----@field ugliness integer @How physically unappealing the mutation is. Can be negative.
----@field valid boolean @Whether this mutation is available through generic mutagen.
----@field visibility integer @How visible the mutation is to others.
+---@field threshold boolean @
+---@field ugliness integer @
+---@field valid boolean @
+---@field visibility integer @
 ---@field weight_capacity_modifier number
 ---@field addition_mutations fun(arg1: MutationBranchRaw): MutationBranchId[]
 ---@field categories fun(arg1: MutationBranchRaw): MutationCategoryTraitId[] @Lists the categories this mutation belongs to.
@@ -1773,6 +1888,22 @@ function Point.new() end
 PopupInputStr = {}
 ---@return PopupInputStr
 function PopupInputStr.new() end
+
+---@class QualityId
+---@field NULL_ID fun(): QualityId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: QualityId): boolean
+---@field is_valid fun(arg1: QualityId): boolean
+---@field obj fun(arg1: QualityId): QualityRaw
+---@field str fun(arg1: QualityId): string
+---@field serialize fun(arg1: QualityId, arg2: any)
+---@field deserialize fun(arg1: QualityId, arg2: any)
+---@field __tostring fun(arg1: QualityId): string
+QualityId = {}
+---@return QualityId
+---@overload fun(arg1: QualityId): QualityId
+---@overload fun(arg1: string): QualityId
+function QualityId.new() end
 
 ---@class QueryPopup
 ---@field allow_any_key fun(arg1: QueryPopup, arg2: boolean) @Set whether to allow any key
@@ -1916,10 +2047,10 @@ function Spell.new() end
 
 --- The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything *other than* a player), this is likely the appropriate type. Otherwise, see the Spell type.
 ---@class SpellSimple
----@field force_target_source boolean @Whether or not the target point is *locked* to the source's location.
+---@field force_target_source boolean @
 ---@field id SpellTypeId
 ---@field level integer
----@field trigger_once_in integer @Used for enchantments; the spell's *chance* to trigger every turn.
+---@field trigger_once_in integer @
 ---@field cast fun(arg1: SpellSimple, arg2: Creature, arg3: Tripoint, arg4: integer)
 ---@field max_level fun(arg1: SpellSimple): integer @Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
 ---@field prompt_cast fun(arg1: SpellTypeId, arg2: Tripoint, arg3: integer): SpellSimple @Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
@@ -1956,8 +2087,8 @@ function SpellTypeId.new() end
 ---@field difficulty integer
 ---@field dot_increment number
 ---@field duration_increment integer
----@field effect_name string @The name of the primary effect this spell will enact.
----@field effect_str string @Specifics about the effect this spell will enact.
+---@field effect_name string @
+---@field effect_str string @
 ---@field energy_increment number
 ---@field field_chance integer
 ---@field field_intensity_increment number
@@ -2150,7 +2281,7 @@ Tripoint = {}
 function Tripoint.new() end
 
 ---@class UiList
----@field entries UiListEntry[] @Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
+---@field entries UiListEntry[] @
 ---@field add fun(arg1: UiList, arg2: integer, arg3: string) @Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
 ---@field add_w_col fun(arg1: UiList, arg2: integer, arg3: string, arg4: string, arg5: string) @Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
 ---@field add_w_desc fun(arg1: UiList, arg2: integer, arg3: string, arg4: string) @Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
@@ -2170,10 +2301,10 @@ function UiList.new() end
 
 --- This type came from UiList.
 ---@class UiListEntry
----@field ctxt string @Entry text of column.
----@field desc string @Entry description
----@field enable boolean @Entry whether it's enabled or not. Default is `true`.
----@field txt string @Entry text
+---@field ctxt string @
+---@field desc string @
+---@field enable boolean @
+---@field txt string @
 ---@field txt_color fun(arg1: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 UiListEntry = {}
 ---@return UiListEntry
@@ -2190,6 +2321,22 @@ function UiListEntry.new() end
 Volume = {}
 ---@return Volume
 function Volume.new() end
+
+---@class WeaponCategoryId
+---@field NULL_ID fun(): WeaponCategoryId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: WeaponCategoryId): boolean
+---@field is_valid fun(arg1: WeaponCategoryId): boolean
+---@field obj fun(arg1: WeaponCategoryId): WeaponCategoryRaw
+---@field str fun(arg1: WeaponCategoryId): string
+---@field serialize fun(arg1: WeaponCategoryId, arg2: any)
+---@field deserialize fun(arg1: WeaponCategoryId, arg2: any)
+---@field __tostring fun(arg1: WeaponCategoryId): string
+WeaponCategoryId = {}
+---@return WeaponCategoryId
+---@overload fun(arg1: WeaponCategoryId): WeaponCategoryId
+---@overload fun(arg1: string): WeaponCategoryId
+function WeaponCategoryId.new() end
 
 --================---- Libraries ----================
 
@@ -2224,7 +2371,7 @@ coords = {}
 ---@field before_time_starts fun(): TimePoint
 ---@field choose_adjacent fun(arg1: string, arg2: boolean): Tripoint
 ---@field choose_direction fun(arg1: string, arg2: boolean): Tripoint
----@field create_item fun(arg1: ItypeId, arg2: integer): any
+---@field create_item fun(arg1: ItypeId, arg2: integer): DetachedItem @Spawns a new item same as Item::spawn 
 ---@field current_turn fun(): TimePoint
 ---@field get_avatar fun(): Avatar
 ---@field get_character_at fun(arg1: Tripoint, arg2: boolean): Character

@@ -161,7 +161,7 @@ LUNA_VAL( damage_unit, "DamageUnit" );
 LUNA_VAL( dealt_damage_instance, "DealtDamageInstance" );
 LUNA_VAL( distribution_grid, "DistributionGrid" );
 LUNA_VAL( distribution_grid_tracker, "DistributionGridTracker" );
-LUNA_VAL( item, "Item" );
+LUNA_PTR_VAL( item, "Item" );
 LUNA_VAL( item_stack, "ItemStack" );
 LUNA_VAL( map, "Map" );
 LUNA_VAL( map_stack, "MapStack" );

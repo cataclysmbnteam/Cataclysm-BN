@@ -214,7 +214,7 @@ local fmt_variable_field = function(member, is_static)
   if member.comment and member.comment ~= "" then
     ret = ret .. " @"
     local first = true
-    for line in string.gmatch(member.comment, "[^\r\n]+") do
+    for line in string.gmatch(member.comment, "([^\r\n]+)\n") do
       if not first then ret = ret .. " " end
       first = false
       ret = ret .. line
@@ -264,7 +264,15 @@ local fmt_function_field = function(member, class_name, is_method)
 
   local signature_union = table.concat(signatures, " | ")
   ret = ret .. "---@field " .. member_name .. " " .. signature_union
-  if member.comment and member.comment ~= "" then ret = ret .. " @" .. member.comment end
+  if member.comment and member.comment ~= "" then
+    ret = ret .. " @"
+    local first = true
+    for line in string.gmatch(member.comment, "[^\r\n]+") do
+      if not first then ret = ret .. " " end
+      first = false
+      ret = ret .. line
+    end
+  end
   return ret .. "\n"
 end
 

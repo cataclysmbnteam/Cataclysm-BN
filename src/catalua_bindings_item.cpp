@@ -74,6 +74,12 @@ void reg_item( sol::state &lua )
         DOC( "Erase all variables" );
         SET_FX( clear_vars );
 
+        DOC( "Spawns a new item\nsame as gapi.create_item " );
+        luna::set_fx( ut, "spawn", []( const itype_id & itype, int count )
+        {
+            return item::spawn( itype, calendar::turn, count );
+        } );
+
         SET_FX( is_null );
         SET_FX( is_unarmed_weapon );
         SET_FX( is_sided );

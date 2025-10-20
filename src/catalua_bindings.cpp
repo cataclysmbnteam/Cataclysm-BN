@@ -591,6 +591,25 @@ void cata::detail::reg_testing_library( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
+template<typename T>
+void reg_detached_ptr( sol::state &lua )
+{
+    using Ptr = detached_ptr<T>;
+#define UT_CLASS Ptr
+    {
+        sol::usertype<Ptr> ut = luna::new_usertype<Ptr>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_FX( get );
+        luna::set_fx( ut, "is_valid", []( const Ptr & ptr ) -> bool { return !!ptr; } );
+    }
+#undef UT_CLASS
+}
+
+void cata::detail::reg_ptr_types( sol::state &lua )
+{
+    reg_detached_ptr<item>( lua );
+}
+
 void cata::reg_all_bindings( sol::state &lua )
 {
     using namespace detail;
@@ -624,4 +643,5 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_types( lua );
     reg_time_types( lua );
     reg_testing_library( lua );
+    reg_ptr_types( lua );
 }

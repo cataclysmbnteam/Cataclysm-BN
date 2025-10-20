@@ -679,7 +679,19 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( is_hauling, bool() const );
 
         DOC( "Adds an item with the given id and amount" );
-        SET_FX_T( add_item_with_id, void( const itype_id & itype, int count ) );
+        luna::set_fx( ut, "add_item", []( UT_CLASS & c, detached_ptr<item> &i )
+        {
+            c.i_add( std::move( i ) );
+        } );
+
+        DOC( "Adds an item with the given id and amount to the player inventory" );
+        luna::set_fx( ut, "create_item", []( UT_CLASS & c, const itype_id & itype, int count )
+        {
+            return &c.add_item_with_id( itype, count );
+        } );
+
+        DOC( "DEPRECATED: use create_item instead" );
+        SET_FX_T( add_item_with_id, item & ( const itype_id & itype, int count ) );
 
         DOC( "Checks for an item with the given id" );
         SET_FX_T( has_item_with_id, bool( const itype_id & itype, bool need_charges ) const );
@@ -700,8 +712,11 @@ void cata::detail::reg_character( sol::state &lua )
         DOC( "Filters items" );
         luna::set_fx( ut, "items_with", &Character::items_with );
 
-        DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
+        DOC( "DEPRECATED: use remove_item instead" );
         luna::set_fx( ut, "inv_remove_item", &Character::inv_remove_item );
+
+        DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
+        luna::set_fx( ut, "remove_item", &Character::inv_remove_item );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );

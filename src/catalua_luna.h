@@ -9,9 +9,10 @@
 #include <utility>
 #include <vector>
 
-#include "catalua_sol.h"
 #include "catalua_readonly.h"
+#include "catalua_sol.h"
 #include "debug.h"
+#include "detached_ptr.h"
 #include "string_formatter.h"
 
 #define LUNA_VAL( Class, Name )                         \
@@ -31,6 +32,11 @@
     LUNA_VAL( int_id<Class>, Name "IntId" )
 
 #define LUNA_ENUM( Class, Name ) LUNA_VAL( Class, Name )
+
+#define LUNA_PTR_VAL( Class, Name ) \
+    LUNA_VAL( Class, Name ) \
+    LUNA_VAL( detached_ptr<Class>, "Detached" Name ) \
+    LUNA_VAL( std::unique_ptr<Class>, "Unique" Name )
 
 namespace luna
 {
@@ -204,11 +210,11 @@ std::string doc_value( sol::types<std::pair<T, U>> )
 }
 
 template<typename Ret, typename ...Args>
-std::string doc_value( sol::types<Ret(Args...)> )
+std::string doc_value( sol::types<Ret( Args... )> )
 {
     std::string ret = "Func";
     ret += doc_value( sol::types<std::tuple<Args...>>() );
-    if constexpr (!std::is_same_v<Ret, void>) {
+    if constexpr( !std::is_same_v<Ret, void> ) {
         ret += " -> ";
         ret += doc_value( sol::types<Ret>() );
     }
@@ -219,7 +225,7 @@ std::string doc_value( sol::types<Ret(Args...)> )
 template<typename _Sig>
 std::string doc_value( sol::types<std::function<_Sig>> )
 {
-    return doc_value(sol::types<_Sig>());
+    return doc_value( sol::types<_Sig>() );
 }
 
 template<typename Val>
