@@ -203,6 +203,7 @@ local fmt_members = function(typename, members)
 
     -- Hide operators and serialization methods
     local is_hidden = function(member)
+      if member.comment and member.comment:find("DEPRECATED") then return true end
       if member.name:find("^__") then return true end
       if member.name == "serialize" then return true end
       if member.name == "deserialize" then return true end
