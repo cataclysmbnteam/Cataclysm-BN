@@ -38,10 +38,8 @@ local slug_for = function(typename, membername)
 end
 
 local table_contains = function(tbl, key)
-  for k,v in pairs(tbl) do
-    if tostring(k):upper() == tostring(key):upper() then
-      return true
-    end
+  for k, v in pairs(tbl) do
+    if tostring(k):upper() == tostring(key):upper() then return true end
   end
   return false
 end
@@ -56,12 +54,10 @@ local extract_token = function(str, open, close, i)
   local j = i
   local depth = 0
   while true do
-    local openBracket = str:find(open, j , true) or #str
-    local closeBracket = str:find(close, j , true) or #str
+    local openBracket = str:find(open, j, true) or #str
+    local closeBracket = str:find(close, j, true) or #str
 
-    if openBracket == nil and closeBracket == nil then
-      break
-    end
+    if openBracket == nil and closeBracket == nil then break end
 
     if openBracket < closeBracket then
       depth = depth + 1
@@ -69,9 +65,7 @@ local extract_token = function(str, open, close, i)
     else
       depth = depth - 1
       j = closeBracket + 1
-      if depth == 0 then
-        break
-      end
+      if depth == 0 then break end
     end
   end
   local left = str:sub(1, i - 1)
@@ -90,19 +84,19 @@ local extract_cpp_types = function(str)
   while true do
     local match = tmp:find("CppVal", 1, true)
     if match ~= nil then
-      local before,token,after = extract_token(tmp, "<", ">", match)
-      if before ~= "" then table.insert(tbl, {before, false}) end
-      if token ~= "" then table.insert(tbl, {token, true}) end
+      local before, token, after = extract_token(tmp, "<", ">", match)
+      if before ~= "" then table.insert(tbl, { before, false }) end
+      if token ~= "" then table.insert(tbl, { token, true }) end
       tmp = after
     else
-      if tmp ~= "" then table.insert(tbl, {tmp, false}) end
+      if tmp ~= "" then table.insert(tbl, { tmp, false }) end
       break
     end
   end
   return tbl
 end
 
-local linkify_types =  function(str_)
+local linkify_types = function(str_)
   local dt = catadoc
   local types_table = dt["#types"]
 
@@ -117,9 +111,7 @@ local linkify_types =  function(str_)
       str = string.gsub(str, ">", "&gt;")
     else
       str = string.gsub(str, "[%a%d]+", function(k)
-        if table_contains(types_table, k) then
-          return ("[%s](#sol::%s)"):format(k,k)
-        end
+        if table_contains(types_table, k) then return ("[%s](#sol::%s)"):format(k, k) end
         return k
       end)
     end
@@ -137,9 +129,8 @@ local fmt_arg_list = function(arg_list)
   return ret .. " "
 end
 
-local fmt_one_constructor = function(typename, ctor)
-  return typename .. ".new(" .. linkify_types(fmt_arg_list(ctor)) .. ")"
-end
+local fmt_one_constructor =
+  function(typename, ctor) return typename .. ".new(" .. linkify_types(fmt_arg_list(ctor)) .. ")" end
 
 local fmt_constructors = function(typename, ctors)
   if #ctors == 0 then
@@ -168,17 +159,13 @@ local fmt_one_member = function(typename, member)
       if typename ~= nil and overload.args[1] == typename then
         local args = { table.unpack(overload.args, 2) }
         local sigFmt = "(%s)"
-        if overload.retval ~= "nil" then
-          sigFmt = sigFmt .. " -> %s"
-        end
+        if overload.retval ~= "nil" then sigFmt = sigFmt .. " -> %s" end
         local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
         ret = ret .. (" 🇲 Method --> <code>%s</code>  \n"):format(linkify_types(sigStr))
       else
         local args = overload.args
         local sigFmt = "(%s)"
-        if overload.retval ~= "nil" then
-          sigFmt = sigFmt .. " -> %s"
-        end
+        if overload.retval ~= "nil" then sigFmt = sigFmt .. " -> %s" end
         local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
         ret = ret .. (" 🇫 Function --> <code>%s</code>  \n"):format(linkify_types(sigStr))
       end
@@ -318,7 +305,7 @@ and should not be edited directly.
     local typename = it.k
     local dt_type = it.v
     local type_comment = dt_type.type_comment
-    ret = ret ..  ("## %s {%s}\n"):format(typename, slug_for(typename))
+    ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if type_comment then ret = ret .. type_comment .. "\n" end
 
