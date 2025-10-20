@@ -11,7 +11,9 @@ An RPG progression mod for Cataclysm: Bright Nights that adds a LitRPG-style exp
 
 ## Balance
 
-Worth ~25 character creation points. Worth much less early game, more late game. Not designed to be used with "Stats through Kills" mod.
+Worth ~25 character creation points. Worth much less early game, more late game. If you want to play a "vanilla balanced" experience, create a character with 25 points left at the end of character creation.
+
+Not designed to be used with "Stats through Kills" mod.
 
 ## Screenshots
 
