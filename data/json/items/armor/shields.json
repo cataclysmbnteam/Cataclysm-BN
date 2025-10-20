@@ -87,6 +87,17 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE" ]
   },
   {
+    "id": "shield_ballistic_large",
+    "copy-from": "shield_ballistic",
+    "looks_like": "shield_riot",
+    "type": "ARMOR",
+    "name": { "str": "large ballistic shield" },
+    "description": "A tall composite shield used by SWAT teams and other armed forces, rated for pistol bullets.  Covers the body and legs quite well, but is much heavier and more encumbering than lighter models.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.5, "price_postapoc": 1.5 },
+    "relative": { "to_hit": -1, "encumbrance": 10, "bashing": 4 },
+    "techniques": [ "WBLOCK_3" ]
+  },
+  {
     "id": "shield_leather",
     "type": "ARMOR",
     "name": { "str": "leather-reinforced shield" },

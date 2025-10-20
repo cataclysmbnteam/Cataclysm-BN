@@ -880,7 +880,7 @@ vehicle *game::place_vehicle_nearby(
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.can_float() ) {
+        if( veh.can_float() && !veh.has_part( VPFLAG_BALLOON ) ) {
             search_types.emplace_back( "river_shore" );
             search_types.emplace_back( "lake_shore" );
             search_types.emplace_back( "lake_surface" );
@@ -2303,9 +2303,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "whitelist_enemy" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
-#endif
     ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
@@ -10946,7 +10944,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             return std::nullopt;
         }
     } else if( !can_fly ) {
-        if( query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
+        if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
             return std::nullopt;
         }
     }

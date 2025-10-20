@@ -60,6 +60,9 @@ Angle = {}
 function Angle.new() end
 
 ---@class Avatar : Player, Character, Creature
+---@field get_active_missions fun(arg1: Avatar): Mission[]
+---@field get_completed_missions fun(arg1: Avatar): Mission[]
+---@field get_failed_missions fun(arg1: Avatar): Mission[]
 Avatar = {}
 ---@return Avatar
 function Avatar.new() end
@@ -320,6 +323,8 @@ function BodyPartTypeIntId.new() end
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
+---@field reset fun(arg1: Character)
+---@field reset_encumbrance fun(arg1: Character)
 ---@field restore_scent fun(arg1: Character)
 ---@field rest_quality fun(arg1: Character): number
 ---@field rooted fun(arg1: Character)
@@ -930,6 +935,31 @@ MartialArtsTechniqueId = {}
 ---@overload fun(arg1: string): MartialArtsTechniqueId
 function MartialArtsTechniqueId.new() end
 
+---@class MartialArtsTechniqueRaw
+---@field avatar_message fun()
+---@field block_counter fun()
+---@field crit_ok fun()
+---@field crit_tec fun()
+---@field defensive fun()
+---@field disarms fun()
+---@field dodge_counter fun()
+---@field down_dur fun()
+---@field get_description fun(arg1: MartialArtsTechniqueRaw): string
+---@field grab_break fun()
+---@field knockback_dist fun()
+---@field knockback_follow fun()
+---@field knockback_spread fun()
+---@field miss_recovery fun()
+---@field name fun()
+---@field npc_message fun()
+---@field powerful_knockback fun()
+---@field side_switch fun()
+---@field stun_dur fun()
+---@field take_weapon fun()
+MartialArtsTechniqueRaw = {}
+---@return MartialArtsTechniqueRaw
+function MartialArtsTechniqueRaw.new() end
+
 ---@class Mass
 ---@field from_gram fun(arg1: integer): Mass
 ---@field from_kilogram fun(arg1: integer): Mass
@@ -968,6 +998,71 @@ function MaterialTypeId.new() end
 MaterialTypeRaw = {}
 ---@return MaterialTypeRaw
 function MaterialTypeRaw.new() end
+
+---@class Mission
+---@field assign fun(arg1: Mission, arg2: Avatar) @Assigns this mission to the given avatar.
+---@field fail fun(arg1: Mission) @Fails the mission.
+---@field get_deadline fun(arg1: Mission): TimePoint @Returns the mission's deadline as a time_point.
+---@field get_description fun(arg1: Mission): string @Returns the mission description.
+---@field get_follow_up fun(arg1: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
+---@field get_id fun(arg1: Mission): integer @Returns the mission's unique ID.
+---@field get_item_id fun(arg1: Mission): ItypeId @Returns the item ID associated with the mission.
+---@field get_likely_rewards fun(arg1: Mission): any @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+---@field get_npc_id fun(arg1: Mission): CharacterId @Returns the NPC character ID associated with the mission.
+---@field get_target_point fun(arg1: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
+---@field get_type fun(arg1: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
+---@field get_value fun(arg1: Mission): integer @Returns the mission's value as an integer.
+---@field has_deadline fun(arg1: Mission): boolean @Returns true if the mission has a deadline.
+---@field has_failed fun(arg1: Mission): boolean @Returns true if the mission has failed.
+---@field has_follow_up fun(arg1: Mission): boolean @Returns true if the mission has a follow-up mission.
+---@field has_generic_rewards fun(arg1: Mission): boolean @Returns true if the mission has generic rewards.
+---@field has_target fun(arg1: Mission): boolean @Returns true if the mission has a target.
+---@field in_progress fun(arg1: Mission): boolean @Returns true if the mission is currently in progress.
+---@field is_assigned fun(arg1: Mission): boolean @Returns true if the mission is currently assigned.
+---@field mission_id fun(arg1: Mission): MissionTypeIdRaw @Returns the mission type ID of this mission.
+---@field name fun(arg1: Mission): string @Returns the mission's name as a string.
+---@field reserve_new fun(arg1: MissionTypeIdRaw, arg2: CharacterId): Mission @Reserves a new mission of the given type for the specified NPC. Returns the new mission.
+---@field reserve_random fun(arg1: MissionOrigin, arg2: Tripoint, arg3: CharacterId): Mission @Reserves a random mission at the specified origin and position for the given NPC. Returns the new mission.
+---@field step_complete fun(arg1: Mission, arg2: integer) @Marks a mission step as complete, taking an integer step index.
+---@field wrap_up fun(arg1: Mission) @Wraps up the mission successfully.
+---@field serialize fun(arg1: Mission)
+---@field deserialize fun(arg1: Mission)
+Mission = {}
+---@return Mission
+function Mission.new() end
+
+---@class MissionType
+---@field deadline_high TimeDuration @Returns the maximum allowed deadline for the mission.
+---@field deadline_low TimeDuration @Returns the minimum allowed deadline for the mission.
+---@field description any @Returns the mission's description as a string.
+---@field dialogue any @Returns any associated dialogue for the mission.
+---@field difficulty integer @Returns the mission's difficulty as an integer.
+---@field empty_container ItypeId @Returns true if the mission requires the container to be empty.
+---@field follow_up MissionTypeIdRaw @Returns any follow-up mission type ID.
+---@field goal MissionGoal @Returns the mission's goal text.
+---@field has_generic_rewards boolean @Returns true if the mission has generic rewards.
+---@field item_count integer @Returns the count of items involved in the mission.
+---@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
+---@field likely_rewards any @Returns a vector of likely rewards (chance, itype_id pairs).
+---@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
+---@field monster_type MtypeId @Returns the monster type associated with the mission, if any.
+---@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
+---@field remove_container boolean @Returns true if the mission requires removing a container.
+---@field target_npc_id CharacterId @Returns the ID of the target NPC for the mission, if any.
+---@field urgent boolean @Returns true if the mission is marked as urgent.
+---@field value integer @Returns the mission's reward value as an integer.
+---@field get_all fun(): any @Returns all available missions.
+---@field get_random_mission_id fun(arg1: MissionOrigin, arg2: Tripoint): MissionTypeIdRaw @Returns a random mission type ID at the specified origin and overmap tile position.
+---@field tname fun(arg1: MissionType): string
+MissionType = {}
+---@return MissionType
+function MissionType.new() end
+
+---@class MissionTypeIdRaw
+MissionTypeIdRaw = {}
+---@return MissionTypeIdRaw
+---@overload fun(arg1: string): MissionTypeIdRaw
+function MissionTypeIdRaw.new() end
 
 ---@class Monster : Creature
 ---@field anger integer
@@ -1095,8 +1190,10 @@ function MutationBranchId.new() end
 ---@field bodytemp_max_btu integer
 ---@field bodytemp_min_btu integer
 ---@field bodytemp_sleep_btu integer
+---@field construction_speed_modifier number @Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
 ---@field cooldown integer @Costs are incurred every 'cooldown' turns.
 ---@field cost integer
+---@field crafting_speed_modifier number @Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
 ---@field debug boolean @Whether or not this mutation is limited to debug use.
 ---@field dodge_modifier number
 ---@field falling_damage_multiplier number
@@ -1124,6 +1221,7 @@ function MutationBranchId.new() end
 ---@field noise_modifier number
 ---@field overmap_multiplier number
 ---@field overmap_sight number
+---@field packmule_modifier number @Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
 ---@field pain_recovery number @Pain recovery per turn from mutation.
 ---@field player_display boolean @Whether or not this mutation shows up in the status (`@`) menu.
 ---@field points integer @Point cost in character creation(?).
@@ -1719,8 +1817,8 @@ coords = {}
 ---@field get_monster_at fun(arg1: Tripoint, arg2: bool?): Monster
 ---@field get_npc_at fun(arg1: Tripoint, arg2: bool?): Npc
 ---@field look_around fun(): Tripoint?
+---@field place_monster_around fun(arg1: MtypeId, arg2: Tripoint, arg3: integer): Monster
 ---@field place_monster_at fun(arg1: MtypeId, arg2: Tripoint): Monster
----@field place_monster_around fun(arg1: MtypeId, arg2: Tripoint, arg3: integer): Monster @Example: gapi.place_monster_around(MtypeId.new("mon_dog_bcollie"), gapi.get_avatar():get_pos_ms(), 5)
 ---@field place_player_overmap_at fun(arg1: Tripoint)
 ---@field play_ambient_variant_sound fun(arg1: string, arg2: string, arg3: integer, arg4: SfxChannel, arg5: integer, arg6: number, arg7: integer)
 ---@field play_variant_sound fun(arg1: string, arg2: string, arg3: integer) | fun(arg1: string, arg2: string, arg3: integer, arg4: Angle, arg5: number, arg6: number)
@@ -1744,18 +1842,17 @@ gdebug = {}
 --- Documentation for hooks
 ---@class hooks
 ---@field on_character_reset_stats fun() @Called when character stat gets reset
+---@field on_char_death fun() @Called when a character is dead
+---@field on_creature_blocked fun() @Called when a character successfully blocks
+---@field on_creature_dodged fun() @Called when a character successfully dodges
+---@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
+---@field on_creature_performed_technique fun() @Called when a character has performed technique
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
----@field on_game_started fun() @Called when game is started the first time
+---@field on_game_started fun() @Called when the game has first started
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
 ---@field on_mon_death fun() @Called when a monster is dead
----@field on_char_death fun() @Called after a character has died
----@field on_creature_dodged fun() @Called after a creature has dodged an attack
----@field on_creature_blocked fun() @Called after a creature has blocked an attack
----@field on_creature_melee_attacked fun() @Called after a creature has attacked in melee
----@field on_creature_performed_technique fun() @Called after a character has performed a combat technique
-
 hooks = {}
 
 --- Localization API.
@@ -1990,6 +2087,37 @@ DamageType = {
 	DT_BULLET = 13
 }
 
+---@enum MissionGoal
+MissionGoal = {
+	MGOAL_NULL = 0,
+	MGOAL_GO_TO = 1,
+	MGOAL_GO_TO_TYPE = 2,
+	MGOAL_FIND_ITEM = 3,
+	MGOAL_FIND_ANY_ITEM = 4,
+	MGOAL_FIND_ITEM_GROUP = 5,
+	MGOAL_FIND_MONSTER = 6,
+	MGOAL_FIND_NPC = 7,
+	MGOAL_ASSASSINATE = 8,
+	MGOAL_KILL_MONSTER = 9,
+	MGOAL_KILL_MONSTER_TYPE = 10,
+	MGOAL_RECRUIT_NPC = 11,
+	MGOAL_RECRUIT_NPC_CLASS = 12,
+	MGOAL_COMPUTER_TOGGLE = 13,
+	MGOAL_KILL_MONSTER_SPEC = 14,
+	MGOAL_TALK_TO_NPC = 15,
+	MGOAL_CONDITION = 16
+}
+
+---@enum MissionOrigin
+MissionOrigin = {
+	ORIGIN_NULL = 0,
+	ORIGIN_GAME_START = 1,
+	ORIGIN_OPENER_NPC = 2,
+	ORIGIN_ANY_NPC = 3,
+	ORIGIN_SECONDARY = 4,
+	ORIGIN_COMPUTER = 5
+}
+
 ---@enum MonsterAttitude
 MonsterAttitude = {
 	MATT_NULL = 0,
@@ -2137,7 +2265,8 @@ MonsterFlag = {
 	PROJECTILE_RESISTANT_1 = 122,
 	PROJECTILE_RESISTANT_2 = 123,
 	PROJECTILE_RESISTANT_3 = 124,
-	PROJECTILE_RESISTANT_4 = 125
+	PROJECTILE_RESISTANT_4 = 125,
+	VOLATILE = 126
 }
 
 ---@enum MonsterSize
