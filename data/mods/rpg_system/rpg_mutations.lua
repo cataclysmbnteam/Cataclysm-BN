@@ -350,7 +350,8 @@ local STAT_BONUS_IDS = {}
 local PERIODIC_BONUS_IDS = {}
 local KILL_MONSTER_BONUS_IDS = {}
 
-for id, mutation in pairs(MUTATIONS) do
+-- Function to register a mutation into the appropriate tracking lists
+local function register_mutation(mutation)
   local mutation_id = mutation:get_mutation_id()
 
   if mutation.type == "class" then
@@ -371,6 +372,11 @@ for id, mutation in pairs(MUTATIONS) do
   if next(mutation.kill_monster_bonuses) ~= nil then table.insert(KILL_MONSTER_BONUS_IDS, mutation_id) end
 end
 
+-- Register all built-in mutations
+for id, mutation in pairs(MUTATIONS) do
+  register_mutation(mutation)
+end
+
 return {
   Mutation = Mutation,
   MUTATIONS = MUTATIONS,
@@ -381,4 +387,5 @@ return {
   STAT_BONUS_IDS = STAT_BONUS_IDS,
   PERIODIC_BONUS_IDS = PERIODIC_BONUS_IDS,
   KILL_MONSTER_BONUS_IDS = KILL_MONSTER_BONUS_IDS,
+  register_mutation = register_mutation,
 }

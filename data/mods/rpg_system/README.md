@@ -1,6 +1,6 @@
 # RPG System
 
-An RPG progression mod for Cataclysm: Bright Nights that adds a LitRPG-style experience system.
+An RPG progression mod for Cataclysm: Bright Nights that adds a LitRPG-style experience system. Should be able to be added to existing saves without breaking things.
 
 ## Features
 
@@ -74,6 +74,10 @@ When you add a class or trait, it must be added both to `traits.json` and to `rp
 Each base class should give a total of 1 stat point per level, and each prestige class should give a total of 1.5 stat points per level. In addition to stat points, classes will give unique bonuses.
 
 A guideline for trait level requirements is 5 if the highest required stat is 12, 10 if the highest required stat is 16, and no level requirement otherwise.
+
+### Cross-mod compatibility
+
+If you want to add a new mod, you can call `add_mutation` from your own mod to register a new class or trait. See [here](https://github.com/mamick2006/Cataclysm-BN/releases/tag/release) for an example.
 
 ### TODOs
 

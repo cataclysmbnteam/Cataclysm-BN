@@ -3,6 +3,7 @@ gdebug.log_info("RPG System: Main")
 local mod = game.mod_runtime[game.current_mod]
 local storage = game.mod_storage[game.current_mod]
 local mutations = require("rpg_mutations")
+local Mutation = mutations.Mutation
 local MUTATIONS = mutations.MUTATIONS
 local ALL_CLASS_IDS = mutations.ALL_CLASS_IDS
 local ALL_TRAIT_IDS = mutations.ALL_TRAIT_IDS
@@ -11,6 +12,7 @@ local PRESTIGE_CLASS_IDS = mutations.PRESTIGE_CLASS_IDS
 local STAT_BONUS_IDS = mutations.STAT_BONUS_IDS
 local PERIODIC_BONUS_IDS = mutations.PERIODIC_BONUS_IDS
 local KILL_MONSTER_BONUS_IDS = mutations.KILL_MONSTER_BONUS_IDS
+local register_mutation = mutations.register_mutation
 local function color_text(text, color) return string.format("<color_%s>%s</color>", color, text) end
 
 local function color_good(text) return color_text(text, "light_green") end
@@ -64,6 +66,28 @@ local XP_EXPONENT = 3.65
 -- Progression Constants
 local LEVELS_PER_STAT_POINT = 2
 local LEVELS_PER_TRAIT_SLOT = 5
+
+-- Function to register a new mutation with the RPG system (can be called by other mods)
+-- config: table with mutation properties (id, type, symbol, requirements, stat_bonuses, etc.)
+-- See rpg_mutations.lua Mutation class for full structure
+mod.add_mutation = function(config)
+  if not config or not config.id then
+    gdebug.log_error("RPG System: add_mutation called without valid config or id")
+    return false
+  end
+
+  if MUTATIONS[config.id] then
+    -- If it's already there, just ignore.
+    return false
+  end
+
+  local mutation = Mutation.new(config)
+  MUTATIONS[config.id] = mutation
+  register_mutation(mutation)
+
+  gdebug.log_info("RPG System: Registered new mutation: " .. config.id)
+  return true
+end
 
 local function get_rpg_level(exp)
   local level = math.floor((exp / XP_COEFFICIENT) ^ (1 / XP_EXPONENT))
