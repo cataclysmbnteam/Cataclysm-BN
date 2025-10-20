@@ -2427,6 +2427,15 @@ int Character::attack_cost( const item &weap ) const
     move_cost += skill_cost;
     move_cost -= dexbonus;
 
+    // If we're strong enough to use this weapon one-handed but commit to two-handing it anyway, make it easier to swing.
+    // Limit to weapons over 100 base movecost so you can't do this with weapons that're too small.
+    // Exponential bonus so heavier weapons benefit more than small ones.
+    if( weap.attack_cost() > 100 && !weap.is_two_handed( *this ) &&
+        has_two_arms() && !worn_with_flag( flag_RESTRICT_HANDS ) ) {
+        move_cost = std::pow( move_cost, 0.975f );
+        add_msg( m_info, "Bonus for two-handing a weapon we could swing one-handed triggered." );
+    }
+
     move_cost += bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST, true );
 
     // Martial arts last. Flat has to be after mult, because comments say so.
