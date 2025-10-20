@@ -24,6 +24,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "locations.h"
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -589,8 +590,17 @@ void use_item( avatar &you, item &used )
             return;
         }
         if( used.has_flag( flag_BIONIC_TOOLS ) ) {
-            item *bio_tool = &*item::spawn( used );
-            you.invoke_item( bio_tool );
+            fake_item_location *bio_tool_spot = new fake_item_location();
+            if( bio_tool_spot == nullptr ) {
+                std::cout << "SCREM\n";
+            }
+            used.set_location( bio_tool_spot );
+            if( used.position() == tripoint_zero ) {
+                // IT HAPPENS BEFORE HERE :SCREM:
+                std::cout << "SCREM\n";
+            }
+            // item *bio_tool = item::spawn( used ).get();
+            you.invoke_item( &used );
         } else {
             you.invoke_item( &used, used.position() );
         }
