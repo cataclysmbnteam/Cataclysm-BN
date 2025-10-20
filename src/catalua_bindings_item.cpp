@@ -1,5 +1,7 @@
 #include "catalua_bindings.h"
 
+#include <ranges>
+
 #include "catalua_bindings_utils.h"
 #include "catalua_luna.h"
 #include "catalua_luna_doc.h"
@@ -11,6 +13,7 @@
 #include "character.h"
 #include "martialarts.h"
 #include "relic.h"
+#include "gun_mode.h"
 #include "mod_manager.h"
 #include "ammo_effect.h"
 #include "mongroup.h"
@@ -529,7 +532,6 @@ void reg_islot( sol::state &lua )
 
         DOC( "Layer, encumbrance and coverage information" );
         SET_MEMB_N_RO( data, "layer_data" );
-        // TODO: add armor_portion_data binding
 
         DOC( "Resistance to environmental effects" );
         SET_MEMB_RO( env_resist );
@@ -539,7 +541,6 @@ void reg_islot( sol::state &lua )
 
         DOC( "Damage negated by this armor. Usually calculated from materials+thickness" );
         SET_MEMB_RO( resistance );
-        // TODO: add resistances binding
 
         DOC( "Whether this item can be worn on either side of the body" );
         SET_MEMB_RO( sided );
@@ -679,6 +680,85 @@ void reg_islot( sol::state &lua )
 #define UT_CLASS islot_gun
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::bases<common_ranged_data>(), luna::no_constructor );
+
+        DOC( "What skill this gun uses" );
+        SET_MEMB_RO( skill_used );
+
+        DOC( "What type of ammo this gun uses" );
+        SET_MEMB_RO( ammo );
+
+        DOC( "Gun durability, affects gun being damaged during shooting" );
+        SET_MEMB_RO( durability );
+
+        DOC( "For guns with an integral magazine what is the capacity?" );
+        SET_MEMB_RO( clip );
+
+        DOC( "Reload time, in moves" );
+        SET_MEMB_RO( reload_time );
+
+        DOC( "Noise displayed when reloading the weapon" );
+        SET_MEMB_RO( reload_noise );
+
+        DOC( "Volume of the noise made when reloading this weapon" );
+        SET_MEMB_RO( reload_noise_volume );
+
+        DOC( "Maximum aim achievable using base weapon sights" );
+        SET_MEMB_RO( sight_dispersion );
+
+        DOC( "Modifies base loudness as provided by the currently loaded ammo" );
+        SET_MEMB_RO( loudness );
+
+        DOC( "If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all" );
+        SET_MEMB_RO( ups_charges );
+
+        DOC( "One in X chance for gun to require major cleanup after firing blackpowder shot" );
+        SET_MEMB_RO( blackpowder_tolerance );
+
+        DOC( "Minimum ammo recoil for gun to be able to fire more than once per attack" );
+        SET_MEMB_RO( min_cycle_recoil );
+
+        DOC( "Volume of material removed by sawing down the barrel, if left unspecified barrel can't be sawed down" );
+        SET_MEMB_RO( barrel_volume );
+
+        DOC( "Effects that are applied to the ammo when fired" );
+        SET_MEMB_RO( ammo_effects );
+
+        DOC( "Location for gun mods. Key is the location (untranslated!), value is the number of mods that the location can have. The value should be > 0" );
+        luna::set_fx( ut, "get_gunmod_locations", []( const UT_CLASS & c )
+        {
+            std::map<std::string, int> rv{};
+            for( const auto& [k, v] : c.valid_mod_locations ) {
+                rv[k.str()] = v;
+            }
+            return rv;
+        } );
+
+        DOC( "Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set" );
+        SET_MEMB_RO( built_in_mods );
+
+        DOC( "Default mods, string is id of mod. These mods are removable but are default on the weapon" );
+        SET_MEMB_RO( default_mods );
+
+        DOC( "Firing modes are supported by the gun. Always contains at least DEFAULT mode" );
+        luna::set_fx( ut, "get_modes", []( const UT_CLASS & c )
+        {
+            std::vector<std::string> rv{};
+            std::ranges::copy( c.modes | std::views::keys | std::views::transform( []( auto & v ) { return v.str(); } ),
+            std::back_inserter( rv ) );
+            return rv;
+        } );
+
+        DOC( "Burst size for AUTO mode (legacy field for items not migrated to specify modes )" );
+        SET_MEMB_RO( burst );
+
+        DOC( "How easy is control of recoil? If unset value automatically derived from weapon type" );
+        SET_MEMB_RO( handling );
+
+        DOC( "Additional recoil applied per shot before effects of handling are considered, useful for adding recoil effect to guns which otherwise consume no ammo" );
+        SET_MEMB_RO( recoil );
+
+        DOC( "How much ammo is consumed per shot" );
+        SET_MEMB_RO( ammo_to_fire );
     }
 #undef UT_CLASS
 
@@ -778,8 +858,9 @@ void reg_islot( sol::state &lua )
         DOC( "Recoil (per shot), roughly equivalent to kinetic energy (in Joules)" );
         SET_MEMB_RO( recoil );
 
-        DOC( "AoE shape or null if it's a projectile" );
-        SET_MEMB_RO( shape );
+        // TODO: shape_factory doesn't expose its type string
+        //DOC( "AoE shape or null if it's a projectile" );
+        //SET_MEMB_RO( shape );
 
         DOC( "Should this ammo apply a special explosion effect when in fire?" );
         SET_MEMB_RO( special_cookoff );

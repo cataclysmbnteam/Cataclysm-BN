@@ -248,26 +248,26 @@ void cata::detail::reg_technique( sol::state &lua )
                 luna::no_constructor
             );
 
-        luna::set_fx( ut, "name", &ma_technique::name );
+        luna::set( ut, "name", &ma_technique::name );
         luna::set_fx( ut, "get_description", &ma_technique::get_description );
-        luna::set_fx( ut, "avatar_message", &ma_technique::avatar_message );
-        luna::set_fx( ut, "npc_message", &ma_technique::npc_message );
-        luna::set_fx( ut, "defensive", &ma_technique::defensive );
-        luna::set_fx( ut, "side_switch", &ma_technique::side_switch );
-        luna::set_fx( ut, "down_dur", &ma_technique::down_dur );
-        luna::set_fx( ut, "stun_dur", &ma_technique::stun_dur );
-        luna::set_fx( ut, "knockback_dist", &ma_technique::knockback_dist );
-        luna::set_fx( ut, "knockback_spread", &ma_technique::knockback_spread );
-        luna::set_fx( ut, "powerful_knockback", &ma_technique::powerful_knockback );
-        luna::set_fx( ut, "crit_tec", &ma_technique::crit_tec );
-        luna::set_fx( ut, "crit_ok", &ma_technique::crit_ok );
-        luna::set_fx( ut, "knockback_follow", &ma_technique::knockback_follow );
-        luna::set_fx( ut,  "disarms", &ma_technique::disarms );
-        luna::set_fx( ut,  "take_weapon", &ma_technique::take_weapon );
-        luna::set_fx( ut,  "dodge_counter", &ma_technique::dodge_counter );
-        luna::set_fx( ut,  "block_counter", &ma_technique::block_counter );
-        luna::set_fx( ut,  "miss_recovery", &ma_technique::miss_recovery );
-        luna::set_fx( ut,  "grab_break", &ma_technique::grab_break );
+        luna::set( ut, "avatar_message", &ma_technique::avatar_message );
+        luna::set( ut, "npc_message", &ma_technique::npc_message );
+        luna::set( ut, "defensive", &ma_technique::defensive );
+        luna::set( ut, "side_switch", &ma_technique::side_switch );
+        luna::set( ut, "down_dur", &ma_technique::down_dur );
+        luna::set( ut, "stun_dur", &ma_technique::stun_dur );
+        luna::set( ut, "knockback_dist", &ma_technique::knockback_dist );
+        luna::set( ut, "knockback_spread", &ma_technique::knockback_spread );
+        luna::set( ut, "powerful_knockback", &ma_technique::powerful_knockback );
+        luna::set( ut, "crit_tec", &ma_technique::crit_tec );
+        luna::set( ut, "crit_ok", &ma_technique::crit_ok );
+        luna::set( ut, "knockback_follow", &ma_technique::knockback_follow );
+        luna::set( ut,  "disarms", &ma_technique::disarms );
+        luna::set( ut,  "take_weapon", &ma_technique::take_weapon );
+        luna::set( ut,  "dodge_counter", &ma_technique::dodge_counter );
+        luna::set( ut,  "block_counter", &ma_technique::block_counter );
+        luna::set( ut,  "miss_recovery", &ma_technique::miss_recovery );
+        luna::set( ut,  "grab_break", &ma_technique::grab_break );
 
     }
 }
@@ -361,13 +361,23 @@ void cata::detail::reg_locale_api( sol::state &lua )
     luna::userlib lib = luna::begin_lib( lua, "locale" );
 
     DOC( "Expects english source string, returns translated string." );
-    luna::set_fx( lib, "gettext", gettext_raw );
+    luna::set_fx( lib, "gettext",  []( const std::string & msg ) {
+        return gettext_raw( msg.c_str() );
+    } );
     DOC( "First is english singular string, second is english plural string. Number is amount to translate for." );
-    luna::set_fx( lib, "vgettext", &vgettext );
+    luna::set_fx( lib, "vgettext", []( const std::string & msg, const std::string & msg_pl,
+    const int n ) {
+        return vgettext( msg.c_str(), msg_pl.c_str(), n );
+    } );
     DOC( "First is context string. Second is english source string." );
-    luna::set_fx( lib, "pgettext", &pgettext );
+    luna::set_fx( lib, "pgettext", []( const std::string & ctx, const std::string & msg ) {
+        return pgettext( ctx.c_str(), msg.c_str() );
+    } );
     DOC( "First is context string. Second is english singular string. third is english plural. Number is amount to translate for." );
-    luna::set_fx( lib, "vpgettext", &vpgettext );
+    luna::set_fx( lib, "vpgettext", []( const std::string & ctx, const std::string & msg,
+    const std::string & msg_pl, const int n ) {
+        return vpgettext( ctx.c_str(), msg.c_str(), msg_pl.c_str(), n );
+    } );
 
     luna::finalize_lib( lib );
 }

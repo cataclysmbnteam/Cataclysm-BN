@@ -28,20 +28,118 @@ local remove_hidden_args = function(arg_list)
   return ret
 end
 
-local fmt_arg_list = function(arg_list)
+local slug_for = function(typename, membername)
+  local typename = string.gsub(tostring(typename), "%s", "")
+  if membername == nil then
+    return ("#sol::%s"):format(typename)
+  else
+    return ("#sol::%s::%s"):format(typename, membername)
+  end
+end
+
+local table_contains = function(tbl, key)
+  for k,v in pairs(tbl) do
+    if tostring(k):upper() == tostring(key):upper() then
+      return true
+    end
+  end
+  return false
+end
+
+--- func desc
+---@param str string
+---@param open string
+---@param close string
+---@param i integer
+---@return string before, string match, string after
+local extract_token = function(str, open, close, i)
+  local j = i
+  local depth = 0
+  while true do
+    local openBracket = str:find(open, j , true) or #str
+    local closeBracket = str:find(close, j , true) or #str
+
+    if openBracket == nil and closeBracket == nil then
+      break
+    end
+
+    if openBracket < closeBracket then
+      depth = depth + 1
+      j = openBracket + 1
+    else
+      depth = depth - 1
+      j = closeBracket + 1
+      if depth == 0 then
+        break
+      end
+    end
+  end
+  local left = str:sub(1, i - 1)
+  local mid = str:sub(i, j - 1)
+  local right = str:sub(j, #str)
+
+  return left, mid, right
+end
+
+---comment
+---@param str string
+---@return table
+local extract_cpp_types = function(str)
+  local tbl = {}
+  local tmp = str
+  while true do
+    local match = tmp:find("CppVal", 1, true)
+    if match ~= nil then
+      local before,token,after = extract_token(tmp, "<", ">", match)
+      if before ~= "" then table.insert(tbl, {before, false}) end
+      if token ~= "" then table.insert(tbl, {token, true}) end
+      tmp = after
+    else
+      if tmp ~= "" then table.insert(tbl, {tmp, false}) end
+      break
+    end
+  end
+  return tbl
+end
+
+local linkify_types =  function(str_)
+  local dt = catadoc
+  local types_table = dt["#types"]
+
+  local tokens = extract_cpp_types(tostring(str_))
+
   local ret = ""
+
+  for _, token in pairs(tokens) do
+    local str, is_cppval = table.unpack(token)
+    if is_cppval then
+      str = string.gsub(str, "<", "&lt;")
+      str = string.gsub(str, ">", "&gt;")
+    else
+      str = string.gsub(str, "[%a%d]+", function(k)
+        if table_contains(types_table, k) then
+          return ("[%s](#sol::%s)"):format(k,k)
+        end
+        return k
+      end)
+    end
+    ret = ret .. str
+  end
+
+  return ret
+end
+
+local fmt_arg_list = function(arg_list)
+  local ret = " "
   local arg_list = remove_hidden_args(arg_list)
   if #arg_list == 0 then return ret end
-  local is_first = true
-  for _, arg in pairs(arg_list) do
-    if not is_first then ret = ret .. "," end
-    ret = ret .. " " .. arg
-    is_first = false
-  end
+  ret = ret .. table.concat(arg_list, ", ")
   return ret .. " "
 end
 
-local fmt_one_constructor = function(typename, ctor) return typename .. ".new(" .. fmt_arg_list(ctor) .. ")" end
+local fmt_one_constructor = function(typename, ctor)
+  return typename .. ".new(" .. linkify_types(fmt_arg_list(ctor)) .. ")"
+end
 
 local fmt_constructors = function(typename, ctors)
   if #ctors == 0 then
@@ -49,33 +147,40 @@ local fmt_constructors = function(typename, ctors)
   else
     local ret = ""
     for k, v in pairs(ctors) do
-      ret = ret .. "* #### `" .. fmt_one_constructor(typename, v) .. "`\n"
+      ret = ret .. "* " .. fmt_one_constructor(typename, v) .. "  \n"
     end
     return ret
   end
 end
 
 local fmt_one_member = function(typename, member)
-  local ret = "* #### " .. tostring(member.name) .. "\n"
+  local ret = ("#### %s {%s}\n"):format(member.name, slug_for(typename, member.name))
   if member.type == "var" then
     if member.hasval then
-      ret = ret .. "  🇨 Constant --> `" .. member.vartype .. "`"
+      ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(member.vartype))
       ret = ret .. " = `" .. tostring(member.varval) .. "`"
     else
-      ret = ret .. "  🇻 Variable --> `" .. member.vartype .. "`"
+      ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(member.vartype))
     end
     ret = ret .. "  \n"
   elseif member.type == "func" then
     for _, overload in pairs(member.overloads) do
       if typename ~= nil and overload.args[1] == typename then
-        local tmp = { table.unpack(overload.args, 2) }
-        ret = ret .. "  🇲 Method --> `" .. "(" .. fmt_arg_list(tmp) .. ")"
-        if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
-        ret = ret .. "`  \n"
+        local args = { table.unpack(overload.args, 2) }
+        local sigFmt = "(%s)"
+        if overload.retval ~= "nil" then
+          sigFmt = sigFmt .. " -> %s"
+        end
+        local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
+        ret = ret .. (" 🇲 Method --> <code>%s</code>  \n"):format(linkify_types(sigStr))
       else
-        ret = ret .. "  🇫 Function --> `(" .. fmt_arg_list(overload.args) .. ")"
-        if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
-        ret = ret .. "`  \n"
+        local args = overload.args
+        local sigFmt = "(%s)"
+        if overload.retval ~= "nil" then
+          sigFmt = sigFmt .. " -> %s"
+        end
+        local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
+        ret = ret .. (" 🇫 Function --> <code>%s</code>  \n"):format(linkify_types(sigStr))
       end
     end
   else
@@ -84,7 +189,7 @@ local fmt_one_member = function(typename, member)
 
   if member.comment then
     for s in member.comment:gmatch("[^\r\n]+") do
-      ret = ret .. "  > " .. s .. "  \n"
+      ret = ret .. " > " .. s .. "  \n"
     end
   end
 
@@ -213,7 +318,7 @@ and should not be edited directly.
     local typename = it.k
     local dt_type = it.v
     local type_comment = dt_type.type_comment
-    ret = ret .. "## " .. typename .. "\n"
+    ret = ret ..  ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if type_comment then ret = ret .. type_comment .. "\n" end
 
@@ -222,13 +327,13 @@ and should not be edited directly.
     local members = dt_type["#member"]
 
     ret = ret
-      .. "### Bases\n"
+      .. ("### Bases {#sol::%s::@bases}\n"):format(typename)
       .. fmt_bases(typename, bases)
       .. "\n"
-      .. "### Constructors\n"
+      .. ("### Constructors {#sol::%s::@ctors}\n"):format(typename)
       .. fmt_constructors(typename, ctors)
       .. "\n"
-      .. "### Members\n"
+      .. ("### Members {#sol::%s::@members}\n"):format(typename)
       .. fmt_members(typename, members)
       .. "\n"
   end

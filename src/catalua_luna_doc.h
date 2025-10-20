@@ -87,6 +87,8 @@ class weapon_category;
 class emit;
 class fault;
 struct quality;
+struct resistances;
+struct armor_portion_data;
 
 namespace units
 {
@@ -189,7 +191,9 @@ LUNA_VAL( units::mass, "Mass" );
 LUNA_VAL( units::volume, "Volume" );
 LUNA_VAL( relic, "Relic" )
 LUNA_VAL( book_recipe, "BookRecipe" );
-LUNA_VAL( common_ranged_data, "RangedData" )
+LUNA_VAL( common_ranged_data, "RangedData" );
+LUNA_VAL( resistances, "Resistances" );
+LUNA_VAL( armor_portion_data, "ArmorPortionData" );
 
 
 // Ids for in-game objects

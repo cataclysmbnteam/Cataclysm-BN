@@ -111,7 +111,8 @@ std::string doc_value_impl()
             return std::string( luna_traits<ValBare>::name );
         } else {
             const std::string &str = sol::detail::demangle<Val>();
-            return std::string( "<cppval: " ) + str + " >";
+            //const std::string& str = typeid( Val ).name();
+            return std::string( "CppVal<" ) + str + ">";
         }
     }
 }
@@ -185,7 +186,7 @@ std::string doc_value( sol::types<std::set<Val>> )
 template<typename Key, typename Val>
 std::string doc_value( sol::types<std::map<Key, Val>> )
 {
-    std::string ret = "Map( ";
+    std::string ret = "Dict( ";
     ret += doc_value( sol::types<Key>() );
     ret += ", ";
     ret += doc_value( sol::types<Val>() );

@@ -35,8 +35,12 @@ end
 ---@return string[]
 local remove_hidden_args = function(arg_list)
   local ret = {}
-  for _, arg in ipairs(arg_list) do
-    if not string.match(arg, "^<.+>$") then table.insert(ret, arg) end
+  for _, arg in pairs(arg_list) do
+    if arg == "<this_state>" then
+      -- sol::this_state is only visible to C++ side
+    else
+      table.insert(ret, arg)
+    end
   end
   return ret
 end
@@ -104,7 +108,7 @@ local map_cpp_type_to_lua = function(cpp_type)
     clean_type = string.match(clean_type, "^[%w_]+%s*<?([%w_]+)?>?$") or clean_type
     clean_type = string.match(clean_type, "[%w_]+$") or clean_type -- Get the last part
 
-    if clean_type == "..." or string.match(clean_type, "<cppval:") then
+    if clean_type == "..." or string.match(clean_type, "^CppVal") then
       clean_type = "any"
     elseif string.match(clean_type, "^Vector%(%w+%)$") then
       clean_type = string.gsub(clean_type, "^Vector%((%w+)%)$", "%1[]")
@@ -174,7 +178,7 @@ local fmt_function_signature = function(arg_list, ret_type, class_name, is_metho
 
   local clean_arg_list = remove_hidden_args(arg_list)
   for i, arg_str in ipairs(clean_arg_list) do
-    local name, type = string.match(arg_str, "^([^:]+):(.+)$")
+    local name, type = string.match(arg_str, "^([%a_][%w_]+): (.+)$")
     if not name then
       type = arg_str
       name = "arg" .. i -- Generate placeholder name if needed

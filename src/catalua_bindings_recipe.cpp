@@ -27,6 +27,7 @@ void cata::detail::reg_recipe( sol::state &lua )
             luna::no_bases,
             luna::no_constructor
         );
+
         SET_MEMB( category );
         SET_MEMB( subcategory );
         SET_MEMB( time );
@@ -36,10 +37,13 @@ void cata::detail::reg_recipe( sol::state &lua )
         SET_MEMB( learn_by_disassembly );
         SET_MEMB( booksets );
 
+        DOC( "DEPRECATED: use recipe_id instead" );
         SET_FX_T( ident, const recipe_id & () const );
-        SET_FX_T( result, const itype_id & () const );
-        SET_FX_T( result_name, std::string() const );
-        SET_FX_T( has_flag, bool ( const std::string & flag_name ) const );
+
+        SET_FX_N( ident, "recipe_id" );
+        SET_FX( result );
+        SET_FX( result_name );
+        SET_FX( has_flag );
 
         namespace views = std::views;
         namespace ranges = std::ranges;
