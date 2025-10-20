@@ -67,6 +67,7 @@ scopes:
   - mods/smart_house_remote_mod
   - mods/speedydex
   - mods/stats_through_kills
+  - mods/rpg_system
   - mods/tablet_ebook
   - mods/teleportation_tech
   - mods/test_data
