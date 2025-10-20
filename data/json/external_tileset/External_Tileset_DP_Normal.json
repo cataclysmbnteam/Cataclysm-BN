@@ -15,7 +15,7 @@
           { "id": [ "overlay_worn_shield_wooden_large", "overlay_wielded_shield_wooden_large" ], "fg": 6 },
           { "id": "shield_riot", "fg": 7 },
           { "id": [ "overlay_worn_shield_riot", "overlay_wielded_shield_riot" ], "fg": 8 },
-          { "id": "shield_ballistic", "fg": 9 },
+          { "id": [ "shield_ballistic", "shield_ballistic_large" ], "fg": 9 },
           { "id": [ "overlay_worn_shield_ballistic", "overlay_worn_shield_ballistic" ], "fg": 10 },
           { "id": "sling_bullet", "fg": 11 },
           { "id": "shield_leather", "fg": 12 },
@@ -222,7 +222,8 @@
           { "id": "shield_bronze", "fg": 167 },
           { "id": [ "overlay_worn_shield_bronze", "overlay_wielded_shield_bronze" ], "fg": 168 },
           { "id": "shield_scute", "fg": 169 },
-          { "id": [ "overlay_worn_shield_scute", "overlay_wielded_shield_scute" ], "fg": 170 }
+          { "id": [ "overlay_worn_shield_scute", "overlay_wielded_shield_scute" ], "fg": 170 },
+          { "id": [ "overlay_worn_shield_ballistic_large", "overlay_worn_shield_ballistic_large" ], "fg": 171 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
