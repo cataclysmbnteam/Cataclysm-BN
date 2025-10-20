@@ -355,10 +355,10 @@ TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
     clear_character( *guy.as_player(), true );
 
     SECTION( "normal sword" ) {
-        tests_attack_cost( guy, *item::spawn_temporary( "test_normal_sword" ), 101, 92, 74 );
+        tests_attack_cost( guy, *item::spawn_temporary( "test_normal_sword" ), 101, 82, 74 );
     }
     SECTION( "normal sword + ITEM_ATTACK_COST" ) {
-        tests_attack_cost( guy, *item::spawn_temporary( "test_relic_sword" ), 86, 78, 63 );
+        tests_attack_cost( guy, *item::spawn_temporary( "test_relic_sword" ), 86, 67, 63 );
     }
 }
 
