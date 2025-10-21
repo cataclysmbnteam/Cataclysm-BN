@@ -143,7 +143,6 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": "6 L",
-    "watertight": true,
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -154,6 +153,7 @@
     "name": { "str": "resealable plastic bag" },
     "looks_like": "bag_plastic",
     "description": "A plastic bag with a zipper closure that lets it be resealed.  Essentially trash, though could carry liquids in a pinch.",
+    "watertight": true,
     "seals": true
   },
   {
