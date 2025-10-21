@@ -130,8 +130,9 @@ struct doc_typename {
 };
 
 template<typename Val>
-std::string doc_type() {
-    return doc_typename<std::remove_cvref_t<Val>>{}();
+std::string doc_type()
+{
+    return doc_typename<std::remove_cvref_t<Val>> {}();
 }
 
 template<typename T, typename U>
@@ -220,7 +221,7 @@ struct doc_typename<std::map<Key, Val>> {
 };
 
 template<typename Ret, typename ...Args>
-struct doc_typename<std::function<Ret(Args...)>> {
+struct doc_typename<std::function<Ret( Args... )>> {
     std::string operator()() const {
         std::string ret = "Func";
         ret += doc_type<std::tuple<Args...>>();
@@ -237,8 +238,8 @@ std::vector<std::string> doc_type_list()
 {
     std::vector<std::string> ret;
     ( (
-        ret.push_back( doc_type<Args>() )
-        ), ... );
+          ret.push_back( doc_type<Args>() )
+      ), ... );
     return ret;
 }
 
