@@ -1749,7 +1749,9 @@ No constructors.
 
 ## DamageInstance {#sol::DamageInstance}
 
-new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
+> Represents a bunch of damage amounts\
+> Constructors are:\
+> new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 
 ### Bases {#sol::DamageInstance::@bases}
 
@@ -1796,7 +1798,10 @@ No base classes.
 
 ## DamageUnit {#sol::DamageUnit}
 
-new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
+> Represents a damage amount\
+> Constructors are:\
+> new()\
+> new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 
 ### Bases {#sol::DamageUnit::@bases}
 
@@ -1830,7 +1835,7 @@ No base classes.
 
 ## DealtDamageInstance {#sol::DealtDamageInstance}
 
-Represents the final dealt damage
+> Represents the final dealt damage
 
 ### Bases {#sol::DealtDamageInstance::@bases}
 
@@ -2832,7 +2837,7 @@ No constructors.
 
 ## ItemStack {#sol::ItemStack}
 
-Iterate over this using pairs()
+> Iterate over this using pairs()
 
 ### Bases {#sol::ItemStack::@bases}
 
@@ -5075,7 +5080,7 @@ No base classes.
 
 ## Spell {#sol::Spell}
 
-The class used for spells that _a player_ knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
+> The class used for spells that _a player_ knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
 
 ### Bases {#sol::Spell::@bases}
 
@@ -5137,7 +5142,7 @@ No base classes.
 
 ## SpellSimple {#sol::SpellSimple}
 
-The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything _other than_ a player), this is likely the appropriate type. Otherwise, see the Spell type.
+> The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything _other than_ a player), this is likely the appropriate type. Otherwise, see the Spell type.
 
 ### Bases {#sol::SpellSimple::@bases}
 
@@ -5226,7 +5231,7 @@ No base classes.
 
 ## SpellTypeRaw {#sol::SpellTypeRaw}
 
-The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
+> The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
 
 ### Bases {#sol::SpellTypeRaw::@bases}
 
@@ -5541,7 +5546,7 @@ No constructors.
 
 ## TimeDuration {#sol::TimeDuration}
 
-Represent duration between 2 fixed points in time
+> Represent duration between 2 fixed points in time
 
 ### Bases {#sol::TimeDuration::@bases}
 
@@ -5607,7 +5612,8 @@ No base classes.
 
 ## TimePoint {#sol::TimePoint}
 
-Represent fixed point in time
+> Library for dealing with time primitives.\
+> Represent fixed point in time
 
 ### Bases {#sol::TimePoint::@bases}
 
@@ -5879,7 +5885,7 @@ No base classes.
 
 ## UiListEntry {#sol::UiListEntry}
 
-This type came from UiList.
+> This type came from UiList.
 
 ### Bases {#sol::UiListEntry::@bases}
 

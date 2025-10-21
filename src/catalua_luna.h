@@ -9,10 +9,12 @@
 #include <utility>
 #include <vector>
 
-#include "catalua_sol.h"
 #include "catalua_readonly.h"
+#include "catalua_sol.h"
 #include "debug.h"
 #include "string_formatter.h"
+
+#include <ranges>
 
 #define LUNA_VAL( Class, Name )                         \
     namespace luna::detail {                            \
@@ -82,7 +84,7 @@ struct luna_traits {
     constexpr static std::string_view name = "<value>";
 };
 
-extern std::string_view current_comment;
+extern std::vector<std::string_view> current_comment;
 
 template<typename T>
 using remove_cv_ref_t = std::remove_cv_t<std::remove_reference_t<T>>;
@@ -93,8 +95,20 @@ using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
 inline void add_comment( sol::table &dt, std::string_view key )
 {
     if( !current_comment.empty() ) {
-        dt[key] = current_comment;
-        current_comment = "";
+        std::string c{};
+        bool first = true;
+        for( const auto &cc : current_comment ) {
+            if( cc.empty() ) {
+                continue;
+            }
+            if( !first ) {
+                c += "\n";
+            }
+            c += cc;
+            first = false;
+        }
+        current_comment.clear();
+        dt[key] = c;
     }
 }
 
@@ -701,9 +715,9 @@ inline void finalize_lib(
     lib.finalized = true;
 }
 
-inline void doc( std::string_view doc )
+inline void doc( const std::string_view doc )
 {
-    detail::current_comment = doc;
+    detail::current_comment.push_back( doc );
 }
 
 } // namespace luna

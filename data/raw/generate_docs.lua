@@ -28,6 +28,16 @@ local remove_hidden_args = function(arg_list)
   return ret
 end
 
+local function string_concat_matches(str, pat, sep, op)
+  if str == nil or str == "" then return "" end
+  local tbl = {}
+  for match in string.gmatch(str, pat) do
+    if op then match = op(match) end
+    if match and match ~= "" then table.insert(tbl, match) end
+  end
+  return table.concat(tbl, sep)
+end
+
 local slug_for = function(typename, membername)
   local typename = string.gsub(tostring(typename), "%s", "")
   if membername == nil then
@@ -313,7 +323,9 @@ and should not be edited directly.
     local type_comment = dt_type.type_comment
     ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
-    if type_comment then ret = ret .. type_comment .. "\n" end
+    if type_comment then
+      ret = ret .. string_concat_matches(type_comment, "[^\r\n]+", "  \n", function(m) return "> " .. m end) .. "\n"
+    end
 
     local bases = dt_type["#bases"]
     local ctors = dt_type["#construct"]

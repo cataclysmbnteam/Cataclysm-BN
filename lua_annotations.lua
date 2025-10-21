@@ -486,6 +486,8 @@ Creature = {}
 ---@return Creature
 function Creature.new() end
 
+--- Represents a bunch of damage amounts
+--- Constructors are:
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageInstance
 ---@field damage_units DamageUnit[]
@@ -502,6 +504,9 @@ DamageInstance = {}
 ---@overload fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageInstance
 function DamageInstance.new() end
 
+--- Represents a damage amount
+--- Constructors are:
+--- new()
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageUnit
 ---@field amount number
@@ -1007,7 +1012,7 @@ function MaterialTypeRaw.new() end
 ---@field get_follow_up fun(arg1: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
 ---@field get_id fun(arg1: Mission): integer @Returns the mission's unique ID.
 ---@field get_item_id fun(arg1: Mission): ItypeId @Returns the item ID associated with the mission.
----@field get_likely_rewards fun(arg1: Mission): Vector(CppVal<std_pair<int,string_id<itype>>>) @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+---@field get_likely_rewards fun(arg1: Mission): Vector(Pair(int,ItypeId)) @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
 ---@field get_npc_id fun(arg1: Mission): CharacterId @Returns the NPC character ID associated with the mission.
 ---@field get_target_point fun(arg1: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
 ---@field get_type fun(arg1: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
@@ -1032,25 +1037,25 @@ Mission = {}
 function Mission.new() end
 
 ---@class MissionType
----@field deadline_high TimeDuration @
----@field deadline_low TimeDuration @
----@field description any @
----@field dialogue Dict(string,CppVal<translation>) @
----@field difficulty integer @
----@field empty_container ItypeId @
----@field follow_up MissionTypeIdRaw @
----@field goal MissionGoal @
----@field has_generic_rewards boolean @
----@field item_count integer @
----@field item_id ItypeId @
----@field likely_rewards Vector(CppVal<std_pair<int,string_id<itype>>>) @
----@field monster_kill_goal integer @
----@field monster_type MtypeId @
----@field origins MissionOrigin[] @
----@field remove_container boolean @
----@field target_npc_id CharacterId @
----@field urgent boolean @
----@field value integer @
+---@field deadline_high TimeDuration @Returns the maximum allowed deadline for the mission.
+---@field deadline_low TimeDuration @Returns the minimum allowed deadline for the mission.
+---@field description any @Returns the mission's description as a string.
+---@field dialogue Dict(string,CppVal<translation>) @Returns any associated dialogue for the mission.
+---@field difficulty integer @Returns the mission's difficulty as an integer.
+---@field empty_container ItypeId @Returns true if the mission requires the container to be empty.
+---@field follow_up MissionTypeIdRaw @Returns any follow-up mission type ID.
+---@field goal MissionGoal @Returns the mission's goal text.
+---@field has_generic_rewards boolean @Returns true if the mission has generic rewards.
+---@field item_count integer @Returns the count of items involved in the mission.
+---@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
+---@field likely_rewards Vector(Pair(int,ItypeId)) @Returns a vector of likely rewards (chance, itype_id pairs).
+---@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
+---@field monster_type MtypeId @Returns the monster type associated with the mission, if any.
+---@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
+---@field remove_container boolean @Returns true if the mission requires removing a container.
+---@field target_npc_id CharacterId @Returns the ID of the target NPC for the mission, if any.
+---@field urgent boolean @Returns true if the mission is marked as urgent.
+---@field value integer @Returns the mission's reward value as an integer.
 ---@field get_all fun(): MissionType[] @Returns all available missions.
 ---@field get_random_mission_id fun(arg1: MissionOrigin, arg2: Tripoint): MissionTypeIdRaw @Returns a random mission type ID at the specified origin and overmap tile position.
 ---@field tname fun(arg1: MissionType): string
@@ -1183,36 +1188,36 @@ MutationBranchId = {}
 function MutationBranchId.new() end
 
 ---@class MutationBranchRaw
----@field activated boolean @
----@field allow_soft_gear boolean @
+---@field activated boolean @Whether this mutation can be activated at will.
+---@field allow_soft_gear boolean @Mutation allows soft gear to be worn over otherwise-restricted parts.
 ---@field attackcost_modifier number
 ---@field bleed_resist number
 ---@field bodytemp_max_btu integer
 ---@field bodytemp_min_btu integer
 ---@field bodytemp_sleep_btu integer
----@field construction_speed_modifier number @
----@field cooldown integer @
+---@field construction_speed_modifier number @Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
+---@field cooldown integer @Costs are incurred every 'cooldown' turns.
 ---@field cost integer
----@field crafting_speed_modifier number @
----@field debug boolean @
+---@field crafting_speed_modifier number @Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
+---@field debug boolean @Whether or not this mutation is limited to debug use.
 ---@field dodge_modifier number
 ---@field falling_damage_multiplier number
----@field fatigue boolean @
+---@field fatigue boolean @Mutation causes fatigue when used.
 ---@field fatigue_modifier number
 ---@field fatigue_regen_modifier number
----@field healing_awake number @
----@field healing_resting number @
----@field healthy_rate number @
+---@field healing_awake number @Healing per turn from mutation.
+---@field healing_resting number @Healing per turn from mutation, while asleep.
+---@field healthy_rate number @How quickly health (not HP) trends toward healthy_mod.
 ---@field hearing_modifier number
----@field hp_adjustment number @
----@field hp_modifier number @
----@field hp_modifier_secondary number @
----@field hunger boolean @
+---@field hp_adjustment number @Flat adjustment to HP.
+---@field hp_modifier number @Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
+---@field hp_modifier_secondary number @Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it.
+---@field hunger boolean @Mutation deducts calories when used.
 ---@field id MutationBranchId
 ---@field max_stamina_modifier number
----@field mending_modifier number @
+---@field mending_modifier number @Multiplier applied to broken limb regeneration. Normally 0.25; clamped to 0.25..1.0.
 ---@field metabolism_modifier number
----@field mixed_effect boolean @
+---@field mixed_effect boolean @Whether this mutation has positive /and/ negative effects.
 ---@field movecost_flatground_modifier number
 ---@field movecost_modifier number
 ---@field movecost_obstacle_modifier number
@@ -1221,28 +1226,28 @@ function MutationBranchId.new() end
 ---@field noise_modifier number
 ---@field overmap_multiplier number
 ---@field overmap_sight number
----@field packmule_modifier number @
----@field pain_recovery number @
----@field player_display boolean @
----@field points integer @
----@field profession boolean @
----@field purifiable boolean @
+---@field packmule_modifier number @Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
+---@field pain_recovery number @Pain recovery per turn from mutation.
+---@field player_display boolean @Whether or not this mutation shows up in the status (`@`) menu.
+---@field points integer @Point cost in character creation(?).
+---@field profession boolean @Whether this trait is ONLY gained through professional training/experience (and/or quests).
+---@field purifiable boolean @Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
 ---@field reading_speed_multiplier number
 ---@field scent_modifier number
 ---@field skill_rust_multiplier number
 ---@field speed_modifier number
 ---@field stamina_regen_modifier number
----@field starting_trait boolean @
----@field starts_active boolean @
+---@field starting_trait boolean @Whether this trait can normally be taken during character generation.
+---@field starts_active boolean @Whether a mutation activates when granted.
 ---@field stealth_modifier number
----@field str_modifier number @
+---@field str_modifier number @Adjustment to Strength that doesn't affect HP.
 ---@field temperature_speed_modifier number
----@field thirst boolean @
+---@field thirst boolean @Mutation dehydrates when used.
 ---@field thirst_modifier number
----@field threshold boolean @
----@field ugliness integer @
----@field valid boolean @
----@field visibility integer @
+---@field threshold boolean @Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
+---@field ugliness integer @How physically unappealing the mutation is. Can be negative.
+---@field valid boolean @Whether this mutation is available through generic mutagen.
+---@field visibility integer @How visible the mutation is to others.
 ---@field weight_capacity_modifier number
 ---@field addition_mutations fun(arg1: MutationBranchRaw): MutationBranchId[]
 ---@field categories fun(arg1: MutationBranchRaw): MutationCategoryTraitId[] @Lists the categories this mutation belongs to.
@@ -1499,10 +1504,10 @@ function Spell.new() end
 
 --- The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything *other than* a player), this is likely the appropriate type. Otherwise, see the Spell type.
 ---@class SpellSimple
----@field force_target_source boolean @
+---@field force_target_source boolean @Whether or not the target point is *locked* to the source's location.
 ---@field id SpellTypeId
 ---@field level integer
----@field trigger_once_in integer @
+---@field trigger_once_in integer @Used for enchantments; the spell's *chance* to trigger every turn.
 ---@field cast fun(arg1: SpellSimple, arg2: Creature, arg3: Tripoint, arg4: integer)
 ---@field max_level fun(arg1: SpellSimple): integer @Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
 ---@field prompt_cast fun(arg1: SpellTypeId, arg2: Tripoint, arg3: integer): SpellSimple @Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
@@ -1539,8 +1544,8 @@ function SpellTypeId.new() end
 ---@field difficulty integer
 ---@field dot_increment number
 ---@field duration_increment integer
----@field effect_name string @
----@field effect_str string @
+---@field effect_name string @The name of the primary effect this spell will enact.
+---@field effect_str string @Specifics about the effect this spell will enact.
 ---@field energy_increment number
 ---@field field_chance integer
 ---@field field_intensity_increment number
@@ -1650,6 +1655,7 @@ TimeDuration = {}
 ---@return TimeDuration
 function TimeDuration.new() end
 
+--- Library for dealing with time primitives.
 --- Represent fixed point in time
 ---@class TimePoint
 ---@field from_turn fun(arg1: integer): TimePoint
@@ -1733,7 +1739,7 @@ Tripoint = {}
 function Tripoint.new() end
 
 ---@class UiList
----@field entries UiListEntry[] @
+---@field entries UiListEntry[] @Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
 ---@field add fun(arg1: UiList, arg2: integer, arg3: string) @Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
 ---@field add_w_col fun(arg1: UiList, arg2: integer, arg3: string, arg4: string, arg5: string) @Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
 ---@field add_w_desc fun(arg1: UiList, arg2: integer, arg3: string, arg4: string) @Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
@@ -1753,10 +1759,10 @@ function UiList.new() end
 
 --- This type came from UiList.
 ---@class UiListEntry
----@field ctxt string @
----@field desc string @
----@field enable boolean @
----@field txt string @
+---@field ctxt string @Entry text of column.
+---@field desc string @Entry description
+---@field enable boolean @Entry whether it's enabled or not. Default is `true`.
+---@field txt string @Entry text
 ---@field txt_color fun(arg1: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 UiListEntry = {}
 ---@return UiListEntry

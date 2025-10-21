@@ -45,6 +45,16 @@ local remove_hidden_args = function(arg_list)
   return ret
 end
 
+local function string_concat_matches(str, pat, sep, op)
+  if str == nil or str == "" then return "" end
+  local tbl = {}
+  for match in string.gmatch(str, pat) do
+    if op then match = op(match) end
+    if match and match ~= "" then table.insert(tbl, match) end
+  end
+  return table.concat(tbl, sep)
+end
+
 -- Rudimentary mapping from C++/sol types to LuaLS types.
 ---@param cpp_type string
 ---@return string
@@ -167,22 +177,6 @@ local fmt_bases_luals = function(bases)
 end
 
 --[[
-    Formats --- comment annotations
-    Input: comment string
-    Output: Multiline string --- comments or ""
-  ]]
----@param comment? string
----@return string
-local fmt_comment_annotation = function(comment)
-  if not comment or comment == "" then return "" end
-  local comment_lines = {}
-  for line in string.gmatch(comment .. "\n", "([^\n]*)\n") do
-    table.insert(comment_lines, "--- " .. line)
-  end
-  return table.concat(comment_lines, "\n")
-end
-
---[[
     Formats a single function signature string like "fun(param: type, ...): ret_type".
   ]]
 ---@param arg_list string[] List of "name:type" or "type"
@@ -232,13 +226,7 @@ local fmt_variable_field = function(member, is_static)
 
   ret = ret .. "---@field " .. member_name .. " " .. lua_type
   if member.comment and member.comment ~= "" then
-    ret = ret .. " @"
-    local first = true
-    for line in string.gmatch(member.comment, "([^\r\n]+)\n") do
-      if not first then ret = ret .. " " end
-      first = false
-      ret = ret .. line
-    end
+    ret = ret .. " @" .. string_concat_matches(member.comment, "([^\r\n]+)", "<br />")
   end
   if member.hasval then
     -- Avoid overly long or complex value representations
@@ -285,13 +273,7 @@ local fmt_function_field = function(member, class_name, is_method)
   local signature_union = table.concat(signatures, " | ")
   ret = ret .. "---@field " .. member_name .. " " .. signature_union
   if member.comment and member.comment ~= "" then
-    ret = ret .. " @"
-    local first = true
-    for line in string.gmatch(member.comment, "[^\r\n]+") do
-      if not first then ret = ret .. " " end
-      first = false
-      ret = ret .. line
-    end
+    ret = ret .. " @" .. string_concat_matches(member.comment, "([^\r\n]+)", "<br />")
   end
   return ret .. "\n"
 end
@@ -393,7 +375,7 @@ on_mon_death = {}
 
       -- Class/Lib Annotation Start
       local bases_str = is_class and fmt_bases_luals(bases) or ""
-      local comment_annot = fmt_comment_annotation(comment)
+      local comment_annot = string_concat_matches(comment, "([^\r\n]+)", "\n", function(m) return "--- " .. m end)
       if comment_annot ~= "" then ret = ret .. comment_annot .. "\n" end
       ret = ret .. "---@class " .. name .. bases_str .. "\n"
 
@@ -458,9 +440,9 @@ on_mon_death = {}
   for _, item in ipairs(enums_sorted) do
     local enumname = item.k
     local dt_enum = item.v or {}
-    local enum_comment = dt_enum.enum_comment
+    local comment = dt_enum.enum_comment
 
-    local comment_annot = fmt_comment_annotation(enum_comment)
+    local comment_annot = string_concat_matches(comment, "([^\r\n]+)", "\n", function(m) return "--- " .. m end)
     if comment_annot ~= "" then full_ret = full_ret .. comment_annot .. "\n" end
 
     full_ret = full_ret .. "---@enum " .. enumname .. "\n"
