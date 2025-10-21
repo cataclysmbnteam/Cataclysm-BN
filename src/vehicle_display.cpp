@@ -25,8 +25,8 @@
 #include "color.h"
 
 static const std::string part_location_structure( "structure" );
-static const itype_id itype_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_battery( "battery" );
 
 std::string vehicle::disp_name() const
 {
@@ -332,8 +332,6 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
     for( const auto &pt : parts ) {
         if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
-        } else if( pt.is_battery() ) {
-            opts.emplace( itype_battery );
         }
     }
 
@@ -361,7 +359,8 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
     auto fuels = get_printable_fuel_types();
-    if( fuels.empty() ) {
+    const units::energy cur_enrg_capacity = energy_capacity();
+    if( fuels.empty() && cur_enrg_capacity <= 0_J ) {
         return;
     }
     if( !fullsize ) {
@@ -369,20 +368,34 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( e ) &&
                 !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, p, parts[ engines [ e ] ].fuel_current(), verbose,
-                                      desc );
+                if( is_engine_type( e, fuel_type_battery ) ) {
+                    print_battery_indicator( win, p, verbose, desc );
+                } else {
+                    print_fuel_indicator( win, p, parts[engines[e]].fuel_current(), verbose,
+                                          desc );
+                }
                 return;
             }
         }
         // or print the first fuel if no engines
-        print_fuel_indicator( win, p, fuels.front(), verbose, desc );
+        if( fuels.empty() ) {
+            print_battery_indicator( win, p, verbose, desc );
+        } else {
+            print_fuel_indicator( win, p, fuels.front(), verbose, desc );
+        }
         return;
     }
 
     int yofs = 0;
     int max_gauge = ( isHorizontal ? 12 : 5 ) + start_index;
-    int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
+    int max_size = static_cast<int>( fuels.size() ) + ( cur_enrg_capacity > 0_J ? 1 : 0 );
+    max_size = std::min( max_size, max_gauge );
 
+    if( cur_enrg_capacity >= 0_J ) {
+        print_battery_indicator( win, p + point( 0, yofs ), verbose, desc );
+        yofs++;
+        start_index++;
+    }
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
         print_fuel_indicator( win, p + point( 0, yofs ), f, fuel_used_last_turn, verbose, desc );
@@ -390,7 +403,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
-    if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
+    if( start_index < static_cast<int>( max_size ) - ( isHorizontal ? 12 : 5 ) ) {
         mvwprintz( win, p + point( 0, yofs ), c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
@@ -419,10 +432,8 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
-    int cap = fuel_type == itype_battery ? units::to_kilojoule( energy_capacity() )
-              : fuel_capacity( fuel_type );
-    int f_left = fuel_type == itype_battery ? units::to_kilojoule( energy_left() ) :
-                 fuel_left( fuel_type );
+    int cap = fuel_capacity( fuel_type );
+    int f_left = fuel_left( fuel_type );
     nc_color f_color = fuel_type->color;
     // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
@@ -447,10 +458,6 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
         if( fuel_data != fuel_usages.end() ) {
             rate = -consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
-        }
-        if( fuel_type == itype_id( "battery" ) ) {
-            rate += units::to_kilojoule( power_to_energy_bat( net_battery_charge_rate_w(), 1_hours ) );
-            units = _( "kJ" );
         }
         if( rate != 0 ) {
             int tank_use = 0;
@@ -489,6 +496,65 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
+            }
+        }
+    }
+}
+
+void vehicle::print_battery_indicator( const catacurses::window &win, point p, bool verbose,
+                                       bool desc )
+{
+    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
+    nc_color col_indf1 = c_light_gray;
+    units::energy cap = energy_capacity();
+    units::energy f_left = energy_left();
+    nc_color f_color = c_yellow;
+    // NOLINTNEXTLINE(cata-text-style): not an ellipsis
+    mvwprintz( win, p, col_indf1, "E...F" );
+    int amnt = cap > 0_J ? f_left * 99 / cap : 0;
+    int indf = ( amnt / 20 ) % 5;
+    mvwprintz( win, p + point( indf, 0 ), f_color, "%c", fsyms[indf] );
+    if( verbose ) {
+        if( debug_mode ) {
+            mvwprintz( win, p + point( 6, 0 ), f_color, "%s/%s", units::display( f_left ),
+                       units::display( cap ) );
+        } else {
+            mvwprintz( win, p + point( 6, 0 ), f_color, "%d", f_left * 100 / cap );
+            wprintz( win, c_light_gray, "%c", 045 );
+        }
+    }
+    if( desc ) {
+        wprintz( win, c_light_gray, " - battery" );
+    }
+    if( verbose ) {
+        units::energy rate = power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
+
+        if( rate > 0_J ) {
+            units::energy tank_use = 0_J;
+            nc_color tank_color = c_light_green;
+            std::string tank_goal = _( "full" );
+            if( rate > 0_J ) {
+                tank_use = cap - f_left;
+                if( tank_use <= 0_J ) {
+                    return;
+                }
+            } else {
+                if( f_left <= 0_J ) {
+                    return;
+                }
+                tank_use = f_left;
+                tank_color = c_light_red;
+                tank_goal = _( "empty" );
+            }
+
+            time_duration estimate = time_duration::from_turns( std::abs( tank_use / rate ) );
+
+            if( debug_mode ) {
+                wprintz( win, tank_color, _( ", %s (%4.2f%%)/hour, %s until %s" ),
+                         units::display( rate ), 100.0 * rate / cap, to_string_clipped( estimate ), tank_goal );
+            } else {
+                wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
+                         100.0 * rate / cap, to_string_clipped( estimate ), tank_goal );
             }
         }
     }

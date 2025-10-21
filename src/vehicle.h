@@ -431,6 +431,10 @@ class vehicle
                                    std::map<itype_id, float> fuel_usages,
                                    bool verbose = false, bool desc = false );
 
+        // Vehicle battery indicator
+        void print_battery_indicator( const catacurses::window &win, point p,
+                                      bool verbose = false, bool desc = false );
+
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( int e ) const;
 
@@ -900,12 +904,21 @@ class vehicle
         int drain( const itype_id &ftype, int amount );
         int drain( int index, int amount );
         /**
-         * Consumes enough fuel by energy content. Does not support cable draining.
+         * Consumes enough fuel by energy content.
+         * Note that this is different from drain_battery, which should be used instead
+         * if you are draining battery energy instead of fuel.
          * @param ftype Type of fuel
          * @param energy_j Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
         double drain_energy( const itype_id &ftype, double energy_j );
+
+        /**
+         * Drains the battery of a vehicle, does not drain connected vehicles/grids.
+         * @param energy_j Desired amount of energy to consume
+         * @return Amount of energy actually consumed. May be more or less than desired.
+         */
+        units::energy drain_battery( units::energy energy_j );
 
         // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;

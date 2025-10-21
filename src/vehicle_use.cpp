@@ -2033,15 +2033,15 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             }
             item &fake_item = *item::spawn_temporary( usable_item_types.at( tool_index ), calendar::turn, 0 );
             fake_item.item_tags.insert( flag_PSEUDO );
-            fake_item.charges = fuel_left( itype_battery, true );
-            int original_charges = fake_item.charges;
+            fake_item.energy = energy_left( true );
+            units::energy original_energy = fake_item.energy;
             you.invoke_item( &fake_item, pos );
             // HACK: Evil hack incoming
             activity_handlers::repair_activity_hack::patch_activity_for_vehicle(
                 *you.activity, pos, *this, interact_part, fake_item.typeId()
             );
-            const int discharged = original_charges - fake_item.charges;
-            drain( itype_battery, discharged );
+            const units::energy discharged = original_energy - fake_item.energy;
+            drain_battery( discharged );
             return;
         }
         case USE_PURIFIER: {

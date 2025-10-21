@@ -1247,7 +1247,7 @@ bool vehicle::is_alternator_on( const int a ) const
 bool vehicle::has_security_working() const
 {
     bool found_security = false;
-    if( fuel_left( fuel_type_battery ) > 0 ) {
+    if( energy_left() > 0_J ) {
         for( int s : speciality ) {
             if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
                 found_security = true;
@@ -3652,7 +3652,7 @@ int vehicle::drain( const int index, int amount )
     }
     vehicle_part &pt = parts[index];
     if( pt.has_flag( VPFLAG_E_ENGINE ) ) {
-        return drain_energy( fuel_type_battery, amount * 1000 );
+        return units::to_kilojoule( drain_battery( units::from_kilojoule( amount ) ) );
     }
     if( !pt.is_tank() || !pt.ammo_remaining() ) {
         debugmsg( "Tried to drain something without any liquid: %s amount: %d ammo: %d",
@@ -4925,13 +4925,6 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
 double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 {
-    // Consumption of battery power is done differently.
-    // From all batteries at once and doesn't change mass.
-    if( ftype == fuel_type_battery ) {
-        const units::energy not_fulfilled = discharge_battery( units::from_joule( energy_j ) );
-        return energy_j - units::to_joule( not_fulfilled );
-    }
-
     double drained = 0.0f;
     for( auto &p : parts ) {
         if( energy_j <= 0.0f ) {
@@ -4945,6 +4938,13 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 
     invalidate_mass();
     return drained;
+}
+
+units::energy vehicle::drain_battery( units::energy energy_j )
+{
+    // Discharge of batteries drains from all batteries at once.
+    const units::energy not_fulfilled = discharge_battery( energy_j );
+    return energy_j - not_fulfilled;
 }
 
 void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )

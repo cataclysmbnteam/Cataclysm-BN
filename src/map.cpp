@@ -114,7 +114,6 @@ static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const itype_id itype_autoclave( "autoclave" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
@@ -5377,8 +5376,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
                 continue;
             }
 
-            quantity -= units::from_joule( kpart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= kpart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5386,8 +5384,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
         }
 
         if( weldpart ) { // we have a weldrig
-            quantity -= units::from_joule( weldpart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= weldpart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5395,8 +5392,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
         }
 
         if( craftpart ) { // we have a craftrig
-            quantity -= units::from_joule( craftpart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= craftpart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5404,8 +5400,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
         }
 
         if( butcherpart ) { // we have a butchery station
-            quantity -= units::from_joule( butcherpart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= butcherpart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5414,8 +5409,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
 
         if( forgepart ) { // we have a veh_forge
 
-            quantity -= units::from_joule( forgepart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= forgepart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5423,8 +5417,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
         }
 
         if( kilnpart ) { // we have a veh_kiln
-            quantity -= units::from_joule( kilnpart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= kilnpart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5432,8 +5425,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
         }
 
         if( chempart ) { // we have a chem_lab, now to see what to drain
-            quantity -= units::from_joule( chempart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= chempart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
@@ -5441,8 +5433,7 @@ void map::use_energy( const tripoint &origin, int range, const itype_id &type,
         }
 
         if( autoclavepart ) { // we have an autoclave
-            quantity -= units::from_joule( autoclavepart->vehicle().drain( itype_battery,
-                                           units::to_joule( quantity ) ) );
+            quantity -= autoclavepart->vehicle().drain_battery( quantity );
 
             if( quantity == 0_J ) {
                 return;
