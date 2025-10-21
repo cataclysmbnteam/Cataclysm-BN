@@ -769,6 +769,11 @@ void cata::detail::reg_character( sol::state &lua )
             return res.success() && res.value();
         } );
 
+        luna::set_fx( ut, "get_worn_items", [](const UT_CLASS& c) {
+            std::vector<item*> res{};
+            std::ranges::copy(c.worn, std::back_inserter(res));
+            return res;
+        });
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );
