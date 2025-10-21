@@ -667,7 +667,7 @@ function FurnIntId.new() end
 ---@field open FurnId
 ---@field transforms_into FurnId
 ---@field get_coverage fun(arg1: FurnRaw): integer
----@field get_flags fun(arg1: FurnRaw): any
+---@field get_flags fun(arg1: FurnRaw): string[]
 ---@field get_light_emitted fun(arg1: FurnRaw): integer
 ---@field get_max_volume fun(arg1: FurnRaw): Volume
 ---@field get_movecost fun(arg1: FurnRaw): integer
@@ -787,7 +787,7 @@ function FurnRaw.new() end
 ---@field is_upgrade fun(arg1: Item): boolean
 ---@field is_watertight_container fun(arg1: Item): boolean
 ---@field is_wheel fun(arg1: Item): boolean
----@field made_of fun(arg1: Item): any
+---@field made_of fun(arg1: Item): MaterialTypeId[]
 ---@field mod_charges fun(arg1: Item, arg2: integer)
 ---@field price fun(arg1: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
@@ -1007,7 +1007,7 @@ function MaterialTypeRaw.new() end
 ---@field get_follow_up fun(arg1: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
 ---@field get_id fun(arg1: Mission): integer @Returns the mission's unique ID.
 ---@field get_item_id fun(arg1: Mission): ItypeId @Returns the item ID associated with the mission.
----@field get_likely_rewards fun(arg1: Mission): any @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+---@field get_likely_rewards fun(arg1: Mission): Vector(CppVal<std_pair<int,string_id<itype>>>) @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
 ---@field get_npc_id fun(arg1: Mission): CharacterId @Returns the NPC character ID associated with the mission.
 ---@field get_target_point fun(arg1: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
 ---@field get_type fun(arg1: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
@@ -1051,7 +1051,7 @@ function Mission.new() end
 ---@field target_npc_id CharacterId @
 ---@field urgent boolean @
 ---@field value integer @
----@field get_all fun(): any @Returns all available missions.
+---@field get_all fun(): MissionType[] @Returns all available missions.
 ---@field get_random_mission_id fun(arg1: MissionOrigin, arg2: Tripoint): MissionTypeIdRaw @Returns a random mission type ID at the specified origin and overmap tile position.
 ---@field tname fun(arg1: MissionType): string
 MissionType = {}
@@ -1248,7 +1248,7 @@ function MutationBranchId.new() end
 ---@field categories fun(arg1: MutationBranchRaw): MutationCategoryTraitId[] @Lists the categories this mutation belongs to.
 ---@field conflicts_with fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists conflicting mutations.
 ---@field desc fun(arg1: MutationBranchRaw): string
----@field get_all fun(): any @Returns a (long) list of every mutation in the game.
+---@field get_all fun(): MutationBranchRaw[] @Returns a (long) list of every mutation in the game.
 ---@field mutation_types fun(arg1: MutationBranchRaw): string[] @Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
 ---@field name fun(arg1: MutationBranchRaw): string
 ---@field other_prerequisites fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists the secondary mutation(s) needed to gain this mutation.
@@ -1563,7 +1563,7 @@ function SpellTypeId.new() end
 ---@field min_range integer
 ---@field range_increment number
 ---@field additional_spells fun(arg1: SpellTypeRaw): SpellSimple[] @Other spells cast by this spell.
----@field get_all fun(): any @Returns a (long) list of every spell in the game.
+---@field get_all fun(): SpellTypeRaw[] @Returns a (long) list of every spell in the game.
 ---@field __tostring fun(arg1: SpellTypeRaw): string
 SpellTypeRaw = {}
 ---@return SpellTypeRaw
@@ -1606,7 +1606,7 @@ function TerIntId.new() end
 ---@field transforms_into TerId
 ---@field trap_id_str string
 ---@field get_coverage fun(arg1: TerRaw): integer
----@field get_flags fun(arg1: TerRaw): any
+---@field get_flags fun(arg1: TerRaw): string[]
 ---@field get_light_emitted fun(arg1: TerRaw): integer
 ---@field get_max_volume fun(arg1: TerRaw): Volume
 ---@field get_movecost fun(arg1: TerRaw): integer
