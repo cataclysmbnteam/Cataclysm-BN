@@ -323,7 +323,7 @@ Function `( Character ) -> CharacterId`
 
 Function `( Character, CharacterId, bool )`
 
-#### reset_stats
+#### reset
 
 Function `( Character )`
 
