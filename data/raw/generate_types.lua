@@ -35,8 +35,12 @@ end
 ---@return string[]
 local remove_hidden_args = function(arg_list)
   local ret = {}
-  for _, arg in ipairs(arg_list) do
-    if not string.match(arg, "^<.+>$") then table.insert(ret, arg) end
+  for _, arg in pairs(arg_list) do
+    if arg == "<this_state>" then
+      -- sol::this_state is only visible to C++ side
+    else
+      table.insert(ret, arg)
+    end
   end
   return ret
 end
@@ -44,7 +48,7 @@ end
 -- Rudimentary mapping from C++/sol types to LuaLS types.
 ---@param cpp_type string
 ---@return string
-local map_cpp_type_to_lua = function(cpp_type)
+local function map_cpp_type_to_lua(cpp_type)
   -- NOTE: This mapping might need refinement based on actual types used
   if not cpp_type then return "any" end -- Handle nil input gracefully
   cpp_type = string.gsub(cpp_type, "const%s+", "") -- Remove const
@@ -104,18 +108,38 @@ local map_cpp_type_to_lua = function(cpp_type)
     clean_type = string.match(clean_type, "^[%w_]+%s*<?([%w_]+)?>?$") or clean_type
     clean_type = string.match(clean_type, "[%w_]+$") or clean_type -- Get the last part
 
-    if clean_type == "..." or string.match(clean_type, "<cppval:") then
+    if clean_type == "..." or string.match(clean_type, "^CppVal") then
       clean_type = "any"
     elseif string.match(clean_type, "^Vector%(%w+%)$") then
-      clean_type = string.gsub(clean_type, "^Vector%((%w+)%)$", "%1[]")
+      clean_type = string.gsub(
+        clean_type,
+        "^Vector%((%w+)%)$",
+        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
+      )
     elseif string.match(clean_type, "^Set%(%w+%)$") then
-      clean_type = string.gsub(clean_type, "^Set%((%w+)%)$", "%1[]")
+      clean_type = string.gsub(
+        clean_type,
+        "^Set%((%w+)%)$",
+        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
+      )
     elseif string.match(clean_type, "^Array%((%w+),(%d+)%)$") then
-      clean_type = string.gsub(clean_type, "^Array%((%w+),(%d+)%)$", "%1[]")
-    elseif string.match(clean_type, "^Map%((%w+),(%w+)%)$") then
-      clean_type = string.gsub(clean_type, "^Map%((%w+),(%w+)%)$", "table<%1, %2>")
+      clean_type = string.gsub(
+        clean_type,
+        "^Array%((%w+),(%d+)%)$",
+        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
+      )
+    elseif string.match(clean_type, "^Dict%((%w+),(%w+)%)$") then
+      clean_type = string.gsub(
+        clean_type,
+        "^Dict%((%w+),(%w+)%)$",
+        function(k, v) return ("table<%s, %s>"):format(map_cpp_type_to_lua(k), map_cpp_type_to_lua(v)) end
+      )
     elseif string.match(clean_type, "^Opt%((%w+)%)$") then
-      clean_type = string.gsub(clean_type, "^Opt%((%w+)%)$", "%1?")
+      clean_type = string.gsub(
+        clean_type,
+        "^Opt%((%w+)%)$",
+        function(k) return ("%s"):format(map_cpp_type_to_lua(k)) end
+      )
     end
 
     return clean_type or "any" -- Fallback to 'any' if nothing matches
@@ -174,7 +198,7 @@ local fmt_function_signature = function(arg_list, ret_type, class_name, is_metho
 
   local clean_arg_list = remove_hidden_args(arg_list)
   for i, arg_str in ipairs(clean_arg_list) do
-    local name, type = string.match(arg_str, "^([^:]+):(.+)$")
+    local name, type = string.match(arg_str, "^([%a_][%w_]+): (.+)$")
     if not name then
       type = arg_str
       name = "arg" .. i -- Generate placeholder name if needed
@@ -207,7 +231,15 @@ local fmt_variable_field = function(member, is_static)
   local lua_type = map_cpp_type_to_lua(member.vartype)
 
   ret = ret .. "---@field " .. member_name .. " " .. lua_type
-  if member.comment and member.comment ~= "" then ret = ret .. " @" .. member.comment end
+  if member.comment and member.comment ~= "" then
+    ret = ret .. " @"
+    local first = true
+    for line in string.gmatch(member.comment, "([^\r\n]+)\n") do
+      if not first then ret = ret .. " " end
+      first = false
+      ret = ret .. line
+    end
+  end
   if member.hasval then
     -- Avoid overly long or complex value representations
     local val_str = tostring(member.varval)
@@ -252,7 +284,15 @@ local fmt_function_field = function(member, class_name, is_method)
 
   local signature_union = table.concat(signatures, " | ")
   ret = ret .. "---@field " .. member_name .. " " .. signature_union
-  if member.comment and member.comment ~= "" then ret = ret .. " @" .. member.comment end
+  if member.comment and member.comment ~= "" then
+    ret = ret .. " @"
+    local first = true
+    for line in string.gmatch(member.comment, "[^\r\n]+") do
+      if not first then ret = ret .. " " end
+      first = false
+      ret = ret .. line
+    end
+  end
   return ret .. "\n"
 end
 

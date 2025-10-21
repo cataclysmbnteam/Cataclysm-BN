@@ -28,20 +28,112 @@ local remove_hidden_args = function(arg_list)
   return ret
 end
 
-local fmt_arg_list = function(arg_list)
+local slug_for = function(typename, membername)
+  local typename = string.gsub(tostring(typename), "%s", "")
+  if membername == nil then
+    return ("#sol::%s"):format(typename)
+  else
+    return ("#sol::%s::%s"):format(typename, membername)
+  end
+end
+
+local table_contains = function(tbl, key)
+  for k, v in pairs(tbl) do
+    if tostring(k):upper() == tostring(key):upper() then return true end
+  end
+  return false
+end
+
+--- func desc
+---@param str string
+---@param open string
+---@param close string
+---@param i integer
+---@return string before, string match, string after
+local extract_token = function(str, open, close, i)
+  local j = i
+  local depth = 0
+  while true do
+    local openBracket = str:find(open, j, true) or #str
+    local closeBracket = str:find(close, j, true) or #str
+
+    if openBracket == nil and closeBracket == nil then break end
+
+    if openBracket < closeBracket then
+      depth = depth + 1
+      j = openBracket + 1
+    else
+      depth = depth - 1
+      j = closeBracket + 1
+      if depth == 0 then break end
+    end
+  end
+  local left = str:sub(1, i - 1)
+  local mid = str:sub(i, j - 1)
+  local right = str:sub(j, #str)
+
+  return left, mid, right
+end
+
+---comment
+---@param str string
+---@return table
+local extract_cpp_types = function(str)
+  local tbl = {}
+  local tmp = str
+  while true do
+    local match = tmp:find("CppVal", 1, true)
+    if match ~= nil then
+      local before, token, after = extract_token(tmp, "<", ">", match)
+      if before ~= "" then table.insert(tbl, { before, false }) end
+      if token ~= "" then table.insert(tbl, { token, true }) end
+      tmp = after
+    else
+      if tmp ~= "" then table.insert(tbl, { tmp, false }) end
+      break
+    end
+  end
+  return tbl
+end
+
+local linkify_types = function(str_)
+  local dt = catadoc
+  local types_table = dt["#types"]
+  local enums_table = dt["#enums"]
+
+  local tokens = extract_cpp_types(tostring(str_))
+
   local ret = ""
+
+  for _, token in pairs(tokens) do
+    local str, is_cppval = table.unpack(token)
+    if is_cppval then
+      str = string.gsub(str, "<", "&lt;")
+      str = string.gsub(str, ">", "&gt;")
+    else
+      str = string.gsub(str, "[%a%d]+", function(k)
+        if table_contains(types_table, k) then return ("[%s](#sol::%s)"):format(k, k)
+        elseif table_contains(enums_table, k) then return ("[%s](#sol::%s)"):format(k, k)
+        end
+        return k
+      end)
+    end
+    ret = ret .. str
+  end
+
+  return ret
+end
+
+local fmt_arg_list = function(arg_list)
+  local ret = " "
   local arg_list = remove_hidden_args(arg_list)
   if #arg_list == 0 then return ret end
-  local is_first = true
-  for _, arg in pairs(arg_list) do
-    if not is_first then ret = ret .. "," end
-    ret = ret .. " " .. arg
-    is_first = false
-  end
+  ret = ret .. table.concat(arg_list, ", ")
   return ret .. " "
 end
 
-local fmt_one_constructor = function(typename, ctor) return typename .. ".new(" .. fmt_arg_list(ctor) .. ")" end
+local fmt_one_constructor =
+  function(typename, ctor) return typename .. ".new(" .. linkify_types(fmt_arg_list(ctor)) .. ")" end
 
 local fmt_constructors = function(typename, ctors)
   if #ctors == 0 then
@@ -49,29 +141,46 @@ local fmt_constructors = function(typename, ctors)
   else
     local ret = ""
     for k, v in pairs(ctors) do
-      ret = ret .. "#### `" .. fmt_one_constructor(typename, v) .. "`\n"
+      ret = ret .. "* " .. fmt_one_constructor(typename, v) .. "  \n"
     end
     return ret
   end
 end
 
 local fmt_one_member = function(typename, member)
-  local ret = "#### " .. tostring(member.name) .. "\n"
-
-  if member.comment then ret = ret .. member.comment .. "\n" end
-
+  local ret = ("#### %s {%s}\n"):format(member.name, slug_for(typename, member.name))
   if member.type == "var" then
-    ret = ret .. "  Variable of type `" .. member.vartype .. "`"
-    if member.hasval then ret = ret .. " value: `" .. tostring(member.varval) .. "`" end
-    ret = ret .. "\n"
+    if member.hasval then
+      ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(member.vartype))
+      ret = ret .. " = `" .. tostring(member.varval) .. "`"
+    else
+      ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(member.vartype))
+    end
+    ret = ret .. "  \n"
   elseif member.type == "func" then
     for _, overload in pairs(member.overloads) do
-      ret = ret .. "  Function `(" .. fmt_arg_list(overload.args) .. ")"
-      if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
-      ret = ret .. "`\n"
+      if typename ~= nil and overload.args[1] == typename then
+        local args = { table.unpack(overload.args, 2) }
+        local sigFmt = "(%s)"
+        if overload.retval ~= "nil" then sigFmt = sigFmt .. " -> %s" end
+        local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
+        ret = ret .. (" 🇲 Method --> <code>%s</code>  \n"):format(linkify_types(sigStr))
+      else
+        local args = overload.args
+        local sigFmt = "(%s)"
+        if overload.retval ~= "nil" then sigFmt = sigFmt .. " -> %s" end
+        local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
+        ret = ret .. (" 🇫 Function --> <code>%s</code>  \n"):format(linkify_types(sigStr))
+      end
     end
   else
-    error("Unknown member type " .. tostring(member.type))
+    error("  Unknown member type " .. tostring(member.type))
+  end
+
+  if member.comment then
+    for s in member.comment:gmatch("[^\r\n]+") do
+      ret = ret .. " > " .. s .. "  \n"
+    end
   end
 
   return ret
@@ -83,10 +192,29 @@ local fmt_members = function(typename, members)
   else
     local ret = ""
 
-    local members_sorted = sorted_by(members)
+    local ss = function(a, b)
+      local aName = a.v.name:upper()
+      local bName = b.v.name:upper()
+
+      if aName:find("^__") and not bName:find("^__") then return false end
+      if not aName:find("^__") and bName:find("^__") then return true end
+
+      return aName < bName
+    end
+
+    local members_sorted = sorted_by(members, ss)
+
+    -- Hide operators and serialization methods
+    local is_hidden = function(member)
+      if member.comment and member.comment:find("DEPRECATED") then return true end
+      if member.name:find("^__") then return true end
+      if member.name == "serialize" then return true end
+      if member.name == "deserialize" then return true end
+      return false
+    end
 
     for _, it in pairs(members_sorted) do
-      ret = ret .. fmt_one_member(typename, it.v) .. "\n"
+      if not is_hidden(it.v) then ret = ret .. fmt_one_member(typename, it.v) .. "\n" end
     end
     return ret
   end
@@ -136,6 +264,39 @@ edit: false
 > This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
 and should not be edited directly.
 
+> [!WARNING]
+>
+> In Lua, functions can be called with a `:` and pass the object itself as the first argument, eg:
+>
+> Members where this behaviour is intended to be used are marked as 🇲 Methods<br/>
+> Their signature documentation hides the first argument to reflect that
+>
+> * Call 🇫 Function members with a `.`
+> * Call 🇲 Method members with a `:`
+>
+> Alternatively, you can still call 🇲 Methods with a `.`, from the class type or the variable itself
+> but a value of the given type must be passed as the first parameter (that is hidden)
+>
+> All of these do the same thing:
+> * ```
+>   print(Angle.from_radians(3):to_degrees(a))
+>   ```
+> * ```
+>   print(Angle.to_degrees(Angle.from_radians(3)))
+>   ```
+> * ```
+>   local a = Angle.from_radians(3)
+>   print(a:to_degrees())
+>   ```
+> * ```
+>   local a = Angle.from_radians(3)
+>   print(a.to_degrees(a))
+>   ```
+> * ```
+>   local a = Angle.from_radians(3)
+>   print(Angle.to_degrees(a))
+>   ```
+
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
 ]]
 
@@ -148,7 +309,7 @@ and should not be edited directly.
     local typename = it.k
     local dt_type = it.v
     local type_comment = dt_type.type_comment
-    ret = ret .. "## " .. typename .. "\n"
+    ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if type_comment then ret = ret .. type_comment .. "\n" end
 
@@ -157,13 +318,13 @@ and should not be edited directly.
     local members = dt_type["#member"]
 
     ret = ret
-      .. "### Bases\n"
+      .. ("### Bases {#sol::%s::@bases}\n"):format(typename)
       .. fmt_bases(typename, bases)
       .. "\n"
-      .. "### Constructors\n"
+      .. ("### Constructors {#sol::%s::@ctors}\n"):format(typename)
       .. fmt_constructors(typename, ctors)
       .. "\n"
-      .. "### Members\n"
+      .. ("### Members {#sol::%s::@members}\n"):format(typename)
       .. fmt_members(typename, members)
       .. "\n"
   end
@@ -176,7 +337,7 @@ and should not be edited directly.
   for _, it in pairs(enums_sorted) do
     local typename = it.k
     local dt_type = it.v
-    ret = ret .. "## " .. typename .. "\n"
+    ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     local entries = dt_type["entries"]
 
@@ -192,7 +353,7 @@ and should not be edited directly.
     local typename = it.k
     local dt_lib = it.v
     local lib_comment = dt_lib.lib_comment
-    ret = ret .. "## " .. typename .. "\n"
+    ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if lib_comment then ret = ret .. lib_comment .. "\n" end
 
