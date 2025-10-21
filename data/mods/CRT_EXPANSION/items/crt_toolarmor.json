@@ -313,9 +313,6 @@
     "max_encumbrance": 7,
     "material_thickness": 2,
     "material": [ "leather", "kevlar", "glass" ],
-    "max_charges": 1000,
-    "initial_charges": 1000,
-    "ammo": "battery",
     "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS", "ALLOWS_WINGS", "RECHARGE" ],
     "relic_data": {
       "recharge_scheme": [
@@ -326,7 +323,9 @@
           "rate": 1
         }
       ]
-    }
+    },
+    "initial_power": "1000 kJ",
+    "max_power": "1000 kJ"
   },
   {
     "id": "crt_med_kit",

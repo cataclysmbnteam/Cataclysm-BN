@@ -19,7 +19,6 @@
     "dispersion": 600,
     "durability": 4,
     "loudness": 28,
-    "ups_charges": 24,
     "reload": 440,
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "valid_mod_locations": [
@@ -33,7 +32,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ],
+    "power_draw": "24 kJ"
   },
   {
     "id": "crt_laser_pistol",

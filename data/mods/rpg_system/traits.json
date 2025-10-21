@@ -217,7 +217,7 @@
     "purifiable": false,
     "player_display": true,
     "healing_awake": 1.5,
-    "healing_resting": 2.0
+    "healing_resting": 2
   },
   {
     "type": "mutation",
@@ -251,7 +251,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "weight_capacity_modifier": 2.0,
+    "weight_capacity_modifier": 2,
     "armor": [ { "parts": "ALL", "physical": 8 } ],
     "movecost_modifier": 1.3,
     "speed_modifier": 0.85
@@ -302,7 +302,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "dodge_modifier": 3.0
+    "dodge_modifier": 3
   },
   {
     "type": "mutation",
@@ -314,7 +314,7 @@
     "purifiable": false,
     "player_display": true,
     "falling_damage_multiplier": 0.05,
-    "dodge_modifier": 2.0
+    "dodge_modifier": 2
   },
   {
     "type": "mutation",
@@ -337,7 +337,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "stamina_regen_modifier": 1.0,
+    "stamina_regen_modifier": 1,
     "metabolism_modifier": 0.4
   },
   {
@@ -371,7 +371,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "mending_modifier": 2.0
+    "mending_modifier": 2
   },
   {
     "type": "mutation",

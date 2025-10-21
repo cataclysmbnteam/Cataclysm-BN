@@ -206,7 +206,7 @@
     "category": "spare_parts",
     "price": "1500 USD",
     "price_postapoc": "1250 cent",
-    "name": { "str": "plutonium" },
+    "name": { "str_sp": "plutonium" },
     "symbol": "=",
     "color": "green",
     "description": "Individual flecks of radioactive plutonium-244 used to power plutonium fuel cells.  This shouldn't exist outside of the cells themselves, so if you see free plutonium hanging around, it's a bug.",
