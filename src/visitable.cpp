@@ -1067,12 +1067,12 @@ units::energy visitable<Character>::energy_of( const itype_id &what, units::ener
             return 0_J;
         }
     }
-    
+
     if( what == itype_voltmeter_bionic ) {
         if( p && p->has_bionic( bio_electrosense_voltmeter ) ) {
             return std::min( p->get_power_level(), limit );
         } else {
-            return 0;
+            return 0_J;
         }
     }
 

@@ -2602,12 +2602,12 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
 
     std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
     const tripoint hack_pos = hack_type ? hack::get_position( * act ) : tripoint{};
-    int hack_original_charges = 0;
+    units::energy hack_original_charges = 0_J;
     item *main_tool = nullptr;
     if( hack_type ) {
         main_tool = hack::get_fake_tool( hack_type.value(), *act );
         if( main_tool != nullptr ) {
-            hack_original_charges = main_tool ? main_tool->charges : 0;
+            hack_original_charges = main_tool ? main_tool->energy_remaining() : 0_J;
         }
     } else {
         main_tool = &*act->tools.front();
@@ -3155,8 +3155,8 @@ static void rod_fish( player *p,
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
-    int fishing_mult = iuse::good_fishing_spot( act->placement );
-    if( fishing_mult == 0 || p->is_blind() ) {
+    std::pair<int, units::energy> fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult.first == 0 || p->is_blind() ) {
         act->set_to_null();
         p->add_msg_if_player( m_info,
                               _( "You realize fishing here at the moment is pointless, and stop." ) );
@@ -3176,7 +3176,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         // Much better chances with a good fishing implement.
         survival_mod += dice( 3, 6 ); //avg of 10-11
     }
-    fish_chance += ( survival_mod *  fishing_mult );
+    fish_chance += ( survival_mod *  fishing_mult.first );
     // no matter the population of fish, your skill and tool limits the ease of catching.
     fish_chance = std::min( survival_mod * 20, fish_chance );
     if( x_in_y( fish_chance, 600000 ) ) {//Roughly 1/1000 per turn avg.

@@ -1312,7 +1312,7 @@ class iuse_prospect_pick : public iuse_actor
         iuse_prospect_pick( const std::string &type = "prospect_pick" ) : iuse_actor( type ) {}
         ~iuse_prospect_pick() override = default;
         void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
+        std::pair<int, units::energy> use( player &, item &, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
@@ -1327,6 +1327,6 @@ class iuse_reveal_contents : public iuse_actor
         iuse_reveal_contents( const std::string &type = "reveal_contents" ) : iuse_actor( type ) {}
         ~iuse_reveal_contents() override = default;
         void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
+        std::pair<int, units::energy> use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };

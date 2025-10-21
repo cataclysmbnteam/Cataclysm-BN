@@ -5645,21 +5645,22 @@ void train_skill_actor::load( JsonObject const &obj )
     training_msg = obj.get_string( "training_msg" );
 }
 
-int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
+std::pair<int, units::energy> train_skill_actor::use( player &p, item &i, bool,
+        const tripoint & ) const
 {
     if( i.ammo_remaining() < i.ammo_required() ) {
         p.add_msg_if_player( _( "This tool doesn't have enough charges." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p.get_skill_level( skill_id( training_skill ) ) < training_skill_min_level ) {
         p.add_msg_if_player( _( "Your skill isn't high enough yet to train using that (requires %s %s)." ),
                              training_skill_min_level, skill_id( training_skill )->name() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p.get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
         p.add_msg_if_player( _( "You can't train your %s beyond %s using that." ),
                              skill_id( training_skill )->name(), training_skill_max_level );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     int hours = string_input_popup()
@@ -5671,7 +5672,7 @@ int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
                 .query_int();
 
     if( hours <= 0 ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     p.add_msg_if_player( training_msg );
@@ -5686,7 +5687,7 @@ int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
     p.activity->str_values.emplace_back( i.typeId() );
     p.activity->tools.emplace_back( i );
 
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
 std::unique_ptr<iuse_actor> train_skill_actor::clone() const
@@ -5754,13 +5755,14 @@ void iuse_prospect_pick::load( const JsonObject &obj )
 {
     range = obj.get_int( "radius", 3 );
 }
+
 //TODO: this should probably take some time to do when skill is implimented, for now though, it just does.
-int iuse_prospect_pick::use( player &p, item &it, bool t,
-                             const tripoint & ) const
+std::pair<int, units::energy> iuse_prospect_pick::use( player &p, item &it, bool t,
+        const tripoint & ) const
 {
     if( t ) {
         //we're doing it still hold on.
-        return 0;
+        return std::make_pair( 0, 0_J );;
     }
     //* begin edited map code*/
     omt_find_params params{};
@@ -5806,7 +5808,7 @@ int iuse_prospect_pick::use( player &p, item &it, bool t,
     p.add_msg_if_player( m_info,
                          _( "You use the %s to gather a few samples and gauge where minerals may lie nearby." ),
                          it.tname() );
-    return 0;
+    return std::make_pair( 0, 0_J );;
 }
 std::unique_ptr<iuse_actor> iuse_prospect_pick::clone() const
 {
@@ -5820,8 +5822,9 @@ void iuse_reveal_contents::load( const JsonObject &obj )
         obj.read( "open_message", open_message );
     }
 }
-int iuse_reveal_contents::use( player &p, item &it, bool,
-                               const tripoint & ) const
+
+std::pair<int, units::energy> iuse_reveal_contents::use( player &p, item &it, bool,
+        const tripoint & ) const
 {
     std::vector<detached_ptr<item>> items = item_group::items_from( contents_group,
                                             calendar::turn );
@@ -5836,7 +5839,7 @@ int iuse_reveal_contents::use( player &p, item &it, bool,
 
     it.detach( );
 
-    return 0;
+    return std::make_pair( 0, 0_J );;
 }
 std::unique_ptr<iuse_actor> iuse_reveal_contents::clone() const
 {

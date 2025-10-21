@@ -1640,9 +1640,12 @@ std::pair<int, units::energy> iuse::remove_all_mods( player *p, item *, bool, co
 }
 // Returns 0-5 based on how good the fishing spot is, 5 being "Middle of the
 // ocean" and 0 being "no"
-int iuse::good_fishing_spot( tripoint pos )
+std::pair<int, units::energy> iuse::good_fishing_spot( tripoint pos )
 {
-    int fishable_locations = g->get_fishable_locations( 60, pos ).size();
+    std::pair<int, units::energy> res( 0, 0_J );
+    auto [chrg, enrg] = res;
+
+    const int fishable_locations = g->get_fishable_locations( 60, pos ).size();
     map &here = get_map();
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
@@ -1650,24 +1653,25 @@ int iuse::good_fishing_spot( tripoint pos )
     if( fishable_locations < 100 && !g->m.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() &&
         !cur_omt->is_lake_shore() ) {
-        return 0;
+        return res;
     }
     // I hate I cant use a switch for this.
     // Tiles in range is 144k, so knock off 14k to be nice for max fishing e-'fish'-iency.
     if( fishable_locations >= 10400 ) {
-        return 5;
+        chrg = 5;
     } else if( fishable_locations < 10400 && fishable_locations >= 7800 ) {
-        return 4;
+        chrg = 4;
     } else if( fishable_locations < 7800 && fishable_locations >= 5200 ) {
-        return 3;
+        chrg = 3;
     } else if( fishable_locations < 5200 && fishable_locations >= 2600 ) {
-        return 2;//If you cant amass a 10x10 for fishing womp womp.
+        chrg = 2;//If you cant amass a 10x10 for fishing womp womp.
     } else if( fishable_locations < 2600 && fishable_locations >= 100 ) {
-        return 1;
+        chrg = 1;
+    } else {
+        g->u.add_msg_if_player(
+            m_info, _( "You doubt you will catch anything here, best look elsewhere" ) );
     }
-    g->u.add_msg_if_player(
-        m_info, _( "You doubt you will catch anything here, best look elsewhere" ) );
-    return 0;
+    return res;
 }
 
 std::pair<int, units::energy> iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
@@ -1682,7 +1686,7 @@ std::pair<int, units::energy> iuse::fishing_rod( player *p, item *it, bool, cons
     }
     std::optional<tripoint> found;
     for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.has_flag( flag_FISHABLE, pnt ) && iuse::good_fishing_spot( pnt ) != 0 ) {
+        if( g->m.has_flag( flag_FISHABLE, pnt ) && iuse::good_fishing_spot( pnt ).first != 0 ) {
             found = pnt;
             break;
         }
@@ -1691,7 +1695,7 @@ std::pair<int, units::energy> iuse::fishing_rod( player *p, item *it, bool, cons
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return std::make_pair( 0, 0_J );
     }
-    switch( iuse::good_fishing_spot( *found ) ) {
+    switch( iuse::good_fishing_spot( *found ).first ) {
         case 1: {
             p->add_msg_if_player( m_info,
                                   _( "You doubt you will catch too much here, but surely theres some" ) );
@@ -1763,7 +1767,7 @@ std::pair<int, units::energy> iuse::fish_trap( player *p, item *it, bool t, cons
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return std::make_pair( 0, 0_J );
         }
-        if( good_fishing_spot( pnt ) == 0 ) {
+        if( good_fishing_spot( pnt ).first == 0 ) {
             return std::make_pair( 0, 0_J );
         }
         it->activate();
@@ -1786,8 +1790,8 @@ std::pair<int, units::energy> iuse::fish_trap( player *p, item *it, bool t, cons
             if( !g->m.has_flag( "FISHABLE", pos ) ) {
                 return std::make_pair( 0, 0_J );
             }
-            int fish = good_fishing_spot( pos );
-            int success = -250 + ( good_fishing_spot( pos ) * 15 );
+            int fish = good_fishing_spot( pos ).first;
+            int success = -250 + ( fish * 15 );
             const int surv_mod = p->get_skill_level( skill_survival ) + ( fish );
             for( int i = 0; i < it->charges; i++ ) {
                 success += surv_mod + fish;
