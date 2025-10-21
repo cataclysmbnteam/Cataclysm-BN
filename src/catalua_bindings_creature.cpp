@@ -750,19 +750,19 @@ void cata::detail::reg_character( sol::state &lua )
         } );
 
         // Could also use a std::variant<item*, detached_ptr<item>*> for a single method
-        DOC( "Attempts to wear an item not in the creature inventory.\nIf boolean parameter is false, item is worn instantly" );
+        DOC( "Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly" );
         luna::set_fx( ut, "wear_detached", []( UT_CLASS & c, detached_ptr<item> &it, bool interactive )
         {
             return !!c.wear_item( std::move( it ), interactive, std::nullopt );
         } );
 
-        DOC( "Attempts to wear an item in the creature inventory.\nIf boolean parameter is false, item is worn instantly" );
+        DOC( "Attempts to wear an item in the creature inventory. If boolean parameter is false, item is worn instantly" );
         luna::set_fx( ut, "wear", []( UT_CLASS & c, item & it, bool interactive )
         {
             return c.wear_possessed( it, interactive, std::nullopt );
         } );
 
-        DOC( "Checks if creature can wear a given item.\nIf boolean parameter is true, ignores already worn items" );
+        DOC( "Checks if creature can wear a given item. If boolean parameter is true, ignores already worn items" );
         luna::set_fx( ut, "can_wear", []( const UT_CLASS & c, const item & it, bool ignore_worn )
         {
             auto res = c.can_wear( it, ignore_worn );

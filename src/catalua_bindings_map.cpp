@@ -199,7 +199,7 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, sol::meta_function::length, item_stack_lua_length );
         luna::set_fx( ut, sol::meta_function::index, item_stack_lua_index );
 
-        DOC( "Modifying the stack while iterating may cause problems.\nThis returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating)." );
+        DOC( "Modifying the stack while iterating may cause problems. This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating)." );
         luna::set_fx( ut, "items", []( UT_CLASS & c ) {
             std::vector<item *> ret{};
             std::ranges::copy( c, std::back_inserter( ret ) );

@@ -74,7 +74,7 @@ void reg_item( sol::state &lua )
         DOC( "Erase all variables" );
         SET_FX( clear_vars );
 
-        DOC( "Spawns a new item\nsame as gapi.create_item " );
+        DOC( "Spawns a new item. Same as gapi.create_item " );
         luna::set_fx( ut, "spawn", []( const itype_id & itype, int count )
         {
             return item::spawn( itype, calendar::turn, count );
@@ -554,10 +554,10 @@ void reg_islot( sol::state &lua )
         DOC( "How much storage this items provides when worn" );
         SET_MEMB_RO( storage );
 
-        DOC( "Multiplier on resistances provided by armor's materials.  \nDamaged armors have lower effective thickness, low capped at 1.  \nNote: 1 thickness means item retains full resistance when damaged." );
+        DOC( "Multiplier on resistances provided by armor's materials. Damaged armors have lower effective thickness, low capped at 1. Note: 1 thickness means item retains full resistance when damaged." );
         SET_MEMB_RO( thickness );
 
-        DOC( "Whitelisted clothing mods.\nRestricted clothing mods must be listed here by id to be compatible." );
+        DOC( "Whitelisted clothing mods. Restricted clothing mods must be listed here by id to be compatible." );
         SET_MEMB_RO( valid_mods );
 
         DOC( "How much warmth this item provides" );
@@ -602,7 +602,7 @@ void reg_islot( sol::state &lua )
     {
         auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        DOC( "How long in minutes it takes to read.  \n\"To read\" means getting 1 skill point, not all of them." );
+        DOC( "How long in minutes it takes to read. \"To read\" means getting 1 skill point, not all of them." );
         SET_MEMB_RO( time );
 
         DOC( "Fun books have chapters; after all are read, the book is less fun." );
