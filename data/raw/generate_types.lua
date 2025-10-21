@@ -14,7 +14,7 @@ local fmt_bases_luals = function(bases)
   else
     local mapped_bases = {}
     for _, base_name in ipairs(bases) do
-      table.insert(mapped_bases, map_cpp_type_to_lua(base_name))
+      table.insert(mapped_bases, map_cpp_type_to_lua(base_name, false))
     end
     return " : " .. table.concat(mapped_bases, ", ")
   end
@@ -36,7 +36,7 @@ local fmt_function_signature = function(arg_list, ret_type, class_name, meta)
   local state = nil
 
   for i, arg_str in ipairs(clean_arg_list) do
-    local lua_type = map_cpp_type_to_lua(arg_str)
+    local lua_type = map_cpp_type_to_lua(arg_str, false)
     local arg_name
     if i == 1 and arg_str == class_name then
       arg_name = "self"
@@ -52,7 +52,7 @@ local fmt_function_signature = function(arg_list, ret_type, class_name, meta)
   end
 
   local params_str = table.concat(params, ", ")
-  local lua_ret_type = map_cpp_type_to_lua(ret_type)
+  local lua_ret_type = map_cpp_type_to_lua(ret_type, false)
   local ret_str = ""
   if lua_ret_type ~= "nil" then ret_str = ": " .. lua_ret_type end
 
@@ -71,7 +71,7 @@ local fmt_variable_field = function(member, is_static)
   if not string.match(member_name, "^[%a_][%w_]*$") then
     member_name = "['" .. member_name .. "']" -- Quote non-identifier names
   end
-  local lua_type = map_cpp_type_to_lua(member.vartype)
+  local lua_type = map_cpp_type_to_lua(member.vartype, false)
 
   ret = ret .. "---@field " .. member_name .. " " .. lua_type
   if member.comment and member.comment ~= "" then
@@ -143,7 +143,7 @@ end
 --- If ctors is nil or an empty table, only the basic new() stub and @return are generated.
 ---@return string EmmyLua annotation string for the constructor.
 local fmt_constructor_field = function(typename, ctors)
-  local type = map_cpp_type_to_lua(typename)
+  local type = map_cpp_type_to_lua(typename, true)
 
   ---@type string[]
   local lines = {}

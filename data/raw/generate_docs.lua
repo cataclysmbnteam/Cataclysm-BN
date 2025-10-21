@@ -83,11 +83,12 @@ end
 
 local function fmt_one_member_var(typename, member)
   local ret = ""
+  local lua_rv = map_cpp_type_to_lua(member.vartype, true)
   if member.hasval then
-    ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(member.vartype))
+    ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(lua_rv))
     ret = ret .. " = `" .. tostring(member.varval) .. "`"
   else
-    ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(member.vartype))
+    ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(lua_rv))
   end
   ret = ret .. "  \n"
   return ret
@@ -98,11 +99,11 @@ local function fmt_one_member_func(typename, member)
   local name, state
   for _, overload in pairs(member.overloads) do
     local is_method = typename ~= nil and overload.args[1] == typename
-    local lua_rv = map_cpp_type_to_lua(overload.retval)
+    local lua_rv = map_cpp_type_to_lua(overload.retval, true)
     local lua_args = {}
 
     for k, v in pairs(overload.args) do
-      lua_args[k] = map_cpp_type_to_lua(v)
+      lua_args[k] = map_cpp_type_to_lua(v, true)
     end
 
     if is_method then lua_args = { table.unpack(lua_args, 2) } end

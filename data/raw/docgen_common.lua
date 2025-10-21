@@ -130,8 +130,9 @@ end
 
 -- Rudimentary mapping from C++/sol types to LuaLS types.
 ---@param cpp_type string
+---@param keep_cppval boolean
 ---@return string
-function map_cpp_type_to_lua(cpp_type)
+function map_cpp_type_to_lua(cpp_type, keep_cppval)
   -- NOTE: This mapping might need refinement based on actual types used
   if not cpp_type then return "any" end -- Handle nil input gracefully
   cpp_type = string.gsub(cpp_type, "const%s+", "") -- Remove const
@@ -191,40 +192,45 @@ function map_cpp_type_to_lua(cpp_type)
     clean_type = string.match(clean_type, "^[%w_]+%s*<?([%w_]+)?>?$") or clean_type
     clean_type = string.match(clean_type, "[%w_]+$") or clean_type -- Get the last part
 
-    if clean_type == "..." or string.match(clean_type, "^CppVal") then
+    if clean_type == "..." or (not keep_cppval and string.match(clean_type, "^CppVal")) then
       clean_type = "any"
-    elseif string.match(clean_type, "^Vector%(%w+%)$") then
+    elseif string.match(clean_type, "^Vector%(%S+%)$") then
       clean_type = string.gsub(
         clean_type,
-        "^Vector%((%w+)%)$",
-        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
+        "^Vector%((%S+)%)$",
+        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k, keep_cppval)) end
       )
-    elseif string.match(clean_type, "^Set%(%w+%)$") then
+    elseif string.match(clean_type, "^Set%(%S+%)$") then
       clean_type = string.gsub(
         clean_type,
-        "^Set%((%w+)%)$",
-        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
+        "^Set%((%S+)%)$",
+        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k, keep_cppval)) end
       )
-    elseif string.match(clean_type, "^Array%((%w+),(%d+)%)$") then
+    elseif string.match(clean_type, "^Array%(%S+,%d+%)$") then
       clean_type = string.gsub(
         clean_type,
-        "^Array%((%w+),(%d+)%)$",
-        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
+        "^Array%((%S+),(%d+)%)$",
+        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k, keep_cppval)) end
       )
-    elseif string.match(clean_type, "^Dict%((%w+),(%w+)%)$") then
+    elseif string.match(clean_type, "^Dict%(%S+,%S+%)$") then
       clean_type = string.gsub(
         clean_type,
-        "^Dict%((%w+),(%w+)%)$",
-        function(k, v) return ("table<%s, %s>"):format(map_cpp_type_to_lua(k), map_cpp_type_to_lua(v)) end
+        "^Dict%((%S+),(%S+)%)$",
+        function(k, v) return ("table<%s, %s>"):format(map_cpp_type_to_lua(k, keep_cppval), map_cpp_type_to_lua(v, keep_cppval)) end
       )
-    elseif string.match(clean_type, "^Opt%((%w+)%)$") then
+    elseif string.match(clean_type, "^Opt%(%S+%)$") then
       clean_type = string.gsub(
         clean_type,
-        "^Opt%((%w+)%)$",
-        function(k) return ("%s"):format(map_cpp_type_to_lua(k)) end
+        "^Opt%((%S+)%)$",
+        function(k) return ("%s"):format(map_cpp_type_to_lua(k, keep_cppval)) end
+      )
+    elseif string.match(clean_type, "^Pair%(%S+,%S+%)$") then
+      clean_type = string.gsub(
+        clean_type,
+        "^Pair%((%S+),(%S+)%)$",
+        function(k, v) return ("(%s, %s)"):format(map_cpp_type_to_lua(k, keep_cppval), map_cpp_type_to_lua(v, keep_cppval)) end
       )
     end
-
     return clean_type or "any" -- Fallback to 'any' if nothing matches
   end
 end

@@ -270,23 +270,23 @@ No constructors.
 
 #### follower_ids {#sol::Character::follower_ids}
 
-🇻 Variable --> <code>Set( [CharacterId](#sol::CharacterId) )</code>
+🇻 Variable --> <code>[CharacterId](#sol::CharacterId)[]</code>
 
 #### cash {#sol::Character::cash}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### mutation_category_level {#sol::Character::mutation_category_level}
 
-🇻 Variable --> <code>Dict( [MutationCategoryTraitId](#sol::MutationCategoryTraitId), int )</code>
+🇻 Variable --> <code>table<[MutationCategoryTraitId](#sol::MutationCategoryTraitId), integer></code>
 
 #### male {#sol::Character::male}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 #### focus_pool {#sol::Character::focus_pool}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### rust_rate {#sol::Character::rust_rate}
 
@@ -1766,7 +1766,7 @@ No base classes.
 
 #### damage_units {#sol::DamageInstance::damage_units}
 
-🇻 Variable --> <code>Vector( [DamageUnit](#sol::DamageUnit) )</code>
+🇻 Variable --> <code>[DamageUnit](#sol::DamageUnit)[]</code>
 
 #### empty {#sol::DamageInstance::empty}
 
@@ -1819,19 +1819,19 @@ No base classes.
 
 #### res_mult {#sol::DamageUnit::res_mult}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### damage_multiplier {#sol::DamageUnit::damage_multiplier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### res_pen {#sol::DamageUnit::res_pen}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### amount {#sol::DamageUnit::amount}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 ## DealtDamageInstance {#sol::DealtDamageInstance}
 
@@ -1849,7 +1849,7 @@ No constructors.
 
 #### dealt_dams {#sol::DealtDamageInstance::dealt_dams}
 
-🇻 Variable --> <code>Array( int, 14 )</code>
+🇻 Variable --> <code>integer[]</code>
 
 #### bp_hit {#sol::DealtDamageInstance::bp_hit}
 
@@ -2293,7 +2293,7 @@ No constructors.
 
 #### charges {#sol::Item::charges}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### get_type {#sol::Item::get_type}
 
@@ -3075,7 +3075,7 @@ No constructors.
 
 #### get_items_at {#sol::Map::get_items_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> any</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> CppVal&lt;std_unique_ptr&lt;map_stack&gt;&gt;</code>
 
 #### get_ter_at {#sol::Map::get_ter_at}
 
@@ -3429,7 +3429,7 @@ No base classes.
 
 #### get_likely_rewards {#sol::Mission::get_likely_rewards}
 
-🇲 Method --> <code>( ) -> Vector(Pair(int,[ItypeId](#sol::ItypeId)))</code>
+🇲 Method --> <code>( ) -> (integer, [ItypeId](#sol::ItypeId))[]</code>
 
 > Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
 
@@ -3573,7 +3573,7 @@ No base classes.
 
 #### item_count {#sol::MissionType::item_count}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Returns the count of items involved in the mission.
 
@@ -3585,7 +3585,7 @@ No base classes.
 
 #### remove_container {#sol::MissionType::remove_container}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Returns true if the mission requires removing a container.
 
@@ -3603,19 +3603,19 @@ No base classes.
 
 #### monster_kill_goal {#sol::MissionType::monster_kill_goal}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Returns the number of monsters required to kill for this mission.
 
 #### dialogue {#sol::MissionType::dialogue}
 
-🇻 Variable --> <code>Dict( string, CppVal&lt;translation&gt; )</code>
+🇻 Variable --> <code>table<string, CppVal&lt;translation&gt;></code>
 
 > Returns any associated dialogue for the mission.
 
 #### origins {#sol::MissionType::origins}
 
-🇻 Variable --> <code>Vector( [MissionOrigin](#sol::MissionOrigin) )</code>
+🇻 Variable --> <code>[MissionOrigin](#sol::MissionOrigin)[]</code>
 
 > Returns a list of origins from which this mission can be generated.
 
@@ -3627,13 +3627,13 @@ No base classes.
 
 #### likely_rewards {#sol::MissionType::likely_rewards}
 
-🇻 Variable --> <code>Vector( Pair( int, [ItypeId](#sol::ItypeId) ) )</code>
+🇻 Variable --> <code>(integer, [ItypeId](#sol::ItypeId))[]</code>
 
 > Returns a vector of likely rewards (chance, itype_id pairs).
 
 #### difficulty {#sol::MissionType::difficulty}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Returns the mission's difficulty as an integer.
 
@@ -3651,13 +3651,13 @@ No base classes.
 
 #### value {#sol::MissionType::value}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Returns the mission's reward value as an integer.
 
 #### has_generic_rewards {#sol::MissionType::has_generic_rewards}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Returns true if the mission has generic rewards.
 
@@ -3669,7 +3669,7 @@ No base classes.
 
 #### urgent {#sol::MissionType::urgent}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Returns true if the mission is marked as urgent.
 
@@ -3717,11 +3717,11 @@ No constructors.
 
 #### friendly {#sol::Monster::friendly}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### death_drops {#sol::Monster::death_drops}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 #### faction {#sol::Monster::faction}
 
@@ -3733,11 +3733,11 @@ No constructors.
 
 #### anger {#sol::Monster::anger}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### morale {#sol::Monster::morale}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### climbs {#sol::Monster::climbs}
 
@@ -4060,301 +4060,301 @@ No constructors.
 
 #### max_stamina_modifier {#sol::MutationBranchRaw::max_stamina_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### falling_damage_multiplier {#sol::MutationBranchRaw::falling_damage_multiplier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### weight_capacity_modifier {#sol::MutationBranchRaw::weight_capacity_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### movecost_swim_modifier {#sol::MutationBranchRaw::movecost_swim_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### hearing_modifier {#sol::MutationBranchRaw::hearing_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### noise_modifier {#sol::MutationBranchRaw::noise_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### attackcost_modifier {#sol::MutationBranchRaw::attackcost_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### movecost_flatground_modifier {#sol::MutationBranchRaw::movecost_flatground_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### hp_adjustment {#sol::MutationBranchRaw::hp_adjustment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Flat adjustment to HP.
 
 #### movecost_obstacle_modifier {#sol::MutationBranchRaw::movecost_obstacle_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### str_modifier {#sol::MutationBranchRaw::str_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Adjustment to Strength that doesn't affect HP.
 
 #### speed_modifier {#sol::MutationBranchRaw::speed_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### dodge_modifier {#sol::MutationBranchRaw::dodge_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### hp_modifier_secondary {#sol::MutationBranchRaw::hp_modifier_secondary}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it.
 
 #### scent_modifier {#sol::MutationBranchRaw::scent_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### healthy_rate {#sol::MutationBranchRaw::healthy_rate}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > How quickly health (not HP) trends toward healthy_mod.
 
 #### overmap_sight {#sol::MutationBranchRaw::overmap_sight}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### stamina_regen_modifier {#sol::MutationBranchRaw::stamina_regen_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### overmap_multiplier {#sol::MutationBranchRaw::overmap_multiplier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### skill_rust_multiplier {#sol::MutationBranchRaw::skill_rust_multiplier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### reading_speed_multiplier {#sol::MutationBranchRaw::reading_speed_multiplier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### bleed_resist {#sol::MutationBranchRaw::bleed_resist}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### fatigue_regen_modifier {#sol::MutationBranchRaw::fatigue_regen_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### thirst_modifier {#sol::MutationBranchRaw::thirst_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### stealth_modifier {#sol::MutationBranchRaw::stealth_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### fatigue_modifier {#sol::MutationBranchRaw::fatigue_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### night_vision_range {#sol::MutationBranchRaw::night_vision_range}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### metabolism_modifier {#sol::MutationBranchRaw::metabolism_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### temperature_speed_modifier {#sol::MutationBranchRaw::temperature_speed_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### construction_speed_modifier {#sol::MutationBranchRaw::construction_speed_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
 
 #### movecost_modifier {#sol::MutationBranchRaw::movecost_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### packmule_modifier {#sol::MutationBranchRaw::packmule_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
 
 #### crafting_speed_modifier {#sol::MutationBranchRaw::crafting_speed_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
 
 #### starting_trait {#sol::MutationBranchRaw::starting_trait}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this trait can normally be taken during character generation.
 
 #### starts_active {#sol::MutationBranchRaw::starts_active}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether a mutation activates when granted.
 
 #### fatigue {#sol::MutationBranchRaw::fatigue}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Mutation causes fatigue when used.
 
 #### allow_soft_gear {#sol::MutationBranchRaw::allow_soft_gear}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Mutation allows soft gear to be worn over otherwise-restricted parts.
 
 #### hunger {#sol::MutationBranchRaw::hunger}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Mutation deducts calories when used.
 
 #### mixed_effect {#sol::MutationBranchRaw::mixed_effect}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this mutation has positive /and/ negative effects.
 
 #### debug {#sol::MutationBranchRaw::debug}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether or not this mutation is limited to debug use.
 
 #### valid {#sol::MutationBranchRaw::valid}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this mutation is available through generic mutagen.
 
 #### player_display {#sol::MutationBranchRaw::player_display}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether or not this mutation shows up in the status (`@`) menu.
 
 #### purifiable {#sol::MutationBranchRaw::purifiable}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
 
 #### profession {#sol::MutationBranchRaw::profession}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this trait is ONLY gained through professional training/experience (and/or quests).
 
 #### threshold {#sol::MutationBranchRaw::threshold}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
 
 #### thirst {#sol::MutationBranchRaw::thirst}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Mutation dehydrates when used.
 
 #### activated {#sol::MutationBranchRaw::activated}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether this mutation can be activated at will.
 
 #### visibility {#sol::MutationBranchRaw::visibility}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > How visible the mutation is to others.
 
 #### healing_awake {#sol::MutationBranchRaw::healing_awake}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Healing per turn from mutation.
 
 #### pain_recovery {#sol::MutationBranchRaw::pain_recovery}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Pain recovery per turn from mutation.
 
 #### healing_resting {#sol::MutationBranchRaw::healing_resting}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Healing per turn from mutation, while asleep.
 
 #### points {#sol::MutationBranchRaw::points}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Point cost in character creation(?).
 
 #### mending_modifier {#sol::MutationBranchRaw::mending_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Multiplier applied to broken limb regeneration. Normally 0.25; clamped to 0.25..1.0.
 
 #### bodytemp_sleep_btu {#sol::MutationBranchRaw::bodytemp_sleep_btu}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### hp_modifier {#sol::MutationBranchRaw::hp_modifier}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 > Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
 
 #### bodytemp_min_btu {#sol::MutationBranchRaw::bodytemp_min_btu}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### bodytemp_max_btu {#sol::MutationBranchRaw::bodytemp_max_btu}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### cost {#sol::MutationBranchRaw::cost}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### ugliness {#sol::MutationBranchRaw::ugliness}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > How physically unappealing the mutation is. Can be negative.
 
 #### cooldown {#sol::MutationBranchRaw::cooldown}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Costs are incurred every 'cooldown' turns.
 
@@ -4476,19 +4476,19 @@ No constructors.
 
 #### hit_by_player {#sol::Npc::hit_by_player}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 #### needs {#sol::Npc::needs}
 
-🇻 Variable --> <code>Vector( [NpcNeed](#sol::NpcNeed) )</code>
+🇻 Variable --> <code>[NpcNeed](#sol::NpcNeed)[]</code>
 
 #### patience {#sol::Npc::patience}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### marked_for_death {#sol::Npc::marked_for_death}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 #### op_of_u {#sol::Npc::op_of_u}
 
@@ -4665,23 +4665,23 @@ No base classes.
 
 #### trust {#sol::NpcOpinion::trust}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### anger {#sol::NpcOpinion::anger}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### value {#sol::NpcOpinion::value}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### fear {#sol::NpcOpinion::fear}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### owed {#sol::NpcOpinion::owed}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 ## NpcPersonality {#sol::NpcPersonality}
 
@@ -4697,19 +4697,19 @@ No base classes.
 
 #### aggression {#sol::NpcPersonality::aggression}
 
-🇻 Variable --> <code>char</code>
+🇻 Variable --> <code>integer</code>
 
 #### collector {#sol::NpcPersonality::collector}
 
-🇻 Variable --> <code>char</code>
+🇻 Variable --> <code>integer</code>
 
 #### bravery {#sol::NpcPersonality::bravery}
 
-🇻 Variable --> <code>char</code>
+🇻 Variable --> <code>integer</code>
 
 #### altruism {#sol::NpcPersonality::altruism}
 
-🇻 Variable --> <code>char</code>
+🇻 Variable --> <code>integer</code>
 
 ## Player {#sol::Player}
 
@@ -4742,11 +4742,11 @@ No base classes.
 
 #### x {#sol::Point::x}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### y {#sol::Point::y}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### abs {#sol::Point::abs}
 
@@ -4892,23 +4892,23 @@ No constructors.
 
 #### required_skills {#sol::RecipeRaw::required_skills}
 
-🇻 Variable --> <code>Dict( [SkillId](#sol::SkillId), int )</code>
+🇻 Variable --> <code>table<[SkillId](#sol::SkillId), integer></code>
 
 #### learn_by_disassembly {#sol::RecipeRaw::learn_by_disassembly}
 
-🇻 Variable --> <code>Dict( [SkillId](#sol::SkillId), int )</code>
+🇻 Variable --> <code>table<[SkillId](#sol::SkillId), integer></code>
 
 #### difficulty {#sol::RecipeRaw::difficulty}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### booksets {#sol::RecipeRaw::booksets}
 
-🇻 Variable --> <code>Dict( [ItypeId](#sol::ItypeId), int )</code>
+🇻 Variable --> <code>table<[ItypeId](#sol::ItypeId), integer></code>
 
 #### time {#sol::RecipeRaw::time}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### skill_used {#sol::RecipeRaw::skill_used}
 
@@ -5157,11 +5157,11 @@ No base classes.
 
 #### level {#sol::SpellSimple::level}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### trigger_once_in {#sol::SpellSimple::trigger_once_in}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 > Used for enchantments; the spell's _chance_ to trigger every turn.
 
@@ -5171,7 +5171,7 @@ No base classes.
 
 #### force_target_source {#sol::SpellSimple::force_target_source}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Whether or not the target point is _locked_ to the source's location.
 
@@ -5245,79 +5245,79 @@ No constructors.
 
 #### aoe_increment {#sol::SpellTypeRaw::aoe_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### max_dot {#sol::SpellTypeRaw::max_dot}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### min_duration {#sol::SpellTypeRaw::min_duration}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### dot_increment {#sol::SpellTypeRaw::dot_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### max_aoe {#sol::SpellTypeRaw::max_aoe}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### min_dot {#sol::SpellTypeRaw::min_dot}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### final_casting_time {#sol::SpellTypeRaw::final_casting_time}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### duration_increment {#sol::SpellTypeRaw::duration_increment}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### base_energy_cost {#sol::SpellTypeRaw::base_energy_cost}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### max_level {#sol::SpellTypeRaw::max_level}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### max_duration {#sol::SpellTypeRaw::max_duration}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### difficulty {#sol::SpellTypeRaw::difficulty}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### energy_increment {#sol::SpellTypeRaw::energy_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### final_energy_cost {#sol::SpellTypeRaw::final_energy_cost}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### base_casting_time {#sol::SpellTypeRaw::base_casting_time}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### min_aoe {#sol::SpellTypeRaw::min_aoe}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### range_increment {#sol::SpellTypeRaw::range_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### field_chance {#sol::SpellTypeRaw::field_chance}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### min_field_intensity {#sol::SpellTypeRaw::min_field_intensity}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### effect_str {#sol::SpellTypeRaw::effect_str}
 
@@ -5337,39 +5337,39 @@ No constructors.
 
 #### max_range {#sol::SpellTypeRaw::max_range}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### field_intensity_increment {#sol::SpellTypeRaw::field_intensity_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### field_intensity_variance {#sol::SpellTypeRaw::field_intensity_variance}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### min_range {#sol::SpellTypeRaw::min_range}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### max_field_intensity {#sol::SpellTypeRaw::max_field_intensity}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### max_damage {#sol::SpellTypeRaw::max_damage}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### min_damage {#sol::SpellTypeRaw::min_damage}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### damage_increment {#sol::SpellTypeRaw::damage_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### casting_time_increment {#sol::SpellTypeRaw::casting_time_increment}
 
-🇻 Variable --> <code>double</code>
+🇻 Variable --> <code>number</code>
 
 #### get_all {#sol::SpellTypeRaw::get_all}
 
@@ -5466,7 +5466,7 @@ No constructors.
 
 #### heat_radiation {#sol::TerRaw::heat_radiation}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### close {#sol::TerRaw::close}
 
@@ -5765,15 +5765,15 @@ No base classes.
 
 #### x {#sol::Tripoint::x}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### z {#sol::Tripoint::z}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### y {#sol::Tripoint::y}
 
-🇻 Variable --> <code>int</code>
+🇻 Variable --> <code>integer</code>
 
 #### xy {#sol::Tripoint::xy}
 
@@ -5801,7 +5801,7 @@ No base classes.
 
 #### entries {#sol::UiList::entries}
 
-🇻 Variable --> <code>Vector( [UiListEntry](#sol::UiListEntry) )</code>
+🇻 Variable --> <code>[UiListEntry](#sol::UiListEntry)[]</code>
 
 > Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
 
@@ -5899,7 +5899,7 @@ No constructors.
 
 #### enable {#sol::UiListEntry::enable}
 
-🇻 Variable --> <code>bool</code>
+🇻 Variable --> <code>boolean</code>
 
 > Entry whether it's enabled or not. Default is `true`.
 
@@ -6467,27 +6467,27 @@ Various game constants
 
 #### OM_OMT_SIZE {#sol::nil::OM_OMT_SIZE}
 
-🇨 Constant --> <code>int</code> = `180`
+🇨 Constant --> <code>integer</code> = `180`
 
 #### OMT_SM_SIZE {#sol::nil::OMT_SM_SIZE}
 
-🇨 Constant --> <code>int</code> = `2`
+🇨 Constant --> <code>integer</code> = `2`
 
 #### OMT_MS_SIZE {#sol::nil::OMT_MS_SIZE}
 
-🇨 Constant --> <code>int</code> = `24`
+🇨 Constant --> <code>integer</code> = `24`
 
 #### OM_MS_SIZE {#sol::nil::OM_MS_SIZE}
 
-🇨 Constant --> <code>int</code> = `4320`
+🇨 Constant --> <code>integer</code> = `4320`
 
 #### OM_SM_SIZE {#sol::nil::OM_SM_SIZE}
 
-🇨 Constant --> <code>int</code> = `360`
+🇨 Constant --> <code>integer</code> = `360`
 
 #### SM_MS_SIZE {#sol::nil::SM_MS_SIZE}
 
-🇨 Constant --> <code>int</code> = `12`
+🇨 Constant --> <code>integer</code> = `12`
 
 ## coords {#sol::coords}
 
@@ -6612,7 +6612,7 @@ Global game methods
 
 #### create_item {#sol::nil::create_item}
 
-🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> any</code>
+🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> CppVal&lt;std_unique_ptr&lt;item&gt;&gt;</code>
 
 #### place_player_overmap_at {#sol::nil::place_player_overmap_at}
 
@@ -6774,13 +6774,13 @@ Localization API.
 
 #### vgettext {#sol::nil::vgettext}
 
-🇫 Function --> <code>( string, string, any ) -> string</code>
+🇫 Function --> <code>( string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
 
 > First is english singular string, second is english plural string. Number is amount to translate for.
 
 #### vpgettext {#sol::nil::vpgettext}
 
-🇫 Function --> <code>( string, string, string, any ) -> string</code>
+🇫 Function --> <code>( string, string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
 
 > First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
 

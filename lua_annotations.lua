@@ -1012,7 +1012,7 @@ function MaterialTypeRaw.new() end
 ---@field get_follow_up fun(self: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
 ---@field get_id fun(self: Mission): integer @Returns the mission's unique ID.
 ---@field get_item_id fun(self: Mission): ItypeId @Returns the item ID associated with the mission.
----@field get_likely_rewards fun(self: Mission): Vector(Pair(int,ItypeId)) @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+---@field get_likely_rewards fun(self: Mission): (integer, ItypeId)[] @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
 ---@field get_npc_id fun(self: Mission): CharacterId @Returns the NPC character ID associated with the mission.
 ---@field get_target_point fun(self: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
 ---@field get_type fun(self: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
@@ -1040,7 +1040,7 @@ function Mission.new() end
 ---@field deadline_high TimeDuration @Returns the maximum allowed deadline for the mission.
 ---@field deadline_low TimeDuration @Returns the minimum allowed deadline for the mission.
 ---@field description any @Returns the mission's description as a string.
----@field dialogue Dict(string,CppVal<translation>) @Returns any associated dialogue for the mission.
+---@field dialogue table<string, any> @Returns any associated dialogue for the mission.
 ---@field difficulty integer @Returns the mission's difficulty as an integer.
 ---@field empty_container ItypeId @Returns true if the mission requires the container to be empty.
 ---@field follow_up MissionTypeIdRaw @Returns any follow-up mission type ID.
@@ -1048,7 +1048,7 @@ function Mission.new() end
 ---@field has_generic_rewards boolean @Returns true if the mission has generic rewards.
 ---@field item_count integer @Returns the count of items involved in the mission.
 ---@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
----@field likely_rewards Vector(Pair(int,ItypeId)) @Returns a vector of likely rewards (chance, itype_id pairs).
+---@field likely_rewards (integer, ItypeId)[] @Returns a vector of likely rewards (chance, itype_id pairs).
 ---@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
 ---@field monster_type MtypeId @Returns the monster type associated with the mission, if any.
 ---@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
