@@ -112,8 +112,10 @@ local linkify_types = function(str_)
       str = string.gsub(str, ">", "&gt;")
     else
       str = string.gsub(str, "[%a%d]+", function(k)
-        if table_contains(types_table, k) then return ("[%s](#sol::%s)"):format(k, k)
-        elseif table_contains(enums_table, k) then return ("[%s](#sol::%s)"):format(k, k)
+        if table_contains(types_table, k) then
+          return ("[%s](#sol::%s)"):format(k, k)
+        elseif table_contains(enums_table, k) then
+          return ("[%s](#sol::%s)"):format(k, k)
         end
         return k
       end)
