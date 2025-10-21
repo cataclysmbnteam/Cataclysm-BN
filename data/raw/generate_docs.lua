@@ -1,42 +1,4 @@
---[[
-    Receives a table and returns sorted array where each value is table of type { k=k, v=v }.
-
-    Sort by key by default, but may also use provided sort function f(a, b)
-    where a and b - tables of type {k=k, v=v}
-    (the function must return whether a is less than b).
-]]
---
-local sorted_by = function(t, f)
-  if not f then f = function(a, b) return (a.k < b.k) end end
-  local sorted = {}
-  for k, v in pairs(t) do
-    table.insert(sorted, { k = k, v = v })
-  end
-  table.sort(sorted, f)
-  return sorted
-end
-
-local remove_hidden_args = function(arg_list)
-  local ret = {}
-  for _, arg in pairs(arg_list) do
-    if arg == "<this_state>" then
-      -- sol::this_state is only visible to C++ side
-    else
-      table.insert(ret, arg)
-    end
-  end
-  return ret
-end
-
-local function string_concat_matches(str, pat, sep, op)
-  if str == nil or str == "" then return "" end
-  local tbl = {}
-  for match in string.gmatch(str, pat) do
-    if op then match = op(match) end
-    if match and match ~= "" then table.insert(tbl, match) end
-  end
-  return table.concat(tbl, sep)
-end
+require("docgen_common")
 
 local slug_for = function(typename, membername)
   local typename = string.gsub(tostring(typename), "%s", "")
@@ -49,61 +11,9 @@ end
 
 local table_contains = function(tbl, key)
   for k, v in pairs(tbl) do
-    if tostring(k):upper() == tostring(key):upper() then return true end
+    if tostring(k) == tostring(key) then return true end
   end
   return false
-end
-
---- func desc
----@param str string
----@param open string
----@param close string
----@param i integer
----@return string before, string match, string after
-local extract_token = function(str, open, close, i)
-  local j = i
-  local depth = 0
-  while true do
-    local openBracket = str:find(open, j, true) or #str
-    local closeBracket = str:find(close, j, true) or #str
-
-    if openBracket == nil and closeBracket == nil then break end
-
-    if openBracket < closeBracket then
-      depth = depth + 1
-      j = openBracket + 1
-    else
-      depth = depth - 1
-      j = closeBracket + 1
-      if depth == 0 then break end
-    end
-  end
-  local left = str:sub(1, i - 1)
-  local mid = str:sub(i, j - 1)
-  local right = str:sub(j, #str)
-
-  return left, mid, right
-end
-
----comment
----@param str string
----@return table
-local extract_cpp_types = function(str)
-  local tbl = {}
-  local tmp = str
-  while true do
-    local match = tmp:find("CppVal", 1, true)
-    if match ~= nil then
-      local before, token, after = extract_token(tmp, "<", ">", match)
-      if before ~= "" then table.insert(tbl, { before, false }) end
-      if token ~= "" then table.insert(tbl, { token, true }) end
-      tmp = after
-    else
-      if tmp ~= "" then table.insert(tbl, { tmp, false }) end
-      break
-    end
-  end
-  return tbl
 end
 
 local linkify_types = function(str_)
@@ -136,10 +46,22 @@ local linkify_types = function(str_)
   return ret
 end
 
-local fmt_arg_list = function(arg_list)
+local fmt_arg_list = function(arg_list, meta)
   local ret = " "
   local arg_list = remove_hidden_args(arg_list)
   if #arg_list == 0 then return ret end
+
+  local meta = get_meta_params(meta)
+  local state
+  for i, v in pairs(arg_list) do
+    state, name = next(meta, state)
+    if state ~= nil then
+      arg_list[i] = name .. ": " .. v
+    else
+      arg_list[i] = v
+    end
+  end
+
   ret = ret .. table.concat(arg_list, ", ")
   return ret .. " "
 end
@@ -159,40 +81,61 @@ local fmt_constructors = function(typename, ctors)
   end
 end
 
+local function fmt_one_member_var(typename, member)
+  local ret = ""
+  if member.hasval then
+    ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(member.vartype))
+    ret = ret .. " = `" .. tostring(member.varval) .. "`"
+  else
+    ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(member.vartype))
+  end
+  ret = ret .. "  \n"
+  return ret
+end
+
+local function fmt_one_member_func(typename, member)
+  local ret = ""
+  local name, state
+  for _, overload in pairs(member.overloads) do
+    local is_method = typename ~= nil and overload.args[1] == typename
+    local lua_rv = map_cpp_type_to_lua(overload.retval)
+    local lua_args = {}
+
+    for k, v in pairs(overload.args) do
+      lua_args[k] = map_cpp_type_to_lua(v)
+    end
+
+    if is_method then lua_args = { table.unpack(lua_args, 2) } end
+
+    local sigFmt = overload.retval ~= "nil" and "(%s) -> %s" or "(%s)"
+    local sigStr = sigFmt:format(fmt_arg_list(lua_args, member.comment), lua_rv)
+    sigStr = linkify_types(sigStr)
+
+    if is_method then
+      ret = ret .. (" 🇲 Method --> <code>%s</code>  \n"):format(sigStr)
+    else
+      ret = ret .. (" 🇫 Function --> <code>%s</code>  \n"):format(sigStr)
+    end
+  end
+  return ret
+end
+
 local fmt_one_member = function(typename, member)
   local ret = ("#### %s {%s}\n"):format(member.name, slug_for(typename, member.name))
   if member.type == "var" then
-    if member.hasval then
-      ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(member.vartype))
-      ret = ret .. " = `" .. tostring(member.varval) .. "`"
-    else
-      ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(member.vartype))
-    end
-    ret = ret .. "  \n"
+    ret = ret .. fmt_one_member_var(typename, member)
   elseif member.type == "func" then
-    for _, overload in pairs(member.overloads) do
-      if typename ~= nil and overload.args[1] == typename then
-        local args = { table.unpack(overload.args, 2) }
-        local sigFmt = "(%s)"
-        if overload.retval ~= "nil" then sigFmt = sigFmt .. " -> %s" end
-        local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
-        ret = ret .. (" 🇲 Method --> <code>%s</code>  \n"):format(linkify_types(sigStr))
-      else
-        local args = overload.args
-        local sigFmt = "(%s)"
-        if overload.retval ~= "nil" then sigFmt = sigFmt .. " -> %s" end
-        local sigStr = sigFmt:format(fmt_arg_list(args), overload.retval)
-        ret = ret .. (" 🇫 Function --> <code>%s</code>  \n"):format(linkify_types(sigStr))
-      end
-    end
+    ret = ret .. fmt_one_member_func(typename, member)
   else
     error("  Unknown member type " .. tostring(member.type))
   end
 
   if member.comment then
-    for s in member.comment:gmatch("[^\r\n]+") do
-      ret = ret .. " > " .. s .. "  \n"
-    end
+    local com = string_concat_matches(member.comment, "[^\r\n]+", "\n", function(m)
+      if string.match(m, "^@param") then return nil end
+      return "> " .. m
+    end)
+    ret = ret .. com
   end
 
   return ret
@@ -204,17 +147,9 @@ local fmt_members = function(typename, members)
   else
     local ret = ""
 
-    local ss = function(a, b)
-      local aName = a.v.name:upper()
-      local bName = b.v.name:upper()
+    local ss = function(a, b) return field_sort_order(a.v) < field_sort_order(b.v) end
 
-      if aName:find("^__") and not bName:find("^__") then return false end
-      if not aName:find("^__") and bName:find("^__") then return true end
-
-      return aName < bName
-    end
-
-    local members_sorted = sorted_by(members, ss)
+    local members_sorted = sort_by(wrapped(members), ss)
 
     -- Hide operators and serialization methods
     local is_hidden = function(member)
@@ -256,7 +191,7 @@ local fmt_enum_entries = function(typename, entries)
       if type(v) ~= "table" and type(v) ~= "function" then entries_filtered[k] = v end
     end
 
-    local entries_sorted = sorted_by(entries_filtered, function(a, b) return a.v < b.v end)
+    local entries_sorted = sort_by(wrapped(entries_filtered), function(a, b) return a.v < b.v end)
     for _, it in pairs(entries_sorted) do
       ret = ret .. "- `" .. tostring(it.k) .. "` = `" .. tostring(it.v) .. "`\n"
     end
@@ -316,7 +251,7 @@ and should not be edited directly.
 
   local types_table = dt["#types"]
 
-  local types_sorted = sorted_by(types_table)
+  local types_sorted = sort_by(wrapped(types_table))
   for _, it in pairs(types_sorted) do
     local typename = it.k
     local dt_type = it.v
@@ -347,7 +282,7 @@ and should not be edited directly.
 
   local enums_table = dt["#enums"]
 
-  local enums_sorted = sorted_by(enums_table)
+  local enums_sorted = sort_by(wrapped(enums_table))
   for _, it in pairs(enums_sorted) do
     local typename = it.k
     local dt_type = it.v
@@ -362,7 +297,7 @@ and should not be edited directly.
 
   local libs_table = dt["#libs"]
 
-  local libs_sorted = sorted_by(libs_table)
+  local libs_sorted = sort_by(wrapped(libs_table))
   for _, it in pairs(libs_sorted) do
     local typename = it.k
     local dt_lib = it.v

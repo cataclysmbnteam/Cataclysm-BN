@@ -1,160 +1,4 @@
----@generic T
----@param t T[]
----@param f? fun(a: T, b: T):boolean
----@return T[]
-function sort_by(t, f)
-  if not f then f = sort_by_tostring end
-  table.sort(t, f)
-  return t
-end
-
----@param a any
----@param b any
----@return boolean
-function sort_by_tostring(a, b)
-  if a.k and b.k then return tostring(a.k) < tostring(b.k) end
-  return tostring(a) < tostring(b)
-end
-
---- wraps sol2 table/map proxies so it can be sorted.
----@generic T
----@param t? T[]
----@return { k: string, v: T }[]
-function wrapped(t)
-  local res = {}
-  for k, v in pairs(t or {}) do
-    table.insert(res, { k = k, v = v })
-  end
-  return res
-end
-
---[[
-    Removes internal arguments like "<this_state>"
-  ]]
----@param arg_list string[]
----@return string[]
-local remove_hidden_args = function(arg_list)
-  local ret = {}
-  for _, arg in pairs(arg_list) do
-    if arg == "<this_state>" then
-      -- sol::this_state is only visible to C++ side
-    else
-      table.insert(ret, arg)
-    end
-  end
-  return ret
-end
-
-local function string_concat_matches(str, pat, sep, op)
-  if str == nil or str == "" then return "" end
-  local tbl = {}
-  for match in string.gmatch(str, pat) do
-    if op then match = op(match) end
-    if match and match ~= "" then table.insert(tbl, match) end
-  end
-  return table.concat(tbl, sep)
-end
-
--- Rudimentary mapping from C++/sol types to LuaLS types.
----@param cpp_type string
----@return string
-local function map_cpp_type_to_lua(cpp_type)
-  -- NOTE: This mapping might need refinement based on actual types used
-  if not cpp_type then return "any" end -- Handle nil input gracefully
-  cpp_type = string.gsub(cpp_type, "const%s+", "") -- Remove const
-  cpp_type = string.gsub(cpp_type, "%s+&", "") -- Remove references
-  cpp_type = string.gsub(cpp_type, "%s+%*", "") -- Remove pointers (basic)
-  cpp_type = string.gsub(cpp_type, "%s+$", "") -- Trim trailing space
-
-  if cpp_type == "std::string" or cpp_type == "string" then
-    return "string"
-  elseif
-    cpp_type == "int"
-    or cpp_type == "unsigned int"
-    or cpp_type == "long"
-    or cpp_type == "unsigned long"
-    or cpp_type == "long long"
-    or cpp_type == "unsigned long long"
-    or cpp_type == "short"
-    or cpp_type == "unsigned short"
-    or cpp_type == "int8_t"
-    or cpp_type == "uint8_t"
-    or cpp_type == "int16_t"
-    or cpp_type == "uint16_t"
-    or cpp_type == "int32_t"
-    or cpp_type == "uint32_t"
-    or cpp_type == "int64_t"
-    or cpp_type == "uint64_t"
-    or cpp_type == "size_t"
-    or cpp_type == "char"
-    or cpp_type == "signed char"
-    or cpp_type == "unsigned char"
-  then
-    return "integer" -- Lua 5.3+ distinguishes integers
-  elseif cpp_type == "double" or cpp_type == "float" then
-    return "number"
-  elseif cpp_type == "bool" then
-    return "boolean"
-  elseif cpp_type == "sol::table" or cpp_type == "table" then
-    return "table"
-  elseif cpp_type == "sol::function" or cpp_type == "function" or cpp_type == "std::function" then
-    return "function"
-  elseif
-    cpp_type == "sol::object"
-    or cpp_type == "sol::lua_value"
-    or cpp_type == "sol::stack_object"
-    or cpp_type == "sol::protected_function"
-    or cpp_type == "sol::unsafe_function"
-  then
-    return "any"
-  elseif cpp_type == "void" or cpp_type == "nil" or cpp_type == "sol::nil_t" then
-    return "nil"
-  else
-    -- Clean up namespaces and templates for class names
-    local clean_type = string.gsub(cpp_type, "::", "_")
-    -- Clean spaces
-    clean_type = string.gsub(clean_type, "%s+", "")
-    -- Try to extract the core type name, handling basic templates roughly
-    clean_type = string.match(clean_type, "^[%w_]+%s*<?([%w_]+)?>?$") or clean_type
-    clean_type = string.match(clean_type, "[%w_]+$") or clean_type -- Get the last part
-
-    if clean_type == "..." or string.match(clean_type, "^CppVal") then
-      clean_type = "any"
-    elseif string.match(clean_type, "^Vector%(%w+%)$") then
-      clean_type = string.gsub(
-        clean_type,
-        "^Vector%((%w+)%)$",
-        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
-      )
-    elseif string.match(clean_type, "^Set%(%w+%)$") then
-      clean_type = string.gsub(
-        clean_type,
-        "^Set%((%w+)%)$",
-        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
-      )
-    elseif string.match(clean_type, "^Array%((%w+),(%d+)%)$") then
-      clean_type = string.gsub(
-        clean_type,
-        "^Array%((%w+),(%d+)%)$",
-        function(k) return ("%s[]"):format(map_cpp_type_to_lua(k)) end
-      )
-    elseif string.match(clean_type, "^Dict%((%w+),(%w+)%)$") then
-      clean_type = string.gsub(
-        clean_type,
-        "^Dict%((%w+),(%w+)%)$",
-        function(k, v) return ("table<%s, %s>"):format(map_cpp_type_to_lua(k), map_cpp_type_to_lua(v)) end
-      )
-    elseif string.match(clean_type, "^Opt%((%w+)%)$") then
-      clean_type = string.gsub(
-        clean_type,
-        "^Opt%((%w+)%)$",
-        function(k) return ("%s"):format(map_cpp_type_to_lua(k)) end
-      )
-    end
-
-    return clean_type or "any" -- Fallback to 'any' if nothing matches
-  end
-end
+require("docgen_common")
 
 --[[
     Formats the base class list for a LuaLS class annotation.
@@ -179,27 +23,32 @@ end
 --[[
     Formats a single function signature string like "fun(param: type, ...): ret_type".
   ]]
----@param arg_list string[] List of "name:type" or "type"
----@param ret_type string C++ return type name
+---@param arg_list string[] List of types
+---@param ret_type string return type
 ---@param class_name string The name of the owning class/library
----@param is_method boolean True if it's a method requiring 'self'
+---@param meta string Member metadata
 ---@return string
-local fmt_function_signature = function(arg_list, ret_type, class_name, is_method)
+local fmt_function_signature = function(arg_list, ret_type, class_name, meta)
   local params = {}
-  local mapped_class_name = map_cpp_type_to_lua(class_name)
-
-  if is_method then table.insert(params, "self: " .. mapped_class_name) end
 
   local clean_arg_list = remove_hidden_args(arg_list)
+  local meta_args = get_meta_params(meta)
+  local state = nil
+
   for i, arg_str in ipairs(clean_arg_list) do
-    local name, type = string.match(arg_str, "^([%a_][%w_]+): (.+)$")
-    if not name then
-      type = arg_str
-      name = "arg" .. i -- Generate placeholder name if needed
+    local lua_type = map_cpp_type_to_lua(arg_str)
+    local arg_name
+    if i == 1 and arg_str == class_name then
+      arg_name = "self"
+    else
+      state, arg_name = next(meta_args, state)
+      if not arg_name then
+        arg_name = "arg" .. i -- Generate placeholder name if needed
+      else
+        arg_name = string.gsub(arg_name, "[^%w_]", "_")
+      end
     end
-    local safe_name = string.gsub(name, "[^%w_]", "_")
-    local lua_type = map_cpp_type_to_lua(type)
-    table.insert(params, safe_name .. ": " .. lua_type)
+    table.insert(params, arg_name .. ": " .. lua_type)
   end
 
   local params_str = table.concat(params, ", ")
@@ -242,9 +91,8 @@ end
   ]]
 ---@param member table {name:string, comment?:string, overloads:table[]}
 ---@param class_name string The name of the owning class/library
----@param is_method boolean True if it's a method (defined with ':')
 ---@return string
-local fmt_function_field = function(member, class_name, is_method)
+local fmt_function_field = function(member, class_name)
   local ret = ""
   local member_name = tostring(member.name)
   if not string.match(member_name, "^[%a_][%w_]*$") then
@@ -254,7 +102,7 @@ local fmt_function_field = function(member, class_name, is_method)
   local signatures = {}
   if member.overloads and #member.overloads > 0 then
     for _, overload in ipairs(member.overloads) do
-      table.insert(signatures, fmt_function_signature(overload.args, overload.retval, class_name, is_method))
+      table.insert(signatures, fmt_function_signature(overload.args, overload.retval, class_name, member.comment))
     end
   else
     -- Fallback if no overload data? Maybe treat as any function?
@@ -273,7 +121,14 @@ local fmt_function_field = function(member, class_name, is_method)
   local signature_union = table.concat(signatures, " | ")
   ret = ret .. "---@field " .. member_name .. " " .. signature_union
   if member.comment and member.comment ~= "" then
-    ret = ret .. " @" .. string_concat_matches(member.comment, "([^\r\n]+)", "<br />")
+    local op = function(m)
+      if string.match(m, "^@param") then
+        return nil
+      else
+        return m
+      end
+    end
+    ret = ret .. " @" .. string_concat_matches(member.comment, "([^\r\n]+)", "<br />", op)
   end
   return ret .. "\n"
 end
@@ -282,10 +137,10 @@ end
     Formats ---@overload annotations and function stub for constructors ('new' function).
   ]]
 ---@param typename string Class name (C++ name, e.g., "TypeId")
----@param ctors string[][] List of constructor argument lists (C++ types).
---                      Each inner table is a list of C++ type strings for one constructor.
---                      An empty inner table {} signifies a constructor with no arguments.
---                      If ctors is nil or an empty table, only the basic new() stub and @return are generated.
+---@param ctors string[][] @ List of constructor argument lists (C++ types).
+--- Each inner table is a list of C++ type strings for one constructor.
+--- An empty inner table {} signifies a constructor with no arguments.
+--- If ctors is nil or an empty table, only the basic new() stub and @return are generated.
 ---@return string EmmyLua annotation string for the constructor.
 local fmt_constructor_field = function(typename, ctors)
   local type = map_cpp_type_to_lua(typename)
@@ -296,23 +151,12 @@ local fmt_constructor_field = function(typename, ctors)
   table.insert(lines, "---@return " .. type)
   for _, cpp_arg_list in ipairs(ctors) do
     if cpp_arg_list and #cpp_arg_list > 0 then
-      table.insert(lines, "---@overload " .. fmt_function_signature(cpp_arg_list, typename, typename, false))
+      table.insert(lines, "---@overload " .. fmt_function_signature(cpp_arg_list, typename, typename, nil))
     end
   end
   table.insert(lines, "function " .. type .. ".new() end")
 
   return table.concat(lines, "\n") .. "\n"
-end
-
----@param member { name: string, type: "var" | "func" }
-function field_sort_order(member)
-  if member.name == "NULL_ID" then return -1 end
-
-  if string.match(member.name, "^__") then return 4 end -- metamethods
-  if member.name == "deserialize" then return 3 end
-  if member.name == "serialize" then return 2 end
-  if member.type == "func" then return 1 end
-  return 0
 end
 
 ---@diagnostic disable-next-line: undefined-global
@@ -397,7 +241,7 @@ on_mon_death = {}
         elseif member.type == "func" then
           -- Libraries expose functions statically (.), classes expose methods dynamically (:) by default in sol2
           -- Pass 'is_class' to fmt_function_field to decide if 'self' should be added.
-          table.insert(formatted, { member = member, value = fmt_function_field(member, name, false) })
+          table.insert(formatted, { member = member, value = fmt_function_field(member, name) })
         else
           -- Fallback
           table.insert(formatted, {

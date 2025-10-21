@@ -36,7 +36,7 @@
 #include "units_mass.h"
 #include "units_volume.h"
 
-std::vector<std::string_view> luna::detail::current_comment;
+std::vector<std::string> luna::detail::current_comment;
 
 std::string cata::detail::fmt_lua_va( sol::variadic_args va )
 {

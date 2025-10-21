@@ -84,7 +84,7 @@ struct luna_traits {
     constexpr static std::string_view name = "<value>";
 };
 
-extern std::vector<std::string_view> current_comment;
+extern std::vector<std::string> current_comment;
 
 template<typename T>
 using remove_cv_ref_t = std::remove_cv_t<std::remove_reference_t<T>>;
@@ -715,9 +715,19 @@ inline void finalize_lib(
     lib.finalized = true;
 }
 
-inline void doc( const std::string_view doc )
+inline void doc( const std::string &doc )
 {
     detail::current_comment.push_back( doc );
+}
+
+template<typename ... Ts>
+inline void doc_params( const Ts &... args )
+{
+    auto cc = []<typename T>( const T & t ) {
+        auto com = std::format( "@param {}", t );
+        detail::current_comment.push_back( com );
+    };
+    ( cc( args ), ... );
 }
 
 } // namespace luna
