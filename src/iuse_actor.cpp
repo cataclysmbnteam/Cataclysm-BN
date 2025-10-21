@@ -5282,8 +5282,8 @@ std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 void multicooker_iuse::load( const JsonObject &obj )
 {
     assign( obj, "do_hallu", do_hallu );
-    assign( obj, "charges_to_start", charges_to_start );
-    assign( obj, "charges_per_minute", charges_per_minute );
+    assign( obj, "power_to_start", energy_to_start );
+    assign( obj, "power_per_minute", energy_per_minute );
     assign( obj, "time_mult", time_mult );
     for( const std::string line : obj.get_array( "recipes" ) ) {
         recipes.emplace( line );
@@ -5348,12 +5348,16 @@ static bool multicooker_hallu( player &p )
 
 }
 
-int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+std::pair<int, units::energy> multicooker_iuse::use( player &p, item &it, bool t,
+        const tripoint &pos ) const
 {
+    std::pair<int, units::energy> res( 0, 0_J );
+    auto [chrg, enrg] = res;
+
     if( t ) {
-        if( !it.units_sufficient( p, charges_per_minute ) ) {
+        if( it.energy_remaining() < energy_per_minute ) {
             it.deactivate();
-            return 0;
+            return res;
         }
 
         int cooktime = it.get_var( "COOKTIME", 0 );
@@ -5368,27 +5372,31 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
 
-            return 0;
+            return res;
         } else {
-            if( calendar::once_every( 1_minutes ) ) {
-                it.ammo_consume( charges_per_minute, pos );
+            if( it.type->tool->turns_active >= to_turns<int>( 1_minutes ) ) {
+                enrg = energy_per_minute;
+                it.type->tool->turns_active = 0;
             }
             it.set_var( "COOKTIME", cooktime );
-            return 0;
+            return res;
         }
     } else {
         enum {
-            mc_start, mc_stop, mc_take, mc_upgrade
+            mc_start,
+            mc_stop,
+            mc_take,
+            mc_upgrade
         };
 
         if( p.is_underwater() ) {
             p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return 0;
+            return res;
         }
 
         if( do_hallu && ( p.has_effect( effect_hallu ) || p.has_effect( effect_visuals ) ) ) {
             if( multicooker_hallu( p ) ) {
-                return 0;
+                return res;
             }
         }
 
@@ -5405,9 +5413,9 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
         } else {
 
             if( dish_it == nullptr ) {
-                if( it.ammo_remaining() < charges_to_start ) {
+                if( it.energy_remaining() < energy_to_start ) {
                     p.add_msg_if_player( _( "Batteries are low." ) );
-                    return 0;
+                    return res;
                 }
                 menu.addentry( mc_start, true, 's', _( "Start crafting " ) );
             } else {
@@ -5419,7 +5427,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
         int choice = menu.ret;
 
         if( choice < 0 ) {
-            return 0;
+            return res;
         }
 
         if( mc_stop == choice ) {
@@ -5430,7 +5438,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 it.erase_var( "BATCHCOUNT" );
                 it.erase_var( "RECIPE" );
             }
-            return 0;
+            return res;
         }
 
         if( mc_take == choice ) {
@@ -5442,7 +5450,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     p.add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
                                          dish_name );
 
-                    return 0;
+                    return res;
                 }
                 liquid_handler::handle_all_liquid( std::move( dish ), PICKUP_RANGE );
             } else {
@@ -5453,7 +5461,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             p.add_msg_if_player( m_good, _( "You got the %s from the %s." ),
                                  dish_name, it.tname() );
 
-            return 0;
+            return res;
         }
 
         if( mc_start == choice ) {
@@ -5477,8 +5485,8 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
-                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%1.f charges)" ), r->result_name(),
-                                    r->time * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%s)" ), r->result_name(),
+                                    units::display( r->time * time_mult / 6000 * energy_per_minute + energy_to_start ) ) );
                 }
             }
 
@@ -5493,7 +5501,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                                          _( "You don't know of anything you could craft with this." ) );
                 }
 
-                return 0;
+                return res;
             } else {
                 const recipe *meal = dishes[choice];
 
@@ -5505,7 +5513,8 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     const bool can_make = meal->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, meal->get_component_filter(), i );
                     batchmenu.addentry( counter++, can_make, -1, string_format( _( "%s batches (%1.f charges)" ), i,
-                                        meal->batch_time( i, 1, 0 ) * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                                        units::display( meal->batch_time( i, 1,
+                                                        0 ) * time_mult / 6000 * energy_per_minute + energy_to_start ) ) );
                 }
 
                 batchmenu.query();
@@ -5513,27 +5522,27 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 int batchcount = batchmenu.ret;
 
                 if( batchcount < 0 ) {
-                    return 0;
+                    return res;
                 }
                 batchcount++;
 
                 int mealtime = meal->batch_time( batchcount, 1, 0 ) * time_mult;
-                int all_charges = mealtime / 6000 * charges_per_minute + charges_to_start;
+                units::energy total_energy = mealtime / 6000 * energy_per_minute + energy_to_start;
 
-                if( it.ammo_remaining() < all_charges ) {
+                if( it.energy_remaining() < total_energy ) {
 
                     p.add_msg_if_player( m_warning,
-                                         _( "The %s needs %d charges to create this." ),
-                                         it.tname(), all_charges );
+                                         _( "The %s needs %s to create this." ),
+                                         it.tname(), units::display( total_energy ) );
 
-                    return 0;
+                    return res;
                 }
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
                     meal->deduped_requirements().select_alternative( p, crafting_inv, filter, batchcount );
                 if( !reqs ) {
-                    return 0;
+                    return res;
                 }
 
                 for( const auto &component : reqs->get_components() ) {
@@ -5548,13 +5557,13 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 p.add_msg_if_player( m_good,
                                      _( "The %s begins to hum." ), it.tname() );
                 it.activate();
-
-                return charges_to_start;
+                enrg = energy_to_start;
+                return res;
             }
         }
     }
 
-    return 0;
+    return res;
 }
 
 std::unique_ptr<iuse_actor> multicooker_iuse::clone() const
@@ -5583,7 +5592,7 @@ ret_val<bool> sex_toy_actor::can_use( const Character &c, const item &i, bool,
                                       ( c.is_wearing( itype_id( "mask_h20survivor_on" ) ) ) ) ) ) {
         return ret_val<bool>::make_failure( _( "Are you trying to drown yourself?" ) );
     }
-    if( !i.units_sufficient( c ) ) {
+    if( i.energy_remaining() < i.energy_required() ) {
         return ret_val<bool>::make_failure( _( "The %s's batteries are dead." ), i.tname() );
     }
     if( c.get_fatigue() >= fatigue_levels::dead_tired ) {
@@ -5597,19 +5606,16 @@ std::unique_ptr<iuse_actor> sex_toy_actor::clone() const
     return std::make_unique<sex_toy_actor>( *this );
 }
 
-int sex_toy_actor::use( player &p, item &i, bool, const tripoint & ) const
+std::pair<int, units::energy> sex_toy_actor::use( player &p, item &i, bool, const tripoint & ) const
 {
-    if( i.ammo_remaining() > 0 ) {
-        p.add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
-                             i.tname() );
-    } else {
-        p.add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
-                             i.tname() );
-    }
+    std::pair<int, units::energy> res( i.type->charges_to_use(), i.type->energy_to_use() );
+
+    p.add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
+                         i.tname() );
     p.assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
     p.activity->tools.emplace_back( i );
 
-    return i.type->charges_to_use();
+    return res;
 }
 
 std::unique_ptr<iuse_actor> iuse_music_player::clone() const
@@ -5619,104 +5625,13 @@ std::unique_ptr<iuse_actor> iuse_music_player::clone() const
 
 void iuse_music_player::load( const JsonObject &obj )
 {
-    obj.read( "target", target, true );
-
-    obj.read( "msg", msg_transform );
-
-    obj.read( "moves", moves );
-    if( moves < 0 ) {
-        obj.throw_error( "transform actor specified negative moves", "moves" );
-    }
-
-    obj.read( "need_charges", need_charges );
-    need_charges = std::max( need_charges, 0 );
-    obj.read( "transform_charges", transform_charges );
-
-    obj.read( "need_worn", need_worn );
-    obj.read( "need_wielding", need_wielding );
+    iuse_transform::load( obj );
 }
 
-int iuse_music_player::use( player &p, item &it, bool t, const tripoint &pos ) const
+std::pair<int, units::energy> iuse_music_player::use( player &p, item &it, bool t,
+        const tripoint &pos ) const
 {
-    if( t ) {
-        return 0; // invoked from active item processing, do nothing.
-    }
-
-    const bool possess = p.has_item( it ) ||
-                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
-
-    if( possess && need_worn && !p.is_worn( it ) ) {
-        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return 0;
-    }
-    if( possess && need_wielding && !p.is_wielding( it ) ) {
-        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return 0;
-    }
-    // No charge consumption at this point, there are still points of failure later.
-    if( need_charges || transform_charges ) {
-        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
-            if( possess ) {
-                const int bio_power = units::to_kilojoule( p.get_power_level() );
-                if( bio_power < need_charges || bio_power < transform_charges ) {
-                    p.add_msg_if_player( m_info, "Your %s doesn't have enough battery to do that", it.tname() );
-                    return 0;
-                }
-            } else {
-                return 0;
-            }
-        } else {
-            const int item_charges = it.units_remaining( p );
-            if( item_charges < need_charges || item_charges < transform_charges ) {
-                p.add_msg_if_player( m_info, "Your %s doesn't have enough battery to do that", it.tname() );
-                return 0;
-            }
-        }
-    }
-
-    // All checks complete the damn thing can finally transform
-    // Consume charges if necessary at this point.
-    if( transform_charges ) {
-        p.consume_charges( it, transform_charges );
-    }
-
-    if( possess && !msg_transform.empty() ) {
-        p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
-    }
-    // We want this separate and not if/else because the preceding statement will always return true if a transform message is defined.
-    if( p.is_npc() && get_player_character().sees( p ) ) {
-        if( !it.has_flag( flag_COMBAT_NPC_ON ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
-                     it.display_name() );
-        } else {
-            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
-                     it.display_name() );
-        }
-    }
-
-    if( possess ) {
-        p.moves -= moves;
-    }
-
-    // Update Luminosity as object is "removed"
-    get_map().update_lum( it, false );
-
-    if( p.is_worn( it ) ) {
-        p.on_item_takeoff( it );
-    }
-    it.convert( target );
-    if( p.is_worn( it ) ) {
-        p.reset_encumbrance();
-        // This is most likely wrong: it doubles temperature shift for the turn!
-        p.update_bodytemp( get_map(), get_weather() );
-        p.on_item_wear( it );
-    }
-    p.inv_update_invlet_cache_with_item( it );
-    // Update luminosity as object is "added"
-    get_map().update_lum( it, true );
-    it.activate();
-
-    return 0;
+    return iuse_transform::use( p, it, t, pos );
 }
 
 ret_val<bool> iuse_music_player::can_use( const Character &p, const item &, bool,

@@ -233,7 +233,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
 
     const int pwr_str_pos = right_print( window, 1, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
-                                                 units::display( p->get_power_level() ), units::display( p->get_max_power_level() ) ) );
+                                                 units::display( who->get_power_level() ), units::display( who->get_max_power_level() ) ) );
 
     mvwputch( window, point( pwr_str_pos - 1, 1 ), BORDER_COLOR, LINE_XOXO ); // |
     mvwputch( window, point( pwr_str_pos - 1, 2 ), BORDER_COLOR, LINE_XXOO ); // |_

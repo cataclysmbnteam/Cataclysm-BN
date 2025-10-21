@@ -47,7 +47,6 @@ static const bionic_id bio_ups( "bio_ups" );
 
 static const flag_id flag_IS_UPS( "IS_UPS" );
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
-static const flag_id flag_IS_UPS( "IS_UPS" );
 
 /** @relates visitable */
 template <typename T>
@@ -1193,7 +1192,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
             return 0;
         }
     }
-    
+
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
 }
 

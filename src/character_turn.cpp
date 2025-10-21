@@ -832,15 +832,14 @@ void Character::environmental_revert_effect()
     reset_encumbrance();
 }
 
-static bool needs_elec_charges( item *it )
+static bool can_recharge( item *it )
 {
-    bool not_full = it->ammo_capacity() > it->ammo_remaining();
-    if( !not_full ) {
+    if( it->energy_remaining() >= it->energy_capacity() ) {
         return false;
     }
-    const item *mag = it->magazine_current();
-    if( mag ) {
-        return mag->has_flag( flag_RECHARGE );
+    const item *bat = it->battery_current();
+    if( bat ) {
+        return bat->has_flag( flag_RECHARGE );
     } else {
         return true;
     }
@@ -871,47 +870,78 @@ void Character::process_items()
     } );
 
     // Active item processing done, now we're recharging.
-    std::vector<item *> active_worn_items;
+    std::vector<item *> recharging_items;
+    bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
+                         can_recharge( &primary_weapon() );
     for( item *&w : worn ) {
         if( w->has_flag( flag_USE_UPS ) &&
-            w->energy_remaining() < w->energy_capacity() ) {
-            active_worn_items.push_back( w );
+            can_recharge( w ) ) {
+            recharging_items.push_back( w );
         }
     }
-    bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         needs_elec_charges( &primary_weapon() );
-    std::vector<size_t> active_held_items;
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         if( it.has_flag( flag_USE_UPS ) && it.energy_remaining() < it.energy_capacity() ) {
-            active_held_items.push_back( index );
+            recharging_items.push_back( &it );
         }
     }
 
-    units::energy ch_UPS = energy_of( itype_UPS, units::energy_max );
-
+    units::energy ch_UPS = 0_J;
     units::energy ch_UPS_used = 0_J;
+
+    visit_items( [&ch_UPS, this]( item * node ) {
+        if( node->has_flag( flag_IS_UPS ) ) {
+            ch_UPS += std::min( node->energy_remaining() * node->type->tool->ups_eff_mult,
+                                units::from_kilojoule<int64_t>( node->type->tool->ups_recharge_rate ) );
+        }
+        return VisitResponse::SKIP;
+    } );
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     if( weapon_active && ch_UPS_used < ch_UPS ) {
-        ch_UPS_used += 1_kJ;
-        primary_weapon().mod_energy( 1_kJ );
+        item *bat = primary_weapon().battery_current();
+        units::energy recharged = std::min( primary_weapon().energy_remaining() -
+                                            primary_weapon().energy_capacity(), ch_UPS_used );
+        if( bat ) {
+            ch_UPS_used += recharged;
+            bat->mod_energy( recharged );
+        } else {
+            primary_weapon().mod_energy( recharged );
+        }
     }
-    for( item *worn_item : active_worn_items ) {
-        if( ch_UPS <= 0 ) {
+    for( item *&w : worn ) {
+        if( ch_UPS_used >= ch_UPS ) {
             break;
         }
-        ch_UPS_used += 1_kJ;
-        worn_item->mod_energy( 1_kJ );
+        if( w->has_flag( flag_USE_UPS ) && can_recharge( w ) ) {
+            item *bat = w->battery_current();
+            units::energy recharged = std::min( w->energy_remaining() -
+                                                w->energy_capacity(), ch_UPS_used );
+            if( bat ) {
+                ch_UPS_used += recharged;
+                bat->mod_energy( recharged );
+            } else {
+                w->mod_energy( recharged );
+            }
+        }
     }
-    for( size_t index : active_held_items ) {
-        if( ch_UPS <= 0 ) {
+    for( size_t index = 0; index < inv.size(); index++ ) {
+        if( ch_UPS_used >= ch_UPS ) {
             break;
         }
         item &it = inv.find_item( index );
-        ch_UPS_used += 1_kJ;
-        it.mod_energy( 1_kJ );
+        if( it.has_flag( flag_USE_UPS ) && can_recharge( &it ) ) {
+            item *bat = it.battery_current();
+            units::energy recharged = std::min( it.energy_remaining() -
+                                                it.energy_capacity(), ch_UPS_used );
+            if( bat ) {
+                ch_UPS_used += recharged;
+                bat->mod_energy( recharged );
+            } else {
+                it.mod_energy( recharged );
+            }
+        }
     }
     if( ch_UPS_used > 0_J ) {
         use_energy( itype_UPS, ch_UPS_used );

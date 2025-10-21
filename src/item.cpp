@@ -9108,7 +9108,7 @@ bool item::reload( Character &who, item &loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 battery_current()->tname(), tname() );
 
-            if( !u.dispose_item( *battery_current(), prompt ) ) {
+            if( !who.dispose_item( *battery_current(), prompt ) ) {
                 return false;
             }
         }

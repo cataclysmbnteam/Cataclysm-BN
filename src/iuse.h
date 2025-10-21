@@ -169,7 +169,7 @@ std::pair<int, units::energy> toggle_ups_charging( player *, item *, bool, const
 std::pair<int, units::energy> report_grid_charge( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> report_grid_connections( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> modify_grid_connections( player *, item *, bool, const tripoint & );
-int bullet_vibe_on( player *, item *, bool, const tripoint & );
+std::pair<int, units::energy> bullet_vibe_on( player *, item *, bool, const tripoint & );
 
 // MACGUFFINS
 

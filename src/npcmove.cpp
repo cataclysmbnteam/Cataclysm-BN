@@ -113,7 +113,6 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_chem_ethanol( "chem_ethanol" );
 static const itype_id itype_chem_methanol( "chem_methanol" );
 static const itype_id itype_denat_alcohol( "denat_alcohol" );
@@ -125,6 +124,8 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
 static const itype_id fuel_wind( "wind" );
 static const itype_id fuel_sunlight( "sunlight" );
+
+static const flag_id flag_BIONIC_CAPACITOR( "BIONIC_CAPACITOR" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -1728,6 +1729,9 @@ bool npc::recharge_cbm()
         }
 
         if( !get_fuel_available( bid ).empty() ) {
+            if( bid->has_flag( flag_BIONIC_CAPACITOR ) ) {
+                complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+            }
             use_bionic_by_id( bid );
             return true;
         } else {
@@ -1754,9 +1758,7 @@ bool npc::recharge_cbm()
                     std::find( fuel_op.begin(), fuel_op.end(), fuel_sunlight ) != fuel_op.end() ||
                     std::find( fuel_op.begin(), fuel_op.end(), fuel_wind ) != fuel_op.end();
 
-                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
-                    complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-                } else if( need_alcohol ) {
+                if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
                 } else if( need_environment ) {
                     // No Need for NPCs to complain about the weather and time of day...
