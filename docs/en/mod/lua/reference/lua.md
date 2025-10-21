@@ -447,7 +447,7 @@ No constructors.
 
 🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
 
-> Adds an item with the given id and amount
+> Adds a detached item to the player inventory
 
 #### add_morale {#sol::Character::add_morale}
 
@@ -529,7 +529,17 @@ No constructors.
 
 🇲 Method --> <code>( ) -> bool</code>
 
+#### can_takeoff {#sol::Character::can_takeoff}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> bool</code>
+
+> Checks wether a given `Item` can be taken off.
+
 #### can_unwield {#sol::Character::can_unwield}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> bool</code>
+
+#### can_wear {#sol::Character::can_wear}
 
 🇲 Method --> <code>( [Item](#sol::Item) ) -> bool</code>
 
@@ -573,7 +583,7 @@ No constructors.
 
 🇲 Method --> <code>( [ItypeId](#sol::ItypeId), int ) -> [Item](#sol::Item)</code>
 
-> Adds an item with the given id and amount to the player inventory
+> Creates and an item with the given id and amount to the player inventory
 
 #### crossed_threshold {#sol::Character::crossed_threshold}
 
@@ -623,6 +633,10 @@ No constructors.
 #### get_bionics {#sol::Character::get_bionics}
 
 🇲 Method --> <code>( ) -> Vector( [BionicDataId](#sol::BionicDataId) )</code>
+
+#### get_dependant_worn_items {#sol::Character::get_dependant_worn_items}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Vector( [Item](#sol::Item) )</code>
 
 #### get_dex {#sol::Character::get_dex}
 
@@ -1230,12 +1244,12 @@ No constructors.
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
-🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>
+🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>\
+🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> bool</code>
 
 #### mutate_towards {#sol::Character::mutate_towards}
 
-🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>\
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> bool</code>
+🇲 Method --> <code>( Vector( [MutationBranchId](#sol::MutationBranchId) ), int ) -> bool</code>
 
 #### mutation_armor {#sol::Character::mutation_armor}
 
@@ -1298,6 +1312,12 @@ No constructors.
 #### remove_mutation {#sol::Character::remove_mutation}
 
 🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId), bool )</code>
+
+#### remove_worn {#sol::Character::remove_worn}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Opt( [DetachedItem](#sol::DetachedItem) )</code>
+
+> Attempts to remove the worn `Item` from character.
 
 #### reset_encumbrance {#sol::Character::reset_encumbrance}
 
@@ -1447,6 +1467,12 @@ No constructors.
 
 🇲 Method --> <code>( )</code>
 
+#### takeoff {#sol::Character::takeoff}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> bool</code>
+
+> Attempts to takeoff the worn `Item` from character.
+
 #### uncanny_dodge {#sol::Character::uncanny_dodge}
 
 🇲 Method --> <code>( ) -> bool</code>
@@ -1482,6 +1508,14 @@ No constructors.
 #### wake_up {#sol::Character::wake_up}
 
 🇲 Method --> <code>( )</code>
+
+#### wear {#sol::Character::wear}
+
+🇲 Method --> <code>( [Item](#sol::Item) )</code>
+
+#### wear_detached {#sol::Character::wear_detached}
+
+🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
 
 #### wearing_something_on {#sol::Character::wearing_something_on}
 
@@ -4198,7 +4232,7 @@ No constructors.
 
 ## ItemStack {#sol::ItemStack}
 
-Iterate over this using pairs()
+Iterate over this using pairs() for reading.
 
 ### Bases {#sol::ItemStack::@bases}
 
@@ -4233,6 +4267,13 @@ No constructors.
 #### insert {#sol::ItemStack::insert}
 
 🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
+
+#### items {#sol::ItemStack::items}
+
+🇲 Method --> <code>( ) -> Vector( [Item](#sol::Item) )</code>
+
+> Modifying the stack while iterating may cause problems.\
+> This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating).
 
 #### max_volume {#sol::ItemStack::max_volume}
 

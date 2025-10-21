@@ -186,7 +186,7 @@ function BookRecipe.new() end
 ---@field add_addiction fun(arg1: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
----@field add_item fun(arg1: Character, arg2: DetachedItem) @Adds an item with the given id and amount
+---@field add_item fun(arg1: Character, arg2: DetachedItem) @Adds a detached item to the player inventory
 ---@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @DEPRECATED: use create_item instead
 ---@field add_morale fun(arg1: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
 ---@field age fun(arg1: Character): integer
@@ -207,7 +207,9 @@ function BookRecipe.new() end
 ---@field can_pick_volume fun(arg1: Character, arg2: Volume): boolean
 ---@field can_pick_weight fun(arg1: Character, arg2: Mass, arg3: boolean): boolean
 ---@field can_run fun(arg1: Character): boolean
+---@field can_takeoff fun(arg1: Character, arg2: Item): boolean @Checks wether a given `Item` can be taken off.
 ---@field can_unwield fun(arg1: Character, arg2: Item): boolean
+---@field can_wear fun(arg1: Character, arg2: Item): boolean
 ---@field can_wield fun(arg1: Character, arg2: Item): boolean
 ---@field check_mount_is_spooked fun(arg1: Character): boolean
 ---@field check_mount_will_move fun(arg1: Character, arg2: Tripoint): boolean
@@ -216,7 +218,7 @@ function BookRecipe.new() end
 ---@field clear_mutations fun(arg1: Character)
 ---@field clear_skills fun(arg1: Character)
 ---@field cough fun(arg1: Character, arg2: boolean, arg3: integer)
----@field create_item fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @Adds an item with the given id and amount to the player inventory
+---@field create_item fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @Creates and an item with the given id and amount to the player inventory
 ---@field crossed_threshold fun(arg1: Character): boolean
 ---@field deactivate_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field dismount fun(arg1: Character)
@@ -227,6 +229,7 @@ function BookRecipe.new() end
 ---@field get_armor_acid fun(arg1: Character, arg2: BodyPartTypeIntId): integer
 ---@field get_base_traits fun(arg1: Character): MutationBranchId[]
 ---@field get_bionics fun(arg1: Character): BionicDataId[]
+---@field get_dependant_worn_items fun(arg1: Character, arg2: Item): Item[]
 ---@field get_dex fun(arg1: Character): integer
 ---@field get_dex_base fun(arg1: Character): integer
 ---@field get_dex_bonus fun(arg1: Character): integer
@@ -390,6 +393,7 @@ function BookRecipe.new() end
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_item fun(arg1: Character, arg2: Item): DetachedItem @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
+---@field remove_worn fun(arg1: Character, arg2: Item): DetachedItem @Attempts to remove the worn `Item` from character.
 ---@field reset_encumbrance fun(arg1: Character)
 ---@field reset_stats fun(arg1: Character)
 ---@field restore_scent fun(arg1: Character)
@@ -426,6 +430,7 @@ function BookRecipe.new() end
 ---@field sight_impaired fun(arg1: Character): boolean
 ---@field spores fun(arg1: Character)
 ---@field suffer fun(arg1: Character)
+---@field takeoff fun(arg1: Character, arg2: Item): boolean @Attempts to takeoff the worn `Item` from character.
 ---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
@@ -435,6 +440,8 @@ function BookRecipe.new() end
 ---@field volume_carried fun(arg1: Character): Volume
 ---@field vomit fun(arg1: Character)
 ---@field wake_up fun(arg1: Character)
+---@field wear fun(arg1: Character, arg2: Item)
+---@field wear_detached fun(arg1: Character, arg2: DetachedItem)
 ---@field wearing_something_on fun(arg1: Character, arg2: BodyPartTypeIntId): boolean
 ---@field weight_carried fun(arg1: Character): Mass
 ---@field wield fun(arg1: Character, arg2: Item): boolean
@@ -1172,7 +1179,7 @@ Item = {}
 ---@return Item
 function Item.new() end
 
---- Iterate over this using pairs()
+--- Iterate over this using pairs() for reading.
 ---@class ItemStack
 ---@field amount_can_fit fun(arg1: ItemStack, arg2: Item): integer
 ---@field clear fun(arg1: ItemStack): DetachedItem[]
@@ -1180,12 +1187,15 @@ function Item.new() end
 ---@field count_limit fun(arg1: ItemStack): integer
 ---@field free_volume fun(arg1: ItemStack): Volume
 ---@field insert fun(arg1: ItemStack, arg2: DetachedItem)
+---@field items fun(arg1: ItemStack): Item[] @Modifying the stack while iterating may cause problems. This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating).
 ---@field max_volume fun(arg1: ItemStack): Volume
 ---@field move_all_to fun(arg1: ItemStack, arg2: ItemStack)
 ---@field only_item fun(arg1: ItemStack): Item
 ---@field remove fun(arg1: ItemStack, arg2: Item): DetachedItem
 ---@field stacks_with fun(arg1: ItemStack, arg2: Item): Item
 ---@field stored_volume fun(arg1: ItemStack): Volume
+---@field __index fun(arg1: ItemStack, arg2: integer): Item
+---@field __len fun(arg1: ItemStack): any
 ---@field __pairs fun(arg1: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<item_stack_lua_it_state>>,nil)
 ItemStack = {}
 ---@return ItemStack
@@ -1357,6 +1367,8 @@ function Map.new() end
 
 ---@class MapStack : ItemStack
 ---@field as_item_stack fun(arg1: MapStack): ItemStack
+---@field __index fun(arg1: ItemStack, arg2: integer): Item
+---@field __len fun(arg1: ItemStack): any
 ---@field __pairs fun(arg1: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<item_stack_lua_it_state>>,nil)
 MapStack = {}
 ---@return MapStack

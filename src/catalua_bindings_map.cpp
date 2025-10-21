@@ -18,6 +18,9 @@ template <>
 struct is_container<map_stack> : std::false_type {};
 } // namespace sol
 
+namespace
+{
+
 struct item_stack_lua_it_state {
     item_stack *stack;
     size_t index;
@@ -60,10 +63,6 @@ item_stack_lua_next(
     return r;
 }
 
-
-namespace
-{
-
 auto item_stack_lua_pairs( item_stack &stk )
 {
     // pairs expects 3 returns:
@@ -80,6 +79,23 @@ auto item_stack_lua_pairs( item_stack &stk )
     return std::make_tuple( &item_stack_lua_next,
                             sol::user<item_stack_lua_it_state>( std::move( it_state ) ),
                             sol::lua_nil );
+}
+
+auto item_stack_lua_length( const item_stack &stk )
+{
+    return stk.size();
+}
+
+
+item *item_stack_lua_index( item_stack &stk, int i )
+{
+    --i;
+    if( i < 0 || i >= static_cast<int>( stk.size() ) ) {
+        return nullptr;
+    }
+    auto it = stk.begin();
+    std::advance( it, i );
+    return *it;
 }
 
 } // namespace
@@ -175,11 +191,20 @@ void cata::detail::reg_map( sol::state &lua )
     // Register 'item_stack' class to be used in Lua
 #define UT_CLASS item_stack
     {
-        DOC( "Iterate over this using pairs()" );
+        DOC( "Iterate over this using pairs() for reading. Can also be indexed." );
         sol::usertype<item_stack> ut = luna::new_usertype<item_stack>( lua, luna::no_bases,
                                        luna::no_constructor );
 
         luna::set_fx( ut, sol::meta_function::pairs, item_stack_lua_pairs );
+        luna::set_fx( ut, sol::meta_function::length, item_stack_lua_length );
+        luna::set_fx( ut, sol::meta_function::index, item_stack_lua_index );
+
+        DOC( "Modifying the stack while iterating may cause problems.\nThis returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating)." );
+        luna::set_fx( ut, "items", []( UT_CLASS & c ) {
+            std::vector<item *> ret{};
+            std::ranges::copy( c, std::back_inserter( ret ) );
+            return ret;
+        } );
         SET_FX( remove );
         luna::set_fx( ut, "insert", []( UT_CLASS & c, detached_ptr<item> &i ) {
             c.insert( std::move( i ) );
@@ -203,7 +228,10 @@ void cata::detail::reg_map( sol::state &lua )
                                       luna::no_constructor );
 
         luna::set_fx( ut, "as_item_stack", []( map_stack & ref ) -> item_stack& { return ref; } );
+
         luna::set_fx( ut, sol::meta_function::pairs, item_stack_lua_pairs );
+        luna::set_fx( ut, sol::meta_function::length, item_stack_lua_length );
+        luna::set_fx( ut, sol::meta_function::index, item_stack_lua_index );
     }
 }
 
