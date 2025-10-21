@@ -8019,7 +8019,6 @@ bool Character::consume_charges( item &used, int qty )
     //Destroy items with specific flag
     if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ||
         used.get_use( "place_npc" ) != nullptr ) {
-        std::cout << "Here\n";
         used.detach();
         return true;
     }
@@ -8033,7 +8032,6 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_food() || used.is_medication() ) {
         used.charges -= qty;
         if( used.charges <= 0 ) {
-            std::cout << "Here2\n";
             used.detach();
             return true;
         }

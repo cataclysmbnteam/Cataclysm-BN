@@ -355,9 +355,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.update_bodytemp( get_map(), get_weather() );
         p.on_item_wear( it );
     }
-    if( !it.has_flag( flag_BIONIC_TOOLS ) ) {
-        p.inv_update_invlet_cache_with_item( it );
-    }
+    p.inv_update_invlet_cache_with_item( it );
     // Update luminosity as object is "added"
     get_map().update_lum( it, true );
     it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;

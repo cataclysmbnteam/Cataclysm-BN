@@ -79,7 +79,6 @@ std::string temp_item_location::describe( const Character *, const item * ) cons
 }
 detached_ptr<item> temp_item_location::detach( item *it )
 {
-    *( int * )0 = 0;
     return item::spawn( *it );
 }
 
