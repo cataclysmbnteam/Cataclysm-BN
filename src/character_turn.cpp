@@ -27,6 +27,7 @@
 #include "rng.h"
 #include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "units_temperature.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -94,12 +95,14 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_thirsty( "thirsty" );
 
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
 
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_speed( "bio_speed" );
 
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_battery( "battery" );
 
 void Character::recalc_speed_bonus()
 {
@@ -284,7 +287,7 @@ void Character::process_turn()
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint_abs_omt ompos = global_omt_location();
         const point_abs_omt pos = ompos.xy();
-        if( overmap_time.find( pos ) == overmap_time.end() ) {
+        if( !overmap_time.contains( pos ) ) {
             overmap_time[pos] = 1_turns;
         } else {
             overmap_time[pos] += 1_turns;
@@ -544,7 +547,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
             mod_stamina( bound_mod_to_vals( get_stamina(), val,
                                             it.get_max_val( "STAMINA", reduced ),
-                                            it.get_min_val( "STAMINA", reduced ) ) );
+                                            it.get_min_val( "STAMINA", reduced ) ), false );
         }
     }
 
@@ -1043,7 +1046,6 @@ void do_pause( Character &who )
         }
 
         if( who.is_underwater() ) {
-            who.as_player()->practice( skill_swimming, 1 );
             who.drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
                     bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
@@ -1051,7 +1053,6 @@ void do_pause( Character &who )
                 }
             }, true );
         } else if( here.has_flag( TFLAG_DEEP_WATER, who.pos() ) ) {
-            who.as_player()->practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             who.drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
@@ -1165,6 +1166,8 @@ void search_surroundings( Character &who )
                                                   direction_from( who.pos(), tp ) );
                 who.add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                        tr.name(), direction );
+                // Get a bit of experience for spotting traps.
+                who.practice( skill_traps, tr.get_visibility() );
             }
             who.add_known_trap( tp, tr );
         }

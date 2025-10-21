@@ -2334,13 +2334,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     bool ceiling_blocking_climb = !here.has_floor_or_support( pos() ) ||
                                   here.has_floor_or_support( p + tripoint_above );
     if( sees_dangerous_field( p )
-        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
+        || ( nomove != nullptr && nomove->contains( p ) ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
         auto other_points = here.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot )
-                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                && ( nomove == nullptr || !nomove->contains( ot ) ) ) {
 
                 p = ot;
                 break;
@@ -2358,7 +2358,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     // nomove is used to resolve recursive invocation, so reset destination no
     // matter it was changed by stunned effect or not.
-    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+    if( nomove != nullptr && nomove->contains( p ) ) {
         p = pos();
     }
 
@@ -2648,7 +2648,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     int chance = 2;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
-        if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+        if( nomove != nullptr && nomove->contains( p ) ) {
             continue;
         }
 

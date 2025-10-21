@@ -33,6 +33,7 @@
       "acidchitin",
       "alien_resin",
       "bone",
+      "carbon_fiber",
       "chitin",
       "cotton",
       "faux_fur",
@@ -380,5 +381,10 @@
     "type": "tool_quality",
     "id": "CASING_PRESSING",
     "name": { "str": "casing pressing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SLEEP_AID",
+    "name": { "str": "sleep aid" }
   }
 ]

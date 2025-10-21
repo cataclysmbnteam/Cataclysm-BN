@@ -133,6 +133,7 @@ std::pair<int, units::energy> seed( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> oxygen_bottle( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> radio_mod( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> remove_all_mods( player *, item *, bool, const tripoint & );
+std::pair<int, units::energy> good_fishing_spot( tripoint );
 std::pair<int, units::energy> fishing_rod( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> fish_trap( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> gun_clean( player *, item *, bool, const tripoint & );

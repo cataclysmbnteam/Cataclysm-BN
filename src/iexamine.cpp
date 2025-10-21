@@ -210,8 +210,6 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
@@ -293,16 +291,70 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     auto nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
+        return e.has_var( "NANOFAB_GROUP_ID" ) || e.has_var( "NANOFAB_ITEM_ID" );
+    }, _( "Introduce nanofabricator template:" ), PICKUP_RANGE,
     _( "You don't have any usable templates." ) );
 
     if( !nanofab_template ) {
         return;
     }
 
-    detached_ptr<item> new_item = item::spawn( nanofab_template->get_var( "NANOFAB_ITEM_ID" ),
-                                  calendar::turn );
+    std::vector<std::string> recipe_ids;
+
+    if( nanofab_template->has_var( "NANOFAB_GROUP_ID" ) ) {
+        // Preferred behavior: build from group
+        item_group_id group_id( nanofab_template->get_var( "NANOFAB_GROUP_ID" ) );
+        std::set<const itype *> all_items = item_group::every_possible_item_from( group_id );
+        for( const itype *it : all_items ) {
+            recipe_ids.push_back( it->get_id().str() );
+        }
+    } else if( nanofab_template->has_var( "NANOFAB_ITEM_ID" ) ) {
+        // Fallback for old templates: use single stored recipe
+        recipe_ids.push_back( nanofab_template->get_var( "NANOFAB_ITEM_ID" ) );
+    }
+
+    if( recipe_ids.empty() ) {
+        return;
+    }
+
+    std::string chosen_recipe;
+    if( recipe_ids.size() > 1 ) {
+        uilist menu;
+        menu.text = _( "Choose a recipe:" );
+        for( size_t i = 0; i < recipe_ids.size(); ++i ) {
+            itype_id item = itype_id( recipe_ids[i] );
+            auto button_text = string_format( "%s [%d]", item->nname( 1 ),
+                                              std::max( 1, item->volume / 250_ml ) * 5 );
+            menu.addentry( i, true, -1, button_text );
+        }
+        menu.query();
+
+        if( menu.ret >= 0 && static_cast<size_t>( menu.ret ) < recipe_ids.size() ) {
+            chosen_recipe = recipe_ids[ menu.ret ];
+        }
+    } else {
+        chosen_recipe = recipe_ids.front();
+    }
+
+    if( chosen_recipe.empty() ) {
+        return;
+    }
+
+    int item_count = 1;
+
+    detached_ptr<item> new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn );
+
+    if( new_item->made_of( LIQUID ) ) {
+        const int amount = string_input_popup()
+                           .title( "Dispense how many units?" )
+                           .width( 5 )
+                           .text( std::to_string( 1 ) )
+                           .only_digits( true )
+                           .query_int();
+        item_count = amount;
+
+        new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn, item_count );
+    }
 
     auto qty = std::max( 1, new_item->volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
@@ -312,7 +364,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    // Consume materials
     for( const auto &e : reqs.get_components() ) {
         p.consume_items( e, 1, is_crafting_component );
     }
@@ -325,8 +376,13 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         new_item->set_flag( flag_FIT );
     }
 
-    here.add_item_or_charges( spawn_point, std::move( new_item ) );
+    // we're sticking an item from our inventory under the nanofabrication dispenser
+    if( new_item->made_of( LIQUID ) ) {
+        liquid_handler::handle_liquid( std::move( new_item ) );  // let it own the pointer
+        return;
+    }
 
+    here.add_item_or_charges( spawn_point, std::move( new_item ) );
 }
 
 /**
@@ -5291,16 +5347,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             for( const bionic &bio : installed_bionics ) {
-                if( bio.id != bio_power_storage ||
-                    bio.id != bio_power_storage_mkII ) {
-                    if( bio.info().itype().is_valid() ) {
-                        // put cbm items in your inventory
-                        detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall->set_flag( flag_IN_CBM );
-                        bionic_to_uninstall->set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall->set_flag( flag_NO_PACKED );
-                        g->u.i_add( std::move( bionic_to_uninstall ) );
-                    }
+                if( bio.info().itype().is_valid() ) {
+                    // put cbm items in your inventory
+                    detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
+                    bionic_to_uninstall->set_flag( flag_IN_CBM );
+                    bionic_to_uninstall->set_flag( flag_NO_STERILE );
+                    bionic_to_uninstall->set_flag( flag_NO_PACKED );
+                    g->u.i_add( std::move( bionic_to_uninstall ) );
                 }
             }
 

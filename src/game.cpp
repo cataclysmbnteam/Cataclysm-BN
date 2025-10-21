@@ -255,7 +255,6 @@ static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
-static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
@@ -437,11 +436,13 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    const auto tilesName = get_option<std::string>( "TILES" );
+    const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     try {
         tilecontext->reinit();
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
-            get_option<std::string>( "TILES" ),
+            tilesName,
             world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
             /*precheck=*/false,
             /*force=*/true,
@@ -451,19 +452,23 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
-    try {
-        overmap_tilecontext->reinit();
-        std::vector<mod_id> dummy;
-        overmap_tilecontext->load_tileset(
-            get_option<std::string>( "OVERMAP_TILES" ),
-            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
-            /*precheck=*/false,
-            /*force=*/true,
-            /*pump_events=*/true
-        );
-        overmap_tilecontext->do_tile_loading_report( out );
-    } catch( const std::exception &err ) {
-        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+    if( tilesName == omTilesName ) {
+        overmap_tilecontext = tilecontext;
+    } else {
+        try {
+            repoint_overmap_tilecontext();
+            std::vector<mod_id> dummy;
+            overmap_tilecontext->load_tileset(
+                omTilesName,
+                world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
+                /*precheck=*/false,
+                /*force=*/true,
+                /*pump_events=*/true
+            );
+            overmap_tilecontext->do_tile_loading_report( out );
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+        }
     }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
@@ -874,7 +879,7 @@ vehicle *game::place_vehicle_nearby(
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.can_float() ) {
+        if( veh.can_float() && !veh.has_part( VPFLAG_BALLOON ) ) {
             search_types.emplace_back( "river_shore" );
             search_types.emplace_back( "lake_shore" );
             search_types.emplace_back( "lake_surface" );
@@ -2297,9 +2302,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "whitelist_enemy" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
-#endif
     ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
@@ -2370,7 +2373,7 @@ vehicle *game::remoteveh()
     remoteveh_cache_time = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
-        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( itype_remotevehcontrol ) ) ) {
+        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item_with_action( "REMOTEVEH" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
         tripoint vp;
@@ -2390,7 +2393,7 @@ void game::setremoteveh( vehicle *veh )
     remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) &&
-        !u.has_active_item( itype_remotevehcontrol ) ) {
+        !u.has_active_item_with_action( "REMOTEVEH" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
         veh = nullptr;
     }
@@ -3738,8 +3741,8 @@ Creature *game::is_hostile_within( int distance )
 
     return nullptr;
 }
-
-std::unordered_set<tripoint> game::get_fishable_locations( int distance, const tripoint &fish_pos )
+//Gets Contiguious Fishable Terrain in radius starting from the tripoint
+std::unordered_set<tripoint> game::get_fishable_locations( int radius, const tripoint &fish_pos )
 {
     // We're going to get the contiguous fishable terrain starting at
     // the provided fishing location (e.g. where a line was cast or a fish
@@ -3750,8 +3753,8 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
     std::unordered_set<tripoint> visited;
 
-    const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
-    const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
+    const tripoint fishing_boundary_min( fish_pos + point( -radius, -radius ) );
+    const tripoint fishing_boundary_max( fish_pos + point( radius, radius ) );
 
     const inclusive_cuboid<tripoint> fishing_boundaries(
         fishing_boundary_min, fishing_boundary_max );
@@ -3765,7 +3768,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             to_check.pop();
 
             // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
+            if( visited.contains( current_point ) ) {
                 continue;
             }
 
@@ -3795,24 +3798,6 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     get_fishable_terrain( fish_pos, fishable_points );
 
     return fishable_points;
-}
-
-std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
-        &fishable_locations )
-{
-    std::vector<monster *> unique_fish;
-    for( monster &critter : all_monsters() ) {
-        // If it is fishable...
-        if( critter.has_flag( MF_FISHABLE ) ) {
-            const tripoint critter_pos = critter.pos();
-            // ...and it is in a fishable location.
-            if( fishable_locations.find( critter_pos ) != fishable_locations.end() ) {
-                unique_fish.push_back( &critter );
-            }
-        }
-    }
-
-    return unique_fish;
 }
 
 // Print monster info to the given window
@@ -9257,7 +9242,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         }
     }
 
-    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) &&
+        u.get_size() <= creature_size::medium ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
@@ -10957,7 +10943,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             return std::nullopt;
         }
     } else if( !can_fly ) {
-        if( query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
+        if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
             return std::nullopt;
         }
     }
@@ -11787,7 +11773,7 @@ void game::process_artifact( item &it, Character &who )
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You feel fatigue seeping into your body." ) );
                             u.mod_fatigue( 3 * rng( 1, 3 ) );
-                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ), false );
                             it.charges++;
                         }
                         break;

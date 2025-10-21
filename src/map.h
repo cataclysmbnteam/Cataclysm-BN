@@ -1534,7 +1534,7 @@ class map
 
         // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
-        bool has_floor( const tripoint &p ) const;
+        bool has_floor( const tripoint &p, bool visible_only = false ) const;
 
         /** Checks if there's a floor between the two tiles. They must be at most 1 tile away from each other in any dimension.
          *  If they're not at the same xy coord there must be floor on both of the relevant tiles
@@ -1843,7 +1843,7 @@ class map
          */
         void set_abs_sub( const tripoint &p );
 
-    private:
+    public:
         field &get_field( const tripoint &p );
 
         /**

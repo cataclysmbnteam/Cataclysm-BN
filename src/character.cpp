@@ -1,4 +1,5 @@
 #include "character.h"
+#include "calendar.h"
 #include "character_encumbrance.h"
 
 #include <algorithm>
@@ -210,8 +211,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_power_storage( "bio_power_storage" );
-static const itype_id itype_power_storage_mkII( "bio_power_storage_mkII" );
 static const itype_id itype_bio_armor( "bio_armor" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -770,7 +769,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
-        mod_stamina( modifier );
+        mod_stamina( modifier, false );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -2119,6 +2118,27 @@ bool Character::has_active_bionic( const bionic_id &b ) const
     return false;
 }
 
+bool Character::has_active_bionic_with_fake( const itype_id &it ) const
+{
+    for( const bionic &i : get_bionic_collection() ) {
+        if( i.info().fake_item == it ) {
+            return ( i.powered && i.incapacitated_time == 0_turns );
+        }
+    }
+    return false;
+}
+
+int Character::count_bionic_of_type( const bionic_id &bio ) const
+{
+    int i = 0;
+    for( const bionic &b : get_bionic_collection() ) {
+        if( b.id == bio ) {
+            i++;
+        }
+    }
+    return i;
+}
+
 bool Character::has_any_bionic() const
 {
     return !get_bionic_collection().empty();
@@ -2487,11 +2507,13 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
         if( !was_deaf && is_deaf() ) {
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
-        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) ) {
+        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) &&
+            !to_wear.has_flag( flag_resized_small ) ) {
             add_msg_if_player( m_warning,
                                _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
-        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) ) {
+        } else if( !supertinymouse && ( to_wear.has_flag( flag_UNDERSIZE ) ||
+                                        to_wear.has_flag( flag_resized_small ) ) ) {
             add_msg_if_player( m_warning,
                                _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
@@ -2937,6 +2959,12 @@ invlets_bitset Character::allocated_invlets() const
     invlets[0] = false;
 
     return invlets;
+}
+bool Character::has_active_item_with_action( const std::string &use ) const
+{
+    return has_item_with( [use]( const item & it ) {
+        return it.get_use( use ) && it.is_active();
+    } );
 }
 
 bool Character::has_active_item( const itype_id &id ) const
@@ -3774,6 +3802,25 @@ const item *Character::item_worn_with_id( const itype_id &item_id, const bodypar
     return nullptr;
 }
 
+bool Character::worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const
+{
+    return std::ranges::any_of( worn, [&qual, bp]( const item * const & it ) {
+        return it->get_quality( qual ) > 0 &&
+               ( bp == bodypart_str_id::NULL_ID() || it->covers( bp ) );
+    } );
+}
+
+const item *Character::item_worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const
+{
+    for( const item * const &it : worn ) {
+        if( it->get_quality( qual ) > 0 &&
+            ( bp == bodypart_str_id::NULL_ID() || it->covers( bp ) ) ) {
+            return it;
+        }
+    }
+    return nullptr;
+}
+
 std::vector<std::string> Character::get_overlay_ids() const
 {
     std::vector<std::string> rval;
@@ -3943,7 +3990,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     const bool isSavant = has_trait( trait_SAVANT );
     const skill_id savantSkill = isSavant ? highest_skill() : skill_id::NULL_ID();
 
-    amount = adjust_for_focus( amount );
+    if( !skill.unaffected_by_focus() ) {
+        amount = adjust_for_focus( amount );
+    }
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         if( !one_in( 3 ) ) {
@@ -3990,13 +4039,15 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
 
         int chance_to_drop = focus_pool;
-        focus_pool -= chance_to_drop / 100;
-        // Apex Predators don't think about much other than killing.
-        // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
-            ( !( has_trait_flag( trait_flag_PRED4 ) &&
-                 skill.is_combat_skill() ) ) ) {
-            focus_pool--;
+        if( !skill.unaffected_by_focus() ) {
+            focus_pool -= chance_to_drop / 100;
+            // Apex Predators don't think about much other than killing.
+            // They don't lose Focus when practicing combat skills.
+            if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
+                ( !( has_trait_flag( trait_flag_PRED4 ) &&
+                     skill.is_combat_skill() ) ) ) {
+                focus_pool--;
+            }
         }
     }
 
@@ -4178,6 +4229,19 @@ char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
 
     item_encumb( enc, new_item );
     mut_cbm_encumb( enc );
+
+    // Get swimming skill level
+    if( get_option<bool>( "althletics_encumbrance_buff" ) ) {
+        int swim_skill = get_skill_level( skill_swimming );
+
+        // Reduce encumbrance for each body part based on swimming skill
+        for( auto &iter : enc.elems ) {
+            encumbrance_data &edata = iter.second;
+
+            // Reduce encumbrance by swim_skill, clamped at 0
+            edata.encumbrance = std::max( 0, edata.encumbrance - swim_skill );
+        }
+    }
 
     return enc;
 }
@@ -5041,7 +5105,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 continue;
             }
             const std::map<bodypart_str_id, int> &bodyparts = info.occupied_bodyparts;
-            if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
+            if( bodyparts.contains( bp.id() ) ) {
                 const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
@@ -7632,10 +7696,28 @@ void Character::set_stamina( int new_stamina )
     stamina = new_stamina;
 }
 
+void Character::mod_stamina( int mod, bool skill )
+{
+    // If we're burning stamina then train athletics, unless we're losing stamina due to status effects or other non-standard causes.
+    if( skill && mod < 0 ) {
+        as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 500.0 ), 10, true );
+        // Athletics skill also reduces stamina drain for relevant activities.
+        const int skill = get_skill_level( skill_swimming );
+        const float skill_cost = std::max( 0.667f, ( ( 30.0f - skill ) / 30.0f ) );
+        mod *= skill_cost;
+    }
+    stamina += mod;
+    if( mod < 0 ) {
+        add_msg( m_debug, "Stamina burn: %d", mod );
+    } else {
+        add_msg( m_debug, "Stamina recovery: %d", mod );
+    }
+    stamina = clamp( stamina, 0, get_stamina_max() );
+}
+
 void Character::mod_stamina( int mod )
 {
-    stamina += mod;
-    stamina = clamp( stamina, 0, get_stamina_max() );
+    return mod_stamina( mod, true );
 }
 
 void Character::burn_move_stamina( int moves )
@@ -7659,7 +7741,6 @@ void Character::burn_move_stamina( int moves )
         burn_ratio = burn_ratio * 7;
     }
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_burn_cost_modifier() );
-    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
     if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
@@ -7740,8 +7821,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns ) );
-    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns ), false );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
@@ -8133,7 +8213,7 @@ void Character::cough( bool harmful, int loudness )
     if( harmful ) {
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
-        mod_stamina( -malus );
+        mod_stamina( -malus, false );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bodypart_id( "torso" ), 1 );
         }
@@ -11005,18 +11085,6 @@ void Character::place_corpse()
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        detached_ptr<item> cbm = item::spawn( itype_power_storage );
-        cbm->faults.emplace( fault_bionic_nonsterile );
-        body->add_component( std::move( cbm ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        detached_ptr<item> cbm = item::spawn( itype_power_storage_mkII );
-        cbm->faults.emplace( fault_bionic_nonsterile );
-        body->add_component( std::move( cbm ) );
-    }
     here.add_item_or_charges( pos(), std::move( body ) );
 }
 
@@ -11052,14 +11120,6 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body->put_in( item::spawn( "bio_power_storage" ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body->put_in( item::spawn( "bio_power_storage_mkII" ) );
-    }
     bay.add_item_or_charges( fin, std::move( body ) );
 }
 
@@ -11574,14 +11634,14 @@ auto get_shield_resist( const item &shield, const damage_unit &damage ) -> int
     // *INDENT-ON*
 }
 
-auto get_block_amount( const item &shield, const damage_unit &unit ) -> int
+} // namespace
+
+float Character::get_block_amount( const item &shield, const damage_unit &unit )
 {
     const int resist = get_shield_resist( shield, unit );
 
     return std::max( 0.0f, ( resist - unit.res_pen ) * unit.res_mult );
 }
-
-} // namespace
 
 bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {

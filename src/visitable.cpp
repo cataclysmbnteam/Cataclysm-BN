@@ -45,8 +45,9 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const flag_id flag_IS_UPS( "IS_UPS" );
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const flag_id flag_IS_UPS( "IS_UPS" );
+static const flag_id flag_BIONIC_TOOLS( "BIONIC_TOOLS" );
 
 /** @relates visitable */
 template <typename T>
@@ -1059,11 +1060,19 @@ units::energy visitable<Character>::energy_of( const itype_id &what, units::ener
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
-    if( what == itype_toolset ) {
-        if( p && p->has_active_bionic( bio_tools ) ) {
+    if( what->has_flag( flag_BIONIC_TOOLS ) ) {
+        if( p && p->has_active_bionic_with_fake( what ) ) {
             return std::min( p->get_power_level(), limit );
         } else {
             return 0_J;
+        }
+    }
+    
+    if( what == itype_voltmeter_bionic ) {
+        if( p && p->has_bionic( bio_electrosense_voltmeter ) ) {
+            return std::min( p->get_power_level(), limit );
+        } else {
+            return 0;
         }
     }
 
@@ -1185,14 +1194,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
-    if( what == itype_voltmeter_bionic ) {
-        if( p && p->has_bionic( bio_electrosense_voltmeter ) ) {
-            return std::min( units::to_kilojoule<int>( p->get_power_level() ), limit );
-        } else {
-            return 0;
-        }
-    }
-
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
 }
 
@@ -1269,7 +1270,7 @@ int visitable<Character>::amount_of( const itype_id &what, bool pseudo, int limi
 {
     auto self = static_cast<const Character *>( this );
 
-    if( what == itype_toolset && pseudo && self->has_active_bionic( bio_tools ) ) {
+    if( what->has_flag( flag_BIONIC_TOOLS ) && pseudo && self->has_active_bionic_with_fake( what ) ) {
         return 1;
     }
 

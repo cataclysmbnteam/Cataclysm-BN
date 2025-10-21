@@ -19,6 +19,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "active_tile_data_def.h"
 #include "avatar.h"
@@ -69,7 +70,6 @@
 #include "units_utility.h"
 #include "veh_type.h"
 #include "weather.h"
-
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -2312,7 +2312,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
             if( parts[ p ].removed ) {
                 continue;
             }
-            if( checked_parts.find( p ) == checked_parts.end() ) {
+            if( !checked_parts.contains( p ) ) {
                 test_part = p;
                 break;
             }
@@ -2338,7 +2338,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         while( !search_queue.empty() ) {
             std::pair<int, std::vector<int>> test_set = pop_neighbor();
             test_part = test_set.first;
-            if( checked_parts.find( test_part ) != checked_parts.end() ) {
+            if( checked_parts.contains( test_part ) ) {
                 continue;
             }
             for( auto p : test_set.second ) {
@@ -2714,7 +2714,7 @@ int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken
 
 int vehicle::part_with_feature( point pt, const std::string &flag, bool unbroken ) const
 {
-    std::vector<int> parts_here = parts_at_relative( pt, false );
+    std::vector<int> parts_here = parts_at_relative( pt, true );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, flag ) && ( !unbroken || !parts[ elem ].is_broken() ) ) {
             return elem;
@@ -3360,7 +3360,6 @@ int vehicle::angle_to_increment( units::angle dir )
     }
     return increment;
 }
-
 
 void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
 {
@@ -4056,7 +4055,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
     point p = parts[part].mount;
     intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
     // Move back from engine/muffler until we find an open space
-    while( relative_parts.find( p ) != relative_parts.end() ) {
+    while( relative_parts.contains( p ) ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
@@ -4410,11 +4409,8 @@ bool vehicle::can_float() const
     if( coeff_water_dirty ) {
         coeff_water_drag();
     }
-    // Someday I'll deal with submarines, but now, you can only float if you have freeboard
-    if( hull_height == 0.3 ) {
-        return false;
-    }
-    return draft_m < hull_height;
+    int float_force = max_buoyancy() + total_balloon_lift();
+    return to_newton( total_mass() ) <= float_force;
 }
 
 
@@ -4442,10 +4438,10 @@ double vehicle::total_propeller_area() const
 // Returns a value in newtons
 double vehicle::total_balloon_lift() const
 {
-    return std::accumulate( balloons.begin(), balloons.end(), double{0.0},
+    return GRAVITY_OF_EARTH * std::accumulate( balloons.begin(), balloons.end(), double{0.0},
     [&]( double acc, int balloon ) {
         const double height{ parts[ balloon ].info().balloon_height() };
-        return acc + ( height * GRAVITY_OF_EARTH );
+        return acc + height;
     } );
 }
 
@@ -4458,11 +4454,11 @@ double vehicle::total_wing_lift() const
     const double kilometerperhour = velocity / 100 * 1.609;
     const double meterpersec = kilometerperhour / 3600 * 1000;
     const double meterpersecsquared = std::pow( meterpersec, 2 );
-    return std::accumulate( wings.begin(), wings.end(), double{0.0},
+    return meterpersecsquared * std::accumulate( wings.begin(), wings.end(), double{0.0},
     [&]( double acc, int wing ) {
         const double liftcoff{ parts[ wing ].info().lift_coff() };
         // m^2 area is always 1
-        return acc + ( 0.5 * meterpersecsquared * liftcoff );
+        return acc + ( 0.5 * liftcoff );
     } );
 }
 
@@ -7661,7 +7657,6 @@ std::set<int> vehicle::advance_precalc_mounts( point new_pos, const tripoint &sr
 {
     map &here = get_map();
     std::set<int> smzs;
-
     for( vehicle_part &prt : parts ) {
         here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
         prt.precalc[0] = prt.precalc[1];

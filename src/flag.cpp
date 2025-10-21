@@ -283,6 +283,7 @@ const flag_id flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 const flag_id flag_RELOAD_EJECT( "RELOAD_EJECT" );
 const flag_id flag_RELOAD_ONE( "RELOAD_ONE" );
 const flag_id flag_resized_large( "resized_large" );
+const flag_id flag_resized_small( "resized_small" );
 const flag_id flag_REQUIRES_BALANCE( "REQUIRES_BALANCE" );
 const flag_id flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
 const flag_id flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
@@ -368,6 +369,9 @@ const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_WEATHER_FORECAST( "WEATHER_FORECAST" );
 const flag_id flag_WINDMETER( "WINDMETER" );
+const flag_id flag_INITIALLY_ACTIVATE( "INITIALLY_ACTIVATE" );
+const flag_id flag_MULTIINSTALL( "MULTIINSTALL" );
+const flag_id flag_BIONIC_TOOLS( "BIONIC_TOOLS" );
 
 namespace
 {

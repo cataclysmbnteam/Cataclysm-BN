@@ -1555,7 +1555,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SkillLevel skill_level_obj = you.get_skill_level_object( trained );
             const int cur_level = skill_level_obj.level();
             const int cur_level_exercise = skill_level_obj.exercise();
-            skill_level_obj.train( 100, true );
+            skill_level_obj.train( 100 * ( cur_level + 1 ), true );
             const int next_level = skill_level_obj.level();
             const int next_level_exercise = skill_level_obj.exercise();
 

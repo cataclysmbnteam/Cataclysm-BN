@@ -418,7 +418,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 void Character::clear_cosmetic_traits( std::string mutation_type, trait_id new_trait )
 {
     for( const mutation_branch &mb : mutation_branch::get_all() ) {
-        if( mb.points == 0 && mb.types.count( mutation_type ) ) {
+        if( mb.points == 0 && mb.types.contains( mutation_type ) ) {
             if( has_trait( mb.id ) && mb.id != new_trait ) {
                 toggle_trait( mb.id );
             }
@@ -440,7 +440,7 @@ void avatar::randomize_cosmetics()
 bool avatar::create( character_type type, const std::string &tempname )
 {
     // TODO: This block should not be needed
-    if( get_body().find( body_part_arm_r ) != get_body().end() ) {
+    if( get_body().contains( body_part_arm_r ) ) {
         remove_primary_weapon();
     }
 
@@ -3123,7 +3123,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
 void Character::randomize_cosmetic_trait( std::string mutation_type )
 {
     trait_id trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
-        return mb.points == 0 && mb.types.count( mutation_type );
+        return mb.points == 0 && mb.types.contains( mutation_type );
     } );
 
     if( trait.is_valid() ) { // <-- IMPORTANT

@@ -1472,8 +1472,8 @@ void explosion_funcs::regular( const queued_explosion &qe )
     const std::function<bool( const Creature & )> &predicate ) {
         if( predicate( *pr.first ) && g->u.sees( *pr.first ) ) {
             const Creature *critter = pr.first;
-            bool blasted = damaged_by_blast.find( critter ) != damaged_by_blast.end();
-            bool shredded = damaged_by_shrapnel.find( critter ) != damaged_by_shrapnel.end();
+            bool blasted = damaged_by_blast.contains( critter );
+            bool shredded = damaged_by_shrapnel.contains( critter );
             std::string cause_description = ( blasted && shredded ) ? _( "the explosion and shrapnel" ) :
                                             blasted ? _( "the explosion" ) :
                                             _( "the shrapnel" );

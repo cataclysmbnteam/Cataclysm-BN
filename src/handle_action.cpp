@@ -116,7 +116,6 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 
-static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 static const itype_id itype_pistol_lanyard( "pistol_lanyard" );
 
@@ -1828,7 +1827,7 @@ bool game::handle_action()
             case ACTION_MOVE_LEFT:
             case ACTION_MOVE_FORTH_LEFT:
                 if( !u.get_value( "remote_controlling" ).empty() &&
-                    ( u.has_active_item( itype_radiocontrol ) ||
+                    ( u.has_active_item_with_action( "RADIOCONTROL" ) ||
                       u.has_active_bionic( bio_remote ) ) ) {
                     rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
                 } else if( veh_ctrl ) {
@@ -2400,7 +2399,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN_WIKI:
-                if( get_option<std::string>( "WIKI_DOC_URL" ).length() > 0 ) {
+                if( !get_option<std::string>( "WIKI_DOC_URL" ).empty() ) {
                     open_url( get_option<std::string>( "WIKI_DOC_URL" ) );
                 } else {
                     add_msg( m_bad, _( "Invalid Wiki URL specified!" ) );
@@ -2410,7 +2409,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN_HHG:
-                if( get_option<std::string>( "HHG_URL" ).length() > 0 ) {
+                if( !get_option<std::string>( "HHG_URL" ).empty() ) {
                     open_url( get_option<std::string>( "HHG_URL" ) + std::string( "/?t=UNDEAD_PEOPLE" ) );
                 } else {
                     add_msg( m_bad, _( "Invalid Hitchhiker's Guide URL specified!" ) );

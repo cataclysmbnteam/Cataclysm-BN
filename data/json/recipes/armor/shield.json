@@ -92,6 +92,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "welding_standard", 10 ] ],
     "components": [ [ [ "steel_plate", 1 ], [ "manhole_cover", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
@@ -104,8 +105,22 @@
     "difficulty": 4,
     "time": "10 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "welding_standard", 10 ] ],
     "components": [ [ [ "hard_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "result": "shield_welded_composite",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SHIELD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "mil_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "shield_welded_superalloy",
@@ -116,6 +131,7 @@
     "difficulty": 4,
     "time": "10 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "welding_standard", 10 ] ],
     "components": [ [ [ "alloy_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
   },

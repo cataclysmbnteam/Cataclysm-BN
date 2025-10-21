@@ -1312,6 +1312,8 @@ class item : public location_visitable<item>, public game_object<item>
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
         struct fuel_explosion get_explosion_data();
+        float get_kcal_mult() const;
+        void set_kcal_mult( float val );
 
         /**
          * Can this item have given item/itype as content?

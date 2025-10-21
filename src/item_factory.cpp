@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
+#include <iuse.h>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -600,7 +601,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         auto set_resist = [&obj]( damage_type dt,
         std::function<int( const material_type & )> resist_getter ) {
-            if( obj.armor->resistance.flat.find( dt ) != obj.armor->resistance.flat.end() ) {
+            if( obj.armor->resistance.flat.contains( dt ) ) {
                 return;
             }
             float resist = 0.0f;
@@ -757,7 +758,7 @@ void Item_factory::finalize_item_blacklist()
     }
 
     for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.find( migrate.second.replace ) == m_templates.end() ) {
+        if( !m_templates.contains( migrate.second.replace ) ) {
             debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
             continue;
         }
@@ -1110,7 +1111,10 @@ void Item_factory::init()
     add_actor( std::make_unique<sew_advanced_actor>() );
     add_actor( std::make_unique<multicooker_iuse>() );
     add_actor( std::make_unique<sex_toy_actor>() );
+    add_actor( std::make_unique<train_skill_actor>() );
     add_actor( std::make_unique<iuse_music_player>() );
+    add_actor( std::make_unique<iuse_prospect_pick>() );
+    add_actor( std::make_unique<iuse_reveal_contents>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -1348,8 +1352,8 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
-            if( type->gun->barrel_length < 0_ml ) {
-                msg += "gun barrel length cannot be negative\n";
+            if( type->gun->barrel_volume < 0_ml ) {
+                msg += "gun barrel volume cannot be negative\n";
             }
 
             if( !type->gun->skill_used ) {
@@ -1396,7 +1400,7 @@ void Item_factory::check_definitions() const
                                                  ? type->mod->magazine_adaptor
                                                  : target->magazines;
                     for( const ammotype &ammo : acceptable_ammo ) {
-                        if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
+                        if( !acceptable_magazines.contains( ammo ) ) {
                             msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
                                                   t.c_str(), ammo.str() );
                         }
@@ -1879,7 +1883,9 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
+    // Depreciated alias, use barrel_volume instead.
+    assign( jo, "barrel_length", slot.barrel_volume, strict, 0_ml );
+    assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "power_draw", slot.energy_draw, strict, 0_J );
@@ -2703,7 +2709,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "TOOL_ARMOR",
         "WHEEL",
     };
-    if( needs_plural.find( jo.get_string( "type" ) ) != needs_plural.end() ) {
+    if( needs_plural.contains( jo.get_string( "type" ) ) ) {
         def.name = translation( translation::plural_tag() );
     } else {
         def.name = translation();
@@ -3515,7 +3521,7 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
 bool Item_factory::add_item_to_group( const item_group_id &group_id, const itype_id &item_id,
                                       int chance )
 {
-    if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
+    if( !m_template_groups.contains( group_id ) ) {
         return false;
     }
     Item_spawn_data &group_to_access = *m_template_groups[group_id];

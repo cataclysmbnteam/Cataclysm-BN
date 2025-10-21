@@ -17,6 +17,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
+#include "mission.h"
 #include "monfaction.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
@@ -102,6 +103,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<json_flag, false>( lua );
     reg_id<json_trait_flag, false>( lua );
     reg_id<ma_buff, false>( lua );
+    reg_id<mission_type, false>( lua );
     reg_id<ma_technique, false>( lua );
     reg_id<material_type, false>( lua );
     reg_id<monfaction, true>( lua );

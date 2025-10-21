@@ -36,6 +36,7 @@
     "color": "white",
     "fun": -5,
     "calories": 192,
+    "flags": [ "RAW", "NO_COOKING_BUFF" ],
     "use_action": {
       "target": "sourdough_starter_uncovered",
       "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
@@ -62,6 +63,7 @@
     "color": "white",
     "fun": -5,
     "calories": 192,
+    "flags": [ "RAW", "NO_COOKING_BUFF" ],
     "use_action": {
       "target": "sourdough_starter_uncovered",
       "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
@@ -88,6 +90,7 @@
     "color": "yellow",
     "fun": -1,
     "calories": 192,
+    "flags": [ "RAW", "NO_COOKING_BUFF" ],
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
@@ -304,6 +307,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 2,
+    "flags": [ "NO_COOKING_BUFF" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ] ],
     "stack_size": 20,
     "fun": -1
@@ -325,7 +329,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 10,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ], [ "wheat_allergen", 1 ] ]
   },

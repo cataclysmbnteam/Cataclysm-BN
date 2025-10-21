@@ -554,9 +554,9 @@ struct islot_gun : common_ranged_data {
      */
     int min_cycle_recoil = 0;
     /**
-     * Length of gun barrel, if positive allows sawing down of the barrel
+     * Volume of material removed by sawing down the barrel, if left unspecified barrel can't be sawed down.
      */
-    units::volume barrel_length = 0_ml;
+    units::volume barrel_volume = 0_ml;
     /**
      * Effects that are applied to the ammo when fired.
      */

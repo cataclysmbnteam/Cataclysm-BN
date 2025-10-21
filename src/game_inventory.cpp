@@ -1851,7 +1851,7 @@ class bionic_install_preset: public inventory_selector_preset
             if( it->has_fault( fault_bionic_nonsterile ) && !pa.has_trait( trait_INFRESIST ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
-            } else if( pa.has_bionic( bid ) ) {
+            } else if( !bid->has_flag( flag_MULTIINSTALL ) && pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
                 return _( "CBM not compatible with patient's body." );
@@ -1956,7 +1956,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 
             if( it->has_fault( fault_bionic_nonsterile ) ) {
                 return _( "CBM is not sterile." );
-            } else if( pa.has_bionic( bid ) ) {
+            } else if( !bid->has_flag( flag_MULTIINSTALL ) && pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&

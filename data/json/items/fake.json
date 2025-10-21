@@ -27,7 +27,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "BIONIC_TOOLS" ],
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
@@ -248,6 +248,233 @@
     "flags": [ "USES_GRID_POWER" ]
   },
   {
+    "//": "start of fake training furniture items. these should have their balance justifications stated using a comment",
+    "//2": "Grouped into 4 tiers, 20/40/60/80 XP/hr.  Skill ranges are 0-3, 2-5, and 4-7, with powered furniture granting +1 EXP tier.",
+    "//3": "Fatigue gain for physical training grants 1 fatigue per interval per EXP tier.",
+    "id": "fake_training_punching_bag",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "punching bag" },
+    "//4": "Trains melee, steady but slow since we're punching a mostly stationary target.  Tier 1, 0-3 skill.",
+    "use_action": [
+      {
+        "//": "up to 20 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You swing and jab at the punching bag, sweat dripping as your technique improves.",
+        "training_skill": "unarmed",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 4,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 1,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ]
+  },
+  {
+    "id": "fake_training_ergometer",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "ergometer" },
+    "//": "Trains athletics, similar to a treadmill, but doesn't require power, so should be slightly worse.",
+    "//2": "Tier 1, 0-3 skill.",
+    "use_action": [
+      {
+        "//": "up to 20 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You row steadily on the ergometer, building strength and endurance with each pull.",
+        "training_skill": "swimming",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 4,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 1,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ]
+  },
+  {
+    "id": "fake_training_treadmill",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "treadmill" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "//": "Trains athletics at power of fatigue and power.  Tier 1, 0-3 skill, higher-tier EXP because powered.",
+    "use_action": [
+      {
+        "//": "up to 40 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You run steadily on the treadmill, training your stamina and athletics skill.",
+        "training_skill": "swimming",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_training_exercise_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "exercise machine" },
+    "//": "Lifting weights, minimum level of 2 because otherwise it's dangerous.  Tier 2, 2-5 skill.",
+    "use_action": [
+      {
+        "//": "up to 40 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You work out on the exercise machine, training your stamina and athletics skill.",
+        "training_skill": "swimming",
+        "training_skill_min_level": 2,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 5,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ]
+  },
+  {
+    "id": "fake_training_dancing_pole",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "dancing pole" },
+    "//": "Trains dodging skill, slow gain since it's just pole dancing.  Tier 1, 0-3 skill.",
+    "use_action": [
+      {
+        "//": "up to 20 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You focus on controlled spins, honing your ability to dodge and react.",
+        "training_skill": "dodge",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 4,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 1,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ]
+  },
+  {
+    "id": "fake_training_ball_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "ball machine" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "//": "Below level two, you can't dodge the balls well enough to not get pummeled.  Tier 2, 2-5 skill, higher-tier EXP since powered.",
+    "use_action": [
+      {
+        "//": "up to 60 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You focus on dodging the flying projectiles, greatly honing your ability to dodge and react.",
+        "training_skill": "dodge",
+        "training_skill_min_level": 2,
+        "training_skill_xp": 12,
+        "training_skill_max_level": 5,
+        "training_skill_fatigue": 3,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_training_electronics_high",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "electronics" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "//": "Idea is the player is learning electronic techniques by observing or disassembling.  Dangerous machinery, so require a minimum level of 4.  Currently can't require tool qualities or anything.",
+    "//2": "Tier 3, 4-7 skill with higher EXP due to requiring power.",
+    "use_action": [
+      {
+        "//": "up to 80 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You study the electronics, tracing circuits and learning how the components interact.",
+        "training_skill": "electronics",
+        "training_skill_min_level": 4,
+        "training_skill_xp": 16,
+        "training_skill_max_level": 7,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_training_speech",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "speech training" },
+    "//": "mirror & mannequin speaking. you can only train so high when talking to yourself, so tier 1.",
+    "use_action": [
+      {
+        "//": "up to 20 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You practice speaking, rehearsing your tone and delivery.",
+        "training_skill": "speech",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 4,
+        "training_skill_max_level": 3,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ]
+  },
+  {
+    "id": "fake_training_fabrication",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "fabrication machinery" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "//": "Learning fabrication techniques by observing or disassembling.  Dangerous machinery, so require a minimum level of 4.  Tier 3, 4-7 skill but with bonus EXP since powered.",
+    "use_action": [
+      {
+        "//": "up to 80 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You inspect the fabrication machinery, learning how its components fit together and operate.",
+        "training_skill": "fabrication",
+        "training_skill_min_level": 4,
+        "training_skill_xp": 16,
+        "training_skill_max_level": 7,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_training_server",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "server stack" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "//": "Fancy server stack. requires enough computer knowledge to know your way around, but allows steady computers training afterwards.",
+    "//2": "Tier 3, 4-7 skill, bonus EXP because powered.",
+    "use_action": [
+      {
+        "//": "up to 80 xp/hr",
+        "type": "train_skill",
+        "training_msg": "You examine scripts and programs, learning how the system operates.",
+        "training_skill": "computer",
+        "training_skill_min_level": 4,
+        "training_skill_xp": 16,
+        "training_skill_max_level": 7,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
     "id": "fake_gridgunkit",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -449,6 +676,9 @@
         "type": "repair_item",
         "item_action_type": "repair_metal",
         "materials": [
+          "lead",
+          "tin",
+          "zinc",
           "iron",
           "steel",
           "budget_steel",
@@ -460,13 +690,20 @@
           "gold",
           "platinum",
           "superalloy",
-          "glass",
           "plastic",
           "carbon_fiber"
         ],
         "skill": "computer",
+        "tool_quality": 3,
         "cost_scaling": 0.1,
-        "move_cost": 1500
+        "move_cost": 400
+      },
+      { "flame": false, "type": "cauterize" },
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "scute" ],
+        "skill": "tailor",
+        "clothing_mods": [ "carbon_fiber_padded" ]
       }
     ],
     "flags": [ "USES_GRID_POWER" ]

@@ -241,6 +241,7 @@ struct pry_result {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * NO_MEMORY - Don't put this terrain in map memory. Used for open air and similar.
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -326,6 +327,7 @@ enum ter_bitflags : int {
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
     TFLAG_ELEVATOR,
+    TFLAG_NO_MEMORY,
     NUM_TERFLAGS
 };
 

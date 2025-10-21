@@ -9,7 +9,10 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <unordered_set>
 #include <utility>
+#include <vector>
+#include <weighted_list.h>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -170,6 +173,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_TRAIN_SKILL( "ACT_TRAIN_SKILL" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -253,6 +257,7 @@ activity_handlers::do_turn_functions = {
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
+    { ACT_TRAIN_SKILL, train_skill_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
@@ -345,6 +350,7 @@ activity_handlers::finish_functions = {
     { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
+    { ACT_TRAIN_SKILL, train_skill_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
@@ -2160,7 +2166,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        p->get_skill_level_object( sk ).train( 100, true );
+        p->get_skill_level_object( sk ).train( 100 * ( old_skill_level + 1 ), true );
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
@@ -2284,6 +2290,8 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
     // well with roots.  Sorry.  :-(
 }
+
+
 
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
 {
@@ -2475,10 +2483,6 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
 
             for( const itype &item_type : item_type_list ) {
                 if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
-                    if( !item_type.has_flag( flag_USES_GRID_POWER ) ) {
-                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
-                        return fake_item;
-                    }
                     const tripoint_abs_ms abspos( m.getabs( position ) );
                     const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
                     fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
@@ -2572,7 +2576,7 @@ void patch_activity_for_furniture( player_activity &activity,
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
     // because we want to encapsulate hack here.
-    if( activity.id() != ACT_REPAIR_ITEM ) {
+    if( activity.id() != ACT_REPAIR_ITEM && activity.id() != ACT_TRAIN_SKILL ) {
         return;
     }
 
@@ -2591,6 +2595,80 @@ void patch_activity_for_furniture( player_activity &activity,
 
 } // namespace repair_activity_hack
 } // namespace activity_handlers
+
+void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
+{
+    namespace hack = activity_handlers::repair_activity_hack;
+
+    std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
+    const tripoint hack_pos = hack_type ? hack::get_position( * act ) : tripoint{};
+    int hack_original_charges = 0;
+    item *main_tool = nullptr;
+    if( hack_type ) {
+        main_tool = hack::get_fake_tool( hack_type.value(), *act );
+        if( main_tool != nullptr ) {
+            hack_original_charges = main_tool ? main_tool->charges : 0;
+        }
+    } else {
+        main_tool = &*act->tools.front();
+    }
+    if( main_tool == nullptr ) {
+        debugmsg( "train skill tools array and hack values are empty. this would have caused invalid safe reference error" );
+        act->moves_left = 0;
+        return;
+    }
+    item &skill_training_item = *main_tool;
+    int training_skill_interval = atoi( p->get_value( "training_iuse_skill_interval" ).c_str() );
+
+    if( calendar::once_every( 1_minutes * training_skill_interval ) ) {
+        // pull metadata. this is probably the easiest way to get this data from the JSON definition
+        std::string training_skill = p->get_value( "training_iuse_skill" );
+        int training_skill_xp = atoi( p->get_value( "training_iuse_skill_xp" ).c_str() );
+        int training_skill_max_level = atoi( p->get_value( "training_iuse_skill_xp_max_level" ).c_str() );
+        int training_skill_xp_chance = atoi( p->get_value( "training_iuse_skill_xp_chance" ).c_str() );
+        int training_skill_fatigue = atoi( p->get_value( "training_iuse_skill_fatigue" ).c_str() );
+
+        p->mod_fatigue( training_skill_fatigue );
+        if( skill_training_item.ammo_remaining() > 0 ) {
+            skill_training_item.ammo_consume( 1, p->pos() );
+            if( hack_type.has_value() ) {
+                hack::discharge_real_power_source(
+                    hack_type.value(),
+                    hack_pos,
+                    skill_training_item,
+                    hack_original_charges
+                );
+            }
+        } else if( skill_training_item.ammo_required() > 0 ) {
+            act->moves_left = 0;
+            add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            return;
+        }
+        if( p->get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You can no longer learn anything from this." ) );
+            return;
+        }
+        if( rng( 1, 100 ) < training_skill_xp_chance ) {
+            p->practice( skill_id( training_skill ), training_skill_xp,
+                         training_skill_max_level );
+        }
+    }
+
+    // needs rest
+    if( p->get_fatigue() >= fatigue_levels::dead_tired ) {
+        if( hack_type.has_value() ) {
+            hack::discharge_real_power_source(
+                hack_type.value(),
+                hack_pos,
+                skill_training_item,
+                hack_original_charges
+            );
+        }
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too tired to continue." ) );
+    }
+}
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
@@ -2849,7 +2927,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     // iterate over attachments and apply the same changes if they have the same fault
     for( const auto &mod : target->gunmods() ) {
-        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+        if( !mod->faults.contains( fault_id( act->name ) ) ) {
             continue;
         }
         mend( mod );
@@ -3045,30 +3123,29 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, const std::vector<monster *> &fishables )
+static void rod_fish( player *p,
+                      const weighted_int_list<std::pair<std::string, int>> &fishables )
 {
     map &here = get_map();
-    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-    if( fishables.empty() ) {
+    const std::pair<std::string, int> *caught = fishables.pick();
+    if( caught->first.contains( "fish" ) ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon,
-                                  calendar::turn + rng( 0_turns,
-                                          3_hours ) ) );
+        here.add_item_or_charges(
+            p->pos(), item::make_corpse( fish_mon, calendar::turn +
+                                         rng( 0_turns, 3_hours ) ) );
+
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
-        monster *chosen_fish = random_entry( fishables );
-        chosen_fish->fish_population -= 1;
-        if( chosen_fish->fish_population <= 0 ) {
-            g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
-        } else {
-            here.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
-                                      calendar::turn + rng( 0_turns,
-                                              3_hours ) ) );
-            p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
+        itype_id possible( caught->first );
+        if( possible.is_valid() ) {
+            here.add_item_or_charges( p->pos(), item::spawn( caught->first, calendar::turn, caught->second ),
+                                      true );
+            p->add_msg_if_player( m_good, _( "You reeled in %s." ) );
         }
     }
+
     for( item *&elem : here.i_at( p->pos() ) ) {
         if( elem->is_corpse() && !elem->has_var( "activity_var" ) ) {
             elem->set_var( "activity_var", p->name );
@@ -3078,32 +3155,35 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
+    int fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult == 0 || p->is_blind() ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info,
+                              _( "You realize fishing here at the moment is pointless, and stop." ) );
+        if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
+            p->backlog.clear();
+            p->assign_activity( ACT_TIDY_UP );
+            return;
+        }
+        return;
+    }
     item &rod = *act->tools.front();
     int fish_chance = 1;
-    int survival_skill = p->get_skill_level( skill_survival );
+    int survival_mod = p->get_skill_level( skill_survival );
     if( rod.has_flag( flag_FISH_POOR ) ) {
-        survival_skill += dice( 1, 6 );
+        survival_mod += dice( 1, 8 ); // avg of 4
     } else if( rod.has_flag( flag_FISH_GOOD ) ) {
         // Much better chances with a good fishing implement.
-        survival_skill += dice( 4, 9 );
-        survival_skill *= 2;
+        survival_mod += dice( 3, 6 ); //avg of 10-11
     }
-    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it dosnt seem like they are visible!
-    if( fishables.empty() ) {
-        fish_chance += survival_skill / 2;
-    } else {
-        // if they are visible however, it implies a larger population
-        for( monster *elem : fishables ) {
-            fish_chance += elem->fish_population;
-        }
-        fish_chance += survival_skill;
-    }
+    fish_chance += ( survival_mod *  fishing_mult );
     // no matter the population of fish, your skill and tool limits the ease of catching.
-    fish_chance = std::min( survival_skill * 10, fish_chance );
-    if( x_in_y( fish_chance, 600000 ) ) {
+    fish_chance = std::min( survival_mod * 20, fish_chance );
+    if( x_in_y( fish_chance, 600000 ) ) {//Roughly 1/1000 per turn avg.
         p->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
-        rod_fish( p, fishables );
+        weighted_int_list<std::pair<std::string, int>> caught;
+        caught.add( {"fish", 1}, 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn
+        rod_fish( p, caught );
     }
     if( calendar::once_every( 60_minutes ) ) {
         p->practice( skill_survival, rng( 1, 3 ) );
@@ -3772,6 +3852,12 @@ void activity_handlers::vibe_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::train_skill_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( m_good, _( "You feel like you've learned a little bit." ) );
+    act->set_to_null();
+}
+
 void activity_handlers::atm_finish( player_activity *act, player * )
 {
     // ATM sets index to 0 to indicate it's finished.
@@ -4347,7 +4433,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             return;
         }
         for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
-            if( seen.find( neighbor ) != seen.end() ) {
+            if( seen.contains( neighbor ) ) {
                 continue;
             }
             seen.insert( neighbor );
@@ -4473,7 +4559,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic->mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->mod_stamina( -cost );
+                p->mod_stamina( -cost, spell_being_cast.has_flag( spell_flag::PHYSICAL ) );
                 break;
             case bionic_energy:
                 p->mod_power_level( -units::from_kilojoule( cost ) );

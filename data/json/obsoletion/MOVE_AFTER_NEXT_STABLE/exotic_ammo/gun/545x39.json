@@ -16,7 +16,7 @@
     "ammo": "545x39",
     "dispersion": 150,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
     "blackpowder_tolerance": 24,
     "flags": [ "NEVER_JAMS" ]
@@ -38,7 +38,7 @@
     "ammo": "545x39",
     "dispersion": 150,
     "durability": 7,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
   }

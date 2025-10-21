@@ -82,6 +82,7 @@ static const efftype_id effect_contacts( "contacts" );
 
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -1038,6 +1039,9 @@ void complete_craft( Character &who, item &craft )
 
     bool first = true;
     size_t newit_counter = 0;
+    if( craft.is_comestible() ) {
+        craft.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
+    }
     for( detached_ptr<item> &newit : newits ) {
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
@@ -1082,6 +1086,9 @@ void complete_craft( Character &who, item &craft )
             food_contained.unset_flag( flag );
         }
 
+        if( food_contained.is_comestible() ) {
+            food_contained.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
+        }
         // Don't store components for things that ignores components (e.g wow 'conjured bread')
         if( ignore_component ) {
             food_contained.set_flag( flag_NUTRIENT_OVERRIDE );

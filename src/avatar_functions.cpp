@@ -500,8 +500,7 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
                 if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
                     gunmod_remove( you, gun, *the_mod );
                     free_slots++;
-                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
-                           mod_locations.end() ) {
+                } else if( !mod_locations.contains( the_mod->type->gunmod->location ) ) {
                     gunmod_remove( you, gun, *the_mod );
                 }
             }

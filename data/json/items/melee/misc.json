@@ -120,10 +120,24 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
+    "ammo": "battery",
+    "charges_per_use": 25,
     "use_action": "TAZER",
-    "flags": [ "BELT_CLIP" ],
-    "power_draw": "100 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml",
+    "flags": [ "BELT_CLIP" ]
   }
 ]

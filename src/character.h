@@ -652,6 +652,7 @@ class Character : public Creature, public location_visitable<Character>
 
         bool uncanny_dodge() override;
 
+        float get_block_amount( const item &shield, const damage_unit &unit );
         /** Checks for chance that a ranged attack will hit other armor along the way */
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
@@ -1036,6 +1037,10 @@ class Character : public Creature, public location_visitable<Character>
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic( const bionic_id &b ) const;
+        /** Returns true if the player has a bionic with that fake item and it is powered on */
+        bool has_active_bionic_with_fake( const itype_id &it ) const;
+        /** Returns the number of bionics of a certain type the player has */
+        int count_bionic_of_type( const bionic_id &bio ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
         /**Returns true if the character can fuel a bionic with the item*/
@@ -1405,6 +1410,7 @@ class Character : public Creature, public location_visitable<Character>
          * Whether the player carries an active item of the given item type.
          */
         bool has_active_item( const itype_id &id ) const;
+        bool has_active_item_with_action( const std::string &use ) const;
         detached_ptr<item> remove_primary_weapon();
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
@@ -1569,6 +1575,10 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the first worn item with a given flag. */
         const item *item_worn_with_flag( const flag_id &flag,
                                          const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        /** Returns true if the player is wearing an item with the given flag. */
+        bool worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const;
+        /** Returns the first worn item with a given quality. */
+        const item *item_worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given id. */
         bool worn_with_id( const itype_id &item_id,
                            const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
@@ -1921,6 +1931,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
+        void mod_stamina( int mod, bool skill );
         void burn_move_stamina( int moves );
         float stamina_burn_cost_modifier() const;
         float running_move_cost_modifier() const;

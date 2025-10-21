@@ -1410,7 +1410,7 @@ auto mapgen_parameters::add_unique_parameter(
     std::string candidate_name;
     while( true ) {
         candidate_name = string_format( "%s%d", prefix, i );
-        if( map.find( candidate_name ) == map.end() ) {
+        if( !map.contains( candidate_name ) ) {
             break;
         }
         ++i;
@@ -3154,7 +3154,7 @@ const mapgen_palette &string_id<mapgen_palette>::obj() const
 template<>
 bool string_id<mapgen_palette>::is_valid() const
 {
-    return palettes.find( *this ) != palettes.end();
+    return palettes.contains( *this );
 }
 
 void mapgen_palette::check()
@@ -6476,7 +6476,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh->all_standalone_parts();
 
     //Check for boat type vehicles that should be placeable in deep water
     //WARNING: CURSED CODE
@@ -6514,7 +6514,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + other_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + other_veh->all_standalone_parts().size() > 200 ) {
                 return nullptr;
             }
 
@@ -7509,7 +7509,7 @@ namespace mapgen
 
 bool has_update_id( const mapgen_id &id )
 {
-    return update_mapgen.find( id ) != update_mapgen.end();
+    return update_mapgen.contains( id );
 }
 
 } // namespace mapgen

@@ -62,13 +62,13 @@
         "6": {
           "name": "C.R.I.T. Lab Housing Entrance",
           "security": 4,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 7 } ],
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 6 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         },
         "7": {
           "name": "C.R.I.T. Lab Entrance",
           "security": 6,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 8 } ],
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
