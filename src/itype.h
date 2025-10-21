@@ -697,9 +697,6 @@ struct islot_battery {
 
     units::energy max_energy = 0_kJ;
     units::energy def_energy = 0_kJ;
-
-    void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
 };
 
 struct islot_ammo : common_ranged_data {

@@ -2689,7 +2689,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         ploc = &*act->targets[0];
     }
     const tripoint hack_position = hack_type ? hack::get_position( *act ) : tripoint{};
-    const int hack_original_charges = fake_tool ? fake_tool->charges : 0;
     const units::energy hack_original_energy = fake_tool ? fake_tool->energy_remaining() : 0_J;
 
     item *main_tool = nullptr;

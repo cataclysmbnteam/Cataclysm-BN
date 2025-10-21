@@ -103,7 +103,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-    "rand_charges": [ 1, 2, 3, 4, 5, 6, 11, 12, 17, 19, 21, 25 ],
     "ammo": [ "lighter_fluid" ],
     "max_charges": 25,
     "charges_per_use": 1,

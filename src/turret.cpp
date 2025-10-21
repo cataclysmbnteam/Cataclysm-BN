@@ -258,7 +258,6 @@ turret_data::status turret_data::query() const
     }
 
     auto ups = part->base->get_gun_ups_drain() * part->base->gun_current_mode().qty;
-    auto vups = veh->energy_left( true );
     if( ups > veh->energy_left( true ) ) {
         return status::no_power;
     }

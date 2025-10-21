@@ -46,8 +46,9 @@ static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" 
 static const bionic_id bio_ups( "bio_ups" );
 
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
-static const flag_id flag_IS_UPS( "IS_UPS" );
 static const flag_id flag_BIONIC_TOOLS( "BIONIC_TOOLS" );
+static const flag_id flag_IS_UPS( "IS_UPS" );
+static const flag_id flag_REACTOR( "REACTOR" );
 
 /** @relates visitable */
 template <typename T>
@@ -952,21 +953,6 @@ void location_visitable<monster>::remove_items_with( const
 }
 /** @relates visitable */
 
-template <typename T>
-static int charges_of_ups( const T &self, int limit,
-                           const std::function<bool( const item & )> &,
-                           std::function<void( int )> )
-{
-    int qty = 0;
-    self->visit_items( [&]( const item * e ) {
-        if( e->has_flag( flag_IS_UPS ) ) {
-            qty = sum_no_wrap( qty, e->ammo_remaining() * e->type->tool->ups_eff_mult );
-        }
-        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
-    } );
-    return std::min( qty, limit );
-}
-
 template <typename T, typename M>
 static units::energy energy_of_internal( const T &self, const M &main, const itype_id &id,
         units::energy limit,
@@ -1191,9 +1177,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
                                       const std::function<bool( const item & )> &filter,
                                       std::function<void( int )> visitor ) const
 {
-    auto self = static_cast<const Character *>( this );
-    auto p = dynamic_cast<const player *>( self );
-
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
 }
 

@@ -1310,7 +1310,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
                 return VisitResponse::SKIP;
             } else if( node->is_battery() ) {
-                if( cur_battery == node->typeId() ) {
+                if( cur_battery ) {
                     VisitResponse::SKIP;
                 }
                 if( bats.contains( node->typeId() ) && ( node->energy_remaining() > 0_J || empty ) ) {

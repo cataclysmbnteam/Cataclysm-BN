@@ -277,6 +277,7 @@ extern const flag_id flag_RAW;
 extern const flag_id flag_REACH3;
 extern const flag_id flag_REACH;
 extern const flag_id flag_REACH_ATTACK;
+extern const flag_id flag_REACTOR;
 extern const flag_id flag_REBREATHER;
 extern const flag_id flag_RECHARGE;
 extern const flag_id flag_REDUCED_BASHING;

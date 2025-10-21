@@ -2589,8 +2589,16 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             info.emplace_back( "GUN", _( "Battery: " ),
                                string_format( "<stat>%s</stat>",
                                               mod->battery_current()->tname() ) );
+            if( mod->battery_current()->ammo_current() && mod->battery_current()->has_flag( flag_REACTOR ) ) {
+                info.emplace_back( "GUN", _( "Reactant Density: " ), string_format( "<stat>%s</stat>",
+                                   units::display( units::from_kilojoule( mod->battery_current()->ammo_current()->fuel->energy ) ) ) );
+            }
         }
         if( mod->energy_capacity() > 0_J && parts->test( iteminfo_parts::AMMO_ENERGY_REMAINING ) ) {
+            if( !mod->battery_current() && mod->ammo_current() && mod->has_flag( flag_REACTOR ) ) {
+                info.emplace_back( "GUN", _( "Reactant Density: " ), string_format( "<stat>%s</stat>",
+                                   units::display( units::from_kilojoule( mod->ammo_current()->fuel->energy ) ) ) );
+            }
             info.emplace_back( "AMMO", _( "Power remaining: " ), string_format( "<stat>%s/%s</stat>",
                                units::display( mod->energy_remaining() ), units::display( mod->energy_capacity() ) ) );
         }
@@ -3262,8 +3270,13 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query *part
     std::string battery_string;
 
     if( parts->test( iteminfo_parts::BATTERY_ENERGY ) ) {
-        battery_string = "Power: " + units::display( energy_remaining() ) + "/" + units::display(
-                             energy_capacity() );
+        if( ammo_current() && has_flag( flag_REACTOR ) ) {
+            info.emplace_back( "BATTERY", _( "Reactant Density: " ), string_format( "<stat>%s</stat>",
+                               units::display( units::from_kilojoule( ammo_current()->fuel->energy ) ) ) );
+        } else {
+            battery_string = "Power: " + units::display( energy_remaining() ) + "/" + units::display(
+                                 energy_capacity() );
+        }
     }
 
     info.emplace_back( "BATTERY", battery_string );
@@ -8148,12 +8161,17 @@ units::energy item::energy_available( const Character &ch, units::energy limit )
 units::energy item::energy_remaining() const
 {
     const item *bat = battery_current();
+    units::energy total_energy = energy;
 
     if( bat ) {
         return bat->energy_remaining();
     }
 
-    return energy;
+    if( ammo_current() && has_flag( flag_REACTOR ) ) {
+        total_energy += ammo_remaining() * units::from_kilojoule( ammo_current()->fuel->energy );
+    }
+
+    return total_energy;
 }
 
 units::energy item::energy_capacity() const
@@ -8164,18 +8182,28 @@ units::energy item::energy_capacity() const
 units::energy item::energy_capacity( bool potential_capacity ) const
 {
     const item *bat = battery_current();
+    const auto reactor_capacity = [&]() -> units::energy {
+        if( ammo_current() && has_flag( flag_REACTOR ) )
+        {
+            units::energy reactor_max = units::from_kilojoule( ammo_current()->fuel->energy ) * ammo_capacity();
+            return reactor_max;
+        }
+        return 0_J;
+    };
+
     if( bat ) {
         return bat->energy_capacity();
-    } else if( is_battery() ) {
-        return type->battery->max_energy;
+    }
+    if( is_battery() ) {
+        return type->battery->max_energy + reactor_capacity();
     } else if( is_tool() ) {
-        units::energy res = type->tool->max_energy;
+        units::energy res = type->tool->max_energy + reactor_capacity();
         if( res == 0_J && potential_capacity && battery_default() ) {
             res = battery_default()->battery->max_energy;
         }
         return res;
     } else if( is_gun() ) {
-        units::energy res = type->gun->capacity;
+        units::energy res = type->gun->capacity + reactor_capacity();
         if( res == 0_J && potential_capacity && battery_default() ) {
             res = battery_default()->battery->max_energy;
         }
@@ -8226,8 +8254,15 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
         return res;
     }
 
+    // Not enough energy, has ammo, and is a reactor that can convert ammo into energy.
+    if( energy < power && ammo_remaining() > 0 && has_flag( flag_REACTOR ) ) {
+        units::energy fuel_value = units::from_kilojoule( ammo_current()->fuel->energy );
+        int reactor_consume = ammo_consume( std::ceil( ( power - energy ) / fuel_value ), pos );
+        mod_energy( reactor_consume * fuel_value );
+    }
+
     if( is_battery() ) {
-        units::energy need = std::min( energy_remaining(), power );
+        units::energy need = std::min( energy, power );
         mod_energy( -need );
         return need;
     } else if( is_tool() || is_gun() ) {
@@ -8237,7 +8272,7 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
             you.mod_power_level( bio_power_used );
             return bio_power_used;
         } else if( battery_integral() ) {
-            units::energy need = std::min( energy_remaining(), power );
+            units::energy need = std::min( energy, power );
             mod_energy( -need );
             return need;
         }
@@ -8641,8 +8676,9 @@ const item *item::magazine_current() const
 
 itype_id item::battery_default( bool conversion ) const
 {
-    if( !battery_integral() && !battery_compatible().empty() ) {
-        return *( battery_compatible().begin() );
+    std::set<itype_id> usable_battery = battery_compatible( conversion );
+    if( !battery_integral() && !usable_battery.empty() ) {
+        return *usable_battery.begin();
     }
     return itype_id::NULL_ID();
 }

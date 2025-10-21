@@ -3604,15 +3604,15 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     return fl;
 }
 
-int vehicle::fuel_left( const int p, bool recurse ) const
+int vehicle::fuel_left( const int p ) const
 {
-    return fuel_left( parts[ p ].fuel_current(), recurse );
+    return fuel_left( parts[ p ].fuel_current() );
 }
 
-int vehicle::engine_fuel_left( const int e, bool recurse ) const
+int vehicle::engine_fuel_left( const int e ) const
 {
     if( static_cast<size_t>( e ) < engines.size() ) {
-        return fuel_left( parts[ engines[ e ] ].fuel_current(), recurse );
+        return fuel_left( parts[ engines[ e ] ].fuel_current() );
     }
     return 0;
 }

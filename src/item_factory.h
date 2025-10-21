@@ -165,6 +165,7 @@ class Item_factory
         void load_gunmod( const JsonObject &jo, const std::string &src );
         void load_magazine( const JsonObject &jo, const std::string &src );
         void load_battery( const JsonObject &jo, const std::string &src );
+        void load_battery_mag( const JsonObject &jo, const std::string &src );
         void load_generic( const JsonObject &jo, const std::string &src );
         void load_bionic( const JsonObject &jo, const std::string &src );
         /*@}*/

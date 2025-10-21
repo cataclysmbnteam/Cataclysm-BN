@@ -3100,7 +3100,7 @@
       "PORTABLE_GAME",
       "WEATHER_TOOL",
       "RADIOCONTROL",
-      { "type": "gps_device", "radius": 40, "additional_charges_per_tile": 0.1 },
+      { "type": "gps_device", "radius": 40, "additional_multiplier_per_tile": 0.1 },
       {
         "type": "transform",
         "msg": "You activate your %'s night vision mode.",
@@ -3136,7 +3136,7 @@
       "PORTABLE_GAME",
       "WEATHER_TOOL",
       "RADIOCONTROL",
-      { "type": "gps_device", "radius": 120, "additional_charges_per_tile": 0.1 },
+      { "type": "gps_device", "radius": 120, "additional_multiplier_per_tile": 0.1 },
       {
         "type": "transform",
         "msg": "You activate your %'s night vision mode.",

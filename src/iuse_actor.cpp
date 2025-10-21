@@ -4890,7 +4890,7 @@ std::pair<int, units::energy> gps_device_actor::use( player &p, item &it, bool,
     int i = 0;
     for( const auto &pt : places ) {
         if( params.max_results.has_value() && i >= params.max_results ) {
-            if( i != places.size() ) {
+            if( i != static_cast<int>( places.size() ) ) {
                 p.add_msg_if_player( m_info, _( "Your GPS runs out of power before finding all matches." ) );
             }
             break;
@@ -5007,22 +5007,22 @@ std::pair<int, units::energy> sew_advanced_actor::use( player &p, item &it, bool
         const tripoint & ) const
 {
     std::pair<int, units::energy> res( 0, 0_J );
-    auto [chrg, enrg] = res;
+
     if( p.is_npc() ) {
-        return std::make_pair( 0, 0_J );
+        return res;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return std::make_pair( 0, 0_J );
+        return res;
     }
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return std::make_pair( 0, 0_J );
+        return res;
     }
 
     if( !character_funcs::can_see_fine_details( p ) ) {
         add_msg( m_info, _( "You can't see to sew!" ) );
-        return std::make_pair( 0, 0_J );
+        return res;
     }
 
     auto filter = [this]( const item & itm ) {
@@ -5034,13 +5034,13 @@ std::pair<int, units::energy> sew_advanced_actor::use( player &p, item &it, bool
                     filter, *p.as_avatar(), _( "Enhance which clothing?" ) );
     if( !loc ) {
         p.add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return std::make_pair( 0, 0_J );
+        return res;
     }
     item &mod = *loc;
     if( &mod == &it ) {
         p.add_msg_if_player( m_info,
                              _( "This can be used to repair or modify other items, not itself." ) );
-        return std::make_pair( 0, 0_J );
+        return res;
     }
 
     // Gives us an item with the mod added or removed (toggled)
@@ -5190,7 +5190,7 @@ std::pair<int, units::energy> sew_advanced_actor::use( player &p, item &it, bool
     const int choice = tmenu.ret;
 
     if( choice < 0 || choice >= static_cast<int>( clothing_mods.size() ) ) {
-        return std::make_pair( 0, 0_J );
+        return res;
     }
 
     // The mod player picked
@@ -5203,7 +5203,7 @@ std::pair<int, units::energy> sew_advanced_actor::use( player &p, item &it, bool
         }
         mod.update_clothing_mod_val();
 
-        return std::make_pair( 0, 0_J );
+        return res;
     }
 
     // Get the id of the material used

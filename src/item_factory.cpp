@@ -2476,33 +2476,28 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
     }
 }
 
-void islot_battery::load( const JsonObject &jo )
+void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string &src )
 {
-    mandatory( jo, was_loaded, "max_power", max_energy, energy_reader() );
-    optional( jo, was_loaded, "initial_power", def_energy, energy_reader(), max_energy );
-}
-
-void islot_battery::deserialize( JsonIn &jsin )
-{
-    const JsonObject jo = jsin.get_object();
-    load( jo );
+    const bool strict = is_strict_enabled( src );
+    assign( jo, "max_power", slot.max_energy, strict, 0_J );
+    assign( jo, "initial_power", slot.def_energy, strict, slot.max_energy );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        if( def.was_loaded ) {
-            if( def.battery ) {
-                def.battery->was_loaded = true;
-            } else {
-                def.battery = cata::make_value<islot_battery>();
-                def.battery->was_loaded = true;
-            }
-        } else {
-            def.battery = cata::make_value<islot_battery>();
-        }
-        def.battery->load( jo );
+        load_slot( def.battery, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
+void Item_factory::load_battery_mag( const JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.battery, jo, src );
+        load_slot( def.magazine, jo, src );
         load_basic_info( jo, def, src );
     }
 }
@@ -2693,6 +2688,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "AMMO",
         "ARMOR",
         "BATTERY",
+        "BATTERY_MAGAZINE",
         "BIONIC_ITEM",
         "BOOK",
         "COMESTIBLE",
@@ -2775,7 +2771,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    bool assigned_batteries = assign( jo, "batteries", def.batteries );
+    assign( jo, "batteries", def.batteries );
 
     JsonArray jarr = jo.get_array( "min_skills" );
     if( !jarr.empty() ) {

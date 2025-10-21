@@ -1948,7 +1948,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                                   cost_adjustment::continue_only;
         // craft.charges being batch number and mult being additional progress if in progress craft
         // This will be attenuated by start craft in the actual function
-        consume_tools( to_consume, craft.charges * start_craft ? 1 : multiplier, cost_ad );
+        consume_tools( to_consume, ( craft.charges * start_craft ) != 0 ? 1 : multiplier, cost_ad );
     }
     return true;
 }

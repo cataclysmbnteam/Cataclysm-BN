@@ -2188,7 +2188,6 @@ std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, c
     }
 
     // Try to minimize the use of has_enough_charges() because it's kind of expensive.
-    bool no_charges = false;
     for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
         if( !here.has_items( pt ) || !p->sees( pt ) ) {
             continue;
