@@ -346,7 +346,7 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( setID, void( character_id, bool ) );
 
-        SET_FX_T( reset_stats, void() );
+        SET_FX_T( reset, void() );
         SET_FX_T( reset_encumbrance, void() );
 
         SET_FX_T( get_str, int() const );

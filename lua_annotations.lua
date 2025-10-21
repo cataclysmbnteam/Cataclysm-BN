@@ -323,8 +323,8 @@ function BodyPartTypeIntId.new() end
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
+---@field reset fun(arg1: Character)
 ---@field reset_encumbrance fun(arg1: Character)
----@field reset_stats fun(arg1: Character)
 ---@field restore_scent fun(arg1: Character)
 ---@field rest_quality fun(arg1: Character): number
 ---@field rooted fun(arg1: Character)
