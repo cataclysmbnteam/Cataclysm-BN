@@ -156,7 +156,7 @@ local MUTATIONS = {
       skills = { archery = 6, survival = 5 },
     },
     stat_bonuses = { str = 0.15, dex = 0.45, int = 0.1, per = 0.8, speed = 1 },
-    periodic_bonuses = { thirst = -.05 },
+    periodic_bonuses = { thirst = -0.05 },
   }),
 
   RPG_CRAFTSMAN = Mutation.new({
