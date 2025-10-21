@@ -40,12 +40,6 @@
         "......_______,,_______ssssssssssssssssssssssssssssss,,,,,,,,,,,,,,,,ssssssssssssssssssssssssssssss_______,,_______......"
       ],
       "palettes": [ "evac_center" ],
-      "place_zones": [
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "free_merchants", "x": [ 24, 47 ], "y": [ 23, 23 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "free_merchants", "x": [ 48, 71 ], "y": [ 23, 23 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 23, 23 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 23, 23 ] }
-      ],
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 32, "y": 18, "chance": 75, "rotation": 0 },
         { "vehicle": "car", "x": 48, "y": 23, "chance": 75, "rotation": 270 }
