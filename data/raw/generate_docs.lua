@@ -99,6 +99,7 @@ end
 local linkify_types = function(str_)
   local dt = catadoc
   local types_table = dt["#types"]
+  local enums_table = dt["#enums"]
 
   local tokens = extract_cpp_types(tostring(str_))
 
@@ -111,7 +112,9 @@ local linkify_types = function(str_)
       str = string.gsub(str, ">", "&gt;")
     else
       str = string.gsub(str, "[%a%d]+", function(k)
-        if table_contains(types_table, k) then return ("[%s](#sol::%s)"):format(k, k) end
+        if table_contains(types_table, k) then return ("[%s](#sol::%s)"):format(k, k)
+        elseif table_contains(enums_table, k) then return ("[%s](#sol::%s)"):format(k, k)
+        end
         return k
       end)
     end
@@ -334,7 +337,7 @@ and should not be edited directly.
   for _, it in pairs(enums_sorted) do
     local typename = it.k
     local dt_type = it.v
-    ret = ret .. "## " .. typename .. "\n"
+    ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     local entries = dt_type["entries"]
 
@@ -350,7 +353,7 @@ and should not be edited directly.
     local typename = it.k
     local dt_lib = it.v
     local lib_comment = dt_lib.lib_comment
-    ret = ret .. "## " .. typename .. "\n"
+    ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if lib_comment then ret = ret .. lib_comment .. "\n" end
 

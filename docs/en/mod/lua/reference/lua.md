@@ -433,7 +433,7 @@ No constructors.
 
 #### add_addiction {#sol::Character::add_addiction}
 
-🇲 Method --> <code>( AddictionType, int )</code>
+🇲 Method --> <code>( [AddictionType](#sol::AddictionType), int )</code>
 
 #### add_bionic {#sol::Character::add_bionic}
 
@@ -441,7 +441,7 @@ No constructors.
 
 #### addiction_level {#sol::Character::addiction_level}
 
-🇲 Method --> <code>( AddictionType ) -> int</code>
+🇲 Method --> <code>( [AddictionType](#sol::AddictionType) ) -> int</code>
 
 #### add_item {#sol::Character::add_item}
 
@@ -483,7 +483,7 @@ No constructors.
 
 #### bionic_armor_bonus {#sol::Character::bionic_armor_bonus}
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), DamageType ) -> double</code>
+🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), [DamageType](#sol::DamageType) ) -> double</code>
 
 #### bionics_weight {#sol::Character::bionics_weight}
 
@@ -729,7 +729,7 @@ No constructors.
 
 #### get_movement_mode {#sol::Character::get_movement_mode}
 
-🇲 Method --> <code>( ) -> CharacterMoveMode</code>
+🇲 Method --> <code>( ) -> [CharacterMoveMode](#sol::CharacterMoveMode)</code>
 
 #### get_mutations {#sol::Character::get_mutations}
 
@@ -873,7 +873,7 @@ No constructors.
 
 #### has_addiction {#sol::Character::has_addiction}
 
-🇲 Method --> <code>( AddictionType ) -> bool</code>
+🇲 Method --> <code>( [AddictionType](#sol::AddictionType) ) -> bool</code>
 
 #### has_alarm_clock {#sol::Character::has_alarm_clock}
 
@@ -1103,11 +1103,11 @@ No constructors.
 
 #### mabuff_armor_bonus {#sol::Character::mabuff_armor_bonus}
 
-🇲 Method --> <code>( DamageType ) -> int</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> int</code>
 
 #### mabuff_arpen_bonus {#sol::Character::mabuff_arpen_bonus}
 
-🇲 Method --> <code>( DamageType ) -> int</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> int</code>
 
 #### mabuff_attack_cost_mult {#sol::Character::mabuff_attack_cost_mult}
 
@@ -1123,11 +1123,11 @@ No constructors.
 
 #### mabuff_damage_bonus {#sol::Character::mabuff_damage_bonus}
 
-🇲 Method --> <code>( DamageType ) -> int</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> int</code>
 
 #### mabuff_damage_mult {#sol::Character::mabuff_damage_mult}
 
-🇲 Method --> <code>( DamageType ) -> double</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> double</code>
 
 #### mabuff_dodge_bonus {#sol::Character::mabuff_dodge_bonus}
 
@@ -1260,7 +1260,7 @@ No constructors.
 
 #### mutation_armor {#sol::Character::mutation_armor}
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), DamageType ) -> double</code>
+🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), [DamageType](#sol::DamageType) ) -> double</code>
 
 #### mutation_category_level {#sol::Character::mutation_category_level}
 
@@ -1296,7 +1296,7 @@ No constructors.
 
 #### rem_addiction {#sol::Character::rem_addiction}
 
-🇲 Method --> <code>( AddictionType )</code>
+🇲 Method --> <code>( [AddictionType](#sol::AddictionType) )</code>
 
 #### rem_morale {#sol::Character::rem_morale}
 
@@ -1392,7 +1392,7 @@ No constructors.
 
 #### set_movement_mode {#sol::Character::set_movement_mode}
 
-🇲 Method --> <code>( CharacterMoveMode )</code>
+🇲 Method --> <code>( [CharacterMoveMode](#sol::CharacterMoveMode) )</code>
 
 #### set_mutation {#sol::Character::set_mutation}
 
@@ -1611,7 +1611,7 @@ No constructors.
 
 #### attitude_to {#sol::Creature::attitude_to}
 
-🇲 Method --> <code>( [Creature](#sol::Creature) ) -> Attitude</code>
+🇲 Method --> <code>( [Creature](#sol::Creature) ) -> [Attitude](#sol::Attitude)</code>
 
 #### clear_effects {#sol::Creature::clear_effects}
 
@@ -1671,7 +1671,7 @@ No constructors.
 
 #### get_armor_type {#sol::Creature::get_armor_type}
 
-🇲 Method --> <code>( DamageType, [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> int</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> int</code>
 
 #### get_block_bonus {#sol::Creature::get_block_bonus}
 
@@ -1771,7 +1771,7 @@ No constructors.
 
 #### get_size {#sol::Creature::get_size}
 
-🇲 Method --> <code>( ) -> MonsterSize</code>
+🇲 Method --> <code>( ) -> [MonsterSize](#sol::MonsterSize)</code>
 
 #### get_speed {#sol::Creature::get_speed}
 
@@ -1811,7 +1811,7 @@ No constructors.
 
 #### has_flag {#sol::Creature::has_flag}
 
-🇲 Method --> <code>( MonsterFlag ) -> bool</code>
+🇲 Method --> <code>( [MonsterFlag](#sol::MonsterFlag) ) -> bool</code>
 
 #### has_grab_break_tec {#sol::Creature::has_grab_break_tec}
 
@@ -1851,7 +1851,7 @@ No constructors.
 
 #### is_immune_damage {#sol::Creature::is_immune_damage}
 
-🇲 Method --> <code>( DamageType ) -> bool</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> bool</code>
 
 #### is_immune_effect {#sol::Creature::is_immune_effect}
 
@@ -1988,7 +1988,7 @@ No base classes.
 ### Constructors {#sol::DamageInstance::@ctors}
 
 - DamageInstance.new( )
-- DamageInstance.new( DamageType, double, double, double, double )
+- DamageInstance.new( [DamageType](#sol::DamageType), double, double, double, double )
 
 ### Members {#sol::DamageInstance::@members}
 
@@ -1998,7 +1998,7 @@ No base classes.
 
 #### add_damage {#sol::DamageInstance::add_damage}
 
-🇲 Method --> <code>( DamageType, double, double, double, double )</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType), double, double, double, double )</code>
 
 #### clear {#sol::DamageInstance::clear}
 
@@ -2022,7 +2022,7 @@ No base classes.
 
 #### type_damage {#sol::DamageInstance::type_damage}
 
-🇲 Method --> <code>( DamageType ) -> double</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> double</code>
 
 ## DamageUnit {#sol::DamageUnit}
 
@@ -2034,7 +2034,7 @@ No base classes.
 
 ### Constructors {#sol::DamageUnit::@ctors}
 
-- DamageUnit.new( DamageType, double, double, double, double )
+- DamageUnit.new( [DamageType](#sol::DamageType), double, double, double, double )
 
 ### Members {#sol::DamageUnit::@members}
 
@@ -2056,7 +2056,7 @@ No base classes.
 
 #### type {#sol::DamageUnit::type}
 
-🇻 Variable --> <code>DamageType</code>
+🇻 Variable --> <code>[DamageType](#sol::DamageType)</code>
 
 ## DealtDamageInstance {#sol::DealtDamageInstance}
 
@@ -2086,7 +2086,7 @@ No constructors.
 
 #### type_damage {#sol::DealtDamageInstance::type_damage}
 
-🇲 Method --> <code>( DamageType ) -> int</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> int</code>
 
 ## DetachedItem {#sol::DetachedItem}
 
@@ -2775,11 +2775,11 @@ No constructors.
 
 #### charge_req {#sol::IslotArtifact::charge_req}
 
-🇻 Variable --> <code>ArtifactChargeReq</code>
+🇻 Variable --> <code>[ArtifactChargeReq](#sol::ArtifactChargeReq)</code>
 
 #### charge_type {#sol::IslotArtifact::charge_type}
 
-🇻 Variable --> <code>ArtifactCharge</code>
+🇻 Variable --> <code>[ArtifactCharge](#sol::ArtifactCharge)</code>
 
 #### dream_freq_met {#sol::IslotArtifact::dream_freq_met}
 
@@ -2799,19 +2799,19 @@ No constructors.
 
 #### effects_activated {#sol::IslotArtifact::effects_activated}
 
-🇻 Variable --> <code>Vector( ArtifactEffectPassive )</code>
+🇻 Variable --> <code>Vector( [ArtifactEffectPassive](#sol::ArtifactEffectPassive) )</code>
 
 #### effects_carried {#sol::IslotArtifact::effects_carried}
 
-🇻 Variable --> <code>Vector( ArtifactEffectActive )</code>
+🇻 Variable --> <code>Vector( [ArtifactEffectActive](#sol::ArtifactEffectActive) )</code>
 
 #### effects_wielded {#sol::IslotArtifact::effects_wielded}
 
-🇻 Variable --> <code>Vector( ArtifactEffectActive )</code>
+🇻 Variable --> <code>Vector( [ArtifactEffectActive](#sol::ArtifactEffectActive) )</code>
 
 #### effects_worn {#sol::IslotArtifact::effects_worn}
 
-🇻 Variable --> <code>Vector( ArtifactEffectActive )</code>
+🇻 Variable --> <code>Vector( [ArtifactEffectActive](#sol::ArtifactEffectActive) )</code>
 
 ## IslotBattery {#sol::IslotBattery}
 
@@ -2972,7 +2972,7 @@ No constructors.
 
 #### addict_type {#sol::IslotComestible::addict_type}
 
-🇻 Variable --> <code>AddictionType</code>
+🇻 Variable --> <code>[AddictionType](#sol::AddictionType)</code>
 
 > effects of addiction
 
@@ -4044,7 +4044,7 @@ No constructors.
 
 #### is_melee {#sol::Item::is_melee}
 
-🇲 Method --> <code>( DamageType ) -> bool</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> bool</code>
 
 > Is this item an effective melee weapon for the given damage type?
 
@@ -5358,7 +5358,7 @@ No base classes.
 
 #### reserve_random {#sol::Mission::reserve_random}
 
-🇫 Function --> <code>( MissionOrigin, [Tripoint](#sol::Tripoint), [CharacterId](#sol::CharacterId) ) -> [Mission](#sol::Mission)</code>
+🇫 Function --> <code>( [MissionOrigin](#sol::MissionOrigin), [Tripoint](#sol::Tripoint), [CharacterId](#sol::CharacterId) ) -> [Mission](#sol::Mission)</code>
 
 > Reserves a random mission at the specified origin and position for the given NPC. Returns the new mission.
 
@@ -5436,13 +5436,13 @@ No base classes.
 
 #### get_random_mission_id {#sol::MissionType::get_random_mission_id}
 
-🇫 Function --> <code>( MissionOrigin, [Tripoint](#sol::Tripoint) ) -> [MissionTypeIdRaw](#sol::MissionTypeIdRaw)</code>
+🇫 Function --> <code>( [MissionOrigin](#sol::MissionOrigin), [Tripoint](#sol::Tripoint) ) -> [MissionTypeIdRaw](#sol::MissionTypeIdRaw)</code>
 
 > Returns a random mission type ID at the specified origin and overmap tile position.
 
 #### goal {#sol::MissionType::goal}
 
-🇻 Variable --> <code>MissionGoal</code>
+🇻 Variable --> <code>[MissionGoal](#sol::MissionGoal)</code>
 
 > Returns the mission's goal text.
 
@@ -5484,7 +5484,7 @@ No base classes.
 
 #### origins {#sol::MissionType::origins}
 
-🇻 Variable --> <code>Vector( MissionOrigin )</code>
+🇻 Variable --> <code>Vector( [MissionOrigin](#sol::MissionOrigin) )</code>
 
 > Returns a list of origins from which this mission can be generated.
 
@@ -5586,7 +5586,7 @@ No constructors.
 
 #### attitude {#sol::Monster::attitude}
 
-🇲 Method --> <code>( [Character](#sol::Character) ) -> MonsterAttitude</code>
+🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
 
 #### can_climb {#sol::Monster::can_climb}
 
@@ -6415,7 +6415,7 @@ No constructors.
 
 #### get_attitude {#sol::Npc::get_attitude}
 
-🇲 Method --> <code>( ) -> NpcAttitude</code>
+🇲 Method --> <code>( ) -> [NpcAttitude](#sol::NpcAttitude)</code>
 
 #### get_monster_faction {#sol::Npc::get_monster_faction}
 
@@ -6511,7 +6511,7 @@ No constructors.
 
 #### needs {#sol::Npc::needs}
 
-🇻 Variable --> <code>Vector( NpcNeed )</code>
+🇻 Variable --> <code>Vector( [NpcNeed](#sol::NpcNeed) )</code>
 
 #### op_of_u {#sol::Npc::op_of_u}
 
@@ -6535,7 +6535,7 @@ No constructors.
 
 #### set_attitude {#sol::Npc::set_attitude}
 
-🇲 Method --> <code>( NpcAttitude )</code>
+🇲 Method --> <code>( [NpcAttitude](#sol::NpcAttitude) )</code>
 
 #### set_faction_id {#sol::Npc::set_faction_id}
 
@@ -6757,7 +6757,7 @@ No base classes.
 
 #### message_color {#sol::QueryPopup::message_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 #### query {#sol::QueryPopup::query}
 
@@ -6951,7 +6951,7 @@ No constructors.
 
 #### get_all_resist {#sol::Resistances::get_all_resist}
 
-🇲 Method --> <code>( ) -> Dict( DamageType, double )</code>
+🇲 Method --> <code>( ) -> Dict( [DamageType](#sol::DamageType), double )</code>
 
 #### get_effective_resist {#sol::Resistances::get_effective_resist}
 
@@ -6959,7 +6959,7 @@ No constructors.
 
 #### get_resist {#sol::Resistances::get_resist}
 
-🇲 Method --> <code>( DamageType ) -> double</code>
+🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> double</code>
 
 ## SkillId {#sol::SkillId}
 
@@ -7833,7 +7833,7 @@ No base classes.
 
 #### border_color {#sol::UiList::border_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 > Changes the color. Default color is `c_magenta`.
 
@@ -7857,13 +7857,13 @@ No base classes.
 
 #### hilight_color {#sol::UiList::hilight_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 > Changes the color. Default color is `h_white`.
 
 #### hotkey_color {#sol::UiList::hotkey_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 > Changes the color. Default color is `c_light_green`.
 
@@ -7881,7 +7881,7 @@ No base classes.
 
 #### text_color {#sol::UiList::text_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 > Changes the color. Default color is `c_light_gray`.
 
@@ -7893,7 +7893,7 @@ No base classes.
 
 #### title_color {#sol::UiList::title_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 > Changes the color. Default color is `c_green`.
 
@@ -7937,7 +7937,7 @@ No constructors.
 
 #### txt_color {#sol::UiListEntry::txt_color}
 
-🇲 Method --> <code>( Color )</code>
+🇲 Method --> <code>( [Color](#sol::Color) )</code>
 
 > Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 
@@ -8009,7 +8009,7 @@ No base classes.
 
 # Enums
 
-## AddictionType
+## AddictionType {#sol::AddictionType}
 
 ### Entries
 
@@ -8028,7 +8028,7 @@ No base classes.
 - `MARLOSS_B` = `12`
 - `MARLOSS_Y` = `13`
 
-## ArtifactCharge
+## ArtifactCharge {#sol::ArtifactCharge}
 
 ### Entries
 
@@ -8040,7 +8040,7 @@ No base classes.
 - `ARTC_FATIGUE` = `5`
 - `ARTC_PORTAL` = `6`
 
-## ArtifactChargeReq
+## ArtifactChargeReq {#sol::ArtifactChargeReq}
 
 ### Entries
 
@@ -8052,7 +8052,7 @@ No base classes.
 - `ACR_WET` = `5`
 - `ACR_SKY` = `6`
 
-## ArtifactEffectActive
+## ArtifactEffectActive {#sol::ArtifactEffectActive}
 
 ### Entries
 
@@ -8097,7 +8097,7 @@ No base classes.
 - `AEP_SICK` = `38`
 - `AEP_CLAIRVOYANCE_PLUS` = `39`
 
-## ArtifactEffectPassive
+## ArtifactEffectPassive {#sol::ArtifactEffectPassive}
 
 ### Entries
 
@@ -8135,7 +8135,7 @@ No base classes.
 - `AEA_SHADOWS` = `31`
 - `AEA_STAMINA_EMPTY` = `32`
 
-## Attitude
+## Attitude {#sol::Attitude}
 
 ### Entries
 
@@ -8144,7 +8144,7 @@ No base classes.
 - `Friendly` = `2`
 - `Any` = `3`
 
-## BodyPart
+## BodyPart {#sol::BodyPart}
 
 ### Entries
 
@@ -8161,7 +8161,7 @@ No base classes.
 - `FOOT_L` = `10`
 - `FOOT_R` = `11`
 
-## CharacterMoveMode
+## CharacterMoveMode {#sol::CharacterMoveMode}
 
 ### Entries
 
@@ -8169,7 +8169,7 @@ No base classes.
 - `run` = `1`
 - `crouch` = `2`
 
-## Color
+## Color {#sol::Color}
 
 ### Entries
 
@@ -8319,7 +8319,7 @@ No base classes.
 - `c_cyan_cyan` = `143`
 - `c_light_cyan_cyan` = `144`
 
-## DamageType
+## DamageType {#sol::DamageType}
 
 ### Entries
 
@@ -8338,7 +8338,7 @@ No base classes.
 - `DT_ELECTRIC` = `12`
 - `DT_BULLET` = `13`
 
-## MissionGoal
+## MissionGoal {#sol::MissionGoal}
 
 ### Entries
 
@@ -8360,7 +8360,7 @@ No base classes.
 - `MGOAL_TALK_TO_NPC` = `15`
 - `MGOAL_CONDITION` = `16`
 
-## MissionOrigin
+## MissionOrigin {#sol::MissionOrigin}
 
 ### Entries
 
@@ -8371,7 +8371,7 @@ No base classes.
 - `ORIGIN_SECONDARY` = `4`
 - `ORIGIN_COMPUTER` = `5`
 
-## MonsterAttitude
+## MonsterAttitude {#sol::MonsterAttitude}
 
 ### Entries
 
@@ -8384,7 +8384,7 @@ No base classes.
 - `MATT_ATTACK` = `6`
 - `MATT_ZLAVE` = `7`
 
-## MonsterFactionAttitude
+## MonsterFactionAttitude {#sol::MonsterFactionAttitude}
 
 ### Entries
 
@@ -8393,7 +8393,7 @@ No base classes.
 - `Friendly` = `2`
 - `Hate` = `3`
 
-## MonsterFlag
+## MonsterFlag {#sol::MonsterFlag}
 
 ### Entries
 
@@ -8525,7 +8525,7 @@ No base classes.
 - `PROJECTILE_RESISTANT_4` = `125`
 - `VOLATILE` = `126`
 
-## MonsterSize
+## MonsterSize {#sol::MonsterSize}
 
 ### Entries
 
@@ -8535,7 +8535,7 @@ No base classes.
 - `LARGE` = `3`
 - `HUGE` = `4`
 
-## MsgType
+## MsgType {#sol::MsgType}
 
 ### Entries
 
@@ -8550,7 +8550,7 @@ No base classes.
 - `critical` = `8`
 - `grazing` = `9`
 
-## NpcAttitude
+## NpcAttitude {#sol::NpcAttitude}
 
 ### Entries
 
@@ -8574,7 +8574,7 @@ No base classes.
 - `NPCATT_FLEE_TEMP` = `17`
 - `NPCATT_RECOVER_GOODS` = `18`
 
-## NpcNeed
+## NpcNeed {#sol::NpcNeed}
 
 ### Entries
 
@@ -8586,7 +8586,7 @@ No base classes.
 - `need_drink` = `5`
 - `need_safety` = `6`
 
-## SfxChannel
+## SfxChannel {#sol::SfxChannel}
 
 ### Entries
 
@@ -8618,7 +8618,7 @@ No base classes.
 
 # Libraries
 
-## const
+## const {#sol::const}
 
 Various game constants
 
@@ -8648,7 +8648,7 @@ Various game constants
 
 🇨 Constant --> <code>int</code> = `12`
 
-## coords
+## coords {#sol::coords}
 
 Methods for manipulating coord systems and calculating distance
 
@@ -8693,7 +8693,7 @@ Methods for manipulating coord systems and calculating distance
 🇫 Function --> <code>( [Tripoint](#sol::Tripoint), [Tripoint](#sol::Tripoint) ) -> double</code>\
 🇫 Function --> <code>( [Point](#sol::Point), [Point](#sol::Point) ) -> double</code>
 
-## gapi
+## gapi {#sol::gapi}
 
 Global game methods
 
@@ -8701,7 +8701,7 @@ Global game methods
 
 #### add_msg {#sol::nil::add_msg}
 
-🇫 Function --> <code>( MsgType, ... )</code>\
+🇫 Function --> <code>( [MsgType](#sol::MsgType), ... )</code>\
 🇫 Function --> <code>( ... )</code>
 
 #### add_npc_follower {#sol::nil::add_npc_follower}
@@ -8781,7 +8781,7 @@ Global game methods
 
 #### play_ambient_variant_sound {#sol::nil::play_ambient_variant_sound}
 
-🇫 Function --> <code>( string, string, int, SfxChannel, int, double, int )</code>
+🇫 Function --> <code>( string, string, int, [SfxChannel](#sol::SfxChannel), int, double, int )</code>
 
 #### play_variant_sound {#sol::nil::play_variant_sound}
 
@@ -8800,7 +8800,7 @@ Global game methods
 
 🇫 Function --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
 
-## gdebug
+## gdebug {#sol::gdebug}
 
 Debugging and logging API.
 
@@ -8838,7 +8838,7 @@ Debugging and logging API.
 
 🇫 Function --> <code>( int )</code>
 
-## hooks
+## hooks {#sol::hooks}
 
 Documentation for hooks
 
@@ -8916,7 +8916,7 @@ Documentation for hooks
 
 > Called when a monster is dead
 
-## locale
+## locale {#sol::locale}
 
 Localization API.
 
@@ -8946,7 +8946,7 @@ Localization API.
 
 > First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
 
-## tests_lib
+## tests_lib {#sol::tests_lib}
 
 Library for testing purposes
 
