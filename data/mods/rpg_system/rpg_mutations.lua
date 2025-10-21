@@ -27,7 +27,7 @@ local MUTATIONS = {
     symbol = "⚔",
     requirements = { stats = { STR = 8 } },
     stat_bonuses = { str = 0.55, dex = 0.2, int = 0.1, per = 0.15 },
-    periodic_bonuses = { fatigue = -0.5, stamina = 20 },
+    periodic_bonuses = { stamina = 150 },
   }),
 
   RPG_MAGE = Mutation.new({
@@ -67,7 +67,7 @@ local MUTATIONS = {
       skills = { melee = 6, unarmed = 5 },
     },
     stat_bonuses = { str = 0.75, dex = 0.45, int = 0.1, per = 0.2 },
-    periodic_bonuses = { fatigue = -0.5, stamina = 20 },
+    periodic_bonuses = { stamina = 150 },
   }),
 
   RPG_GUARDIAN = Mutation.new({
@@ -82,7 +82,7 @@ local MUTATIONS = {
       skills = { dodge = 6, firstaid = 4 },
     },
     stat_bonuses = { str = 0.6, dex = 0.15, int = 0.15, per = 0.6 },
-    periodic_bonuses = { fatigue = -0.5, stamina = 20 },
+    periodic_bonuses = { stamina = 150 },
   }),
 
   -- Mage Prestige Classes
@@ -156,7 +156,7 @@ local MUTATIONS = {
       skills = { archery = 6, survival = 5 },
     },
     stat_bonuses = { str = 0.15, dex = 0.45, int = 0.1, per = 0.8, speed = 1 },
-    periodic_bonuses = { thirst = -1.5 },
+    periodic_bonuses = { thirst = -.05 },
   }),
 
   RPG_CRAFTSMAN = Mutation.new({
@@ -185,7 +185,7 @@ local MUTATIONS = {
     id = "RPG_TRAIT_VITAL_ESSENCE",
     type = "trait",
     requirements = { level = 5, stats = { PER = 12 } },
-    periodic_bonuses = { healthy_mod = 0.1 },
+    periodic_bonuses = { healthy_mod = 0.02 },
   }),
 
   RPG_TRAIT_RADIOACTIVE_BLOOD = Mutation.new({

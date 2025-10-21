@@ -404,7 +404,7 @@ mod.on_every_5_minutes = function()
 
       if bonuses.fatigue then player:mod_fatigue(math.floor(level * bonuses.fatigue * level_scaling)) end
       if bonuses.stamina then player:mod_stamina(math.floor(level * bonuses.stamina * level_scaling)) end
-      if bonuses.thirst then player:mod_thirst(math.floor(level * bonuses.thirst * level_scaling)) end
+      if bonuses.thirst and player:get_thirst() >= 40 and math.random() > .75 then player:mod_thirst(math.floor(level * bonuses.thirst * level_scaling * 4)) end
       if bonuses.rad then player:mod_rad(math.floor(level * bonuses.rad * level_scaling)) end
       if bonuses.healthy_mod then player:mod_healthy_mod(bonuses.healthy_mod * level * level_scaling, 100) end
       if bonuses.power_level then
