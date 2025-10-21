@@ -2157,7 +2157,7 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    bool is_bat = it.is_battery();
+    bool is_bat = it.is_battery() && !it.has_flag( flag_REACTOR );
     if( !it.is_fuel() && !is_bat ) {
         return false;
     }

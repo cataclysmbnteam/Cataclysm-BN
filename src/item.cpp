@@ -2590,16 +2590,18 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                string_format( "<stat>%s</stat>",
                                               mod->battery_current()->tname() ) );
             if( mod->battery_current()->ammo_current() && mod->battery_current()->has_flag( flag_REACTOR ) ) {
-                info.emplace_back( "GUN", _( "Reactant Density: " ), string_format( "<stat>%s</stat>",
+                info.emplace_back( "GUN", _( "Reactant: " ), string_format( "<stat>%s %s per charge</stat>",
+                                   ammo_current()->nname( 1 ),
                                    units::display( units::from_kilojoule( mod->battery_current()->ammo_current()->fuel->energy ) ) ) );
             }
         }
         if( mod->energy_capacity() > 0_J && parts->test( iteminfo_parts::AMMO_ENERGY_REMAINING ) ) {
             if( !mod->battery_current() && mod->ammo_current() && mod->has_flag( flag_REACTOR ) ) {
-                info.emplace_back( "GUN", _( "Reactant Density: " ), string_format( "<stat>%s</stat>",
+                info.emplace_back( "GUN", _( "Reactant: " ), string_format( "<stat>%s %s per charge</stat>",
+                                   mod->ammo_current()->nname( 1 ),
                                    units::display( units::from_kilojoule( mod->ammo_current()->fuel->energy ) ) ) );
             }
-            info.emplace_back( "AMMO", _( "Power remaining: " ), string_format( "<stat>%s/%s</stat>",
+            info.emplace_back( "GUN", _( "Power remaining: " ), string_format( "<stat>%s/%s</stat>",
                                units::display( mod->energy_remaining() ), units::display( mod->energy_capacity() ) ) );
         }
     }
@@ -3271,8 +3273,10 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query *part
 
     if( parts->test( iteminfo_parts::BATTERY_ENERGY ) ) {
         if( ammo_current() && has_flag( flag_REACTOR ) ) {
-            info.emplace_back( "BATTERY", _( "Reactant Density: " ), string_format( "<stat>%s</stat>",
+            info.emplace_back( "BATTERY", _( "Reactant: " ), string_format( "<stat>%s %s per charge</stat>",
+                               ammo_current()->nname( 1 ),
                                units::display( units::from_kilojoule( ammo_current()->fuel->energy ) ) ) );
+            battery_string = "Total Power: " + units::display( energy_remaining() );
         } else {
             battery_string = "Power: " + units::display( energy_remaining() ) + "/" + units::display(
                                  energy_capacity() );
@@ -5254,11 +5258,17 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     std::string powertext;
-    if( energy_capacity() > 0_J ) {
-        powertext = string_format( " (%s/%s)", units::display( energy_remaining() ),
-                                   units::display( energy_capacity() ) );
-        powertext = colorize( powertext,
-                              color_percentage( 1.0f * energy_remaining() / energy_capacity() * 100 ) );
+    bool is_reactor = has_flag( flag_REACTOR );
+    const units::energy enrg_cap = energy_capacity();
+    if( enrg_cap > 0_J ) {
+        if( !is_reactor ) {
+            powertext = string_format( " (%s/%s)", units::display( energy_remaining() ),
+                                       units::display( enrg_cap ) );
+            powertext = colorize( powertext,
+                                  color_percentage( 1.0f * energy_remaining() / enrg_cap * 100 ) );
+        } else {
+            powertext = string_format( " (%s)", units::display( energy_remaining() ) );
+        }
     }
 
     std::string ammotext;
@@ -8168,7 +8178,8 @@ units::energy item::energy_remaining() const
     }
 
     if( ammo_current() && has_flag( flag_REACTOR ) ) {
-        total_energy += ammo_remaining() * units::from_kilojoule( ammo_current()->fuel->energy );
+        total_energy += ammo_remaining()
+                        * units::from_kilojoule( ammo_current()->fuel->energy );
     }
 
     return total_energy;
