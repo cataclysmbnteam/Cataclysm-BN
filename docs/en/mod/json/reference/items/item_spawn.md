@@ -203,7 +203,7 @@ specified for guns and magazines in the entries array to use a non-default ammo 
 
 - Use `charges`, `charges-min`, or `charges-max` in the entries array. A default magazine will be
   added for you if needed.
-  
+
 - Use `energy`, `energy-min`, or `energy-max` in the entries array. A default battery will be added for
   you if needed.
 
