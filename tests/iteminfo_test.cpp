@@ -214,9 +214,9 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Moves per attack: <color_c_yellow>145</color>\n"
             "Stamina Cost: <color_c_yellow>275</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>9.65</color>"
-            "  Vs. Agile: <color_c_yellow>4.94</color>"
-            "  Vs. Armored: <color_c_yellow>0.69</color>\n" );
+            "Best: <color_c_yellow>10.94</color>"
+            "  Vs. Agile: <color_c_yellow>5.60</color>"
+            "  Vs. Armored: <color_c_yellow>0.78</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
