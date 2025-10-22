@@ -674,10 +674,8 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     }
 
     for( trait_id mut : get_mutations() ) {
-        for( const trait_id &mid : mut->prevents ) {
-            if( mid == mutation ) {
-                return false;
-            }
+        if( mut->prevents.contains( mutation ) ) {
+            return false;
         }
     }
 
