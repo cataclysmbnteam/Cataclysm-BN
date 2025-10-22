@@ -234,7 +234,9 @@ void cata::detail::reg_types( sol::state &lua )
         luna::set_fx( ut, "get_covered_parts", []( const UT_CLASS & c )
         {
             std::set<bodypart_id> ret{};
-            ret.insert_range( c.covers );
+            for (const auto& v : c.covers) {
+                ret.insert( v );
+            }
             return ret;
         } );
         SET_MEMB_RO( encumber );
