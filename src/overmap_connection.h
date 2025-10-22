@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <string>
+#include <mutex>
 
 #include "omdata.h"
 #include "type_id.h"
