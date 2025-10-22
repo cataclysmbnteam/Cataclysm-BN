@@ -156,6 +156,9 @@ struct array2d {
                     --index;
                     return tmp;
                 }
+
+                bool operator== ( const sentinel & ) const { return index.px >= SizeX || index.py >= SizeY; };
+                bool operator== ( const iterator &other ) const { return index == other.index && arr == other.arr; };
         };
 
         struct const_iterator {
@@ -195,9 +198,16 @@ struct array2d {
                     --index;
                     return tmp;
                 }
+
+                bool operator== ( const sentinel & ) const { return index.px >= SizeX || index.py >= SizeY; };
+                bool operator== ( const iterator &other ) const { return index == other.index && arr == other.arr; };
+                bool operator== ( const const_iterator &other ) const { return index == other.index && arr == other.arr; };
         };
 
-        struct sentinel {};
+        struct sentinel {
+            bool operator== ( const sentinel & ) { return true; }
+            bool operator!= ( const sentinel & ) { return false; }
+        };
 
         array2d() = default;
         array2d( const array2d & ) = default;
@@ -248,15 +258,7 @@ struct array2d {
 
         friend void swap( array2d &lhs, array2d &rhs ) noexcept { std::swap( lhs._data, rhs._data ); }
 
-        friend bool operator== ( const array2d &lhs, const array2d &rhs ) { return lhs.data() == rhs.data() && lhs.size() == rhs.size(); }
-
-        friend bool operator== ( const sentinel &, const sentinel & ) { return true; }
-        friend bool operator== ( const iterator &a, const sentinel & ) { return a.index.px >= SizeX || a.index.py >= SizeY; };
-        friend bool operator== ( const const_iterator &a, const sentinel & ) { return a.index.px >= SizeX || a.index.py >= SizeY; };
-
-        friend bool operator== ( const iterator &a, const iterator &b ) { return a.index == b.index && a.arr == b.arr; };
-        friend bool operator== ( const const_iterator &a, const const_iterator &b ) { return a.index == b.index && a.arr == b.arr; };
-        friend bool operator== ( const const_iterator &a, const iterator &b ) { return a.index == b.index && a.arr == b.arr; };
+        bool operator== ( const array2d &other ) const { return data() == other.data() && size() == other.size(); }
     private:
         std::array<std::array<T, SizeX>, SizeY> _data;
 };
