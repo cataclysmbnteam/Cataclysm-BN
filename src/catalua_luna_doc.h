@@ -24,6 +24,7 @@ enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_active : int;
 enum art_effect_passive : int;
+enum vitamin_type : int;
 
 namespace sfx
 {
@@ -89,6 +90,7 @@ class fault;
 struct quality;
 struct resistances;
 struct armor_portion_data;
+class vitamin;
 
 namespace units
 {
@@ -232,6 +234,7 @@ LUNA_ID( weapon_category, "WeaponCategory" )
 LUNA_ID( emit, "FieldEmit" )
 LUNA_ID( fault, "Fault" )
 LUNA_ID( quality, "Quality" )
+LUNA_ID( vitamin, "Vitamin" )
 
 // Enums
 LUNA_ENUM( add_type, "AddictionType" )
@@ -254,6 +257,7 @@ LUNA_ENUM( art_charge_req, "ArtifactChargeReq" )
 LUNA_ENUM( art_effect_active, "ArtifactEffectPassive" )
 LUNA_ENUM( art_effect_passive, "ArtifactEffectActive" )
 LUNA_ENUM( phase_id, "Phase" )
+LUNA_ENUM( vitamin_type, "VitaminType" )
 
 // ISlot
 LUNA_VAL( islot_container, "IslotContainer" );

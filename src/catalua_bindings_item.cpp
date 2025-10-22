@@ -13,6 +13,7 @@
 #include "character.h"
 #include "martialarts.h"
 #include "relic.h"
+#include "vitamin.h"
 #include "gun_mode.h"
 #include "mod_manager.h"
 #include "ammo_effect.h"
@@ -458,7 +459,9 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO( quench );
 
         DOC( "Nutrition values to use for this type when they aren't calculated from components" );
-        SET_MEMB_RO( default_nutrition );
+        luna::set_fx( ut, "get_default_nutrition", []( const UT_CLASS & c ) -> auto& {
+            return c.default_nutrition.vitamins;
+        } );
 
         DOC( "Time until becomes rotten at standard temperature, or zero if never spoils" );
         SET_MEMB_RO( spoils );
@@ -771,6 +774,101 @@ void reg_islot( sol::state &lua )
 #define UT_CLASS islot_gunmod
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::bases<common_ranged_data>(), luna::no_constructor );
+
+        DOC( "Where is this gunmod installed (e.g. \"stock\", \"rail\")?" );
+        luna::set_fx( ut, "get_location", []( const UT_CLASS & c )
+        {
+            return c.location.str();
+        } );
+
+        DOC( "What kind of weapons this gunmod can be used with" );
+        SET_MEMB_RO( usable );
+
+        DOC( "What category of weapons this gunmod can be used with" );
+        SET_MEMB_RO( usable_category );
+
+        DOC( "What kind of weapons this gunmod can't be used with" );
+        SET_MEMB_RO( exclusion );
+
+        DOC( "What category of weapons this gunmod can't be used with" );
+        SET_MEMB_RO( exclusion_category );
+
+        DOC( "If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current Character::recoil is at or below this value." );
+        SET_MEMB_RO( sight_dispersion );
+
+        DOC( "For sights (see @ref sight_dispersion), this value affects time cost of aiming." );
+        DOC( "Higher is better. In case of multiple usable sights," );
+        DOC( "the one with highest aim speed is used." );
+        SET_MEMB_RO( aim_speed );
+
+        DOC( "Modifies base loudness as provided by the currently loaded ammo" );
+        SET_MEMB_RO( loudness );
+
+        DOC( "How many moves does this gunmod take to install?" );
+        SET_MEMB_RO( install_time );
+
+        DOC( "Increases base gun UPS consumption by this many times per shot" );
+        SET_MEMB_RO( ups_charges_multiplier );
+
+        DOC( "Increases base gun UPS consumption by this value per shot" );
+        SET_MEMB_RO( ups_charges_modifier );
+
+        DOC( "Increases base gun ammo to fire by this many times per shot" );
+        SET_MEMB_RO( ammo_to_fire_multiplier );
+
+        DOC( "Increases base gun ammo to fire by this value per shot" );
+        SET_MEMB_RO( ammo_to_fire_modifier );
+
+        DOC( "Increases gun weight by this many times" );
+        SET_MEMB_RO( weight_multiplier );
+
+        DOC( "Firing modes added to or replacing those of the base gun" );
+        luna::set_fx( ut, "get_mode_modifiers", []( const UT_CLASS & c )
+        {
+            std::set<std::string> ret{};
+            for( const auto &k : c.mode_modifier | std::views::keys ) {
+                ret.insert( k.str() );
+            }
+            return ret;
+        } );
+
+        SET_MEMB_RO( ammo_effects );
+
+        DOC( "Relative adjustment to base gun handling" );
+        SET_MEMB_RO( handling );
+
+        DOC( "Percentage value change to the gun's loading time. Higher is slower" );
+        SET_MEMB_RO( reload_modifier );
+
+        DOC( "Percentage value change to the gun's loading time. Higher is less likely" );
+        SET_MEMB_RO( consume_chance );
+
+        DOC( "Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much." );
+        SET_MEMB_RO( consume_divisor );
+
+        DOC( "Modifies base strength required" );
+        SET_MEMB_RO( min_str_required_mod );
+
+        DOC( "Additional gunmod slots to add to the gun" );
+        luna::set_fx( ut, "get_added_slots", []( const UT_CLASS & c )
+        {
+            std::map<std::string, int> ret;
+            for( const auto& [k, v] : c.add_mod ) {
+                ret[k.str()] = v;
+            }
+            return ret;
+        } );
+
+        DOC( "Not compatible on weapons that have this mod slot" );
+        luna::set_fx( ut, "get_mod_blacklist", []( const UT_CLASS & c )
+        {
+            std::set<std::string> ret{};
+            for( const auto &v : c.blacklist_mod ) {
+                ret.insert( v.str() );
+            }
+            return ret;
+        } );
+
     }
 #undef UT_CLASS
 
@@ -938,6 +1036,10 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        SET_FX( name );
+        SET_FX( get_enchantments );
+        SET_FX( get_recharge_scheme );
+        SET_FX( get_spells );
 
     }
 #undef UT_CLASS

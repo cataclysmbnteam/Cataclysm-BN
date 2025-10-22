@@ -37,6 +37,7 @@
 #include "units_energy.h"
 #include "units_mass.h"
 #include "units_volume.h"
+#include "vitamin.h"
 
 std::string_view luna::detail::current_comment;
 
@@ -442,6 +443,7 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<art_charge_req>( lua );
     reg_enum<art_effect_active>( lua );
     reg_enum<art_effect_passive>( lua );
+    reg_enum<vitamin_type>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )

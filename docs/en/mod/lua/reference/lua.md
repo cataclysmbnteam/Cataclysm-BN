@@ -269,9 +269,9 @@ No constructors.
 
 Variable of type `int`
 
-#### covers
+#### get_covered_parts
 
-Variable of type `<cppval: 13body_part_set >`
+Function `( ArmorPortionData ) -> Set( BodyPartTypeIntId )`
 
 #### encumber
 
@@ -1313,7 +1313,7 @@ Function `( Character, bool ) -> Vector( Item )`
 #### items_with
 
 Filters items
-Function `( Character, Func( Item ) -> bool ) -> Vector( Item )`
+Function `( Character, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
 
 #### inv_remove_item
 
@@ -1338,7 +1338,7 @@ Function `( Character, Item ) -> bool`
 #### remove_worn
 
 Attempts to remove the worn `Item` from character.
-Function `( Character, Item ) -> Opt( DetachedItem )`
+Function `( Character, Item ) -> <cppval: St8optionalI12detached_ptrI4itemEE >`
 
 #### get_dependant_worn_items
 
@@ -1594,7 +1594,7 @@ Function `( Character ) -> Map( BodyPartTypeIntId, double )`
 
 #### use_charges
 
-Function `( Character, ItypeId, int, Func( Item ) -> bool ) -> Vector( DetachedItem )`
+Function `( Character, ItypeId, int, <cppval: St8functionIFbRK4itemEE > ) -> Vector( DetachedItem )`
 
 #### use_charges_if_avail
 
@@ -2810,7 +2810,7 @@ Variable of type `Set( AmmunitionEffectId )`
 #### casing_id
 
 Type id of casings, if any
-Variable of type `Opt( ItypeId )`
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
 
 #### cookoff
 
@@ -2836,7 +2836,7 @@ Variable of type `bool`
 
 #### force_stat_display
 
-Variable of type `Opt( bool )`
+Variable of type `<cppval: St8optionalIbE >`
 
 #### loudness
 
@@ -3132,10 +3132,10 @@ Variable of type `int`
 effect on character thirst (may be negative)
 Variable of type `int`
 
-#### default_nutrition
+#### get_default_nutrition
 
 Nutrition values to use for this type when they aren't calculated from components
-Variable of type `<cppval: 9nutrients >`
+Function `( IslotComestible ) -> <cppval: St3mapI9string_idI7vitaminEiSt4lessIS2_ESaISt4pairIKS2_iEEE >`
 
 #### spoils
 
@@ -3454,7 +3454,119 @@ No constructors.
 
 ### Members
 
-No members.
+#### get_location
+
+Where is this gunmod installed (e.g. "stock", "rail")?
+Function `( IslotGunmod ) -> string`
+
+#### usable
+
+What kind of weapons this gunmod can be used with
+Variable of type `<cppval: St13unordered_setI9string_idI5itypeESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE >`
+
+#### usable_category
+
+What category of weapons this gunmod can be used with
+Variable of type `Vector( <cppval: St13unordered_setI9string_idI15weapon_categoryESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE > )`
+
+#### exclusion
+
+What kind of weapons this gunmod can't be used with
+Variable of type `<cppval: St13unordered_setI9string_idI5itypeESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE >`
+
+#### exclusion_category
+
+What category of weapons this gunmod can't be used with
+Variable of type `Vector( <cppval: St13unordered_setI9string_idI15weapon_categoryESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE > )`
+
+#### sight_dispersion
+
+If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current Character::recoil is at or below this value.
+Variable of type `int`
+
+#### aim_speed
+
+the one with highest aim speed is used.
+Variable of type `int`
+
+#### loudness
+
+Modifies base loudness as provided by the currently loaded ammo
+Variable of type `int`
+
+#### install_time
+
+How many moves does this gunmod take to install?
+Variable of type `int`
+
+#### ups_charges_multiplier
+
+Increases base gun UPS consumption by this many times per shot
+Variable of type `double`
+
+#### ups_charges_modifier
+
+Increases base gun UPS consumption by this value per shot
+Variable of type `int`
+
+#### ammo_to_fire_multiplier
+
+Increases base gun ammo to fire by this many times per shot
+Variable of type `double`
+
+#### ammo_to_fire_modifier
+
+Increases base gun ammo to fire by this value per shot
+Variable of type `int`
+
+#### weight_multiplier
+
+Increases gun weight by this many times
+Variable of type `double`
+
+#### get_mode_modifiers
+
+Firing modes added to or replacing those of the base gun
+Function `( IslotGunmod ) -> Set( string )`
+
+#### ammo_effects
+
+Variable of type `Set( AmmunitionEffectId )`
+
+#### handling
+
+Relative adjustment to base gun handling
+Variable of type `int`
+
+#### reload_modifier
+
+Percentage value change to the gun's loading time. Higher is slower
+Variable of type `int`
+
+#### consume_chance
+
+Percentage value change to the gun's loading time. Higher is less likely
+Variable of type `int`
+
+#### consume_divisor
+
+Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much.
+Variable of type `int`
+
+#### min_str_required_mod
+
+Modifies base strength required
+Variable of type `int`
+
+#### get_added_slots
+
+Additional gunmod slots to add to the gun
+Function `( IslotGunmod ) -> Map( string, int )`
+
+#### get_mod_blacklist
+
+Not compatible on weapons that have this mod slot
+Function `( IslotGunmod ) -> Set( string )`
 
 ## IslotMagazine
 
@@ -3486,7 +3598,7 @@ Variable of type `int`
 #### linkage
 
 For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
-Variable of type `Opt( ItypeId )`
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
 
 #### protects_contents
 
@@ -3694,7 +3806,7 @@ Variable of type `string`
 
 #### revert_to
 
-Variable of type `Opt( ItypeId )`
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
 
 #### subtype
 
@@ -4598,7 +4710,7 @@ Variable of type `int`
 
 #### default_container
 
-Variable of type `Opt( ItypeId )`
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
 
 #### emits
 
@@ -7204,7 +7316,21 @@ No constructors.
 
 ### Members
 
-No members.
+#### name
+
+Function `( Relic ) -> string`
+
+#### get_enchantments
+
+Function `( Relic ) -> <cppval: St6vectorI11enchantmentSaIS0_EE >`
+
+#### get_recharge_scheme
+
+Function `( Relic ) -> <cppval: St6vectorI14relic_rechargeSaIS0_EE >`
+
+#### get_spells
+
+Function `( Relic ) -> <cppval: St6vectorI10fake_spellSaIS0_EE >`
 
 ## Resistances
 
@@ -8384,6 +8510,114 @@ Variable of type `string`
 Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 Function `( UiListEntry, Color )`
 
+## VitaminId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `VitaminId.new()`
+
+#### `VitaminId.new( VitaminId )`
+
+#### `VitaminId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( VitaminId ) -> VitaminRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( VitaminId ) -> bool`
+
+#### is_valid
+
+Function `( VitaminId ) -> bool`
+
+#### str
+
+Function `( VitaminId ) -> string`
+
+#### NULL_ID
+
+Function `() -> VitaminId`
+
+#### __tostring
+
+Function `( VitaminId ) -> string`
+
+#### serialize
+
+Function `( VitaminId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( VitaminId, <cppval: 6JsonIn > )`
+
+## VitaminRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### deficiency
+
+Function `( VitaminRaw ) -> EffectTypeId`
+
+#### excess
+
+Function `( VitaminRaw ) -> EffectTypeId`
+
+#### has_flag
+
+Function `( VitaminRaw, string ) -> bool`
+
+#### min
+
+Function `( VitaminRaw ) -> int`
+
+#### max
+
+Function `( VitaminRaw ) -> int`
+
+#### rate
+
+Function `( VitaminRaw ) -> TimeDuration`
+
+#### severity
+
+Function `( VitaminRaw, int ) -> int`
+
+#### name
+
+Function `( VitaminRaw ) -> string`
+
+#### is_null
+
+Function `( VitaminRaw ) -> bool`
+
+#### vitamin_id
+
+Function `( VitaminRaw ) -> VitaminId`
+
+#### vitamin_type
+
+Function `( VitaminRaw ) -> VitaminType`
+
 ## Volume
 
 ### Bases
@@ -9084,6 +9318,15 @@ Function `( WeaponCategoryId, <cppval: 6JsonIn > )`
 - `exterior_engine_sound` = `22`
 - `interior_engine_sound` = `23`
 - `radio` = `24`
+
+## VitaminType
+
+### Entries
+
+- `vitamin` = `0`
+- `toxin` = `1`
+- `drug` = `2`
+- `counter` = `3`
 
 # Libraries
 

@@ -35,6 +35,7 @@
 #include "emit.h"
 #include "fault.h"
 #include "requirements.h"
+#include "vitamin.h"
 
 template<typename T, bool do_int_id>
 void reg_id( sol::state &lua )
@@ -140,6 +141,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<emit, false>( lua );
     reg_id<fault, false>( lua );
     reg_id<quality, false>( lua );
+    reg_id<vitamin, false>( lua );
 }
 
 void cata::detail::reg_types( sol::state &lua )
@@ -229,7 +231,12 @@ void cata::detail::reg_types( sol::state &lua )
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
         SET_MEMB_RO( coverage );
-        SET_MEMB_RO( covers );
+        luna::set_fx( ut, "get_covered_parts", []( const UT_CLASS & c )
+        {
+            std::set<bodypart_id> ret{};
+            ret.insert_range( c.covers );
+            return ret;
+        } );
         SET_MEMB_RO( encumber );
         SET_MEMB_RO( max_encumber );
     }
@@ -244,6 +251,24 @@ void cata::detail::reg_types( sol::state &lua )
         SET_FX_N( type_resist, "get_resist" );
         SET_FX( get_effective_resist );
         //SET_FX(set_resist);
+    }
+#undef UT_CLASS
+
+#define UT_CLASS vitamin
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_FX( deficiency );
+        SET_FX( excess );
+        SET_FX( has_flag );
+        SET_FX( min );
+        SET_FX( max );
+        SET_FX( rate );
+        SET_FX( severity );
+        SET_FX( name );
+        SET_FX( is_null );
+        SET_FX_N( id, "vitamin_id" );
+        SET_FX_N( type, "vitamin_type" );
     }
 #undef UT_CLASS
 }

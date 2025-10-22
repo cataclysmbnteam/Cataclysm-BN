@@ -106,9 +106,9 @@ function Angle.new() end
 
 ---@class ArmorPortionData
 ---@field coverage integer
----@field covers any
 ---@field encumber integer
 ---@field max_encumber integer
+---@field get_covered_parts fun(arg1: ArmorPortionData): BodyPartTypeIntId[]
 ArmorPortionData = {}
 ---@return ArmorPortionData
 function ArmorPortionData.new() end
@@ -338,7 +338,7 @@ function BookRecipe.new() end
 ---@field is_wearing_power_armor fun(arg1: Character, arg2: boolean): boolean
 ---@field is_wielding fun(arg1: Character, arg2: Item): boolean
 ---@field is_worn fun(arg1: Character, arg2: Item): boolean
----@field items_with fun(arg1: Character, arg2: bool): Item[] @Filters items
+---@field items_with fun(arg1: Character): Item[] @Filters items
 ---@field item_worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
 ---@field item_worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
 ---@field knows_recipe fun(arg1: Character, arg2: RecipeId): boolean
@@ -394,7 +394,7 @@ function BookRecipe.new() end
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_item fun(arg1: Character, arg2: Item): DetachedItem @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
----@field remove_worn fun(arg1: Character, arg2: Item): DetachedItem? @Attempts to remove the worn `Item` from character.
+---@field remove_worn fun(arg1: Character, arg2: Item): any @Attempts to remove the worn `Item` from character.
 ---@field reset fun(arg1: Character)
 ---@field reset_encumbrance fun(arg1: Character)
 ---@field restore_scent fun(arg1: Character)
@@ -435,7 +435,7 @@ function BookRecipe.new() end
 ---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
----@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer, arg4: bool): DetachedItem[]
+---@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer): DetachedItem[]
 ---@field use_charges_if_avail fun(arg1: Character, arg2: ItypeId, arg3: integer): boolean
 ---@field volume_capacity fun(arg1: Character): Volume
 ---@field volume_carried fun(arg1: Character): Volume
@@ -803,14 +803,14 @@ function FurnRaw.new() end
 ---@class IslotAmmo : RangedData
 ---@field ammo_effects AmmunitionEffectId[]
 ---@field ammo_id AmmunitionTypeId @Ammo type, basically the "form" of the ammo that fits into the gun/tool
----@field casing_id ItypeId? @Type id of casings, if any
+---@field casing_id any @Type id of casings, if any
 ---@field cookoff boolean @Should this ammo explode in fire?
 ---@field def_charges integer @Default charges
 ---@field dont_recover_one_in integer @Chance to fail to recover the ammo used.
 ---@field drop ItypeId
 ---@field drop_active boolean
 ---@field drop_count integer
----@field force_stat_display bool?
+---@field force_stat_display any
 ---@field loudness integer @Base loudness of ammo (possibly modified by gun/gunmods)
 ---@field recoil integer @Recoil (per shot), roughly equivalent to kinetic energy (in Joules)
 ---@field special_cookoff boolean @Should this ammo apply a special explosion effect when in fire?
@@ -891,7 +891,6 @@ function IslotBrewable.new() end
 ---@field comest_type string @comestible subtype - eg. FOOD, DRINK, MED
 ---@field contamination table<DiseaseTypeId, int> @List of diseases carried by this comestible and their associated probability
 ---@field cooks_like ItypeId @Reference to other item that replaces this one as a component in recipe results
----@field default_nutrition any @Nutrition values to use for this type when they aren't calculated from components
 ---@field def_charges integer @Defaults # of charges (drugs, loaf of bread? etc)
 ---@field fatigue_mod integer @fatigue altering effect
 ---@field freeze_point integer @freezing point in degrees Fahrenheit, below this temperature item can freeze
@@ -911,6 +910,7 @@ function IslotBrewable.new() end
 ---@field stimulant_type integer @stimulant effect
 ---@field tool ItypeId @tool needed to consume (e.g. lighter for cigarettes)
 ---@field get_default_nutr fun(arg1: IslotComestible): integer
+---@field get_default_nutrition fun(arg1: IslotComestible): any @Nutrition values to use for this type when they aren't calculated from components
 ---@field has_calories fun(arg1: IslotComestible): boolean
 IslotComestible = {}
 ---@return IslotComestible
@@ -969,6 +969,29 @@ IslotGun = {}
 function IslotGun.new() end
 
 ---@class IslotGunmod : RangedData
+---@field aim_speed integer @the one with highest aim speed is used.
+---@field ammo_effects AmmunitionEffectId[]
+---@field ammo_to_fire_modifier integer @Increases base gun ammo to fire by this value per shot
+---@field ammo_to_fire_multiplier number @Increases base gun ammo to fire by this many times per shot
+---@field consume_chance integer @Percentage value change to the gun's loading time. Higher is less likely
+---@field consume_divisor integer @Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much.
+---@field exclusion any @What kind of weapons this gunmod can't be used with
+---@field exclusion_category any @What category of weapons this gunmod can't be used with
+---@field handling integer @Relative adjustment to base gun handling
+---@field install_time integer @How many moves does this gunmod take to install?
+---@field loudness integer @Modifies base loudness as provided by the currently loaded ammo
+---@field min_str_required_mod integer @Modifies base strength required
+---@field reload_modifier integer @Percentage value change to the gun's loading time. Higher is slower
+---@field sight_dispersion integer @If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current Character::recoil is at or below this value.
+---@field ups_charges_modifier integer @Increases base gun UPS consumption by this value per shot
+---@field ups_charges_multiplier number @Increases base gun UPS consumption by this many times per shot
+---@field usable any @What kind of weapons this gunmod can be used with
+---@field usable_category any @What category of weapons this gunmod can be used with
+---@field weight_multiplier number @Increases gun weight by this many times
+---@field get_added_slots fun(arg1: IslotGunmod): table<string, int> @Additional gunmod slots to add to the gun
+---@field get_location fun(arg1: IslotGunmod): string @Where is this gunmod installed (e.g. "stock", "rail")?
+---@field get_mod_blacklist fun(arg1: IslotGunmod): string[] @Not compatible on weapons that have this mod slot
+---@field get_mode_modifiers fun(arg1: IslotGunmod): string[] @Firing modes added to or replacing those of the base gun
 IslotGunmod = {}
 ---@return IslotGunmod
 function IslotGunmod.new() end
@@ -978,7 +1001,7 @@ function IslotGunmod.new() end
 ---@field capacity integer @Capacity of magazine (in equivalent units to ammo charges)
 ---@field count integer @Default amount of ammo contained by a magazine (often set for ammo belts)
 ---@field default_ammo ItypeId @Default type of ammo contained by a magazine (often set for ammo belts)
----@field linkage ItypeId? @For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
+---@field linkage any @For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
 ---@field protects_contents boolean @If false, ammo will cook off if this mag is affected by fire
 ---@field reliability integer @How reliable this magazine on a range of 0 to 10?
 ---@field reload_time integer @How long it takes to load each unit of ammo into the magazine
@@ -1034,7 +1057,7 @@ function IslotSeed.new() end
 ---@field power_draw integer
 ---@field rand_charges int[]
 ---@field revert_msg string
----@field revert_to ItypeId?
+---@field revert_to any
 ---@field subtype ItypeId
 ---@field turns_active integer
 ---@field turns_per_charge integer
@@ -1223,7 +1246,7 @@ function ItypeId.new() end
 ---@field attacks any
 ---@field countdown_destroy boolean
 ---@field countdown_interval integer
----@field default_container ItypeId?
+---@field default_container any
 ---@field emits FieldEmitId[]
 ---@field explode_in_fire boolean
 ---@field explosion_data any
@@ -1978,6 +2001,10 @@ RecipeRaw = {}
 function RecipeRaw.new() end
 
 ---@class Relic
+---@field get_enchantments fun(arg1: Relic): any
+---@field get_recharge_scheme fun(arg1: Relic): any
+---@field get_spells fun(arg1: Relic): any
+---@field name fun(arg1: Relic): string
 Relic = {}
 ---@return Relic
 function Relic.new() end
@@ -2322,6 +2349,38 @@ function UiList.new() end
 UiListEntry = {}
 ---@return UiListEntry
 function UiListEntry.new() end
+
+---@class VitaminId
+---@field NULL_ID fun(): VitaminId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: VitaminId): boolean
+---@field is_valid fun(arg1: VitaminId): boolean
+---@field obj fun(arg1: VitaminId): VitaminRaw
+---@field str fun(arg1: VitaminId): string
+---@field serialize fun(arg1: VitaminId)
+---@field deserialize fun(arg1: VitaminId)
+---@field __tostring fun(arg1: VitaminId): string
+VitaminId = {}
+---@return VitaminId
+---@overload fun(arg1: VitaminId): VitaminId
+---@overload fun(arg1: string): VitaminId
+function VitaminId.new() end
+
+---@class VitaminRaw
+---@field deficiency fun(arg1: VitaminRaw): EffectTypeId
+---@field excess fun(arg1: VitaminRaw): EffectTypeId
+---@field has_flag fun(arg1: VitaminRaw, arg2: string): boolean
+---@field is_null fun(arg1: VitaminRaw): boolean
+---@field max fun(arg1: VitaminRaw): integer
+---@field min fun(arg1: VitaminRaw): integer
+---@field name fun(arg1: VitaminRaw): string
+---@field rate fun(arg1: VitaminRaw): TimeDuration
+---@field severity fun(arg1: VitaminRaw, arg2: integer): integer
+---@field vitamin_id fun(arg1: VitaminRaw): VitaminId
+---@field vitamin_type fun(arg1: VitaminRaw): VitaminType
+VitaminRaw = {}
+---@return VitaminRaw
+function VitaminRaw.new() end
 
 ---@class Volume
 ---@field from_liter fun(arg1: integer): Volume
@@ -3033,5 +3092,13 @@ SfxChannel = {
 	exterior_engine_sound = 22,
 	interior_engine_sound = 23,
 	radio = 24
+}
+
+---@enum VitaminType
+VitaminType = {
+	vitamin = 0,
+	toxin = 1,
+	drug = 2,
+	counter = 3
 }
 

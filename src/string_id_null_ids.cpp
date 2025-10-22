@@ -43,6 +43,8 @@ MAKE_CLASS_NULL_ID( VehicleGroup, "null" )
 MAKE_CLASS_NULL_ID( vpart_info, "null" )
 MAKE_CLASS_NULL_ID( zone_type, "null" )
 MAKE_CLASS_NULL_ID( profession, "" )
+MAKE_CLASS_NULL_ID( vitamin, "" )
+MAKE_CLASS_NULL_ID( gun_mode, "" )
 
 
 
