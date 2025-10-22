@@ -62,8 +62,8 @@ class overmap_connection
         overmap_connection( const overmap_connection &other );
         overmap_connection &operator=( const overmap_connection &other );
 
-        overmap_connection( const overmap_connection &&other ) noexcept;
-        overmap_connection &operator=( const overmap_connection &&other ) noexcept;
+        overmap_connection( overmap_connection &&other ) noexcept;
+        overmap_connection &operator=( overmap_connection &&other ) noexcept;
 
         const subtype *pick_subtype_for( const oter_id &ground ) const;
         void clear_subtype_cache() const;

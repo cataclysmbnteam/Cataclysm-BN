@@ -99,13 +99,12 @@ overmap_connection::overmap_connection( const overmap_connection &other )
     *this = other;
 }
 
-overmap_connection &overmap_connection::operator=( const overmap_connection &other )
+overmap_connection::overmap_connection( overmap_connection &&other ) noexcept
 {
     *this = std::move( other );
-    return *this;
 }
 
-overmap_connection::overmap_connection( const overmap_connection &&other ) noexcept
+overmap_connection &overmap_connection::operator=( const overmap_connection &other )
 {
     auto _ = std::lock_guard{mutex};
     auto __ = std::lock_guard{other.mutex};
@@ -115,17 +114,20 @@ overmap_connection::overmap_connection( const overmap_connection &&other ) noexc
     default_terrain = other.default_terrain;
     layout = other.layout;
     subtypes = other.subtypes;
+
+    return *this;
 }
 
-overmap_connection &overmap_connection::operator=( const overmap_connection &&other ) noexcept
+overmap_connection &overmap_connection::operator=( overmap_connection &&other ) noexcept
 {
+    auto _ = std::lock_guard{mutex};
     auto __ = std::lock_guard{other.mutex};
 
-    id = other.id;
-    was_loaded = other.was_loaded;
-    default_terrain = other.default_terrain;
-    layout = other.layout;
-    subtypes = other.subtypes;
+    id = other.id ;
+    was_loaded = other.was_loaded ;
+    default_terrain = other.default_terrain ;
+    layout = other.layout ;
+    subtypes = std::move( other.subtypes );
 
     return *this;
 }
