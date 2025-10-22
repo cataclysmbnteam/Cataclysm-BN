@@ -90,7 +90,7 @@ class data_set
                 if( skip_existing && contains( key ) ) {
                     continue;
                 }
-                set(key, value);
+                set( key, value );
             }
         }
 
