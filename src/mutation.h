@@ -274,6 +274,7 @@ struct mutation_branch {
         std::vector<trait_id> threshreq; // Prerequisites; dedicated slot to needing thresholds
         std::set<std::string> types; // Mutation types, you can't have two mutations that share a type
         std::vector<trait_id> cancels; // Mutations that conflict with this one
+        std::vector<trait_id> prevents; // Mutations that cannot be added with this one
         std::vector<trait_id> replacements; // Mutations that replace this one
         std::vector<trait_id> additions; // Mutations that add to this one
         std::vector<mutation_category_id> category; // Mutation Categories
