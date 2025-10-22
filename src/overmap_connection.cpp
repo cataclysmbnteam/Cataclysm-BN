@@ -135,10 +135,7 @@ overmap_connection &overmap_connection::operator=( overmap_connection &&other ) 
 void overmap_connection::clear_subtype_cache() const
 {
     auto _ = std::lock_guard{mutex};
-    {
-        auto newcache = std::vector<cache>( overmap_terrains::get_all().size() );
-        cached_subtypes.swap( newcache );
-    }
+    cached_subtypes.clear();
 }
 
 const overmap_connection::subtype *overmap_connection::pick_subtype_for(
@@ -148,13 +145,11 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         return nullptr;
     }
 
-    const size_t cache_index = ground.to_i();
-
     {
         auto _ = std::lock_guard{mutex};
-        assert( cache_index < cached_subtypes.size() );
-        if( cached_subtypes[cache_index] ) {
-            return cached_subtypes[cache_index].value;
+        const auto it = cached_subtypes.find( ground );
+        if( it != cached_subtypes.end() ) {
+            return it->second.value;
         }
     }
 
@@ -202,8 +197,13 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
 
     {
         auto _ = std::lock_guard{mutex};
-        cached_subtypes[cache_index].value = result;
-        cached_subtypes[cache_index].assigned = true;
+        const auto it = cached_subtypes.find( ground );
+        if( it != cached_subtypes.end() ) {
+            // Another thread has picked a value for this while this one was working
+            // discard current value and use that
+            return it->second.value;
+        }
+        cached_subtypes[ground] = cache{ result, true };
     }
 
     return result;
@@ -250,7 +250,7 @@ void overmap_connection::check() const
 
 void overmap_connection::finalize()
 {
-    cached_subtypes.resize( overmap_terrains::get_all().size() );
+    //cached_subtypes.resize( overmap_terrains::get_all().size() );
 }
 
 namespace overmap_connections

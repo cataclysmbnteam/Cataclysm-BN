@@ -88,14 +88,14 @@ class overmap_connection
         struct cache {
             const subtype *value = nullptr;
             bool assigned = false;
-            operator bool() const {
+            explicit operator bool() const {
                 return assigned;
             }
         };
 
         overmap_connection_layout layout;
         std::vector<subtype> subtypes;
-        mutable std::vector<cache> cached_subtypes;
+        mutable std::unordered_map<oter_id, cache> cached_subtypes;
         mutable std::mutex mutex;
 };
 
