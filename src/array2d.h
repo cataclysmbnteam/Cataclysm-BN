@@ -67,8 +67,6 @@ struct array2d {
         struct const_iterator;
         struct index;
 
-        using storage = std::array<T, SizeX *SizeY>;
-
         using index_type = index;
         using size_type = size_t;
         using value_type = T;
