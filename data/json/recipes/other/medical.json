@@ -356,6 +356,6 @@
       [ "reference_firstaid1", 6 ]
     ],
     "tools": [ [ [ "vac_sealer", 15 ], [ "makeshift_sealer", 30 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "paper", 2 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_zipper", 1 ] ], [ [ "paper", 2 ] ] ]
   }
 ]
