@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 
+const data_vars::data_set submap::EMPTY_VARS{};
 
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
@@ -26,8 +27,6 @@ void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
     swap( fld[p1.x, p1.y], fld[p2.x, p2.y] );
     swap( trp[p1.x, p1.y], trp[p2.x, p2.y] );
     swap( rad[p1.x, p1.y], rad[p2.x, p2.y] );
-    swap( frn_vars[p1.x, p1.y], frn_vars[p2.x, p2.y] );
-    swap( ter_vars[p1.x, p1.y], ter_vars[p2.x, p2.y] );
 }
 
 void submap::swap( submap &first, submap &second ) noexcept
@@ -40,8 +39,6 @@ void submap::swap( submap &first, submap &second ) noexcept
     swap( first.fld, second.fld );
     swap( first.trp, second.trp );
     swap( first.rad, second.rad );
-    swap( first.frn_vars, second.frn_vars );
-    swap( first.ter_vars, second.ter_vars );
     swap( first.is_uniform, second.is_uniform );
     swap( first.active_items, second.active_items );
     swap( first.field_count, second.field_count );
@@ -55,6 +52,8 @@ void submap::swap( submap &first, submap &second ) noexcept
     swap( first.legacy_computer, second.legacy_computer );
     swap( first.temperature, second.temperature );
     swap( first.cosmetics, second.cosmetics );
+    swap( first.frn_vars, second.frn_vars );
+    swap( first.ter_vars, second.ter_vars );
 
     // TODO: Check if its effect is the same as
     // swap( first.itm, second.itm );
@@ -82,8 +81,6 @@ maptile_soa<sx, sy>::maptile_soa( tripoint offset )
     , fld()
     , trp( tr_null )
     , rad( 0 )
-    , ter_vars()
-    , frn_vars()
 {
 }
 
@@ -391,4 +388,16 @@ void submap::rotate( int turns )
         rot_active_furn.emplace( point_sm_ms( rotate_point( elem.first.raw() ) ), elem.second );
     }
     active_furniture = rot_active_furn;
+
+    std::unordered_map<point, data_vars::data_set> rot_frn_vars;
+    for( auto &elem : frn_vars ) {
+        rot_frn_vars.emplace( rotate_point( elem.first ), elem.second );
+    }
+    frn_vars = rot_frn_vars;
+
+    std::unordered_map<point, data_vars::data_set> rot_ter_vars;
+    for( auto &elem : ter_vars ) {
+        rot_ter_vars.emplace( rotate_point( elem.first ), elem.second );
+    }
+    ter_vars = rot_ter_vars;
 }

@@ -79,8 +79,6 @@ struct maptile_soa {
         array2d< field, sx, sy >                   fld;  // Field on each square
         array2d< trap_id, sx, sy >                 trp;  // Trap on each square
         array2d< int, sx, sy >                     rad;  // Irradiation of each square
-        array2d< data_vars::data_set, sx, sy >     ter_vars; // Terrain vars
-        array2d< data_vars::data_set, sx, sy >     frn_vars; // Furniture vars
 
         void swap_soa_tile( point p1, point p2 );
 };
@@ -111,20 +109,20 @@ class submap : maptile_soa<SEEX, SEEY>
         void set_furn( point p, furn_id furn ) {
             is_uniform = false;
             frn[p.x, p.y] = furn;
-            // Reset furniture vars on clear
-            if( furn == f_null ) {
-                frn_vars[p.x, p.y].clear();
+            if( furn != f_null ) {
+                return;
             }
+            // Reset furniture vars on clear
+            frn_vars.erase( p );
         }
 
         void set_all_furn( const furn_id &furn ) {
             frn.reset( furn );
-            // Reset furniture vars on clear
-            if( furn == f_null ) {
-                for( auto &v : frn_vars ) {
-                    v.clear();
-                }
+            if( furn != f_null ) {
+                return;
             }
+            // Reset furniture vars on clear
+            frn_vars.clear();
         }
 
         ter_id get_ter( point p ) const {
@@ -185,20 +183,28 @@ class submap : maptile_soa<SEEX, SEEY>
             return fld[p.x, p.y];
         }
 
-        const data_vars::data_set &get_ter_vars( point p ) const {
-            return ter_vars[p.x, p.y];
-        };
-
         data_vars::data_set &get_ter_vars( point p ) {
-            return ter_vars[p.x, p.y];
-        };
-
-        const data_vars::data_set &get_furn_vars( point p ) const {
-            return frn_vars[p.x, p.y];
+            return ter_vars[p];
         };
 
         data_vars::data_set &get_furn_vars( point p ) {
-            return frn_vars[p.x, p.y];
+            return frn_vars[p];
+        };
+
+        const data_vars::data_set &get_ter_vars( point p ) const {
+            const auto it = ter_vars.find( p );
+            if( it == ter_vars.end() ) {
+                return EMPTY_VARS;
+            }
+            return it->second;
+        };
+
+        const data_vars::data_set &get_furn_vars( point p ) const {
+            const auto it = ter_vars.find( p );
+            if( it == ter_vars.end() ) {
+                return EMPTY_VARS;
+            }
+            return it->second;
         };
 
         struct cosmetic_t {
@@ -269,6 +275,10 @@ class submap : maptile_soa<SEEX, SEEY>
         static void swap( submap &first, submap &second ) noexcept;
 
     private:
+        static const data_vars::data_set EMPTY_VARS;
+        std::unordered_map<point, data_vars::data_set> ter_vars;
+        std::unordered_map<point, data_vars::data_set> frn_vars;
+
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
         int temperature = 0;
