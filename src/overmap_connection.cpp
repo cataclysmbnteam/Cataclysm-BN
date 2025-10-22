@@ -88,21 +88,25 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     optional( jo, false, "flags", flags, flag_reader );
 }
 
-void overmap_connection::subtype::deserialize(JsonIn &jsin) {
-  JsonObject jo = jsin.get_object();
-  load(jo);
+void overmap_connection::subtype::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
-overmap_connection::overmap_connection(const overmap_connection &other) {
+overmap_connection::overmap_connection( const overmap_connection &other )
+{
     *this = other;
 }
 
-overmap_connection &overmap_connection::operator=(const overmap_connection &other) {
+overmap_connection &overmap_connection::operator=( const overmap_connection &other )
+{
     *this = std::move( other );
     return *this;
 }
 
-overmap_connection::overmap_connection( const overmap_connection &&other) noexcept {
+overmap_connection::overmap_connection( const overmap_connection &&other ) noexcept
+{
     auto _ = std::lock_guard{mutex};
     auto __ = std::lock_guard{other.mutex};
 
@@ -113,7 +117,8 @@ overmap_connection::overmap_connection( const overmap_connection &&other) noexce
     subtypes = other.subtypes;
 }
 
-overmap_connection &overmap_connection::operator=(const overmap_connection &&other) noexcept {
+overmap_connection &overmap_connection::operator=( const overmap_connection &&other ) noexcept
+{
     auto __ = std::lock_guard{other.mutex};
 
     id = other.id;
