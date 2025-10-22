@@ -18,74 +18,224 @@ const data_vars::data_set submap::EMPTY_VARS{};
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
 {
-    using std::swap;
 
-    swap( ter[p1.x, p1.y], ter[p2.x, p2.y] );
-    swap( frn[p1.x, p1.y], frn[p2.x, p2.y] );
-    swap( lum[p1.x, p1.y], lum[p2.x, p2.y] );
-    swap( itm[p1.x, p1.y], itm[p2.x, p2.y] );
-    swap( fld[p1.x, p1.y], fld[p2.x, p2.y] );
-    swap( trp[p1.x, p1.y], trp[p2.x, p2.y] );
-    swap( rad[p1.x, p1.y], rad[p2.x, p2.y] );
+    std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
+    std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );
+    std::swap( lum[p1.x][p1.y], lum[p2.x][p2.y] );
+    std::swap( itm[p1.x][p1.y], itm[p2.x][p2.y] );
+    std::swap( fld[p1.x][p1.y], fld[p2.x][p2.y] );
+    std::swap( trp[p1.x][p1.y], trp[p2.x][p2.y] );
+    std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
 }
 
-void submap::swap( submap &first, submap &second ) noexcept
+void submap::swap( submap &first, submap &second )
 {
-    using std::swap;
-
-    swap( first.ter, second.ter );
-    swap( first.frn, second.frn );
-    swap( first.lum, second.lum );
-    swap( first.fld, second.fld );
-    swap( first.trp, second.trp );
-    swap( first.rad, second.rad );
-    swap( first.is_uniform, second.is_uniform );
-    swap( first.active_items, second.active_items );
-    swap( first.field_count, second.field_count );
-    swap( first.last_touched, second.last_touched );
-    swap( first.spawns, second.spawns );
-    swap( first.vehicles, second.vehicles );
-    swap( first.partial_constructions, second.partial_constructions );
-    swap( first.active_furniture, second.active_furniture );
-    swap( first.is_uniform, second.is_uniform );
-    swap( first.computers, second.computers );
-    swap( first.legacy_computer, second.legacy_computer );
-    swap( first.temperature, second.temperature );
-    swap( first.cosmetics, second.cosmetics );
-    swap( first.frn_vars, second.frn_vars );
-    swap( first.ter_vars, second.ter_vars );
+    std::swap( first.ter, second.ter );
+    std::swap( first.frn, second.frn );
+    std::swap( first.lum, second.lum );
+    std::swap( first.fld, second.fld );
+    std::swap( first.trp, second.trp );
+    std::swap( first.rad, second.rad );
+    std::swap( first.is_uniform, second.is_uniform );
+    std::swap( first.active_items, second.active_items );
+    std::swap( first.field_count, second.field_count );
+    std::swap( first.last_touched, second.last_touched );
+    std::swap( first.spawns, second.spawns );
+    std::swap( first.vehicles, second.vehicles );
+    std::swap( first.partial_constructions, second.partial_constructions );
+    std::swap( first.active_furniture, second.active_furniture );
+    std::swap( first.is_uniform, second.is_uniform );
+    std::swap( first.computers, second.computers );
+    std::swap( first.legacy_computer, second.legacy_computer );
+    std::swap( first.temperature, second.temperature );
+    std::swap( first.cosmetics, second.cosmetics );
+    std::swap( first.frn_vars, second.frn_vars );
+    std::swap( first.ter_vars, second.ter_vars );
 
     // TODO: Check if its effect is the same as
     // swap( first.itm, second.itm );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            swap( first.itm[x, y], second.itm[x, y] );
+            std::swap( first.itm[x][y], second.itm[x][y] );
         }
     }
 }
 
-struct LocationVectorInitializer {
-    tripoint offset;
-    explicit LocationVectorInitializer( tripoint offset = {} ) : offset( offset ) {}
-    auto operator()( size_t x, size_t y ) const {
-        return location_vector{ new tile_item_location( offset + point( x, y ) )};
-    }
-};
-
+//There's not a briefer way to write this I don't think
 template<int sx, int sy>
-maptile_soa<sx, sy>::maptile_soa( tripoint offset )
-    : ter( t_null )
-    , frn( f_null )
-    , lum( 0 )
-    , itm( LocationVectorInitializer( offset ) )
-    , fld()
-    , trp( tr_null )
-    , rad( 0 )
+maptile_soa<sx, sy>::maptile_soa( tripoint offset ) : itm{{
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        location_vector{ new tile_item_location( offset + point( 0, 0 ) )},
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        location_vector{ new tile_item_location( offset + point( 0, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 11 ) )},
+    },
+    {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        location_vector{ new tile_item_location( offset + point( 1, 0 ) )},
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        location_vector{ new tile_item_location( offset + point( 1, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 2, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 3, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 4, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 5, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 6, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 7, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 8, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 9, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 10, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 11, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 11 ) )},
+    }}
 {
 }
 
-submap::submap( tripoint offset ) : maptile_soa( offset )
+submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( offset )
 {
+    std::uninitialized_fill_n( &ter[0][0], elements, t_null );
+    std::uninitialized_fill_n( &frn[0][0], elements, f_null );
+    std::uninitialized_fill_n( &lum[0][0], elements, 0 );
+    std::uninitialized_fill_n( &trp[0][0], elements, tr_null );
+    std::uninitialized_fill_n( &rad[0][0], elements, 0 );
+
     is_uniform = false;
 }
 
@@ -96,22 +246,22 @@ void submap::update_lum_rem( point p, const item &i )
     is_uniform = false;
     if( !i.is_emissive() ) {
         return;
-    } else if( lum[p.x, p.y] && lum[p.x, p.y] < 255 ) {
-        lum[p.x, p.y]--;
+    } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+        lum[p.x][p.y]--;
         return;
     }
 
     // Have to scan through all items to be sure removing i will actually lower
     // the count below 255.
     int count = 0;
-    for( const auto &it : itm[p.x, p.y] ) {
+    for( const auto &it : itm[p.x][p.y] ) {
         if( it->is_emissive() ) {
             count++;
         }
     }
 
     if( count <= 256 ) {
-        lum[p.x, p.y] = static_cast<uint8_t>( count - 1 );
+        lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
     }
 }
 
@@ -190,7 +340,7 @@ void submap::delete_graffiti( point p )
 }
 bool submap::has_signage( point p ) const
 {
-    if( frn[p.x, p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -198,7 +348,7 @@ bool submap::has_signage( point p ) const
 }
 std::string submap::get_signage( point p ) const
 {
-    if( frn[p.x, p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
@@ -233,7 +383,7 @@ void submap::update_legacy_computer()
     if( legacy_computer ) {
         for( int x = 0; x < SEEX; ++x ) {
             for( int y = 0; y < SEEY; ++y ) {
-                if( ter[x, y] == t_console ) {
+                if( ter[x][y] == t_console ) {
                     computers.emplace( point( x, y ), *legacy_computer );
                 }
             }
@@ -244,7 +394,7 @@ void submap::update_legacy_computer()
 
 bool submap::has_computer( point p ) const
 {
-    return computers.contains( p ) || ( legacy_computer && ter[p.x, p.y] == t_console );
+    return computers.contains( p ) || ( legacy_computer && ter[p.x][p.y] == t_console );
 }
 
 const computer *submap::get_computer( point p ) const
@@ -255,7 +405,7 @@ const computer *submap::get_computer( point p ) const
     if( it != computers.end() ) {
         return &it->second;
     }
-    if( legacy_computer && ter[p.x, p.y] == t_console ) {
+    if( legacy_computer && ter[p.x][p.y] == t_console ) {
         return legacy_computer.get();
     }
     return nullptr;

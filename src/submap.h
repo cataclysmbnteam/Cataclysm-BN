@@ -20,7 +20,6 @@
 #include "monster.h"
 #include "point.h"
 #include "poly_serialized.h"
-#include "array2d.h"
 
 class JsonIn;
 class JsonOut;
@@ -72,13 +71,13 @@ struct maptile_soa {
     protected:
         maptile_soa( tripoint offset );
     public:
-        array2d< ter_id, sx, sy >                  ter;  // Terrain on each square
-        array2d< furn_id, sx, sy >                 frn;  // Furniture on each square
-        array2d< std::uint8_t, sx, sy >            lum;  // Number of items emitting light on each square
-        array2d< location_vector<item>, sx, sy >   itm; // Items on each square
-        array2d< field, sx, sy >                   fld;  // Field on each square
-        array2d< trap_id, sx, sy >                 trp;  // Trap on each square
-        array2d< int, sx, sy >                     rad;  // Irradiation of each square
+        ter_id             ter[sx][sy];  // Terrain on each square
+        furn_id            frn[sx][sy];  // Furniture on each square
+        std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
+        location_vector<item> itm[sx][sy]; // Items on each square
+        field              fld[sx][sy];  // Field on each square
+        trap_id            trp[sx][sy];  // Trap on each square
+        int                rad[sx][sy];  // Irradiation of each square
 
         void swap_soa_tile( point p1, point p2 );
 };
@@ -90,25 +89,25 @@ class submap : maptile_soa<SEEX, SEEY>
         ~submap();
 
         trap_id get_trap( point p ) const {
-            return trp[p.x, p.y];
+            return trp[p.x][p.y];
         }
 
         void set_trap( point p, trap_id trap ) {
             is_uniform = false;
-            trp[p.x, p.y] = trap;
+            trp[p.x][p.y] = trap;
         }
 
         void set_all_traps( const trap_id &trap ) {
-            trp.reset( trap );
+            std::uninitialized_fill_n( &trp[0][0], elements, trap );
         }
 
         furn_id get_furn( point p ) const {
-            return frn[p.x, p.y];
+            return frn[p.x][p.y];
         }
 
         void set_furn( point p, furn_id furn ) {
             is_uniform = false;
-            frn[p.x, p.y] = furn;
+            frn[p.x][p.y] = furn;
             if( furn != f_null ) {
                 return;
             }
@@ -117,7 +116,7 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         void set_all_furn( const furn_id &furn ) {
-            frn.reset( furn );
+            std::uninitialized_fill_n( &frn[0][0], elements, furn );
             if( furn != f_null ) {
                 return;
             }
@@ -126,40 +125,40 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         ter_id get_ter( point p ) const {
-            return ter[p.x, p.y];
+            return ter[p.x][p.y];
         }
 
         void set_ter( point p, ter_id terr ) {
             is_uniform = false;
-            ter[p.x, p.y] = terr;
+            ter[p.x][p.y] = terr;
         }
 
         void set_all_ter( const ter_id &terr ) {
-            std::uninitialized_fill_n( &ter[0, 0], elements, terr );
+            std::uninitialized_fill_n( &ter[0][0], elements, terr );
         }
 
         int get_radiation( point p ) const {
-            return rad[p.x, p.y];
+            return rad[p.x][p.y];
         }
 
         void set_radiation( point p, const int radiation ) {
             is_uniform = false;
-            rad[p.x, p.y] = radiation;
+            rad[p.x][p.y] = radiation;
         }
 
         uint8_t get_lum( point p ) const {
-            return lum[p.x, p.y];
+            return lum[p.x][p.y];
         }
 
         void set_lum( point p, uint8_t luminance ) {
             is_uniform = false;
-            lum[p.x, p.y] = luminance;
+            lum[p.x][p.y] = luminance;
         }
 
         void update_lum_add( point p, const item &i ) {
             is_uniform = false;
-            if( i.is_emissive() && lum[p.x, p.y] < 255 ) {
-                lum[p.x, p.y]++;
+            if( i.is_emissive() && lum[p.x][p.y] < 255 ) {
+                lum[p.x][p.y]++;
             }
         }
 
@@ -167,20 +166,20 @@ class submap : maptile_soa<SEEX, SEEY>
 
         // TODO: Replace this as it essentially makes itm public
         location_vector<item> &get_items( const point &p ) {
-            return itm[p.x, p.y];
+            return itm[p.x][p.y];
         }
 
         const location_vector<item> &get_items( const point &p ) const {
-            return itm[p.x, p.y];
+            return itm[p.x][p.y];
         }
 
         // TODO: Replace this as it essentially makes fld public
         field &get_field( point p ) {
-            return fld[p.x, p.y];
+            return fld[p.x][p.y];
         }
 
         const field &get_field( point p ) const {
-            return fld[p.x, p.y];
+            return fld[p.x][p.y];
         }
 
         data_vars::data_set &get_ter_vars( point p ) {
@@ -272,7 +271,7 @@ class submap : maptile_soa<SEEX, SEEY>
         std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
 
-        static void swap( submap &first, submap &second ) noexcept;
+        static void swap( submap &first, submap &second );
 
     private:
         static const data_vars::data_set EMPTY_VARS;
@@ -334,7 +333,7 @@ struct maptile {
             return sm->get_field( pos() );
         }
 
-        field_entry *find_field( const field_type_id &field_to_find ) const {
+        field_entry *find_field( const field_type_id &field_to_find ) {
             return sm->get_field( pos() ).find_field( field_to_find );
         }
 
