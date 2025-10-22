@@ -58,6 +58,13 @@ class overmap_connection
         };
 
     public:
+        overmap_connection() = default;
+        overmap_connection( const overmap_connection &other );
+        overmap_connection &operator=( const overmap_connection &other );
+
+        overmap_connection( const overmap_connection &&other ) noexcept;
+        overmap_connection &operator=( const overmap_connection &&other ) noexcept;
+
         const subtype *pick_subtype_for( const oter_id &ground ) const;
         void clear_subtype_cache() const;
         bool can_start_at( const oter_id &ground ) const;
@@ -89,6 +96,7 @@ class overmap_connection
         overmap_connection_layout layout;
         std::vector<subtype> subtypes;
         mutable std::vector<cache> cached_subtypes;
+        mutable std::mutex mutex;
 };
 
 namespace overmap_connections

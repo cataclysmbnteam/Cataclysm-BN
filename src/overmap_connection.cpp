@@ -88,16 +88,50 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     optional( jo, false, "flags", flags, flag_reader );
 }
 
-void overmap_connection::subtype::deserialize( JsonIn &jsin )
-{
-    JsonObject jo = jsin.get_object();
-    load( jo );
+void overmap_connection::subtype::deserialize(JsonIn &jsin) {
+  JsonObject jo = jsin.get_object();
+  load(jo);
+}
+
+overmap_connection::overmap_connection(const overmap_connection &other) {
+    *this = other;
+}
+
+overmap_connection &overmap_connection::operator=(const overmap_connection &other) {
+    *this = std::move( other );
+    return *this;
+}
+
+overmap_connection::overmap_connection( const overmap_connection &&other) noexcept {
+    auto _ = std::lock_guard{mutex};
+    auto __ = std::lock_guard{other.mutex};
+
+    id = other.id;
+    was_loaded = other.was_loaded;
+    default_terrain = other.default_terrain;
+    layout = other.layout;
+    subtypes = other.subtypes;
+}
+
+overmap_connection &overmap_connection::operator=(const overmap_connection &&other) noexcept {
+    auto __ = std::lock_guard{other.mutex};
+
+    id = other.id;
+    was_loaded = other.was_loaded;
+    default_terrain = other.default_terrain;
+    layout = other.layout;
+    subtypes = other.subtypes;
+
+    return *this;
 }
 
 void overmap_connection::clear_subtype_cache() const
 {
-    auto newcache = std::vector<cache>( overmap_terrains::get_all().size() );
-    cached_subtypes.swap( newcache );
+    auto _ = std::lock_guard{mutex};
+    {
+        auto newcache = std::vector<cache>( overmap_terrains::get_all().size() );
+        cached_subtypes.swap( newcache );
+    }
 }
 
 const overmap_connection::subtype *overmap_connection::pick_subtype_for(
@@ -108,11 +142,15 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     }
 
     const size_t cache_index = ground.to_i();
-    assert( cache_index < cached_subtypes.size() );
 
-    if( cached_subtypes[cache_index] ) {
-        return cached_subtypes[cache_index].value;
+    {
+        auto _ = std::lock_guard{mutex};
+        assert( cache_index < cached_subtypes.size() );
+        if( cached_subtypes[cache_index] ) {
+            return cached_subtypes[cache_index].value;
+        }
     }
+
     // Used below in find_if iteration
     auto passes = [&ground]( const subtype & elem ) {
         return elem.allows_terrain( ground );
@@ -154,8 +192,12 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     }
     // Null subtypes are fine, and expected from this function
     // This is the cache so long roads are easy
-    cached_subtypes[cache_index].value = result;
-    cached_subtypes[cache_index].assigned = true;
+
+    {
+        auto _ = std::lock_guard{mutex};
+        cached_subtypes[cache_index].value = result;
+        cached_subtypes[cache_index].assigned = true;
+    }
 
     return result;
 }
