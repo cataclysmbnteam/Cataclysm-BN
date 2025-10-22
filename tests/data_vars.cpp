@@ -39,10 +39,10 @@ TEST_CASE( "load_store_numbers", "[data_vars]" )
         dv.set( "value", x );
         CHECK( dv.contains( "value" ) );
 
-        auto i4 = dv.get<int>( "value" );
+        auto i4 = dv.get<int32_t>( "value" );
         CHECK( x == i4 );
 
-        auto i8 = dv.get<long>( "value" );
+        auto i8 = dv.get<int64_t>( "value" );
         CHECK( x == i8 );
 
         auto f4 = dv.get<float>( "value" );
