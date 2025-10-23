@@ -59,8 +59,22 @@ end
 
 mod.pre_death_hook = function()
   local who = gapi.get_avatar()
-  local pos = who:pos()
-  if mod.pick_teleport_destination(who, pos) == 1 then who:set_all_parts_hp_cur(10) end
+  local anchor_pos = mod.pick_teleport_destination(who)
+  if anchor_pos ~= nil then
+    gapi.add_msg("Respawning Player at " .. tostring(anchor_pos))
+
+    -- Convert abs_ms to abs_omt
+    local omt_pos = coords.ms_to_omt(anchor_pos)
+    gapi.place_player_overmap_at(omt_pos)
+
+    -- Convert abs_ms to local_ms
+    local local_pos = gapi.get_map():get_local_ms(anchor_pos)
+    gapi.place_player_local_at(local_pos)
+
+    who:set_all_parts_hp_cur(10)
+
+    --gapi.get_map():set_furn_at(local_pos, FurnId.new("f_null"))
+  end
 end
 -- main function
 
@@ -73,28 +87,16 @@ mod.add_anchor_to_list = function(pos)
 end
 
 mod.iuse_function_anchor = function(who, item, pos)
-  local a = { "teleporter_anchor_deployed" }
+  local f_anchor = FurnId.new("teleporter_anchor_deployed"):int_id()
+  local f_null = FurnId.new("f_null"):int_id()
 
-  local player_abs_pos = gapi.get_map():get_abs_ms(pos)
-  --print(player_abs_pos)
+  local abs_pos = gapi.get_map():get_abs_ms(pos)
+  local furn_id = gapi.get_map():get_furn_at(pos)
 
-  local player_map_pos = gapi.get_map():get_local_ms(player_abs_pos)
-  --print(player_map_pos)
-  local player_omt = coords.ms_to_omt(player_abs_pos)
-
-  local no_furn = gapi.get_map():get_furn_at(player_map_pos)
-  b = tostring(no_furn)
-  --print(b)
-  anchor_omt = tostring(player_omt)
-
-  if b == "FurnIntId[0][f_null]" then
-    --print (FurnId.new("teleporter_anchor_deployed"):int_id())
-    gapi.get_map():set_furn_at(player_map_pos, FurnId.new(a[1]):int_id())
-
-    mod.add_anchor_to_list(player_omt)
-
-    gapi.add_msg("The teleporter anchor was placed at ")
-    gapi.add_msg(anchor_omt)
+  if furn_id == f_null then
+    mod.add_anchor_to_list(abs_pos)
+    gapi.get_map():set_furn_at(local_pos, f_anchor)
+    gapi.add_msg("The teleporter anchor was placed at your position")
   else
     gapi.add_msg("Can only be placed on a square with no existing furniture.")
     return 0
@@ -104,35 +106,28 @@ end
 
 mod.pick_teleport_destination = function(who)
   local pos = who:get_pos_ms()
-  local abs_pos = gapi.get_map():get_abs_ms(pos)
-  local abs_omt = coords.ms_to_omt(abs_pos)
+  local player_abs = gapi.get_map():get_abs_ms(pos)
   local min_dist = math.maxinteger
-  local eidx = 1
-  local idx = 0
+  local anchor_idx = 0
 
-  for i in pairs(mod.anchor_list) do
-    local anchor = mod.anchor_list[i]
-    local distance = coords.rl_dist(abs_omt, anchor)
+  for idx, anchor_abs_ms in pairs(mod.anchor_list) do
+    gapi.add_msg("Anchor found at " .. tostring(anchor_abs_ms))
+    local distance = coords.rl_dist(player_abs, anchor_abs_ms)
+    gapi.add_msg("Distance: " .. tostring(distance))
     if distance < min_dist then
-      eidx = idx
+      anchor_idx = idx
       min_dist = distance
     end
-    idx = idx + 1
   end
 
-  if idx == 0 then return 0 end
-  local anchor = mod.anchor_list[eidx]
-  gapi.add_msg("Respawning Player at " .. tostring(anchor))
-
-  --need exposed debug teleport for this to function
-  gapi.place_player_overmap_at(anchor)
-  return 1
+  if anchor_idx == 0 then return nil end
+  return mod.anchor_list[anchor_idx]
 end
 
 mod.remove_placed_furniture = function(pos)
   local abs_pos = gapi.get_map():get_abs_ms(pos)
   local abs_omt = coords.ms_to_omt(abs_pos)
-  local ui_remove_furn = UiList.new()
+
   for i in pairs(mod.anchor_list) do
     if mod.anchor_list[i] == abs_omt then
       mod.anchor_list[i] = nil
