@@ -323,6 +323,8 @@ function BodyPartTypeIntId.new() end
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
+---@field reset fun(arg1: Character)
+---@field reset_encumbrance fun(arg1: Character)
 ---@field restore_scent fun(arg1: Character)
 ---@field rest_quality fun(arg1: Character): number
 ---@field rooted fun(arg1: Character)
@@ -932,6 +934,31 @@ MartialArtsTechniqueId = {}
 ---@overload fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueId
 ---@overload fun(arg1: string): MartialArtsTechniqueId
 function MartialArtsTechniqueId.new() end
+
+---@class MartialArtsTechniqueRaw
+---@field avatar_message fun()
+---@field block_counter fun()
+---@field crit_ok fun()
+---@field crit_tec fun()
+---@field defensive fun()
+---@field disarms fun()
+---@field dodge_counter fun()
+---@field down_dur fun()
+---@field get_description fun(arg1: MartialArtsTechniqueRaw): string
+---@field grab_break fun()
+---@field knockback_dist fun()
+---@field knockback_follow fun()
+---@field knockback_spread fun()
+---@field miss_recovery fun()
+---@field name fun()
+---@field npc_message fun()
+---@field powerful_knockback fun()
+---@field side_switch fun()
+---@field stun_dur fun()
+---@field take_weapon fun()
+MartialArtsTechniqueRaw = {}
+---@return MartialArtsTechniqueRaw
+function MartialArtsTechniqueRaw.new() end
 
 ---@class Mass
 ---@field from_gram fun(arg1: integer): Mass
@@ -1815,18 +1842,17 @@ gdebug = {}
 --- Documentation for hooks
 ---@class hooks
 ---@field on_character_reset_stats fun() @Called when character stat gets reset
+---@field on_char_death fun() @Called when a character is dead
+---@field on_creature_blocked fun() @Called when a character successfully blocks
+---@field on_creature_dodged fun() @Called when a character successfully dodges
+---@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
+---@field on_creature_performed_technique fun() @Called when a character has performed technique
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
 ---@field on_game_started fun() @Called when the game has first started
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
 ---@field on_mon_death fun() @Called when a monster is dead
----@field on_char_death fun() @Called after a character has died
----@field on_creature_dodged fun() @Called after a creature has dodged an attack
----@field on_creature_blocked fun() @Called after a creature has blocked an attack
----@field on_creature_melee_attacked fun() @Called after a creature has attacked in melee
----@field on_creature_performed_technique fun() @Called after a character has performed a combat technique
-
 hooks = {}
 
 --- Localization API.
