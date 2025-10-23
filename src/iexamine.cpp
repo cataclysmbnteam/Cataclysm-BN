@@ -211,8 +211,6 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
@@ -294,16 +292,70 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     auto nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
+        return e.has_var( "NANOFAB_GROUP_ID" ) || e.has_var( "NANOFAB_ITEM_ID" );
+    }, _( "Introduce nanofabricator template:" ), PICKUP_RANGE,
     _( "You don't have any usable templates." ) );
 
     if( !nanofab_template ) {
         return;
     }
 
-    detached_ptr<item> new_item = item::spawn( nanofab_template->get_var( "NANOFAB_ITEM_ID" ),
-                                  calendar::turn );
+    std::vector<std::string> recipe_ids;
+
+    if( nanofab_template->has_var( "NANOFAB_GROUP_ID" ) ) {
+        // Preferred behavior: build from group
+        item_group_id group_id( nanofab_template->get_var( "NANOFAB_GROUP_ID" ) );
+        std::set<const itype *> all_items = item_group::every_possible_item_from( group_id );
+        for( const itype *it : all_items ) {
+            recipe_ids.push_back( it->get_id().str() );
+        }
+    } else if( nanofab_template->has_var( "NANOFAB_ITEM_ID" ) ) {
+        // Fallback for old templates: use single stored recipe
+        recipe_ids.push_back( nanofab_template->get_var( "NANOFAB_ITEM_ID" ) );
+    }
+
+    if( recipe_ids.empty() ) {
+        return;
+    }
+
+    std::string chosen_recipe;
+    if( recipe_ids.size() > 1 ) {
+        uilist menu;
+        menu.text = _( "Choose a recipe:" );
+        for( size_t i = 0; i < recipe_ids.size(); ++i ) {
+            itype_id item = itype_id( recipe_ids[i] );
+            auto button_text = string_format( "%s [%d]", item->nname( 1 ),
+                                              std::max( 1, item->volume / 250_ml ) * 5 );
+            menu.addentry( i, true, -1, button_text );
+        }
+        menu.query();
+
+        if( menu.ret >= 0 && static_cast<size_t>( menu.ret ) < recipe_ids.size() ) {
+            chosen_recipe = recipe_ids[ menu.ret ];
+        }
+    } else {
+        chosen_recipe = recipe_ids.front();
+    }
+
+    if( chosen_recipe.empty() ) {
+        return;
+    }
+
+    int item_count = 1;
+
+    detached_ptr<item> new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn );
+
+    if( new_item->made_of( LIQUID ) ) {
+        const int amount = string_input_popup()
+                           .title( "Dispense how many units?" )
+                           .width( 5 )
+                           .text( std::to_string( 1 ) )
+                           .only_digits( true )
+                           .query_int();
+        item_count = amount;
+
+        new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn, item_count );
+    }
 
     auto qty = std::max( 1, new_item->volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
@@ -313,7 +365,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    // Consume materials
     for( const auto &e : reqs.get_components() ) {
         p.consume_items( e, 1, is_crafting_component );
     }
@@ -326,8 +377,13 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         new_item->set_flag( flag_FIT );
     }
 
-    here.add_item_or_charges( spawn_point, std::move( new_item ) );
+    // we're sticking an item from our inventory under the nanofabrication dispenser
+    if( new_item->made_of( LIQUID ) ) {
+        liquid_handler::handle_liquid( std::move( new_item ) );  // let it own the pointer
+        return;
+    }
 
+    here.add_item_or_charges( spawn_point, std::move( new_item ) );
 }
 
 /**
@@ -769,8 +825,8 @@ void iexamine::vending( player &p, const tripoint &examp )
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const point padding( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4, std::max( 0,
                              TERMY - FULL_SCREEN_HEIGHT ) / 6 );
-        const int window_h   = FULL_SCREEN_HEIGHT + ( std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3 );
-        const int window_w   = FULL_SCREEN_WIDTH + ( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2 );
+        const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+        const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
         w_items_w  = window_w / 2;
         w_info_w   = window_w - w_items_w;
         list_lines = window_h - 4; // minus for header and footer
@@ -2162,8 +2218,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     int lev = p.get_skill_level( skill_survival );
     bool got_anything = false;
     for( const auto &entry : harvest ) {
-        float min_num = entry.base_num.first + ( lev * entry.scale_num.first );
-        float max_num = entry.base_num.second + ( lev * entry.scale_num.second );
+        float min_num = entry.base_num.first + lev * entry.scale_num.first;
+        float max_num = entry.base_num.second + lev * entry.scale_num.second;
         int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         if( roll >= 1 ) {
             got_anything = true;
@@ -2752,8 +2808,8 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
 
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
     const int skill = p.get_skill_level( skill_fabrication );
-    int loss = 60 - ( 2 *
-                      skill ); // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 60 - 2 *
+               skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2882,8 +2938,8 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const int skill = p.get_skill_level( skill_fabrication );
-    int loss = 60 - ( 2 *
-                      skill ); // Inefficency is still fine, coal and limestone is abundant
+    int loss = 60 - 2 *
+               skill; // Inefficency is still fine, coal and limestone is abundant
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -3621,7 +3677,7 @@ static void pick_plant( player &p, const tripoint &examp,
 
     int plantBase = rng( 2, 5 );
     ///\EFFECT_SURVIVAL increases number of plants harvested
-    int plantCount = rng( plantBase, plantBase + ( survival / 2 ) );
+    int plantCount = rng( plantBase, plantBase + survival / 2 );
     plantCount = std::min( plantCount, 12 );
 
     here.spawn_item( p.pos(), itemType, plantCount, 0, calendar::turn );
@@ -3844,7 +3900,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
-    move_cost /= rng( std::max( 4, p.per_cur ), 4 + ( p.per_cur * 2 ) );
+    move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
     p.activity->placement = here.getabs( examp );
     p.activity->auto_resume = true;
@@ -4452,7 +4508,9 @@ static int findBestGasDiscount( player &p )
         if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
-            discount = std::max( q, discount );
+            if( q > discount ) {
+                discount = q;
+            }
         }
     }
 
@@ -4700,7 +4758,9 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( liters <= 0 ) {
             return;
         }
-        liters = std::min( liters, maximum_liters );
+        if( liters > maximum_liters ) {
+            liters = maximum_liters;
+        }
 
         const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
@@ -4797,8 +4857,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
     map &here = get_map();
     switch( cmenu.ret ) {
         case ledge_action::jump_over: {
-            tripoint dest( p.posx() + ( 2 * sgn( examp.x - p.posx() ) ),
-                           p.posy() + ( 2 * sgn( examp.y - p.posy() ) ),
+            tripoint dest( p.posx() + 2 * sgn( examp.x - p.posx() ), p.posy() + 2 * sgn( examp.y - p.posy() ),
                            p.posz() );
             if( p.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
@@ -4913,8 +4972,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
             bool success = false;
             for( int i = 2; i <= range; i++ ) {
                 //break at the first non empty space encountered
-                if( g->m.ter( tripoint( p.posx() + ( i * sgn( examp.x - p.posx() ) ),
-                                        p.posy() + ( i * sgn( examp.y - p.posy() ) ), p.posz() ) ) != t_open_air ) {
+                if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
+                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ) != t_open_air ) {
                     success_range = i;
                     success = true;
                     break;
@@ -4924,8 +4983,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 p.add_msg_if_player( _( "There is nothing for your to attach your web to!" ) );
             } else {
                 for( int i = 1; i < success_range; i++ ) {
-                    tripoint dest( p.posx() + ( i * sgn( examp.x - p.posx() ) ),
-                                   p.posy() + ( i * sgn( examp.y - p.posy() ) ),
+                    tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
                                    p.posz() );
 
                     g->m.ter_set( dest, t_web_bridge );
@@ -5279,16 +5337,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             for( const bionic &bio : installed_bionics ) {
-                if( bio.id != bio_power_storage ||
-                    bio.id != bio_power_storage_mkII ) {
-                    if( bio.info().itype().is_valid() ) {
-                        // put cbm items in your inventory
-                        detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall->set_flag( flag_IN_CBM );
-                        bionic_to_uninstall->set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall->set_flag( flag_NO_PACKED );
-                        g->u.i_add( std::move( bionic_to_uninstall ) );
-                    }
+                if( bio.info().itype().is_valid() ) {
+                    // put cbm items in your inventory
+                    detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
+                    bionic_to_uninstall->set_flag( flag_IN_CBM );
+                    bionic_to_uninstall->set_flag( flag_NO_STERILE );
+                    bionic_to_uninstall->set_flag( flag_NO_PACKED );
+                    g->u.i_add( std::move( bionic_to_uninstall ) );
                 }
             }
 
@@ -5375,7 +5430,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                    _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                    body_part_name( part ) );
                     // TODO: Prevent exploits with hp draining stuff?
-                    int heal_amt = ( patient.get_part_hp_max( part ) / 2 ) - patient.get_part_hp_cur( part );
+                    int heal_amt = patient.get_part_hp_max( part ) / 2 - patient.get_part_hp_cur( part );
                     if( heal_amt > 0 ) {
                         patient.heal( part, heal_amt );
                     }
@@ -6621,7 +6676,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 void iexamine::practice_survival_while_foraging( player *p )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = ( p->int_cur / 2 ) + 1;
+    const int max_forage_skill = p->int_cur / 2 + 1;
     const int max_exp = 2 * max_forage_skill;
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );

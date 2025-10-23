@@ -222,7 +222,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     /** @EFFECT_STR increases chance of damaging your melee weapon (NEGATIVE) */
 
     /** @EFFECT_MELEE reduces chance of damaging your melee weapon */
-    const float stat_factor = ( dex_cur / 2.0f )
+    const float stat_factor = dex_cur / 2.0f
                               + get_skill_level( skill_melee )
                               + ( 64.0f / std::max( str_cur, 4 ) );
 
@@ -350,7 +350,7 @@ float Character::get_melee_hit( const item &weapon, const attack_statblock &atta
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - ( encumb( body_part_torso ) / 100.0f ) );
+    hit *= std::max( 0.25f, 1.0f - encumb( body_part_torso ) / 100.0f );
 
     return hit;
 }
@@ -819,7 +819,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     }
 
     if( attack.to_hit > 0 ) {
-        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + ( 0.1 * attack.to_hit ) );
+        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * attack.to_hit );
     } else if( attack.to_hit < 0 ) {
         weapon_crit_chance += 0.1 * attack.to_hit;
     }
@@ -829,7 +829,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     /** @EFFECT_DEX increases chance for critical hits */
 
     /** @EFFECT_PER increases chance for critical hits */
-    const double stat_crit_chance = limit_probability( 0.25 + ( 0.01 * dex_cur ) + ( 0.02 * per_cur ) );
+    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
 
     /** @EFFECT_BASHING increases critical chance with bashing weapons */
     /** @EFFECT_CUTTING increases critical chance with cutting weapons */
@@ -843,7 +843,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     /** @EFFECT_MELEE slightly increases critical chance with any item */
     sk += get_skill_level( skill_melee ) / 2.5;
 
-    const double skill_crit_chance = limit_probability( 0.25 + ( sk * 0.025 ) );
+    const double skill_crit_chance = limit_probability( 0.25 + sk * 0.025 );
 
     // Examples (survivor stats/chances of each critical):
     // Fresh (skill-less) 8/8/8/8, unarmed:
@@ -1019,7 +1019,7 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
     }
 
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
-    float bash_cap = ( 2 * stat ) + ( 2 * skill );
+    float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
@@ -1356,7 +1356,7 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
     int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
     int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
-    int lookup = dy + 1 + ( 3 * ( dx + 1 ) );
+    int lookup = dy + 1 + 3 * ( dx + 1 );
 
     //wide hits all targets adjacent to the attacker and the target
     if( technique.aoe == "wide" ) {
@@ -1659,7 +1659,7 @@ static int blocking_ability( const item &shield )
 {
     int block_bonus = 0;
     if( shield.has_technique( WBLOCK_3 ) ) {
-        block_bonus = 10;
+        block_bonus = 8;
     } else if( shield.has_technique( WBLOCK_2 ) ) {
         block_bonus = 6;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
@@ -1802,9 +1802,27 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         thing_blocked_with = body_part_name( bp_hit->token );
     }
 
-    if( has_shield ) {
-        // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
+    bool shield_roll = false;
+    if( has_shield && bp_hit != bodypart_str_id( "foot_l" ) && bp_hit != bodypart_str_id( "foot_r" ) ) {
+        // We have a chance of applying the shield's direct damage reduction to other parts.
+        if( shield.has_flag( flag_BLOCK_WHILE_WORN ) ) {
+            float shield_block_chance = shield.get_avg_coverage();
+            bool leg_hit = bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" );
+            // Start with the same modifiers as ranged blocking.
+            if( shield.has_technique( WBLOCK_3 ) ) {
+                shield_block_chance *= leg_hit ? 0.75f : 0.9f;
+            } else if( shield.has_technique( WBLOCK_2 ) ) {
+                shield_block_chance *= leg_hit ? 0.5f : 0.8f;
+            } else if( shield.has_technique( WBLOCK_1 ) ) {
+                shield_block_chance *= leg_hit ? 0.25f : 0.7f;
+            }
+            // Melee skill directly buffs block chance, enough to ensure 100% chance of blocking a torso/head hit with a riot shield at 10 skill.
+            shield_block_chance += get_skill_level( skill_melee );
+            if( rng( 1, 100 ) <= shield_block_chance ) {
+                shield_roll = true;
+            }
+        }
+
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -1837,6 +1855,11 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             }
 
             float previous_amount = elem.amount;
+            // If we have a shield and it covers the limb we're hitting, we already rolled for armor.
+            // Instead, roll to apply bonus damage reduction to limbs NOT already covered by it, based on melee skill.
+            if( shield_roll && ( !shield.covers( bp_hit ) || !is_wearing( shield ) ) ) {
+                elem.amount -= this->get_block_amount( shield, elem );
+            }
             elem.amount *= physical_block_multiplier;
             damage_blocked += previous_amount - elem.amount;
         }
@@ -1870,7 +1893,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     if( total_damage > std::numeric_limits<float>::epsilon() ) {
         blocked_ratio = ( total_damage - damage_blocked ) / total_damage;
     }
-    if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
+    if( damage_blocked >= total_damage ) {
         //~ Damage amount in "You block <damage amount> with your <weapon>."
         damage_blocked_description = pgettext( "block amount", "all of the damage" );
     } else if( blocked_ratio < 0.2 ) {
@@ -2100,9 +2123,9 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         /** @EFFECT_STR increases damage with ARM_TENTACLES* */
         damage_instance ret;
         if( rake ) {
-            ret.add_damage( DT_CUT, ( u.get_str() / 2.0f ) + 1.0f, 0, 1.0f, num_attacks );
+            ret.add_damage( DT_CUT, u.get_str() / 2.0f + 1.0f, 0, 1.0f, num_attacks );
         } else {
-            ret.add_damage( DT_BASH, ( u.get_str() / 3.0f ) + 1.0f, 0, 1.0f, num_attacks );
+            ret.add_damage( DT_BASH, u.get_str() / 3.0f + 1.0f, 0, 1.0f, num_attacks );
         }
 
         return ret;
@@ -2389,7 +2412,7 @@ int Character::attack_cost( const item &weap ) const
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur;
     const int encumbrance_penalty = encumb( body_part_torso ) +
-                                    ( ( encumb( body_part_hand_l ) + encumb( body_part_hand_r ) ) / 2 );
+                                    ( encumb( body_part_hand_l ) + encumb( body_part_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
@@ -2403,6 +2426,14 @@ int Character::attack_cost( const item &weap ) const
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
+
+    // If we're strong enough to use this weapon one-handed but commit to two-handing it anyway, make it easier to swing.
+    // Limit to weapons over 100 base movecost so you can't do this with weapons that're too small.
+    // Exponential bonus so heavier weapons benefit more than small ones.
+    if( weap.attack_cost() > 100 && !weap.is_two_handed( *this ) &&
+        has_two_arms() && !worn_with_flag( flag_RESTRICT_HANDS ) ) {
+        move_cost = std::pow( move_cost, 0.975f );
+    }
 
     move_cost += bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST, true );
 
@@ -2511,12 +2542,12 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
 
     /** @EFFECT_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
-    int my_roll = dice( 3, ( 2 * you.get_str() ) + you.get_dex() );
+    int my_roll = dice( 3, 2 * you.get_str() + you.get_dex() );
 
     /** @EFFECT_MELEE increases chance to disarm */
     my_roll += dice( 3, you.get_skill_level( skill_melee ) );
 
-    int their_roll = dice( 3, ( 2 * target.get_str() ) + target.get_dex() );
+    int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
@@ -2663,7 +2694,7 @@ double melee::expected_damage( const Character &c, const item &weapon,
         return acc + std::max( 0.0f, du.amount - resists.get_effective_resist( du ) );
     } );
 
-    float capped_near_hp = std::min( 2.0f + ( 1.1f * target.get_hp() ), reduced_damage_sum );
+    float capped_near_hp = std::min( 2.0f + 1.1f * target.get_hp(), reduced_damage_sum );
 
     return chance * capped_near_hp;
 }

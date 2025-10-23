@@ -21,6 +21,11 @@
   },
   {
     "type": "item_action",
+    "id": "reveal_contents",
+    "name": { "str": "Unveil Contents" }
+  },
+  {
+    "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pull out nails" }
   },
@@ -53,6 +58,11 @@
     "type": "item_action",
     "id": "PICKAXE",
     "name": { "str": "Dig through rock" }
+  },
+  {
+    "type": "item_action",
+    "id": "prospect_pick",
+    "name": { "str": "Analyze nearby minerals" }
   },
   {
     "type": "item_action",
@@ -993,6 +1003,11 @@
     "type": "item_action",
     "id": "sex_toy",
     "name": { "str": "Relieve some tension" }
+  },
+  {
+    "type": "item_action",
+    "id": "train_skill",
+    "name": { "str": "Train skill" }
   },
   {
     "type": "item_action",

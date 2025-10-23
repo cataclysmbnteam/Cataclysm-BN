@@ -517,7 +517,7 @@ class reveal_map_actor : public iuse_actor
 
         void reveal_targets( const tripoint_abs_omt &map ) const;
 
-        void show_revealed( player &plr, item &, const tripoint_abs_omt &center ) const;
+        void show_revealed( player &plr, item &, const tripoint_abs_omt &map ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -1301,6 +1301,29 @@ class sex_toy_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
+/**
+ * Use an item to train your skills
+ */
+class train_skill_actor : public iuse_actor
+{
+    public:
+        std::string training_skill;
+        int training_skill_min_level;
+        int training_skill_xp;
+        int training_skill_xp_chance;
+        int training_skill_max_level;
+        int training_skill_fatigue;
+        int training_skill_interval;
+        std::string training_msg;
+
+        train_skill_actor( const std::string &type = "train_skill" ) : iuse_actor( type ) {};
+        ~train_skill_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &p, item &i, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+
 class iuse_music_player : public iuse_actor
 {
     public:
@@ -1331,5 +1354,33 @@ class iuse_music_player : public iuse_actor
         void load( const JsonObject &obj ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+//TODO: Incomplete class, this should have stuff regarding skill later!
+class iuse_prospect_pick : public iuse_actor
+{
+    public:
+        /**Tile radius to reveal ores in rocks and stones */
+        int range;
+
+        iuse_prospect_pick( const std::string &type = "prospect_pick" ) : iuse_actor( type ) {}
+        ~iuse_prospect_pick() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+class iuse_reveal_contents : public iuse_actor
+{
+    public:
+        //What itemgroup is inside the thing?
+        item_group_id contents_group;
+        //what is displayed on opening? eg: you pull a [item dropped]!; %s will be replaced with the name of the "package", can be nothing
+        std::string open_message;
+        iuse_reveal_contents( const std::string &type = "reveal_contents" ) : iuse_actor( type ) {}
+        ~iuse_reveal_contents() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };

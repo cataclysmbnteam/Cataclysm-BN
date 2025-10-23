@@ -85,9 +85,6 @@ static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
 
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
-
 struct itype;
 
 void spawn_animal( npc &p, const mtype_id &mon );
@@ -118,11 +115,11 @@ void talk_function::mission_success( npc &p )
     }
 
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + ( miss_val / 5 ), -1, 0 );
+    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p.op_of_u += tmp;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
-        int fac_val = std::min( 1 + ( miss_val / 10 ), 10 );
+        int fac_val = std::min( 1 + miss_val / 10, 10 );
         p_fac->likes_u += fac_val;
         p_fac->respects_u += fac_val;
         p_fac->power += fac_val;
@@ -426,17 +423,13 @@ void talk_function::bionic_remove( npc &p )
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
-        if( std::ranges::find( bionic_types,
-                               bio.info().itype() ) == bionic_types.end() ) {
-            if( bio.id != bio_power_storage ||
-                bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.info().itype() );
-                if( bio.info().itype().is_valid() ) {
-                    item *tmp = item::spawn_temporary( bio.id.str(), calendar::start_of_cataclysm );
-                    bionic_names.push_back( tmp->tname() + " - " + format_money( 50000 + ( tmp->price( true ) / 4 ) ) );
-                } else {
-                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
-                }
+        if( std::ranges::find( bionic_types, bio.info().itype() ) == bionic_types.end() ) {
+            bionic_types.push_back( bio.info().itype() );
+            if( bio.info().itype().is_valid() ) {
+                item *tmp = item::spawn_temporary( bio.id.str(), calendar::start_of_cataclysm );
+                bionic_names.push_back( tmp->tname() + " - " + format_money( 50000 + ( tmp->price( true ) / 4 ) ) );
+            } else {
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
         }
     }

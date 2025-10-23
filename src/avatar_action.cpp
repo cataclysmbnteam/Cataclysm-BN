@@ -231,9 +231,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == t_fault ) {
                 int dist = rl_dist( pt, you.pos() );
-                curdist = std::min( dist, curdist );
+                if( dist < curdist ) {
+                    curdist = dist;
+                }
                 dist = rl_dist( pt, dest_loc );
-                newdist = std::min( dist, newdist );
+                if( dist < newdist ) {
+                    newdist = dist;
+                }
             }
         }
         if( newdist > curdist ) {
@@ -565,7 +569,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.set_underwater( true );
     }
     int movecost = you.swim_speed();
-    you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
+    if( !you.worn_with_flag( flag_FLOTATION ) && x_in_y( 3, 4 ) ) {
+        you.practice( skill_swimming, 1 );
+    }
     if( movecost >= 500 ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
@@ -596,7 +602,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) && you.get_size() <= creature_size::medium ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( p ) );
     }
     you.setpos( p );

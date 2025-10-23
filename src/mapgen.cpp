@@ -174,7 +174,7 @@ void map::generate( const tripoint &p, const time_point &when )
 
     // Apply a multiplier to the number of monsters for really high densities.
     float odds_after_density = spawns.chance * spawn_density;
-    const float max_odds = 100 - ( ( 100 - spawns.chance ) / 2.0 );
+    const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0;
     float density_multiplier = 1.0f;
     if( odds_after_density > max_odds ) {
         density_multiplier = 1.0f * odds_after_density / max_odds;
@@ -624,7 +624,7 @@ size_t mapgen_function_json_base::calc_index( const point &p ) const
     if( p.y >= mapgensize.y ) {
         debugmsg( "invalid value %zu for y in calc_index", p.y );
     }
-    return ( p.y * mapgensize.y ) + p.x;
+    return p.y * mapgensize.y + p.x;
 }
 
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
@@ -3525,7 +3525,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const map_key &key = row_keys[i];
+                const map_key key = row_keys[i];
                 const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
@@ -3999,8 +3999,8 @@ void map::draw_map( mapgendata &dat )
     draw_connections( dat );
 }
 
-const int SOUTH_EDGE = ( 2 * SEEY ) - 1;
-const int EAST_EDGE = ( 2 * SEEX )  - 1;
+const int SOUTH_EDGE = 2 * SEEY - 1;
+const int EAST_EDGE = 2 * SEEX  - 1;
 
 void map::draw_office_tower( const mapgendata &dat )
 {
@@ -4623,7 +4623,7 @@ void map::draw_lab( mapgendata &dat )
                    is_ot_match( "ants", dat.west(), ot_match_type::contains );
 
         if( ice_lab ) {
-            int temperature = -20 + ( 30 * ( dat.zlevel() ) );
+            int temperature = -20 + 30 * ( dat.zlevel() );
             set_temperature( p2, temperature );
             set_temperature( p2 + point( SEEX, 0 ), temperature );
             set_temperature( p2 + point( 0, SEEY ), temperature );
@@ -4664,16 +4664,15 @@ void map::draw_lab( mapgendata &dat )
             ter_set( point( SEEX - 1, 1 ), t_floor );
             ter_set( point( SEEX, 0 ), t_door_metal_locked );
             ter_set( point( SEEX, 1 ), t_floor );
-            ter_set( point( SEEX - 2 + ( rng( 0, 1 ) * 3 ), 0 ), t_card_science );
+            ter_set( point( SEEX - 2 + rng( 0, 1 ) * 3, 0 ), t_card_science );
             ter_set( point( SEEX - 2, SEEY ), t_door_metal_c );
             ter_set( point( SEEX + 1, SEEY ), t_door_metal_c );
             ter_set( point( SEEX - 2, SEEY - 1 ), t_door_metal_c );
             ter_set( point( SEEX + 1, SEEY - 1 ), t_door_metal_c );
-            ter_set( point( SEEX - 1, ( SEEY * 2 ) - 3 ), t_stairs_down );
-            ter_set( point( SEEX, ( SEEY * 2 ) - 3 ), t_stairs_down );
-            science_room( this, point( 2, 2 ), point( SEEX - 3, ( SEEY * 2 ) - 3 ), dat.zlevel(), 1 );
-            science_room( this, point( SEEX + 2, 2 ), point( ( SEEX * 2 ) - 3, ( SEEY * 2 ) - 3 ), dat.zlevel(),
-                          3 );
+            ter_set( point( SEEX - 1, SEEY * 2 - 3 ), t_stairs_down );
+            ter_set( point( SEEX, SEEY * 2 - 3 ), t_stairs_down );
+            science_room( this, point( 2, 2 ), point( SEEX - 3, SEEY * 2 - 3 ), dat.zlevel(), 1 );
+            science_room( this, point( SEEX + 2, 2 ), point( SEEX * 2 - 3, SEEY * 2 - 3 ), dat.zlevel(), 3 );
 
             place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
@@ -4738,7 +4737,7 @@ void map::draw_lab( mapgendata &dat )
                     const auto predicate = [this]( const tripoint & p ) {
                         return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
                     };
-                    const auto range = points_in_rectangle( { 0, 0, abs_sub.z }, { ( SEEX * 2 ) - 2, ( SEEY * 2 ) - 2, abs_sub.z } );
+                    const auto range = points_in_rectangle( { 0, 0, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
                     if( const auto p = random_point( range, predicate ) ) {
                         ter_set( *p, t_stair_type );
@@ -4893,16 +4892,16 @@ void map::draw_lab( mapgendata &dat )
                                     stair_points.emplace_back( SEEX, 2 );
                                 }
                                 if( rw != 1 ) {
-                                    stair_points.emplace_back( ( SEEX * 2 ) - 3, SEEY - 1 );
-                                    stair_points.emplace_back( ( SEEX * 2 ) - 3, SEEY - 1 );
-                                    stair_points.emplace_back( ( SEEX * 2 ) - 3, SEEY );
-                                    stair_points.emplace_back( ( SEEX * 2 ) - 3, SEEY );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY - 1 );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
+                                    stair_points.emplace_back( SEEX * 2 - 3, SEEY );
                                 }
                                 if( bw != 1 ) {
-                                    stair_points.emplace_back( SEEX - 1, ( SEEY * 2 ) - 3 );
-                                    stair_points.emplace_back( SEEX - 1, ( SEEY * 2 ) - 3 );
-                                    stair_points.emplace_back( SEEX, ( SEEY * 2 ) - 3 );
-                                    stair_points.emplace_back( SEEX, ( SEEY * 2 ) - 3 );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX - 1, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
+                                    stair_points.emplace_back( SEEX, SEEY * 2 - 3 );
                                 }
                                 if( lw != 0 ) {
                                     stair_points.emplace_back( 2, SEEY - 1 );
@@ -4980,7 +4979,7 @@ void map::draw_lab( mapgendata &dat )
                                 ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) {
-                                ter_set( point( SEEX - 3 + ( 5 * rng( 0, 1 ) ), SEEY - 3 + ( 5 * rng( 0, 1 ) ) ),
+                                ter_set( point( SEEX - 3 + 5 * rng( 0, 1 ), SEEY - 3 + 5 * rng( 0, 1 ) ),
                                          t_stairs_down );
                             }
                             break;
@@ -5148,7 +5147,7 @@ void map::draw_lab( mapgendata &dat )
                                 ter_set( p, fluid_type );
                                 furn_set( p, f_null );
                             }
-                        }, point( rng( 1, ( SEEX * 2 ) - 2 ), rng( 1, ( SEEY * 2 ) - 2 ) ), rng( 3, 6 ) );
+                        }, point( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) ), rng( 3, 6 ) );
                     }
                     break;
                 }
@@ -5172,7 +5171,7 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
-                    tripoint center( rng( 6, ( SEEX * 2 ) - 7 ), rng( 6, ( SEEY * 2 ) - 7 ), abs_sub.z );
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
                     std::vector<artifact_natural_property> valid_props = {
                         ARTPROP_BREATHING,
                         ARTPROP_CRACKLING,
@@ -5197,7 +5196,7 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // radioactive accident.
                 case 6: {
-                    tripoint center( rng( 6, ( SEEX * 2 ) - 7 ), rng( 6, ( SEEY * 2 ) - 7 ), abs_sub.z );
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
                     if( has_flag_ter( "WALL", center.xy() ) ) {
                         // just skip it, we don't want to risk embedding radiation out of sight.
                         break;
@@ -5230,7 +5229,7 @@ void map::draw_lab( mapgendata &dat )
                                   center.xy() + point_west, 1, true );
 
                     // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    int marker_x = center.x - 2 + ( 4 * rng( 0, 1 ) );
+                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
                     int marker_y = center.y + rng( -2, 2 );
                     if( one_in( 4 ) ) {
                         spawn_item(
@@ -5261,7 +5260,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                         }
                     }
-                    tripoint center( rng( 6, ( SEEX * 2 ) - 7 ), rng( 6, ( SEEY * 2 ) - 7 ), abs_sub.z );
+                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
                     draw_rough_circle( [this]( point  p ) {
@@ -5299,7 +5298,7 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + ( 30 * dat.zlevel() );
+            int temperature = -20 + 30 * dat.zlevel();
             set_temperature( p2, temperature );
             set_temperature( p2 + point( SEEX, 0 ), temperature );
             set_temperature( p2 + point( 0, SEEY ), temperature );
@@ -5363,7 +5362,7 @@ void map::draw_lab( mapgendata &dat )
                            tr_at( p ).is_null();
                 };
                 const auto range = points_in_rectangle( { 0, 0, abs_sub.z },
-                { ( SEEX * 2 ) - 2, ( SEEY * 2 ) - 2, abs_sub.z } );
+                { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
                 if( const auto p = random_point( range, predicate ) ) {
                     ter_set( *p, t_stair_type );
                 }
@@ -5409,7 +5408,7 @@ void map::draw_temple( const mapgendata &dat )
             square( this, t_rock_floor, point_zero, point( EAST_EDGE, SOUTH_EDGE ) );
             // We always start at the south and go north.
             // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
-            switch( 1 + ( std::abs( ( abs_sub.y / 2 ) + dat.zlevel() + 4 ) % 4 ) ) { // TODO: More varieties!
+            switch( 1 + std::abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
 
                 case 1:
                     // Flame bursts
@@ -5428,19 +5427,19 @@ void map::draw_temple( const mapgendata &dat )
                     // Decide whether a group of only sewer snakes be made, probably not worth it
                     place_spawns( GROUP_SEWER, 1, point( 4, 4 ), point( 4, 4 ), 1, true );
 
-                    square( this, t_water_dp, point( ( SEEX * 2 ) - 5, 4 ), point( ( SEEX * 2 ) - 4, 6 ) );
-                    place_spawns( GROUP_SEWER, 1, point( 1, ( SEEX * 2 ) - 5 ), point( 1, ( SEEX * 2 ) - 5 ), 1, true );
+                    square( this, t_water_dp, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 4, 6 ) );
+                    place_spawns( GROUP_SEWER, 1, point( 1, SEEX * 2 - 5 ), point( 1, SEEX * 2 - 5 ), 1, true );
 
-                    square( this, t_water_dp, point( 4, ( SEEY * 2 ) - 5 ), point( 6, ( SEEY * 2 ) - 4 ) );
+                    square( this, t_water_dp, point( 4, SEEY * 2 - 5 ), point( 6, SEEY * 2 - 4 ) );
 
-                    square( this, t_water_dp, point( ( SEEX * 2 ) - 5, ( SEEY * 2 ) - 5 ), point( ( SEEX * 2 ) - 4,
-                            ( SEEY * 2 ) - 4 ) );
+                    square( this, t_water_dp, point( SEEX * 2 - 5, SEEY * 2 - 5 ), point( SEEX * 2 - 4,
+                            SEEY * 2 - 4 ) );
 
-                    square( this, t_rock, point( 0, ( SEEY * 2 ) - 2 ), point( SEEX - 1, SOUTH_EDGE ) );
-                    square( this, t_rock, point( SEEX + 2, ( SEEY * 2 ) - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
+                    square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX - 1, SOUTH_EDGE ) );
+                    square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     line( this, t_grate, point( SEEX, 1 ), point( SEEX + 1, 1 ) ); // To drain the water
-                    mtrap_set( this, point( SEEX, ( SEEY * 2 ) - 2 ), tr_temple_flood );
-                    mtrap_set( this, point( SEEX + 1, ( SEEY * 2 ) - 2 ), tr_temple_flood );
+                    mtrap_set( this, point( SEEX, SEEY * 2 - 2 ), tr_temple_flood );
+                    mtrap_set( this, point( SEEX + 1, SEEY * 2 - 2 ), tr_temple_flood );
                     for( int y = 2; y < SEEY * 2 - 2; y++ ) {
                         for( int x = 2; x < SEEX * 2 - 2; x++ ) {
                             if( ter( point( x, y ) ) == t_rock_floor && one_in( 4 ) ) {
@@ -5542,11 +5541,11 @@ void map::draw_temple( const mapgendata &dat )
 
                 case 4: { // Toggling walls maze
                     square( this, t_rock, point_zero, point( SEEX     - 1, 1 ) );
-                    square( this, t_rock, point( 0, ( SEEY * 2 ) - 2 ), point( SEEX     - 1, SOUTH_EDGE ) );
-                    square( this, t_rock, point( 0, 2 ), point( SEEX     - 4, ( SEEY * 2 ) - 3 ) );
+                    square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX     - 1, SOUTH_EDGE ) );
+                    square( this, t_rock, point( 0, 2 ), point( SEEX     - 4, SEEY * 2 - 3 ) );
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
-                    square( this, t_rock, point( SEEX + 2, ( SEEY * 2 ) - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
-                    square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, ( SEEY * 2 ) - 3 ) );
+                    square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
+                    square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
                     int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
                     std::vector<point> path; // Path, from end to start
                     while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
@@ -5666,8 +5665,8 @@ void map::draw_mine( mapgendata &dat )
 
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
-                int i_reverse = ( SEEX * 2 ) - 1 - i;
-                int j_reverse = ( SEEY * 2 ) - 1 - j;
+                int i_reverse = SEEX * 2 - 1 - i;
+                int j_reverse = SEEY * 2 - 1 - j;
                 if( i >= dat.w_fac + rng( 0, 2 ) && i <= EAST_EDGE - dat.e_fac - rng( 0, 2 ) &&
                     j >= dat.n_fac + rng( 0, 2 ) && j <= SOUTH_EDGE - dat.s_fac - rng( 0, 2 ) &&
                     i + j >= 3 && i_reverse + j_reverse >= 3 &&
@@ -5695,7 +5694,7 @@ void map::draw_mine( mapgendata &dat )
             case 2: {
                 // Lava
                 point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
-                point end_location( rng( SEEX + 1, ( SEEX * 2 ) - 7 ), rng( SEEY + 1, ( SEEY * 2 ) - 7 ) );
+                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
                 const int num = rng( 2, 4 );
                 for( int i = 0; i < num; i++ ) {
                     int lx1 = start_location.x + rng( -1, 1 );
@@ -5790,14 +5789,12 @@ void map::draw_mine( mapgendata &dat )
                         line( this, t_slope_down, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
                     case direction::EAST:
-                        square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( ( SEEX * 2 ) - 7, SEEY + 2 ) );
-                        line( this, t_slope_down, point( ( SEEX * 2 ) - 7, SEEY - 2 ), point( ( SEEX * 2 ) - 7,
-                                SEEY + 1 ) );
+                        square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
+                        line( this, t_slope_down, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
                     case direction::SOUTH:
-                        square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, ( SEEY * 2 ) - 7 ) );
-                        line( this, t_slope_down, point( SEEX - 2, ( SEEY * 2 ) - 7 ), point( SEEX + 1,
-                                ( SEEY * 2 ) - 7 ) );
+                        square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
+                        line( this, t_slope_down, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
                     case direction::WEST:
                         square( this, t_rock_floor, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
@@ -5814,10 +5811,10 @@ void map::draw_mine( mapgendata &dat )
             if( dat.n_fac == 6 && ter( point( SEEX, 6 ) ) != t_slope_down ) {
                 open.push_back( direction::NORTH );
             }
-            if( dat.e_fac == 6 && ter( point( ( SEEX * 2 ) - 7, SEEY ) ) != t_slope_down ) {
+            if( dat.e_fac == 6 && ter( point( SEEX * 2 - 7, SEEY ) ) != t_slope_down ) {
                 open.push_back( direction::EAST );
             }
-            if( dat.s_fac == 6 && ter( point( SEEX, ( SEEY * 2 ) - 7 ) ) != t_slope_down ) {
+            if( dat.s_fac == 6 && ter( point( SEEX, SEEY * 2 - 7 ) ) != t_slope_down ) {
                 open.push_back( direction::SOUTH );
             }
             if( dat.w_fac == 6 && ter( point( 6, SEEY ) ) != t_slope_down ) {
@@ -5855,10 +5852,10 @@ void map::draw_mine( mapgendata &dat )
                         line( this, t_slope_up, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
                     case direction::EAST:
-                        line( this, t_slope_up, point( ( SEEX * 2 ) - 7, SEEY - 2 ), point( ( SEEX * 2 ) - 7, SEEY + 1 ) );
+                        line( this, t_slope_up, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
                     case direction::SOUTH:
-                        line( this, t_slope_up, point( SEEX - 2, ( SEEY * 2 ) - 7 ), point( SEEX + 1, ( SEEY * 2 ) - 7 ) );
+                        line( this, t_slope_up, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
                     case direction::WEST:
                         line( this, t_slope_up, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
@@ -5887,11 +5884,11 @@ void map::draw_mine( mapgendata &dat )
         }
 
         if( dat.east() == "mine" ) {
-            square( this, t_rock_floor, point( ( SEEX * 2 ) - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
+            square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
         }
 
         if( dat.south() == "mine" ) {
-            square( this, t_rock_floor, point( SEEX, ( SEEY * 2 ) - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
+            square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
         }
 
         if( dat.west() == "mine" ) {
@@ -5902,7 +5899,7 @@ void map::draw_mine( mapgendata &dat )
         // The Thing dog
         const int num_bodies = rng( 4, 8 );
         for( int i = 0; i < num_bodies; i++ ) {
-            point p3( rng( 4, ( SEEX * 2 ) - 5 ), rng( 4, ( SEEX * 2 ) - 5 ) );
+            point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
             add_item( p3, item::make_corpse() );
             place_items( item_group_id( "mon_zombie_miner_death_drops" ), 60, p3,
                          p3, false, calendar::start_of_cataclysm );
@@ -5951,7 +5948,7 @@ void map::draw_slimepit( mapgendata &dat )
             }
         }
         if( terrain_type == "slimepit_down" ) {
-            ter_set( point( rng( 3, ( SEEX * 2 ) - 4 ), rng( 3, ( SEEY * 2 ) - 4 ) ), t_slope_down );
+            ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_down );
         }
         if( dat.above() == "slimepit_down" ) {
             switch( rng( 1, 4 ) ) {
@@ -5959,13 +5956,13 @@ void map::draw_slimepit( mapgendata &dat )
                     ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), t_slope_up );
                     break;
                 case 2:
-                    ter_set( point( rng( 0, 2 ), ( SEEY * 2 ) - rng( 1, 3 ) ), t_slope_up );
+                    ter_set( point( rng( 0, 2 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
                     break;
                 case 3:
-                    ter_set( point( ( SEEX * 2 ) - rng( 1, 3 ), rng( 0, 2 ) ), t_slope_up );
+                    ter_set( point( SEEX * 2 - rng( 1, 3 ), rng( 0, 2 ) ), t_slope_up );
                     break;
                 case 4:
-                    ter_set( point( ( SEEX * 2 ) - rng( 1, 3 ), ( SEEY * 2 ) - rng( 1, 3 ) ), t_slope_up );
+                    ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
             }
         }
         place_spawns( GROUP_BLOB, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
@@ -6005,12 +6002,12 @@ void map::draw_connections( const mapgendata &dat )
                     }
                 }
             } else {
-                for( int i = ( SEEX * 2 ) - 3; i < SEEX * 2; i++ ) {
+                for( int i = SEEX * 2 - 3; i < SEEX * 2; i++ ) {
                     ter_set( point( i, SEEY ), t_rock_floor );
                     ter_set( point( i, SEEY - 1 ), t_rock_floor );
                 }
-                ter_set( point( ( SEEX * 2 ) - 4, SEEY ), t_door_metal_c );
-                ter_set( point( ( SEEX * 2 ) - 4, SEEY - 1 ), t_door_metal_c );
+                ter_set( point( SEEX * 2 - 4, SEEY ), t_door_metal_c );
+                ter_set( point( SEEX * 2 - 4, SEEY - 1 ), t_door_metal_c );
             }
         }
         if( is_ot_match( "sewer", dat.south(), ot_match_type::type ) &&
@@ -6022,12 +6019,12 @@ void map::draw_connections( const mapgendata &dat )
                     }
                 }
             } else {
-                for( int j = ( SEEY * 2 ) - 3; j < SEEY * 2; j++ ) {
+                for( int j = SEEY * 2 - 3; j < SEEY * 2; j++ ) {
                     ter_set( point( SEEX, j ), t_rock_floor );
                     ter_set( point( SEEX - 1, j ), t_rock_floor );
                 }
-                ter_set( point( SEEX, ( SEEY * 2 ) - 4 ), t_door_metal_c );
-                ter_set( point( SEEX - 1, ( SEEY * 2 ) - 4 ), t_door_metal_c );
+                ter_set( point( SEEX, SEEY * 2 - 4 ), t_door_metal_c );
+                ter_set( point( SEEX - 1, SEEY * 2 - 4 ), t_door_metal_c );
             }
         }
         if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) &&
@@ -6102,7 +6099,7 @@ void map::draw_connections( const mapgendata &dat )
                 rotate( 4 - ( dir - 4 ) );
                 // draw a small triangle of sidewalk in the northeast corner
                 for( int y = 0; y < 4; y++ ) {
-                    for( int x = ( SEEX * 2 ) - 4; x < SEEX * 2; x++ ) {
+                    for( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
                         if( x - y > SEEX * 2 - 4 ) {
                             // TODO: more discriminating conditions
                             if( ter( point( x, y ) ) == t_grass || ter( point( x, y ) ) == t_dirt ||
@@ -6295,7 +6292,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
                     if( rng_float( 0.1f, 1.0f ) <= cat_rate ) {
                         detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
                         if( placed ) {
-                            res.push_back( &*placed );
+                            res.push_back( std::move( &*placed ) );
                         }
                     }
                 } else {
@@ -6304,7 +6301,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
                     // Spawn the base item once (as before)
                     detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
                     if( placed ) {
-                        res.push_back( &*placed );
+                        res.push_back( std::move( &*placed ) );
                     }
 
                     // Build the list of extra items of the same category
@@ -6329,7 +6326,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
                         int idx = rng( 0, static_cast<int>( extra.size() ) - 1 );
                         detached_ptr<item> spawned = add_item_or_charges( p, std::move( extra[idx] ) );
                         if( spawned ) {
-                            res.push_back( &*spawned );
+                            res.push_back( std::move( &*spawned ) );
                         }
                     }
 
@@ -6339,7 +6336,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
                             int idx = rng( 0, static_cast<int>( extra.size() ) - 1 );
                             detached_ptr<item> spawned = add_item_or_charges( p, std::move( extra[idx] ) );
                             if( spawned ) {
-                                res.push_back( &*spawned );
+                                res.push_back( std::move( &*spawned ) );
                             }
                         }
                     }
@@ -6479,7 +6476,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh->all_standalone_parts();
 
     //Check for boat type vehicles that should be placeable in deep water
     //WARNING: CURSED CODE
@@ -6517,7 +6514,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + other_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + other_veh->all_standalone_parts().size() > 200 ) {
                 return nullptr;
             }
 

@@ -91,6 +91,7 @@ Checks: >
   -readability-identifier-naming,
 
   -readability-avoid-nested-conditional-operator,
+  -readability-math-missing-parentheses,
   -bugprone-unchecked-optional-access,
   -bugprone-chained-comparison,
   -bugprone-easily-swappable-parameters,
@@ -102,8 +103,6 @@ Checks: >
   -clang-analyzer-optin.*,
   -performance-enum-size,
   -cert-dcl58-cpp,
-
-  -readability-math-missing-parentheses
 # https://github.com/llvm/llvm-project/issues/59572
 # https://github.com/llvm/llvm-project/issues/111003
 # performance-enum-size: no automatic fix available

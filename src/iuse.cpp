@@ -917,7 +917,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
         p->mod_stored_kcal( 10 * p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( ( -it->get_comestible()->quench * multiplier ) + 20 );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier + 20 );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
@@ -1030,7 +1030,9 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     int num_cured = rng( 4,
                          valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
-    num_cured = std::min( num_cured, 8 );
+    if( num_cured > 8 ) {
+        num_cured = 8;
+    }
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
         if( id->purifiable ) {
@@ -1106,7 +1108,7 @@ static void spawn_spores( const player &p )
         if( g->critter_at( dest ) != nullptr ) {
             continue;
         }
-        if( one_in( 10 + ( 5 * dist ) ) && one_in( spores_spawned * 2 ) ) {
+        if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
             if( monster *const spore = g->place_critter_at( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
@@ -1464,7 +1466,11 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
 
         if( !petfood.tamer_traits.empty() ) {
             for( const TraitSet &trait_set : petfood.tamer_traits ) {
-                can_feed = p->has_one_of_traits( trait_set );
+                if( !p->has_one_of_traits( trait_set ) ) {
+                    can_feed = false;
+                } else {
+                    can_feed = true;
+                }
             }
             if( !can_feed ) {
                 p->add_msg_if_player( _( "The %s does not trust your kind." ),
@@ -1601,23 +1607,36 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     }
     return 0;
 }
-
-static bool good_fishing_spot( tripoint pos )
+// Returns 0-5 based on how good the fishing spot is, 5 being "Middle of the
+// ocean" and 0 being "no"
+int iuse::good_fishing_spot( tripoint pos )
 {
-    std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
-    std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
+    int fishable_locations = g->get_fishable_locations( 60, pos ).size();
     map &here = get_map();
-    // isolated little body of water with no definite fish population
-    // TODO: fix point types
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
-    if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
-        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
-        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
-        return false;
+    if( fishable_locations < 100 && !g->m.has_flag( "CURRENT", pos ) &&
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() &&
+        !cur_omt->is_lake_shore() ) {
+        return 0;
     }
-    return true;
+    // I hate I cant use a switch for this.
+    // Tiles in range is 144k, so knock off 14k to be nice for max fishing e-'fish'-iency.
+    if( fishable_locations >= 10400 ) {
+        return 5;
+    } else if( fishable_locations < 10400 && fishable_locations >= 7800 ) {
+        return 4;
+    } else if( fishable_locations < 7800 && fishable_locations >= 5200 ) {
+        return 3;
+    } else if( fishable_locations < 5200 && fishable_locations >= 2600 ) {
+        return 2;//If you cant amass a 10x10 for fishing womp womp.
+    } else if( fishable_locations < 2600 && fishable_locations >= 100 ) {
+        return 1;
+    }
+    g->u.add_msg_if_player(
+        m_info, _( "You doubt you will catch anything here, best look elsewhere" ) );
+    return 0;
 }
 
 int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
@@ -1632,7 +1651,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     }
     std::optional<tripoint> found;
     for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt ) ) {
+        if( g->m.has_flag( flag_FISHABLE, pnt ) && iuse::good_fishing_spot( pnt ) != 0 ) {
             found = pnt;
             break;
         }
@@ -1641,9 +1660,37 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
+    switch( iuse::good_fishing_spot( *found ) ) {
+        case 1: {
+            p->add_msg_if_player( m_info,
+                                  _( "You doubt you will catch too much here, but surely theres some" ) );
+            break;
+        }
+        case 2: {
+            p->add_msg_if_player(
+                m_info, _( "You think there might be a few things to catch here" ) );
+            break;
+        }
+        case 3: {
+            p->add_msg_if_player(
+                m_info, _( "You see at least one catch, should be a decent spot" ) );
+            break;
+        }
+        case 4: {
+            p->add_msg_if_player(
+                m_info, _( "You see several catches already, this should be a great spot" ) );
+            break;
+        }
+        case 5: {
+            p->add_msg_if_player(
+                m_info, _( "You see a massive number of catches here, this is as good as it gets" ) );
+            break;
+        }
+    }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity->tools.emplace_back( it );
+    p->activity->placement = *found;
     p->activity->coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
@@ -1685,7 +1732,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-        if( !good_fishing_spot( pnt ) ) {
+        if( good_fishing_spot( pnt ) == 0 ) {
             return 0;
         }
         it->activate();
@@ -1708,71 +1755,40 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             if( !g->m.has_flag( "FISHABLE", pos ) ) {
                 return 0;
             }
-
-            int success = -50;
-            const int surv = p->get_skill_level( skill_survival );
-            const int attempts = rng( it->charges, it->charges * it->charges );
-            for( int i = 0; i < attempts; i++ ) {
-                /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
-                success += rng( surv, surv * surv );
+            int fish = good_fishing_spot( pos );
+            int success = -250 + ( good_fishing_spot( pos ) * 15 );
+            const int surv_mod = p->get_skill_level( skill_survival ) + ( fish );
+            for( int i = 0; i < it->charges; i++ ) {
+                success += surv_mod + fish;
             }
 
-            it->charges = rng( -1, it->charges );
-            it->charges = std::max( it->charges, 0 );
+            it->charges = 0;
 
-            int fishes = 0;
+            int caught = 0;
 
-            if( success < 0 ) {
-                fishes = 0;
-            } else if( success < 300 ) {
-                fishes = 1;
-            } else if( success < 1500 ) {
-                fishes = 2;
+            if( success >= 200 ) {
+                caught = rng( 2, 4 );
+            } else if( success < 200 && success >= 100 ) {
+                caught = rng( 1, 2 );
+            } else if( success < 100 && success >= 50 ) {
+                caught = rng( 0, 2 );
+            } else if( success < 50 && success >= 0 ) {
+                caught = rng( 0, 1 );
             } else {
-                fishes = rng( 3, 5 );
+                caught = 0;
             }
 
-            if( fishes == 0 ) {
-                it->charges = 0;
-                p->practice( skill_survival, rng( 5, 15 ) );
-
+            if( caught == 0 ) {
+                p->practice( skill_survival, rng( 10, 25 ) );
                 return 0;
             }
-
-            //get the fishables around the trap's spot
-            std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
-            std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
-            for( int i = 0; i < fishes; i++ ) {
-                p->practice( skill_survival, rng( 3, 10 ) );
-                if( !fishables.empty() ) {
-                    monster *chosen_fish = random_entry( fishables );
-                    // reduce the abstract fish_population marker of that fish
-                    chosen_fish->fish_population -= 1;
-                    if( chosen_fish->fish_population <= 0 ) {
-                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
-                    } else {
-                        g->m.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
-                                                  calendar::turn + rng( 0_turns,
-                                                          3_hours ) ) );
-                    }
-                } else {
-                    //there will always be a chance that the player will get lucky and catch a fish
-                    //not existing in the fishables vector. (maybe it was in range, but wandered off)
-                    //lets say it is a 5% chance per fish to catch
-                    if( one_in( 20 ) ) {
-                        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
-                        const mtype_id &fish_mon = random_entry_ref( fish_group );
-                        //Yes, we can put fishes in the trap like knives in the boot,
-                        //and then get fishes via activation of the item,
-                        //but it's not as comfortable as if you just put fishes in the same tile with the trap.
-                        //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                        //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
-                                                  3_hours ) ) );
-                        break; //this can happen only once
-                    }
-                }
+            for( int i = 0; i < caught; i++ ) {
+                p->practice( skill_survival, rng( 4, 8 ) );
+                const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
+                            GROUP_FISH );
+                const mtype_id &fish_mon = random_entry_ref( fish_group );
+                g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
+                                          3_hours ) ) );
             }
         }
         return 0;
@@ -2317,7 +2333,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, ( diff * 50 ) - ( p->str_cur * 10 ) ) );
+    p->mod_moves( -std::max( 20, diff * 50 - p->str_cur * 10 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
@@ -3439,7 +3455,9 @@ int iuse::firecracker_pack_act( player *, item *it, bool, const tripoint &pos )
     } else if( it->charges > 0 ) {
         int ex = rng( 4, 6 );
         int i = 0;
-        ex = std::min( ex, it->charges );
+        if( ex > it->charges ) {
+            ex = it->charges;
+        }
         for( i = 0; i < ex; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
@@ -3682,7 +3700,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    const bool do_effects = p.can_hear( source, volume );
+    const bool do_effects = p.can_hear( source, volume ) && !p.has_effect( effect_sleep );
     std::string sound = "music";
     if( calendar::once_every( 1_hours ) ) {
         // Every 5 minutes, describe the music
@@ -7002,9 +7020,13 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 int dist = rl_dist( p->pos(), trajectory_point );
 
                 int camera_bonus = it->has_flag( flag_CAMERA_PRO ) ? 10 : 0;
-                int photo_quality = 20 - ( rng( dist, dist * 2 ) * 2 ) + rng( camera_bonus / 2, camera_bonus );
-                photo_quality = std::min( photo_quality, 5 );
-                photo_quality = std::max( photo_quality, 0 );
+                int photo_quality = 20 - rng( dist, dist * 2 ) * 2 + rng( camera_bonus / 2, camera_bonus );
+                if( photo_quality > 5 ) {
+                    photo_quality = 5;
+                }
+                if( photo_quality < 0 ) {
+                    photo_quality = 0;
+                }
                 if( p->is_blind() ) {
                     photo_quality /= 2;
                 }
@@ -7285,7 +7307,9 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
             }
 
             it->charges -= 50;
-            it->charges = std::max( it->charges, 1 );
+            if( it->charges < 1 ) {
+                it->charges = 1;
+            }
 
             it->set_var( "HANDCUFFS_X", pos.x );
             it->set_var( "HANDCUFFS_Y", pos.y );
@@ -7319,9 +7343,8 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     }
 
-    time_duration shift = time_duration::from_turns(
-                              ( it->magazine_current()->ammo_remaining() * it->type->tool->turns_per_charge ) -
-                              it->type->tool->turns_active );
+    time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
+                          it->type->tool->turns_per_charge - it->type->tool->turns_active );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
@@ -8650,7 +8673,7 @@ int iuse::play_game( player *p, item *it, bool t, const tripoint & )
 int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 {
     enum {
-        BALL8_GOOD = 0,
+        BALL8_GOOD,
         BALL8_UNK = 10,
         BALL8_BAD = 15
     };

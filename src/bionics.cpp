@@ -171,8 +171,6 @@ static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_reactor( "bio_reactor" );
@@ -320,6 +318,9 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
+    assign( jsobj, "can_uninstall", can_uninstall, strict );
+    assign( jsobj, "no_uninstall_reason", no_uninstall_reason, strict );
+
 
     activated = has_flag( flag_BIONIC_TOGGLED ) ||
                 power_activate > 0_kJ ||
@@ -727,7 +728,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "Your %s issues a low humidity warning.  Efficiency will be reduced." ),
                                bio.info().name );
         }
-    } else if( bio.id == bio_tools ) {
+    } else if( bio.info().has_flag( flag_BIONIC_TOOLS ) ) {
         add_msg_activate();
         invalidate_crafting_inventory();
     } else if( bio.id == bio_cqb ) {
@@ -1217,13 +1218,13 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
     } else if( bio.id == bio_remote ) {
-        if( g->remoteveh() != nullptr && !has_active_item( itype_remotevehcontrol ) ) {
+        if( g->remoteveh() != nullptr && !has_active_item_with_action( "REMOTEVEH" ) ) {
             g->setremoteveh( nullptr );
         } else if( !get_value( "remote_controlling" ).empty() &&
-                   !has_active_item( itype_radiocontrol ) ) {
+                   !has_active_item_with_action( "REMOTEVEH" ) ) {
             set_value( "remote_controlling", "" );
         }
-    } else if( bio.id == bio_tools ) {
+    } else if( bio.info().has_flag( flag_BIONIC_TOOLS ) ) {
         invalidate_crafting_inventory();
     } else if( bio.id == bio_ads ) {
         mod_power_level( bio.energy_stored );
@@ -1298,8 +1299,8 @@ bool Character::burn_fuel( bionic &bio, bool start )
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
-                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - ( 0.8f *
-                                               max_stored_kcal() ) );
+                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
+                                               max_stored_kcal() );
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else if( is_cable_powered ) {
@@ -1618,7 +1619,7 @@ void Character::heat_emission( bionic &bio, int fuel_energy )
     const emit_id hotness = emit_id( "emit_hot_air" + std::to_string( heat_level ) + "_cbm" );
     map &here = get_map();
     if( hotness.is_valid() ) {
-        const int heat_spread = std::max( ( heat_prod / 10 ) - heat_level, 1 );
+        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
         here.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, int> &bp : bio.info().occupied_bodyparts ) {
@@ -1752,7 +1753,7 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        int threshold_kcal = bio.info().kcal_trigger > 0 ? ( 0.85f * max_stored_kcal() ) +
+        int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
                              bio.info().kcal_trigger : 0;
         const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
             const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
@@ -1786,7 +1787,7 @@ void Character::process_bionic( bionic &bio )
                 // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
                 // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
                 const auto effective_hp = [this]( const bodypart_id & bp ) -> int {
-                    return get_part_hp_cur( bp ) - ( bp->essential * 10 );
+                    return get_part_hp_cur( bp ) - bp->essential * 10;
                 };
                 const auto should_heal = [this]( const bodypart_id & bp ) -> bool {
                     return get_part_hp_cur( bp ) < get_part_hp_max( bp );
@@ -1867,7 +1868,9 @@ void Character::process_bionic( bionic &bio )
             deactivate_bionic( bio );
         }
     } else if( bio.id == bio_ads ) {
-        bio.charge_timer = std::max( bio.charge_timer, 2 );
+        if( bio.charge_timer < 2 ) {
+            bio.charge_timer = 2;
+        }
         if( bio.energy_stored < 150_kJ ) {
             // Max recharge rate is influenced by whether you've been hit or not.
             // See character.cpp for how charge_timer keeps track of that for this bionic.
@@ -2062,7 +2065,7 @@ float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                           static_cast<float>( pl_skill ) - ( static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) ) );
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
     adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
     return adjusted_skill;
 }
@@ -2173,9 +2176,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, Character &installe
         return false;
     }
 
-    if( b_id == bio_eye_optic ) {
-        popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
-               disp_name( true ), disp_name() );
+    if( !b_id->can_uninstall ) {
+        popup( _( b_id->no_uninstall_reason ) );
         return false;
     }
 
@@ -2309,8 +2311,8 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                               static_cast<float>( pl_skill ) - ( static_cast<float>( pl_skill ) / static_cast<float>
-                                       ( 10.0 ) ) );
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
@@ -2599,8 +2601,8 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                               static_cast<float>( pl_skill ) - ( static_cast<float>( pl_skill ) / static_cast<float>
-                                       ( 10.0 ) ) );
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
         bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
     }
     get_map().invalidate_map_cache( g->get_levz() );
@@ -2805,22 +2807,20 @@ bool has_enough_anesthesia( const itype *cbm, Character &doc, const Character &p
 
 void Character::add_bionic( const bionic_id &b )
 {
-    if( has_bionic( b ) ) {
+    if( !b->has_flag( flag_MULTIINSTALL ) && has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
         return;
     }
 
     const units::energy pow_up = b->capacity;
     mod_max_power_level( pow_up );
-    if( b == bio_power_storage || b == bio_power_storage_mkII ) {
+    if( pow_up != 0_J ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
                            units::to_kilojoule( pow_up ) );
-        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
-        return;
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *my_bionics ) ) );
-    if( b == bio_tools || b == bio_ears ) {
+    if( b->has_flag( flag_INITIALLY_ACTIVATE ) ) {
         activate_bionic( my_bionics->back() );
     }
 
@@ -2862,13 +2862,16 @@ void Character::remove_bionic( const bionic_id &b )
     bionic_collection new_my_bionics;
     // any spells you should not forget due to still having a bionic installed that has it.
     std::set<spell_id> cbm_spells;
+    std::set<bionic_id> removed_bionics;
     for( bionic &i : *my_bionics ) {
-        if( b == i.id ) {
+        if( b == i.id && !removed_bionics.contains( i.id ) ) {
+            removed_bionics.emplace( i.id );
             continue;
         }
 
         // Linked bionics: if either is removed, the other is removed as well.
-        if( b->is_included( i.id ) || i.id->is_included( b ) ) {
+        if( ( b->is_included( i.id ) || i.id->is_included( b ) ) && !removed_bionics.contains( i.id ) ) {
+            removed_bionics.emplace( i.id );
             continue;
         }
 
@@ -2897,39 +2900,6 @@ void Character::remove_bionic( const bionic_id &b )
 bool Character::has_bionics() const
 {
     return !my_bionics->empty() || has_max_power();
-}
-
-std::pair<int, int> Character::amount_of_storage_bionics() const
-{
-    units::energy lvl = get_max_power_level();
-
-    // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : get_bionic_collection() ) {
-        lvl -= it.info().capacity;
-    }
-
-    std::pair<int, int> results( 0, 0 );
-    if( lvl <= 0_kJ ) {
-        return results;
-    }
-
-    const units::energy pow_mkI = bio_power_storage->capacity;
-    const units::energy pow_mkII = bio_power_storage_mkII->capacity;
-
-    while( lvl >= std::min( pow_mkI, pow_mkII ) ) {
-        if( one_in( 2 ) ) {
-            if( lvl >= pow_mkI ) {
-                results.first++;
-                lvl -= pow_mkI;
-            }
-        } else {
-            if( lvl >= pow_mkII ) {
-                results.second++;
-                lvl -= pow_mkII;
-            }
-        }
-    }
-    return results;
 }
 
 void Character::clear_bionics()

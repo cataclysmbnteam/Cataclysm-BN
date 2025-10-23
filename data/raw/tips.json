@@ -88,7 +88,8 @@
       "Many types of furniture have a chance to intercept bullets, reducing some of the damage taken.  The bigger and harder the obstacle, the better.",
       "If you prefer a more subtle approach to breaking and entering, crouching will make you automatically prioritize lockpicking over prying tools.",
       "Crouching slows you down, but allows you to hide behind obstacles and makes you a smaller target when bullets start flying.",
-      "Make every shot count.  Take time to steady your aim, or crouch for more accurate fire."
+      "Make every shot count.  Take time to steady your aim, or crouch for more accurate fire.",
+      "Running, swimming, and other physical activity will increase your Athletics skill, reducing encumbrance penalty, decreasing stamina consumption, and making swimming easier."
     ]
   }
 ]

@@ -8,15 +8,20 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <coordinates.h>
+#include <cstddef>
 #include <cstring>
 #include <exception>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <ostream>
+#include <point.h>
 #include <set>
+#include <submap.h>
 #include <unordered_set>
 #include <vector>
+#include <vehicle.h>
 
 #include "all_enum_values.h"
 #include "assign.h"
@@ -60,17 +65,15 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
+#include "weighted_list.h"
 #include "world.h"
 
 static const efftype_id effect_pet( "pet" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_DIMENSIONAL_SURFACE( "GROUP_DIMENSIONAL_SURFACE" );
-static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
-static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
@@ -3353,16 +3356,6 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     polish_rivers( north, east, south, west );
 
-    // TODO: there is no reason we can't generate the sublevels in one pass
-    //       for that matter there is no reason we can't as we add the entrance ways either
-
-    // Always need at least one sublevel, but how many more
-    int z = -1;
-    bool requires_sub = false;
-    do {
-        requires_sub = generate_sub( z );
-    } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -3370,29 +3363,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     connection_cache.reset();
 
     dbg( DL::Info ) << "overmap::generate done";
-}
-
-bool overmap::generate_sub( const int z )
-{
-    // We need to generate at least 2 z-levels for subways CHUD
-    bool requires_sub = z > -2;
-
-    for( auto &i : cities ) {
-        tripoint_om_omt omt_pos( i.pos, z );
-        tripoint_om_sm sm_pos = project_to<coords::sm>( omt_pos );
-        // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
-        if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
-            add_mon_group( mongroup( GROUP_CHUD,
-                                     sm_pos, i.size, i.size * 20 ) );
-        }
-        // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
-        if( z == -1 && !one_in( 8 ) ) {
-            add_mon_group( mongroup( GROUP_SEWER,
-                                     sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
-        }
-    }
-
-    return requires_sub;
 }
 
 static void elevate_bridges(
@@ -4513,10 +4483,18 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
     do {
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        p2.x() = std::max( p2.x(), 0 );
-        p2.x() = std::min( p2.x(), OMAPX - 1 );
-        p2.y() = std::max( p2.y(), 0 );
-        p2.y() = std::min( p2.y(), OMAPY - 1 );
+        if( p2.x() < 0 ) {
+            p2.x() = 0;
+        }
+        if( p2.x() > OMAPX - 1 ) {
+            p2.x() = OMAPX - 1;
+        }
+        if( p2.y() < 0 ) {
+            p2.y() = 0;
+        }
+        if( p2.y() > OMAPY - 1 ) {
+            p2.y() = OMAPY - 1;
+        }
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 tripoint_om_omt p( p2 + point( j, i ), 0 );
@@ -4549,12 +4527,18 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
         }
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        p2.x() = std::max( p2.x(), 0 );
+        if( p2.x() < 0 ) {
+            p2.x() = 0;
+        }
         if( p2.x() > OMAPX - 1 ) {
             p2.x() = OMAPX - 2;
         }
-        p2.y() = std::max( p2.y(), 0 );
-        p2.y() = std::min( p2.y(), OMAPY - 1 );
+        if( p2.y() < 0 ) {
+            p2.y() = 0;
+        }
+        if( p2.y() > OMAPY - 1 ) {
+            p2.y() = OMAPY - 1;
+        }
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
@@ -5694,6 +5678,106 @@ std::vector<tripoint_om_omt> overmap::place_special(
 
     return result.omts_used;
 }
+// Inside empty rock spawn some ores maybe
+void overmap::spawn_ores( const tripoint_abs_omt &p )
+{
+    //One in 15 at lowest level, goes up as you get closer to surface. Dig deep!
+    if( one_in( 65 - abs( 5 * p.z() ) ) ) {
+        std::string depth;
+        switch( p.z() ) {
+            case -1:
+            case -2:
+            case -3: {
+                depth = "shallow";
+                break;
+            }
+            case -4:
+            case -5:
+            case -6:
+            case -7:  {
+                depth = "medium";
+                break;
+            }
+            case -8:
+            case -9:
+            case -10: {
+                depth = "deep";
+                break;
+            }
+            default:
+            {depth = "how";}
+        }
+        weighted_int_list<std::string> ores;
+        //ore_depth_to_rate in overmap.h
+        for( const auto& [k, v] : ore_depth_to_rate.at( depth ) ) {
+            ores.add( k, v );
+        }
+        std::string chosen = ores.pick()->c_str();
+        std::vector<std::string> directions{"_north", "_east", "_south", "_west"};
+        tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
+        const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
+        std::string note_text( chosen );
+        std::ranges::replace( note_text, '_', ' ' );
+        add_note( local_pos, string_format( "Signs of %s ore nearby.", note_text ) );
+        if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
+            // No overmap to replace, set the terrain and bail.
+            ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen +
+                                         directions[rand() % 4] ) );
+            return;
+        }
+        /* Theres already overmap there, crap, hacky replace time!
+        * begin edited editmap code TODO: Should probably just make this a
+        * function, if there is one, I couldnt find it. Bascially "regenerates" an OM tile.
+        */
+        tinymap tmp;
+        map &here = get_map();
+        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen + directions[rand() % 4] ) );
+        tmp.generate( target_sub, calendar::turn );
+
+        here.set_transparency_cache_dirty( p.z() );
+        here.set_outside_cache_dirty( p.z() );
+        here.set_floor_cache_dirty( p.z() );
+        here.set_pathfinding_cache_dirty( p.z() );
+        here.set_suspension_cache_dirty( p.z() );
+
+        here.clear_vehicle_cache();
+        here.clear_vehicle_list( p.z() );
+
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                // functions that would alter the results
+                const tripoint dest_pos = target_sub + point( x, y );
+                const tripoint src_pos = tripoint{ x, y, p.z() };
+
+                submap *destsm = MAPBUFFER.lookup_submap( dest_pos );
+                submap *srcsm = tmp.get_submap_at_grid( src_pos );
+
+                submap::swap( *destsm,  *srcsm );
+
+                for( auto &veh : destsm->vehicles ) {
+                    veh->sm_pos = dest_pos;
+                }
+
+                if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
+                    here.spawn_monsters( true );
+                }
+            }
+        }
+
+        // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
+        for( int x = 0; x < here.getmapsize(); x++ ) {
+            for( int y = 0; y < here.getmapsize(); y++ ) {
+                const tripoint dest_pos = tripoint( x, y, p.z() );
+                const submap *destsm = here.get_submap_at_grid( dest_pos );
+                here.update_vehicle_list( destsm, p.z() ); // update real map's vcaches
+            }
+        }
+
+        here.reset_vehicle_cache();
+        /* end edited editmap code*/
+    }
+}
 
 // Points list maintaining custom order, and allowing fast removal by coordinates
 struct specials_overlay {
@@ -6022,44 +6106,6 @@ void overmap::place_mongroups()
                 m.horde = true;
                 m.wander( *this );
                 add_mon_group( m );
-            }
-        }
-    }
-
-    if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
-        // Figure out where swamps are, and place swamp monsters
-        for( int x = 3; x < OMAPX - 3; x += 7 ) {
-            for( int y = 3; y < OMAPY - 3; y += 7 ) {
-                int swamp_count = 0;
-                for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( ter( { sx, sy, 0 } ) == "forest_water" ) {
-                            swamp_count += 2;
-                        }
-                    }
-                }
-                if( swamp_count >= 25 ) {
-                    add_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                             rng( swamp_count * 8, swamp_count * 25 ) ) );
-                }
-            }
-        }
-    }
-
-    // Figure out where rivers and lakes are, and place appropriate critters
-    for( int x = 3; x < OMAPX - 3; x += 7 ) {
-        for( int y = 3; y < OMAPY - 3; y += 7 ) {
-            int river_count = 0;
-            for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_river_or_lake( ter( { sx, sy, 0 } ) ) ) {
-                        river_count++;
-                    }
-                }
-            }
-            if( river_count >= 25 ) {
-                add_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                         rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }

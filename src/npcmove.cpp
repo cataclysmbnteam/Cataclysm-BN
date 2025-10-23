@@ -485,7 +485,7 @@ void npc::assess_danger()
         }
 
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
-        float hp_percent = 1.0f - ( static_cast<float>( critter.get_hp() ) / critter.get_hp_max() );
+        float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
                                          NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
@@ -512,7 +512,7 @@ void npc::assess_danger()
         // prioritize the biggest, nearest threats, or the biggest threats that are threatening
         // us or an ally
         // critter danger is always at least NPC_DANGER_VERY_LOW
-        float priority = std::max( critter_danger - ( 2.0f * ( scaled_distance - 1.0f ) ),
+        float priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
                                    is_too_close ? critter_danger : 0.0f );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
         if( priority > highest_priority ) {
@@ -554,7 +554,7 @@ void npc::assess_danger()
         }
 
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
-            float priority = std::max( foe_threat - ( 2.0f * ( scaled_distance - 1 ) ),
+            float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
                                        is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
                                        0.0f );
             cur_threat_map[direction_from( pos(), foe.pos() )] += priority;
@@ -582,7 +582,7 @@ void npc::assess_danger()
         }
         float guy_threat = evaluate_enemy( *ally );
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-        assessment = std::max( min_danger, assessment - ( guy_threat * 0.5f ) );
+        assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
 
     if( sees( player_character.pos() ) ) {
@@ -593,7 +593,7 @@ void npc::assess_danger()
             assessment += handle_hostile( player_character, player_diff, "maniac", "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-            assessment = std::max( min_danger, assessment - ( player_diff * 0.5f ) );
+            assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
@@ -3073,7 +3073,9 @@ void npc::pick_up_item()
 
     for( auto &it : picked_up ) {
         int itval = value( *it );
-        worst_item_value = std::min( itval, worst_item_value );
+        if( itval < worst_item_value ) {
+            worst_item_value = itval;
+        }
         i_add( it->detach() );
     }
 

@@ -1,0 +1,40 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_chop_trunk",
+    "group": "chop_tree_trunk_into_planks",
+    "category": "FARM_WOOD",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
+    "pre_terrain": "t_trunk",
+    "post_terrain": "t_dirt",
+    "dark_craftable": true,
+    "post_special": "done_trunk_plank"
+  },
+  {
+    "type": "construction",
+    "id": "constr_paddy_field",
+    "group": "plow_a_paddy_field",
+    "category": "FARM_WOOD",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "clay_lump", 8 ] ], [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "material_soil", 1 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_paddy",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_paddy_field_remove",
+    "group": "remove_a_paddy_field",
+    "category": "FARM_WOOD",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "pre_terrain": "t_paddy",
+    "post_terrain": "t_dirt",
+    "dark_craftable": true
+  }
+]

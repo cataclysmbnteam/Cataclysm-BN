@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "action.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "catalua.h"
 #include "catalua_hooks.h"
@@ -85,6 +86,9 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hot_speed( "hot_speed" );
 
 static const itype_id itype_guidebook( "guidebook" );
 
@@ -149,6 +153,23 @@ void avatar::control_npc( npc &np )
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
     set_save_id( save_id );
+    // Swappy the thirst and kcal so swapping is not infinite food with no food
+    if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+        // You're stomachs become one thing :)
+        stomach = np.stomach;
+        set_thirst( np.get_thirst( ) );
+        set_stored_kcal( np.get_stored_kcal() );
+        // NPCs can't whine about a lack of food or water after you leave their body
+        np.set_stored_kcal( np.max_stored_kcal() - 100 );
+        np.set_thirst( 0 );
+    }
+    for( auto &pr : get_body() ) {
+        const bodypart_id &bp = pr.first;
+        np.remove_effect( effect_cold, bp.id() );
+        np.remove_effect( effect_hot, bp.id() );
+        np.remove_effect( effect_hot_speed, bp.id() );
+    }
+
     np.onswapsetpos( np.pos() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
@@ -868,8 +889,8 @@ void avatar::do_read( item *loc )
             // Calculate experience gained
             /** @EFFECT_INT increases reading comprehension */
             // Enhanced Memory Banks modestly boosts experience
-            int min_ex = std::max( 1, ( reading->time / 10 ) + ( learner->get_int() / 4 ) );
-            int max_ex = ( reading->time /  5 ) + ( learner->get_int() / 2 ) - originalSkillLevel;
+            int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
+            int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
             if( has_active_bionic( bio_memory ) ) {
                 min_ex += 2;
             }
@@ -877,9 +898,15 @@ void avatar::do_read( item *loc )
             min_ex = adjust_for_focus( min_ex );
             max_ex = adjust_for_focus( max_ex );
 
-            max_ex = std::max( max_ex, 2 );
-            max_ex = std::min( max_ex, 10 );
-            max_ex = std::max( max_ex, min_ex );
+            if( max_ex < 2 ) {
+                max_ex = 2;
+            }
+            if( max_ex > 10 ) {
+                max_ex = 10;
+            }
+            if( max_ex < min_ex ) {
+                max_ex = min_ex;
+            }
 
             min_ex *= ( originalSkillLevel + 1 ) * elem.second;
             min_ex = std::max( min_ex, 1 );
@@ -955,7 +982,7 @@ void avatar::do_read( item *loc )
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-        difficulty = std::max( 1, 20 + ( difficulty * 2 ) - ( get_skill_level( skill_used ) * 2 ) );
+        difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {

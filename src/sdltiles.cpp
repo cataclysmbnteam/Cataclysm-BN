@@ -103,8 +103,8 @@
 //Globals                           *
 //***********************************
 
-std::unique_ptr<cata_tiles> tilecontext;
-std::unique_ptr<cata_tiles> overmap_tilecontext;
+std::shared_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
@@ -624,10 +624,10 @@ void reinitialize_framebuffer( const bool force_invalidate )
 
 static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
 {
-    const int oversized_width = std::max( {TERMX, OVERMAP_WINDOW_WIDTH,
-                                           TERRAIN_WINDOW_WIDTH } );
-    const int oversized_height = std::max( {TERMY, OVERMAP_WINDOW_HEIGHT,
-                                            TERRAIN_WINDOW_HEIGHT } );
+    const int oversized_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH,
+                                          TERRAIN_WINDOW_WIDTH ) );
+    const int oversized_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT,
+                                           TERRAIN_WINDOW_HEIGHT ) );
 
     // check if the framebuffers/windows have been prepared yet
     if( oversized_height == 0 || oversized_width == 0 ) {
@@ -642,8 +642,8 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
 
     // track the dimensions for conversion
     const point termpixel( win->pos.x * font->width, win->pos.y * font->height );
-    const int termpixel_x2 = termpixel.x + ( win->width * font->width ) - 1;
-    const int termpixel_y2 = termpixel.y + ( win->height * font->height ) - 1;
+    const int termpixel_x2 = termpixel.x + win->width * font->width - 1;
+    const int termpixel_y2 = termpixel.y + win->height * font->height - 1;
 
     if( map_font != nullptr && map_font->width != 0 && map_font->height != 0 ) {
         const int mapfont_x = termpixel.x / map_font->width;
@@ -1115,8 +1115,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
             const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
                                            ( city_pos ) ) - o;
-            point draw_point( ( tile_draw_pos.x * tile_width ) + dest.x,
-                              ( tile_draw_pos.y * tile_height ) + dest.y );
+            point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                              tile_draw_pos.y * tile_height + dest.y );
             // center text on the tile
             draw_point += point( ( tile_width - label_length * fontwidth ) / 2,
                                  ( tile_height - fontheight ) / 2 );
@@ -1192,8 +1192,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                          center_abs_omt.y(), center_abs_omt.z() ) );
         const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
                                        ( center_sm ) ) - o;
-        point draw_point( ( tile_draw_pos.x * tile_width ) + dest.x,
-                          ( tile_draw_pos.y * tile_height ) + dest.y );
+        point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                          tile_draw_pos.y * tile_height + dest.y );
         draw_point += point( padding, padding );
 
         // Draw notes header. Very simple label at the moment
@@ -1202,8 +1202,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         SDL_Rect header_background_rect = {
             draw_point.x - padding,
             draw_point.y - padding,
-            ( fontwidth * utf8_width( header_string ) ) + ( padding * 2 ),
-            fontheight + ( padding * 2 )
+            fontwidth * utf8_width( header_string ) + padding * 2,
+            fontheight + padding * 2
         };
         geometry->rect( renderer, header_background_rect, SDL_Color{ 0, 0, 0, 175 } );
         draw_note_text( draw_point, header_string, header_color );
@@ -1243,8 +1243,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
             SDL_Rect background_rect = {
                 draw_point.x - padding,
                 draw_point.y - padding,
-                ( fontwidth * line_length ) + ( padding * 2 ),
-                fontheight + ( padding * 2 )
+                fontwidth *line_length + padding * 2,
+                fontheight + padding * 2
             };
             geometry->rect( renderer, background_rect, SDL_Color{ 0, 0, 0, 175 } );
 
@@ -1343,8 +1343,8 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
 
             const cursecell &cell = win->line[j].chars[i];
 
-            const int drawx = offset.x + ( i * font->width );
-            const int drawy = offset.y + ( j * font->height );
+            const int drawx = offset.x + i * font->width;
+            const int drawy = offset.y + j * font->height;
             if( drawx + font->width > WindowWidth || drawy + font->height > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;
@@ -1529,7 +1529,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             for( size_t i = 0; i < text.size(); ++i ) {
                 const int x0 = win->pos.x * fontwidth;
                 const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( ( x_offset - alignment_offset + width ) * map_font->width ) + coord.x;
+                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->width + coord.x;
                 const int y = y0 + coord.y;
 
                 // Clip to window bounds.
@@ -1557,16 +1557,15 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // to keep various former interface elements from showing through the gaps
 
         //calculate width differences between map_font and font
-        int partial_width = std::max( ( TERRAIN_WINDOW_TERM_WIDTH * fontwidth ) - ( TERRAIN_WINDOW_WIDTH *
-                                      map_font->width ), 0 );
-        int partial_height = std::max( ( TERRAIN_WINDOW_TERM_HEIGHT * fontheight ) -
-                                       ( TERRAIN_WINDOW_HEIGHT *
-                                         map_font->height ), 0 );
+        int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
+                                      map_font->width, 0 );
+        int partial_height = std::max( TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT *
+                                       map_font->height, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
             geometry->rect( renderer, point( win->pos.x * map_font->width,
                                              ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->height ),
-                            ( TERRAIN_WINDOW_WIDTH * map_font->width ) + partial_width, partial_height,
+                            TERRAIN_WINDOW_WIDTH * map_font->width + partial_width, partial_height,
                             color_as_sdl( catacurses::black ) );
         }
         //Gap between terrain and sidebar
@@ -1574,7 +1573,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->width,
                                              win->pos.y * map_font->height ),
                             partial_width,
-                            ( TERRAIN_WINDOW_HEIGHT * map_font->height ) + partial_height,
+                            TERRAIN_WINDOW_HEIGHT * map_font->height + partial_height,
                             color_as_sdl( catacurses::black ) );
         }
         // Special font for the terrain window
@@ -3589,11 +3588,13 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( DL::Info ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    tilecontext = std::make_shared<cata_tiles>( renderer, geometry );
+    const auto tilesName = get_option<std::string>( "TILES" );
+    const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     try {
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
-            get_option<std::string>( "TILES" ),
+            tilesName,
             dummy,
             /*precheck=*/true,
             /*force=*/false,
@@ -3606,24 +3607,27 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
-    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
-    try {
-        std::vector<mod_id> dummy;
-        overmap_tilecontext->load_tileset(
-            get_option<std::string>( "OVERMAP_TILES" ),
-            dummy,
-            /*precheck=*/true,
-            /*force=*/false,
-            /*pump_events=*/true
-        );
-    } catch( const std::exception &err ) {
-        dbg( DL::Error ) << "failed to check for overmap tileset: " << err.what();
-        // use_tiles is the cached value of the USE_TILES option.
-        // most (all?) code refers to this to see if cata_tiles should be used.
-        // Setting it to false disables this from getting used.
-        use_tiles = false;
+    if( tilesName == omTilesName ) {
+        overmap_tilecontext = tilecontext;
+    } else {
+        try {
+            overmap_tilecontext = std::make_shared<cata_tiles>( renderer, geometry );
+            std::vector<mod_id> dummy;
+            overmap_tilecontext->load_tileset(
+                omTilesName,
+                dummy,
+                /*precheck=*/true,
+                /*force=*/false,
+                /*pump_events=*/true
+            );
+        } catch( const std::exception &err ) {
+            dbg( DL::Error ) << "failed to check for overmap tileset: " << err.what();
+            // use_tiles is the cached value of the USE_TILES option.
+            // most (all?) code refers to this to see if cata_tiles should be used.
+            // Setting it to false disables this from getting used.
+            use_tiles = false;
+        }
     }
-
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
@@ -3654,8 +3658,10 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
+    const auto tilesName = get_option<std::string>( "TILES" );
+    const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     tilecontext->load_tileset(
-        get_option<std::string>( "TILES" ),
+        tilesName,
         world_generator->active_world->info->active_mod_order,
         /*precheck=*/false,
         /*force=*/false,
@@ -3665,17 +3671,22 @@ void load_tileset()
         DebugLog( DL::Info, DC::Main ) << str;
     } );
 
-    if( overmap_tilecontext ) {
-        overmap_tilecontext->load_tileset(
-            get_option<std::string>( "OVERMAP_TILES" ),
-            world_generator->active_world->info->active_mod_order,
-            /*precheck=*/false,
-            /*force=*/false,
-            /*pump_events=*/true
-        );
-        overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
-            DebugLog( DL::Info, DC::Main ) << str;
-        } );
+    if( tilesName == omTilesName ) {
+        overmap_tilecontext = tilecontext;
+    } else {
+        if( overmap_tilecontext ) {
+            overmap_tilecontext = std::make_shared<cata_tiles>( renderer, geometry );
+            overmap_tilecontext->load_tileset(
+                omTilesName,
+                world_generator->active_world->info->active_mod_order,
+                /*precheck=*/false,
+                /*force=*/false,
+                /*pump_events=*/true
+            );
+            overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
+                DebugLog( DL::Info, DC::Main ) << str;
+            } );
+        }
     }
 }
 
@@ -3880,8 +3891,8 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     const point screen_pos = coordinate - win_min;
     point p;
     if( tile_iso && use_tiles ) {
-        const float win_mid_x = win_min.x + ( win_size.x / 2.0f );
-        const float win_mid_y = -win_min.y + ( win_size.y / 2.0f );
+        const float win_mid_x = win_min.x + win_size.x / 2.0f;
+        const float win_mid_y = -win_min.y + win_size.y / 2.0f;
         const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
         const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
@@ -4005,6 +4016,10 @@ bool save_screenshot( const std::string &file_path )
     return true;
 }
 
+void repoint_overmap_tilecontext()
+{
+    overmap_tilecontext = std::make_shared<cata_tiles>( renderer, geometry );
+}
 #ifdef _WIN32
 HWND getWindowHandle()
 {

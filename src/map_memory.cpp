@@ -207,7 +207,8 @@ static void temp_remove_open_air( const shared_ptr_fast<mm_submap> &sm )
         for( int y = 0; y < SEEY; y++ ) {
             const memorized_terrain_tile &t = sm->tile( {x, y} );
 
-            if( !t.tile.empty() && t.tile == "t_open_air" ) {
+            if( !t.tile.empty() && ( t.tile == "t_open_air" || t.tile == "t_open_air_rooved" ||
+                                     t.tile == "t_open_air_rooved_outside" ) ) {
                 sm->set_tile( {x, y}, mm_submap::default_tile );
             }
         }
@@ -270,7 +271,7 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
                       : 0;
         const point idx = ( sm_pos - cache_pos ).xy();
         if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-            return *cached[( idx.y * cache_size.x ) + idx.x + zoffset];
+            return *cached[idx.y * cache_size.x + idx.x + zoffset];
         }
     }
     return *fetch_submap( sm_pos );

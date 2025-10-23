@@ -195,7 +195,9 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
                 nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
                 sub_opts.push_back( shortcut_text( clr, vSettingsSubItems[i] ) );
                 int len = utf8_width( shortcut_text( clr, vSettingsSubItems[i] ), true );
-                xlen = std::max( len, xlen );
+                if( len > xlen ) {
+                    xlen = len;
+                }
             }
             break;
         case main_menu_opts::NEWCHAR:
@@ -203,7 +205,9 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
                 nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
                 sub_opts.push_back( shortcut_text( clr, vNewGameSubItems[i] ) );
                 int len = utf8_width( shortcut_text( clr, vNewGameSubItems[i] ), true );
-                xlen = std::max( len, xlen );
+                if( len > xlen ) {
+                    xlen = len;
+                }
             }
             break;
         case main_menu_opts::LOADCHAR:
@@ -225,7 +229,9 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
                 sub_opts.push_back( colorize( string_format( "%s (%d)", txt, savegames_count ),
                                               ( sel2 == i + ( extra_opt ? 1 : 0 ) ) ? hilite( clr ) : clr ) );
                 int len = utf8_width( sub_opts.back(), true );
-                xlen = std::max( len, xlen );
+                if( len > xlen ) {
+                    xlen = len;
+                }
             }
         }
         break;

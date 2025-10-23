@@ -674,8 +674,7 @@ class wish_item_callback: public uilist_callback
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
                                            has_flag ? _( " (flagged)" ) : "" );
-                mvwprintz( menu->window, point( startx + ( ( menu->pad_right - 1 - utf8_width( header ) ) / 2 ),
-                                                1 ),
+                mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 
                 std::vector<iteminfo> info = tmp.info();
@@ -878,7 +877,7 @@ void debug_menu::wishskill( Character *who )
                 return skmenu.w_x + skmenu.w_width + 1;
             };
             sksetmenu.w_y_setup = [&]( const int height ) {
-                return std::max( 0, skmenu.w_y + ( ( skmenu.w_height - height ) / 2 ) );
+                return std::max( 0, skmenu.w_y + ( skmenu.w_height - height ) / 2 );
             };
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = who->get_skill_level( skill.ident() );

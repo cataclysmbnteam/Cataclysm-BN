@@ -82,6 +82,7 @@ static const efftype_id effect_contacts( "contacts" );
 
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -135,12 +136,12 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
-        return 1.0f - ( darkness * 0.75f * std::max( 0, 2 - skill_bonus ) / 2.0f );
+        return 1.0f - darkness * 0.75f * std::max( 0, 2 - skill_bonus ) / 2.0f;
     } else if( rec.has_flag( flag_BLIND_HARD ) && skill_bonus >= 2 ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
-        return 1.0f - ( darkness * 0.75f * std::max( 0, 8 - skill_bonus ) / 6.0f );
+        return 1.0f - darkness * 0.75f * std::max( 0, 8 - skill_bonus ) / 6.0f;
     } else {
         // Needs proper vision or the character is not skilled enough
         return 0.0f;
@@ -164,7 +165,7 @@ float morale_crafting_speed_multiplier( const Character &who, const recipe &rec 
     }
 
     // Halve speed at -50 effective morale, quarter at -150
-    float morale_effect = 1.0f + ( ( morale_mult * morale ) / -50.0f );
+    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
 
     return 1.0f / morale_effect;
 }
@@ -678,8 +679,7 @@ static void set_item_map_or_vehicle( const Character &who, const tripoint &loc,
             pgettext( "furniture, item", "Not enough space on the %s. <npcname> drops the %s on the ground." ),
             vp->part().name(), newit->tname() );
 
-        set_item_map( loc, std::move( newit ) );
-        return;
+        return set_item_map( loc, std::move( newit ) );
 
     } else {
         if( here.has_furn( loc ) ) {
@@ -694,8 +694,7 @@ static void set_item_map_or_vehicle( const Character &who, const tripoint &loc,
                 pgettext( "item", "<npcname> puts the %s on the ground." ),
                 newit->tname() );
         }
-        set_item_map( loc, std::move( newit ) );
-        return;
+        return set_item_map( loc, std::move( newit ) );
     }
 }
 
@@ -711,7 +710,7 @@ static void set_item_inventory( Character &who, detached_ptr<item> &&newit )
         return;
     }
 
-    set_item_map_or_vehicle( who, who.pos(), std::move( newit ) );
+    return set_item_map_or_vehicle( who, who.pos(), std::move( newit ) );
 }
 
 item *Character::start_craft( craft_command &command, const tripoint & )
@@ -773,7 +772,7 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
 
     if( making.skill_used ) {
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + ( base_time_to_craft( making, batch_size ) / 30000.0 );
+        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
         // This is called after every 5% crafting progress, so divide by 20
         // TODO: Don't multiply, instead divide the crafting time into more "learn bits"
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
@@ -1040,6 +1039,9 @@ void complete_craft( Character &who, item &craft )
 
     bool first = true;
     size_t newit_counter = 0;
+    if( craft.is_comestible() ) {
+        craft.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
+    }
     for( detached_ptr<item> &newit : newits ) {
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
@@ -1084,6 +1086,9 @@ void complete_craft( Character &who, item &craft )
             food_contained.unset_flag( flag );
         }
 
+        if( food_contained.is_comestible() ) {
+            food_contained.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
+        }
         // Don't store components for things that ignores components (e.g wow 'conjured bread')
         if( ignore_component ) {
             food_contained.set_flag( flag_NUTRIENT_OVERRIDE );
@@ -2177,7 +2182,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
     // add the components to the map
     // Player skills should determine how many components are returned
 
-    int skill_dice = 2 + ( who.get_skill_level( dis.skill_used ) * 3 );
+    int skill_dice = 2 + who.get_skill_level( dis.skill_used ) * 3;
     skill_dice += who.get_skill_level( dis.skill_used );
 
     // Sides on dice is 16 plus your current intelligence
@@ -2434,7 +2439,7 @@ int charges_for_complete( int full_charges )
 }
 int charges_for_starting( int full_charges )
 {
-    return ( full_charges / 20 ) + ( full_charges % 20 );
+    return full_charges / 20 + full_charges % 20;
 }
 int charges_for_continuing( int full_charges )
 {

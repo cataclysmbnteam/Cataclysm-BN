@@ -2,7 +2,6 @@
 #include "vehicle_part.h" // IWYU pragma: associated
 #include "vehicle_move.h" // IWYU pragma: associated
 
-#include <algorithm>
 #include <cassert>
 #include <algorithm>
 #include <array>
@@ -124,7 +123,7 @@ int vehicle::slowdown( int at_velocity ) const
             f_total_drag += f_rolling_drag;
         } else {
             // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
-            const double skid_factor = 1.0 + ( 24.0 * std::abs( units::sin( face.dir() - move.dir() ) ) );
+            const double skid_factor = 1.0 + 24.0 * std::abs( units::sin( face.dir() - move.dir() ) );
             f_total_drag += f_rolling_drag * skid_factor;
         }
     }
@@ -275,6 +274,14 @@ void vehicle::thrust( int thd, int z )
                 }
             }
         } else {
+            if( pl_ctrl ) {
+                // Driving skill reduces fuel consumption.
+                const float skill = get_player_character().get_skill_level( skill_driving );
+                const float skill_cost = std::max( 0.75f, ( 100.0f - ( skill * 2.5f ) ) / 100.0f );
+                // Up to 25% reduction at max skill, cap at idle rate.
+                const int load_cap = is_rotorcraft() ? 100 : 10;
+                load = std::max( static_cast<int>( load * skill_cost ), load_cap );
+            }
             //make noise and consume fuel
             noise_and_smoke( load );
             consume_fuel( load, 1 );
@@ -919,9 +926,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( smashed && !vert_coll ) {
         int turn_amount = rng( 1, 3 ) * std::sqrt( static_cast<double>( part_dmg ) );
         turn_amount /= 15;
-        turn_amount = std::max( turn_amount, 1 );
+        if( turn_amount < 1 ) {
+            turn_amount = 1;
+        }
         turn_amount *= 15;
-        turn_amount = std::min( turn_amount, 120 );
+        if( turn_amount > 120 ) {
+            turn_amount = 120;
+        }
         int turn_roll = rng( 0, 100 );
         // Probability of skidding increases with higher delta_v
         if( turn_roll < std::abs( ( prev_velocity - coll_velocity ) / 100.0f * 2.0f ) ) {
@@ -1081,7 +1092,8 @@ bool vehicle::check_is_heli_landed()
 {
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
-    if( global_pos3().z == 0 || !get_map().has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) {
+    if( ( global_pos3().z == 0 || !get_map().has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) &&
+        !get_map().has_flag_ter_or_furn( TFLAG_DEEP_WATER, global_pos3() ) ) {
         is_flying = false;
         return true;
     }
@@ -1202,7 +1214,7 @@ void vehicle::pldrive( Character &driver, point p, int z )
 
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
         float skill = std::min( 10.0f, driver.get_skill_level( skill_driving ) +
-                                ( ( driver.get_dex() + driver.get_per() ) / 10.0f ) );
+                                ( driver.get_dex() + driver.get_per() ) / 10.0f );
         float penalty = rng_float( 0.0f, handling_diff ) - skill;
         int cost;
         if( penalty > 0.0f ) {
@@ -1231,7 +1243,7 @@ void vehicle::pldrive( Character &driver, point p, int z )
         turn( turn_delta );
 
         // At most 3 turns per turn, because otherwise it looks really weird and jumpy
-        driver.moves -= std::max( cost, ( driver.get_speed() / 3 ) + 1 );
+        driver.moves -= std::max( cost, driver.get_speed() / 3 + 1 );
     }
 
     if( p.y != 0 ) {
@@ -1338,7 +1350,7 @@ rl_vec2d vehicle::dir_vec() const
 float get_collision_factor( const float delta_v )
 {
     if( std::abs( delta_v ) <= 26.8224 ) {
-        return ( 1 - ( ( 0.7 * std::abs( delta_v ) ) / 26.8224 ) );
+        return ( 1 - ( 0.7 * std::abs( delta_v ) ) / 26.8224 );
     } else {
         return 0.3;
     }
@@ -1362,18 +1374,23 @@ vehicle *vehicle::act_on_map()
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {
-        add_msg( m_bad, _( "Your %s sank." ), name );
-        if( pl_ctrl ) {
-            unboard_all();
-        }
-        if( g->remoteveh() == this ) {
-            g->setremoteveh( nullptr );
-        }
+        if( has_sufficient_lift() ) {
+            is_floating = false;
+            is_flying = true;
+        } else {
+            add_msg( m_bad, _( "Your %s sank." ), name );
+            if( pl_ctrl ) {
+                unboard_all();
+            }
+            if( g->remoteveh() == this ) {
+                g->setremoteveh( nullptr );
+            }
 
-        here.on_vehicle_moved( sm_pos.z );
-        // Destroy vehicle (sank to nowhere)
-        here.destroy_vehicle( this );
-        return nullptr;
+            here.on_vehicle_moved( sm_pos.z );
+            // Destroy vehicle (sank to nowhere)
+            here.destroy_vehicle( this );
+            return nullptr;
+        }
     }
 
     // It needs to fall when it has no support OR was falling before
@@ -1388,7 +1405,7 @@ vehicle *vehicle::act_on_map()
         const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
-        const float new_vel = -std::sqrt( ( 2 * tile_height * GRAVITY_OF_EARTH ) + ( old_vel * old_vel ) );
+        const float new_vel = -std::sqrt( 2 * tile_height * GRAVITY_OF_EARTH + old_vel * old_vel );
         vertical_velocity = mps_to_vmiph( new_vel );
         is_falling = true;
     } else {
@@ -1667,7 +1684,7 @@ void vehicle::check_falling_or_floating()
     }
 
     // floating if 2/3rds of the vehicle is in deep water
-    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    is_floating = !is_flying && ( 3 * deep_water_tiles >= 2 * pts.size() );
     // in_water if 1/2 of the vehicle is in water at all
     in_water =  2 * water_tiles >= pts.size();
 }
@@ -1817,7 +1834,9 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ), veh.name );
                 int turn_amount = rng( 1, 3 ) * std::sqrt( std::abs( veh.velocity ) ) / 30;
-                turn_amount = std::max( turn_amount, 1 );
+                if( turn_amount < 1 ) {
+                    turn_amount = 1;
+                }
                 units::angle turn_angle = std::min( turn_amount * 15_degrees, 120_degrees );
                 coll_turn = one_in( 2 ) ? turn_angle : -turn_angle;
             }
@@ -1837,7 +1856,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng_float( -30_degrees, 30_degrees ),
-                               std::max( 10, d_vel - ( move_resist / 100 ) ) );
+                               std::max( 10, d_vel - move_resist / 100 ) );
         }
     }
 

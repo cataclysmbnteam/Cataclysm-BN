@@ -228,6 +228,12 @@ bool Skill::is_weapon_skill() const
     return _tags.contains( weapon_skill );
 }
 
+bool Skill::unaffected_by_focus() const
+{
+    static const std::string unaffected_by_focus( "unaffected_by_focus" );
+    return _tags.contains( unaffected_by_focus );
+}
+
 void SkillLevel::train( int amount, bool skip_scaling )
 {
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place
@@ -247,7 +253,9 @@ void SkillLevel::train( int amount, bool skip_scaling )
     if( _exercise >= 100 * ( _level + 1 ) * ( _level + 1 ) ) {
         _exercise = 0;
         ++_level;
-        _highestLevel = std::max( _level, _highestLevel );
+        if( _level > _highestLevel ) {
+            _highestLevel = _level;
+        }
     }
 }
 

@@ -336,6 +336,8 @@ enum action_id : int {
     ACTION_DISPLAY_SUBMAP_GRID,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
+    /** Swap to an NPC in faction menu **/
+    ACTION_SWAP_TO_NPC,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/
