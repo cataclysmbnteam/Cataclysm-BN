@@ -39,6 +39,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "locations.h"
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
@@ -160,6 +161,13 @@ void avatar::control_npc( npc &np )
         np.set_stored_kcal( np.max_stored_kcal() - 100 );
         np.set_thirst( 0 );
     }
+    for( auto &pr : np.get_body() ) {
+        pr.second.set_location( new wield_item_location( &np ) );
+    }
+    for( auto &pr : get_body() ) {
+        pr.second.set_location( new wield_item_location( this ) );
+    }
+
     for( auto &pr : get_body() ) {
         const bodypart_id &bp = pr.first;
         np.remove_effect( effect_cold, bp.id() );
