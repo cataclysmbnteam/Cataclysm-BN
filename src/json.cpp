@@ -1251,22 +1251,59 @@ constexpr static uint64_t neg_INT64_MIN()
     }
 }
 
+constexpr static bool overflow_add( const uint64_t lhs, const uint64_t rhs, uint64_t &result )
+{
+    const uint64_t r = lhs + rhs;
+    if( r < lhs ) {
+        return true;
+    }
+    result = r;
+    return false;
+}
+
+constexpr static bool overflow_mul( const uint64_t lhs, const uint64_t rhs, uint64_t &result )
+{
+    if( lhs > std::numeric_limits<uint64_t>::max() / rhs ) {
+        return true;
+    }
+    result = lhs * rhs;
+    return false;
+}
+
 number_sci_notation JsonIn::get_any_int()
 {
     number_sci_notation n = get_any_number();
-    if( n.fract != 0 ) {
-        error( "Integers cannot have a decimal point." );
-    }
-    if( n.integral_exp < 0 ) {
-        error( "Integers cannot a negative order of magnitude." );
-    }
     // Manually apply scientific notation, since std::pow converts to double under the hood.
-    for( /* */; n.integral_exp > 0; --n.integral_exp ) {
-        if( n.integral > std::numeric_limits<uint64_t>::max() / 10ULL ) {
-            error( "Specified order of magnitude too large -- encountered overflow applying it." );
+    if( n.fract_exp < 0 ) {
+        for( /* */; n.fract_exp < 0; ++n.fract_exp ) {
+            n.fract /= 10ULL;
         }
-        n.integral *= 10ULL;
+    } else {
+        for( /* */; n.fract_exp > 0; --n.fract_exp ) {
+            if( overflow_mul( n.fract, 10, n.fract ) ) {
+                error( "Specified order of magnitude too large -- encountered overflow applying it." );
+            }
+        }
     }
+
+    if( n.integral_exp < 0 ) {
+        for( /* */; n.integral_exp < 0; ++n.integral_exp ) {
+            n.integral /= 10ULL;
+        }
+    } else {
+        for( /* */; n.integral_exp > 0; --n.integral_exp ) {
+            if( overflow_mul( n.integral, 10, n.integral ) ) {
+                error( "Specified order of magnitude too large -- encountered overflow applying it." );
+            }
+            n.integral *= 10ULL;
+        }
+    }
+
+    if( overflow_add( n.integral, n.fract, n.integral ) ) {
+        error( "Specified order of magnitude too large -- encountered overflow applying it." ); // Overflow detected
+    }
+    n.fract = 0;
+
     return n;
 }
 

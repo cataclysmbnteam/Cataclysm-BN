@@ -559,7 +559,7 @@ static void test_number_roundtrip( T val, T eps, int ulps )
 TEST_CASE( "serialize_integers", "[json]" )
 {
     SECTION( "bad_values" ) {
-        std::vector<std::string> to_check = {"", " ", "1e", "2E", "00", "a", "1e-4" };
+        std::vector<std::string> to_check = {"", " ", "1e", "2E", "00", "a" };
         for( const auto &str : to_check ) {
             std::stringstream is { str };
             uint64_t read_val;
@@ -602,16 +602,7 @@ TEST_CASE( "serialize_integers", "[json]" )
     }
 
     SECTION( "exponent" ) {
-        for( uint32_t i = 1; i <= 9; i++ ) {
-            std::string str = string_format( "1e-%d", i );
-            std::stringstream is { str };
-            uint64_t read_val;
-            JsonIn jsin( is );
-            CHECK_THROWS( jsin.read( read_val, true ) );
-            CAPTURE( read_val );
-            CAPTURE( str );
-        }
-        for( uint32_t i = 0; i <= 9; i++ ) {
+        for( uint32_t i = -9; i <= 9; i++ ) {
             std::string str = string_format( "1e%d", i );
             std::stringstream is { str };
             uint64_t read_val;
@@ -644,6 +635,54 @@ TEST_CASE( "serialize_integers", "[json]" )
         for( int i = 0; i < 100000; i++ ) {
             test_number_roundtrip<int64_t>( distrib( gen ), 0, 0 );
         }
+    }
+}
+
+TEST_CASE( "truncate_doubles", "[json]" )
+{
+    std::vector<std::pair<std::string, ptrdiff_t>> test {
+        std::make_pair( "123456789.", 123456789 ),
+        std::make_pair( "12345678.9", 12345678 ),
+        std::make_pair( "1234567.89", 1234567 ),
+        std::make_pair( "123456.789", 123456 ),
+        std::make_pair( "12345.6789", 12345 ),
+        std::make_pair( "1234.56789", 1234 ),
+        std::make_pair( "123.456789", 123 ),
+        std::make_pair( "12.3456789", 12 ),
+        std::make_pair( "1.23456789", 1 ),
+        std::make_pair( "0.123456789", 0 ),
+
+        std::make_pair( "123456789e-0", 123456789 ),
+        std::make_pair( "123456789e-1", 12345678 ),
+        std::make_pair( "123456789e-2", 1234567 ),
+        std::make_pair( "123456789e-3", 123456 ),
+        std::make_pair( "123456789e-4", 12345 ),
+        std::make_pair( "123456789e-5", 1234 ),
+        std::make_pair( "123456789e-6", 123 ),
+        std::make_pair( "123456789e-7", 12 ),
+        std::make_pair( "123456789e-8", 1 ),
+        std::make_pair( "123456789e-9", 0 ),
+
+        std::make_pair( "0.123456789e9", 123456789 ),
+        std::make_pair( "0.123456789e8", 12345678 ),
+        std::make_pair( "0.123456789e7", 1234567 ),
+        std::make_pair( "0.123456789e6", 123456 ),
+        std::make_pair( "0.123456789e5", 12345 ),
+        std::make_pair( "0.123456789e4", 1234 ),
+        std::make_pair( "0.123456789e3", 123 ),
+        std::make_pair( "0.123456789e2", 12 ),
+        std::make_pair( "0.123456789e1", 1 ),
+        std::make_pair( "0.123456789e0", 0 ),
+    };
+
+    for( auto& [k, v] : test ) {
+        std::stringstream is { k };
+        ptrdiff_t read_val;
+        JsonIn jsin( is );
+        CHECK( jsin.read( read_val ) );
+        CAPTURE( read_val );
+
+        CHECK( read_val == v );
     }
 }
 
