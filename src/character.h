@@ -308,7 +308,7 @@ class Character : public Creature, public location_visitable<Character>
         void mod_part_hp_max( const bodypart_id &id, int mod ) override;
 
         void set_all_parts_hp_cur( int set ) override;
-        
+
         void mod_all_parts_hp_cur( int mod ) override;
 
         field_type_id bloodType() const override;

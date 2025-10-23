@@ -10961,7 +10961,8 @@ int Character::run_cost( int base_cost, bool diag ) const
 // health_mod: Either sets the health to the value or modifies all health by that value based on
 // shifthealth: True shifts health, False sets heath
 // dump_inv: Dump the inventory on death
-void Character::death_punishments( const int health_mod, const bool shiftheath, const bool dump_inv )
+void Character::death_punishments( const int health_mod, const bool shiftheath,
+                                   const bool dump_inv )
 {
     if( dump_inv ) {
         std::vector<detached_ptr<item>> tmp = inv_dump_remove();

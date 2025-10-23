@@ -802,8 +802,8 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX( bodypart_exposure );
 
         // Respawn Stuff
-        SET_FX( death_punishments, void( const int health_mod, const bool shifthealth, const bool dump_inv) );
-        
+        SET_FX( death_punishments, void( const int health_mod, const bool shifthealth, const bool dump_inv ) );
+
     }
 #undef UT_CLASS // #define UT_CLASS Character
 
