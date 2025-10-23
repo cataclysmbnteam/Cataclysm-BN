@@ -15,6 +15,7 @@
 #include "action.h"
 #include "calendar.h"
 #include "catalua.h"
+#include "catalua_hooks.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -1072,15 +1073,16 @@ bool avatar::is_dead_state() const
     if( cached_dead_state.has_value() ) {
         return cached_dead_state.value();
     }
+
     if( Character::is_dead_state() ) {
-        cata::run_pre_death_hooks( *DynamicDataLoader::get_instance().lua );
+        auto &state = *DynamicDataLoader::get_instance().lua;;
+        run_hooks( state, "on_character_death" );
+        cached_dead_state.reset();
     }
-    const auto all_bps = get_all_body_parts( true );
-    cached_dead_state = std::ranges::any_of( all_bps, [this]( const bodypart_id & bp ) {
-        return bp->essential && get_part_hp_cur( bp ) <= 0;
-    } );
-    return cached_dead_state.value();
+
+    return Character::is_dead_state();
 }
+
 void avatar::disp_morale()
 {
     int equilibrium = character_effects::calc_focus_equilibrium( *this );
