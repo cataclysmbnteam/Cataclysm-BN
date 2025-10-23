@@ -52,8 +52,6 @@ void submap::swap( submap &first, submap &second )
     std::swap( first.frn_vars, second.frn_vars );
     std::swap( first.ter_vars, second.ter_vars );
 
-    // TODO: Check if its effect is the same as
-    // swap( first.itm, second.itm );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             std::swap( first.itm[x][y], second.itm[x][y] );

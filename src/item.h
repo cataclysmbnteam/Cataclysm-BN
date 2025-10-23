@@ -1497,11 +1497,34 @@ class item : public location_visitable<item>, public game_object<item>
          */
         /*@{*/
 
+        template<typename T>
+        T get_var( const std::string &name, const T &default_value ) const {
+            return item_vars_.get<T>( name, default_value );
+        }
+
+        template<typename T>
+        void set_var( const std::string &name, const T &value ) {
+            item_vars_.set<T>( name, value );
+        }
+
+        std::string get_var( const std::string &name, const std::string &default_value ) const {
+            return item_vars_.get( name, default_value );
+        }
+
+        std::string get_var( const std::string &name ) const {
+            return item_vars_.get( name, "" );
+        }
+
+        void set_var( const std::string &name, const std::string &value ) {
+            item_vars_.set( name, value );
+        };
+
+        /*
         void set_var( const std::string &name, int value ) { item_vars_.set<int>( name,  value ); };
         void set_var( const std::string &name, long long value ) { item_vars_.set<long long>( name,  value ); };
         // Acceptable to use long as part of overload set
         // NOLINTNEXTLINE(cata-no-long)
-        void set_var( const std::string &name, long value ) { item_vars_.set<long>( name, value ); };
+        //void set_var( const std::string &name, long value ) { item_vars_.set<long>( name, value ); };
         void set_var( const std::string &name, double value ) { item_vars_.set<double>( name, value ); };
         void set_var( const std::string &name, const tripoint &value ) { item_vars_.set<tripoint>( name, value ); };
         void set_var( const std::string &name, const std::string &value ) { item_vars_.set( name, value ); };
@@ -1510,6 +1533,8 @@ class item : public location_visitable<item>, public game_object<item>
         tripoint get_var( const std::string &name, const tripoint &default_value ) const { return item_vars_.get<tripoint>( name, default_value ); }
         std::string get_var( const std::string &name, const std::string &default_value ) const { return item_vars_.get( name, default_value ); }
         std::string get_var( const std::string &name ) const { return item_vars_.get( name, "" ); }
+        */
+
         bool has_var( const std::string &name ) const { return item_vars_.contains( name ); }
         void erase_var( const std::string &name ) { item_vars_.erase( name ); }
         void clear_vars() { item_vars_.clear(); }
