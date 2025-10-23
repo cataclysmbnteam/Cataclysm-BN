@@ -1507,6 +1507,10 @@ class item : public location_visitable<item>, public game_object<item>
             item_vars_.set<T>( name, value );
         }
 
+        std::string get_var( const std::string &name, const char *default_value ) const {
+            return item_vars_.get( name, default_value );
+        }
+
         std::string get_var( const std::string &name, const std::string &default_value ) const {
             return item_vars_.get( name, default_value );
         }
