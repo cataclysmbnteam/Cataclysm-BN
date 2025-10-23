@@ -660,6 +660,16 @@
     ]
   },
   {
+    "id": "ballista_mount",
+    "type": "vehicle",
+    "name": "Scorpio ballista",
+    "blueprint": [ [ "-U" ] ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "turret_mount_manual_wood", "mounted_launcher_ballista" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_handle" ] }
+    ]
+  },
+  {
     "id": "whillys_mb",
     "type": "vehicle",
     "name": "Jeep",
