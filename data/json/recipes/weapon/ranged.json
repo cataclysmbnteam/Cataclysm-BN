@@ -1484,11 +1484,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "recipe_bows", 6 ], [ "textbook_weapwest", 6 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SAW_W", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "blacksmithing_intermediate", 1, "LIST" ] ] ],
     "components": [
       [ [ "wood_structural", 10, "LIST" ] ],
