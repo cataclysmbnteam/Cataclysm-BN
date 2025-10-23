@@ -15,6 +15,16 @@ feat: add new mutation
 feat(port): port mutation description from DDA
 ```
 
+The PR title should be easy to understand for players at a glance. It's recommended to use imperative and descriptive title (`<verb> <noun>`) like:
+
+```diff
+- feat: rebalancing some rifles
++ feat: nerf jam chance of m16 and m4
+```
+
+before: it's hard to know whether they are buffed or nerfed, and which rifles are changed unless reading the full PR description.
+after: it's easy to understand what exactly is changed from the title itself.
+
 ## Type
 
 The type is the first word in the PR title. They specify the type of change being made. When in
