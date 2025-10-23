@@ -1519,6 +1519,10 @@ class item : public location_visitable<item>, public game_object<item>
             return item_vars_.get( name, "" );
         }
 
+        void set_var( const std::string &name, const char *value ) {
+            item_vars_.set( name, value );
+        };
+
         void set_var( const std::string &name, const std::string &value ) {
             item_vars_.set( name, value );
         };
