@@ -141,7 +141,7 @@ void npc_mission_item_location::attach( detached_ptr<item> &&obj )
 detached_ptr<item> wield_item_location::detach( item *it )
 {
     for( std::pair<const bodypart_str_id, bodypart> &part : holder->get_body() ) {
-        if( &*part.second.wielding.wielded == it ) {
+        if( part.second.wielding.wielded->typeId() == it->typeId() ) {
             detached_ptr<item> d = part.second.wielding.wielded.release();
             return d;
         }
