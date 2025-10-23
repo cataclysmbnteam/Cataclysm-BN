@@ -57,7 +57,7 @@ mod.on_game_save_hook = function()
   mod.save_anchor_omt()
 end
 
-mod.pre_death_hook = function()
+mod.on_character_death_hook = function()
   local who = gapi.get_avatar()
   local anchor_pos = mod.pick_teleport_destination(who)
   if anchor_pos ~= nil then
@@ -95,7 +95,7 @@ mod.iuse_function_anchor = function(who, item, pos)
 
   if furn_id == f_null then
     mod.add_anchor_to_list(abs_pos)
-    gapi.get_map():set_furn_at(local_pos, f_anchor)
+    gapi.get_map():set_furn_at(pos, f_anchor)
     gapi.add_msg("The teleporter anchor was placed at your position")
   else
     gapi.add_msg("Can only be placed on a square with no existing furniture.")
