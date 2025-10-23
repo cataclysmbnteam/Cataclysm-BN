@@ -1474,5 +1474,29 @@
     ],
     "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_standard", 4 ] ],
     "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "launcher_ballista",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "1 h",
+    "book_learn": [ [ "recipe_bows", 6 ], [ "textbook_weapwest", 6 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
+    "tools": [ [ [ "blacksmithing_intermediate", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "wood_structural", 10, "LIST" ] ],
+      [ [ "rope_superior_short", 3, "LIST" ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "fabric_hides_proper", 4, "LIST" ] ],
+      [ [ "steel_standard", 2, "LIST" ] ],
+      [ [ "nail_glue", 80, "LIST" ] ]
+    ]
   }
 ]
