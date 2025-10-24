@@ -18,9 +18,9 @@ struct furn_transform {
 class battery_tile : public active_tile_data
 {
     public:
-        /* In kJ */
-        int stored;
-        int max_stored;
+        /* In J */
+        units::energy stored;
+        units::energy max_stored;
 
         void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
@@ -28,15 +28,15 @@ class battery_tile : public active_tile_data
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
 
-        int get_resource() const;
-        int mod_resource( int amt );
+        units::energy get_resource() const;
+        units::energy mod_resource( units::energy amt );
 };
 
 class charge_watcher_tile : public active_tile_data
 {
     public:
         /* In J */
-        int min_power;
+        units::energy min_power;
         active_tiles::furn_transform transform;
 
         void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
@@ -76,7 +76,7 @@ class steady_consumer_tile : public active_tile_data
 {
     public:
         /* In J */
-        int power;
+        units::energy power;
         time_duration consume_every = 1_seconds;
         active_tiles::furn_transform transform;
 

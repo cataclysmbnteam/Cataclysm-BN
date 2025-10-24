@@ -1940,7 +1940,7 @@ class jmapgen_loot : public jmapgen_piece
     public:
         jmapgen_loot( const JsonObject &jsi ) :
             result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
-                          jsi.get_int( "magazine", 0 ) )
+                          jsi.get_int( "magazine", 0 ), jsi.get_int( "battery", 0 ) )
             , chance( jsi.get_int( "chance", 100 ) ) {
             const item_group_id group = item_group_id( jsi.get_string( "group", std::string() ) );
             const itype_id ity = itype_id( jsi.get_string( "item", std::string() ) );

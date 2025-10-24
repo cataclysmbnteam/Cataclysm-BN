@@ -768,6 +768,12 @@ void debug_menu::wishitem( Character *who, const tripoint &pos )
             if( !granted->ammo_default().is_null() ) {
                 granted->ammo_set( granted->ammo_default(), -1 );
             }
+            if( !granted->battery_default().is_null() ) {
+                granted->put_in( item::spawn( granted->battery_default(), calendar::start_of_cataclysm, 0,
+                                              granted->battery_default()->battery->max_energy ) );
+            } else if( granted->battery_integral() ) {
+                granted->set_energy( granted->energy_capacity() );
+            }
 
             granted->set_birthday( calendar::turn );
             prev_amount = amount;

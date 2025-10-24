@@ -98,25 +98,19 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 5,
     "use_action": {
       "type": "transform",
       "active": true,
       "target": "carver_on",
       "msg": "You turn on the electric carver.",
       "moves": 80,
-      "transform_charges": 1,
-      "need_dry": true
+      "need_dry": true,
+      "transform_power": "1 kJ"
     },
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "COMBAT_NPC_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "carver_on",
@@ -126,14 +120,13 @@
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
     "to_hit": 1,
-    "power_draw": 150000,
-    "charges_per_use": 0,
+    "power_draw": "150 J",
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "revert_msg": "Your electric carver goes quiet",
     "use_action": { "type": "transform", "target": "carver_off", "msg": "You turn off the electric carver." },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "char_purifier",
@@ -264,17 +257,11 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "10 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "dehydrator",
@@ -291,15 +278,9 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "eggs_ferment",
@@ -490,15 +471,9 @@
     "material": [ "iron" ],
     "symbol": "%",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "soda_machine",
@@ -516,15 +491,9 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "%",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "atomic_soda_machine",
@@ -600,16 +569,10 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
-    "charges_per_use": 5,
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "afs_atompot",
@@ -713,14 +676,8 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "mess_kit",
@@ -737,18 +694,12 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
     "sub": "hotplate",
-    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "mess_tin",
@@ -783,18 +734,12 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
     "sub": "hotplate",
-    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "mortar_pestle",
@@ -827,7 +772,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": "battery",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [
       {
@@ -840,13 +784,8 @@
         "temporary_tools": [ "tongs", "toolset", "pot" ]
       }
     ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "multi_cooker_improved",
@@ -1115,15 +1054,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "waffleiron",
@@ -1157,25 +1090,19 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_blue",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "type": "GENERIC",

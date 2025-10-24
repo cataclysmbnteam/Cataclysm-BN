@@ -809,7 +809,9 @@ void Character::reset_stats()
     recalc_sight_limits();
     recalc_speed_bonus();
 
-    cata::run_hooks( "on_character_reset_stats", [this]( auto & params ) { params["character"] = this; } );
+    cata::run_hooks( "on_character_reset_stats", [this]( auto & params ) {
+        params["character"] = this;
+    } );
 }
 
 void Character::environmental_revert_effect()
@@ -833,15 +835,14 @@ void Character::environmental_revert_effect()
     reset_encumbrance();
 }
 
-static bool needs_elec_charges( item *it )
+static bool can_recharge( item *it )
 {
-    bool not_full = it->ammo_capacity() > it->ammo_remaining();
-    if( !not_full ) {
+    if( it->energy_remaining() >= it->energy_capacity() ) {
         return false;
     }
-    const item *mag = it->magazine_current();
-    if( mag ) {
-        return mag->has_flag( flag_RECHARGE );
+    const item *bat = it->battery_current();
+    if( bat ) {
+        return bat->has_flag( flag_RECHARGE );
     } else {
         return true;
     }
@@ -872,96 +873,81 @@ void Character::process_items()
     } );
 
     // Active item processing done, now we're recharging.
-    std::vector<item *> active_worn_items;
+    std::vector<item *> recharging_items;
     bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         needs_elec_charges( &primary_weapon() );
-    std::vector<size_t> active_held_items;
-    int ch_UPS = 0;
+                         can_recharge( &primary_weapon() );
+    for( item *&w : worn ) {
+        if( w->has_flag( flag_USE_UPS ) &&
+            can_recharge( w ) ) {
+            recharging_items.push_back( w );
+        }
+    }
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
-        if( it.has_flag( flag_IS_UPS ) ) {
-            ch_UPS += std::min( it.ammo_remaining() * it.type->tool->ups_eff_mult,
-                                it.type->tool->ups_recharge_rate );
-        }
-        if( it.has_flag( flag_USE_UPS ) && needs_elec_charges( &it ) ) {
-            active_held_items.push_back( index );
+        if( it.has_flag( flag_USE_UPS ) && it.energy_remaining() < it.energy_capacity() ) {
+            recharging_items.push_back( &it );
         }
     }
-    bool update_required = get_check_encumbrance();
-    for( item *&w : worn ) {
-        if( w->has_flag( flag_USE_UPS ) && needs_elec_charges( w ) ) {
-            active_worn_items.push_back( w );
+
+    units::energy ch_UPS = 0_J;
+    units::energy ch_UPS_used = 0_J;
+
+    visit_items( [&ch_UPS, this]( item * node ) {
+        if( node->has_flag( flag_IS_UPS ) ) {
+            ch_UPS += std::min( node->energy_remaining() * node->type->tool->ups_eff_mult,
+                                units::from_kilojoule<int64_t>( node->type->tool->ups_recharge_rate ) );
         }
-        if( w->has_flag( flag_IS_UPS ) ) {
-            ch_UPS += std::min( w->ammo_remaining() * w->type->tool->ups_eff_mult,
-                                w->type->tool->ups_recharge_rate );
-        }
-        if( !update_required && w->encumbrance_update_ ) {
-            update_required = true;
-        }
-        w->encumbrance_update_ = false;
-    }
-    if( update_required ) {
-        reset_encumbrance();
-    }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += std::min( units::to_kilojoule( get_power_level() ), 10 );
-    }
-    int ch_UPS_used = 0;
-    if( weapon_active && ch_UPS_used < ch_UPS ) {
-        auto weap = &primary_weapon();
-        int used = std::min( ch_UPS, weap->ammo_capacity() - weap->ammo_remaining() );
-        ch_UPS -= used;
-        ch_UPS_used += used;
-        const itype_id ammo = weap->ammo_current();
-        if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
-            weap->ammo_set( ammo, weap->ammo_remaining() + used );
-        } else if( weap->ammo_remaining() == 0 ) {
-            weap->ammo_set( itype_battery, weap->ammo_remaining() + used );
-        } else {
-            ch_UPS_used -= used;
-            ch_UPS += used;
-        }
-    }
+        return VisitResponse::SKIP;
+    } );
+
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    for( size_t index : active_held_items ) {
-        if( ch_UPS <= 0 ) {
+    if( weapon_active && ch_UPS_used < ch_UPS ) {
+        item *bat = primary_weapon().battery_current();
+        units::energy recharged = std::min( primary_weapon().energy_remaining() -
+                                            primary_weapon().energy_capacity(), ch_UPS_used );
+        if( bat ) {
+            ch_UPS_used += recharged;
+            bat->mod_energy( recharged );
+        } else {
+            primary_weapon().mod_energy( recharged );
+        }
+    }
+    for( item *&w : worn ) {
+        if( ch_UPS_used >= ch_UPS ) {
+            break;
+        }
+        if( w->has_flag( flag_USE_UPS ) && can_recharge( w ) ) {
+            item *bat = w->battery_current();
+            units::energy recharged = std::min( w->energy_remaining() -
+                                                w->energy_capacity(), ch_UPS_used );
+            if( bat ) {
+                ch_UPS_used += recharged;
+                bat->mod_energy( recharged );
+            } else {
+                w->mod_energy( recharged );
+            }
+        }
+    }
+    for( size_t index = 0; index < inv.size(); index++ ) {
+        if( ch_UPS_used >= ch_UPS ) {
             break;
         }
         item &it = inv.find_item( index );
-        int used = std::min( ch_UPS, it.ammo_capacity() - it.ammo_remaining() );
-        ch_UPS -= used;
-        ch_UPS_used += used;
-        const itype_id ammo = it.ammo_current();
-        if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
-            it.ammo_set( ammo, it.ammo_remaining() + used );
-        } else if( it.ammo_remaining() == 0 ) {
-            it.ammo_set( itype_battery, it.ammo_remaining() + used );
-        } else {
-            ch_UPS_used -= used;
-            ch_UPS += used;
+        if( it.has_flag( flag_USE_UPS ) && can_recharge( &it ) ) {
+            item *bat = it.battery_current();
+            units::energy recharged = std::min( it.energy_remaining() -
+                                                it.energy_capacity(), ch_UPS_used );
+            if( bat ) {
+                ch_UPS_used += recharged;
+                bat->mod_energy( recharged );
+            } else {
+                it.mod_energy( recharged );
+            }
         }
     }
-    for( item *worn_item : active_worn_items ) {
-        if( ch_UPS <= 0 ) {
-            break;
-        }
-        int used = std::min( ch_UPS, worn_item->ammo_capacity() - worn_item->ammo_remaining() );
-        ch_UPS -= used;
-        ch_UPS_used += used;
-        const itype_id ammo = worn_item->ammo_current();
-        if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
-            worn_item->ammo_set( ammo, worn_item->ammo_remaining() + used );
-        } else if( worn_item->ammo_remaining() == 0 ) {
-            worn_item->ammo_set( itype_battery, worn_item->ammo_remaining() + used );
-        } else {
-            ch_UPS_used -= used;
-            ch_UPS += used;
-        }
-    }
-    if( ch_UPS_used > 0 ) {
-        use_charges( itype_UPS, ch_UPS_used );
+    if( ch_UPS_used > 0_J ) {
+        use_energy( itype_UPS, ch_UPS_used );
     }
 }
 

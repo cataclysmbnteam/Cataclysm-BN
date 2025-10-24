@@ -58,12 +58,20 @@ void angle::deserialize( JsonIn &jsin )
 
 std::string display( const units::energy v )
 {
-    const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
-    if( kj >= 1 && float( j ) / kj == 1000 ) {
-        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+    if( j > 1000 ) {
+        if( float( j % 1000 ) == 0 ) {
+            return string_format( "%d %s", j / 1000, pgettext( "energy unit: kilojoule", "kJ" ) );
+        } else {
+            float kj = j / 1000.f;
+            std::string kJ_string = string_format( "%.3f", kj );
+            while( kJ_string.back() == '0' ) {
+                kJ_string.pop_back();
+            }
+            return string_format( "%s %s", kJ_string, pgettext( "energy unit: kilojoule", "kJ" ) );
+        }
     }
-    return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+    return string_format( "%d %s", j, pgettext( "energy unit: joule", "J" ) );
 }
 } // namespace units

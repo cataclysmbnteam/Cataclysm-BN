@@ -51,18 +51,12 @@
     "material": [ "glass", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
     "sub": "hotplate",
-    "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "chemistry_set_basic",
@@ -93,13 +87,7 @@
     "price_postapoc": "750 cent",
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
-      ]
-    ]
+    "batteries": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
   },
   {
     "id": "hydrogen_tank",
@@ -289,25 +277,19 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WINDMETER" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_disposable_cell",
-          "light_atomic_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_disposable_cell",
+      "light_atomic_battery_cell",
+      "light_minus_battery_cell",
+      "light_minus_disposable_cell",
+      "light_minus_atomic_battery_cell"
+    ]
   },
   {
     "id": "analytical_set_basic",
@@ -319,20 +301,14 @@
     "volume": "5 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "balance_small",
@@ -360,19 +336,13 @@
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "ph_meter",
@@ -384,27 +354,21 @@
     "volume": "750 ml",
     "price": "60 USD",
     "price_postapoc": "250 cent",
-    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "voltmeter",
@@ -416,7 +380,6 @@
     "volume": "750 ml",
     "price": 6000,
     "price_postapoc": 250,
-    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic" ],
@@ -425,21 +388,16 @@
     "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ],
     "flags": [ "BELT_CLIP" ],
     "qualities": [ [ "VOLT_MEASURE", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "melting_point",
@@ -451,27 +409,21 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "250 cent",
-    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "vortex",
@@ -658,23 +610,17 @@
     "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
-    "ammo": "battery",
     "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "3d_printer_basic",
@@ -690,8 +636,6 @@
     "looks_like": "f_heavy_lathe",
     "symbol": "n",
     "color": "white",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [
       {
@@ -705,13 +649,9 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "3d_printer_advanced",

@@ -295,10 +295,13 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
     assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_J );
     is_remote_fueled = remote_fuel_draw > 0_J;
+    assign( jsobj, "energy_multiplier", energy_multiplier, strict, 1 );
+    assign( jsobj, "energy_capacity", energy_capacity, strict, 0_J );
+    assign( jsobj, "max_energy_draw", max_energy_draw, strict, 0_J );
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
-    assign( jsobj, "fuel_multiplier", fuel_multiplier, strict, 0 );
+    assign( jsobj, "fuel_multiplier", fuel_multiplier, strict, 0 );;
     assign( jsobj, "passive_fuel_efficiency", passive_fuel_efficiency, strict, 0.0f );
     assign( jsobj, "coverage_power_gen_penalty", coverage_power_gen_penalty, strict );
     assign( jsobj, "exothermic_power_gen", exothermic_power_gen, strict );
@@ -1362,20 +1365,14 @@ bool Character::burn_fuel( bionic &bio, bool start )
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
-                        auto to_consume = bio.info().remote_fuel_draw;
-                        if( get_power_level() >= get_max_power_level() ) {
-                            to_consume = 0_J;
-                        }
-                        const auto unconsumed = consume_remote_fuel( to_consume );
-                        // we don't check if to_consume != unconsumed cuz we wouldn't get there otherwise
-                        if( to_consume > 0_J ) {
-                            if( unconsumed == 0_J ) {
-                                mod_power_level( bio.info().remote_fuel_draw * effective_efficiency );
-                                current_fuel_stock -= units::to_kilojoule( to_consume );
-                            } else {
-                                mod_power_level( ( to_consume - unconsumed ) * effective_efficiency );
-                                current_fuel_stock = 0;
-                            }
+                        units::energy to_consume = std::min( bio.info().remote_fuel_draw,
+                                                             get_max_power_level() - get_power_level() );
+                        const units::energy to_recharge = to_consume - consume_remote_fuel( to_consume );
+                        if( to_recharge >= 0_J ) {
+                            mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
+                            current_fuel_stock -= units::to_joule( to_recharge );
+                        } else if( to_consume >= 0_J ) {
+                            current_fuel_stock = 0;
                         }
                         set_value( "rem_" + fuel.str(), std::to_string( current_fuel_stock ) );
                     } else {
@@ -1406,6 +1403,45 @@ bool Character::burn_fuel( bionic &bio, bool start )
                     deactivate_bionic( bio, true );
                     return false;
                 }
+            }
+        }
+    }
+    return true;
+}
+
+bool Character::discharge( bionic &bio, bool start )
+{
+    if( start && bio.energy_stored == 0_J ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
+                               _( "<npcname>'s %s does not have enough fuel to start." ),
+                               bio.info().name );
+        deactivate_bionic( bio );
+        return false;
+    }
+    // don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF
+    //in the menu
+    if( !start ) {
+        if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && get_power_level() == get_max_power_level() ) {
+            if( !bio.is_auto_start_keep_full() ) {
+                add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
+                                       _( "<npcname>'s %s turns off after filling their power banks." ),
+                                       bio.info().name );
+            }
+            deactivate_bionic( bio, true );
+            return false;
+        } else {
+            if( bio.energy_stored > 0_J ) {
+                units::energy to_recharge = std::min( std::min( bio.energy_stored, bio.info().max_energy_draw ),
+                                                      get_max_power_level() - get_power_level() );
+                bio.energy_stored -= to_recharge;
+                mod_power_level( to_recharge );
+            } else {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s runs out of energy and turns off." ),
+                                       _( "<npcname>'s %s runs out of energy and turns off." ),
+                                       bio.info().name );
+                deactivate_bionic( bio, true );
+                return false;
             }
         }
     }
@@ -1489,7 +1525,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                 if( grid_connector ) {
                     if( !look_only ) {
                         auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point );
-                        set_value( "rem_battery", std::to_string( grid.get_resource() ) );
+                        set_value( "rem_battery", std::to_string( units::to_joule( grid.get_resource() ) ) );
                     }
                     remote_fuel = fuel_type_battery;
                 }
@@ -1505,8 +1541,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                 const optional_vpart_position vp = here.veh_at( nonchar.point );
                 if( vp ) {
                     if( !look_only ) {
-                        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
-                                   true ) ) );
+                        set_value( "rem_battery", std::to_string( units::to_joule( vp->vehicle().energy_left( true ) ) ) );
                     }
                     remote_fuel = fuel_type_battery;
                 }
@@ -1515,7 +1550,7 @@ itype_id Character::find_remote_fuel( bool look_only )
             case state_solar_pack:
                 if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
                     if( !look_only ) {
-                        set_value( "sunlight", "1" );
+                        set_value( "sunlight", "1000" );
                     }
                     remote_fuel = fuel_type_sun_light;
                 }
@@ -1525,9 +1560,9 @@ itype_id Character::find_remote_fuel( bool look_only )
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( !look_only ) {
-                    if( has_charges( itype_UPS, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
+                    if( has_energy( itype_UPS, 1_kJ, used_ups ) ) {
+                        set_value( "rem_battery",
+                                   std::to_string( units::to_joule( energy_of( itype_UPS, max_power_level, used_ups ) ) ) );
                     } else {
                         set_value( "rem_battery", std::to_string( 0 ) );
                     }
@@ -1542,7 +1577,6 @@ itype_id Character::find_remote_fuel( bool look_only )
 
 units::energy Character::consume_remote_fuel( units::energy amount )
 {
-    int amount_kj = units::to_kilojoule( amount );
     units::energy unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
@@ -1564,7 +1598,7 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 }
                 const auto vp = here.veh_at( non_char.point );
                 if( vp ) {
-                    unconsumed_amount = units::from_kilojoule( vp->vehicle().discharge_battery( amount_kj ) );
+                    unconsumed_amount = vp->vehicle().discharge_battery( unconsumed_amount );
                 }
                 break;
             }
@@ -1576,7 +1610,7 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( non_char.point );
                 if( grid_connector ) {
                     auto grid = get_distribution_grid_tracker().grid_at( non_char.point );
-                    unconsumed_amount = units::from_kilojoule( grid.mod_resource( -amount_kj ) );
+                    unconsumed_amount = grid.mod_resource( -unconsumed_amount );
                 }
                 break;
             }
@@ -1584,8 +1618,8 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
-                if( has_charges( itype_UPS, amount_kj, used_ups ) ) {
-                    use_charges( itype_UPS, amount_kj, used_ups );
+                if( has_energy( itype_UPS, unconsumed_amount, used_ups ) ) {
+                    use_energy( itype_UPS, unconsumed_amount, used_ups );
                     unconsumed_amount = 0_J;
                 }
                 break;
@@ -1722,6 +1756,9 @@ void Character::process_bionic( bionic &bio )
                 // Convert fuel to bionic power
                 burn_fuel( bio );
                 // This is our first turn of charging, so subtract a turn from the recharge delay.
+                bio.charge_timer = std::max( 0, bio.info().charge_time - 1 );
+            } else if( bio.info().has_flag( STATIC( flag_id( "BIONIC_CAPACITOR" ) ) ) ) {
+                discharge( bio );
                 bio.charge_timer = std::max( 0, bio.info().charge_time - 1 );
             } else {
                 // Try to recharge our bionic if it is made for it
@@ -1871,14 +1908,14 @@ void Character::process_bionic( bionic &bio )
         if( bio.charge_timer < 2 ) {
             bio.charge_timer = 2;
         }
-        if( bio.energy_stored < 150_kJ ) {
+        if( bio.energy_stored < bio.info().energy_capacity ) {
             // Max recharge rate is influenced by whether you've been hit or not.
             // See character.cpp for how charge_timer keeps track of that for this bionic.
             units::energy max_rate = 10_kJ;
             if( bio.charge_timer > 2 ) {
                 max_rate /= 2;
             }
-            units::energy ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
+            units::energy ads_recharge = std::min( max_rate, bio.info().energy_capacity - bio.energy_stored );
             if( ads_recharge < get_power_level() ) {
                 mod_power_level( - ads_recharge );
                 bio.energy_stored += ads_recharge;
@@ -1886,11 +1923,11 @@ void Character::process_bionic( bionic &bio )
                 mod_power_level( - get_power_level() );
                 bio.energy_stored += get_power_level();
             }
-            if( bio.energy_stored == 150_kJ ) {
+            if( bio.energy_stored == bio.info().energy_capacity ) {
                 add_msg_if_player( m_good, _( "Your %s quietens to a satisfied thrum." ), bio.info().name );
             }
-        } else if( bio.energy_stored > 150_kJ ) {
-            bio.energy_stored = 150_kJ;
+        } else if( bio.energy_stored > bio.info().energy_capacity ) {
+            bio.energy_stored = bio.info().energy_capacity;
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
@@ -1955,7 +1992,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 10_minutes ) ) {
             const units::energy trigger_cost = bio.info().power_trigger;
 
-            if( get_rad() > 0 && bio.energy_stored >= trigger_cost ) {
+            if( get_rad() > 0 && get_power_level() >= trigger_cost ) {
                 add_msg_if_player( m_good, _( "Your %s completed a scrubbing cycle." ), bio.info().name );
 
                 mod_rad( std::max( -10, -get_rad() ) );
@@ -2941,7 +2978,8 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
-    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
+    if( info().fuel_opts.empty() && !info().is_remote_fueled
+        && !( info().max_energy_draw > 0_J ) ) {
         return;
     }
     if( !has_flag( flag_SAFE_FUEL_OFF ) ) {

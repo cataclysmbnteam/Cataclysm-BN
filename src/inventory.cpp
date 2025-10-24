@@ -44,7 +44,6 @@
 #include "inventory_ui.h" // auto inventory blocking
 
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_hotplate( "hotplate" );
@@ -501,7 +500,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     if( furn_item.has_flag( flag_USES_GRID_POWER ) ) {
                         // TODO: The grid tracker should correspond to map!
                         auto &grid = get_distribution_grid_tracker().grid_at( tripoint_abs_ms( m.getabs( p ) ) );
-                        furn_item.charges = grid.get_resource();
+                        furn_item.energy = grid.get_resource();
                     } else {
                         furn_item.charges = ammo ? count_charges_in_list( &*ammo, m.i_at( p ) ) : 0;
                     }
@@ -590,7 +589,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             for( itype_id id : crafterpart->info().craftertools() ) {
                 if( !found_tools.contains( id.str() ) ) {
                     item &tool = *item::spawn_temporary( id, bday );
-                    tool.charges = veh->fuel_left( itype_battery, true );
+                    tool.energy = veh->energy_left( true );
                     tool.item_tags.insert( flag_PSEUDO );
                     if( id == itype_hotplate ) {
                         tool.item_tags.insert( flag_HEATS_FOOD );
@@ -612,9 +611,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             has_faucet = true;
         }
 
+
         if( autoclavepart && !has_autodoc ) {
             item &autoclave = *item::spawn_temporary( "autoclave", bday );
-            autoclave.charges = veh->fuel_left( itype_battery, true );
+            autoclave.energy = veh->energy_left( true );
             autoclave.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( autoclave, false );
             has_autodoc = true;
@@ -852,6 +852,12 @@ bool inventory::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
+}
+
+bool inventory::has_energy( const itype_id &it, units::energy quantity,
+                            const std::function<bool( const item & )> &filter ) const
+{
+    return ( energy_of( it, units::energy_max, filter ) >= quantity );
 }
 
 int inventory::leak_level( const flag_id &flag ) const

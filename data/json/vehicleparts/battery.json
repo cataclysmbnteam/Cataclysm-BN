@@ -4,7 +4,6 @@
     "type": "vehicle_part",
     "name": { "str": "car battery" },
     "item": "battery_car",
-    "fuel_type": "battery",
     "symbol": "o",
     "color": "yellow",
     "broken_color": "red",

@@ -611,8 +611,14 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
-                return string_format( _( "No space to store more %s" ), it.tname() );
+            } else if( cbm == rechargeable_cbm::other ) {
+                if( it.is_battery() ) {
+                    if( p.get_energy_capacity() == 0_J ) {
+                        return string_format( _( "No space to store more battery charge" ) );
+                    }
+                } else if( p.get_fuel_capacity( it.typeId() ) <= 0 ) {
+                    return string_format( _( "No space to store more %s" ), it.tname() );
+                }
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -843,11 +849,14 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return _( "Your biology is not compatible with that item." );
             }
 
-            if( !p.has_enough_charges( it, false ) && !uses.contains( iuse_TOGGLE_UPS_CHARGING ) ) {
+            if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
                            vgettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
+            }
+            if( !p.has_enough_power( it, false ) && !uses.contains( iuse_TOGGLE_UPS_CHARGING ) ) {
+                return string_format( "Needs at least %s power", units::display( loc->energy_required() ) );
             }
 
             if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {

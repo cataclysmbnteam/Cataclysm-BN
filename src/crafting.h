@@ -7,6 +7,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "activity_speed_adapters.h"
 
 class avatar;
@@ -70,6 +71,10 @@ std::set<itype_id> get_books_for_recipe( const recipe *r );
 int charges_for_complete( int full_charges );
 int charges_for_starting( int full_charges );
 int charges_for_continuing( int full_charges );
+
+units::energy energy_for_complete( units::energy full_energy );
+units::energy energy_for_starting( units::energy full_energy );
+units::energy energy_for_continuing( units::energy full_energy );
 
 /**
  * Returns selected tool component that matches one of the expected ones.

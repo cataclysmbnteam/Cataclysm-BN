@@ -12,7 +12,7 @@
     "name": "PATHFINDING_H_COEFF_DEFAULT",
     "info": "If `h_coeff` is unspecified, it will be this: how directed the pathfinding is. A value of 1.0 makes pathfinding equivalent to A*, 0.0 is raw Dijikstra; this adjusts precision, high values will converge quicker, but produce a possibly less than shortest path.",
     "stype": "float",
-    "value": 1.0
+    "value": 1
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -54,13 +54,13 @@
     "name": "PATHFINDING_MAX_F_COEFF_DEFAULT",
     "info": "If max_f_coeff is unspecified, the value will be this: limits pathfinding search domain based on unbiased f-values: this will make pathfinding not succeed when the f-value is more than this value multiplied by either the distance between the start position and the end position or by `max_dist` is the option is enabled. 2.5 is equivalent to legacy pathfinding, negative values disable the limit.",
     "stype": "float",
-    "value": -1.0
+    "value": -1
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PATHFINDING_MOB_PRESENCE_PENALTY_DEFAULT",
     "info": "If mob avoidance is unspecified, the value will be this. This makes pathfinding route around living mobs with higher values increasing the route-around range. Negative values will make pathfinding treat mobs as impassable walls.",
     "stype": "float",
-    "value": 16.0
+    "value": 16
   }
 ]

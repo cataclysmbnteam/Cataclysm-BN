@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <algorithm>
 
 #include "units_def.h"
@@ -11,7 +12,7 @@ class energy_in_joule_tag
 {
 };
 
-using energy = quantity<int, energy_in_joule_tag>;
+using energy = quantity<std::int64_t, energy_in_joule_tag>;
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );
@@ -69,5 +70,3 @@ constexpr units::quantity<double, units::energy_in_joule_tag> operator""_kJ(
 {
     return units::from_kilojoule( v );
 }
-
-

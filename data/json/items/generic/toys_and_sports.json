@@ -12,24 +12,18 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_disposable_cell",
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_minus_disposable_cell",
+      "light_disposable_cell",
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell"
+    ]
   },
   {
     "id": "creepy_doll",
@@ -44,23 +38,17 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_disposable_cell",
-          "light_disposable_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_minus_disposable_cell",
+      "light_disposable_cell",
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell"
+    ]
   }
 ]

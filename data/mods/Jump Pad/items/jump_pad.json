@@ -14,14 +14,8 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "H",
     "color": "blue",
-    "ammo": "battery",
     "use_action": { "type": "deploy_furn", "furn_type": "f_jumppad" },
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ]
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
   },
   {
     "type": "furniture",

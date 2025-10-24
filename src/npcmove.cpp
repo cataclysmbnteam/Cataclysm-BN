@@ -113,7 +113,6 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_chem_ethanol( "chem_ethanol" );
 static const itype_id itype_chem_methanol( "chem_methanol" );
 static const itype_id itype_denat_alcohol( "denat_alcohol" );
@@ -125,6 +124,8 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
 static const itype_id fuel_wind( "wind" );
 static const itype_id fuel_sunlight( "sunlight" );
+
+static const flag_id flag_BIONIC_CAPACITOR( "BIONIC_CAPACITOR" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -1728,6 +1729,9 @@ bool npc::recharge_cbm()
         }
 
         if( !get_fuel_available( bid ).empty() ) {
+            if( bid->has_flag( flag_BIONIC_CAPACITOR ) ) {
+                complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+            }
             use_bionic_by_id( bid );
             return true;
         } else {
@@ -1754,9 +1758,7 @@ bool npc::recharge_cbm()
                     std::find( fuel_op.begin(), fuel_op.end(), fuel_sunlight ) != fuel_op.end() ||
                     std::find( fuel_op.begin(), fuel_op.end(), fuel_wind ) != fuel_op.end();
 
-                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
-                    complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-                } else if( need_alcohol ) {
+                if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
                 } else if( need_environment ) {
                     // No Need for NPCs to complain about the weather and time of day...
@@ -2476,7 +2478,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
             if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                mounted_creature->use_mech_power( -1 );
+                mounted_creature->use_mech_power( -1_kJ );
             }
         } else {
             moves -= run_cost( here.combined_movecost( pos(), p ), diag );
@@ -3753,8 +3755,9 @@ void npc::heal_player( Character &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
-        consume_charges( used, charges_used );
+        auto [chrg, enrg] = used.type->invoke( *this, used, patient.pos(), "heal" );
+        consume_charges( used, chrg );
+        consume_energy( used, enrg );
     } else {
         pretend_heal( patient, used );
     }
@@ -3802,9 +3805,11 @@ void npc::heal_self()
     }
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    auto[chrg, enrg] = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
-        consume_charges( used, charges_used );
+        consume_charges( used, chrg );
+    } else {
+        consume_energy( used, enrg );
     }
 }
 

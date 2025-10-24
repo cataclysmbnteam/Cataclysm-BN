@@ -275,6 +275,7 @@ const flag_id flag_RAW( "RAW" );
 const flag_id flag_REACH( "REACH" );
 const flag_id flag_REACH3( "REACH3" );
 const flag_id flag_REACH_ATTACK( "REACH_ATTACK" );
+const flag_id flag_REACTOR( "REACTOR" );
 const flag_id flag_REBREATHER( "REBREATHER" );
 const flag_id flag_RECHARGE( "RECHARGE" );
 const flag_id flag_REDUCED_BASHING( "REDUCED_BASHING" );

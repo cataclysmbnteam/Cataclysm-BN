@@ -1315,6 +1315,9 @@ class map
         std::vector<detached_ptr<item>> use_charges( const tripoint &origin, int range,
                                      const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        void use_energy( const tripoint &origin, int range,
+                         const itype_id &type,
+                         units::energy &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         /*@}*/
 
         /**

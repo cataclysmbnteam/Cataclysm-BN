@@ -97,6 +97,12 @@
     "info": "Provides motive power to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  If it drains power, also requires a charged battery to start."
   },
   {
+    "id": "E_ENGINE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Defines that an ENGINE uses electrical power instead of fuel."
+  },
+  {
     "id": "E_ALTERNATOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],

@@ -188,8 +188,6 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
-    "ammo": "battery",
-    "charges_per_use": 4,
     "use_action": [
       {
         "type": "repair_item",
@@ -217,10 +215,9 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "power_draw": "4 kJ",
+    "battery_well": "1000 ml",
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
   },
   {
     "id": "hydraulic_press",
@@ -238,13 +235,10 @@
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "f_hydraulic_press",
-    "ammo": "battery",
-    "charges_per_use": 20,
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "power_draw": "20 kJ",
+    "battery_well": "1000 ml",
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
   },
   {
     "id": "kiln_done",

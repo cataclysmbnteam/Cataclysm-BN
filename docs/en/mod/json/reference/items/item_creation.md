@@ -588,6 +588,7 @@ gunmod_data:
 ### Tools
 
 ```json
+{
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
@@ -610,12 +611,13 @@ gunmod_data:
 "charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
 "charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
-"power_draw": 50,       // Energy consumption rate in mW
+"power_draw": "5 J",       // Energy consumption rate
 "ups_eff_mult": 2,       // Multiplier for UPS efficiency
 "ups_recharge_rate": 10,       // The power output for UPS recharging of items
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below
+}
 ```
 
 ### Seed Data

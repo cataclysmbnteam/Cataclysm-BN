@@ -378,7 +378,16 @@
     "material": "paper",
     "symbol": ";",
     "color": "red",
-    "use_action": "FIRECRACKER",
+    "use_action": {
+      "target": "firecracker_act",
+      "msg": "You light the firecracker.",
+      "target_charges": 1,
+      "active": true,
+      "menu_text": "Light up",
+      "need_dry": true,
+      "need_fire": 1,
+      "type": "transform"
+    },
     "flags": [ "GRENADE" ]
   },
   {
@@ -416,7 +425,16 @@
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
-    "use_action": "FIRECRACKER_PACK",
+    "use_action": {
+      "target": "firecracker_pack_act",
+      "msg": "You light the pack of firecrackers.",
+      "target_charges": 25,
+      "active": true,
+      "menu_text": "Light up",
+      "need_dry": true,
+      "need_fire": 1,
+      "type": "transform"
+    },
     "flags": [ "GRENADE" ]
   },
   {

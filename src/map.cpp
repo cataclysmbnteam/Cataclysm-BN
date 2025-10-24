@@ -114,7 +114,6 @@ static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const itype_id itype_autoclave( "autoclave" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
@@ -4858,19 +4857,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     return VisitResponse::NEXT;
                 }
-                if( n.ammo_capacity() > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                if( n.is_battery() &&  n.energy_capacity() > n.energy_remaining() ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1, false );
-                        if( missing > 0 ) {
+                        const units::energy charged = 1_kJ - cur_veh.discharge_battery( 1_kJ, false );
+                        n.mod_energy( charged );
+                        if( charged < 1_kJ ) {
                             out_of_battery = true;
                             return VisitResponse::ABORT;
-                        }
-                        if( n.is_battery() ) {
-                            n.mod_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
                         }
                         power -= 1000;
                     }
@@ -5227,20 +5221,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 
     const std::vector<itype> item_list = f.crafting_pseudo_item_types();
-    static const flag_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
     for( const itype &itt : item_list ) {
-        if( itt.has_flag( json_flag_USES_GRID_POWER ) ) {
-            const tripoint_abs_ms abspos( m->getabs( p ) );
-            auto &grid = get_distribution_grid_tracker().grid_at( abspos );
-            detached_ptr<item> furn_item = item::spawn( itt.get_id(), calendar::start_of_cataclysm,
-                                           grid.get_resource() );
-            int initial_quantity = quantity;
-            if( filter( *furn_item ) ) {
-                item::use_charges( std::move( furn_item ), type, quantity, ret, p );
-                // That quantity math thing is atrocious. Punishment for the int& "argument".
-                grid.mod_resource( quantity - initial_quantity );
-            }
-        } else if( itt.tool && !itt.tool->ammo_id.empty() ) {
+        if( itt.tool && !itt.tool->ammo_id.empty() ) {
             const itype_id ammo = ammotype( *itt.tool->ammo_id.begin() )->default_ammotype();
             if( itt.tool->subtype != type && type != ammo && itt.get_id() != type ) {
                 continue;
@@ -5258,6 +5240,25 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                     }
                     return std::move( it );
                 } );
+            }
+        }
+    }
+}
+
+static void use_energy_from_furn( const furn_t &f, const itype_id &type, units::energy &quantity,
+                                  map *m, const tripoint &p, const std::function<bool( const item & )> &filter )
+{
+    const std::vector<itype> item_list = f.crafting_pseudo_item_types();
+    static const flag_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
+    for( const itype &itt : item_list ) {
+        if( itt.tool->subtype == type && itt.has_flag( json_flag_USES_GRID_POWER ) ) {
+            const tripoint_abs_ms abspos( m->getabs( p ) );
+            auto &grid = get_distribution_grid_tracker().grid_at( abspos );
+            detached_ptr<item> furn_item = item::spawn( itt.get_id(), calendar::start_of_cataclysm, 0,
+                                           grid.get_resource() );
+            if( filter( *furn_item ) ) {
+                // Use up resources up to current available, or energy required.
+                quantity = grid.mod_resource( std::min( grid.get_resource(), quantity ) );
             }
         }
     }
@@ -5314,53 +5315,17 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             continue;
         }
 
-        const std::optional<vpart_reference> crafterpart = vp.part_with_feature( "CRAFTER", true );
         const std::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
-        const std::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
         const std::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
-        if( crafterpart ) {
-            for( itype_id id : crafterpart->info().craftertools() ) {
-                if( type == id ) {
-                    detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-                    tmp->charges = crafterpart->vehicle().drain( itype_battery, quantity );
-                    quantity -= tmp->charges;
-                    ret.push_back( std::move( tmp ) );
-
-                    if( quantity == 0 ) {
-                        return ret;
-                    }
-                }
-            }
-        }
         if( faupart ) { // we have a faucet, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            ftype = type;
+            itype_id ftype = type;
 
             // TODO: add a sane birthday arg
-            //TODO!: check if we actually need the return  here
+            // TODO!: check if we actually need the return here
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
             tmp->charges = faupart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( autoclavepart ) { // we have an autoclave, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_autoclave ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = autoclavepart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
             ret.push_back( std::move( tmp ) );
 
@@ -5382,6 +5347,110 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
     }
 
     return ret;
+}
+
+void map::use_energy( const tripoint &origin, int range, const itype_id &type,
+                      units::energy &quantity, const std::function<bool( const item & )> &filter )
+{
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    for( const tripoint &p : reachable_pts ) {
+        if( has_furn( p ) ) {
+            use_energy_from_furn( furn( p ).obj(), type, quantity, this, p, filter );
+            if( quantity <= 0_J ) {
+                return;
+            }
+        }
+
+        const optional_vpart_position vp = veh_at( p );
+        if( !vp ) {
+            continue;
+        }
+
+        const std::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
+        const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+        const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
+        const std::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+        const std::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+        const std::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const std::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
+        const std::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
+
+        if( kpart ) { // we have a faucet
+            // We only care about hotplate drain, everything else routes through map::use_charges
+            if( type != itype_hotplate ) {
+                continue;
+            }
+
+            quantity -= kpart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( weldpart ) { // we have a weldrig
+            quantity -= weldpart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( craftpart ) { // we have a craftrig
+            quantity -= craftpart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( butcherpart ) { // we have a butchery station
+            quantity -= butcherpart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( forgepart ) { // we have a veh_forge
+
+            quantity -= forgepart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( kilnpart ) { // we have a veh_kiln
+            quantity -= kilnpart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( chempart ) { // we have a chem_lab, now to see what to drain
+            quantity -= chempart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+
+        if( autoclavepart ) { // we have an autoclave
+            quantity -= autoclavepart->vehicle().drain_battery( quantity );
+
+            if( quantity == 0_J ) {
+                return;
+            }
+        }
+    }
+
+    return;
 }
 
 bool map::can_see_trap_at( const tripoint &p, const Character &c ) const

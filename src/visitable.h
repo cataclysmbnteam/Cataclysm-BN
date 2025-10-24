@@ -8,10 +8,13 @@
 
 #include "filter_utils.h"
 #include "type_id.h"
+#include "units.h"
 
 class item;
 template<typename T>
 class detached_ptr;
+
+using item_filter = std::function<bool( const item & )>;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node
@@ -86,6 +89,17 @@ class visitable
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
                         std::function<void( int )> visitor = nullptr ) const;
+
+        /**
+         * Count maximum available energy from this instance and any contained items
+         * @param what ID of item to count charges of
+         * @param limit stop searching after this much energy has been found
+         * @param filter only count energy of items that match the filter
+         * @param visitor is called when UPS charge is used (parameter is the charge itself)
+         */
+        units::energy energy_of( const itype_id &what, units::energy limit = units::energy_max,
+                                 const std::function<bool( const item & )> &filter = return_true<item>,
+                                 std::function<void( units::energy )> visitor = nullptr ) const;
 
         /**
          * Count items matching id including both this instance and any contained items

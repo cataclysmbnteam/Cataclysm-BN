@@ -890,6 +890,13 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         return 0;
     }
 
+    if( gun.energy_required() > 0_J && !gun.has_flag( flag_VEHICLE ) &&
+        !gun.energy_sufficient( who ) ) {
+        debugmsg( "%s's gun %s does not have enough energy.", who.name,
+                  gun.tname() );
+        return 0;
+    }
+
     bool is_mech_weapon = false;
     if( who.is_mounted() && who.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
@@ -903,9 +910,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, ( who.charges_of( itype_UPS ) /
-                                   gun.get_gun_ups_drain() ) );
+    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0_J ) {
+        shots = std::min( shots, static_cast<int>( gun.energy_available( who ) /
+                          gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -1014,7 +1021,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            who.use_charges( itype_UPS, gun.get_gun_ups_drain() );
+            units::energy power_con = gun.get_gun_ups_drain();
+            units::energy power_con_test = gun.energy_consume( gun.get_gun_ups_drain(), who.pos() );
+            power_con -= power_con_test;
+            if( power_con > 0_J  && !who.use_energy_if_avail( itype_UPS, power_con ) ) {
+                debugmsg( "Unexpected shortage of energy whilst firing %s", gun.tname() );
+            }
         }
 
         if( aoe_attack ) {
@@ -1320,7 +1332,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         if( mons->mech_str_addition() != 0 ) {
             throw_assist = true;
             throw_assist_str = mons->mech_str_addition();
-            mons->use_mech_power( -3 );
+            mons->use_mech_power( -3_kJ );
         }
     }
     if( !throw_assist ) {
@@ -3270,7 +3282,7 @@ void target_ui::update_ammo_range_from_gun_mode()
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         // Test no-ammo and not a UPS weapon
-        if( !ammo_current && ( relevant->get_gun_ups_drain() == 0 ) ) {
+        if( !ammo_current && ( relevant->get_gun_ups_drain() == 0_J ) ) {
             ammo = nullptr;
             range = 0;
         } else {
@@ -3964,9 +3976,8 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
         result = false;
     }
 
-    if( gmode->get_gun_ups_drain() > 0 ) {
-        const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain / 2 );
+    if( gmode->get_gun_ups_drain() > 0_J ) {
+        const units::energy ups_drain = gmode->get_gun_ups_drain();
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3975,16 +3986,14 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS, ups_drain )  ||
-                   ( you.has_active_bionic( bio_ups ) &&
-                     you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
+            if( !gmode->energy_sufficient( you ) ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
-                                        gmode->tname(), ups_drain, adv_ups_drain ) );
+                                        _( "You need at least %2$s of battery/UPS charge to fire the %1$s!" ),
+                                        gmode->tname(), units::display( ups_drain ) ) );
                 result = false;
             }
         } else {
-            if( !you.has_charges( itype_UPS, ups_drain ) ) {
+            if( !you.has_energy( itype_UPS, ups_drain ) ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;

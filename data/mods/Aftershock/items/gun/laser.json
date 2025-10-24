@@ -13,9 +13,9 @@
     "range": 10,
     "ranged_damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 15 },
     "dispersion": 500,
-    "ups_charges": 25,
     "ammo_effects": [ "LASER", "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "power_draw": "25 kJ"
   },
   {
     "id": "afs_sentinel_laser",
@@ -26,17 +26,17 @@
     "color": "red",
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
-    "ups_charges": 30,
     "modes": [ [ "MULTI", "trilaser", 3 ] ],
     "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "power_draw": "30 kJ"
   },
   {
     "id": "afs_sentinel_laser_mon",
     "type": "GUN",
     "copy-from": "afs_sentinel_laser",
     "name": { "str": "wrist-trilaser" },
-    "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "power_draw": "0 kJ"
   }
 ]

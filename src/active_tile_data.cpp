@@ -1,6 +1,7 @@
 #include "active_tile_data.h"
 #include "active_tile_data_def.h"
 
+#include "assign.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"
@@ -18,8 +19,6 @@
 
 // TODO: Shouldn't use
 #include "submap.h"
-
-static const itype_id itype_battery( "battery" );
 
 namespace active_tiles
 {
@@ -132,7 +131,7 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
                                      p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
     std::int64_t produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
-    grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
+    grid.mod_resource( units::from_joule( produced ) );
 }
 
 active_tile_data *solar_tile::clone() const
@@ -153,8 +152,7 @@ void solar_tile::store( JsonOut &jsout ) const
 
 void solar_tile::load( JsonObject &jo )
 {
-    // Can't use generic_factory because we don't have unique ids
-    jo.read( "power", power );
+    assign( jo, "power", power );
     // TODO: Remove all of this, it's a hack around a mistake
     int dummy;
     jo.read( "stored_energy", dummy, false );
@@ -186,34 +184,33 @@ void battery_tile::store( JsonOut &jsout ) const
 void battery_tile::load( JsonObject &jo )
 {
     jo.read( "stored", stored );
-    jo.read( "max_stored", max_stored );
+    assign( jo, "max_stored", max_stored );
 }
 
-int battery_tile::get_resource() const
+units::energy battery_tile::get_resource() const
 {
     return stored;
 }
 
-int battery_tile::mod_resource( int amt )
+units::energy battery_tile::mod_resource( units::energy amt )
 {
-    // TODO: Avoid int64 math if possible
-    std::int64_t sum = static_cast<std::int64_t>( stored ) + amt;
+    units::energy sum = stored + amt;
     if( sum >= max_stored ) {
         stored = max_stored;
         return sum - max_stored;
-    } else if( sum <= 0 ) {
-        stored = 0;
+    } else if( sum <= 0_J ) {
+        stored = 0_J;
         return sum - stored;
     } else {
         stored = sum;
-        return 0;
+        return 0_J;
     }
 }
 
 void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs_ms &p,
         distribution_grid &grid )
 {
-    int amt_stored = grid.get_resource();
+    units::energy amt_stored = grid.get_resource();
 
     if( amt_stored >= min_power ) {
         get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
@@ -239,7 +236,7 @@ void charge_watcher_tile::store( JsonOut &jsout ) const
 
 void charge_watcher_tile::load( JsonObject &jo )
 {
-    jo.read( "min_power", min_power );
+    assign( jo, "min_power", min_power );
     jo.read( "transform", transform );
 }
 
@@ -262,17 +259,10 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                 return VisitResponse::NEXT;
             }
-            if( n.ammo_capacity() > n.ammo_remaining() ||
-                ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+            if( n.is_battery() && n.energy_capacity() > n.energy_remaining() ) {
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                    const int missing = grid.mod_resource( -1 );
-                    if( missing == 0 ) {
-                        if( n.is_battery() ) {
-                            n.mod_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
-                        }
-                    }
+                    const units::energy charged = 1_kJ - grid.mod_resource( -1_kJ );
+                    n.mod_energy( charged );
                     power -= 1000;
                 }
                 return VisitResponse::ABORT;
@@ -301,7 +291,7 @@ void charger_tile::store( JsonOut &jsout ) const
 
 void charger_tile::load( JsonObject &jo )
 {
-    jo.read( "power", power );
+    assign( jo, "power", power );
 }
 
 void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms &p,
@@ -312,10 +302,10 @@ void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms
         return;
     }
 
-    std::int64_t power = this->power * ticks;
-    int missing = grid.mod_resource( -power );
+    units::energy power = this->power * ticks;
+    units::energy missing = grid.mod_resource( -power );
 
-    if( missing == 0 ) {
+    if( missing == 0_J ) {
         return;
     }
 
@@ -346,7 +336,7 @@ void steady_consumer_tile::store( JsonOut &jsout ) const
 
 void steady_consumer_tile::load( JsonObject &jo )
 {
-    jo.read( "power", power );
+    assign( jo, "power", power );
     jo.read( "consume_every", consume_every );
     jo.read( "transform", transform );
 }

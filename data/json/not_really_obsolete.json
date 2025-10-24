@@ -140,7 +140,7 @@
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
-    "ups_charges": 40,
+    "power_draw": "40 kJ",
     "reload": 600,
     "valid_mod_locations": [
       [ "emitter", 1 ],
@@ -164,7 +164,7 @@
     "material": [ "steel", "plastic" ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
     "delete": { "flags": [ "NO_UNLOAD" ] },
-    "ups_charges": 5,
+    "power_draw": "5 kJ",
     "ammo": "fusion",
     "weight": "2267 g",
     "volume": "3500 ml",

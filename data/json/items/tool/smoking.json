@@ -13,9 +13,7 @@
     "material": "steel",
     "symbol": "!",
     "color": "white",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "power_draw": 7500,
+    "power_draw": "7 J",
     "use_action": [
       "PORTABLE_GAME",
       {
@@ -30,21 +28,16 @@
         "fake_item": "fake_ecig"
       }
     ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_disposable_cell",
+      "light_minus_disposable_cell",
+      "light_minus_atomic_battery_cell"
+    ]
   },
   {
     "id": "ecig",
@@ -153,15 +146,7 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "ammo": "battery",
-    "power_draw": 9000,
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
-    "charges_per_use": 1,
+    "power_draw": "9 J",
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
@@ -176,7 +161,8 @@
       "charges_needed": { "thc_liquid": 1 },
       "fields_produced": { "fd_weedsmoke": 1 },
       "moves": 200
-    }
+    },
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
   },
   {
     "type": "TOOL",
@@ -223,7 +209,6 @@
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "material": [ "steel", "wood" ],
-    "ammo": "battery",
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",

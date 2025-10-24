@@ -69,21 +69,20 @@ void distribution_grid::update( time_point to )
 // TODO: Shouldn't be here
 #include "vehicle.h"
 #include "vehicle_part.h"
-static itype_id itype_battery( "battery" );
-int distribution_grid::mod_resource( int amt, bool recurse )
+units::energy distribution_grid::mod_resource( units::energy amt, bool recurse )
 {
     std::vector<vehicle *> connected_vehicles;
     for( const auto &c : contents ) {
         for( const tile_location &loc : c.second ) {
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
-                int amt_before_battery = amt;
+                units::energy amt_before_battery = amt;
                 amt = battery->mod_resource( amt );
                 if( cached_amount_here ) {
                     cached_amount_here = *cached_amount_here + amt_before_battery - amt;
                 }
-                if( amt == 0 ) {
-                    return 0;
+                if( amt == 0_J ) {
+                    return 0_J;
                 }
                 continue;
             }
@@ -109,7 +108,7 @@ int distribution_grid::mod_resource( int amt, bool recurse )
 
     // TODO: Giga ugly. We only charge the first vehicle to get it to use its recursive graph traversal because it's inaccessible from here due to being a template method
     if( !connected_vehicles.empty() ) {
-        if( amt > 0 ) {
+        if( amt > 0_J ) {
             amt = connected_vehicles.front()->charge_battery( amt, true );
         } else {
             amt = -connected_vehicles.front()->discharge_battery( -amt, true );
@@ -119,16 +118,16 @@ int distribution_grid::mod_resource( int amt, bool recurse )
     return amt;
 }
 
-int distribution_grid::get_resource( bool recurse ) const
+units::energy distribution_grid::get_resource( bool recurse ) const
 {
     if( !recurse ) {
         if( cached_amount_here ) {
             return *cached_amount_here;
         } else {
-            cached_amount_here = 0;
+            cached_amount_here = 0_J;
         }
     }
-    int res = 0;
+    units::energy res = 0_J;
     std::vector<vehicle *> connected_vehicles;
     for( const auto &c : contents ) {
         for( const tile_location &loc : c.second ) {
@@ -162,7 +161,7 @@ int distribution_grid::get_resource( bool recurse ) const
 
     // TODO: Giga ugly. We only charge the first vehicle to get it to use its recursive graph traversal because it's inaccessible from here due to being a template method
     if( !connected_vehicles.empty() ) {
-        res = connected_vehicles.front()->fuel_left( itype_battery, true );
+        res = connected_vehicles.front()->energy_left( true );
     }
     if( !recurse ) {
         cached_amount_here = res;

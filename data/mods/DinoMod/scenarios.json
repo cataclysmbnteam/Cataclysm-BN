@@ -8,7 +8,7 @@
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_swamp", "sloc_campsite", "sloc_campground" ],
     "flags": [ "LONE_START" ],
-    "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70.0 ] ],
+    "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70 ] ],
     "add_professions": true,
     "professions": [ "monster_hunter", "monster_slayer" ]
   },

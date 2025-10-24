@@ -12,14 +12,14 @@
     "name": "PATHFINDING_H_COEFF_DEFAULT",
     "info": "If `h_coeff` is unspecified, it will be this: how directed the pathfinding is. A value of 1.0 makes pathfinding equivalent to A*, 0.0 is raw Dijikstra; this adjusts precision, high values will converge quicker, but produce a possibly less than shortest path.",
     "stype": "float",
-    "value": 1.0
+    "value": 1
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PATHFINDING_ALPHA_DEFAULT",
     "info": "If `alpha` is unspecified, it will be this: alpha coefficient is a coefficient that makes pathfinding sometimes take slightly less than most optimal tiles. 1.0 only allows taking the best tiles, 0 will pick any _better_ tile that current one, not necessarily the best one. Use it to make pathfinding more 'flowy' and to decongest routes",
     "stype": "float",
-    "value": 1.0
+    "value": 1
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -33,14 +33,14 @@
     "name": "PATHFINDING_SEARCH_CONE_ANGLE_DEFAULT",
     "info": "If `search_cone_angle` is unspecified, the value will be this: limits pathfinding search domain, will include tiles within a cone of this angle starting from start position and going towards end position. A value of 180 and more disables search cone. Be aware, this forces pathfinding to be redone on each call, which is expensive.",
     "stype": "float",
-    "value": 180.0
+    "value": 180
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PATHFINDING_RANGE_MULT",
     "info": "Multiply specified `max_dist` and `max_length` by this value. If set to negative, makes both infinite, allowing any distance pathfinding.",
     "stype": "float",
-    "value": 1.0
+    "value": 1
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -61,6 +61,6 @@
     "name": "PATHFINDING_MOB_PRESENCE_PENALTY_DEFAULT",
     "info": "If mob avoidance is unspecified, the value will be this. This makes pathfinding route around living mobs with higher values increasing the route-around range. Negative values will make pathfinding treat mobs as impassable walls.",
     "stype": "float",
-    "value": 0.0
+    "value": 0
   }
 ]

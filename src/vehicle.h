@@ -409,7 +409,7 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        int power_to_energy_bat( int power_w, const time_duration &d ) const;
+        units::energy power_to_energy_bat( int power_w, const time_duration &d ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -431,6 +431,10 @@ class vehicle
                                    std::map<itype_id, float> fuel_usages,
                                    bool verbose = false, bool desc = false );
 
+        // Vehicle battery indicator
+        void print_battery_indicator( const catacurses::window &win, point p,
+                                      bool verbose = false, bool desc = false );
+
         // Calculate how long it takes to attempt to start an engine
         int engine_start_time( int e ) const;
 
@@ -443,7 +447,7 @@ class vehicle
         void refresh_mass() const;
         void calc_mass_center( bool precalc ) const;
 
-        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+        /** empty the contents of a tank or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
         int next_hack_id = 0;
@@ -890,9 +894,9 @@ class vehicle
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
         // Checks how much of the part p's current fuel is left
-        int fuel_left( int p, bool recurse = false ) const;
+        int fuel_left( int p ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false ) const;
+        int engine_fuel_left( int e ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
@@ -900,12 +904,21 @@ class vehicle
         int drain( const itype_id &ftype, int amount );
         int drain( int index, int amount );
         /**
-         * Consumes enough fuel by energy content. Does not support cable draining.
+         * Consumes enough fuel by energy content.
+         * Note that this is different from drain_battery, which should be used instead
+         * if you are draining battery energy instead of fuel.
          * @param ftype Type of fuel
          * @param energy_j Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
         double drain_energy( const itype_id &ftype, double energy_j );
+
+        /**
+         * Drains the battery of a vehicle, does not drain connected vehicles/grids.
+         * @param energy_j Desired amount of energy to consume
+         * @return Amount of energy actually consumed. May be more or less than desired.
+         */
+        units::energy drain_battery( units::energy energy_j );
 
         // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
@@ -947,17 +960,26 @@ class vehicle
         // taken from batteries.
         void power_parts();
 
+        // Returns total energy capacity in vehicle
+        units::energy energy_capacity() const;
+
+        /**
+         * Returns total battery in vehicle
+         * @recurse whether this function goes over connected vehicles/grids.
+         */
+        units::energy energy_left( bool recurse = false ) const;
+
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of charge left over.
          */
-        int charge_battery( int amount, bool include_other_vehicles = true );
+        units::energy charge_battery( units::energy amount, bool include_other_vehicles = true );
 
         /**
          * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of request unfulfilled (0 if totally successful).
          */
-        int discharge_battery( int amount, bool recurse = true );
+        units::energy discharge_battery( units::energy amount, bool recurse = true );
 
         /**
          * Mark mass caches and pivot cache as dirty

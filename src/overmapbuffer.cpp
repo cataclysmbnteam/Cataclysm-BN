@@ -1236,7 +1236,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
         {
             auto task_result = task.get();
 
-            if( !params.max_results.has_value() ||
+            if( params.max_results.has_value() &&
                 dst.size() < static_cast<size_t>( params.max_results.value() ) ) {
                 std::ranges::copy( task_result, std::back_inserter( dst ) );
                 if( params.max_results.has_value() &&

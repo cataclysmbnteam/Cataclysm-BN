@@ -1,7 +1,7 @@
 [
   {
     "id": "battery_car",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "car battery", "str_pl": "car batteries" },
     "description": "A 12v lead-acid battery used to power car electrical systems.",
@@ -12,36 +12,35 @@
     "material": [ "plastic", "lead" ],
     "symbol": ":",
     "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 3000,
     "//1": "70Ah @ 12VDC. Could supply ~833 watts for an hour",
     "//2": "Energy density 0.15 MJ/Kg for lead-acid batteries",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "max_power": "3000 kJ"
   },
   {
     "id": "battery_motorbike",
     "copy-from": "battery_car",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "name": { "str": "motorbike battery", "str_pl": "motorbike batteries" },
     "description": "A 12v lead-acid battery used to power smaller vehicles' electrical systems.",
     "weight": "4 kg",
     "volume": "2 L",
     "price": "20 USD",
     "price_postapoc": "250 cent",
-    "capacity": 600,
+    "max_power": "600 kJ",
     "//": "14Ah @ 12VDC. Could supply ~167 watts for an hour"
   },
   {
     "id": "battery_motorbike_small",
     "copy-from": "battery_car",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "name": { "str": "small motorbike battery", "str_pl": "small motorbike batteries" },
     "description": "A miniature 12v lead-acid battery used to power smaller vehicles' electrical systems.",
     "weight": "2 kg",
     "volume": "1 L",
     "price": "200 USD",
     "price_postapoc": "1 USD",
-    "capacity": 300,
+    "max_power": "300 kJ",
     "//": "7Ah @ 12VDC. Could supply ~83 watts for an hour"
   },
   {
@@ -63,7 +62,7 @@
   {
     "id": "large_storage_battery",
     "copy-from": "storage_battery",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "name": { "str": "very large storage battery", "str_pl": "very large storage batteries" },
     "description": "A huge storage battery containing many lithium-ion cells.  Holds a tremendous amount of energy.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
     "weight": "150 kg",
@@ -72,12 +71,12 @@
     "price_postapoc": "25 USD",
     "bashing": 40,
     "//": "Energy density ~0.667 MJ/Kg for this quality of lithium-ion batteries",
-    "capacity": 100000
+    "max_power": "100000 kJ"
   },
   {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "name": { "str": "medium storage battery", "str_pl": "medium storage batteries" },
     "description": "A medium storage battery containing multiple lithium-ion cells.",
     "weight": "15 kg",
@@ -85,7 +84,7 @@
     "price": "500 USD",
     "price_postapoc": "750 cent",
     "bashing": 14,
-    "capacity": 10000
+    "max_power": "10000kJ"
   },
   {
     "id": "sea_scooter_battery",
@@ -99,7 +98,7 @@
   {
     "id": "small_storage_battery",
     "copy-from": "storage_battery",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "name": { "str": "small storage battery", "str_pl": "small storage batteries" },
     "description": "A small storage battery created with pre-Cataclysm lithium-ion technology.  Useful for crafting.",
     "weight": "750 g",
@@ -107,25 +106,24 @@
     "price": "50 USD",
     "price_postapoc": "5 USD",
     "bashing": 7,
-    "capacity": 500
+    "max_power": "500 kJ"
   },
   {
     "id": "storage_battery",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "large storage battery", "str_pl": "large storage batteries" },
     "description": "A large storage battery containing many lithium-ion cells.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
     "weight": "75 kg",
     "volume": "50 L",
-    "price": "2 kUSD",
+    "price": "2 USD",
     "price_postapoc": "15 USD",
     "to_hit": -2,
     "bashing": 20,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 50000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ],
+    "max_power": "50000 kJ"
   }
 ]

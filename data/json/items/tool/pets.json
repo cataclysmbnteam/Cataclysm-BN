@@ -67,10 +67,9 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 25
+    "power_draw": "25 kJ",
+    "initial_power": "100 kJ",
+    "max_power": "100 kJ"
   },
   {
     "id": "horse_tack",

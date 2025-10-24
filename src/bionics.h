@@ -50,9 +50,7 @@ struct bionic_data {
 
     /** Is true if a bionic is an active instead of a passive bionic */
     bool activated = false;
-    /**
-    * If true, this bionic is included with another.
-    */
+    /**If true, this bionic is included with another. */
     bool included = false;
     /**Factor modifiying weight capacity*/
     float weight_capacity_modifier = 1.0f;
@@ -66,6 +64,12 @@ struct bionic_data {
     units::energy remote_fuel_draw = 0_J;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
+    /**How much energy this bionic can hold*/
+    units::energy energy_capacity = 0_J;
+    /**How efficiently it converts energy when recharging*/
+    int energy_multiplier = 1;
+    /**Maximum the bionic converts from it's store to the player in one turn*/
+    units::energy max_energy_draw = 0_J;
     /**How much fuel this bionic can hold*/
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/

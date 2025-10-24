@@ -194,7 +194,6 @@ static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_hd_tow_cable( "hd_tow_cable" );
@@ -1474,7 +1473,8 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
         source_mon->remove_effect( effect_tied );
     }
     act->set_to_null();
-    if( shears->type->can_have_charges() ) {
+    if( shears->type->charges_to_use() || shears->type->energy_to_use() > 0_J ) {
+        p->consume_energy( *shears, shears->type->energy_to_use() );
         p->consume_charges( *shears, shears->type->charges_to_use() );
     }
 }
@@ -1630,8 +1630,9 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
     const bodypart_str_id healed = bodypart_str_id( act->str_values[0] );
-    const int charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
-    p->consume_charges( it, charges_consumed );
+    const auto [chrg, enrg] = actor->finish_using( *p, patient, *used_tool, healed );
+    p->consume_energy( it, enrg );
+    p->consume_charges( it, chrg );
 
     // Erase activity and values.
     act->set_to_null();
@@ -1736,17 +1737,20 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
     item &game_item = *act->targets.front();
 
-    // Consume battery charges for every minute spent playing
+    // Consume battery power for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        int energy = game_item.ammo_required();
-        energy -= game_item.ammo_consume( energy, p->pos() );
-        if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
-            if( p->use_charges_if_avail( itype_UPS, energy ) ) {
-                energy = 0;
+        int chrg = game_item.ammo_required();
+        units::energy enrg = game_item.energy_required();
+
+        enrg -= game_item.energy_consume( enrg, p->pos() );
+        chrg -= game_item.ammo_consume( chrg, p->pos() );
+        if( enrg > 0_J && game_item.has_flag( flag_USE_UPS ) ) {
+            if( p->use_energy_if_avail( itype_UPS, enrg ) ) {
+                enrg = 0_J;
             }
         }
         // Morale boost from game is handled in iuse::portable_game
-        if( energy ) {
+        if( enrg > 0_J || chrg ) {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
         }
@@ -1888,6 +1892,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     }
     if( !act->tools.empty() ) {
         item &it = *act->tools.front();
+        p->consume_energy( it, it.energy_required() );
         p->consume_charges( it, it.ammo_required() );
     } else {
         debugmsg( "pickaxe activity has no tool" );
@@ -2075,10 +2080,8 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    if( it.type->can_have_charges() ) {
-        if( it.has_flag( flag_USE_UPS ) ) {
-            p->use_charges( itype_UPS, it.type->charges_to_use() );
-        }
+    if( it.type->charges_to_use() || it.type->energy_to_use() > 0_J ) {
+        p->consume_energy( it, it.type->energy_to_use() );
         p->consume_charges( it, it.type->charges_to_use() );
     }
     p->practice( skill_survival, act->index, 5 );
@@ -2239,8 +2242,8 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
 
     if( calendar::once_every( 144_seconds ) ) {
         p->mod_fatigue( 1 );
-        if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.energy_capacity() > hand_crank_item.energy_remaining() ) {
+            hand_crank_item.energy_recharge( 1_kJ );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2267,8 +2270,8 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     if( calendar::once_every( 1_minutes ) ) {
         p->mod_fatigue( 1 );
-        if( vibrator_item.ammo_remaining() > 0 ) {
-            vibrator_item.ammo_consume( 1, p->pos() );
+        if( vibrator_item.energy_remaining() >= 1_kJ ) {
+            vibrator_item.energy_consume( 1_kJ, p->pos() );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
@@ -2461,7 +2464,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
             const vehicle &veh = pos->vehicle();
 
             fake_item = item::spawn_temporary( activity.str_values[1], calendar::turn, 0 );
-            fake_item->charges = veh.fuel_left( itype_battery );
+            fake_item->energy = veh.energy_left( true );
 
             break;
         }
@@ -2483,7 +2486,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                     const tripoint_abs_ms abspos( m.getabs( position ) );
                     const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
                     fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
-                    fake_item->charges = grid.get_resource( true );
+                    fake_item->energy = grid.get_resource( true );
                     break;
                 }
             }
@@ -2499,18 +2502,18 @@ void discharge_real_power_source(
     hack_type_t hack_type,
     const tripoint &position,
     item &tool,
-    const int original_charges
+    const units ::energy original_energy
 )
 {
-    const int used_charges = original_charges - tool.charges;
+    const units::energy used_energy = original_energy - tool.energy_remaining();
 
-    if( used_charges <= 0 ) {
+    if( used_energy <= 0_J ) {
         return;
     }
 
     const map &m = get_map();
 
-    int unfulfilled_demand = 0;
+    units::energy unfulfilled_energy = 0_J;
     switch( hack_type ) {
         case hack_type_t::vehicle: {
             optional_vpart_position pos = m.veh_at( position );
@@ -2518,20 +2521,20 @@ void discharge_real_power_source(
                 return;
             }
             vehicle &veh = pos->vehicle();
-            unfulfilled_demand = veh.discharge_battery( used_charges );
+            unfulfilled_energy = veh.discharge_battery( used_energy );
             break;
         }
         case hack_type_t::furniture: {
             const tripoint_abs_ms abspos( m.getabs( position ) );
             distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-            unfulfilled_demand = grid.mod_resource( -used_charges );
+            unfulfilled_energy = grid.mod_resource( -used_energy );
             break;
         }
     }
-    if( unfulfilled_demand != 0 ) {
+    if( unfulfilled_energy != 0_J ) {
         debugmsg(
-            "Fake tool discharged grid/veh more than grid/veh had!  Unfulfilled demand %d kJ",
-            unfulfilled_demand
+            "Fake tool discharged grid/veh more than grid/veh had!  Unfulfilled demand %s",
+            units::display( unfulfilled_energy )
         );
     }
 }
@@ -2599,12 +2602,12 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
 
     std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
     const tripoint hack_pos = hack_type ? hack::get_position( * act ) : tripoint{};
-    int hack_original_charges = 0;
+    units::energy hack_original_charges = 0_J;
     item *main_tool = nullptr;
     if( hack_type ) {
         main_tool = hack::get_fake_tool( hack_type.value(), *act );
         if( main_tool != nullptr ) {
-            hack_original_charges = main_tool ? main_tool->charges : 0;
+            hack_original_charges = main_tool ? main_tool->energy_remaining() : 0_J;
         }
     } else {
         main_tool = &*act->tools.front();
@@ -2686,7 +2689,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         ploc = &*act->targets[0];
     }
     const tripoint hack_position = hack_type ? hack::get_position( *act ) : tripoint{};
-    const int hack_original_charges = fake_tool ? fake_tool->charges : 0;
+    const units::energy hack_original_energy = fake_tool ? fake_tool->energy_remaining() : 0_J;
 
     item *main_tool = nullptr;
     if( hack_type.has_value() ) {
@@ -2730,8 +2733,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const repair_item_actor::attempt_hint attempt = actor->repair( *p, *used_tool, *fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location_type::map ) {
+                used_tool->energy_consume( used_tool->energy_required(), ploc->position() );
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
             } else {
+                p->consume_energy( *used_tool, used_tool->energy_required() );
                 p->consume_charges( *used_tool, used_tool->ammo_required() );
             }
             if( hack_type.has_value() ) {
@@ -2739,14 +2744,14 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                     hack_type.value(),
                     hack_position,
                     *used_tool,
-                    hack_original_charges
+                    hack_original_energy
                 );
             }
         }
 
         // TODO: Allow setting this in the actor
-        // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->units_sufficient( *p ) ) {
+        // TODO: Don't use charges_to_use: welder has 50 kJ per use, soldering iron has 1 kJ
+        if( !used_tool->units_sufficient() || !used_tool->energy_sufficient( *p ) ) {
             p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
             act->set_to_null();
             return;
@@ -2814,10 +2819,17 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         std::string title = string_format( _( "%s %s\n" ),
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
-        title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
-                                used_tool->ammo_remaining(), used_tool->ammo_capacity(),
-                                item::nname( used_tool->ammo_current() ),
-                                used_tool->ammo_required() );
+        if( used_tool->ammo_required() ) {
+            title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
+                                    used_tool->ammo_remaining(), used_tool->ammo_capacity(),
+                                    item::nname( used_tool->ammo_current() ),
+                                    used_tool->ammo_required() );
+        }
+        if( used_tool->energy_required() > 0_J ) {
+            title += string_format( _( "Power: <color_light_blue>%s/%s</color> (%s per use)\n" ),
+                                    units::display( used_tool->energy_remaining() ), units::display( used_tool->energy_capacity() ),
+                                    units::display( used_tool->energy_required() ) );
+        }
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill->name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
@@ -2947,8 +2959,9 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         return;
     }
 
-    if( !tool.is_empty() && qty > 0 ) {
-        p->use_charges( tool, qty );
+    if( qty > 0 ) {
+        p->use_energy( tool, qty * tool->energy_to_use() );
+        p->use_charges( tool, qty * tool->charges_to_use() );
     }
 
     if( rng( 0, 100 ) <= roll ) {
@@ -3141,8 +3154,8 @@ static void rod_fish( player *p,
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
-    int fishing_mult = iuse::good_fishing_spot( act->placement );
-    if( fishing_mult == 0 || p->is_blind() ) {
+    std::pair<int, units::energy> fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult.first == 0 || p->is_blind() ) {
         act->set_to_null();
         p->add_msg_if_player( m_info,
                               _( "You realize fishing here at the moment is pointless, and stop." ) );
@@ -3162,7 +3175,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         // Much better chances with a good fishing implement.
         survival_mod += dice( 3, 6 ); //avg of 10-11
     }
-    fish_chance += ( survival_mod *  fishing_mult );
+    fish_chance += ( survival_mod *  fishing_mult.first );
     // no matter the population of fish, your skill and tool limits the ease of catching.
     fish_chance = std::min( survival_mod * 20, fish_chance );
     if( x_in_y( fish_chance, 600000 ) ) {//Roughly 1/1000 per turn avg.
@@ -4112,6 +4125,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
     if( !act->tools.empty() ) {
         item &it = *act->tools.front();
+        p->consume_energy( it, it.energy_required() );
         p->consume_charges( it, it.ammo_required() );
     } else {
         debugmsg( "unable to find tool" );
@@ -4583,6 +4597,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( !act->targets.empty() && act->targets.front() ) {
         item &it = *act->targets.front();
         if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
+            p->consume_energy( it, it.type->energy_to_use() );
             p->consume_charges( it, it.type->charges_to_use() );
         }
     }
