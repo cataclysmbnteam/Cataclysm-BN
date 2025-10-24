@@ -15,6 +15,8 @@
 #include "action.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua.h"
+#include "catalua_hooks.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -36,6 +38,7 @@
 #include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
+#include "init.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
@@ -1098,6 +1101,21 @@ void avatar::vomit()
 bool avatar::is_hallucination() const
 {
     return false;
+}
+
+bool avatar::is_dead_state() const
+{
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
+
+    if( Character::is_dead_state() ) {
+        auto &state = *DynamicDataLoader::get_instance().lua;;
+        run_hooks( state, "on_character_death" );
+        cached_dead_state.reset();
+    }
+
+    return Character::is_dead_state();
 }
 
 void avatar::disp_morale()
