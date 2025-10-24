@@ -7388,15 +7388,15 @@ int Character::height() const
 {
     switch( get_size() ) {
         case creature_size::tiny:
-            return init_height - 100;
+            return init_height * 0.5;
         case creature_size::small:
-            return init_height - 50;
+            return init_height * 0.75;
         case creature_size::medium:
             return init_height;
         case creature_size::large:
-            return init_height + 50;
+            return init_height * 1.5;
         case creature_size::huge:
-            return init_height + 100;
+            return init_height * 2;
         default:
             break;
     }
