@@ -101,6 +101,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "iexamine.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
@@ -5914,4 +5915,251 @@ int iuse_reveal_contents::use( player &p, item &it, bool,
 std::unique_ptr<iuse_actor> iuse_reveal_contents::clone() const
 {
     return std::make_unique<iuse_reveal_contents>( *this );
+}
+
+void iuse_flowerpot_plant::load( const JsonObject &obj )
+{
+    obj.read( "stages", stages );
+    growth_rate = obj.get_float( "growth_rate", 1.0 );
+    fert_boost = obj.get_float( "fert_boost", 1.5 );
+    harvest_mult = obj.get_int( "harvest_mult", 1 );
+    seeds_per_use = obj.get_int( "seeds_per_use", 1 );
+    max_fert_per_use = obj.get_int( "max_fert_per_use", 1 ) ;
+}
+
+std::unique_ptr<iuse_actor> iuse_flowerpot_plant::clone() const
+{
+    return std::make_unique<iuse_flowerpot_plant>( *this );
+}
+
+time_duration iuse_flowerpot_plant::growth_info::elapsed_time() const
+{
+    return calendar::turn - planted_time;
+}
+
+time_duration iuse_flowerpot_plant::growth_info::remaining_time() const
+{
+    return growth_time - elapsed_time();
+}
+
+iuse_flowerpot_plant::growth_stage
+iuse_flowerpot_plant::growth_info::stage() const
+{
+    if( growth_time <= time_duration{} )
+        return empty;
+
+    const auto stage = to_turns<int>( elapsed_time() ) * 3 / to_turns<int>( growth_time );
+    switch( std::clamp( stage , 0, 3 ) ) {
+        case 0:
+            return seed;
+        case 1:
+            return seedling;
+        case 2:
+            return mature;
+        case 3:
+            return harvest;
+        default:
+            return empty;
+    }
+}
+
+std::string iuse_flowerpot_plant::growth_info::plant_name() const
+{
+    return seed_id.obj().seed->plant_name.translated();
+}
+
+int iuse_flowerpot_plant::use( player &who, item &i, bool tick, const tripoint &pos ) const
+{
+    if( tick ) {
+        return on_tick( who, i, pos );
+    }
+
+    const auto info = get_info( i );
+    switch( info.stage() ) {
+        case seed :
+        case seedling:
+        case mature:
+            who.add_msg_if_player( _( "You need to wait for it to grow." ) );
+            return 0;
+        case harvest:
+            return on_use_harvest( who, i, pos );
+        default:
+            return on_use_plant( who, i, pos );
+    }
+}
+
+void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) const
+{
+    const auto info = get_info( i );
+    if( !info.seed_id.is_valid() ) {
+        return;
+    }
+
+    const auto remaining_time = info.remaining_time();
+    const bool fertilized = i.get_var( VAR_FERTILIZED, 0 );
+    const auto plant_name = info.plant_name();
+
+    inf.emplace_back( "TOOL", string_format( _( "<bold>Growing</bold>: %s" ), plant_name ) );
+    if( i.is_active() ) {
+        const auto disp_time = remaining_time;
+
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Fertilized</bold>: %s" ),
+                          fertilized ? _( "yes" ) : _( "no" ) ) );
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Harvestable in</bold>: %s" ),
+                          to_string_approx( disp_time ) ) );
+    }
+    switch( info.stage() ) {
+        case seed:
+            inf.emplace_back( "TOOL", string_format( _( "<bold>Stage</bold>: %s" ), _( "seed" ) ) );
+            break;
+        case seedling:
+            inf.emplace_back( "TOOL", string_format( _( "<bold>Stage</bold>: %s" ), _( "seedling" ) ) );
+            break;
+        case mature:
+            inf.emplace_back( "TOOL", string_format( _( "<bold>Stage</bold>: %s" ), _( "mature" ) ) );
+            break;
+        case harvest:
+            inf.emplace_back( "TOOL", string_format( _( "<bold>Stage</bold>: %s" ), _( "harvest" ) ) );
+            break;
+        default:
+            break;
+    }
+}
+
+int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
+                                        const tripoint & ) const
+{
+    const std::vector<item *> seed_inv =
+    p.items_with( []( const item & itm ) { return itm.is_seed(); } );
+    if( seed_inv.empty() ) {
+        add_msg( m_info, _( "You have no seeds to plant." ) );
+        return 0;
+    }
+
+    const auto seed_entries = iexamine::get_seed_entries( seed_inv );
+    const int seed_index = iexamine::query_seed( seed_entries, seeds_per_use );
+
+    if( seed_index < 0 || seed_index >= seed_entries.size() ) {
+        add_msg( _( "You saved your seeds for later." ) );
+        return 0;
+    }
+    const auto &[seed_id, seed_name, seed_amt] = seed_entries[seed_index];
+
+    int used_fert = std::min(i.charges, max_fert_per_use);
+
+    const auto fertilized = used_fert > 0;
+
+    const auto epoch = seed_id->seed->get_plant_epoch() * 3;
+    const auto rate = growth_rate + ( used_fert * fert_boost );
+    const auto growth_time = epoch / rate;
+
+    p.use_charges( seed_id, seeds_per_use );
+    const auto info = growth_info{seed_id, calendar::turn, growth_time, fertilized};
+    update_info( i, info );
+
+    return used_fert;
+}
+
+int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint &pos ) const
+{
+    const auto seed_type = i.get_var( VAR_SEED_TYPE );
+    update_info( i, {} );
+
+    const auto seed_id = itype_id( seed_type );
+    if( !seed_id.is_valid() ) {
+        return 0;
+    }
+
+    const int skillLevel = p.get_skill_level( skill_survival );
+    const int max_harvest_count = get_option<int>( "MAX_HARVEST_COUNT" );
+
+    // since a modded item could consume 10 seeds + fertilizer, to produce 10 times the fruit
+    // we roll n times the harvest
+    std::vector<detached_ptr<item>> harvest;
+    int practice = 0;
+    for( int j = 0; j < harvest_mult; j++ ) {
+        const int fruit_count = std::clamp( rng( skillLevel / 2, skillLevel ), 1, max_harvest_count );
+        const int seed_count = std::max( 1, rng( fruit_count / 4, fruit_count / 2 ) );
+        practice += fruit_count;
+
+        auto tmp = iexamine::get_harvest_items( seed_id.obj(), fruit_count, seed_count, true );
+        std::ranges::move( tmp, std::back_inserter( harvest ) );
+    }
+
+    for( auto &j : harvest ) {
+        put_into_vehicle_or_drop( p, item_drop_reason::deliberate, std::move( j ), pos );
+    }
+
+    p.moves -= to_moves<int>( 10_seconds * harvest_mult );
+    p.practice( skill_survival, rng( 1,  practice ) );
+    return 0;
+}
+
+int iuse_flowerpot_plant::on_tick(player &, item &i, const tripoint &) const {
+  if (i.item_counter != 0) {
+    return 0;
+  }
+
+  const auto info = get_info(i);
+  if (!info.seed_id.is_valid()) {
+    update_info(i, {});
+    return 0;
+  }
+
+  update_info(i, info);
+  return 0;
+}
+
+void iuse_flowerpot_plant::update_info( item &i, const growth_info &info ) const
+{
+    constexpr auto update_vars = [](item& i_, const growth_info &info_) {
+        i_.erase_var( "item_label" );
+        i_.set_var( "item_label", string_format( "%s (%s)", i_.tname(), info_.plant_name() ) );
+        i_.set_var( VAR_PLANTED_DATE, to_turn<int>( info_.planted_time ) );
+        i_.set_var( VAR_SEED_TYPE, info_.seed_id.str() );
+        i_.set_var( VAR_FERTILIZED, info_.fertilized ? 1 : 0 );
+        i_.set_var( VAR_GROWTH_TIME, to_turns<int>( info_.growth_time ) );
+    };
+
+    constexpr auto erase_vars = [](item& i_) {
+        i_.erase_var( "item_label" );
+        i_.erase_var( VAR_SEED_TYPE );
+        i_.erase_var( VAR_PLANTED_DATE );
+        i_.erase_var( VAR_FERTILIZED );
+        i_.erase_var( VAR_GROWTH_TIME );
+    };
+
+    i.convert( stages[info.stage()] );
+    switch( info.stage() ) {
+        case 0:
+            erase_vars(i);
+            i.item_counter = 0;
+            i.deactivate();
+            break;
+        case 4:
+            update_vars(i, info);
+            i.item_counter = 0;
+            i.deactivate();
+            break;
+        default:
+            update_vars(i, info);
+            i.item_counter = to_turns<int>( std::min( info.remaining_time(), 1_hours ) );
+            i.activate();
+            break;
+    }
+}
+
+iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i ) {
+    const auto seed_id = itype_id( i.get_var( VAR_SEED_TYPE, "" ) );
+    if( !seed_id.is_valid() )
+        return growth_info{};
+
+    const bool fertilized = i.get_var( VAR_FERTILIZED, 0 );
+    const int planted = i.get_var( VAR_PLANTED_DATE, 0 );
+    const int growth = i.get_var( VAR_GROWTH_TIME, 0 );
+
+    const auto planted_time = calendar::turn_zero + time_duration::from_turns( planted );
+    const auto growth_time = time_duration::from_turns( growth );
+
+    return growth_info{seed_id, planted_time, growth_time, fertilized};
 }

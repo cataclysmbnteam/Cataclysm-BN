@@ -1384,3 +1384,48 @@ class iuse_reveal_contents : public iuse_actor
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
+
+class iuse_flowerpot_plant : public iuse_actor
+{
+        constexpr static auto VAR_SEED_TYPE = "flowerpot_seed_type";
+        constexpr static auto VAR_PLANTED_DATE = "flowerpot_planted_date";
+        constexpr static auto VAR_FERTILIZED = "flowerpot_fertilized";
+        constexpr static auto VAR_GROWTH_TIME = "flowerpot_growth_time";
+    public:
+        iuse_flowerpot_plant( const std::string &type = "flowerpot_plant" ) : iuse_actor( type ) {}
+        ~iuse_flowerpot_plant() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &who, item &i, bool, const tripoint & ) const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+    private:
+        enum growth_stage : int {
+            empty,
+            seed,
+            seedling,
+            mature,
+            harvest
+        };
+        struct growth_info {
+          itype_id seed_id;
+          time_point planted_time;
+          time_duration growth_time;
+          bool fertilized;
+          time_duration elapsed_time() const;
+          time_duration remaining_time() const;
+          growth_stage stage() const;
+          std::string plant_name() const;
+        };
+        static growth_info get_info( const item & );
+        void update_info( item &, const growth_info & ) const;
+        int on_use_plant( player &, item &, const tripoint & ) const;
+        int on_use_harvest( player &, item &, const tripoint & ) const;
+        int on_tick( player &, item &, const tripoint & ) const;
+        std::array<itype_id, 5> stages;
+        int harvest_mult = 1;
+        int seeds_per_use = 1;
+        int max_fert_per_use = 3;
+        float growth_rate = 1;
+        float fert_boost = 0.25;
+
+};
