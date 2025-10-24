@@ -29,7 +29,7 @@ void reg_serde_functions( sol::usertype<T> &ut )
 #define SET_FX_T(func_name, func_type) luna::set_fx( ut, #func_name, \
         sol::resolve< func_type >( &UT_CLASS::func_name))
 // SET FX (function) with Name
-//#define SET_FX_N(func_name, lua_name_str) luna::set_fx ( ut, lua_name_str, &UT_CLASS::func_name)
+#define SET_FX_N(func_name, lua_name_str) luna::set_fx ( ut, lua_name_str, &UT_CLASS::func_name)
 // SET FX (function) with Name and Type
 #define SET_FX_N_T(func_name, lua_name_str, func_type) luna::set_fx( ut, lua_name_str, \
         sol::resolve< func_type >( &UT_CLASS::func_name))

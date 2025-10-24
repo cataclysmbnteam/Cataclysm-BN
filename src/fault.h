@@ -6,6 +6,7 @@
 #include <string>
 
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -78,6 +79,9 @@ class fault
         translation description_;
         std::map<std::string, mending_method> mending_methods_;
         std::set<std::string> flags;
+
+    public:
+        LUA_TYPE_OPS( fault, id_ );
 };
 
 

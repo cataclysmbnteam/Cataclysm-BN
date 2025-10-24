@@ -6171,7 +6171,7 @@ void map::place_gas_pump( const point &p, int charges, const itype_id &fuel_type
 {
     detached_ptr<item> fuel = item::spawn( fuel_type, calendar::start_of_cataclysm );
     fuel->charges = charges;
-    ter_set( p, ter_id( fuel->fuel_pump_terrain() ) );
+    ter_set( p, fuel->fuel_pump_terrain() );
     add_item( p, std::move( fuel ) );
 }
 

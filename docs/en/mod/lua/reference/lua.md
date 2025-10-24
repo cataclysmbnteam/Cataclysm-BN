@@ -63,6 +63,148 @@ Function `( ActivityTypeId, <cppval: 7JsonOut > )`
 
 Function `( ActivityTypeId, <cppval: 6JsonIn > )`
 
+## AmmunitionEffectId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `AmmunitionEffectId.new()`
+
+#### `AmmunitionEffectId.new( AmmunitionEffectId )`
+
+#### `AmmunitionEffectId.new( AmmunitionEffectIntId )`
+
+#### `AmmunitionEffectId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( AmmunitionEffectId ) -> AmmunitionEffectRaw`
+
+#### int_id
+
+Function `( AmmunitionEffectId ) -> AmmunitionEffectIntId`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( AmmunitionEffectId ) -> bool`
+
+#### is_valid
+
+Function `( AmmunitionEffectId ) -> bool`
+
+#### str
+
+Function `( AmmunitionEffectId ) -> string`
+
+#### NULL_ID
+
+Function `() -> AmmunitionEffectId`
+
+#### __tostring
+
+Function `( AmmunitionEffectId ) -> string`
+
+#### serialize
+
+Function `( AmmunitionEffectId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( AmmunitionEffectId, <cppval: 6JsonIn > )`
+
+## AmmunitionEffectIntId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `AmmunitionEffectIntId.new()`
+
+#### `AmmunitionEffectIntId.new( AmmunitionEffectIntId )`
+
+#### `AmmunitionEffectIntId.new( AmmunitionEffectId )`
+
+### Members
+
+#### obj
+
+Function `( AmmunitionEffectIntId ) -> AmmunitionEffectRaw`
+
+#### str_id
+
+Function `( AmmunitionEffectIntId ) -> AmmunitionEffectId`
+
+#### is_valid
+
+Function `( AmmunitionEffectIntId ) -> bool`
+
+#### __tostring
+
+Function `( AmmunitionEffectIntId ) -> string`
+
+## AmmunitionTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `AmmunitionTypeId.new()`
+
+#### `AmmunitionTypeId.new( AmmunitionTypeId )`
+
+#### `AmmunitionTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( AmmunitionTypeId ) -> AmmunitionTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( AmmunitionTypeId ) -> bool`
+
+#### is_valid
+
+Function `( AmmunitionTypeId ) -> bool`
+
+#### str
+
+Function `( AmmunitionTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> AmmunitionTypeId`
+
+#### __tostring
+
+Function `( AmmunitionTypeId ) -> string`
+
+#### serialize
+
+Function `( AmmunitionTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( AmmunitionTypeId, <cppval: 6JsonIn > )`
+
 ## Angle
 
 ### Bases
@@ -110,6 +252,34 @@ Function `( Angle, Angle ) -> bool`
 #### __le
 
 Function `( Angle, Angle ) -> bool`
+
+## ArmorPortionData
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### coverage
+
+Variable of type `int`
+
+#### get_covered_parts
+
+Function `( ArmorPortionData ) -> Set( BodyPartTypeIntId )`
+
+#### encumber
+
+Variable of type `int`
+
+#### max_encumber
+
+Variable of type `int`
 
 ## Avatar
 
@@ -278,6 +448,34 @@ Function `( BodyPartTypeIntId ) -> bool`
 #### __tostring
 
 Function `( BodyPartTypeIntId ) -> string`
+
+## BookRecipe
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### name
+
+Variable of type `string`
+
+#### skill_level
+
+Variable of type `int`
+
+#### recipe
+
+Variable of type `RecipeRaw`
+
+#### hidden
+
+Variable of type `bool`
 
 ## Character
 
@@ -1072,10 +1270,20 @@ Function `( Character, AddictionType ) -> int`
 
 Function `( Character ) -> bool`
 
+#### add_item
+
+Adds a detached item to the player inventory
+Function `( Character, DetachedItem )`
+
+#### create_item
+
+Creates and an item with the given id and amount to the player inventory
+Function `( Character, ItypeId, int ) -> Item`
+
 #### add_item_with_id
 
-Adds an item with the given id and amount
-Function `( Character, ItypeId, int )`
+DEPRECATED: use create_item instead
+Function `( Character, ItypeId, int ) -> Item`
 
 #### has_item_with_id
 
@@ -1102,10 +1310,58 @@ Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 Gets all items
 Function `( Character, bool ) -> Vector( Item )`
 
+#### items_with
+
+Filters items
+Function `( Character, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
+
 #### inv_remove_item
 
+DEPRECATED: use remove_item instead
+Function `( Character, Item ) -> DetachedItem`
+
+#### remove_item
+
 Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
-Function `( Character, Item )`
+Function `( Character, Item ) -> DetachedItem`
+
+#### can_takeoff
+
+Checks if a given `Item` can be taken off.
+Function `( Character, Item ) -> bool`
+
+#### takeoff
+
+Attempts to take off the worn `Item` from character.
+Function `( Character, Item ) -> bool`
+
+#### remove_worn
+
+Attempts to remove the worn `Item` from character.
+Function `( Character, Item ) -> <cppval: St8optionalI12detached_ptrI4itemEE >`
+
+#### get_dependant_worn_items
+
+Function `( Character, Item ) -> Vector( Item )`
+
+#### wear_detached
+
+Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly
+Function `( Character, DetachedItem, bool ) -> bool`
+
+#### wear
+
+Attempts to wear an item in the creature inventory. If boolean parameter is false, item is worn instantly
+Function `( Character, Item, bool ) -> bool`
+
+#### can_wear
+
+Checks if creature can wear a given item. If boolean parameter is true, ignores already worn items
+Function `( Character, Item, bool ) -> bool`
+
+#### get_worn_items
+
+Function `( Character ) -> Vector( Item )`
 
 #### assign_activity
 
@@ -1335,6 +1591,14 @@ Function `( Character ) -> int`
 #### bodypart_exposure
 
 Function `( Character ) -> Map( BodyPartTypeIntId, double )`
+
+#### use_charges
+
+Function `( Character, ItypeId, int, <cppval: St8functionIFbRK4itemEE > ) -> Vector( DetachedItem )`
+
+#### use_charges_if_avail
+
+Function `( Character, ItypeId, int ) -> bool`
 
 ## CharacterId
 
@@ -1883,6 +2147,26 @@ Function `( DealtDamageInstance, DamageType ) -> int`
 
 Function `( DealtDamageInstance ) -> int`
 
+## DetachedItem
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### get
+
+Function `( DetachedItem ) -> Item`
+
+#### is_valid
+
+Function `( DetachedItem ) -> bool`
+
 ## DiseaseTypeId
 
 ### Bases
@@ -2132,6 +2416,110 @@ No constructors.
 #### str_id
 
 Function `( FactionRaw ) -> FactionId`
+
+## FaultId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `FaultId.new()`
+
+#### `FaultId.new( FaultId )`
+
+#### `FaultId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( FaultId ) -> FaultRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( FaultId ) -> bool`
+
+#### is_valid
+
+Function `( FaultId ) -> bool`
+
+#### str
+
+Function `( FaultId ) -> string`
+
+#### NULL_ID
+
+Function `() -> FaultId`
+
+#### __tostring
+
+Function `( FaultId ) -> string`
+
+#### serialize
+
+Function `( FaultId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( FaultId, <cppval: 6JsonIn > )`
+
+## FieldEmitId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `FieldEmitId.new()`
+
+#### `FieldEmitId.new( FieldEmitId )`
+
+#### `FieldEmitId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( FieldEmitId ) -> FieldEmitRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( FieldEmitId ) -> bool`
+
+#### is_valid
+
+Function `( FieldEmitId ) -> bool`
+
+#### str
+
+Function `( FieldEmitId ) -> string`
+
+#### NULL_ID
+
+Function `() -> FieldEmitId`
+
+#### __tostring
+
+Function `( FieldEmitId ) -> string`
+
+#### serialize
+
+Function `( FieldEmitId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( FieldEmitId, <cppval: 6JsonIn > )`
 
 ## FieldTypeId
 
@@ -2393,6 +2781,1075 @@ Variable of type `FurnId`
 
 Variable of type `FurnId`
 
+## IslotAmmo
+
+### Bases
+
+- `RangedData`
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### def_charges
+
+Default charges
+Variable of type `int`
+
+#### ammo_id
+
+Ammo type, basically the "form" of the ammo that fits into the gun/tool
+Variable of type `AmmunitionTypeId`
+
+#### ammo_effects
+
+Variable of type `Set( AmmunitionEffectId )`
+
+#### casing_id
+
+Type id of casings, if any
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
+
+#### cookoff
+
+Should this ammo explode in fire?
+Variable of type `bool`
+
+#### dont_recover_one_in
+
+Chance to fail to recover the ammo used.
+Variable of type `int`
+
+#### drop
+
+Variable of type `ItypeId`
+
+#### drop_count
+
+Variable of type `int`
+
+#### drop_active
+
+Variable of type `bool`
+
+#### force_stat_display
+
+Variable of type `<cppval: St8optionalIbE >`
+
+#### loudness
+
+Base loudness of ammo (possibly modified by gun/gunmods)
+Variable of type `int`
+
+#### recoil
+
+Recoil (per shot), roughly equivalent to kinetic energy (in Joules)
+Variable of type `int`
+
+#### special_cookoff
+
+Should this ammo apply a special explosion effect when in fire?
+Variable of type `bool`
+
+## IslotArmor
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### layer_data
+
+Layer, encumbrance and coverage information
+Variable of type `Vector( ArmorPortionData )`
+
+#### env_resist
+
+Resistance to environmental effects
+Variable of type `int`
+
+#### env_resist_w_filter
+
+Environmental protection of a gas mask with installed filter
+Variable of type `int`
+
+#### resistance
+
+Damage negated by this armor. Usually calculated from materials+thickness
+Variable of type `Resistances`
+
+#### sided
+
+Whether this item can be worn on either side of the body
+Variable of type `bool`
+
+#### storage
+
+How much storage this items provides when worn
+Variable of type `Volume`
+
+#### thickness
+
+Multiplier on resistances provided by armor's materials. Damaged armors have lower effective thickness, low capped at 1. Note: 1 thickness means item retains full resistance when damaged.
+Variable of type `int`
+
+#### valid_mods
+
+Whitelisted clothing mods. Restricted clothing mods must be listed here by id to be compatible.
+Variable of type `Vector( string )`
+
+#### warmth
+
+How much warmth this item provides
+Variable of type `int`
+
+#### weight_capacity_bonus
+
+Bonus to weight capacity
+Variable of type `Mass`
+
+#### weight_capacity_modifier
+
+Factor modifying weight capacity
+Variable of type `double`
+
+## IslotArtifact
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### charge_req
+
+Variable of type `ArtifactChargeReq`
+
+#### charge_type
+
+Variable of type `ArtifactCharge`
+
+#### dream_freq_met
+
+Variable of type `int`
+
+#### dream_freq_unmet
+
+Variable of type `int`
+
+#### dream_msg_met
+
+Variable of type `Vector( string )`
+
+#### dream_msg_unmet
+
+Variable of type `Vector( string )`
+
+#### effects_activated
+
+Variable of type `Vector( ArtifactEffectPassive )`
+
+#### effects_carried
+
+Variable of type `Vector( ArtifactEffectActive )`
+
+#### effects_wielded
+
+Variable of type `Vector( ArtifactEffectActive )`
+
+#### effects_worn
+
+Variable of type `Vector( ArtifactEffectActive )`
+
+## IslotBattery
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### max_capacity
+
+Maximum energy the battery can store
+Variable of type `Energy`
+
+## IslotBionic
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### bionic_id
+
+Id of the bionic
+Variable of type `BionicDataId`
+
+#### difficulty
+
+Arbitrary difficulty scale
+Variable of type `int`
+
+#### installation_data
+
+Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic
+Variable of type `ItypeId`
+
+#### is_upgrade
+
+Whether this CBM is an upgrade of another
+Variable of type `bool`
+
+## IslotBook
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### time
+
+How long in minutes it takes to read. "To read" means getting 1 skill point, not all of them.
+Variable of type `int`
+
+#### chapters
+
+Fun books have chapters; after all are read, the book is less fun.
+Variable of type `int`
+
+#### martial_art
+
+Which martial art it teaches. Can be MartialArtsId.NULL_ID
+Variable of type `MartialArtsId`
+
+#### fun
+
+How fun reading this is, can be negative
+Variable of type `int`
+
+#### intelligence
+
+Intelligence required to read it
+Variable of type `int`
+
+#### skill
+
+Which skill it upgrades, if any. Can be SkillId.NULL_ID
+Variable of type `SkillId`
+
+#### skill_min
+
+The skill level required to understand it
+Variable of type `int`
+
+#### skill_max
+
+The skill level the book provides
+Variable of type `int`
+
+#### recipes
+
+Recipes contained in this book
+Variable of type `Set( BookRecipe )`
+
+## IslotBrewable
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### results
+
+What are the results of fermenting this item
+Variable of type `Vector( ItypeId )`
+
+#### time
+
+How long for this brew to ferment
+Variable of type `TimeDuration`
+
+## IslotComestible
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### comest_type
+
+comestible subtype - eg. FOOD, DRINK, MED
+Variable of type `string`
+
+#### tool
+
+tool needed to consume (e.g. lighter for cigarettes)
+Variable of type `ItypeId`
+
+#### def_charges
+
+Defaults # of charges (drugs, loaf of bread? etc)
+Variable of type `int`
+
+#### quench
+
+effect on character thirst (may be negative)
+Variable of type `int`
+
+#### get_default_nutrition
+
+Nutrition values to use for this type when they aren't calculated from components
+Function `( IslotComestible ) -> <cppval: St3mapI9string_idI7vitaminEiSt4lessIS2_ESaISt4pairIKS2_iEEE >`
+
+#### spoils
+
+Time until becomes rotten at standard temperature, or zero if never spoils
+Variable of type `TimeDuration`
+
+#### addict_value
+
+addiction potential
+Variable of type `int`
+
+#### addict_type
+
+effects of addiction
+Variable of type `AddictionType`
+
+#### stimulant_type
+
+stimulant effect
+Variable of type `int`
+
+#### fatigue_mod
+
+fatigue altering effect
+Variable of type `int`
+
+#### cooks_like
+
+Reference to other item that replaces this one as a component in recipe results
+Variable of type `ItypeId`
+
+#### smoking_result
+
+Reference to item that will be received after smoking current item
+Variable of type `ItypeId`
+
+#### healthy
+
+Variable of type `int`
+
+#### parasites
+
+chance (odds) of becoming parasitised when eating (zero if never occurs)
+Variable of type `int`
+
+#### radiation
+
+Amount of radiation you get from this comestible
+Variable of type `int`
+
+#### petfood
+
+pet food category
+Variable of type `Set( string )`
+
+#### freeze_point
+
+freezing point in degrees Fahrenheit, below this temperature item can freeze
+Variable of type `int`
+
+#### contamination
+
+List of diseases carried by this comestible and their associated probability
+Variable of type `Map( DiseaseTypeId, int )`
+
+#### specific_heat_liquid
+
+specific heats in J/(g K) and latent heat in J/g
+Variable of type `double`
+
+#### specific_heat_solid
+
+Variable of type `double`
+
+#### latent_heat
+
+Variable of type `double`
+
+#### monotony_penalty
+
+A penalty applied to fun for every time this food has been eaten in the last 48 hours
+Variable of type `int`
+
+#### has_calories
+
+Function `( IslotComestible ) -> bool`
+
+#### get_default_nutr
+
+Function `( IslotComestible ) -> int`
+
+#### rot_spawn
+
+The monster group that is drawn from when the item rots away
+Variable of type `MonsterGroupId`
+
+#### rot_spawn_chance
+
+Chance the above monster group spawns
+Variable of type `int`
+
+## IslotContainer
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### contains
+
+Inner volume of the container
+Variable of type `Volume`
+
+#### preserves
+
+Contents do not spoil
+Variable of type `bool`
+
+#### seals
+
+Can be resealed
+Variable of type `bool`
+
+#### unseals_into
+
+If this is set to anything but "null", changing this container's contents in any way will turn this item into that type
+Variable of type `ItypeId`
+
+#### watertight
+
+Can hold liquids
+Variable of type `bool`
+
+## IslotEngine
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### displacement
+
+For combustion engines, the displacement
+Variable of type `int`
+
+## IslotFuel
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### energy
+
+Energy of the fuel (kilojoules per charge)
+Variable of type `double`
+
+#### explosion_data
+
+Variable of type `<cppval: 14fuel_explosion >`
+
+#### has_explosion_data
+
+Variable of type `bool`
+
+#### pump_terrain
+
+Variable of type `TerIntId`
+
+## IslotGun
+
+### Bases
+
+- `RangedData`
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### skill_used
+
+What skill this gun uses
+Variable of type `SkillId`
+
+#### ammo
+
+What type of ammo this gun uses
+Variable of type `Set( AmmunitionTypeId )`
+
+#### durability
+
+Gun durability, affects gun being damaged during shooting
+Variable of type `int`
+
+#### clip
+
+For guns with an integral magazine what is the capacity?
+Variable of type `int`
+
+#### reload_time
+
+Reload time, in moves
+Variable of type `int`
+
+#### reload_noise
+
+Noise displayed when reloading the weapon
+Variable of type `string`
+
+#### reload_noise_volume
+
+Volume of the noise made when reloading this weapon
+Variable of type `int`
+
+#### sight_dispersion
+
+Maximum aim achievable using base weapon sights
+Variable of type `int`
+
+#### loudness
+
+Modifies base loudness as provided by the currently loaded ammo
+Variable of type `int`
+
+#### ups_charges
+
+If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all
+Variable of type `int`
+
+#### blackpowder_tolerance
+
+One in X chance for gun to require major cleanup after firing blackpowder shot
+Variable of type `int`
+
+#### min_cycle_recoil
+
+Minimum ammo recoil for gun to be able to fire more than once per attack
+Variable of type `int`
+
+#### barrel_volume
+
+Volume of material removed by sawing down the barrel, if left unspecified barrel can't be sawed down
+Variable of type `Volume`
+
+#### ammo_effects
+
+Effects that are applied to the ammo when fired
+Variable of type `Set( AmmunitionEffectId )`
+
+#### get_gunmod_locations
+
+Location for gun mods. Key is the location (untranslated!), value is the number of mods that the location can have. The value should be > 0
+Function `( IslotGun ) -> Map( string, int )`
+
+#### built_in_mods
+
+Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set
+Variable of type `Set( ItypeId )`
+
+#### default_mods
+
+Default mods, string is id of mod. These mods are removable but are default on the weapon
+Variable of type `Set( ItypeId )`
+
+#### get_modes
+
+Firing modes are supported by the gun. Always contains at least DEFAULT mode
+Function `( IslotGun ) -> Vector( string )`
+
+#### burst
+
+Burst size for AUTO mode (legacy field for items not migrated to specify modes )
+Variable of type `int`
+
+#### handling
+
+How easy is control of recoil? If unset value automatically derived from weapon type
+Variable of type `int`
+
+#### recoil
+
+Additional recoil applied per shot before effects of handling are considered, useful for adding recoil effect to guns which otherwise consume no ammo
+Variable of type `int`
+
+#### ammo_to_fire
+
+How much ammo is consumed per shot
+Variable of type `int`
+
+## IslotGunmod
+
+### Bases
+
+- `RangedData`
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### get_location
+
+Where is this gunmod installed (e.g. "stock", "rail")?
+Function `( IslotGunmod ) -> string`
+
+#### usable
+
+What kind of weapons this gunmod can be used with
+Variable of type `<cppval: St13unordered_setI9string_idI5itypeESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE >`
+
+#### usable_category
+
+What category of weapons this gunmod can be used with
+Variable of type `Vector( <cppval: St13unordered_setI9string_idI15weapon_categoryESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE > )`
+
+#### exclusion
+
+What kind of weapons this gunmod can't be used with
+Variable of type `<cppval: St13unordered_setI9string_idI5itypeESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE >`
+
+#### exclusion_category
+
+What category of weapons this gunmod can't be used with
+Variable of type `Vector( <cppval: St13unordered_setI9string_idI15weapon_categoryESt4hashIS2_ESt8equal_toIS2_ESaIS2_EE > )`
+
+#### sight_dispersion
+
+If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current Character::recoil is at or below this value.
+Variable of type `int`
+
+#### aim_speed
+
+the one with highest aim speed is used.
+Variable of type `int`
+
+#### loudness
+
+Modifies base loudness as provided by the currently loaded ammo
+Variable of type `int`
+
+#### install_time
+
+How many moves does this gunmod take to install?
+Variable of type `int`
+
+#### ups_charges_multiplier
+
+Increases base gun UPS consumption by this many times per shot
+Variable of type `double`
+
+#### ups_charges_modifier
+
+Increases base gun UPS consumption by this value per shot
+Variable of type `int`
+
+#### ammo_to_fire_multiplier
+
+Increases base gun ammo to fire by this many times per shot
+Variable of type `double`
+
+#### ammo_to_fire_modifier
+
+Increases base gun ammo to fire by this value per shot
+Variable of type `int`
+
+#### weight_multiplier
+
+Increases gun weight by this many times
+Variable of type `double`
+
+#### get_mode_modifiers
+
+Firing modes added to or replacing those of the base gun
+Function `( IslotGunmod ) -> Set( string )`
+
+#### ammo_effects
+
+Variable of type `Set( AmmunitionEffectId )`
+
+#### handling
+
+Relative adjustment to base gun handling
+Variable of type `int`
+
+#### reload_modifier
+
+Percentage value change to the gun's loading time. Higher is slower
+Variable of type `int`
+
+#### consume_chance
+
+Percentage value change to the gun's loading time. Higher is less likely
+Variable of type `int`
+
+#### consume_divisor
+
+Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much.
+Variable of type `int`
+
+#### min_str_required_mod
+
+Modifies base strength required
+Variable of type `int`
+
+#### get_added_slots
+
+Additional gunmod slots to add to the gun
+Function `( IslotGunmod ) -> Map( string, int )`
+
+#### get_mod_blacklist
+
+Not compatible on weapons that have this mod slot
+Function `( IslotGunmod ) -> Set( string )`
+
+## IslotMagazine
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### default_ammo
+
+Default type of ammo contained by a magazine (often set for ammo belts)
+Variable of type `ItypeId`
+
+#### capacity
+
+Capacity of magazine (in equivalent units to ammo charges)
+Variable of type `int`
+
+#### count
+
+Default amount of ammo contained by a magazine (often set for ammo belts)
+Variable of type `int`
+
+#### linkage
+
+For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
+
+#### protects_contents
+
+If false, ammo will cook off if this mag is affected by fire
+Variable of type `bool`
+
+#### reliability
+
+How reliable this magazine on a range of 0 to 10?
+Variable of type `int`
+
+#### reload_time
+
+How long it takes to load each unit of ammo into the magazine
+Variable of type `int`
+
+#### ammo_type
+
+What type of ammo this magazine can be loaded with
+Variable of type `Set( AmmunitionTypeId )`
+
+## IslotMilling
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### conversion_rate
+
+Variable of type `int`
+
+#### converts_into
+
+Variable of type `ItypeId`
+
+## IslotMod
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### acceptable_ammo
+
+If non-empty restrict mod to items with those base (before modifiers) ammo types
+Variable of type `Set( AmmunitionTypeId )`
+
+#### ammo_modifier
+
+If set modifies parent ammo to this type
+Variable of type `Set( AmmunitionTypeId )`
+
+#### capacity_multiplier
+
+Proportional adjustment of parent item ammo capacity
+Variable of type `double`
+
+#### magazine_adaptor
+
+If non-empty replaces the compatible magazines for the parent item
+Variable of type `Map( AmmunitionTypeId, Set( ItypeId ) )`
+
+## IslotPetArmor
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### min_vol
+
+The minimum volume a pet can be and wear this armor
+Variable of type `Volume`
+
+#### max_vol
+
+The maximum volume a pet can be and wear this armor
+Variable of type `Volume`
+
+#### env_resist
+
+Resistance to environmental effects
+Variable of type `int`
+
+#### env_resist_w_filter
+
+Environmental protection of a gas mask with installed filter
+Variable of type `int`
+
+#### storage
+
+How much storage this items provides when worn
+Variable of type `Volume`
+
+#### thickness
+
+Multiplier on resistances provided by this armor
+Variable of type `int`
+
+#### bodytype
+
+What animal bodytype can wear this armor
+Variable of type `string`
+
+## IslotSeed
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### get_plant_name
+
+Name of the plant.
+Function `( IslotSeed, int ) -> string`
+
+#### fruit_id
+
+Type id of the fruit item.
+Variable of type `ItypeId`
+
+#### grow
+
+Time it takes for a seed to grow (based of off a season length of 91 days).
+Variable of type `TimeDuration`
+
+#### byproducts
+
+Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+Variable of type `Vector( ItypeId )`
+
+#### fruit_div
+
+Amount of harvested charges of fruits is divided by this number.
+Variable of type `int`
+
+## IslotTool
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### charge_factor
+
+Variable of type `int`
+
+#### ammo_id
+
+Variable of type `Set( AmmunitionTypeId )`
+
+#### charges_per_use
+
+Variable of type `int`
+
+#### def_charges
+
+Variable of type `int`
+
+#### default_ammo
+
+Variable of type `ItypeId`
+
+#### max_charges
+
+Variable of type `int`
+
+#### power_draw
+
+Variable of type `int`
+
+#### rand_charges
+
+Variable of type `Vector( int )`
+
+#### revert_msg
+
+Variable of type `string`
+
+#### revert_to
+
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
+
+#### subtype
+
+Variable of type `ItypeId`
+
+#### turns_active
+
+Variable of type `int`
+
+#### turns_per_charge
+
+Variable of type `int`
+
+#### ups_eff_mult
+
+Variable of type `int`
+
+#### ups_recharge_rate
+
+Variable of type `int`
+
+## IslotWheel
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### diameter
+
+Diameter of wheel in inches
+Variable of type `int`
+
+#### width
+
+Width of wheel in inches
+Variable of type `int`
+
 ## Item
 
 ### Bases
@@ -2412,7 +3869,7 @@ Function `( Item ) -> ItypeId`
 #### get_mtype
 
 Almost for a corpse.
-Function `( Item ) -> MtypeId`
+Function `( Item ) -> MonsterTypeId`
 
 #### tname
 
@@ -2453,6 +3910,11 @@ Function `( Item, string )`
 
 Erase all variables
 Function `( Item )`
+
+#### spawn
+
+Spawns a new item. Same as gapi.create_item
+Function `( ItypeId, int ) -> DetachedItem`
 
 #### is_null
 
@@ -2675,6 +4137,14 @@ Function `( Item )`
 
 Function `( Item )`
 
+#### set_charges
+
+Function `( Item, int )`
+
+#### set_countdown
+
+Function `( Item, int )`
+
 #### is_melee
 
 Is this item an effective melee weapon for the given damage type?
@@ -2716,7 +4186,7 @@ Function `( Item, int )`
 
 #### made_of
 
-Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
+Function `( Item ) -> Vector( MaterialTypeId )`
 
 #### is_made_of
 
@@ -2927,7 +4397,7 @@ Function `( Item ) -> int`
 
 ## ItemStack
 
-Iterate over this using pairs()
+Iterate over this using pairs() for reading. Can also be indexed.
 
 ### Bases
 
@@ -2941,7 +4411,68 @@ No constructors.
 
 #### __pairs
 
-Function `( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIR23item_stack_lua_it_stateEENS0_10this_stateEE >, <cppval: N3sol4userI23item_stack_lua_it_stateEE >, nil )`
+Function `( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIRN12_GLOBAL__N_123item_stack_lua_it_stateEEENS0_10this_stateEE >, <cppval: N3sol4userIN12_GLOBAL__N_123item_stack_lua_it_stateEEE >, nil )`
+
+#### __len
+
+Function `( ItemStack ) -> <cppval: m >`
+
+#### __index
+
+Function `( ItemStack, int ) -> Item`
+
+#### items
+
+Modifying the stack while iterating may cause problems. This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating).
+Function `( ItemStack ) -> Vector( Item )`
+
+#### remove
+
+Function `( ItemStack, Item ) -> DetachedItem`
+
+#### insert
+
+Function `( ItemStack, DetachedItem )`
+
+#### clear
+
+Function `( ItemStack ) -> Vector( DetachedItem )`
+
+#### count
+
+Function `( ItemStack ) -> <cppval: m >`
+
+#### amount_can_fit
+
+Function `( ItemStack, Item ) -> int`
+
+#### count_limit
+
+Function `( ItemStack ) -> int`
+
+#### free_volume
+
+Function `( ItemStack ) -> Volume`
+
+#### stored_volume
+
+Function `( ItemStack ) -> Volume`
+
+#### max_volume
+
+Function `( ItemStack ) -> Volume`
+
+#### move_all_to
+
+Function `( ItemStack, ItemStack )`
+
+#### only_item
+
+Function `( ItemStack ) -> Item`
+
+#### stacks_with
+
+Function `( ItemStack, Item ) -> Item`
 
 ## ItypeId
 
@@ -2994,6 +4525,328 @@ Function `( ItypeId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( ItypeId, <cppval: 6JsonIn > )`
+
+## ItypeRaw
+
+Slots for various item type properties. Each slot may contain a valid value or nil
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### slot_container
+
+Function `( ItypeRaw ) -> IslotContainer`
+
+#### slot_tool
+
+Function `( ItypeRaw ) -> IslotTool`
+
+#### slot_comestible
+
+Function `( ItypeRaw ) -> IslotComestible`
+
+#### slot_brewable
+
+Function `( ItypeRaw ) -> IslotBrewable`
+
+#### slot_armor
+
+Function `( ItypeRaw ) -> IslotArmor`
+
+#### slot_pet_armor
+
+Function `( ItypeRaw ) -> IslotPetArmor`
+
+#### slot_book
+
+Function `( ItypeRaw ) -> IslotBook`
+
+#### slot_mod
+
+Function `( ItypeRaw ) -> IslotMod`
+
+#### slot_engine
+
+Function `( ItypeRaw ) -> IslotEngine`
+
+#### slot_wheel
+
+Function `( ItypeRaw ) -> IslotWheel`
+
+#### slot_fuel
+
+Function `( ItypeRaw ) -> IslotFuel`
+
+#### slot_gun
+
+Function `( ItypeRaw ) -> IslotGun`
+
+#### slot_gunmod
+
+Function `( ItypeRaw ) -> IslotGunmod`
+
+#### slot_magazine
+
+Function `( ItypeRaw ) -> IslotMagazine`
+
+#### slot_battery
+
+Function `( ItypeRaw ) -> IslotBattery`
+
+#### slot_bionic
+
+Function `( ItypeRaw ) -> IslotBionic`
+
+#### slot_ammo
+
+Function `( ItypeRaw ) -> IslotAmmo`
+
+#### slot_seed
+
+Function `( ItypeRaw ) -> IslotSeed`
+
+#### slot_artifact
+
+Function `( ItypeRaw ) -> IslotArtifact`
+
+#### slot_relic
+
+Function `( ItypeRaw ) -> Relic`
+
+#### slot_milling
+
+Function `( ItypeRaw ) -> IslotMilling`
+
+#### type_id
+
+Function `( ItypeRaw ) -> ItypeId`
+
+#### can_have_charges
+
+Function `( ItypeRaw ) -> bool`
+
+#### can_use
+
+Function `( ItypeRaw, string ) -> bool`
+
+#### charge_factor
+
+Function `( ItypeRaw ) -> int`
+
+#### charges_default
+
+Function `( ItypeRaw ) -> int`
+
+#### charges_per_volume
+
+Function `( ItypeRaw, Volume ) -> int`
+
+#### charges_to_use
+
+Function `( ItypeRaw ) -> int`
+
+#### is_stackable
+
+Function `( ItypeRaw ) -> bool`
+
+#### damage_max
+
+Function `( ItypeRaw ) -> int`
+
+#### damage_min
+
+Function `( ItypeRaw ) -> int`
+
+#### get_flags
+
+Function `( ItypeRaw ) -> <cppval: St3setI9string_idI9json_flagESt4lessIS2_ESaIS2_EE >`
+
+#### has_flag
+
+Function `( ItypeRaw, JsonFlagId ) -> bool`
+
+#### has_use
+
+Function `( ItypeRaw ) -> bool`
+
+#### maximum_charges
+
+Function `( ItypeRaw ) -> int`
+
+#### get_name
+
+Function `( ItypeRaw, int ) -> string`
+
+#### explosion_data
+
+Variable of type `<cppval: 14explosion_data >`
+
+#### melee_to_hit
+
+Variable of type `int`
+
+#### source_mod
+
+Function `( ItypeRaw ) -> Vector( ModInfoId )`
+
+#### attacks
+
+Variable of type `Map( string, <cppval: 16attack_statblock > )`
+
+#### countdown_destroy
+
+Variable of type `bool`
+
+#### countdown_interval
+
+Variable of type `int`
+
+#### default_container
+
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
+
+#### emits
+
+Variable of type `Set( FieldEmitId )`
+
+#### explode_in_fire
+
+Variable of type `bool`
+
+#### faults
+
+Variable of type `Set( FaultId )`
+
+#### integral_volume
+
+Variable of type `Volume`
+
+#### integral_weight
+
+Variable of type `Mass`
+
+#### item_tags
+
+Variable of type `Set( JsonFlagId )`
+
+#### layer
+
+Variable of type `<cppval: 11layer_level >`
+
+#### light_emission
+
+Variable of type `int`
+
+#### looks_like
+
+Variable of type `ItypeId`
+
+#### materials
+
+Variable of type `Vector( MaterialTypeId )`
+
+#### min_dex
+
+Variable of type `int`
+
+#### min_int
+
+Variable of type `int`
+
+#### min_per
+
+Variable of type `int`
+
+#### min_skills
+
+Variable of type `Map( SkillId, int )`
+
+#### min_str
+
+Variable of type `int`
+
+#### phase
+
+Variable of type `Phase`
+
+#### price
+
+Function `( ItypeRaw ) -> int`
+
+#### price_post
+
+Function `( ItypeRaw ) -> int`
+
+#### properties
+
+Variable of type `Map( string, string )`
+
+#### qualities
+
+Variable of type `Map( QualityId, int )`
+
+#### recipes
+
+Variable of type `Vector( RecipeId )`
+
+#### repair
+
+Variable of type `Set( ItypeId )`
+
+#### repairs_like
+
+Variable of type `ItypeId`
+
+#### rigid
+
+Variable of type `bool`
+
+#### stack_size
+
+Variable of type `int`
+
+#### techniques
+
+Variable of type `Set( MartialArtsTechniqueId )`
+
+#### thrown_damage
+
+Variable of type `DamageInstance`
+
+#### volume
+
+Variable of type `Volume`
+
+#### weapon_category
+
+Variable of type `Set( WeaponCategoryId )`
+
+#### weight
+
+Variable of type `Mass`
+
+#### get_countdown_action
+
+Function `( ItypeRaw ) -> string`
+
+#### get_description
+
+Function `( ItypeRaw, int ) -> string`
+
+#### get_drop_action
+
+Function `( ItypeRaw ) -> string`
+
+#### get_uses
+
+Function `( ItypeRaw ) -> Vector( string )`
 
 ## JsonFlagId
 
@@ -3133,20 +4986,16 @@ Function `( Map ) -> int`
 #### create_item_at
 
 Creates a new item(s) at a position on the map.
-Function `( Map, Tripoint, ItypeId, int )`
+Function `( Map, Tripoint, ItypeId, int ) -> Item`
 
 #### create_corpse_at
 
 Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
-Function `( Map, Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
+Function `( Map, Tripoint, Opt( MonsterTypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
 
 #### has_items_at
 
 Function `( Map, Tripoint ) -> bool`
-
-#### get_items_at
-
-Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
 
 #### remove_item_at
 
@@ -3155,6 +5004,14 @@ Function `( Map, Tripoint, Item )`
 #### clear_items_at
 
 Function `( Map, Tripoint )`
+
+#### get_items_at
+
+Function `( Map, Tripoint ) -> MapStack`
+
+#### get_items_in_radius
+
+Function `( Map, Tripoint, int ) -> Vector( MapStack )`
 
 #### get_ter_at
 
@@ -3243,6 +5100,18 @@ No constructors.
 
 Function `( MapStack ) -> ItemStack`
 
+#### __pairs
+
+Function `( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIRN12_GLOBAL__N_123item_stack_lua_it_stateEEENS0_10this_stateEE >, <cppval: N3sol4userIN12_GLOBAL__N_123item_stack_lua_it_stateEEE >, nil )`
+
+#### __len
+
+Function `( ItemStack ) -> <cppval: m >`
+
+#### __index
+
+Function `( ItemStack, int ) -> Item`
+
 ## MartialArtsBuffId
 
 ### Bases
@@ -3294,6 +5163,58 @@ Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
+
+## MartialArtsId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MartialArtsId.new()`
+
+#### `MartialArtsId.new( MartialArtsId )`
+
+#### `MartialArtsId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsId ) -> MartialArtsRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsId ) -> bool`
+
+#### str
+
+Function `( MartialArtsId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsId`
+
+#### __tostring
+
+Function `( MartialArtsId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsId, <cppval: 6JsonIn > )`
 
 ## MartialArtsTechniqueId
 
@@ -3361,7 +5282,7 @@ No constructors.
 
 #### name
 
-Function `()`
+Variable of type `string`
 
 #### get_description
 
@@ -3369,75 +5290,75 @@ Function `( MartialArtsTechniqueRaw ) -> string`
 
 #### avatar_message
 
-Function `()`
+Variable of type `string`
 
 #### npc_message
 
-Function `()`
+Variable of type `string`
 
 #### defensive
 
-Function `()`
+Variable of type `bool`
 
 #### side_switch
 
-Function `()`
+Variable of type `bool`
 
 #### down_dur
 
-Function `()`
+Variable of type `int`
 
 #### stun_dur
 
-Function `()`
+Variable of type `int`
 
 #### knockback_dist
 
-Function `()`
+Variable of type `int`
 
 #### knockback_spread
 
-Function `()`
+Variable of type `double`
 
 #### powerful_knockback
 
-Function `()`
+Variable of type `bool`
 
 #### crit_tec
 
-Function `()`
+Variable of type `bool`
 
 #### crit_ok
 
-Function `()`
+Variable of type `bool`
 
 #### knockback_follow
 
-Function `()`
+Variable of type `bool`
 
 #### disarms
 
-Function `()`
+Variable of type `bool`
 
 #### take_weapon
 
-Function `()`
+Variable of type `bool`
 
 #### dodge_counter
 
-Function `()`
+Variable of type `bool`
 
 #### block_counter
 
-Function `()`
+Variable of type `bool`
 
 #### miss_recovery
 
-Function `()`
+Variable of type `bool`
 
 #### grab_break
 
-Function `()`
+Variable of type `bool`
 
 ## Mass
 
@@ -3802,7 +5723,7 @@ Variable of type `CharacterId`
 #### monster_type
 
 Returns the monster type associated with the mission, if any.
-Variable of type `MtypeId`
+Variable of type `MonsterTypeId`
 
 #### monster_kill_goal
 
@@ -3847,6 +5768,58 @@ No base classes.
 
 No members.
 
+## ModInfoId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `ModInfoId.new()`
+
+#### `ModInfoId.new( ModInfoId )`
+
+#### `ModInfoId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( ModInfoId ) -> ModInfoRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( ModInfoId ) -> bool`
+
+#### is_valid
+
+Function `( ModInfoId ) -> bool`
+
+#### str
+
+Function `( ModInfoId ) -> string`
+
+#### NULL_ID
+
+Function `() -> ModInfoId`
+
+#### __tostring
+
+Function `( ModInfoId ) -> string`
+
+#### serialize
+
+Function `( ModInfoId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( ModInfoId, <cppval: 6JsonIn > )`
+
 ## Monster
 
 ### Bases
@@ -3885,7 +5858,7 @@ Variable of type `string`
 
 #### get_type
 
-Function `( Monster ) -> MtypeId`
+Function `( Monster ) -> MonsterTypeId`
 
 #### can_upgrade
 
@@ -4093,6 +6066,110 @@ Function `( MonsterFactionIntId ) -> bool`
 
 Function `( MonsterFactionIntId ) -> string`
 
+## MonsterGroupId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MonsterGroupId.new()`
+
+#### `MonsterGroupId.new( MonsterGroupId )`
+
+#### `MonsterGroupId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MonsterGroupId ) -> MonsterGroupRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MonsterGroupId ) -> bool`
+
+#### is_valid
+
+Function `( MonsterGroupId ) -> bool`
+
+#### str
+
+Function `( MonsterGroupId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MonsterGroupId`
+
+#### __tostring
+
+Function `( MonsterGroupId ) -> string`
+
+#### serialize
+
+Function `( MonsterGroupId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MonsterGroupId, <cppval: 6JsonIn > )`
+
+## MonsterTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MonsterTypeId.new()`
+
+#### `MonsterTypeId.new( MonsterTypeId )`
+
+#### `MonsterTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MonsterTypeId ) -> MonsterTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MonsterTypeId ) -> bool`
+
+#### is_valid
+
+Function `( MonsterTypeId ) -> bool`
+
+#### str
+
+Function `( MonsterTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MonsterTypeId`
+
+#### __tostring
+
+Function `( MonsterTypeId ) -> string`
+
+#### serialize
+
+Function `( MonsterTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MonsterTypeId, <cppval: 6JsonIn > )`
+
 ## MoraleTypeDataId
 
 ### Bases
@@ -4144,58 +6221,6 @@ Function `( MoraleTypeDataId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MoraleTypeDataId, <cppval: 6JsonIn > )`
-
-## MtypeId
-
-### Bases
-
-No base classes.
-
-### Constructors
-
-#### `MtypeId.new()`
-
-#### `MtypeId.new( MtypeId )`
-
-#### `MtypeId.new( string )`
-
-### Members
-
-#### obj
-
-Function `( MtypeId ) -> MtypeRaw`
-
-#### implements_int_id
-
-Function `() -> bool`
-
-#### is_null
-
-Function `( MtypeId ) -> bool`
-
-#### is_valid
-
-Function `( MtypeId ) -> bool`
-
-#### str
-
-Function `( MtypeId ) -> string`
-
-#### NULL_ID
-
-Function `() -> MtypeId`
-
-#### __tostring
-
-Function `( MtypeId ) -> string`
-
-#### serialize
-
-Function `( MtypeId, <cppval: 7JsonOut > )`
-
-#### deserialize
-
-Function `( MtypeId, <cppval: 6JsonIn > )`
 
 ## MutationBranchId
 
@@ -5022,6 +7047,58 @@ Function `( PopupInputStr ) -> string`
 Returns your input, but allows numbers only.
 Function `( PopupInputStr ) -> int`
 
+## QualityId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `QualityId.new()`
+
+#### `QualityId.new( QualityId )`
+
+#### `QualityId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( QualityId ) -> QualityRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( QualityId ) -> bool`
+
+#### is_valid
+
+Function `( QualityId ) -> bool`
+
+#### str
+
+Function `( QualityId ) -> string`
+
+#### NULL_ID
+
+Function `() -> QualityId`
+
+#### __tostring
+
+Function `( QualityId ) -> string`
+
+#### serialize
+
+Function `( QualityId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( QualityId, <cppval: 6JsonIn > )`
+
 ## QueryPopup
 
 ### Bases
@@ -5061,6 +7138,42 @@ Function `( QueryPopup ) -> string`
 
 Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
 Function `( QueryPopup ) -> string`
+
+## RangedData
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### aimed_crit_bonus
+
+Variable of type `double`
+
+#### aimed_crit_max_bonus
+
+Variable of type `double`
+
+#### damage
+
+Variable of type `DamageInstance`
+
+#### dispersion
+
+Variable of type `int`
+
+#### range
+
+Variable of type `int`
+
+#### speed
+
+Variable of type `int`
 
 ## RecipeId
 
@@ -5160,6 +7273,11 @@ Variable of type `Map( ItypeId, int )`
 
 #### ident
 
+DEPRECATED: use recipe_id instead
+Function `( RecipeRaw ) -> RecipeId`
+
+#### recipe_id
+
 Function `( RecipeRaw ) -> RecipeId`
 
 #### result
@@ -5185,6 +7303,58 @@ Function `( string ) -> Vector( RecipeRaw )`
 #### get_all
 
 Function `() -> Vector( RecipeRaw )`
+
+## Relic
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### name
+
+Function `( Relic ) -> string`
+
+#### get_enchantments
+
+Function `( Relic ) -> <cppval: St6vectorI11enchantmentSaIS0_EE >`
+
+#### get_recharge_scheme
+
+Function `( Relic ) -> <cppval: St6vectorI14relic_rechargeSaIS0_EE >`
+
+#### get_spells
+
+Function `( Relic ) -> <cppval: St6vectorI10fake_spellSaIS0_EE >`
+
+## Resistances
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### get_all_resist
+
+Function `( Resistances ) -> Map( DamageType, double )`
+
+#### get_resist
+
+Function `( Resistances, DamageType ) -> double`
+
+#### get_effective_resist
+
+Function `( Resistances, DamageUnit ) -> double`
 
 ## SkillId
 
@@ -6340,6 +8510,114 @@ Variable of type `string`
 Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 Function `( UiListEntry, Color )`
 
+## VitaminId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `VitaminId.new()`
+
+#### `VitaminId.new( VitaminId )`
+
+#### `VitaminId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( VitaminId ) -> VitaminRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( VitaminId ) -> bool`
+
+#### is_valid
+
+Function `( VitaminId ) -> bool`
+
+#### str
+
+Function `( VitaminId ) -> string`
+
+#### NULL_ID
+
+Function `() -> VitaminId`
+
+#### __tostring
+
+Function `( VitaminId ) -> string`
+
+#### serialize
+
+Function `( VitaminId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( VitaminId, <cppval: 6JsonIn > )`
+
+## VitaminRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### deficiency
+
+Function `( VitaminRaw ) -> EffectTypeId`
+
+#### excess
+
+Function `( VitaminRaw ) -> EffectTypeId`
+
+#### has_flag
+
+Function `( VitaminRaw, string ) -> bool`
+
+#### min
+
+Function `( VitaminRaw ) -> int`
+
+#### max
+
+Function `( VitaminRaw ) -> int`
+
+#### rate
+
+Function `( VitaminRaw ) -> TimeDuration`
+
+#### severity
+
+Function `( VitaminRaw, int ) -> int`
+
+#### name
+
+Function `( VitaminRaw ) -> string`
+
+#### is_null
+
+Function `( VitaminRaw ) -> bool`
+
+#### vitamin_id
+
+Function `( VitaminRaw ) -> VitaminId`
+
+#### vitamin_type
+
+Function `( VitaminRaw ) -> VitaminType`
+
 ## Volume
 
 ### Bases
@@ -6380,6 +8658,58 @@ Function `( Volume, Volume ) -> bool`
 
 Function `( Volume, Volume ) -> bool`
 
+## WeaponCategoryId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `WeaponCategoryId.new()`
+
+#### `WeaponCategoryId.new( WeaponCategoryId )`
+
+#### `WeaponCategoryId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( WeaponCategoryId ) -> WeaponCategoryRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( WeaponCategoryId ) -> bool`
+
+#### is_valid
+
+Function `( WeaponCategoryId ) -> bool`
+
+#### str
+
+Function `( WeaponCategoryId ) -> string`
+
+#### NULL_ID
+
+Function `() -> WeaponCategoryId`
+
+#### __tostring
+
+Function `( WeaponCategoryId ) -> string`
+
+#### serialize
+
+Function `( WeaponCategoryId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( WeaponCategoryId, <cppval: 6JsonIn > )`
+
 # Enums
 
 ## AddictionType
@@ -6400,6 +8730,113 @@ Function `( Volume, Volume ) -> bool`
 - `MARLOSS_R` = `11`
 - `MARLOSS_B` = `12`
 - `MARLOSS_Y` = `13`
+
+## ArtifactCharge
+
+### Entries
+
+- `ARTC_NULL` = `0`
+- `ARTC_TIME` = `1`
+- `ARTC_SOLAR` = `2`
+- `ARTC_PAIN` = `3`
+- `ARTC_HP` = `4`
+- `ARTC_FATIGUE` = `5`
+- `ARTC_PORTAL` = `6`
+
+## ArtifactChargeReq
+
+### Entries
+
+- `ACR_NULL` = `0`
+- `ACR_EQUIP` = `1`
+- `ACR_SKIN` = `2`
+- `ACR_SLEEP` = `3`
+- `ACR_RAD` = `4`
+- `ACR_WET` = `5`
+- `ACR_SKY` = `6`
+
+## ArtifactEffectActive
+
+### Entries
+
+- `AEP_NULL` = `0`
+- `AEP_STR_UP` = `1`
+- `AEP_DEX_UP` = `2`
+- `AEP_PER_UP` = `3`
+- `AEP_INT_UP` = `4`
+- `AEP_ALL_UP` = `5`
+- `AEP_SPEED_UP` = `6`
+- `AEP_PBLUE` = `7`
+- `AEP_SNAKES` = `8`
+- `AEP_INVISIBLE` = `9`
+- `AEP_CLAIRVOYANCE` = `10`
+- `AEP_SUPER_CLAIRVOYANCE` = `11`
+- `AEP_STEALTH` = `12`
+- `AEP_EXTINGUISH` = `13`
+- `AEP_GLOW` = `14`
+- `AEP_PSYSHIELD` = `15`
+- `AEP_RESIST_ELECTRICITY` = `16`
+- `AEP_CARRY_MORE` = `17`
+- `AEP_SAP_LIFE` = `18`
+- `AEP_FUN` = `19`
+- `AEP_SPLIT` = `20`
+- `AEP_HUNGER` = `21`
+- `AEP_THIRST` = `22`
+- `AEP_SMOKE` = `23`
+- `AEP_EVIL` = `24`
+- `AEP_SCHIZO` = `25`
+- `AEP_RADIOACTIVE` = `26`
+- `AEP_MUTAGENIC` = `27`
+- `AEP_ATTENTION` = `28`
+- `AEP_STR_DOWN` = `29`
+- `AEP_DEX_DOWN` = `30`
+- `AEP_PER_DOWN` = `31`
+- `AEP_INT_DOWN` = `32`
+- `AEP_ALL_DOWN` = `33`
+- `AEP_SPEED_DOWN` = `34`
+- `AEP_FORCE_TELEPORT` = `35`
+- `AEP_MOVEMENT_NOISE` = `36`
+- `AEP_BAD_WEATHER` = `37`
+- `AEP_SICK` = `38`
+- `AEP_CLAIRVOYANCE_PLUS` = `39`
+
+## ArtifactEffectPassive
+
+### Entries
+
+- `AEA_NULL` = `0`
+- `AEA_STORM` = `1`
+- `AEA_FIREBALL` = `2`
+- `AEA_ADRENALINE` = `3`
+- `AEA_MAP` = `4`
+- `AEA_BLOOD` = `5`
+- `AEA_FATIGUE` = `6`
+- `AEA_ACIDBALL` = `7`
+- `AEA_PULSE` = `8`
+- `AEA_HEAL` = `9`
+- `AEA_CONFUSED` = `10`
+- `AEA_ENTRANCE` = `11`
+- `AEA_BUGS` = `12`
+- `AEA_TELEPORT` = `13`
+- `AEA_LIGHT` = `14`
+- `AEA_GROWTH` = `15`
+- `AEA_HURTALL` = `16`
+- `AEA_FUN` = `17`
+- `AEA_SPLIT` = `18`
+- `AEA_RADIATION` = `19`
+- `AEA_PAIN` = `20`
+- `AEA_MUTATE` = `21`
+- `AEA_PARALYZE` = `22`
+- `AEA_FIRESTORM` = `23`
+- `AEA_ATTENTION` = `24`
+- `AEA_TELEGLOW` = `25`
+- `AEA_NOISE` = `26`
+- `AEA_SCREAM` = `27`
+- `AEA_DIM` = `28`
+- `AEA_FLASH` = `29`
+- `AEA_VOMIT` = `30`
+- `AEA_SHADOWS` = `31`
+- `AEA_STAMINA_EMPTY` = `32`
 
 ## Attitude
 
@@ -6882,6 +9319,15 @@ Function `( Volume, Volume ) -> bool`
 - `interior_engine_sound` = `23`
 - `radio` = `24`
 
+## VitaminType
+
+### Entries
+
+- `vitamin` = `0`
+- `toxin` = `1`
+- `drug` = `2`
+- `counter` = `3`
+
 # Libraries
 
 ## const
@@ -7008,7 +9454,8 @@ Function `( TimeDuration, function )`
 
 #### create_item
 
-Function `( ItypeId, int ) -> <cppval: St10unique_ptrI4itemSt14default_deleteIS0_EE >`
+Spawns a new item. Same as Item::spawn
+Function `( ItypeId, int ) -> DetachedItem`
 
 #### get_creature_at
 
@@ -7020,11 +9467,11 @@ Function `( Tripoint, Opt( bool ) ) -> Monster`
 
 #### place_monster_at
 
-Function `( MtypeId, Tripoint ) -> Monster`
+Function `( MonsterTypeId, Tripoint ) -> Monster`
 
 #### place_monster_around
 
-Function `( MtypeId, Tripoint, int ) -> Monster`
+Function `( MonsterTypeId, Tripoint, int ) -> Monster`
 
 #### get_character_at
 
@@ -7181,7 +9628,7 @@ Function `( string ) -> string`
 #### vgettext
 
 First is english singular string, second is english plural string. Number is amount to translate for.
-Function `( string, string, <cppval: m > ) -> string`
+Function `( string, string, int ) -> string`
 
 #### pgettext
 
@@ -7191,7 +9638,7 @@ Function `( string, string ) -> string`
 #### vpgettext
 
 First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
-Function `( string, string, string, <cppval: m > ) -> string`
+Function `( string, string, string, int ) -> string`
 
 ## tests_lib
 
