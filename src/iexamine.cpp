@@ -2417,7 +2417,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
 /**
  *  Choose seed for planting
  */
-int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
+int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries, int min_req )
 {
     uilist smenu;
 
@@ -2429,7 +2429,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";
 
-        smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
+        smenu.addentry( count++, seed_count >= min_req, MENU_AUTOASSIGN, format.c_str(),
                         seed_name, seed_count );
     }
 
