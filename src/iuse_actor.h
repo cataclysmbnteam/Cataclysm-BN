@@ -1385,14 +1385,19 @@ class iuse_reveal_contents : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
+class iuse_flowerpot_transplant;
+
 class iuse_flowerpot_plant : public iuse_actor
 {
+        friend iuse_flowerpot_transplant;
+    public:
+        constexpr static auto IUSE_ACTOR = "flowerpot_plant";
         constexpr static auto VAR_SEED_TYPE = "flowerpot_seed_type";
         constexpr static auto VAR_PLANTED_DATE = "flowerpot_planted_date";
         constexpr static auto VAR_FERTILIZED = "flowerpot_fertilized";
         constexpr static auto VAR_GROWTH_TIME = "flowerpot_growth_time";
-    public:
-        iuse_flowerpot_plant( const std::string &type = "flowerpot_plant" ) : iuse_actor( type ) {}
+
+        iuse_flowerpot_plant( const std::string &type = IUSE_ACTOR ) : iuse_actor( type ) {}
         ~iuse_flowerpot_plant() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &who, item &i, bool, const tripoint & ) const override;
@@ -1407,16 +1412,17 @@ class iuse_flowerpot_plant : public iuse_actor
             harvest
         };
         struct growth_info {
-          itype_id seed_id;
-          time_point planted_time;
-          time_duration growth_time;
-          bool fertilized;
-          time_duration elapsed_time() const;
-          time_duration remaining_time() const;
-          growth_stage stage() const;
-          std::string plant_name() const;
+            itype_id seed_id;
+            time_point planted_time;
+            time_duration growth_time;
+            bool fertilized;
+            time_duration elapsed_time() const;
+            time_duration remaining_time() const;
+            growth_stage stage() const;
+            std::string plant_name() const;
         };
         static growth_info get_info( const item & );
+        time_duration calculate_growth_time( const itype_id &, int fertilizer ) const;
         void update_info( item &, const growth_info & ) const;
         int on_use_plant( player &, item &, const tripoint & ) const;
         int on_use_harvest( player &, item &, const tripoint & ) const;
@@ -1428,4 +1434,21 @@ class iuse_flowerpot_plant : public iuse_actor
         float growth_rate = 1;
         float fert_boost = 0.25;
 
+};
+
+class iuse_flowerpot_transplant : public iuse_actor
+{
+        friend iuse_flowerpot_plant;
+    public:
+        iuse_flowerpot_transplant( const std::string &type = "flowerpot_transplant" ) : iuse_actor(
+                type ) {}
+        ~iuse_flowerpot_transplant() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &who, item &i, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+    private:
+        static void transfer_map_to_flowerpot( const tripoint & map_pos, item& flowerpot );
+        static bool empty_pot_selector( const item &it );
+        static bool full_pot_selector( const item &it );
 };
