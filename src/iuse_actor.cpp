@@ -6201,7 +6201,7 @@ time_duration iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_
     return growth_time;
 }
 
-void iuse_flowerpot_transplant::load( const JsonObject &obj )
+void iuse_flowerpot_transplant::load( const JsonObject & )
 {
 
 }
@@ -6249,53 +6249,49 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, 
                            iuse_flowerpot_plant::IUSE_ACTOR )->get_actor_ptr() );
     if( !actor ) {
         debugmsg( "Invalid iuse_actor" );
+        return;
     }
 
     if( !furn_id->plant ) {
         debugmsg( "Invalid plant_data" );
+        return;
     }
 
     auto stack = m.i_at( pos );
 
+    constexpr auto is_seed = []( const item * it ) { return it->is_seed(); };
+    const auto seed_it = std::ranges::find_if( stack, is_seed );
+    if( seed_it == stack.end() ) {
+        debugmsg( "Missing seed" );
+        return;
+    }
+    item *seed = *seed_it;
+
     auto max_seeds = actor->seeds_per_use.second;
     auto max_fert = actor->fert_per_use.second;
-    item* seed {};
 
     std::vector<detached_ptr<item>> comps;
     stack.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
-
-        if ( it->is_seed() && max_seeds > 0) {
-            if (seed == nullptr) {
-                seed = it.get();
-            }
-            if (it->typeId() == seed->typeId()) {
-                return item::use_charges( std::move(it), seed->typeId(), max_seeds, comps, pos );
-            }
+        if( max_seeds > 0 && it->typeId() == seed->typeId() ) {
+            // Move the seeds
+            return item::use_charges( std::move( it ), seed->typeId(), max_seeds, comps, pos );
         }
-        if (it->typeId() == itype_fertilizer && max_fert > 0) {
-            auto tmp = item::spawn(*it);
-            item::use_charges( std::move(tmp), itype_fertilizer, max_fert, comps, pos );
+        if( max_fert > 0 && it->typeId() == itype_fertilizer ) {
+            // Clone the fertilizer
+            auto tmp = item::spawn( *it );
+            item::use_charges( std::move( tmp ), itype_fertilizer, max_fert, comps, pos );
         }
-        return std::move(it);
-
+        return std::move( it );
     } );
 
-    if (!seed) {
-        debugmsg( "Missing seed" );
-    }
-
-    const auto rem_seeds = std::ranges::count_if(stack, [](const item* it) {
-        return it->is_seed();
-    });
-
     // Erase fertilizer and reset furniture if no more seeds
-    if (rem_seeds == 0) {
+    if( std::ranges::find_if( stack, is_seed ) == stack.end()) {
         m.furn_set( pos, furn_id->plant->base );
-        stack.remove_top_items_with( [](detached_ptr<item>&& it) {
-            if (it->typeId() == itype_fertilizer)
-                return detached_ptr<item>{};
-            return std::move(it);
-        });
+        stack.remove_top_items_with( []( detached_ptr<item> &&it ) {
+            if( it->typeId() == itype_fertilizer )
+                return detached_ptr<item> {};
+            return std::move( it );
+        } );
     }
 
     const auto fert = actor->fert_per_use.second - max_fert;
