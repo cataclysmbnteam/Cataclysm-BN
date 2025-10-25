@@ -1396,6 +1396,7 @@ class iuse_flowerpot_plant : public iuse_actor
         constexpr static auto VAR_PLANTED_DATE = "flowerpot_planted_date";
         constexpr static auto VAR_FERTILIZED = "flowerpot_fertilized";
         constexpr static auto VAR_GROWTH_TIME = "flowerpot_growth_time";
+        constexpr static auto VAR_YIELD = "flowerpot_yield";
 
         iuse_flowerpot_plant( const std::string &type = IUSE_ACTOR ) : iuse_actor( type ) {}
         ~iuse_flowerpot_plant() override = default;
@@ -1414,12 +1415,14 @@ class iuse_flowerpot_plant : public iuse_actor
         struct growth_info {
             itype_id seed_id;
             time_point planted_time;
-            time_duration growth_time;
+            time_duration epoch;
+            float yield;
             bool fertilized;
             time_duration elapsed_time() const;
             time_duration remaining_time() const;
             growth_stage stage() const;
             std::string plant_name() const;
+            int progress() const;
         };
         static growth_info get_info( const item & );
         time_duration calculate_growth_time( const itype_id &, int fertilizer ) const;
@@ -1428,12 +1431,11 @@ class iuse_flowerpot_plant : public iuse_actor
         int on_use_harvest( player &, item &, const tripoint & ) const;
         int on_tick( player &, item &, const tripoint & ) const;
         std::array<itype_id, 5> stages;
-        int harvest_mult = 1;
         int seeds_per_use = 1;
         int max_fert_per_use = 3;
+        float harvest_mult = 1;
         float growth_rate = 1;
         float fert_boost = 0.25;
-
 };
 
 class iuse_flowerpot_transplant : public iuse_actor
