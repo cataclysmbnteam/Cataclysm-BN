@@ -2908,6 +2908,33 @@ point map::random_outdoor_tile()
     return random_entry( options, point_north_west );
 }
 
+bool map::has_item_with( const tripoint &p, const std::function<bool( const item & )> &filter )
+{
+    for( const item *it : i_at( p ) ) {
+        if( filter( *it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool map::has_adjacent_item_with( const tripoint &p,
+                                  const std::function<bool( const item & )> &filter )
+{
+    for( const tripoint &adj : points_in_radius( p, 1 ) ) {
+        if( !has_items( adj ) ) {
+            continue;
+        }
+
+        for( const item *it : i_at( adj ) ) {
+            if( filter( *it ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool map::has_adjacent_furniture_with( const tripoint &p,
                                        const std::function<bool( const furn_t & )> &filter )
 {
