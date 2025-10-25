@@ -1448,7 +1448,7 @@ class iuse_flowerpot_transplant : public iuse_actor
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:
-        static void transfer_map_to_flowerpot( const tripoint & map_pos, item& flowerpot );
+        static void transfer_map_to_flowerpot( const tripoint &map_pos, item &flowerpot );
         static bool empty_pot_selector( const item &it );
         static bool full_pot_selector( const item &it );
 };

@@ -6183,7 +6183,7 @@ void iuse_flowerpot_transplant::load( const JsonObject &obj )
 
 }
 
-int iuse_flowerpot_transplant::use( player &who, item & i, bool t, const tripoint &pos ) const
+int iuse_flowerpot_transplant::use( player &who, item &i, bool t, const tripoint &pos ) const
 {
     constexpr auto f = []( const tripoint & here ) {
         const auto &map = get_map();
@@ -6207,27 +6207,28 @@ int iuse_flowerpot_transplant::use( player &who, item & i, bool t, const tripoin
         std::ranges::sort( pots, cmp );
         auto &pot = *pots.front();
 
-        who.moves -= to_turns<int>(30_seconds);
-        transfer_map_to_flowerpot(map_pos, pot);
+        who.moves -= to_turns<int>( 30_seconds );
+        transfer_map_to_flowerpot( map_pos, pot );
     } else {
         // TODO: Item to Map
     }
 
-
     return 0;
 }
 
-void iuse_flowerpot_transplant::transfer_map_to_flowerpot(const tripoint & pos, item & flowerpot) {
-    auto& m = get_map();
+void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, item &flowerpot )
+{
+    auto &m = get_map();
 
-    const auto furn_id = m.furn(pos);
+    const auto furn_id = m.furn( pos );
 
-    const auto actor = dynamic_cast<const iuse_flowerpot_plant*>(flowerpot.get_use(iuse_flowerpot_plant::IUSE_ACTOR)->get_actor_ptr());
-    if (!actor) {
+    const auto actor = dynamic_cast<const iuse_flowerpot_plant *>( flowerpot.get_use(
+                           iuse_flowerpot_plant::IUSE_ACTOR )->get_actor_ptr() );
+    if( !actor ) {
         debugmsg( "Invalid iuse_actor" );
     }
 
-    if (!furn_id->plant) {
+    if( !furn_id->plant ) {
         debugmsg( "Invalid plant_data" );
     }
 
@@ -6241,7 +6242,7 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot(const tripoint & pos, 
         return std::move( it );
     } );
 
-    if (!seed) {
+    if( !seed ) {
         debugmsg( "Unknown or missing seed" );
         return;
     }
@@ -6255,13 +6256,13 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot(const tripoint & pos, 
         return std::move( it );
     } );
 
-    m.furn_set(pos, furn_id->plant->base);
-    m.i_clear(pos);
+    m.furn_set( pos, furn_id->plant->base );
+    m.i_clear( pos );
 
-    const auto growth_time = actor->calculate_growth_time(seed->typeId(), fertilized ? 1 : 0);
+    const auto growth_time = actor->calculate_growth_time( seed->typeId(), fertilized ? 1 : 0 );
     const auto info = iuse_flowerpot_plant::growth_info { seed->typeId(), seed->birthday(), growth_time, fertilized };
 
-    actor->update_info(flowerpot, info);
+    actor->update_info( flowerpot, info );
 }
 
 ret_val<bool> iuse_flowerpot_transplant::can_use( const Character &who, const item &, bool,
@@ -6293,8 +6294,9 @@ ret_val<bool> iuse_flowerpot_transplant::can_use( const Character &who, const it
     return ret_val<bool>::make_failure();
 }
 
-std::unique_ptr<iuse_actor> iuse_flowerpot_transplant::clone() const {
-  return std::make_unique<iuse_flowerpot_transplant>(*this);
+std::unique_ptr<iuse_actor> iuse_flowerpot_transplant::clone() const
+{
+    return std::make_unique<iuse_flowerpot_transplant>( *this );
 }
 
 bool iuse_flowerpot_transplant::full_pot_selector( const item &it )
