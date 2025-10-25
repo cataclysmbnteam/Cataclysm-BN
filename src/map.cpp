@@ -2920,6 +2920,18 @@ bool map::has_adjacent_furniture_with( const tripoint &p,
     return false;
 }
 
+bool map::has_adjacent_terrain_with( const tripoint &p,
+                                     const std::function<bool( const ter_t & )> &filter )
+{
+    for( const tripoint &adj : points_in_radius( p, 1 ) ) {
+        if( filter( ter( adj ).obj() ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool map::has_nearby_fire( const tripoint &p, int radius )
 {
     for( const tripoint &pt : points_in_radius( p, radius ) ) {

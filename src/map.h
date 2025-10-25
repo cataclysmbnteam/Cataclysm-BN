@@ -1144,6 +1144,16 @@ class map
          */
         bool has_adjacent_furniture_with( const tripoint &p,
                                           const std::function<bool( const furn_t & )> &filter );
+
+        /**
+         * Returns true if there is terrain for which filter returns true in a 1 tile radius of p.
+         * Pass return_true<ter_t> to detect all adjacent terrain.
+         * @param p the location to check at
+         * @param filter what to filter the terrain by.
+         */
+        bool has_adjacent_terrain_with( const tripoint &p,
+                                        const std::function<bool( const ter_t & )> &filter );
+
         /**
          * Remove moppable fields/items at this location
          *  @param p the location
