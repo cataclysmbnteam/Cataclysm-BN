@@ -1392,11 +1392,6 @@ class iuse_flowerpot_plant : public iuse_actor
         friend iuse_flowerpot_transplant;
     public:
         constexpr static auto IUSE_ACTOR = "flowerpot_plant";
-        constexpr static auto VAR_SEED_TYPE = "flowerpot_seed_type";
-        constexpr static auto VAR_PLANTED_DATE = "flowerpot_planted_date";
-        constexpr static auto VAR_FERTILIZED = "flowerpot_fertilized";
-        constexpr static auto VAR_GROWTH_TIME = "flowerpot_growth_time";
-        constexpr static auto VAR_YIELD = "flowerpot_yield";
 
         iuse_flowerpot_plant( const std::string &type = IUSE_ACTOR ) : iuse_actor( type ) {}
         ~iuse_flowerpot_plant() override = default;
@@ -1416,17 +1411,18 @@ class iuse_flowerpot_plant : public iuse_actor
             itype_id seed_id;
             time_point planted_time;
             time_duration epoch;
-            float yield;
-            bool fertilized;
+            float harvest_mult;
+            int fertilized;
+            int num_seeds;
             time_duration elapsed_time() const;
             time_duration remaining_time() const;
             growth_stage stage() const;
             std::string plant_name() const;
             int progress() const;
         };
-        static growth_info get_info( const item & );
+        growth_info get_info( const item & ) const;
         time_duration calculate_growth_time( const itype_id &, int fertilizer ) const;
-        void update_info( item &, const growth_info & ) const;
+        void update( item & ) const;
         int on_use_plant( player &, item &, const tripoint & ) const;
         int on_use_harvest( player &, item &, const tripoint & ) const;
         int on_tick( player &, item &, const tripoint & ) const;
