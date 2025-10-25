@@ -6091,7 +6091,7 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
     return used_fert;
 }
 
-int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint &pos ) const
+int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & ) const
 {
     const auto info = get_info( i );
     clear_growing_plant( i );
@@ -6116,7 +6116,7 @@ int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint &po
     }
 
     for( auto &j : harvest ) {
-        put_into_vehicle_or_drop( p, item_drop_reason::deliberate, std::move( j ), pos );
+        put_into_vehicle_or_drop( p, item_drop_reason::deliberate, std::move( j ), p.pos() );
     }
 
     p.moves -= to_moves<int>( 10_seconds * info.harvest_mult );
