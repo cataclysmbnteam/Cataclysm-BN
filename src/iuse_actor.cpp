@@ -5920,6 +5920,8 @@ std::unique_ptr<iuse_actor> iuse_reveal_contents::clone() const
     return std::make_unique<iuse_reveal_contents>( *this );
 }
 
+// -------------------
+
 void iuse_flowerpot_plant::load( const JsonObject &jo )
 {
     jo.read( "stages", stages );
@@ -5963,8 +5965,7 @@ time_duration iuse_flowerpot_plant::growth_info::remaining_time() const
     return epoch - elapsed_time();
 }
 
-iuse_flowerpot_plant::growth_stage
-iuse_flowerpot_plant::growth_info::stage() const
+iuse_flowerpot_plant::growth_stage iuse_flowerpot_plant::growth_info::stage() const
 {
     if( epoch <= time_duration{} )
         return empty;
@@ -5989,9 +5990,9 @@ std::string iuse_flowerpot_plant::growth_info::plant_name() const
     return seed_id.obj().seed->plant_name.translated();
 }
 
-int iuse_flowerpot_plant::growth_info::progress() const
+double iuse_flowerpot_plant::growth_info::progress() const
 {
-    return elapsed_time() * 100 / epoch;
+    return elapsed_time() / epoch;
 }
 
 int iuse_flowerpot_plant::use( player &who, item &i, bool tick, const tripoint &pos ) const
@@ -6021,20 +6022,9 @@ void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) con
         return;
     }
 
-    const auto remaining_time = info.remaining_time();
-    const bool fertilized = info.fertilized;
     const auto plant_name = info.plant_name();
 
     inf.emplace_back( "TOOL", string_format( _( "<bold>Growing</bold>: %s" ), plant_name ) );
-    if( i.is_active() ) {
-        const auto disp_time = remaining_time;
-
-        inf.emplace_back( "TOOL", string_format( _( "<bold>Fertilized</bold>: %s" ),
-                          fertilized ? _( "yes" ) : _( "no" ) ) );
-        inf.emplace_back( "TOOL", string_format( _( "<bold>Harvestable in</bold>: %s" ),
-                          to_string_approx( disp_time ) ) );
-        inf.emplace_back( "TOOL", string_format( _( "<bold>Progress</bold>: %d%%" ), info.progress() ) );
-    }
     switch( info.stage() ) {
         case seed:
             inf.emplace_back( "TOOL", string_format( _( "<bold>Stage</bold>: %s" ), _( "seed" ) ) );
@@ -6050,6 +6040,16 @@ void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) con
             break;
         default:
             break;
+    }
+    if( i.is_active() ) {
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Progress</bold>: %d%%" ),
+                          static_cast<int>( 100 * info.progress() ) ) );
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Harvestable in</bold>: %s" ),
+                          to_string_approx( info.remaining_time() ) ) );
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Seeds</bold>: %d/%d" ),
+                          info.seed_amt, seeds_per_use.second ) );
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Fertilizer</bold>: %d/%d" ),
+                          info.fert_amt, fert_per_use.second ) );
     }
 }
 
@@ -6106,7 +6106,7 @@ int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & )
     std::vector<detached_ptr<item>> harvest;
     int practice = 0;
 
-    for( int j = 0; j < info.num_seeds; j++ ) {
+    for( int j = 0; j < info.seed_amt; j++ ) {
         int fruit_count = rng( skillLevel / 2, skillLevel ) * info.harvest_mult;
         fruit_count = std::clamp( fruit_count, 1, max_harvest_count );
         const int seed_count = std::max( 1, rng( fruit_count / 4, fruit_count / 2 ) );
@@ -6165,8 +6165,11 @@ void iuse_flowerpot_plant::update( item &i ) const
     }
 }
 
-void iuse_flowerpot_plant::set_growing_plant( item &i, itype_id seed, time_point planted_time,
-        int seeds, int fertilizer )
+void iuse_flowerpot_plant::set_growing_plant( item &i,
+        const itype_id seed,
+        const time_point planted_time,
+        const int seeds,
+        const int fertilizer )
 {
     if( seed.is_valid() ) {
         i.set_var( VAR_SEED_TYPE, seed.str() );
@@ -6210,7 +6213,7 @@ std::optional<item *> iuse_flowerpot_plant::query_adjacent_pot( const player &wh
 
         pot_pos =
             choose_adjacent_highlight(
-                _( "Transplant into what?" ),
+                _( "What planter?" ),
                 _( "Never mind." ),
                 fn
             );
@@ -6249,12 +6252,11 @@ std::optional<item *> iuse_flowerpot_plant::query_adjacent_pot( const player &wh
     }
 
     return choices[0];
-
 }
 
 iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i ) const
 {
-    auto seed_id = itype_id( i.get_var( VAR_SEED_TYPE, "" ) );
+    const auto seed_id = itype_id( i.get_var( VAR_SEED_TYPE, "" ) );
     if( !seed_id.is_valid() ) {
         return growth_info{};
     }
@@ -6270,7 +6272,7 @@ iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i 
 }
 
 time_duration iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_id,
-        int used_fert ) const
+        const int used_fert ) const
 {
     const auto epoch = seed_id->seed->get_plant_epoch() * 3;
     const auto rate = growth_rate + ( used_fert * fert_boost );
@@ -6311,6 +6313,8 @@ bool iuse_flowerpot_plant::empty_pot_selector( const item &it )
     return info.stage() ==        empty;
 }
 
+// -------------------
+
 void iuse_flowerpot_collect::load( const JsonObject & )
 {
 
@@ -6326,7 +6330,7 @@ int iuse_flowerpot_collect::use( player &who, item &, bool, const tripoint & ) c
     const auto source_pos_opt =
         choose_adjacent_highlight(
             _( "Transplant what?" ),
-            _( "There is nothing that can be transplanted nearby." ),
+            _( "There is nothing that can be collected nearby." ),
             get_harvestable_furn,
             false );
 
@@ -6339,11 +6343,12 @@ int iuse_flowerpot_collect::use( player &who, item &, bool, const tripoint & ) c
         return 0;
     }
 
-    const auto target_pot = iuse_flowerpot_plant::query_adjacent_pot(who, true);
-    if (!target_pot.has_value()) {
+    const auto target_pot = iuse_flowerpot_plant::query_adjacent_pot( who, true );
+    if( !target_pot.has_value() ) {
         return 0;
     }
 
+    // TODO: make an activity actor?
     who.moves -= to_turns<int>( 30_seconds );
     transfer_map_to_flowerpot( source_pos, *target_pot.value() );
 
@@ -6423,12 +6428,13 @@ ret_val<bool> iuse_flowerpot_collect::can_use( const Character &who, const item 
         const tripoint &pos ) const
 {
     const bool has_empty_pot_inv = who.has_item_with( iuse_flowerpot_plant::empty_pot_selector );
-    const bool has_empty_pot_near = get_map().has_adjacent_item_with( pos, iuse_flowerpot_plant::empty_pot_selector );
+    const bool has_empty_pot_near = get_map().has_adjacent_item_with( pos,
+                                    iuse_flowerpot_plant::empty_pot_selector );
     const bool has_plant_furn = get_map().has_adjacent_furniture_with( pos, []( const furn_t &f ) {
         return f.has_flag( "PLANT" );
     } );
 
-    if( (has_empty_pot_inv || has_empty_pot_near) && has_plant_furn ) {
+    if( ( has_empty_pot_inv || has_empty_pot_near ) && has_plant_furn ) {
         return ret_val<bool>::make_success();
     }
 

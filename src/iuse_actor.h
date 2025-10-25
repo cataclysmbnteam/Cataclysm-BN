@@ -1387,7 +1387,7 @@ class iuse_reveal_contents : public iuse_actor
 
 class iuse_flowerpot_collect;
 
-class iuse_flowerpot_plant : public iuse_actor
+class iuse_flowerpot_plant final : public iuse_actor
 {
         friend iuse_flowerpot_collect;
     public:
@@ -1416,26 +1416,29 @@ class iuse_flowerpot_plant : public iuse_actor
             time_point planted_time;
             time_duration epoch;
             float harvest_mult;
-            int fertilized;
-            int num_seeds;
+            int fert_amt;
+            int seed_amt;
             time_duration elapsed_time() const;
             time_duration remaining_time() const;
             growth_stage stage() const;
             std::string plant_name() const;
-            int progress() const;
+            double progress() const;
         };
+
         static bool empty_pot_selector( const item &it );
         static bool full_pot_selector( const item &it );
         static void set_growing_plant( item &i, itype_id seed, time_point planted_time, int seeds,
                                        int fertilizer );
         static void clear_growing_plant( item &i );
         static std::optional<item *> query_adjacent_pot( const player &, bool empty = true );
+
         growth_info get_info( const item & ) const;
-        time_duration calculate_growth_time( const itype_id &, int fertilizer ) const;
+        time_duration calculate_growth_time( const itype_id &, int used_fert ) const;
         void update( item & ) const;
         int on_use_plant( player &, item &, const tripoint & ) const;
         int on_use_harvest( player &, item &, const tripoint & ) const;
         int on_tick( player &, item &, const tripoint & ) const;
+
         std::array<itype_id, 5> stages;
         std::pair<int, int> seeds_per_use = {1, 4};
         std::pair<int, int> fert_per_use = {0, 3};
@@ -1444,7 +1447,7 @@ class iuse_flowerpot_plant : public iuse_actor
         float fert_boost = 0.25;
 };
 
-class iuse_flowerpot_collect : public iuse_actor
+class iuse_flowerpot_collect final : public iuse_actor
 {
         friend iuse_flowerpot_plant;
     public:
