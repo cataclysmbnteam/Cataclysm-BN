@@ -1401,6 +1401,7 @@ class iuse_flowerpot_plant final : public iuse_actor
         ~iuse_flowerpot_plant() override = default;
         void load( const JsonObject &jo ) override;
         int use( player &who, item &i, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:
@@ -1435,6 +1436,8 @@ class iuse_flowerpot_plant final : public iuse_actor
         growth_info get_info( const item & ) const;
         time_duration calculate_growth_time( const itype_id &, int used_fert ) const;
         void update( item & ) const;
+
+        int on_use_add_fertilizer( player &, item &, const tripoint & ) const;
         int on_use_plant( player &, item &, const tripoint & ) const;
         int on_use_harvest( player &, item &, const tripoint & ) const;
         int on_tick( player &, item &, const tripoint & ) const;

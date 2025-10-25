@@ -5995,7 +5995,8 @@ double iuse_flowerpot_plant::growth_info::progress() const
     return elapsed_time() / epoch;
 }
 
-int iuse_flowerpot_plant::use( player &who, item &i, bool tick, const tripoint &pos ) const
+int iuse_flowerpot_plant::use( player &who, item &i, bool tick,
+                               const tripoint &pos ) const
 {
     if( tick ) {
         return on_tick( who, i, pos );
@@ -6003,15 +6004,41 @@ int iuse_flowerpot_plant::use( player &who, item &i, bool tick, const tripoint &
 
     const auto info = get_info( i );
     switch( info.stage() ) {
-        case seed :
+        case seed:
         case seedling:
         case mature:
-            who.add_msg_if_player( _( "You need to wait for it to grow." ) );
-            return 0;
+            return on_use_add_fertilizer( who, i, pos );
         case harvest:
             return on_use_harvest( who, i, pos );
         default:
             return on_use_plant( who, i, pos );
+    }
+}
+
+ret_val<bool> iuse_flowerpot_plant::can_use( const Character &who,
+        const item &i, bool,
+        const tripoint & ) const
+{
+
+    const auto info = get_info( i );
+    switch( info.stage() ) {
+        case seed:
+        case seedling:
+        case mature: {
+            const bool can_add_fert = info.fert_amt < fert_per_use.second;
+            const bool has_fert = i.charges > 0;
+            if( !can_add_fert ) {
+                return ret_val<bool>::make_failure( _( "You need to wait for it to grow." ) );
+            }
+            if( !has_fert ) {
+                return ret_val<bool>::make_failure( _( "You don't have enough fertilizer." ) );
+            }
+            return ret_val<bool>::make_success();
+        }
+        case harvest:
+            return ret_val<bool>::make_success();
+        default:
+            return ret_val<bool>::make_success();
     }
 }
 
@@ -6052,6 +6079,24 @@ void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) con
                           info.fert_amt, fert_per_use.second ) );
     }
 }
+
+int iuse_flowerpot_plant::on_use_add_fertilizer( player &who, item &i,
+        const tripoint & ) const
+{
+
+    const auto info = get_info( i );
+    const int fert_to_add = std::min( i.charges,  fert_per_use.second - info.fert_amt );
+    const auto new_fert_amt = info.fert_amt + fert_to_add;
+    const auto old_prog = info.progress();
+    const auto new_epoch = calculate_growth_time( info.seed_id, new_fert_amt );
+    const auto new_age = new_epoch * old_prog;
+    const auto new_date = calendar::turn - new_age;
+
+    set_growing_plant( i, info.seed_id, new_date, info.seed_amt, new_fert_amt );
+
+    return fert_to_add;
+}
+
 
 int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
                                         const tripoint & ) const
@@ -6213,7 +6258,7 @@ std::optional<item *> iuse_flowerpot_plant::query_adjacent_pot( const player &wh
 
         pot_pos =
             choose_adjacent_highlight(
-                _( "What planter?" ),
+                _( "Which planter?" ),
                 _( "Never mind." ),
                 fn
             );
