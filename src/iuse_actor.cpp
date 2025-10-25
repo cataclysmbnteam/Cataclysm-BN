@@ -6216,6 +6216,10 @@ int iuse_flowerpot_transplant::use( player &who, item &i, bool t, const tripoint
     const auto plant_pos = choose_adjacent_highlight( _( "Transplant what?" ),
                            _( "There is nothing that can be transplanted nearby." ), get_harvestable_furn, false );
 
+    if( !plant_pos.has_value() ) {
+        return 0;
+    }
+
     const auto map_pos = plant_pos.value();
     if( plant_pos.has_value() ) {
         auto pots = who.items_with( empty_pot_selector );
