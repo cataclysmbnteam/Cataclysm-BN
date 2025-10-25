@@ -6037,8 +6037,15 @@ ret_val<bool> iuse_flowerpot_plant::can_use( const Character &who,
         }
         case harvest:
             return ret_val<bool>::make_success();
-        default:
+        default: {
+            if (!who.has_item_with( []( const item & itm ) { return itm.is_seed(); } )) {
+                return ret_val<bool>::make_failure( _( "You have no seeds to plant." ));
+            }
+            if( i.charges < fert_per_use.first ) {
+                return ret_val<bool>::make_failure( _( "You don't have enough fertilizer." ) );
+            }
             return ret_val<bool>::make_success();
+        }
     }
 }
 
@@ -6073,10 +6080,16 @@ void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) con
                           static_cast<int>( 100 * info.progress() ) ) );
         inf.emplace_back( "TOOL", string_format( _( "<bold>Harvestable in</bold>: %s" ),
                           to_string_approx( info.remaining_time() ) ) );
+    }
+    if( info.seed_id.is_valid() ) {
         inf.emplace_back( "TOOL", string_format( _( "<bold>Seeds</bold>: %d/%d" ),
                           info.seed_amt, seeds_per_use.second ) );
         inf.emplace_back( "TOOL", string_format( _( "<bold>Fertilizer</bold>: %d/%d" ),
                           info.fert_amt, fert_per_use.second ) );
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Growth</bold>: %d%%" ),
+                          static_cast<int>( ( growth_rate + ( info.fert_amt * fert_boost ) ) * 100 ) ) );
+        inf.emplace_back( "TOOL", string_format( _( "<bold>Yield</bold>: %d%%" ),
+                          static_cast<int>( harvest_mult * 100 ) ) );
     }
 }
 
@@ -6103,18 +6116,9 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
 {
     const std::vector<item *> seed_inv =
     p.items_with( []( const item & itm ) { return itm.is_seed(); } );
-    if( seed_inv.empty() ) {
-        add_msg( m_info, _( "You have no seeds to plant." ) );
-        return 0;
-    }
 
     const auto &[min_seed, max_seed] = seeds_per_use;
     const auto &[min_fert, max_fert] = fert_per_use;
-
-    if( i.charges < min_fert ) {
-        add_msg( _( "You don't have enough fertilizer." ) );
-        return 0;
-    }
 
     const auto seed_entries = iexamine::get_seed_entries( seed_inv );
     const int seed_index = iexamine::query_seed( seed_entries, min_seed );
@@ -6152,7 +6156,7 @@ int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & )
     int practice = 0;
 
     for( int j = 0; j < info.seed_amt; j++ ) {
-        int fruit_count = rng( skillLevel / 2, skillLevel ) * info.harvest_mult;
+        int fruit_count = rng_float( skillLevel / 2.0, skillLevel ) * info.harvest_mult;
         fruit_count = std::clamp( fruit_count, 1, max_harvest_count );
         const int seed_count = std::max( 1, rng( fruit_count / 4, fruit_count / 2 ) );
         practice += fruit_count;
