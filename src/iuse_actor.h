@@ -1391,6 +1391,10 @@ class iuse_flowerpot_plant : public iuse_actor
 {
         friend iuse_flowerpot_transplant;
     public:
+        constexpr static auto VAR_SEED_TYPE = "flowerpot_seed";
+        constexpr static auto VAR_PLANTED_DATE = "flowerpot_date";
+        constexpr static auto VAR_FERT_AMT = "flowerpot_fert_amt";
+        constexpr static auto VAR_SEED_AMT = "flowerpot_seed_amt";
         constexpr static auto IUSE_ACTOR = "flowerpot_plant";
 
         iuse_flowerpot_plant( const std::string &type = IUSE_ACTOR ) : iuse_actor( type ) {}
@@ -1420,6 +1424,10 @@ class iuse_flowerpot_plant : public iuse_actor
             std::string plant_name() const;
             int progress() const;
         };
+        static void set_growing_plant( item &i, itype_id seed, time_point planted_time, int seeds,
+                                       int fertilizer );
+        static void clear_growing_plant( item &i );
+
         growth_info get_info( const item & ) const;
         time_duration calculate_growth_time( const itype_id &, int fertilizer ) const;
         void update( item & ) const;

@@ -6083,15 +6083,9 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
     const int used_fert = std::min( i.charges, max_fert );
 
     auto comps = p.use_charges( seed_id, max_seed );
-    i.remove_components();
-    for( auto &c : comps ) {
-        c->set_birthday( calendar::turn );
-        i.add_component( std::move( c ) );
-    }
-    if( used_fert > 0 ) {
-        i.add_component( item::spawn( itype_fertilizer, calendar::turn, used_fert ) );
-    }
-
+    constexpr auto count_fn = []( const detached_ptr<item>& it ) { return it->count_by_charges() ? it->charges : 1;};
+    const auto used_seeds = std::ranges::fold_left( comps | std::views::transform(count_fn), 0, std::plus<int>{});
+    set_growing_plant( i, seed_id, calendar::turn, used_seeds, used_fert );
     update( i );
 
     return used_fert;
@@ -6100,7 +6094,7 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
 int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint &pos ) const
 {
     const auto info = get_info( i );
-    i.remove_components();
+    clear_growing_plant( i );
     update( i );
 
     const int skillLevel = p.get_skill_level( skill_survival );
@@ -6144,8 +6138,8 @@ void iuse_flowerpot_plant::update( item &i ) const
 {
     const auto info = get_info( i );
     if( !info.seed_id.is_valid() ) {
+        clear_growing_plant( i );
         i.item_counter = 0;
-        i.remove_components();
         i.convert( stages[0] );
         i.erase_var( "item_label" );
         i.deactivate();
@@ -6170,25 +6164,43 @@ void iuse_flowerpot_plant::update( item &i ) const
     }
 }
 
+void iuse_flowerpot_plant::set_growing_plant( item &i, itype_id seed, time_point planted_time,
+        int seeds, int fertilizer )
+{
+    if( seed.is_valid() ) {
+        i.set_var( VAR_SEED_TYPE, seed.str() );
+        i.set_var( VAR_PLANTED_DATE, to_turn<int>( planted_time ) );
+        i.set_var( VAR_SEED_AMT, seeds );
+        i.set_var( VAR_FERT_AMT, fertilizer );
+    } else {
+        clear_growing_plant( i );
+    }
+}
+
+void iuse_flowerpot_plant::clear_growing_plant( item &i )
+{
+    i.erase_var( VAR_SEED_TYPE );
+    i.erase_var( VAR_PLANTED_DATE );
+    i.erase_var( VAR_SEED_AMT );
+    i.erase_var( VAR_FERT_AMT );
+}
+
+
 iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i ) const
 {
-    auto &comps = i.get_components();
-    const auto seed_it = std::ranges::find_if( comps, []( const item * c ) { return c->is_seed(); } );
-    if( seed_it == comps.end() )
+    auto seed_id = itype_id( i.get_var( VAR_SEED_TYPE, "" ) );
+    if( !seed_id.is_valid() ) {
         return growth_info{};
+    }
 
-    const auto seed_id = ( *seed_it )->typeId();
-    auto seed_cnt = []( const item * it ) { return it->is_seed() ? it->charges : 0; };
-    auto fert_cnt = []( const item * it ) { return it->typeId() == itype_fertilizer ? it->charges : 0; };
-    const int num_seeds =  std::ranges::fold_left( comps | std::views::transform( seed_cnt ), 0,
-                           std::plus<int> {} );
-    const int fert_amt = std::ranges::fold_left( comps | std::views::transform( fert_cnt ), 0,
-                         std::plus<int> {} );
+    const int num_seeds =  i.get_var( VAR_SEED_AMT, 1 );
+    const int fert_amt = i.get_var( VAR_FERT_AMT, 1 );
+    const auto planted_time = time_point::from_turn( i.get_var( VAR_PLANTED_DATE,
+                              to_turn<int>( calendar::turn ) ) );
 
-    const auto planted_time = ( *seed_it )->birthday();
     const auto growth_time = calculate_growth_time( seed_id, fert_amt );
 
-    return growth_info{( *seed_it )->typeId(), planted_time, growth_time, harvest_mult, fert_amt, num_seeds };
+    return growth_info{seed_id, planted_time, growth_time, harvest_mult, fert_amt, num_seeds };
 }
 
 time_duration iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_id,
@@ -6285,7 +6297,7 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, 
     } );
 
     // Erase fertilizer and reset furniture if no more seeds
-    if( std::ranges::find_if( stack, is_seed ) == stack.end()) {
+    if( std::ranges::find_if( stack, is_seed ) == stack.end() ) {
         m.furn_set( pos, furn_id->plant->base );
         stack.remove_top_items_with( []( detached_ptr<item> &&it ) {
             if( it->typeId() == itype_fertilizer )
@@ -6294,21 +6306,17 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, 
         } );
     }
 
-    const auto fert = actor->fert_per_use.second - max_fert;
+    const auto fert_amt = actor->fert_per_use.second - max_fert;
+    const auto seed_amt = actor->seeds_per_use.second - max_seeds;
 
     const auto old_epoch = seed->get_plant_epoch() * 3 * furn_id->plant->growth_multiplier;
     const auto old_pct = seed->age() / old_epoch;
 
-    const auto new_epoch = actor->calculate_growth_time( seed->typeId(), fert );
+    const auto new_epoch = actor->calculate_growth_time( seed->typeId(), fert_amt );
     const auto new_age = new_epoch * old_pct;
     seed->set_age( new_age );
 
-    flowerpot.remove_components();
-    for( auto &c : comps ) {
-        c->set_age( new_age );
-        flowerpot.add_component( std::move( c ) );
-    }
-
+    actor->set_growing_plant(flowerpot, seed->typeId(), seed->birthday(), seed_amt, fert_amt);
     actor->update( flowerpot );
 }
 
