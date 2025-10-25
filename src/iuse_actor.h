@@ -1395,7 +1395,7 @@ class iuse_flowerpot_plant : public iuse_actor
 
         iuse_flowerpot_plant( const std::string &type = IUSE_ACTOR ) : iuse_actor( type ) {}
         ~iuse_flowerpot_plant() override = default;
-        void load( const JsonObject &obj ) override;
+        void load( const JsonObject &jo ) override;
         int use( player &who, item &i, bool, const tripoint & ) const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
@@ -1427,8 +1427,8 @@ class iuse_flowerpot_plant : public iuse_actor
         int on_use_harvest( player &, item &, const tripoint & ) const;
         int on_tick( player &, item &, const tripoint & ) const;
         std::array<itype_id, 5> stages;
-        int seeds_per_use = 1;
-        int max_fert_per_use = 3;
+        std::pair<int, int> seeds_per_use = {1, 4};
+        std::pair<int, int> fert_per_use = {0, 3};
         float harvest_mult = 1;
         float growth_rate = 1;
         float fert_boost = 0.25;

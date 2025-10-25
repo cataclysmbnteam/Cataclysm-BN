@@ -5920,14 +5920,32 @@ std::unique_ptr<iuse_actor> iuse_reveal_contents::clone() const
     return std::make_unique<iuse_reveal_contents>( *this );
 }
 
-void iuse_flowerpot_plant::load( const JsonObject &obj )
+void iuse_flowerpot_plant::load( const JsonObject &jo )
 {
-    obj.read( "stages", stages );
-    growth_rate = obj.get_float( "growth_rate", 1.0 );
-    fert_boost = obj.get_float( "fert_boost", 1.5 );
-    harvest_mult = obj.get_float( "harvest_mult", 1 );
-    seeds_per_use = obj.get_int( "seeds_per_use", 1 );
-    max_fert_per_use = obj.get_int( "max_fert_per_use", 1 ) ;
+    jo.read( "stages", stages );
+    growth_rate = jo.get_float( "growth_rate", 1.0 );
+    fert_boost = jo.get_float( "fert_boost", 1.5 );
+    harvest_mult = jo.get_float( "harvest_mult", 1 );
+
+    if( jo.has_array( "seeds_per_use" ) ) {
+        auto arr = jo.get_int_array( "seeds_per_use" );
+        seeds_per_use = std::make_pair( arr[0], arr[1] );
+    } else if( jo.has_int( "seeds_per_use" ) ) {
+        auto val = jo.get_int( "seeds_per_use" );
+        seeds_per_use = std::make_pair( val, val );
+    } else {
+        seeds_per_use = std::make_pair( 1, 1 );
+    }
+
+    if( jo.has_array( "fert_per_use" ) ) {
+        auto arr = jo.get_int_array( "fert_per_use" );
+        fert_per_use = std::make_pair( arr[0], arr[1] );
+    } else if( jo.has_int( "fert_per_use" ) ) {
+        auto val = jo.get_int( "fert_per_use" );
+        fert_per_use = std::make_pair( val, val );
+    } else {
+        fert_per_use = std::make_pair( 1, 1 );
+    }
 }
 
 std::unique_ptr<iuse_actor> iuse_flowerpot_plant::clone() const
@@ -6045,8 +6063,16 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
         return 0;
     }
 
+    const auto &[min_seed, max_seed] = seeds_per_use;
+    const auto &[min_fert, max_fert] = fert_per_use;
+
+    if( i.charges < min_fert ) {
+        add_msg( _( "You don't have enough fertilizer." ) );
+        return 0;
+    }
+
     const auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    const int seed_index = iexamine::query_seed( seed_entries, seeds_per_use );
+    const int seed_index = iexamine::query_seed( seed_entries, min_seed );
 
     if( seed_index < 0 || seed_index >= seed_entries.size() ) {
         add_msg( _( "You saved your seeds for later." ) );
@@ -6054,12 +6080,11 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
     }
     const auto &[seed_id, seed_name, seed_amt] = seed_entries[seed_index];
 
-    int used_fert = std::min( i.charges, max_fert_per_use );
+    const int used_fert = std::min( i.charges, max_fert );
 
-    auto seeds = p.use_charges( seed_id, seeds_per_use );
-
+    auto comps = p.use_charges( seed_id, max_seed );
     i.remove_components();
-    for( auto &c : seeds ) {
+    for( auto &c : comps ) {
         c->set_birthday( calendar::turn );
         i.add_component( std::move( c ) );
     }
