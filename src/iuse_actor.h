@@ -1385,11 +1385,11 @@ class iuse_reveal_contents : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
-class iuse_flowerpot_transplant;
+class iuse_flowerpot_collect;
 
 class iuse_flowerpot_plant : public iuse_actor
 {
-        friend iuse_flowerpot_transplant;
+        friend iuse_flowerpot_collect;
     public:
         constexpr static auto VAR_SEED_TYPE = "flowerpot_seed";
         constexpr static auto VAR_PLANTED_DATE = "flowerpot_date";
@@ -1424,10 +1424,12 @@ class iuse_flowerpot_plant : public iuse_actor
             std::string plant_name() const;
             int progress() const;
         };
+        static bool empty_pot_selector( const item &it );
+        static bool full_pot_selector( const item &it );
         static void set_growing_plant( item &i, itype_id seed, time_point planted_time, int seeds,
                                        int fertilizer );
         static void clear_growing_plant( item &i );
-
+        static std::optional<item *> query_adjacent_pot( const player &, bool empty = true );
         growth_info get_info( const item & ) const;
         time_duration calculate_growth_time( const itype_id &, int fertilizer ) const;
         void update( item & ) const;
@@ -1442,19 +1444,17 @@ class iuse_flowerpot_plant : public iuse_actor
         float fert_boost = 0.25;
 };
 
-class iuse_flowerpot_transplant : public iuse_actor
+class iuse_flowerpot_collect : public iuse_actor
 {
         friend iuse_flowerpot_plant;
     public:
-        iuse_flowerpot_transplant( const std::string &type = "flowerpot_transplant" ) : iuse_actor(
+        iuse_flowerpot_collect( const std::string &type = "flowerpot_collect" ) : iuse_actor(
                 type ) {}
-        ~iuse_flowerpot_transplant() override = default;
+        ~iuse_flowerpot_collect() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &who, item &i, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:
         static void transfer_map_to_flowerpot( const tripoint &map_pos, item &flowerpot );
-        static bool empty_pot_selector( const item &it );
-        static bool full_pot_selector( const item &it );
 };

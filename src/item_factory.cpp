@@ -1119,7 +1119,7 @@ void Item_factory::init()
     add_actor( std::make_unique<iuse_prospect_pick>() );
     add_actor( std::make_unique<iuse_reveal_contents>() );
     add_actor( std::make_unique<iuse_flowerpot_plant>() );
-    add_actor( std::make_unique<iuse_flowerpot_transplant>() );
+    add_actor( std::make_unique<iuse_flowerpot_collect>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.

@@ -6083,8 +6083,9 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
     const int used_fert = std::min( i.charges, max_fert );
 
     auto comps = p.use_charges( seed_id, max_seed );
-    constexpr auto count_fn = []( const detached_ptr<item>& it ) { return it->count_by_charges() ? it->charges : 1;};
-    const auto used_seeds = std::ranges::fold_left( comps | std::views::transform(count_fn), 0, std::plus<int>{});
+    constexpr auto count_fn = []( const detached_ptr<item> &it ) { return it->count_by_charges() ? it->charges : 1;};
+    const auto used_seeds = std::ranges::fold_left( comps | std::views::transform( count_fn ), 0,
+                            std::plus<int> {} );
     set_growing_plant( i, seed_id, calendar::turn, used_seeds, used_fert );
     update( i );
 
@@ -6185,6 +6186,71 @@ void iuse_flowerpot_plant::clear_growing_plant( item &i )
     i.erase_var( VAR_FERT_AMT );
 }
 
+std::optional<item *> iuse_flowerpot_plant::query_adjacent_pot( const player &who, bool empty )
+{
+    const auto selector_fn = empty ? empty_pot_selector : full_pot_selector;
+    const auto p_selector_fn = [&]( const item * it ) { return selector_fn( *it ); };
+
+    auto &map = get_map();
+    const auto has_inv_pots = who.has_item_with( selector_fn );
+    const auto has_map_pots = map.has_adjacent_item_with( who.pos(), selector_fn );
+
+    if( !has_inv_pots && !has_map_pots ) {
+        return std::nullopt;
+    }
+
+    std::optional<tripoint> pot_pos;
+    if( has_map_pots ) {
+        const auto fn = [&]( const tripoint & p ) {
+            bool ok = false;
+            ok |= map.has_item_with( p, selector_fn );
+            ok |= ( who.pos() == p ) && who.has_item_with( selector_fn );
+            return ok;
+        };
+
+        pot_pos =
+            choose_adjacent_highlight(
+                _( "Transplant into what?" ),
+                _( "Never mind." ),
+                fn
+            );
+    } else if( has_inv_pots ) {
+        pot_pos = who.pos();
+    }
+
+    if( !pot_pos.has_value() ) {
+        return std::nullopt;
+    }
+
+
+    std::vector<item *> choices{};
+    const auto map_stack = map.i_at( pot_pos.value() );
+    std::ranges::copy_if( map_stack, std::back_inserter( choices ), p_selector_fn );
+    if( pot_pos.value() == who.pos() ) {
+        std::ranges::copy( who.items_with( selector_fn ), std::back_inserter( choices ) );
+    }
+
+    if( choices.empty() ) {
+        return std::nullopt;
+    }
+
+    if( choices.size() > 1 ) {
+        uilist lst;
+        for( const auto i : choices ) {
+            lst.addentry( i->display_name() );
+        }
+        lst.query();
+
+        if( lst.ret < 0 ) {
+            return std::nullopt;
+        }
+
+        return choices[lst.ret];
+    }
+
+    return choices[0];
+
+}
 
 iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i ) const
 {
@@ -6213,45 +6279,78 @@ time_duration iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_
     return growth_time;
 }
 
-void iuse_flowerpot_transplant::load( const JsonObject & )
+bool iuse_flowerpot_plant::full_pot_selector( const item &it )
+{
+    if( !it.type->can_use( IUSE_ACTOR ) ) {
+        return false;
+    }
+
+    const auto actor =
+        dynamic_cast<const iuse_flowerpot_plant *>( it.get_use( IUSE_ACTOR )->get_actor_ptr() );
+    if( actor == nullptr ) {
+        return false;
+    }
+
+    const auto info = actor->get_info( it );
+    return info.stage() != empty;
+}
+
+bool iuse_flowerpot_plant::empty_pot_selector( const item &it )
+{
+    if( !it.type->can_use( IUSE_ACTOR ) ) {
+        return false;
+    }
+
+    const auto actor =
+        dynamic_cast<const iuse_flowerpot_plant *>( it.get_use( IUSE_ACTOR )->get_actor_ptr() );
+    if( actor == nullptr ) {
+        return false;
+    }
+
+    const auto info = actor->get_info( it );
+    return info.stage() ==        empty;
+}
+
+void iuse_flowerpot_collect::load( const JsonObject & )
 {
 
 }
 
-int iuse_flowerpot_transplant::use( player &who, item &, bool, const tripoint & ) const
+int iuse_flowerpot_collect::use( player &who, item &, bool, const tripoint & ) const
 {
     constexpr auto get_harvestable_furn = []( const tripoint & here ) {
         const auto &map = get_map();
         return map.has_flag( "PLANT", here );
     };
 
-    const auto plant_pos = choose_adjacent_highlight( _( "Transplant what?" ),
-                           _( "There is nothing that can be transplanted nearby." ), get_harvestable_furn, false );
+    const auto source_pos_opt =
+        choose_adjacent_highlight(
+            _( "Transplant what?" ),
+            _( "There is nothing that can be transplanted nearby." ),
+            get_harvestable_furn,
+            false );
 
-    if( !plant_pos.has_value() ) {
+    if( !source_pos_opt.has_value() ) {
         return 0;
     }
 
-    const auto map_pos = plant_pos.value();
-    if( plant_pos.has_value() ) {
-        auto pots = who.items_with( empty_pot_selector );
-        if( pots.empty() ) {
-            who.add_msg_if_player( _( "You don't have a planter to transplant into." ) );
-            return 0;
-        }
-
-        const auto cmp = []( const item * lhs, const item * rhs ) { return lhs->charges > rhs->charges; };
-        std::ranges::sort( pots, cmp );
-        auto &pot = *pots.front();
-
-        who.moves -= to_turns<int>( 30_seconds );
-        transfer_map_to_flowerpot( map_pos, pot );
+    const auto source_pos = source_pos_opt.value();
+    if( !source_pos_opt.has_value() ) {
+        return 0;
     }
-    // TODO: Item to Map, Item to Item
+
+    const auto target_pot = iuse_flowerpot_plant::query_adjacent_pot(who, true);
+    if (!target_pot.has_value()) {
+        return 0;
+    }
+
+    who.moves -= to_turns<int>( 30_seconds );
+    transfer_map_to_flowerpot( source_pos, *target_pot.value() );
+
     return 0;
 }
 
-void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, item &flowerpot )
+void iuse_flowerpot_collect::transfer_map_to_flowerpot( const tripoint &pos, item &flowerpot )
 {
     auto &m = get_map();
 
@@ -6316,24 +6415,25 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, 
     const auto new_age = new_epoch * old_pct;
     seed->set_age( new_age );
 
-    actor->set_growing_plant(flowerpot, seed->typeId(), seed->birthday(), seed_amt, fert_amt);
+    actor->set_growing_plant( flowerpot, seed->typeId(), seed->birthday(), seed_amt, fert_amt );
     actor->update( flowerpot );
 }
 
-ret_val<bool> iuse_flowerpot_transplant::can_use( const Character &who, const item &, bool,
+ret_val<bool> iuse_flowerpot_collect::can_use( const Character &who, const item &, bool,
         const tripoint &pos ) const
 {
-    const bool has_empty_pot = who.has_item_with( empty_pot_selector );
+    const bool has_empty_pot_inv = who.has_item_with( iuse_flowerpot_plant::empty_pot_selector );
+    const bool has_empty_pot_near = get_map().has_adjacent_item_with( pos, iuse_flowerpot_plant::empty_pot_selector );
     const bool has_plant_furn = get_map().has_adjacent_furniture_with( pos, []( const furn_t &f ) {
         return f.has_flag( "PLANT" );
     } );
 
-    if( has_empty_pot && has_plant_furn ) {
+    if( (has_empty_pot_inv || has_empty_pot_near) && has_plant_furn ) {
         return ret_val<bool>::make_success();
     }
 
     /*
-    const bool has_full_pot = who.has_item_with( full_pot_selector );
+    const bool has_full_pot = who.has_item_with( iuse_flowerpot_plant::full_pot_selector );
     const bool has_empty_furn = get_map().has_adjacent_furniture_with( pos, []( const furn_t &f ) {
         return f.has_flag( "PLANTABLE" );
     } );
@@ -6349,39 +6449,7 @@ ret_val<bool> iuse_flowerpot_transplant::can_use( const Character &who, const it
     return ret_val<bool>::make_failure();
 }
 
-std::unique_ptr<iuse_actor> iuse_flowerpot_transplant::clone() const
+std::unique_ptr<iuse_actor> iuse_flowerpot_collect::clone() const
 {
-    return std::make_unique<iuse_flowerpot_transplant>( *this );
-}
-
-bool iuse_flowerpot_transplant::full_pot_selector( const item &it )
-{
-    if( !it.type->can_use( iuse_flowerpot_plant::IUSE_ACTOR ) ) {
-        return false;
-    }
-
-    const auto actor = dynamic_cast<const iuse_flowerpot_plant *>( it.get_use(
-                           iuse_flowerpot_plant::IUSE_ACTOR )->get_actor_ptr() );
-    if( actor == nullptr ) {
-        return false;
-    }
-
-    const auto info = actor->get_info( it );
-    return info.stage() != iuse_flowerpot_plant::empty;
-}
-
-bool iuse_flowerpot_transplant::empty_pot_selector( const item &it )
-{
-    if( !it.type->can_use( iuse_flowerpot_plant::IUSE_ACTOR ) ) {
-        return false;
-    }
-
-    const auto actor = dynamic_cast<const iuse_flowerpot_plant *>( it.get_use(
-                           iuse_flowerpot_plant::IUSE_ACTOR )->get_actor_ptr() );
-    if( actor == nullptr ) {
-        return false;
-    }
-
-    const auto info = actor->get_info( it );
-    return info.stage() == iuse_flowerpot_plant::empty;
+    return std::make_unique<iuse_flowerpot_collect>( *this );
 }
