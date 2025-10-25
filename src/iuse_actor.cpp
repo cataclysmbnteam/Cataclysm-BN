@@ -6206,7 +6206,7 @@ void iuse_flowerpot_transplant::load( const JsonObject &obj )
 
 }
 
-int iuse_flowerpot_transplant::use( player &who, item &i, bool t, const tripoint &pos ) const
+int iuse_flowerpot_transplant::use( player &who, item &, bool, const tripoint & ) const
 {
     constexpr auto get_harvestable_furn = []( const tripoint & here ) {
         const auto &map = get_map();
@@ -6257,27 +6257,53 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, 
 
     auto stack = m.i_at( pos );
 
-    int fertilized = 0;
-    item *seed;
+    auto max_seeds = actor->seeds_per_use.second;
+    auto max_fert = actor->fert_per_use.second;
+    item* seed {};
+
     std::vector<detached_ptr<item>> comps;
     stack.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
-        if( it->is_seed() ) {
-            seed = it.get();
-            comps.emplace_back( std::move( it ) );
-            return detached_ptr<item> {};
+
+        if ( it->is_seed() && max_seeds > 0) {
+            if (seed == nullptr) {
+                seed = it.get();
+            }
+            if (it->typeId() == seed->typeId()) {
+                return item::use_charges( std::move(it), seed->typeId(), max_seeds, comps, pos );
+            }
         }
-        if( it->typeId() == itype_fertilizer ) {
-            fertilized++;
-            comps.emplace_back( std::move( it ) );
-            return detached_ptr<item> {};
+        if (it->typeId() == itype_fertilizer && max_fert > 0) {
+            auto tmp = item::spawn(*it);
+            item::use_charges( std::move(tmp), itype_fertilizer, max_fert, comps, pos );
         }
-        return std::move( it );
+        return std::move(it);
+
     } );
+
+    if (!seed) {
+        debugmsg( "Missing seed" );
+    }
+
+    const auto rem_seeds = std::ranges::count_if(stack, [](const item* it) {
+        return it->is_seed();
+    });
+
+    // Erase fertilizer and reset furniture if no more seeds
+    if (rem_seeds == 0) {
+        m.furn_set( pos, furn_id->plant->base );
+        stack.remove_top_items_with( [](detached_ptr<item>&& it) {
+            if (it->typeId() == itype_fertilizer)
+                return detached_ptr<item>{};
+            return std::move(it);
+        });
+    }
+
+    const auto fert = actor->fert_per_use.second - max_fert;
 
     const auto old_epoch = seed->get_plant_epoch() * 3 * furn_id->plant->growth_multiplier;
     const auto old_pct = seed->age() / old_epoch;
 
-    const auto new_epoch = actor->calculate_growth_time( seed->typeId(), fertilized );
+    const auto new_epoch = actor->calculate_growth_time( seed->typeId(), fert );
     const auto new_age = new_epoch * old_pct;
     seed->set_age( new_age );
 
@@ -6287,10 +6313,6 @@ void iuse_flowerpot_transplant::transfer_map_to_flowerpot( const tripoint &pos, 
         flowerpot.add_component( std::move( c ) );
     }
 
-    m.furn_set( pos, furn_id->plant->base );
-    if( furn_id->plant->base->has_flag( TFLAG_NOITEM ) ) {
-        m.i_clear( pos );
-    }
     actor->update( flowerpot );
 }
 
