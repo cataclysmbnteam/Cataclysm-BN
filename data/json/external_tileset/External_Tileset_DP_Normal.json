@@ -126,7 +126,7 @@
           { "id": "iron_ore", "fg": 111 },
           { "id": "m1874_gatling", "fg": 112 },
           { "id": "overlay_wielded_m1874_gatling", "fg": 113 },
-          { "id": "vp_mounted_m1874_gatling", "fg": 114 },
+          { "id": "vp_mounted_m1874_gatling", "fg": 114, "rotates": true },
           { "id": "mon_zombie_acid_mortar", "fg": 115 },
           { "id": "corpse_mon_zombie_acid_mortar", "fg": 116 },
           { "id": "mon_zombie_acid_spawner", "fg": 117 },
