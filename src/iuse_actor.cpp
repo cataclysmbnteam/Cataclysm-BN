@@ -14,6 +14,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <ranges>
 
 #include "action.h"
 #include "activity_handlers.h"
