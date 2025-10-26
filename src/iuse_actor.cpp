@@ -6038,8 +6038,8 @@ ret_val<bool> iuse_flowerpot_plant::can_use( const Character &who,
         case harvest:
             return ret_val<bool>::make_success();
         default: {
-            if (!who.has_item_with( []( const item & itm ) { return itm.is_seed(); } )) {
-                return ret_val<bool>::make_failure( _( "You have no seeds to plant." ));
+            if( !who.has_item_with( []( const item & itm ) { return itm.is_seed(); } ) ) {
+                return ret_val<bool>::make_failure( _( "You have no seeds to plant." ) );
             }
             if( i.charges < fert_per_use.first ) {
                 return ret_val<bool>::make_failure( _( "You don't have enough fertilizer." ) );
