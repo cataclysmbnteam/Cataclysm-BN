@@ -16,7 +16,6 @@
 #include <vector>
 
 #include "action.h"
-#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "addiction.h"
 #include "ammo.h"
@@ -77,8 +76,8 @@
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "point.h"
 #include "popup.h"
+#include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -86,8 +85,8 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "string_utils.h"
+#include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -6093,7 +6092,7 @@ void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) con
     }
 }
 
-int iuse_flowerpot_plant::on_use_add_fertilizer( player &who, item &i,
+int iuse_flowerpot_plant::on_use_add_fertilizer( player &, item &i,
         const tripoint & ) const
 {
 
