@@ -1988,7 +1988,7 @@ class Character : public Creature, public location_visitable<Character>
         */
         bool sees_with_infrared( const Creature &critter ) const;
         // Do parts of place_corpse, but without the corpse, for things like ressurection
-        void death_punishments( const int health_mod, const bool shifthealth, const bool dump_inv );
+        void drop_inv( const int count );
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile

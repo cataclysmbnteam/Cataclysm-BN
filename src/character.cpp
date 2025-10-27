@@ -10958,22 +10958,19 @@ int Character::run_cost( int base_cost, bool diag ) const
 }
 
 // Used primarily for ressurection lua scripts
-// health_mod: Either sets the health to the value or modifies all health by that value based on
-// shifthealth: True shifts health, False sets heath
-// dump_inv: Dump the inventory on death
-void Character::death_punishments( const int health_mod, const bool shiftheath,
-                                   const bool dump_inv )
+// count: number of items to drop < 0 means drop all
+void Character::drop_inv( const int count )
 {
-    if( dump_inv ) {
+    if( count < 0 || count >= inv.size() ) {
         std::vector<detached_ptr<item>> tmp = inv_dump_remove();
         for( auto &itm : tmp ) {
             get_map().add_item_or_charges( pos(), std::move( itm ) );
         }
-    }
-    if( shiftheath ) {
-        mod_all_parts_hp_cur( health_mod );
     } else {
-        set_all_parts_hp_cur( health_mod );
+        for( int i = 0; i < count; i++ ) {
+            int randidx = rng( 0, inv.size() );
+            get_map().add_item_or_charges( pos(), std::move( inv.remove_item( randidx ) ) );
+        }
     }
 }
 

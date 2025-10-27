@@ -799,10 +799,11 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( get_lowest_hp, int() const );
 
+        // Respawn Stuff
+        SET_FX_T( drop_inv, void( const int count ) );
+
         SET_FX( bodypart_exposure );
 
-        // Respawn Stuff
-        SET_FX( death_punishments, void( const int health_mod, const bool shifthealth, const bool dump_inv ) );
 
     }
 #undef UT_CLASS // #define UT_CLASS Character
