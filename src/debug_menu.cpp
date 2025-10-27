@@ -31,6 +31,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "catalua.h"
+#include "cata_tiles.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_id.h"
@@ -40,6 +41,7 @@
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dynamic_atlas.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -85,6 +87,7 @@
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
+#include "sdltiles.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -194,6 +197,7 @@ enum debug_menu_index {
     DEBUG_RESET_IGNORED_MESSAGES,
     DEBUG_RELOAD_TILES,
     DEBUG_SWAP_CHAR,
+    DEBUG_DUMP_TILES
 };
 
 class mission_debug
@@ -256,6 +260,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SWAP_CHAR, true, 'x', _( "Control NPC follower" ) ) },
 #if defined(TILES)
             { uilist_entry( DEBUG_RELOAD_TILES, true, 'D', _( "Reload tileset and show missing tiles" ) ) },
+            { uilist_entry( DEBUG_DUMP_TILES, true, 'F', _( "Dump dynamic tile atlas" ) ) },
 #endif
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -2248,13 +2253,20 @@ void debug()
         case DEBUG_RESET_IGNORED_MESSAGES:
             debug_reset_ignored_messages();
             break;
-        case DEBUG_RELOAD_TILES:
+        case DEBUG_RELOAD_TILES: {
             std::ostringstream ss;
             g->reload_tileset( [&ss]( const std::string & str ) {
                 ss << str << '\n';
             } );
             add_msg( ss.str() );
             break;
+        }
+        case DEBUG_DUMP_TILES: {
+#if defined(TILES)
+            tilecontext->tile_atlas->dump( PATH_INFO::config_dir() );
+#endif
+            break;
+        }
     }
     m.invalidate_map_cache( g->get_levz() );
 }

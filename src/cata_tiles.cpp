@@ -30,6 +30,7 @@
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
+#include "dynamic_atlas.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
@@ -360,6 +361,12 @@ void cata_tiles::load_tileset(
     std::unique_ptr<tileset> new_tileset_ptr = std::make_unique<tileset>();
     tileset_loader loader( *new_tileset_ptr, renderer );
     loader.load( tileset_id, precheck, /*pump_events=*/pump_events );
+    if( precheck ) {
+        tile_atlas = std::make_unique<dynamic_atlas>( 2048, 2048, new_tileset_ptr->get_tile_width(),
+                     new_tileset_ptr->get_tile_height() );
+    } else {
+        tile_atlas->clear();
+    }
     tileset_ptr = std::move( new_tileset_ptr );
     tileset_mod_list_stamp = mod_list;
 
@@ -452,14 +459,17 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
            smaller.y + smaller.h <= larger.y + larger.h;
 }
 
-bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
+bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
+        point offset,
         std::vector<texture> &target )
 {
     assert( surf );
-    const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, point( surf->w / sprite_width,
-                                            surf->h / sprite_height ) );
+    const rect_range<SDL_Rect> input_range(
+        sprite_width, sprite_height,
+        point( surf->w / sprite_width, surf->h / sprite_height ) );
 
-    const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
+    const std::shared_ptr<SDL_Texture> texture_ptr =
+        CreateTextureFromSurface( renderer, surf );
     if( !texture_ptr ) {
         return false;
     }
@@ -470,13 +480,129 @@ bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, point
         const point pos( offset + point( rect.x, rect.y ) );
         assert( pos.x % sprite_width == 0 );
         assert( pos.y % sprite_height == 0 );
-        const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
-                             ( tile_atlas_width / sprite_width );
+        const size_t index =
+            this->offset + ( pos.x / sprite_width ) +
+            ( pos.y / sprite_height ) * ( tile_atlas_width / sprite_width );
         assert( index < target.size() );
         assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         target[index] = texture( texture_ptr, rect );
     }
     return true;
+}
+
+static color_pixel_function_pointer get_pixel_function( const tileset_fx_type &type )
+{
+    switch( type ) {
+        case shadow:
+            return get_color_pixel_function( "color_pixel_grayscale" );
+            break;
+        case night:
+            return get_color_pixel_function( "color_pixel_nightvision" );
+            break;
+        case overexposed:
+            return get_color_pixel_function( "color_pixel_overexposed" );
+            break;
+        case underwater:
+            return get_color_pixel_function( "color_pixel_underwater" );
+            break;
+        case underwater_dark:
+            return get_color_pixel_function( "color_pixel_underwater_dark" );
+            break;
+        case memory:
+            return get_color_pixel_function( tilecontext->memory_map_mode );
+            break;
+        case z_overlay:
+            return get_color_pixel_function( "color_pixel_zoverlay" );
+            break;
+        default:
+            return get_color_pixel_function( "color_pixel_none" );
+            break;
+    }
+}
+
+const texture *tileset::get_if_available( const size_t index,
+        const tileset_fx_type &type ) const
+{
+    if( index >= tile_values.size() ) {
+        return nullptr;
+    }
+
+    switch( type ) {
+        case shadow:
+            //return &shadow_tile_values[index];
+            break;
+        case night:
+            //return &night_tile_values[index];
+            break;
+        case overexposed:
+            //return &overexposed_tile_values[index];
+            break;
+        case underwater:
+            //return &underwater_tile_values[index];
+            break;
+        case underwater_dark:
+            //return &underwater_dark_tile_values[index];
+            break;
+        case memory:
+            //return &memory_tile_values[index];
+            break;
+        case z_overlay:
+            //return &z_overlay_values[index];
+            break;
+        default:
+            return &tile_values[index];
+            break;
+    }
+
+    const auto tex_key = std::make_tuple( index, type );
+    const auto it = tilecontext->tile_lookup.find( tex_key );
+    if( it != tilecontext->tile_lookup.end() ) {
+        return &it->second;
+    }
+    const auto &base_tex = tile_values[index];
+
+    const color_pixel_function_pointer vfx_func = get_pixel_function( type );
+
+    const auto &r = get_sdl_renderer();
+    const auto pr = r.get();
+
+    auto [spr_w, spr_h] = base_tex.dimension();
+
+    // TODO: Keep a staging surface somewhere else
+    auto tmp_surface = create_surface_32( spr_w, spr_h );
+    auto tmp_texture = CreateTexture(r, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, spr_w, spr_h );
+
+    // TODO: Not download textures from GPU, keep SDL_Surface loaded into tileset
+    const auto prev_rt = SDL_GetRenderTarget( pr );
+    SDL_Rect tmp_rect{0, 0, spr_w, spr_h};
+    SDL_SetRenderTarget( pr, tmp_texture.get() );
+    ( void )base_tex.render_copy( r, &tmp_rect );
+    SDL_RenderReadPixels( pr, &tmp_rect, SDL_PIXELFORMAT_ABGR8888, tmp_surface->pixels,
+                          tmp_surface->pitch );
+    SDL_SetRenderTarget( pr, prev_rt );
+
+    const auto newtex = apply_color_filter( tmp_surface, vfx_func );
+
+    auto [tex, rect] = tilecontext->tile_atlas->allocate_sprite( spr_w, spr_h );
+
+    // TODO: Use Streaming Texture and lock / unlock
+    /*
+    void* pixels;
+    int pitch;
+    SDL_LockTexture(atl.texture.get(), &dst_rect, &pixels, &pitch);
+    for (int y = 0; y < newtex->h; y++) {
+        const auto upd_dst = static_cast<uint8_t*>( pixels ) + y * pitch;
+        const auto upd_src =  static_cast<uint8_t*>( newtex->pixels ) + y *
+    newtex->pitch; SDL_memcpy( upd_dst , upd_src, newtex->pitch);
+    }
+    SDL_UnlockTexture(atl.texture.get());
+    */
+
+    SDL_UpdateTexture( tex.get(), &rect, newtex->pixels, newtex->pitch );
+
+    auto [entry, ok] =
+        tilecontext->tile_lookup.emplace( tex_key, texture( std::move( tex ), rect ) );
+    return &entry->second;
 }
 
 bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
@@ -2489,6 +2615,7 @@ bool cata_tiles::draw_sprite_at(
     destination.h = height * tile_height / tileset_ptr->get_tile_height();
 
     auto render = [&]( const int rotation, const SDL_RendererFlip flip ) {
+        sprite_tex->set_alpha_mod( 255 );
         int ret = sprite_tex->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
         if( !static_z_effect && overlay && overlay_alpha > 0 ) {
             overlay->set_alpha_mod( std::min( 192, overlay_alpha ) );

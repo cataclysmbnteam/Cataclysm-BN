@@ -11,14 +11,16 @@
 
 #include "animation.h"
 #include "enums.h"
+#include "hash_utils.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_memory.h"
 #include "options.h"
 #include "pimpl.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_utils.h"
+#include "sdl_wrappers.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weighted_list.h"
@@ -26,6 +28,7 @@
 class Character;
 class JsonObject;
 class pixel_minimap;
+class dynamic_atlas;
 
 extern void set_displaybuffer_rendertarget();
 
@@ -78,6 +81,7 @@ class tile_lookup_res
 
 class texture
 {
+        friend class dynamic_atlas;
     private:
         std::shared_ptr<SDL_Texture> sdl_texture_ptr;
         SDL_Rect srcrect = { 0, 0, 0, 0 };
@@ -91,6 +95,7 @@ class texture
         std::pair<int, int> dimension() const {
             return std::make_pair( srcrect.w, srcrect.h );
         }
+
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
         /// null as source rectangle (render the whole texture). Other parameters
         /// are simply passed through.
@@ -101,10 +106,28 @@ class texture
                                      flip );
         }
 
+        /// Interface to @ref SDL_RenderCopy, using this as the texture
+        int render_copy( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect ) const {
+            return SDL_RenderCopy( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect );
+        }
+
         int set_alpha_mod( int mod ) const {
             return SDL_SetTextureAlphaMod( sdl_texture_ptr.get(), mod );
         }
 };
+
+enum tileset_fx_type {
+    none,
+    shadow,
+    night,
+    overexposed,
+    underwater,
+    underwater_dark,
+    memory,
+    z_overlay
+};
+
+using tile_lookup_key = std::tuple<size_t, tileset_fx_type>;
 
 class tileset
 {
@@ -134,12 +157,11 @@ class tileset
         std::unordered_map<std::string, tile_type> tile_ids;
         // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
-        std::unordered_map<std::string, season_tile_value> tile_ids_by_season[season_type::NUM_SEASONS];
+        std::unordered_map<std::string, season_tile_value>
+        tile_ids_by_season[season_type::NUM_SEASONS];
 
-        static const texture *get_if_available( const size_t index,
-                                                const decltype( shadow_tile_values ) &tiles ) {
-            return index < tiles.size() ? & tiles[index] : nullptr;
-        }
+        const texture *get_if_available( const size_t index,
+                                         const tileset_fx_type &type ) const;
 
         friend class tileset_loader;
 
@@ -158,28 +180,28 @@ class tileset
         }
 
         const texture *get_tile( const size_t index ) const {
-            return get_if_available( index, tile_values );
+            return get_if_available( index, tileset_fx_type::none );
         }
         const texture *get_night_tile( const size_t index ) const {
-            return get_if_available( index, night_tile_values );
+            return get_if_available( index, tileset_fx_type::night );
         }
         const texture *get_shadow_tile( const size_t index ) const {
-            return get_if_available( index, shadow_tile_values );
+            return get_if_available( index, tileset_fx_type::shadow );
         }
         const texture *get_overexposed_tile( const size_t index ) const {
-            return get_if_available( index, overexposed_tile_values );
+            return get_if_available( index, tileset_fx_type::overexposed );
         }
         const texture *get_underwater_tile( const size_t index ) const {
-            return get_if_available( index, underwater_tile_values );
+            return get_if_available( index, tileset_fx_type::underwater );
         }
         const texture *get_underwater_dark_tile( const size_t index ) const {
-            return get_if_available( index, underwater_dark_tile_values );
+            return get_if_available( index, tileset_fx_type::underwater_dark );
         }
         const texture *get_memory_tile( const size_t index ) const {
-            return get_if_available( index, memory_tile_values );
+            return get_if_available( index, tileset_fx_type::memory );
         }
         const texture *get_z_overlay( const size_t index ) const {
-            return get_if_available( index, z_overlay_values );
+            return get_if_available( index, tileset_fx_type::z_overlay );
         }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
@@ -824,6 +846,9 @@ class cata_tiles
 
     public:
         std::string memory_map_mode = "color_pixel_sepia";
+
+        std::unique_ptr<dynamic_atlas> tile_atlas;
+        std::unordered_map<tile_lookup_key, texture, cata::auto_hash<tile_lookup_key>> tile_lookup;
 };
 
 
