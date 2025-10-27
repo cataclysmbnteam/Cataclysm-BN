@@ -7497,7 +7497,7 @@ bool item::is_container_full( bool allow_bucket ) const
     if( is_watertight_container() ) {
         return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
     } else {
-        return contents.front().charges_per_volume( get_container_capacity() ) - ammo_remaining();
+        return ( contents.front().charges_per_volume( get_container_capacity() ) - ammo_remaining() ) <= 0;
     }
 }
 
