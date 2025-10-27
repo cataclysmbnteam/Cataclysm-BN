@@ -1,4 +1,4 @@
-gdebug.log_info("Tele: preload.")
+gdebug.log_info("Resurrection: preload.")
 
 -- Have to register iuse before data loading.
 -- Actual implementation (function mod.iuse_function) will be defined later.

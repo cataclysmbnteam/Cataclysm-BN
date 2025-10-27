@@ -2,7 +2,7 @@
   {
     "type": "MOD_INFO",
     "id": "resurrection_tech",
-    "name": "Ressurection",
+    "name": "Resurrection",
     "authors": [ "Wishduck" ],
     "description": "Adds resurrection anchors.",
     "category": "content",

@@ -38,8 +38,7 @@ mod.load_saved_anchors = function()
 end
 
 mod.on_game_load_hook = function()
-  gdebug.log_info("Teleporters: on_load")
-
+  gdebug.log_info("Resurrection: on_load")
   mod.load_saved_anchors()
 end
 
@@ -53,7 +52,7 @@ mod.save_anchor_omt = function()
 end
 
 mod.on_game_save_hook = function()
-  gdebug.log_info("Teleporters: on_save")
+  gdebug.log_info("Resurrection: on_save")
   mod.save_anchor_omt()
 end
 
@@ -90,7 +89,7 @@ mod.add_anchor_to_list = function(pos)
 end
 
 mod.iuse_function_anchor = function(who, item, pos)
-  local f_anchor = FurnId.new("teleporter_anchor_deployed"):int_id()
+  local f_anchor = FurnId.new("resurrection_anchor_deployed"):int_id()
   local f_null = FurnId.new("f_null"):int_id()
 
   local abs_pos = gapi.get_map():get_abs_ms(pos)
@@ -99,7 +98,7 @@ mod.iuse_function_anchor = function(who, item, pos)
   if furn_id == f_null then
     mod.add_anchor_to_list(abs_pos)
     gapi.get_map():set_furn_at(pos, f_anchor)
-    gapi.add_msg("The teleporter anchor was placed at your position")
+    gapi.add_msg("The resurrection anchor was placed at your position")
   else
     gapi.add_msg("Can only be placed on a square with no existing furniture.")
     return 0
