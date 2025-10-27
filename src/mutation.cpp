@@ -673,6 +673,12 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
         return false;
     }
 
+    for( trait_id mut : get_mutations() ) {
+        if( mut->prevents.contains( mutation ) ) {
+            return false;
+        }
+    }
+
     for( const bionic &i : get_bionic_collection() ) {
         const bionic_id &bid = i.id;
         for( const trait_id &mid : bid->canceled_mutations ) {
