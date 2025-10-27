@@ -723,9 +723,15 @@ class item : public location_visitable<item>, public game_object<item>
         int reach_range( const Character &guy ) const;
 
         /**
-         * Sets time until activation for an item that will self-activate in the future.
+         * Sets item charges.
          **/
-        void set_countdown( int num_turns );
+        void set_charges( int value );
+
+        /**
+         * Sets time until countdown_action will trigger, maybe re-set for continuous activation.
+         * A negative value will set the timer to the item's default countdown_interval
+         **/
+        void set_countdown( int value );
 
         /**
          * Consumes specified charges (or fewer) from this and any contained items
@@ -1304,8 +1310,8 @@ class item : public location_visitable<item>, public game_object<item>
 
         /** Returns energy of one charge of this item as fuel for an engine. */
         float fuel_energy() const;
-        /** Returns the string of the id of the terrain that pumps this fuel, if any. */
-        std::string fuel_pump_terrain() const;
+        /** Returns the id of the terrain that pumps this fuel, if any. */
+        ter_id fuel_pump_terrain() const;
         bool has_explosion_data() const;
         struct fuel_explosion get_explosion_data();
         float get_kcal_mult() const;
