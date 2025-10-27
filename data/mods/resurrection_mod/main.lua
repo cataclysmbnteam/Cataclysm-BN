@@ -62,7 +62,7 @@ mod.on_character_death_hook = function()
   if anchor_pos ~= nil then
     local player_abs = gapi.get_map():get_abs_ms(who:get_pos_ms())
     local distance = math.abs(coords.rl_dist(player_abs, anchor_pos))
-    who:drop_inv( math.ceil( distance / 50) )
+    who:drop_inv(math.ceil(distance / 50))
     gapi.add_msg("Respawning Player at " .. tostring(anchor_pos))
 
     -- Convert abs_ms to abs_omt
