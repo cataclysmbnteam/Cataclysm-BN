@@ -2265,8 +2265,9 @@ void debug()
         }
         case DEBUG_DUMP_TILES: {
 #if defined(TILES) && defined(DYNAMIC_ATLAS)
-
-            tilecontext->current_tileset()->texture_atlas()->dump( PATH_INFO::config_dir() );
+            tilecontext->current_tileset()->texture_atlas()->readback_load();
+            tilecontext->current_tileset()->texture_atlas()->readback_dump( PATH_INFO::config_dir() );
+            tilecontext->current_tileset()->texture_atlas()->readback_clear();
 #endif
             break;
         }

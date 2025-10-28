@@ -6,6 +6,7 @@
 #include <format>
 #include <ranges>
 #include <stack>
+#include <utility>
 #include <vector>
 
 #include "sdl_utils.h"
@@ -22,7 +23,7 @@ static T round_up( T n, T m )
     return ( ( n + m - 1 ) / m ) * m;
 }
 
-struct stripe_texture_packer : detail::texture_packer {
+struct stripe_texture_packer final : detail::texture_packer {
 
     struct stripe {
         uint32_t height;
@@ -39,11 +40,12 @@ struct stripe_texture_packer : detail::texture_packer {
 
     std::optional<SDL_Rect> pack( const uint32_t width,
                                   const uint32_t height ) override {
-        const auto r_height = round_up( height, min_size );
 
-        if( width > bounds.w || height > bounds.h ) {
+        if( std::cmp_greater( width, bounds.w ) || std::cmp_greater( height, bounds.h ) ) {
             return std::nullopt;
         }
+
+        const auto r_height = round_up( height, min_size );
 
         auto it = std::ranges::find_if( stripes, [&]( const stripe & s ) {
             return s.x_remainder >= width && s.height == r_height;
@@ -85,13 +87,52 @@ struct stripe_texture_packer : detail::texture_packer {
     }
 };
 
-void dynamic_atlas::readback() {
+struct null_texture_packer final : detail::texture_packer {
 
-    for (auto& it : sheets) {
+    bool has_contents;
+
+    explicit null_texture_packer( const SDL_Rect &bounds )
+        : texture_packer( bounds )
+        , has_contents( false ) {
+    }
+
+    std::optional<SDL_Rect> pack( const uint32_t width, const uint32_t height ) override {
+        if( has_contents
+            || std::cmp_greater( width, bounds.w )
+            || std::cmp_greater( height, bounds.h ) ) {
+            return std::nullopt;
+        }
+        has_contents = true;
+        return bounds;
+    };
+};
+
+auto dynamic_atlas::get_staging_area( const int width,
+                                      const int height ) -> std::tuple<SDL_Texture *, SDL_Surface *, SDL_Rect>
+{
+    const auto r_width = round_up( width, hint_sprite_width );
+    const auto r_height = round_up( height, hint_sprite_height );
+
+    if( staging_surf == nullptr || staging_surf->w != r_width || staging_surf->h < r_height ) {
+        const auto &r = get_sdl_renderer();
+        staging_tex = CreateTexture( r, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, r_width,
+                                     r_height );
+        staging_surf = create_surface_32( r_width, r_height );
+        SDL_SetTextureBlendMode( staging_tex.get(), SDL_BLENDMODE_NONE );
+        SDL_SetSurfaceBlendMode( staging_surf.get(), SDL_BLENDMODE_NONE );
+    }
+
+    return std::make_tuple( staging_tex.get(), staging_surf.get(), SDL_Rect{0, 0, width, height} );
+}
+
+void dynamic_atlas::readback_load()
+{
+
+    for( auto &it : sheets ) {
         const auto &r = get_sdl_renderer();
         if( it.readback == nullptr ) {
             it.readback = create_surface_32( it.atlas_width, it.atlas_height );
-            SDL_SetSurfaceBlendMode(it.readback.get(), SDL_BLENDMODE_NONE);
+            SDL_SetSurfaceBlendMode( it.readback.get(), SDL_BLENDMODE_NONE );
         }
 
         if( it.dirty ) {
@@ -103,21 +144,23 @@ void dynamic_atlas::readback() {
     }
 }
 
-auto dynamic_atlas::get_surface( const texture &tex ) -> std::pair<SDL_Surface *, SDL_Rect>
+void dynamic_atlas::readback_clear()
+{
+    for( auto &it : sheets ) {
+        it.readback.reset();
+        it.dirty = true;
+    }
+}
+
+auto dynamic_atlas::readback_find( const texture &tex ) -> std::tuple<bool, SDL_Surface *, SDL_Rect>
 {
     const auto it = std::ranges::find_if( sheets, [&]( const sprite_sheet & s ) {
         return s.texture == tex.sdl_texture_ptr;
     } );
 
-    if( it == sheets.end() ) {
-        return {nullptr, {}};
-    }
-
-    if (it->readback == nullptr) {
-        return {nullptr, {}};
-    }
-
-    return { it->readback.get(), tex.srcrect };
+    return ( it == sheets.end() )
+           ? std::make_tuple( false, nullptr, SDL_Rect{} )
+           : std::make_tuple( true, it->readback.get(), tex.srcrect );
 }
 
 atlas_texture dynamic_atlas::allocate_sprite( const int w, const int h )
@@ -145,14 +188,22 @@ atlas_texture dynamic_atlas::allocate_sprite( const int w, const int h )
     int tex_height;
     int tex_access;
 
+    std::unique_ptr<detail::texture_packer> packer;
     if( info.flags & SDL_RENDERER_SOFTWARE ) {
         tex_width = w;
         tex_height = h;
-        tex_access = SDL_TEXTUREACCESS_STATIC;
+        tex_access = SDL_TEXTUREACCESS_TARGET;
+        packer = std::make_unique<null_texture_packer>(
+                     SDL_Rect{0, 0, tex_width, tex_height}
+                 );
     } else {
         tex_width = std::min( max_atlas_width, info.max_texture_width );
         tex_height = std::min( max_atlas_height, info.max_texture_height );
         tex_access = SDL_TEXTUREACCESS_TARGET;
+        packer = std::make_unique<stripe_texture_packer>(
+                     SDL_Rect{0, 0, tex_width, tex_height},
+                     hint_sprite_width
+                 );
     }
 
     assert( w <= tex_width && h <= tex_height );
@@ -161,16 +212,19 @@ atlas_texture dynamic_atlas::allocate_sprite( const int w, const int h )
                                         tex_height );
     SDL_SetTextureBlendMode( tex, SDL_BLENDMODE_BLEND );
 
-    const auto prev_renderer = SDL_GetRenderTarget( r.get() );
-    SDL_SetRenderTarget( r.get(), tex );
-    SDL_SetRenderDrawColor( r.get(), 255, 255, 255, 0 );
-    SDL_RenderClear( r.get() );
-    SDL_SetRenderTarget( r.get(), prev_renderer );
+    {
+        const auto state = sdl_save_render_state( r.get() );
+
+        SDL_SetRenderTarget( r.get(), tex );
+        SetRenderDrawColor( r, 255, 255, 255, 0 );
+        SDL_RenderClear( r.get() );
+
+        sdl_restore_render_state( r.get(), state );
+    }
 
     auto s = sprite_sheet{
         SDL_Texture_Ptr( tex ),
-        std::make_unique<stripe_texture_packer>(
-        SDL_Rect{0, 0, tex_width, tex_height}, hint_sprite_width ),
+        std::move( packer ),
         tex_width,
         tex_height,
         nullptr,
@@ -184,9 +238,9 @@ atlas_texture dynamic_atlas::allocate_sprite( const int w, const int h )
     return get_texture( entry.texture, rect.value(), w, h );
 }
 
-void dynamic_atlas::dump( const std::string &s )
+void dynamic_atlas::readback_dump( const std::string &s ) const
 {
-    readback();
+
     int i = 0;
     for( auto &q : sheets ) {
         auto name = std::format( "{}/tile_dump_{}.png", s, i++ );
