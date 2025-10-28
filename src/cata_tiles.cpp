@@ -536,6 +536,8 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
 
     auto [st_tex, st_surf, st_sub_rect] = ts.texture_atlas()->get_staging_area(sprite_width, sprite_height);
 
+    SDL_SetSurfaceBlendMode( surf.get(), SDL_BLENDMODE_NONE );
+
     auto state = sdl_save_render_state(renderer.get());
     for( const SDL_Rect src_rect : input_range ) {
         assert( offset.x % sprite_width == 0 );
@@ -633,10 +635,13 @@ const texture *tileset::get_if_available( const size_t index,
         const auto state = sdl_save_render_state( pr );
 
         SDL_SetRenderTarget( pr, st_tex );
-        SetRenderDrawColor( r, 255, 0, 255, 0 );
+        SetRenderDrawColor( r, 0, 0, 0, 0 );
         SDL_RenderClear( pr );
 
+        base_tex.set_blend_mode(SDL_BLENDMODE_NONE);
         base_tex.render_copy( r, &st_sub_rect );
+        base_tex.set_blend_mode(SDL_BLENDMODE_BLEND);
+
         SDL_RenderReadPixels( pr, nullptr, st_surf->format->format, st_surf->pixels, st_surf->pitch );
 
         apply_color_filter_inplace( st_surf, &st_sub_rect, vfx_func );

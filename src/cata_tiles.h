@@ -111,7 +111,19 @@ class texture
             return SDL_RenderCopy( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect );
         }
 
-        int set_alpha_mod( int mod ) const {
+        int get_blend_mode (SDL_BlendMode* mode) const {
+            return SDL_GetTextureBlendMode( sdl_texture_ptr.get(), mode );
+        }
+
+        int set_blend_mode( const SDL_BlendMode mode ) const {
+            return SDL_SetTextureBlendMode( sdl_texture_ptr.get(), mode);
+        }
+
+        int get_alpha_mod ( uint8_t* mod) const {
+            return SDL_GetTextureAlphaMod( sdl_texture_ptr.get(), mod );
+        }
+
+        int set_alpha_mod( const uint8_t mod ) const {
             return SDL_SetTextureAlphaMod( sdl_texture_ptr.get(), mod );
         }
 };
