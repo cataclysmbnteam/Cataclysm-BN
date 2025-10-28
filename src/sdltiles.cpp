@@ -946,18 +946,18 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
             } else {
                 const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
                 // light level is now used for choosing between grayscale filter and normal lit tiles.
-                draw_from_id_string(
-                    id, C_OVERMAP_TERRAIN,
-                    "overmap_terrain", omp.raw(), subtile,
-                    rotation, ll, false, 0, false, height_3d );
+                draw_from_id_string( id, C_OVERMAP_TERRAIN, "overmap_terrain",
+                                     omp.raw(), subtile, rotation, std::nullopt,
+                                     std::nullopt, ll, false, 0, false,
+                                     height_3d );
             }
 
             if( blink && uistate.overmap_highlighted_omts.contains( omp ) ) {
                 if( tile_iso ) {
-                    draw_from_id_string(
-                        "highlight", C_NONE, empty_string,
-                        omp.raw(), 0, 0, lit_level::LIT, false, 0,
-                        false );
+                    draw_from_id_string( "highlight", C_NONE, empty_string,
+                                         omp.raw(), 0, 0, std::nullopt,
+                                         std::nullopt, lit_level::LIT, false, 0,
+                                         false );
                 } else {
                     SDL_Color c = curses_color_to_SDL( c_pink );
                     c.a = c.a >> 1;
@@ -974,8 +974,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                         std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
                         draw_from_id_string(
                             ( *mgroup_iter )->type->defaultMonster.str(), C_NONE,
-                            empty_string, omp.raw(), 0, 0, lit_level::LIT,
-                            false, 0, false );
+                            empty_string, omp.raw(), 0, 0, std::nullopt,
+                            std::nullopt, lit_level::LIT, false, 0, false );
                     }
                 }
                 const int horde_size = overmap_buffer.get_horde_size( omp );
@@ -984,49 +984,45 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                     if( find_tile_with_season( id ) ) {
                         draw_from_id_string(
                             string_format( "overmap_horde_%d", horde_size ), C_NONE,
-                            empty_string, omp.raw(), 0, 0, lit_level::LIT, false,
-                            0, false );
+                            empty_string, omp.raw(), 0, 0, std::nullopt,
+                            std::nullopt, lit_level::LIT, false, 0, false );
                     } else {
                         switch( horde_size ) {
                             case HORDE_VISIBILITY_SIZE:
                                 draw_from_id_string(
                                     "mon_zombie", C_NONE, empty_string, omp.raw(),
-                                    0, 0, lit_level::LIT, false, 0, false );
+                                    0, 0, std::nullopt, std::nullopt,
+                                    lit_level::LIT, false, 0, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 1:
                                 draw_from_id_string(
-                                    "mon_zombie_tough", C_NONE,
-                                    empty_string, omp.raw(), 0, 0,
-                                    lit_level::LIT, false, 0,
-                                    false );
+                                    "mon_zombie_tough", C_NONE, empty_string,
+                                    omp.raw(), 0, 0, std::nullopt, std::nullopt,
+                                    lit_level::LIT, false, 0, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 2:
                                 draw_from_id_string(
-                                    "mon_zombie_brute", C_NONE,
-                                    empty_string, omp.raw(), 0, 0,
-                                    lit_level::LIT, false, 0,
-                                    false );
+                                    "mon_zombie_brute", C_NONE, empty_string,
+                                    omp.raw(), 0, 0, std::nullopt, std::nullopt,
+                                    lit_level::LIT, false, 0, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 3:
                                 draw_from_id_string(
-                                    "mon_zombie_hulk", C_NONE,
-                                    empty_string, omp.raw(), 0, 0,
-                                    lit_level::LIT, false, 0,
-                                    false );
+                                    "mon_zombie_hulk", C_NONE, empty_string,
+                                    omp.raw(), 0, 0, std::nullopt, std::nullopt,
+                                    lit_level::LIT, false, 0, false );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 4:
                                 draw_from_id_string(
-                                    "mon_zombie_necro", C_NONE,
-                                    empty_string, omp.raw(), 0, 0,
-                                    lit_level::LIT, false, 0,
-                                    false );
+                                    "mon_zombie_necro", C_NONE, empty_string,
+                                    omp.raw(), 0, 0, std::nullopt, std::nullopt,
+                                    lit_level::LIT, false, 0, false );
                                 break;
                             default:
                                 draw_from_id_string(
-                                    "mon_zombie_master", C_NONE,
-                                    empty_string, omp.raw(), 0, 0,
-                                    lit_level::LIT, false, 0,
-                                    false );
+                                    "mon_zombie_master", C_NONE, empty_string,
+                                    omp.raw(), 0, 0, std::nullopt, std::nullopt,
+                                    lit_level::LIT, false, 0, false );
                                 break;
                         }
                     }
@@ -1037,26 +1033,24 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 // Highlight areas that already have been generated
                 // TODO: fix point types
                 if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
-                    draw_from_id_string(
-                        "highlight", C_NONE, empty_string,
-                        omp.raw(), 0, 0, lit_level::LIT, false, 0,
-                        false );
+                    draw_from_id_string( "highlight", C_NONE, empty_string,
+                                         omp.raw(), 0, 0, std::nullopt,
+                                         std::nullopt, lit_level::LIT, false, 0,
+                                         false );
                 }
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
                 if( find_tile_looks_like( "overmap_remembered_vehicle", C_OVERMAP_NOTE ) ) {
-                    draw_from_id_string(
-                        "overmap_remembered_vehicle",
-                        C_OVERMAP_NOTE,
-                        "overmap_note", omp.raw(), 0, 0,
-                        lit_level::LIT, false, 0, false );
+                    draw_from_id_string( "overmap_remembered_vehicle",
+                                         C_OVERMAP_NOTE, "overmap_note", omp.raw(),
+                                         0, 0, std::nullopt, std::nullopt,
+                                         lit_level::LIT, false, 0, false );
                 } else {
-                    draw_from_id_string(
-                        "note_c_cyan",
-                        C_OVERMAP_NOTE,
-                        "overmap_note", omp.raw(), 0, 0,
-                        lit_level::LIT, false, 0, false );
+                    draw_from_id_string( "note_c_cyan", C_OVERMAP_NOTE,
+                                         "overmap_note", omp.raw(), 0, 0,
+                                         std::nullopt, std::nullopt,
+                                         lit_level::LIT, false, 0, false );
                 }
             }
 
@@ -1069,10 +1063,9 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                     overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
                 std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
-                draw_from_id_string(
-                    note_name, C_OVERMAP_NOTE,
-                    "overmap_note", omp.raw(), 0, 0,
-                    lit_level::LIT, false, 0, false );
+                draw_from_id_string( note_name, C_OVERMAP_NOTE, "overmap_note",
+                                     omp.raw(), 0, 0, std::nullopt, std::nullopt,
+                                     lit_level::LIT, false, 0, false );
             }
         }
     }
@@ -1084,10 +1077,10 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         int rotation;
         int subtile;
         terrain.get_rotation_and_subtile( rotation, subtile );
-        draw_from_id_string(
-            id, C_NONE, empty_string,
-            global_omt_to_draw_position( center_abs_omt ),
-            subtile, rotation, lit_level::LOW, true, 0, false );
+        draw_from_id_string( id, C_NONE, empty_string,
+                             global_omt_to_draw_position( center_abs_omt ),
+                             subtile, rotation, std::nullopt, std::nullopt,
+                             lit_level::LOW, true, 0, false );
     }
     if( uistate.place_special ) {
         for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
@@ -1104,7 +1097,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 draw_from_id_string(
                     id, C_OVERMAP_TERRAIN, "overmap_terrain",
                     global_omt_to_draw_position( center_abs_omt + rp ), 0,
-                    rotation, lit_level::LOW, true, 0, false );
+                    rotation, std::nullopt, std::nullopt, lit_level::LOW, true,
+                    0, false );
             }
         }
     }
@@ -1124,10 +1118,10 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         draw_entity_with_overlays( you, global_omt_to_draw_position( avatar_pos ),
                                    lit_level::LIT, height_3d );
     }
-    draw_from_id_string(
-        "cursor", C_NONE, empty_string,
-        global_omt_to_draw_position( center_abs_omt ), 0, 0,
-        lit_level::LIT, false, 0, false );
+    draw_from_id_string( "cursor", C_NONE, empty_string,
+                         global_omt_to_draw_position( center_abs_omt ), 0, 0,
+                         std::nullopt, std::nullopt, lit_level::LIT, false, 0,
+                         false );
 
     if( blink ) {
         // Draw path for auto-travel
@@ -1141,9 +1135,8 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 id = "overmap_path_below";
             }
             draw_from_id_string(
-                id, C_NONE, empty_string,
-                global_omt_to_draw_position( pos ), 0, 0,
-                lit_level::LIT, false, 0, false );
+                id, C_NONE, empty_string, global_omt_to_draw_position( pos ), 0,
+                0, std::nullopt, std::nullopt, lit_level::LIT, false, 0, false );
         }
 
         // reduce the area where the map cursor is drawn so it doesn't get cut off
@@ -1152,10 +1145,10 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
                     get_mission_arrow( map_cursor_area, center_abs_omt );
         if( mission_arrow ) {
-            draw_from_id_string(
-                mission_arrow->second, C_NONE, empty_string,
-                global_omt_to_draw_position( mission_arrow->first ),
-                0, 0, lit_level::LIT, false, 0, false );
+            draw_from_id_string( mission_arrow->second, C_NONE, empty_string,
+                                 global_omt_to_draw_position( mission_arrow->first ),
+                                 0, 0, std::nullopt, std::nullopt, lit_level::LIT,
+                                 false, 0, false );
         }
     }
 
