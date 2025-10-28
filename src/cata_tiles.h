@@ -83,11 +83,11 @@ class texture
 {
         friend class dynamic_atlas;
     private:
-        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
+        SDL_Texture_SharedPtr sdl_texture_ptr;
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
-        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect &rect ) : sdl_texture_ptr( ptr ),
+        texture( SDL_Texture_SharedPtr ptr, const SDL_Rect &rect ) : sdl_texture_ptr( ptr ),
             srcrect( rect ) { }
         texture() = default;
 
@@ -258,9 +258,9 @@ class tileset_loader
 
         /** Returns false if failed to create texture. */
         bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
-                                      std::vector<texture> &target );
+                                      std::vector<texture> &target ) const;
 
-        bool copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf, point offset );
+        bool copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf, point offset ) const;
 
         /** Returns false if failed to create texture(s). */
         bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, point offset );

@@ -83,6 +83,8 @@
 #include "weighted_list.h"
 #include "overmapbuffer.h"
 
+#include "profile.h"
+
 #define dbg(x) DebugLogFL((x),DC::SDL)
 
 static const efftype_id effect_ridden( "ridden" );
@@ -419,30 +421,71 @@ static void get_tile_information( const std::string &config_path, std::string &j
     }
 }
 
-template<typename PixelConverter>
-static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
-        PixelConverter pixel_converter )
+template<bool SkipTransparent = true, typename CvtFn>
+static void apply_color_filter_copy( const SDL_Surface* src, const SDL_Point srcPos, SDL_Surface* dst, CvtFn pixel_converter )
 {
-    assert( original );
-    SDL_Surface_Ptr surf = create_surface_32( original->w, original->h );
-    assert( surf );
-    throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
-                  "SDL_BlitSurface failed" );
+    assert( dst );
 
-    auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    auto dst_pix = static_cast<SDL_Color *>( dst->pixels );
+
+    for( int y = 0, ey = dst->h; y < ey; ++y ) {
+        auto src_pix = static_cast<SDL_Color *>( src->pixels );
+        src_pix += srcPos.x + (src->w * (srcPos.y + y));
+        for( int x = 0, ex = dst->w; x < ex; ++x, ++dst_pix, ++src_pix ) {
+            if constexpr( SkipTransparent ) {
+                if( src_pix->a == 0x00 ) {
+                    continue;
+                }
+            }
+            *dst_pix = pixel_converter( *src_pix );
+        }
+    }
+}
+
+template<bool SkipTransparent = true, typename CvtFn>
+static void apply_color_filter_inplace( SDL_Surface_Ptr &surf, CvtFn pixel_converter )
+{
+    assert( dst );
+
+    auto pix = static_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
-            if( pix->a == 0x00 ) {
-                // This check significantly improves the performance since
-                // vast majority of pixels in the tilesets are completely transparent.
-                continue;
+            if constexpr( SkipTransparent ) {
+                if( pix->a == 0x00 ) {
+                    continue;
+                }
+            }
+            *pix = pixel_converter( *pix );
+        }
+    }
+}
+
+template<bool SkipTransparent = true, typename CvtFn>
+static SDL_Surface_Ptr apply_color_filter_new( const SDL_Surface_Ptr &src, CvtFn pixel_converter )
+{
+    assert( src );
+    SDL_Surface_Ptr dst = create_surface_32( src->w, src->h );
+    assert( dst );
+    throwErrorIf(
+        SDL_BlitSurface( src.get(), nullptr, dst.get(), nullptr ) != 0,
+        "SDL_BlitSurface failed"
+    );
+
+    auto pix = static_cast<SDL_Color *>( dst->pixels );
+
+    for( int y = 0, ey = dst->h; y < ey; ++y ) {
+        for( int x = 0, ex = dst->w; x < ex; ++x, ++pix ) {
+            if constexpr( SkipTransparent ) {
+                if( pix->a == 0x00 ) {
+                    continue;
+                }
             }
             *pix = pixel_converter( *pix );
         }
     }
 
-    return surf;
+    return dst;
 }
 
 static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
@@ -453,9 +496,8 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
            smaller.y + smaller.h <= larger.y + larger.h;
 }
 
-bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
-        point offset,
-        std::vector<texture> &target )
+bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point offset,
+        std::vector<texture> &target ) const
 {
     assert( surf );
     const rect_range<SDL_Rect> input_range(
@@ -484,9 +526,8 @@ bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
     return true;
 }
 
-[[clang::optnone]]
 bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
-        const point offset )
+        const point offset ) const
 {
 #if !defined(DYNAMIC_ATLAS)
     return false;
@@ -559,10 +600,11 @@ static color_pixel_function_pointer get_pixel_function( const tileset_fx_type &t
     }
 }
 
-[[clang::optnone]]
 const texture *tileset::get_if_available( const size_t index,
         const tileset_fx_type &type ) const
 {
+    ZoneScoped;
+
 #if defined(DYNAMIC_ATLAS)
     const auto mod_tex_key = std::make_tuple( index, type );
     const auto mod_tex_it = tile_lookup.find( mod_tex_key );
@@ -583,43 +625,24 @@ const texture *tileset::get_if_available( const size_t index,
     const auto &r = get_sdl_renderer();
     const auto pr = r.get();
 
+    // TODO: Keep the staging surface somewhere else
     auto [spr_w, spr_h] = base_tex.dimension();
+    auto staging_surf = create_surface_32( spr_w, spr_h );
 
-    // TODO: Keep a staging surface somewhere else
-    auto tmp_surface = create_surface_32( spr_w, spr_h );
-    auto tmp_texture = CreateTexture( r, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, spr_w,
-                                      spr_h );
+    auto [base_surf, base_rect] = tileset_atlas->get_surface( base_tex );
+    apply_color_filter_copy(  base_surf, {base_rect.x, base_rect.y}, staging_surf.get(), vfx_func );
 
-    // TODO: Not download textures from GPU, keep SDL_Surface loaded into tileset
+    auto [atl_tex, atl_rect] = tileset_atlas->allocate_sprite(spr_w, spr_h);
+    const auto staging_tex = CreateTextureFromSurface(r, staging_surf);
+    SDL_SetTextureBlendMode(staging_tex.get(), SDL_BLENDMODE_NONE);
+
     const auto prev_rt = SDL_GetRenderTarget( pr );
-    SDL_Rect tmp_rect{0, 0, spr_w, spr_h};
-    SDL_SetRenderTarget( pr, tmp_texture.get() );
-    ( void )base_tex.render_copy( r, &tmp_rect );
-    SDL_RenderReadPixels( pr, &tmp_rect, SDL_PIXELFORMAT_ABGR8888, tmp_surface->pixels,
-                          tmp_surface->pitch );
+    SDL_SetRenderTarget( pr, atl_tex.get() );
+    SDL_RenderCopy(pr, staging_tex.get(), nullptr, &atl_rect );
     SDL_SetRenderTarget( pr, prev_rt );
 
-    const auto newtex = apply_color_filter( tmp_surface, vfx_func );
-
-    auto [tex, rect] = tileset_atlas->allocate_sprite( spr_w, spr_h );
-
-    // TODO: Use Streaming Texture and lock / unlock
-    /*
-    void* pixels;
-    int pitch;
-    SDL_LockTexture(atl.texture.get(), &dst_rect, &pixels, &pitch);
-    for (int y = 0; y < newtex->h; y++) {
-        const auto upd_dst = static_cast<uint8_t*>( pixels ) + y * pitch;
-        const auto upd_src =  static_cast<uint8_t*>( newtex->pixels ) + y *
-    newtex->pitch; SDL_memcpy( upd_dst , upd_src, newtex->pitch);
-    }
-    SDL_UnlockTexture(atl.texture.get());
-    */
-
-    SDL_UpdateTexture( tex.get(), &rect, newtex->pixels, newtex->pitch );
-
     auto [entry, ok] =
-        tile_lookup.emplace( mod_tex_key, texture( std::move( tex ), rect ) );
+        tile_lookup.emplace( mod_tex_key, texture( std::move( atl_tex ), atl_rect ) );
     return &entry->second;
 #else
     if( index >= tile_values.size() ) {
@@ -662,8 +685,7 @@ bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
     assert( tile_atlas );
 
 #if defined(DYNAMIC_ATLAS)
-    copy_surface_to_dynamic_atlas( tile_atlas, offset );
-    return true;
+    return copy_surface_to_dynamic_atlas( tile_atlas, offset );
 #else
 
     /** perform color filter conversion here */
@@ -688,7 +710,7 @@ bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
             // TODO: Move it inside apply_color_filter.
             success = copy_surface_to_texture( tile_atlas, offset, *tile_values );
         } else {
-            success = copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
+            success = copy_surface_to_texture( apply_color_filter_new( tile_atlas, color_pixel_function ), offset,
                                                *tile_values );
         }
         if( !success ) {
@@ -1156,6 +1178,9 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     ensure_default_item_highlight();
 
     ts.tileset_id = tileset_id;
+#if defined(DYNAMIC_ATLAS)
+    ts.tileset_atlas->readback();
+#endif
 }
 
 void tileset_loader::load_internal( const JsonObject &config, const std::string &tileset_root,
