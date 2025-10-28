@@ -1332,6 +1332,10 @@ Function `( Character ) -> double`
 
 Function `( Character ) -> int`
 
+#### drop_inv
+
+Function `( Character, int )`
+
 #### bodypart_exposure
 
 Function `( Character ) -> Map( BodyPartTypeIntId, double )`
@@ -1716,6 +1720,10 @@ Function `( Creature, BodyPartTypeIntId, int )`
 Function `( Creature, BodyPartTypeIntId, int )`
 
 #### set_all_parts_hp_cur
+
+Function `( Creature, int )`
+
+#### mod_all_parts_hp_cur
 
 Function `( Creature, int )`
 
@@ -6984,6 +6992,12 @@ Function `( ... )`
 
 #### place_player_overmap_at
 
+Teleports player to absolute coordinate in overmap
+Function `( Tripoint )`
+
+#### place_player_local_at
+
+Teleports player to local coordinates within active map
 Function `( Tripoint )`
 
 #### current_turn

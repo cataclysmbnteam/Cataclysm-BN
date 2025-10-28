@@ -2004,6 +2004,13 @@ void Creature::set_all_parts_hp_cur( const int set )
     }
 }
 
+void Creature::mod_all_parts_hp_cur( const int mod )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        mod_part_hp_cur( elem.first, mod );
+    }
+}
+
 void Creature::set_all_parts_hp_to_max()
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
