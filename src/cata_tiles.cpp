@@ -422,47 +422,42 @@ static void get_tile_information( const std::string &config_path, std::string &j
 }
 
 template<bool SkipTransparent = true, typename CvtFn>
-static void apply_color_filter_copy( const SDL_Surface* src, const SDL_Point srcPos, SDL_Surface* dst, CvtFn pixel_converter )
+static void apply_color_filter_inplace( SDL_Surface *surf, const SDL_Rect *rect,
+                                        CvtFn pixel_converter )
 {
     assert( dst );
 
-    auto dst_pix = static_cast<SDL_Color *>( dst->pixels );
+    if( SDL_MUSTLOCK( surf ) ) {
+        SDL_LockSurface( surf );
+    }
 
-    for( int y = 0, ey = dst->h; y < ey; ++y ) {
-        auto src_pix = static_cast<SDL_Color *>( src->pixels );
-        src_pix += srcPos.x + (src->w * (srcPos.y + y));
-        for( int x = 0, ex = dst->w; x < ex; ++x, ++dst_pix, ++src_pix ) {
+    const int y0 = rect ? rect->y : 0;
+    const int y1 = rect ? rect->h : surf->h;
+    const int x0 = rect ? rect->x : 0;
+    const int x1 = rect ? rect->w : surf->w;
+    const int dx = x1 - x0;
+
+    for( int y = y0; y < y1; ++y ) {
+        const auto offset = static_cast<uint32_t>( ( y * surf->w ) + x0 );
+        auto scanline = static_cast<SDL_Color *>( surf->pixels ) + offset;
+        for( int x = 0; x < dx; ++x, ++scanline ) {
             if constexpr( SkipTransparent ) {
-                if( src_pix->a == 0x00 ) {
+                if( scanline->a == 0x00 ) {
                     continue;
                 }
             }
-            *dst_pix = pixel_converter( *src_pix );
+            *scanline = pixel_converter( *scanline );
         }
+    }
+
+    if( SDL_MUSTLOCK( surf ) ) {
+        SDL_UnlockSurface( surf );
     }
 }
 
 template<bool SkipTransparent = true, typename CvtFn>
-static void apply_color_filter_inplace( SDL_Surface_Ptr &surf, CvtFn pixel_converter )
-{
-    assert( dst );
-
-    auto pix = static_cast<SDL_Color *>( surf->pixels );
-
-    for( int y = 0, ey = surf->h; y < ey; ++y ) {
-        for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
-            if constexpr( SkipTransparent ) {
-                if( pix->a == 0x00 ) {
-                    continue;
-                }
-            }
-            *pix = pixel_converter( *pix );
-        }
-    }
-}
-
-template<bool SkipTransparent = true, typename CvtFn>
-static SDL_Surface_Ptr apply_color_filter_new( const SDL_Surface_Ptr &src, CvtFn pixel_converter )
+static SDL_Surface_Ptr apply_color_filter_blit_copy( const SDL_Surface_Ptr &src,
+        CvtFn pixel_converter )
 {
     assert( src );
     SDL_Surface_Ptr dst = create_surface_32( src->w, src->h );
@@ -557,6 +552,8 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
 
         auto tex = ts.tileset_atlas->allocate_sprite( sprite_width, sprite_height );
 
+
+        // TODO: Use RenderTarget
         SDL_Rect dst_rect = { 0, 0, sprite_width, sprite_height };
 
         SDL_FillRect( staging.get(), nullptr, 0xFFFF00FF );
@@ -617,33 +614,41 @@ const texture *tileset::get_if_available( const size_t index,
     if( base_tex_it == tile_lookup.end() ) {
         return nullptr;
     }
+    {
+        ZoneScoped;
 
-    const auto &base_tex = base_tex_it->second;
+        const auto &r = get_sdl_renderer();
+        const auto pr = r.get();
 
-    const color_pixel_function_pointer vfx_func = get_pixel_function( type );
+        const auto &base_tex = base_tex_it->second;
 
-    const auto &r = get_sdl_renderer();
-    const auto pr = r.get();
+        const color_pixel_function_pointer vfx_func = get_pixel_function( type );
 
-    // TODO: Keep the staging surface somewhere else
-    auto [spr_w, spr_h] = base_tex.dimension();
-    auto staging_surf = create_surface_32( spr_w, spr_h );
+        auto [spr_w, spr_h] = base_tex.dimension();
+        auto [st_tex, st_surf, st_sub_rect ] = texture_atlas()->get_staging_area( spr_w, spr_h );
+        auto [at_tex, at_rect] = tileset_atlas->allocate_sprite( spr_w, spr_h );
 
-    auto [base_surf, base_rect] = tileset_atlas->get_surface( base_tex );
-    apply_color_filter_copy(  base_surf, {base_rect.x, base_rect.y}, staging_surf.get(), vfx_func );
+        const auto state = sdl_save_render_state( pr );
 
-    auto [atl_tex, atl_rect] = tileset_atlas->allocate_sprite(spr_w, spr_h);
-    const auto staging_tex = CreateTextureFromSurface(r, staging_surf);
-    SDL_SetTextureBlendMode(staging_tex.get(), SDL_BLENDMODE_NONE);
+        SDL_SetRenderTarget( pr, st_tex );
+        SetRenderDrawColor( r, 255, 0, 255, 0 );
+        SDL_RenderClear( pr );
 
-    const auto prev_rt = SDL_GetRenderTarget( pr );
-    SDL_SetRenderTarget( pr, atl_tex.get() );
-    SDL_RenderCopy(pr, staging_tex.get(), nullptr, &atl_rect );
-    SDL_SetRenderTarget( pr, prev_rt );
+        base_tex.render_copy( r, &st_sub_rect );
+        SDL_RenderReadPixels( pr, nullptr, st_surf->format->format, st_surf->pixels, st_surf->pitch );
 
-    auto [entry, ok] =
-        tile_lookup.emplace( mod_tex_key, texture( std::move( atl_tex ), atl_rect ) );
-    return &entry->second;
+        apply_color_filter_inplace( st_surf, &st_sub_rect, vfx_func );
+        SDL_UpdateTexture( st_tex, nullptr, st_surf->pixels, st_surf->pitch );
+
+        SDL_SetRenderTarget( pr, at_tex.get() );
+        SDL_RenderCopy( pr, st_tex, &st_sub_rect, &at_rect );
+
+        sdl_restore_render_state( pr, state );
+
+        auto [entry, ok] =
+            tile_lookup.emplace( mod_tex_key, texture( std::move( at_tex ), at_rect ) );
+        return &entry->second;
+    }
 #else
     if( index >= tile_values.size() ) {
         return nullptr;
@@ -710,7 +715,8 @@ bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
             // TODO: Move it inside apply_color_filter.
             success = copy_surface_to_texture( tile_atlas, offset, *tile_values );
         } else {
-            success = copy_surface_to_texture( apply_color_filter_new( tile_atlas, color_pixel_function ), offset,
+            success = copy_surface_to_texture( apply_color_filter_blit_copy( tile_atlas, color_pixel_function ),
+                                               offset,
                                                *tile_values );
         }
         if( !success ) {
@@ -1179,7 +1185,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
 
     ts.tileset_id = tileset_id;
 #if defined(DYNAMIC_ATLAS)
-    ts.tileset_atlas->readback();
+    ts.tileset_atlas->readback_load();
 #endif
 }
 
