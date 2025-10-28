@@ -55,7 +55,8 @@ please remove sections irrelevant to this PR.
   - [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
 - [ ] This PR adds/removes a mod.
   - [ ] I have committed the output of `deno task semantic`.
-- [ ] This PR modifies BN's lua API.
-  - [ ] I have committed the output of `deno task docs:gen` so the Lua API documentation is updated.
+- [ ] This PR modifies lua scripts or the lua API.
   - [ ] I have added `lua` scope to the PR title.
+  - [ ] I have added [type annotations](https://emmylua.github.io/annotation.html) to functions so that it's safe and easy to maintain.
+  - [ ] I have committed the output of `deno task docs:gen` so the Lua API documentation is updated.
 -->
