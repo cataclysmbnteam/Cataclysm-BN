@@ -1419,10 +1419,10 @@ class iuse_flowerpot_plant final : public iuse_actor
             float harvest_mult;
             int fert_amt;
             int seed_amt;
-            time_duration elapsed_time() const;
-            time_duration remaining_time() const;
-            growth_stage stage() const;
-            std::string plant_name() const;
+            auto elapsed_time() const -> time_duration;
+            auto remaining_time() const -> time_duration;
+            auto stage() const -> growth_stage;
+            auto plant_name() const -> std::string;
             double progress() const;
         };
 
@@ -1431,16 +1431,16 @@ class iuse_flowerpot_plant final : public iuse_actor
         static void set_growing_plant( item &i, itype_id seed, time_point planted_time, int seeds,
                                        int fertilizer );
         static void clear_growing_plant( item &i );
-        static std::optional<item *> query_adjacent_pot( const player &, bool empty = true );
+        static auto query_adjacent_pot( const player &, bool empty = true ) -> std::optional<item *>;
 
-        growth_info get_info( const item & ) const;
-        time_duration calculate_growth_time( const itype_id &, int used_fert ) const;
+        auto get_info( const item & ) const -> growth_info;
+        auto calculate_growth_time( const itype_id &, int used_fert ) const -> time_duration;
         void update( item & ) const;
 
-        int on_use_add_fertilizer( player &, item &, const tripoint & ) const;
-        int on_use_plant( player &, item &, const tripoint & ) const;
-        int on_use_harvest( player &, item &, const tripoint & ) const;
-        int on_tick( player &, item &, const tripoint & ) const;
+        auto on_use_add_fertilizer( player &, item &, const tripoint & ) const -> int;
+        auto on_use_plant( player &, item &, const tripoint & ) const -> int;
+        auto on_use_harvest( player &, item &, const tripoint & ) const -> int;
+        auto on_tick( player &, item &, const tripoint & ) const -> int;
 
         std::array<itype_id, 5> stages;
         std::pair<int, int> seeds_per_use = {1, 4};
@@ -1458,9 +1458,10 @@ class iuse_flowerpot_collect final : public iuse_actor
                 type ) {}
         ~iuse_flowerpot_collect() override = default;
         void load( const JsonObject &obj ) override;
-        int use( player &who, item &i, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
+        auto use( player &who, item &i, bool, const tripoint & ) const -> int override;
+        auto can_use( const Character &, const item &, bool,
+                      const tripoint & ) const -> ret_val<bool> override;
+        auto clone() const -> std::unique_ptr<iuse_actor> override;
     private:
         static void transfer_map_to_flowerpot( const tripoint &map_pos, item &flowerpot );
 };

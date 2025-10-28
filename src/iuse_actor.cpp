@@ -5950,22 +5950,22 @@ void iuse_flowerpot_plant::load( const JsonObject &jo )
     }
 }
 
-std::unique_ptr<iuse_actor> iuse_flowerpot_plant::clone() const
+auto iuse_flowerpot_plant::clone() const -> std::unique_ptr<iuse_actor>
 {
     return std::make_unique<iuse_flowerpot_plant>( *this );
 }
 
-time_duration iuse_flowerpot_plant::growth_info::elapsed_time() const
+auto iuse_flowerpot_plant::growth_info::elapsed_time() const -> time_duration
 {
     return calendar::turn - planted_time;
 }
 
-time_duration iuse_flowerpot_plant::growth_info::remaining_time() const
+auto iuse_flowerpot_plant::growth_info::remaining_time() const -> time_duration
 {
     return epoch - elapsed_time();
 }
 
-iuse_flowerpot_plant::growth_stage iuse_flowerpot_plant::growth_info::stage() const
+auto iuse_flowerpot_plant::growth_info::stage() const -> growth_stage
 {
     if( epoch <= time_duration{} )
         return empty;
@@ -5985,18 +5985,17 @@ iuse_flowerpot_plant::growth_stage iuse_flowerpot_plant::growth_info::stage() co
     }
 }
 
-std::string iuse_flowerpot_plant::growth_info::plant_name() const
+auto iuse_flowerpot_plant::growth_info::plant_name() const -> std::string
 {
     return seed_id.obj().seed->plant_name.translated();
 }
 
-double iuse_flowerpot_plant::growth_info::progress() const
+auto iuse_flowerpot_plant::growth_info::progress() const -> double
 {
     return elapsed_time() / epoch;
 }
 
-int iuse_flowerpot_plant::use( player &who, item &i, bool tick,
-                               const tripoint &pos ) const
+auto iuse_flowerpot_plant::use( player &who, item &i, bool tick, const tripoint &pos ) const -> int
 {
     if( tick ) {
         return on_tick( who, i, pos );
@@ -6015,9 +6014,8 @@ int iuse_flowerpot_plant::use( player &who, item &i, bool tick,
     }
 }
 
-ret_val<bool> iuse_flowerpot_plant::can_use( const Character &who,
-        const item &i, bool,
-        const tripoint & ) const
+auto iuse_flowerpot_plant::can_use( const Character &who, const item &i, bool,
+                                    const tripoint & ) const -> ret_val<bool>
 {
 
     const auto info = get_info( i );
@@ -6093,8 +6091,7 @@ void iuse_flowerpot_plant::info( const item &i, std::vector<iteminfo> &inf ) con
     }
 }
 
-int iuse_flowerpot_plant::on_use_add_fertilizer( player &, item &i,
-        const tripoint & ) const
+auto iuse_flowerpot_plant::on_use_add_fertilizer( player &, item &i, const tripoint & ) const -> int
 {
 
     const auto info = get_info( i );
@@ -6111,8 +6108,7 @@ int iuse_flowerpot_plant::on_use_add_fertilizer( player &, item &i,
 }
 
 
-int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
-                                        const tripoint & ) const
+auto iuse_flowerpot_plant::on_use_plant( player &p, item &i, const tripoint & ) const -> int
 {
     const std::vector<item *> seed_inv =
     p.items_with( []( const item & itm ) { return itm.is_seed(); } );
@@ -6141,7 +6137,7 @@ int iuse_flowerpot_plant::on_use_plant( player &p, item &i,
     return used_fert;
 }
 
-int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & ) const
+auto iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & ) const -> int
 {
     const auto info = get_info( i );
     clear_growing_plant( i );
@@ -6174,7 +6170,7 @@ int iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & )
     return 0;
 }
 
-int iuse_flowerpot_plant::on_tick( player &, item &i, const tripoint & ) const
+auto iuse_flowerpot_plant::on_tick( player &, item &i, const tripoint & ) const -> int
 {
     if( i.item_counter != 0 ) {
         return 0;
@@ -6238,7 +6234,8 @@ void iuse_flowerpot_plant::clear_growing_plant( item &i )
     i.erase_var( VAR_FERT_AMT );
 }
 
-std::optional<item *> iuse_flowerpot_plant::query_adjacent_pot( const player &who, bool empty )
+auto iuse_flowerpot_plant::query_adjacent_pot( const player &who,
+        bool empty ) -> std::optional<item *>
 {
     const auto selector_fn = empty ? empty_pot_selector : full_pot_selector;
     const auto p_selector_fn = [&]( const item * it ) { return selector_fn( *it ); };
@@ -6303,7 +6300,7 @@ std::optional<item *> iuse_flowerpot_plant::query_adjacent_pot( const player &wh
     return choices[0];
 }
 
-iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i ) const
+auto iuse_flowerpot_plant::get_info( const item &i ) const -> growth_info
 {
     const auto seed_id = itype_id( i.get_var( VAR_SEED_TYPE, "" ) );
     if( !seed_id.is_valid() ) {
@@ -6320,8 +6317,8 @@ iuse_flowerpot_plant::growth_info iuse_flowerpot_plant::get_info( const item &i 
     return growth_info{seed_id, planted_time, growth_time, harvest_mult, fert_amt, num_seeds };
 }
 
-time_duration iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_id,
-        const int used_fert ) const
+auto iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_id,
+        const int used_fert ) const -> time_duration
 {
     const auto epoch = seed_id->seed->get_plant_epoch() * 3;
     const auto rate = growth_rate + ( used_fert * fert_boost );
@@ -6330,7 +6327,7 @@ time_duration iuse_flowerpot_plant::calculate_growth_time( const itype_id &seed_
     return growth_time;
 }
 
-bool iuse_flowerpot_plant::full_pot_selector( const item &it )
+auto iuse_flowerpot_plant::full_pot_selector( const item &it ) -> bool
 {
     if( !it.type->can_use( IUSE_ACTOR ) ) {
         return false;
@@ -6346,7 +6343,7 @@ bool iuse_flowerpot_plant::full_pot_selector( const item &it )
     return info.stage() != empty;
 }
 
-bool iuse_flowerpot_plant::empty_pot_selector( const item &it )
+auto iuse_flowerpot_plant::empty_pot_selector( const item &it ) -> bool
 {
     if( !it.type->can_use( IUSE_ACTOR ) ) {
         return false;
@@ -6369,7 +6366,7 @@ void iuse_flowerpot_collect::load( const JsonObject & )
 
 }
 
-int iuse_flowerpot_collect::use( player &who, item &, bool, const tripoint & ) const
+auto iuse_flowerpot_collect::use( player &who, item &, bool, const tripoint & ) const -> int
 {
     constexpr auto get_harvestable_furn = []( const tripoint & here ) {
         const auto &map = get_map();
@@ -6473,8 +6470,8 @@ void iuse_flowerpot_collect::transfer_map_to_flowerpot( const tripoint &pos, ite
     actor->update( flowerpot );
 }
 
-ret_val<bool> iuse_flowerpot_collect::can_use( const Character &who, const item &, bool,
-        const tripoint &pos ) const
+auto iuse_flowerpot_collect::can_use( const Character &who, const item &, bool,
+                                      const tripoint &pos ) const -> ret_val<bool>
 {
     const bool has_empty_pot_inv = who.has_item_with( iuse_flowerpot_plant::empty_pot_selector );
     const bool has_empty_pot_near = get_map().has_adjacent_item_with( pos,
@@ -6504,7 +6501,7 @@ ret_val<bool> iuse_flowerpot_collect::can_use( const Character &who, const item 
     return ret_val<bool>::make_failure();
 }
 
-std::unique_ptr<iuse_actor> iuse_flowerpot_collect::clone() const
+auto iuse_flowerpot_collect::clone() const -> std::unique_ptr<iuse_actor>
 {
     return std::make_unique<iuse_flowerpot_collect>( *this );
 }
