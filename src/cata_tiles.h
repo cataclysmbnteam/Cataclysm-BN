@@ -111,15 +111,15 @@ class texture
             return SDL_RenderCopy( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect );
         }
 
-        int get_blend_mode (SDL_BlendMode* mode) const {
+        int get_blend_mode( SDL_BlendMode *mode ) const {
             return SDL_GetTextureBlendMode( sdl_texture_ptr.get(), mode );
         }
 
         int set_blend_mode( const SDL_BlendMode mode ) const {
-            return SDL_SetTextureBlendMode( sdl_texture_ptr.get(), mode);
+            return SDL_SetTextureBlendMode( sdl_texture_ptr.get(), mode );
         }
 
-        int get_alpha_mod ( uint8_t* mod) const {
+        int get_alpha_mod( uint8_t *mod ) const {
             return SDL_GetTextureAlphaMod( sdl_texture_ptr.get(), mod );
         }
 
@@ -455,30 +455,39 @@ class cata_tiles
         bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
 
         /**
-         * @brief draw_from_id_string() without category, subcategory and height_3d
+         * @brief Try to draw a tile using the given id. calls draw_tile_at() at the end.
          *
-         * @param category C_NONE
-         * @param subcategory empty_string
-         * @param height_3d nullint
+         * @param id String id of the tile to draw.
+         * @param category Category of the tile to draw.
+         * @param subcategory if id is not found, try to find a tile for the category+subcategory combination
+         * @param pos Tripoint of the tile to draw.
+         * @param subtile variant of the tile
+         * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param ll light level
+         * @param apply_visual_effects use night vision and underwater colors?
+         * @param overlay_count how blue the tile looks for lower z levels
+         * @param as_independent_entity draw tile as single entity to the screen
+         *                              (like if you would to display something unrelated to game map context
+         *                              e.g. character preview tile in character creation screen)
+         * @return always true
          */
-        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_visual_effects, int overlay_count );
-        /**
-         * @brief * @brief draw_from_id_string() without height_3d
-         *
-         * @param height_3d nullint
-         */
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_visual_effects, int overlay_count );
-        /**
-         * @brief draw_from_id_string() without height_3d
-         *
-         * @param category C_NONE
-         * @param subcategory empty_string
-         */
-        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_visual_effects, int &height_3d, int overlay_count );
+        bool draw_from_id_string(
+            const std::string &id, TILE_CATEGORY category,
+            const std::string &subcategory,
+            const tripoint &pos,
+            int subtile,
+            int rota,
+            lit_level ll,
+            bool apply_visual_effects,
+            int overlay_count,
+            bool as_independent_entity
+        ) {
+            int discard = 0;
+            return draw_from_id_string(
+                       id, category, subcategory, pos, subtile, rota, ll, apply_visual_effects,
+                       overlay_count, as_independent_entity, discard );
+        }
+
         /**
          * @brief Try to draw a tile using the given id. calls draw_tile_at() at the end.
          *
@@ -490,17 +499,25 @@ class cata_tiles
          * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param ll light level
          * @param apply_visual_effects use night vision and underwater colors?
-         * @param height_3d return parameter for height of the sprite
          * @param overlay_count how blue the tile looks for lower z levels
          * @param as_independent_entity draw tile as single entity to the screen
          *                              (like if you would to display something unrelated to game map context
          *                              e.g. character preview tile in character creation screen)
+         * @param height_3d return parameter for height of the sprite
          * @return always true
          */
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_visual_effects, int &height_3d, int overlay_count,
-                                  bool as_independent_entity = false );
+        bool draw_from_id_string(
+            const std::string &id,
+            TILE_CATEGORY category,
+            const std::string &subcategory,
+            const tripoint &pos,
+            int subtile,
+            int rota,
+            lit_level ll,
+            bool apply_visual_effects,
+            int overlay_count,
+            bool as_independent_entity,
+            int &height_3d );
         /**
         * @brief Draw overmap tile, if it's transparent, then draw lower tile first
         *
