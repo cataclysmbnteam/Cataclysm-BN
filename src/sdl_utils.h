@@ -6,9 +6,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "color.h"
-#include "sdl_wrappers.h"
 #include "cached_options.h"
+#include "color.h"
+#include "debug.h"
+#include "sdl_wrappers.h"
 
 using color_pixel_function_pointer = SDL_Color( * )( const SDL_Color &color );
 using color_pixel_function_map = std::unordered_map<std::string, color_pixel_function_pointer>;
@@ -27,81 +28,132 @@ inline bool is_black( const SDL_Color &color )
         color.b == 0x00;
 }
 
-template<bool RT = true, bool CR = false, bool VP = false, bool DC = false, bool BM = false>
+enum class sdl_render_state_flags : uint32_t {
+    none = 0,
+    all = static_cast<uint32_t>( -1 ),
+
+    render_target = 1 << 0,
+    clip_rect = 1 << 1,
+    viewport = 1 << 2,
+    draw_color = 1 << 3,
+    blend_mode = 1 << 4,
+};
+
+constexpr sdl_render_state_flags operator|( sdl_render_state_flags lhs,
+        sdl_render_state_flags rhs )
+{
+    return static_cast<sdl_render_state_flags>(
+               static_cast<uint32_t>( lhs ) | static_cast<uint32_t>( rhs )
+           );
+}
+
+constexpr sdl_render_state_flags operator&( sdl_render_state_flags lhs,
+        sdl_render_state_flags rhs )
+{
+    return static_cast<sdl_render_state_flags>(
+               static_cast<uint32_t>( lhs ) & static_cast<uint32_t>( rhs )
+           );
+}
+
+template<sdl_render_state_flags Flags>
 struct sdl_render_state {
-    using tRT = std::conditional_t<RT, std::tuple<SDL_Texture*>, std::tuple<>>;
-    using tCR = std::conditional_t<CR, std::tuple<SDL_Rect>, std::tuple<>>;
-    using tVP = std::conditional_t<VP, std::tuple<SDL_Rect>, std::tuple<>>;
-    using tDC = std::conditional_t<DC, std::tuple<SDL_Color>, std::tuple<>>;
-    using tBM = std::conditional_t<BM, std::tuple<SDL_BlendMode>, std::tuple<>>;
 
-    constexpr static size_t RT_IDX = 0;
-    constexpr static size_t CR_IDX = CR ? (RT_IDX + 1) : RT_IDX;
-    constexpr static size_t VP_IDX = VP ? (CR_IDX + 1) : CR_IDX;
-    constexpr static size_t DC_IDX = DC ? (VP_IDX + 1) : VP_IDX;
-    constexpr static size_t BM_IDX = BM ? (DC_IDX + 1) : DC_IDX;
+    constexpr static bool has_render_target =
+        ( Flags & sdl_render_state_flags::render_target ) == sdl_render_state_flags::render_target;
+    constexpr static bool has_clip_rect =
+        ( Flags & sdl_render_state_flags::clip_rect ) == sdl_render_state_flags::clip_rect;
+    constexpr static bool has_viewport =
+        ( Flags & sdl_render_state_flags::viewport ) == sdl_render_state_flags::viewport;
+    constexpr static bool has_draw_color =
+        ( Flags & sdl_render_state_flags::draw_color ) == sdl_render_state_flags::draw_color;
+    constexpr static bool has_blend_mode =
+        ( Flags & sdl_render_state_flags::blend_mode ) == sdl_render_state_flags::blend_mode;
 
-    using tuple_type = decltype(std::tuple_cat(tRT{}, tCR{}, tVP{}, tDC{}, tBM{}));
+    using tRT = std::conditional_t<has_render_target, std::tuple<SDL_Texture *>, std::tuple<>>;
+    using tCR = std::conditional_t<has_clip_rect, std::tuple<SDL_Rect>, std::tuple<>>;
+    using tVP = std::conditional_t<has_viewport, std::tuple<SDL_Rect>, std::tuple<>>;
+    using tDC = std::conditional_t<has_draw_color, std::tuple<SDL_Color>, std::tuple<>>;
+    using tBM = std::conditional_t<has_blend_mode, std::tuple<SDL_BlendMode>, std::tuple<>>;
+
+    constexpr static size_t render_target_idx = 0;
+    constexpr static size_t clip_rect_idx =
+        has_clip_rect
+        ? ( render_target_idx + 1 )
+        : render_target_idx;
+    constexpr static size_t viewport_idx =
+        has_viewport
+        ? ( clip_rect_idx + 1 )
+        : clip_rect_idx;
+    constexpr static size_t draw_color_idx =
+        has_draw_color
+        ? ( viewport_idx + 1 )
+        : viewport_idx;
+    constexpr static size_t blend_mode_idx =
+        has_blend_mode
+        ? ( draw_color_idx + 1 )
+        : draw_color_idx;
+
+    using tuple_type = decltype( std::tuple_cat( tRT{}, tCR{}, tVP{}, tDC{}, tBM{} ) );
 
     tuple_type value;
 };
 
-template<bool RT = true, bool CR = false, bool VP = false, bool DC = false, bool BM = false>
-auto sdl_save_render_state( SDL_Renderer* r ) -> sdl_render_state<RT, CR, VP, DC, BM > {
+template < sdl_render_state_flags Flags =
+           sdl_render_state_flags::render_target |  sdl_render_state_flags::clip_rect >
+auto sdl_save_render_state( SDL_Renderer *r ) -> sdl_render_state<Flags>
+{
 
-    using type = sdl_render_state<RT, CR, VP, DC, BM >;
+    using type = sdl_render_state<Flags>;
 
     typename type::tuple_type res;
-    if constexpr (RT) {
-        std::get<type::RT_IDX>(res) = SDL_GetRenderTarget( r );
+    if constexpr( type::has_render_target ) {
+        std::get<type::render_target_idx>( res ) = SDL_GetRenderTarget( r );
     }
-    if constexpr (CR) {
-        SDL_Rect& v = std::get<type::CR_IDX>(res);
+    if constexpr( type::has_clip_rect ) {
+        SDL_Rect &v = std::get<type::clip_rect_idx>( res );
         SDL_RenderGetClipRect( r, &v );
     }
-    if constexpr (VP) {
-        SDL_Rect& v = std::get<type::VP_IDX>(res);
+    if constexpr( type::has_viewport ) {
+        SDL_Rect &v = std::get<type::viewport_idx>( res );
         SDL_RenderGetViewport( r, &v );
     }
-    if constexpr (DC) {
-        SDL_Color& v = std::get<type::DC_IDX>(res);
-        SDL_GetRenderDrawColor(r, &v.r, &v.g, &v.b, &v.a);
+    if constexpr( type::has_draw_color ) {
+        SDL_Color &v = std::get<type::draw_color_idx>( res );
+        SDL_GetRenderDrawColor( r, &v.r, &v.g, &v.b, &v.a );
     }
-    if constexpr (BM) {
-        SDL_BlendMode& v = std::get<type::BM_IDX>(res);
-        SDL_GetRenderDrawBlendMode(r, &v);
+    if constexpr( type::has_blend_mode ) {
+        SDL_BlendMode &v = std::get<type::blend_mode_idx>( res );
+        SDL_GetRenderDrawBlendMode( r, &v );
     }
+
     return type{res};
 }
 
-template<bool RT = true, bool CR = false, bool VP = false, bool DC = false, bool BM = false>
-auto sdl_restore_render_state( SDL_Renderer* r, const sdl_render_state<RT, CR, VP, DC, BM> &state ) {
-    auto& t = state.value;
-    using type = sdl_render_state<RT, CR, VP, DC, BM>;
-    if constexpr (RT) {
-        const auto i = type::RT_IDX;
-        SDL_Texture* v = std::get<type::RT_IDX>(t);
-        SDL_SetRenderTarget(r, v);
+template<sdl_render_state_flags Flags>
+auto sdl_restore_render_state( SDL_Renderer *r, const sdl_render_state<Flags> &state )
+{
+    auto &t = state.value;
+    using type = sdl_render_state<Flags>;
+
+    if constexpr( type::has_render_target ) {
+        SDL_Texture *v = std::get<type::render_target_idx>( t );
+        SDL_SetRenderTarget( r, v );
     }
-    if constexpr (CR) {
-        const auto i = type::CR_IDX;
-        const SDL_Rect& v = std::get<type::CR_IDX>(t);
-        SDL_RenderSetClipRect(r, &v);
+    if constexpr( type::has_clip_rect ) {
+        const SDL_Rect &v = std::get<type::clip_rect_idx>( t );
+        SDL_RenderSetClipRect( r, &v );
     }
-    if constexpr (VP) {
-        const auto i = type::VP_IDX;
-        const SDL_Rect& v = std::get<type::VP_IDX>(t);
-        SDL_RenderSetViewport(r, &v);
+    if constexpr( type::has_viewport ) {
+        const SDL_Rect &v = std::get<type::viewport_idx>( t );
+        SDL_RenderSetViewport( r, &v );
     }
-    if constexpr (DC) {
-        const auto i = type::DC_IDX;
-        const SDL_Color& v = std::get<type::DC_IDX>(t);
-        SDL_SetRenderDrawColor(r, v.r, v.g, v.b, v.a);
+    if constexpr( type::has_draw_color ) {
+        const SDL_Color &v = std::get<type::draw_color_idx>( t );
+        SDL_SetRenderDrawColor( r, v.r, v.g, v.b, v.a );
     }
-    if constexpr (BM) {
-        const auto i = type::BM_IDX;
-        const SDL_BlendMode& v = std::get<type::BM_IDX>(t);
-        SDL_SetRenderDrawBlendMode(r, v);
+    if constexpr( type::has_blend_mode ) {
+        const SDL_BlendMode &v = std::get<type::blend_mode_idx>( t );
+        SDL_SetRenderDrawBlendMode( r, v );
     }
 }
 
