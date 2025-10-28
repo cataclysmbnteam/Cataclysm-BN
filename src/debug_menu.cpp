@@ -260,6 +260,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SWAP_CHAR, true, 'x', _( "Control NPC follower" ) ) },
 #if defined(TILES)
             { uilist_entry( DEBUG_RELOAD_TILES, true, 'D', _( "Reload tileset and show missing tiles" ) ) },
+#endif
+#if defined(TILES) && defined(DYNAMIC_ATLAS)
             { uilist_entry( DEBUG_DUMP_TILES, true, 'F', _( "Dump dynamic tile atlas" ) ) },
 #endif
         };
@@ -2262,8 +2264,9 @@ void debug()
             break;
         }
         case DEBUG_DUMP_TILES: {
-#if defined(TILES)
-            tilecontext->tile_atlas->dump( PATH_INFO::config_dir() );
+#if defined(TILES) && defined(DYNAMIC_ATLAS)
+
+            tilecontext->current_tileset()->texture_atlas()->dump( PATH_INFO::config_dir() );
 #endif
             break;
         }

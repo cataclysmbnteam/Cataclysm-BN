@@ -41,6 +41,7 @@
 #include "cuboid_rectangle.h"
 #include "cursesport.h"
 #include "debug.h"
+#include "dynamic_atlas.h"
 #include "filesystem.h"
 #include "font_loader.h"
 #include "game.h"

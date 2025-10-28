@@ -114,7 +114,7 @@ if (TILES)
     setup_common_target_properties(cataclysm-bn-tiles-common)
 
     # Tiles-specific setup
-    target_compile_definitions(cataclysm-bn-tiles-common PUBLIC TILES)
+    target_compile_definitions(cataclysm-bn-tiles-common PUBLIC TILES DYNAMIC_ATLAS)
     target_link_libraries(cataclysm-bn-tiles PRIVATE cataclysm-bn-tiles-common)
 
     # Windows specific tiles libraries

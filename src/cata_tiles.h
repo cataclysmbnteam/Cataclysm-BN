@@ -145,6 +145,13 @@ class tileset
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale;
 
+#if defined(DYNAMIC_ATLAS)
+        std::unique_ptr<dynamic_atlas> tileset_atlas;
+        mutable std::unordered_map<tile_lookup_key, texture, cata::auto_hash<tile_lookup_key>> tile_lookup;
+    public:
+        dynamic_atlas *texture_atlas() const { return tileset_atlas.get(); }
+    private:
+#else
         std::vector<texture> tile_values;
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
@@ -153,6 +160,7 @@ class tileset
         std::vector<texture> underwater_dark_tile_values;
         std::vector<texture> memory_tile_values;
         std::vector<texture> z_overlay_values;
+#endif
 
         std::unordered_map<std::string, tile_type> tile_ids;
         // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
@@ -251,6 +259,8 @@ class tileset_loader
         /** Returns false if failed to create texture. */
         bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
                                       std::vector<texture> &target );
+
+        bool copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf, point offset );
 
         /** Returns false if failed to create texture(s). */
         bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, point offset );
@@ -846,9 +856,7 @@ class cata_tiles
 
     public:
         std::string memory_map_mode = "color_pixel_sepia";
-
-        std::unique_ptr<dynamic_atlas> tile_atlas;
-        std::unordered_map<tile_lookup_key, texture, cata::auto_hash<tile_lookup_key>> tile_lookup;
+        tileset *current_tileset() const { return tileset_ptr.get(); }
 };
 
 
