@@ -2566,8 +2566,10 @@ bool cata_tiles::draw_from_id_string(
     //Because if tranparency is enabled then backgrounds should not be drawn
     if( category == TILE_CATEGORY::C_OVERMAP_TERRAIN && display_tile.has_om_transparency &&
         overmap_transparency ) {
-        draw_sprite_at( display_tile, display_tile.fg, screen_pos, loc_rand, /*fg:*/ true, rota, ll,
-                        apply_visual_effects, height_3d, base_overlay_alpha * overlay_count );
+        draw_sprite_at(
+            display_tile, display_tile.fg, screen_pos, loc_rand,
+            /*fg:*/ true, rota, ll, apply_visual_effects,
+            base_overlay_alpha * overlay_count, height_3d );
         return true;
     }
 
@@ -2576,16 +2578,6 @@ bool cata_tiles::draw_from_id_string(
                   apply_visual_effects, height_3d, base_overlay_alpha * overlay_count );
 
     return true;
-}
-
-bool cata_tiles::draw_sprite_at(
-    const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-    point p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_visual_effects, int overlay_count )
-{
-    int nullint = 0;
-    return cata_tiles::draw_sprite_at( tile, svlist, p, loc_rand, rota_fg, rota, ll,
-                                       apply_visual_effects, nullint, overlay_count );
 }
 
 void cata_tiles::draw_om_tile_recursively( const tripoint_abs_omt omp, const std::string &id,
@@ -2615,7 +2607,7 @@ void cata_tiles::draw_om_tile_recursively( const tripoint_abs_omt omp, const std
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
     point p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_visual_effects, int &height_3d, int overlay_alpha )
+    bool apply_visual_effects, int overlay_count, int &height_3d )
 {
     auto picked = svlist.pick( loc_rand );
     if( !picked ) {
@@ -2665,7 +2657,7 @@ bool cata_tiles::draw_sprite_at(
                 sprite_tex = ptr;
             }
         }
-    } else if( overlay_alpha > 0 && static_z_effect ) {
+    } else if( overlay_count > 0 && static_z_effect ) {
         if( const auto ptr = tileset_ptr->get_z_overlay( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
@@ -2700,8 +2692,8 @@ bool cata_tiles::draw_sprite_at(
     auto render = [&]( const int rotation, const SDL_RendererFlip flip ) {
         sprite_tex->set_alpha_mod( 255 );
         int ret = sprite_tex->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
-        if( !static_z_effect && overlay && overlay_alpha > 0 ) {
-            overlay->set_alpha_mod( std::min( 192, overlay_alpha ) );
+        if( !static_z_effect && overlay && overlay_count > 0 ) {
+            overlay->set_alpha_mod( std::min( 192, overlay_count ) );
             overlay->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
         }
         return ret;
@@ -2765,7 +2757,7 @@ bool cata_tiles::draw_tile_at(
     draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
                     apply_visual_effects, overlay_count );
     draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, ll,
-                    apply_visual_effects, height_3d, overlay_count );
+                    apply_visual_effects, overlay_count, height_3d );
     return true;
 }
 
