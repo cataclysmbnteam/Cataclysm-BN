@@ -538,10 +538,10 @@ class cata_tiles
 
         /** Map memory */
         static bool has_memory_at( const tripoint &p );
-        static std::optional<memorized_terrain_tile> get_terrain_memory_at( const tripoint &p );
-        static std::optional<memorized_terrain_tile> get_furniture_memory_at( const tripoint &p );
-        static std::optional<memorized_terrain_tile> get_trap_memory_at( const tripoint &p );
-        static std::optional<memorized_terrain_tile> get_vpart_memory_at( const tripoint &p );
+        static auto get_ter_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>;
+        static auto get_furn_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>;
+        static auto get_trap_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>;
+        static auto get_vpart_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;

@@ -2656,7 +2656,7 @@ auto get_map_memory_of_at<vpart_info>( const tripoint &p ) -> std::optional<memo
     return t;
 }
 
-auto cata_tiles::has_memory_at( const tripoint &p )
+bool cata_tiles::has_memory_at( const tripoint &p )
 {
     if( !g->u.should_show_map_memory() ) {
         return false;
@@ -2666,22 +2666,22 @@ auto cata_tiles::has_memory_at( const tripoint &p )
     return !t.tile.empty();
 }
 
-auto cata_tiles::get_terrain_memory_at( const tripoint &p )
+auto cata_tiles::get_ter_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>
 {
     return get_map_memory_of_at<ter_t>( p );
 }
 
-auto cata_tiles::get_furniture_memory_at( const tripoint &p )
+auto cata_tiles::get_furn_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>
 {
     return get_map_memory_of_at<furn_t>( p );
 }
 
-auto cata_tiles::get_trap_memory_at( const tripoint &p )
+auto cata_tiles::get_trap_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>
 {
     return get_map_memory_of_at<trap>( p );
 }
 
-auto cata_tiles::get_vpart_memory_at( const tripoint &p )
+auto cata_tiles::get_vpart_memory_at( const tripoint &p ) -> std::optional<memorized_terrain_tile>
 {
     return get_map_memory_of_at<vpart_info>( p );
 }
@@ -2789,7 +2789,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const auto ret = get_terrain_memory_at( p );
+        const auto ret = get_ter_memory_at( p );
         if( ret.has_value() ) {
             const auto& [tile, subtile, rotation] = ret.value();
             return draw_from_id_string( tile, C_TERRAIN, empty_string, p, subtile, rotation,
@@ -2881,7 +2881,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const auto ret = get_furniture_memory_at( p );
+        const auto ret = get_furn_memory_at( p );
         if( ret.has_value() ) {
             const auto& [tile, subtile, rotation] = ret.value();
             return draw_from_id_string( tile, C_FURNITURE, empty_string, p, subtile, rotation,
