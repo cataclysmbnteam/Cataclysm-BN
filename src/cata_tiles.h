@@ -116,7 +116,7 @@ class texture
         }
 };
 
-enum tileset_fx_type {
+enum class tileset_fx_type {
     none,
     shadow,
     night,

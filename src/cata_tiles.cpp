@@ -534,8 +534,9 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
         point( surf->w / sprite_width, surf->h / sprite_height )
     );
 
-    auto staging = create_surface_32( sprite_width, sprite_height );
-    SDL_SetSurfaceBlendMode( surf.get(), SDL_BLENDMODE_NONE );
+    auto [st_tex, st_surf, st_sub_rect] = ts.texture_atlas()->get_staging_area(sprite_width, sprite_height);
+
+    auto state = sdl_save_render_state(renderer.get());
     for( const SDL_Rect src_rect : input_range ) {
         assert( offset.x % sprite_width == 0 );
         assert( offset.y % sprite_height == 0 );
@@ -550,19 +551,20 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
         assert( index < target.size() );
         assert( target[index].dimension() == std::make_pair( 0, 0 ) );
 
-        auto tex = ts.tileset_atlas->allocate_sprite( sprite_width, sprite_height );
+        auto [at_tex, at_rect] = ts.tileset_atlas->allocate_sprite( sprite_width, sprite_height );
+
+        SDL_FillRect( st_surf, nullptr, SDL_MapRGBA(st_surf->format, 255,255,255,0) );
+        SDL_BlitSurface( surf.get(), &src_rect, st_surf, &st_sub_rect );
+        SDL_UpdateTexture( st_tex, nullptr, st_surf->pixels, st_surf->pitch );
+
+        SDL_SetRenderTarget( renderer.get(), at_tex.get() );
+        SDL_RenderCopy( renderer.get(), st_tex, &st_sub_rect, &at_rect );
 
 
-        // TODO: Use RenderTarget
-        SDL_Rect dst_rect = { 0, 0, sprite_width, sprite_height };
-
-        SDL_FillRect( staging.get(), nullptr, 0xFFFF00FF );
-        SDL_BlitSurface( surf.get(), &src_rect, staging.get(), &dst_rect );
-        SDL_UpdateTexture( tex.first.get(), &tex.second, staging->pixels, staging->pitch );
-
-        ts.tile_lookup.emplace( tile_lookup_key( index, tileset_fx_type::none ), texture( tex.first,
-                                tex.second ) );
+        ts.tile_lookup.emplace( tile_lookup_key( index, tileset_fx_type::none ), texture( at_tex,at_rect ) );
     }
+    sdl_restore_render_state( renderer.get(), state );
+
     return true;
 #endif
 }
@@ -570,25 +572,25 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
 static color_pixel_function_pointer get_pixel_function( const tileset_fx_type &type )
 {
     switch( type ) {
-        case shadow:
+        case tileset_fx_type::shadow:
             return get_color_pixel_function( "color_pixel_grayscale" );
             break;
-        case night:
+        case tileset_fx_type::night:
             return get_color_pixel_function( "color_pixel_nightvision" );
             break;
-        case overexposed:
+        case tileset_fx_type::overexposed:
             return get_color_pixel_function( "color_pixel_overexposed" );
             break;
-        case underwater:
+        case tileset_fx_type::underwater:
             return get_color_pixel_function( "color_pixel_underwater" );
             break;
-        case underwater_dark:
+        case tileset_fx_type::underwater_dark:
             return get_color_pixel_function( "color_pixel_underwater_dark" );
             break;
-        case memory:
+        case tileset_fx_type::memory:
             return get_color_pixel_function( tilecontext->memory_map_mode );
             break;
-        case z_overlay:
+        case tileset_fx_type::z_overlay:
             return get_color_pixel_function( "color_pixel_zoverlay" );
             break;
         default:
@@ -609,7 +611,7 @@ const texture *tileset::get_if_available( const size_t index,
         return &mod_tex_it->second;
     }
 
-    const auto base_tex_key = std::make_tuple( index, none );
+    const auto base_tex_key = std::make_tuple( index, tileset_fx_type::none );
     const auto base_tex_it = tile_lookup.find( base_tex_key );
     if( base_tex_it == tile_lookup.end() ) {
         return nullptr;
@@ -655,25 +657,25 @@ const texture *tileset::get_if_available( const size_t index,
     }
 
     switch( type ) {
-        case shadow:
+        case tileset_fx_type::shadow:
             return &shadow_tile_values[index];
             break;
-        case night:
+        case tileset_fx_type::night:
             return &night_tile_values[index];
             break;
-        case overexposed:
+        case tileset_fx_type::overexposed:
             return &overexposed_tile_values[index];
             break;
-        case underwater:
+        case tileset_fx_type::underwater:
             return &underwater_tile_values[index];
             break;
-        case underwater_dark:
+        case tileset_fx_type::underwater_dark:
             return &underwater_dark_tile_values[index];
             break;
-        case memory:
+        case tileset_fx_type::memory:
             return &memory_tile_values[index];
             break;
-        case z_overlay:
+        case tileset_fx_type::z_overlay:
             return &z_overlay_values[index];
             break;
         default:
@@ -683,7 +685,6 @@ const texture *tileset::get_if_available( const size_t index,
 #endif
 }
 
-[[clang::optnone]]
 bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
         point offset )
 {
