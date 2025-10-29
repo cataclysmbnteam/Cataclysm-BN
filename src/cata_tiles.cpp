@@ -37,6 +37,7 @@
 #include "fstream_utils.h"
 #include "game.h"
 #include "game_constants.h"
+#include "hsv_color.h"
 #include "input.h"
 #include "int_id.h"
 #include "init.h"
@@ -564,7 +565,7 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
         SDL_RenderCopy( renderer.get(), st_tex, &st_sub_rect, &at_rect );
 
         ts.tile_lookup.emplace(
-            tile_lookup_key( index, tileset_fx_type::none ),
+            tile_lookup_key( index, tileset_fx_type::none, 0 ),
             texture( at_tex, at_rect )
         );
     }
@@ -604,23 +605,44 @@ static color_pixel_function_pointer get_pixel_function( const tileset_fx_type &t
     }
 }
 
-const texture *tileset::get_if_available( const size_t index,
-        const tileset_fx_type &type ) const
+const texture *tileset::get_or_default( const size_t index,
+                                        const tileset_fx_type &type,
+                                        std::optional<SDL_Color> color ) const
 {
     ZoneScoped;
 
 #if defined(DYNAMIC_ATLAS)
-    const auto mod_tex_key = std::make_tuple( index, type );
+
+    union {
+        SDL_Color color;
+        uint32_t value;
+    } tint {};
+    if( color.has_value() ) {
+        const auto c = color.value();
+        if( c.a != 0 ) {
+            tint.color = c;
+        }
+    }
+
+    const auto mod_tex_key = std::make_tuple( index, type, tint.value );
     const auto mod_tex_it = tile_lookup.find( mod_tex_key );
     if( mod_tex_it != tile_lookup.end() ) {
         return &mod_tex_it->second;
     }
 
-    const auto base_tex_key = std::make_tuple( index, tileset_fx_type::none );
+    const auto base_tex_key = std::make_tuple( index, tileset_fx_type::none, 0 );
     const auto base_tex_it = tile_lookup.find( base_tex_key );
     if( base_tex_it == tile_lookup.end() ) {
         return nullptr;
     }
+
+    const color_pixel_function_pointer vfx_func = get_pixel_function( type );
+    if( !vfx_func && !tint.value ) {
+        // This should never hit, as it should be the base tile in the lookup above
+        debugmsg( "Tried to tint a sprite that shouldn't be tinted" );
+        return nullptr;
+    }
+
     {
         ZoneScoped;
 
@@ -629,7 +651,7 @@ const texture *tileset::get_if_available( const size_t index,
 
         const auto &base_tex = base_tex_it->second;
 
-        const color_pixel_function_pointer vfx_func = get_pixel_function( type );
+
 
         auto [spr_w, spr_h] = base_tex.dimension();
         auto [st_tex, st_surf, st_sub_rect ] = texture_atlas()->get_staging_area( spr_w, spr_h );
@@ -647,7 +669,19 @@ const texture *tileset::get_if_available( const size_t index,
 
         SDL_RenderReadPixels( pr, nullptr, st_surf->format->format, st_surf->pixels, st_surf->pitch );
 
-        apply_color_filter_inplace( st_surf, &st_sub_rect, vfx_func );
+        if( tint.value ) {
+            const HSVColor dest_col = rgb2hsv( tint.color );
+            auto tint_fn = [&]( const SDL_Color & c )  -> SDL_Color {
+                HSVColor hsv = rgb2hsv( c );
+                hsv.H = dest_col.H;
+                return hsv2rgb( hsv );
+            };
+            apply_color_filter_inplace( st_surf, &st_sub_rect, tint_fn );
+        }
+        if( vfx_func ) {
+            apply_color_filter_inplace( st_surf, &st_sub_rect, vfx_func );
+        }
+
         SDL_UpdateTexture( st_tex, nullptr, st_surf->pixels, st_surf->pitch );
 
         SDL_SetRenderTarget( pr, at_tex.get() );
@@ -2611,24 +2645,24 @@ bool cata_tiles::draw_sprite_at(
     std::optional<SDL_Color> color, lit_level ll, bool apply_visual_effects,
     int overlay_count, int &height_3d )
 {
-    auto picked = svlist.pick( loc_rand );
+    const auto picked = svlist.pick( loc_rand );
     if( !picked ) {
         return true;
     }
-    auto &spritelist = *picked;
-    if( spritelist.empty() ) {
+
+    auto &sprite_list = *picked;
+    if( sprite_list.empty() ) {
         return true;
     }
 
-    int ret = 0;
     // blit foreground based on rotation
     bool rotate_sprite = false;
     int sprite_num = 0;
-    if( !rota_fg && spritelist.size() == 1 ) {
+    if( !rota_fg && sprite_list.size() == 1 ) {
         // don't rotate, a background tile without manual rotations
         rotate_sprite = false;
         sprite_num = 0;
-    } else if( spritelist.size() == 1 ) {
+    } else if( sprite_list.size() == 1 ) {
         // just one tile, apply SDL sprite rotation if not in isometric mode
         rotate_sprite = true;
         sprite_num = 0;
@@ -2638,48 +2672,30 @@ bool cata_tiles::draw_sprite_at(
         // two tiles, tile 0 is N/S, tile 1 is E/W
         // four tiles, 0=N, 1=E, 2=S, 3=W
         // extending this to more than 4 rotated tiles will require changing rota to degrees
-        sprite_num = rota % spritelist.size();
+        sprite_num = rota % sprite_list.size();
     }
 
-    const texture *sprite_tex = tileset_ptr->get_tile( spritelist[sprite_num] );
-
-    //use night vision colors when in use
-    //then use low light tile if available
+    tileset_fx_type fx_type;
     if( ll == lit_level::MEMORIZED ) {
-        if( const auto ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
-            sprite_tex = ptr;
-        }
+        fx_type = tileset_fx_type::memory;
     } else if( apply_visual_effects && nv_goggles_activated ) {
-        if( ll != lit_level::LOW ) {
-            if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
-                sprite_tex = ptr;
-            }
-        } else {
-            if( const auto ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
-                sprite_tex = ptr;
-            }
-        }
+        fx_type = ll == lit_level::LOW
+                  ? tileset_fx_type::night
+                  : tileset_fx_type::overexposed;
     } else if( overlay_count > 0 && static_z_effect ) {
-        if( const auto ptr = tileset_ptr->get_z_overlay( spritelist[sprite_num] ) ) {
-            sprite_tex = ptr;
-        }
+        fx_type = tileset_fx_type::z_overlay;
     } else if( apply_visual_effects && g->u.is_underwater() ) {
-        if( ll != lit_level::LOW ) {
-            if( const auto ptr = tileset_ptr->get_underwater_tile( spritelist[sprite_num] ) ) {
-                sprite_tex = ptr;
-            }
-        } else {
-            if( const auto ptr = tileset_ptr->get_underwater_dark_tile( spritelist[sprite_num] ) ) {
-                sprite_tex = ptr;
-            }
-        }
+        fx_type = ll == lit_level::LOW
+                  ? tileset_fx_type::underwater_dark
+                  : tileset_fx_type::underwater;
     } else if( ll == lit_level::LOW ) {
-        if( const auto ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
-            sprite_tex = ptr;
-        }
+        fx_type = tileset_fx_type::shadow;
+    } else {
+        fx_type = tileset_fx_type::none;
     }
 
-    const auto overlay = tileset_ptr->get_z_overlay( spritelist[sprite_num] );
+    const int tile_idx = sprite_list[sprite_num];
+    const texture *sprite_tex = tileset_ptr->get_or_default( tile_idx, fx_type, color );
 
     int width = 0;
     int height = 0;
@@ -2693,14 +2709,19 @@ bool cata_tiles::draw_sprite_at(
 
     auto render = [&]( const int rotation, const SDL_RendererFlip flip ) {
         sprite_tex->set_alpha_mod( 255 );
-        int ret = sprite_tex->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
-        if( !static_z_effect && overlay && overlay_count > 0 ) {
-            overlay->set_alpha_mod( std::min( 192, overlay_count ) );
-            overlay->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
+        const int ret = sprite_tex->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
+        if( !static_z_effect && overlay_count > 0 ) {
+            const auto overlay =
+                tileset_ptr->get_or_default( tile_idx, tileset_fx_type::z_overlay, std::nullopt );
+            if( overlay ) {
+                overlay->set_alpha_mod( std::min( 192, overlay_count ) );
+                overlay->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
+            }
         }
         return ret;
     };
 
+    int ret = 0;
     if( rotate_sprite ) {
         switch( rota ) {
             default:
@@ -2929,7 +2950,6 @@ bool cata_tiles::draw_block( const tripoint &p, SDL_Color color, int scale )
     return true;
 }
 
-[[clang::optnone]]
 bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &height_3d,
                                const bool ( &invisible )[5], int z_drop )
 {
@@ -3602,7 +3622,7 @@ void tileset_loader::ensure_default_item_highlight()
     SDL_UpdateTexture( tex.get(), &rect, surface->pixels, surface->pitch );
 
     ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
-    ts.tile_lookup.emplace( tile_lookup_key{ index, tileset_fx_type::none}, texture( tex, rect ) );
+    ts.tile_lookup.emplace( tile_lookup_key{ index, tileset_fx_type::none, 0}, texture( tex, rect ) );
 #else
     const Uint8 highlight_alpha = 127;
 

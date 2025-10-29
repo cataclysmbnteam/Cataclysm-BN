@@ -126,6 +126,14 @@ class texture
         int set_alpha_mod( const uint8_t mod ) const {
             return SDL_SetTextureAlphaMod( sdl_texture_ptr.get(), mod );
         }
+
+        int set_color_mod( const uint8_t r, const uint8_t g, const uint8_t b ) const {
+            return SDL_SetTextureColorMod( sdl_texture_ptr.get(), r, g, b );
+        }
+
+        int get_color_mod( uint8_t *r, uint8_t *g, uint8_t *b ) const {
+            return SDL_GetTextureColorMod( sdl_texture_ptr.get(), r, g, b );
+        }
 };
 
 enum class tileset_fx_type {
@@ -139,7 +147,7 @@ enum class tileset_fx_type {
     z_overlay
 };
 
-using tile_lookup_key = std::tuple<size_t, tileset_fx_type>;
+using tile_lookup_key = std::tuple<size_t, tileset_fx_type, uint32_t>;
 
 class tileset
 {
@@ -180,9 +188,6 @@ class tileset
         std::unordered_map<std::string, season_tile_value>
         tile_ids_by_season[season_type::NUM_SEASONS];
 
-        const texture *get_if_available( const size_t index,
-                                         const tileset_fx_type &type ) const;
-
         friend class tileset_loader;
 
     public:
@@ -199,30 +204,10 @@ class tileset
             return tileset_id;
         }
 
-        const texture *get_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::none );
-        }
-        const texture *get_night_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::night );
-        }
-        const texture *get_shadow_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::shadow );
-        }
-        const texture *get_overexposed_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::overexposed );
-        }
-        const texture *get_underwater_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::underwater );
-        }
-        const texture *get_underwater_dark_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::underwater_dark );
-        }
-        const texture *get_memory_tile( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::memory );
-        }
-        const texture *get_z_overlay( const size_t index ) const {
-            return get_if_available( index, tileset_fx_type::z_overlay );
-        }
+        const texture *get_or_default( const size_t index,
+                                       const tileset_fx_type &type,
+                                       std::optional<SDL_Color> color ) const;
+
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
