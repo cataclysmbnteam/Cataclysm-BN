@@ -197,7 +197,8 @@ enum debug_menu_index {
     DEBUG_RESET_IGNORED_MESSAGES,
     DEBUG_RELOAD_TILES,
     DEBUG_SWAP_CHAR,
-    DEBUG_DUMP_TILES
+    DEBUG_DUMP_TILES,
+    DEBUG_DISPLAY_TILESET_NO_VFX
 };
 
 class mission_debug
@@ -263,6 +264,7 @@ static int info_uilist( bool display_all_entries = true )
 #endif
 #if defined(TILES) && defined(DYNAMIC_ATLAS)
             { uilist_entry( DEBUG_DUMP_TILES, true, 'F', _( "Dump dynamic tile atlas" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_TILESET_NO_VFX, true, 'j', _( "Toggle tileset visual effects" ) ) },
 #endif
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -2271,6 +2273,11 @@ void debug()
 #endif
             break;
         }
+        case DEBUG_DISPLAY_TILESET_NO_VFX: {
+            g->display_toggle_overlay( ACTION_DISPLAY_TILES_NO_VFX );
+            break;
+        }
+
     }
     m.invalidate_map_cache( g->get_levz() );
 }
