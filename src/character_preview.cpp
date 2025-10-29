@@ -43,13 +43,15 @@ class char_preview_adapter : public cata_tiles
             int prev_height_3d = 0;
             // depending on the toggle flip sprite left or right
             if( ch.facing == FD_RIGHT ) {
-                draw_from_id_string( ent_name, C_NONE, "", tripoint( p, 0 ), corner,
-                                     0, std::nullopt, std::nullopt,
-                                     lit_level::BRIGHT, false, 0, true, height_3d );
+                const tile_search_params tile { ent_name, C_NONE, "", corner, 0 };
+                draw_from_id_string(
+                    tile, tripoint( p, 0 ), std::nullopt, std::nullopt,
+                    lit_level::BRIGHT, false, 0, true, height_3d );
             } else if( ch.facing == FD_LEFT ) {
-                draw_from_id_string( ent_name, C_NONE, "", tripoint( p, 0 ), corner,
-                                     4, std::nullopt, std::nullopt,
-                                     lit_level::BRIGHT, false, 0, true, height_3d );
+                const tile_search_params tile { ent_name, C_NONE, "", corner, 4 };
+                draw_from_id_string(
+                    tile, tripoint( p, 0 ), std::nullopt, std::nullopt,
+                    lit_level::BRIGHT, false, 0, true, height_3d );
             }
 
             // next up, draw all the overlays, need to construct them locally
@@ -59,15 +61,15 @@ class char_preview_adapter : public cata_tiles
                 if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
                     int overlay_height_3d = prev_height_3d;
                     if( ch.facing == FD_RIGHT ) {
-                        draw_from_id_string( draw_id, C_NONE, "", tripoint( p, 0 ),
-                                             corner, /*rota*/ 0, std::nullopt,
-                                             std::nullopt, lit_level::BRIGHT,
-                                             false, 0, true, overlay_height_3d );
+                        const tile_search_params tile { draw_id, C_NONE, "", corner, /*rota*/ 0 };
+                        draw_from_id_string(
+                            tile, tripoint( p, 0 ), std::nullopt, std::nullopt,
+                            lit_level::BRIGHT, false, 0, true, overlay_height_3d );
                     } else if( ch.facing == FD_LEFT ) {
-                        draw_from_id_string( draw_id, C_NONE, "", tripoint( p, 0 ),
-                                             corner, /*rota*/ 4, std::nullopt,
-                                             std::nullopt, lit_level::BRIGHT,
-                                             false, 0, true, overlay_height_3d );
+                        const tile_search_params tile { draw_id, C_NONE, "", corner, /*rota*/ 4 };
+                        draw_from_id_string(
+                            tile, tripoint( p, 0 ), std::nullopt, std::nullopt,
+                            lit_level::BRIGHT, false, 0, true, overlay_height_3d );
                     }
                     // the tallest height-having overlay is the one that counts
                     height_3d = std::max( height_3d, overlay_height_3d );

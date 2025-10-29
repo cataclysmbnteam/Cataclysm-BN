@@ -387,21 +387,32 @@ struct tile_search_result {
     std::string found_id;
 };
 
+struct tile_search_params {
+    // String id of the tile to draw.
+    const std::string &id;
+    // Category of the tile to draw.
+    TILE_CATEGORY category;
+    // if id is not found, try to find a tile for the category+subcategory combination
+    const std::string &subcategory;
+    // variant of the tile
+    int subtile;
+    // rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+    int rota;
+};
+
 class cata_tiles
 {
     public:
-        cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
+        cata_tiles( const SDL_Renderer_Ptr &render,
+                    const GeometryRenderer_Ptr &geometry );
         ~cata_tiles();
 
-        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
-         *  float inaccuracies. */
+        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for
+         * scales < 1 without risking float inaccuracies. */
         void set_draw_scale( float scale );
 
         /** Tries to find tile with specified parameters and return it if exists **/
-        std::optional<tile_search_result> tile_type_search(
-            const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
-            int subtile, int rota
-        );
+        std::optional<tile_search_result> tile_type_search( const tile_search_params &tile );
 
         void on_options_changed();
 
@@ -445,9 +456,9 @@ class cata_tiles
          * @param id String id of the tile to draw.
          * @param category Category of the tile to draw.
          * @param subcategory if id is not found, try to find a tile for the category+subcategory combination
-         * @param pos Tripoint of the tile to draw.
          * @param subtile variant of the tile
          * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param pos Tripoint of the tile to draw.
          * @param bg_color
          * @param fg_color
          * @param ll light level
@@ -458,30 +469,25 @@ class cata_tiles
          *                              e.g. character preview tile in character creation screen)
          * @return always true
          */
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory,
-                                  const tripoint &pos, int subtile, int rota,
+        bool draw_from_id_string( const tile_search_params &tile, const tripoint &pos,
                                   std::optional<SDL_Color> bg_color,
                                   std::optional<SDL_Color> fg_color,
                                   lit_level ll, bool apply_visual_effects,
                                   int overlay_count,
                                   bool as_independent_entity ) {
             int discard = 0;
-            return draw_from_id_string( id, category, subcategory, pos, subtile,
-                                        rota, bg_color, fg_color, ll,
-                                        apply_visual_effects, overlay_count,
-                                        as_independent_entity, discard );
+            return draw_from_id_string(
+                       tile, pos, bg_color, fg_color,
+                       ll, apply_visual_effects, overlay_count,
+                       as_independent_entity, discard
+                   );
         }
 
         /**
          * @brief Try to draw a tile using the given id. calls draw_tile_at() at the end.
          *
-         * @param id String id of the tile to draw.
-         * @param category Category of the tile to draw.
-         * @param subcategory if id is not found, try to find a tile for the category+subcategory combination
+         * @param tile Tile to draw from
          * @param pos Tripoint of the tile to draw.
-         * @param subtile variant of the tile
-         * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param bg_color
          * @param fg_color
          * @param ll light level
@@ -493,10 +499,9 @@ class cata_tiles
          * @param height_3d return parameter for height of the sprite
          * @return always true
          */
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory,
-                                  const tripoint &pos, int subtile, int rota,
-                                  std::optional<SDL_Color> bg_color, std::optional<SDL_Color> fg_color,
+        bool draw_from_id_string( const tile_search_params &tile, const tripoint &pos,
+                                  std::optional<SDL_Color> bg_color,
+                                  std::optional<SDL_Color> fg_color,
                                   lit_level ll, bool apply_visual_effects,
                                   int overlay_count, bool as_independent_entity,
                                   int &height_3d );
