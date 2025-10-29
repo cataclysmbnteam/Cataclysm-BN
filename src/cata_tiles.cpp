@@ -676,25 +676,42 @@ static color_pixel_function_pointer get_pixel_function( const tileset_fx_type &t
     }
 }
 
+template<typename T, typename U, U max_t = std::numeric_limits<U>::max()>
+static T ilerp( const T a, const T b, const U t )
+{
+    return ( ( b * t ) + ( a * ( max_t - t ) ) ) / max_t;
+};
+
 static void apply_surf_blend_effect(
     SDL_Surface *staging, const SDL_Color &color, const bool use_mask,
-    const SDL_Rect &dstRect, const SDL_Rect &srcRect, const SDL_Rect &maskRect)
+    const SDL_Rect &dstRect, const SDL_Rect &srcRect, const SDL_Rect &maskRect )
 {
-    const HSVColor dest_col = rgb2hsv( color );
+    ZoneScoped;
 
+    const HSVColor dest_hsv = rgb2hsv( color );
     if( use_mask ) {
-        constexpr auto ilerp = []<typename T, typename U>( const T a, const T b, const U t,
-        const U max_t = std::numeric_limits<U>::max() ) {
-            return ( ( b * t ) + ( a * ( max_t - t ) ) ) / max_t;
+        auto overlay = [](const uint8_t lower, const uint8_t upper) -> uint8_t {
+            if (lower > 127) {
+                const auto u = (255 - lower) * 255 / 127;
+                const auto m = lower - (255 - lower);
+                const auto o = (upper * u / 255) + m;
+                return std::clamp<uint8_t>(o, 0, 255);
+            }else {
+                const auto u = (lower * 255 / 127);
+                const auto o = upper * u / 255;
+                return std::clamp<uint8_t>(o, 0, 255);
+            }
         };
-        auto blend_fn = [&]( const SDL_Color & base, const SDL_Color & mask )  -> SDL_Color {
-            HSVColor hsv = rgb2hsv( base );
-            hsv.H = dest_col.H;
-            hsv.S = dest_col.S;
-            RGBColor res = hsv2rgb( hsv );
-            res.r = ilerp( base.r, res.r, mask.r );
-            res.g = ilerp( base.g, res.g, mask.r );
-            res.b = ilerp( base.b, res.b, mask.r );
+        auto blend_fn = [&]( const SDL_Color & base_rgb, const SDL_Color & mask_rgb )  -> SDL_Color {
+            HSVColor base_hsv = rgb2hsv( base_rgb );
+            base_hsv.H = dest_hsv.H;
+            base_hsv.S = ilerp<uint16_t>( 0, dest_hsv.S, mask_rgb.g );
+            base_hsv.V = ilerp( base_hsv.V, overlay(base_hsv.V, dest_hsv.V), mask_rgb.b );
+
+            RGBColor res = hsv2rgb( base_hsv );
+            res.r = ilerp( base_rgb.r, res.r, mask_rgb.r );
+            res.g = ilerp( base_rgb.g, res.g, mask_rgb.r );
+            res.b = ilerp( base_rgb.b, res.b, mask_rgb.r );
             return res;
         };
         apply_blend_filter(
@@ -706,8 +723,8 @@ static void apply_surf_blend_effect(
     } else {
         auto tint_fn = [&]( const SDL_Color & c )  -> SDL_Color {
             HSVColor hsv = rgb2hsv( c );
-            hsv.H = dest_col.H;
-            hsv.S = dest_col.S;
+            hsv.H = dest_hsv.H;
+            hsv.S = dest_hsv.S;
             return hsv2rgb( hsv );
         };
         apply_color_filter(
@@ -793,10 +810,10 @@ const texture *tileset::get_or_default( const int sprite_index,
         SDL_RenderReadPixels( pr, nullptr, st_surf->format->format, st_surf->pixels, st_surf->pitch );
 
         if( color == TILESET_NO_COLOR ) {
-            apply_color_filter(st_surf, st_sub_rect_tinted, st_surf, st_sub_rect_source, color_pixel_copy);
+            apply_color_filter( st_surf, st_sub_rect_tinted, st_surf, st_sub_rect_source, color_pixel_copy );
         } else {
-            apply_surf_blend_effect(st_surf, color, mask_tex, st_sub_rect_tinted,
-                                  st_sub_rect_source, st_sub_rect_mask);
+            apply_surf_blend_effect( st_surf, color, mask_tex, st_sub_rect_tinted,
+                                     st_sub_rect_source, st_sub_rect_mask );
         }
 
         apply_color_filter( st_surf, st_sub_rect_final,  st_surf, st_sub_rect_tinted, vfx_func );
@@ -2892,7 +2909,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
     constexpr auto resolve_color = []( const tile_type & tt, const std::optional<SDL_Color> &c ) {
         if( c.has_value() ) {
             const auto cc = c.value();
-            if (cc != TILESET_NO_COLOR) {
+            if( cc != TILESET_NO_COLOR ) {
                 return cc;
             }
         }
