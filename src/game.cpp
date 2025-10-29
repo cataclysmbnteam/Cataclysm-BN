@@ -11664,8 +11664,9 @@ void game::display_transparency()
     }
 }
 
-void game::display_tiles_no_vfx() {
-    if ( use_tiles ) {
+void game::display_tiles_no_vfx()
+{
+    if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TILES_NO_VFX );
     }
 }

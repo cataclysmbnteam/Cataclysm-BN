@@ -96,6 +96,10 @@ static const itype_id itype_corpse( "corpse" );
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
+static const flag_id flag_TINT_NO_FG( "TINT_NO_FG" );
+static const flag_id flag_TINT_NO_BG( "TINT_NO_BG" );
+static const flag_id flag_TINT_MODE_HSV( "TINT_MODE_HSV" );
+
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
         "corner",
@@ -424,36 +428,97 @@ static void get_tile_information( const std::string &config_path, std::string &j
 }
 
 template<bool SkipTransparent = true, typename CvtFn>
-static void apply_color_filter_inplace( SDL_Surface *surf, const SDL_Rect *rect,
-                                        CvtFn pixel_converter )
+static void
+apply_color_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_Surface *src,
+                    const SDL_Rect &srcRect, CvtFn pixel_func )
 {
     assert( dst );
 
-    if( SDL_MUSTLOCK( surf ) ) {
-        SDL_LockSurface( surf );
+    if( SDL_MUSTLOCK( dst ) ) {
+        SDL_LockSurface( dst );
+    }
+    if( SDL_MUSTLOCK( src ) ) {
+        SDL_LockSurface( src );
     }
 
-    const int y0 = rect ? rect->y : 0;
-    const int y1 = rect ? rect->h : surf->h;
-    const int x0 = rect ? rect->x : 0;
-    const int x1 = rect ? rect->w : surf->w;
-    const int dx = x1 - x0;
+    const int dx = std::min( dstRect.w, srcRect.w );
+    const int dy = std::min( dstRect.h, srcRect.h );
 
-    for( int y = y0; y < y1; ++y ) {
-        const auto offset = static_cast<uint32_t>( ( y * surf->w ) + x0 );
-        auto scanline = static_cast<SDL_Color *>( surf->pixels ) + offset;
-        for( int x = 0; x < dx; ++x, ++scanline ) {
+    for( int y = 0; y < dy; ++y ) {
+
+        const auto dst_offset = static_cast<uint32_t>( ( ( y + dstRect.y ) * dst->w ) + dstRect.x );
+        const auto src_offset = static_cast<uint32_t>( ( ( y + srcRect.y ) * src->w ) + srcRect.x );
+
+        auto pDst = static_cast<SDL_Color *>( dst->pixels ) + dst_offset;
+        auto pSrc = static_cast<SDL_Color *>( src->pixels ) + src_offset;
+
+        for( int x = 0; x < dx; ++x, ++pDst, ++pSrc ) {
             if constexpr( SkipTransparent ) {
-                if( scanline->a == 0x00 ) {
-                    continue;
+                if( pSrc->a == 0x00 ) {
+                    *pDst = {0, 0, 0, 0};
                 }
             }
-            *scanline = pixel_converter( *scanline );
+            *pDst = pixel_func( *pSrc );
         }
     }
 
-    if( SDL_MUSTLOCK( surf ) ) {
-        SDL_UnlockSurface( surf );
+    if( SDL_MUSTLOCK( dst ) ) {
+        SDL_UnlockSurface( dst );
+    }
+    if( SDL_MUSTLOCK( src ) ) {
+        SDL_UnlockSurface( src );
+    }
+}
+
+template<bool SkipTransparent = true, typename CvtFn>
+static void apply_blend_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_Surface *srcA,
+                                const SDL_Rect &srcRectA, SDL_Surface *srcB, const SDL_Rect &srcRectB, CvtFn blend_func )
+{
+    assert( dst );
+    assert( srcA );
+    assert( srcB );
+
+    if( SDL_MUSTLOCK( dst ) ) {
+        SDL_LockSurface( dst );
+    }
+    if( SDL_MUSTLOCK( srcA ) ) {
+        SDL_LockSurface( srcA );
+    }
+    if( SDL_MUSTLOCK( srcB ) ) {
+        SDL_LockSurface( srcB );
+    }
+
+    const int dx = std::min( dstRect.w, std::min( srcRectA.w, srcRectB.w ) );
+    const int dy = std::min( dstRect.h, std::min( srcRectA.h, srcRectB.h ) );
+
+    for( int y = 0; y < dy; ++y ) {
+
+        const auto dst_offset = static_cast<uint32_t>( ( ( y + dstRect.y ) * dst->w ) + dstRect.x );
+        const auto srcA_offset = static_cast<uint32_t>( ( ( y + srcRectA.y ) * srcA->w ) + srcRectA.x );
+        const auto srcB_offset = static_cast<uint32_t>( ( ( y + srcRectB.y ) * srcB->w ) + srcRectB.x );
+
+        auto pDst = static_cast<SDL_Color *>( dst->pixels ) + dst_offset;
+        auto pSrcA = static_cast<SDL_Color *>( srcA->pixels ) + srcA_offset;
+        auto pSrcB = static_cast<SDL_Color *>( srcB->pixels ) + srcB_offset;
+
+        for( int x = 0; x < dx; ++x, ++pDst, ++pSrcA, ++pSrcB ) {
+            if constexpr( SkipTransparent ) {
+                if( pSrcA->a == 0x00 || pSrcB->a == 0x00 ) {
+                    *pDst = {0, 0, 0, 0};
+                }
+            }
+            *pDst = blend_func( *pSrcA, *pSrcB );
+        }
+    }
+
+    if( SDL_MUSTLOCK( dst ) ) {
+        SDL_UnlockSurface( dst );
+    }
+    if( SDL_MUSTLOCK( srcA ) ) {
+        SDL_UnlockSurface( srcA );
+    }
+    if( SDL_MUSTLOCK( srcB ) ) {
+        SDL_UnlockSurface( srcB );
     }
 }
 
@@ -550,7 +615,7 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
         assert( pos.x % sprite_width == 0 );
         assert( pos.y % sprite_height == 0 );
 
-        const size_t index =
+        const int index =
             this->offset + ( pos.x / sprite_width ) +
             ( pos.y / sprite_height ) * ( tile_atlas_width / sprite_width );
         assert( index < target.size() );
@@ -566,8 +631,13 @@ bool tileset_loader::copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf,
         SDL_RenderCopy( renderer.get(), st_tex, &st_sub_rect, &at_rect );
 
         ts.tile_lookup.emplace(
-            tile_lookup_key( index, tileset_fx_type::none, 0 ),
-            texture( at_tex, at_rect )
+        tileset_lookup_key{
+            index,
+            TILESET_NO_MASK,
+            tileset_fx_type::none,
+            {}
+        },
+        texture( at_tex, at_rect )
         );
     }
     sdl_restore_render_state( renderer.get(), state );
@@ -601,47 +671,88 @@ static color_pixel_function_pointer get_pixel_function( const tileset_fx_type &t
             return get_color_pixel_function( "color_pixel_zoverlay" );
             break;
         default:
-            return get_color_pixel_function( "color_pixel_none" );
+            return get_color_pixel_function( "color_pixel_copy" );
             break;
     }
 }
 
-const texture *tileset::get_or_default( const size_t index,
+static void apply_surf_blend_effect(
+    SDL_Surface *staging, const SDL_Color &color, const bool use_mask,
+    const SDL_Rect &dstRect, const SDL_Rect &srcRect, const SDL_Rect &maskRect)
+{
+    const HSVColor dest_col = rgb2hsv( color );
+
+    if( use_mask ) {
+        constexpr auto ilerp = []<typename T, typename U>( const T a, const T b, const U t,
+        const U max_t = std::numeric_limits<U>::max() ) {
+            return ( ( b * t ) + ( a * ( max_t - t ) ) ) / max_t;
+        };
+        auto blend_fn = [&]( const SDL_Color & base, const SDL_Color & mask )  -> SDL_Color {
+            HSVColor hsv = rgb2hsv( base );
+            hsv.H = dest_col.H;
+            hsv.S = dest_col.S;
+            RGBColor res = hsv2rgb( hsv );
+            res.r = ilerp( base.r, res.r, mask.r );
+            res.g = ilerp( base.g, res.g, mask.r );
+            res.b = ilerp( base.b, res.b, mask.r );
+            return res;
+        };
+        apply_blend_filter(
+            staging, dstRect,
+            staging, srcRect,
+            staging, maskRect,
+            blend_fn
+        );
+    } else {
+        auto tint_fn = [&]( const SDL_Color & c )  -> SDL_Color {
+            HSVColor hsv = rgb2hsv( c );
+            hsv.H = dest_col.H;
+            hsv.S = dest_col.S;
+            return hsv2rgb( hsv );
+        };
+        apply_color_filter(
+            staging, dstRect,
+            staging, srcRect,
+            tint_fn
+        );
+    }
+}
+
+const texture *tileset::get_or_default( const int sprite_index,
+                                        const int mask_index,
                                         const tileset_fx_type &type,
-                                        std::optional<SDL_Color> color ) const
+                                        const SDL_Color &color ) const
 {
     ZoneScoped;
 
 #if defined(DYNAMIC_ATLAS)
 
-    union {
-        SDL_Color color;
-        uint32_t value;
-    } tint {};
-    if( color.has_value() ) {
-        const auto c = color.value();
-        if( c.a != 0 ) {
-            tint.color = c;
-        }
+    const auto base_tex_key = tileset_lookup_key{ sprite_index, TILESET_NO_MASK, tileset_fx_type::none, TILESET_NO_COLOR };
+    const auto mask_tex_key = tileset_lookup_key{ mask_index, TILESET_NO_MASK, tileset_fx_type::none, TILESET_NO_COLOR };
+    const auto mod_tex_key = tileset_lookup_key{ sprite_index, mask_index, type, color };
+
+    if( g->display_overlay_state( ACTION_DISPLAY_TILES_NO_VFX ) ) {
+        const auto base_tex_it = tile_lookup.find( base_tex_key );
+        return base_tex_it == tile_lookup.end()
+               ? nullptr
+               : &base_tex_it->second;
     }
 
-    const auto mod_tex_key = std::make_tuple( index, type, tint.value );
     const auto mod_tex_it = tile_lookup.find( mod_tex_key );
     if( mod_tex_it != tile_lookup.end() ) {
         return &mod_tex_it->second;
     }
 
-    const auto base_tex_key = std::make_tuple( index, tileset_fx_type::none, 0 );
     const auto base_tex_it = tile_lookup.find( base_tex_key );
     if( base_tex_it == tile_lookup.end() ) {
         return nullptr;
     }
 
+    const auto mask_tex_it = tile_lookup.find( mask_tex_key );
+
     const color_pixel_function_pointer vfx_func = get_pixel_function( type );
-    if( !vfx_func && !tint.value ) {
-        // This should never hit, as it should be the base tile in the lookup above
-        debugmsg( "Tried to tint a sprite that shouldn't be tinted" );
-        return nullptr;
+    if( !vfx_func ) {
+        debugmsg( "Error loading visual effect function" );
     }
 
     {
@@ -650,43 +761,50 @@ const texture *tileset::get_or_default( const size_t index,
         const auto &r = get_sdl_renderer();
         const auto pr = r.get();
 
-        const auto &base_tex = base_tex_it->second;
+        const texture &base_tex = base_tex_it->second;
+        const texture *mask_tex = ( mask_tex_it != tile_lookup.end() ) ? &mask_tex_it->second : nullptr;
 
+        const auto [spr_w, spr_h] = base_tex.dimension();
+        const auto [st_tex, st_surf, st_sub_rect ] =
+            texture_atlas()->get_staging_area( spr_w * 2, spr_h * 2 );
+        const auto [at_tex, at_rect] = tileset_atlas->allocate_sprite( spr_w, spr_h );
 
-
-        auto [spr_w, spr_h] = base_tex.dimension();
-        auto [st_tex, st_surf, st_sub_rect ] = texture_atlas()->get_staging_area( spr_w, spr_h );
-        auto [at_tex, at_rect] = tileset_atlas->allocate_sprite( spr_w, spr_h );
+        const auto st_sub_rect_source = SDL_Rect{ st_sub_rect.x + 0, st_sub_rect.y + 0, spr_w, spr_h };
+        const auto st_sub_rect_mask = SDL_Rect{ st_sub_rect.x + spr_w, st_sub_rect.y + 0, spr_w, spr_h };
+        const auto st_sub_rect_tinted = SDL_Rect{ st_sub_rect.x + 0, st_sub_rect.y + spr_h, spr_w, spr_h };
+        const auto st_sub_rect_final = SDL_Rect{ st_sub_rect.x + spr_w, st_sub_rect.y + spr_h, spr_w, spr_h };
 
         const auto state = sdl_save_render_state( pr );
 
         SDL_SetRenderTarget( pr, st_tex );
-        SetRenderDrawColor( r, 0, 0, 0, 0 );
+        SetRenderDrawColor( r, 255, 0, 255, 255 );
         SDL_RenderClear( pr );
 
         base_tex.set_blend_mode( SDL_BLENDMODE_NONE );
-        base_tex.render_copy( r, &st_sub_rect );
+        base_tex.render_copy( r, &st_sub_rect_source );
         base_tex.set_blend_mode( SDL_BLENDMODE_BLEND );
+
+        if( mask_tex ) {
+            mask_tex->set_blend_mode( SDL_BLENDMODE_NONE );
+            mask_tex->render_copy( r, &st_sub_rect_mask );
+            mask_tex->set_blend_mode( SDL_BLENDMODE_BLEND );
+        }
 
         SDL_RenderReadPixels( pr, nullptr, st_surf->format->format, st_surf->pixels, st_surf->pitch );
 
-        if( tint.value ) {
-            const HSVColor dest_col = rgb2hsv( tint.color );
-            auto tint_fn = [&]( const SDL_Color & c )  -> SDL_Color {
-                HSVColor hsv = rgb2hsv( c );
-                hsv.H = dest_col.H;
-                return hsv2rgb( hsv );
-            };
-            apply_color_filter_inplace( st_surf, &st_sub_rect, tint_fn );
+        if( color == TILESET_NO_COLOR ) {
+            apply_color_filter(st_surf, st_sub_rect_tinted, st_surf, st_sub_rect_source, color_pixel_copy);
+        } else {
+            apply_surf_blend_effect(st_surf, color, mask_tex, st_sub_rect_tinted,
+                                  st_sub_rect_source, st_sub_rect_mask);
         }
-        if( vfx_func ) {
-            apply_color_filter_inplace( st_surf, &st_sub_rect, vfx_func );
-        }
+
+        apply_color_filter( st_surf, st_sub_rect_final,  st_surf, st_sub_rect_tinted, vfx_func );
 
         SDL_UpdateTexture( st_tex, nullptr, st_surf->pixels, st_surf->pitch );
 
         SDL_SetRenderTarget( pr, at_tex.get() );
-        SDL_RenderCopy( pr, st_tex, &st_sub_rect, &at_rect );
+        SDL_RenderCopy( pr, st_tex, &st_sub_rect_final, &at_rect );
 
         sdl_restore_render_state( pr, state );
 
@@ -1249,7 +1367,6 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
                 G = tra.get_int( "G" );
                 B = tra.get_int( "B" );
             }
-            auto tiles = tile_part_def.get_array( "tiles" );
             sprite_width = tile_part_def.get_int( "sprite_width", ts.tile_width );
             sprite_height = tile_part_def.get_int( "sprite_height", ts.tile_height );
             // Now load the tile definitions for the loaded tileset image.
@@ -1473,6 +1590,23 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
             int t_h3d = entry.get_int( "height_3d", 0 );
+            curr_tile.flags = entry.get_tags<flag_id>( "flags" );
+            curr_tile.default_tint = TILESET_NO_COLOR;
+            if( entry.has_array( "default_tint" ) ) {
+                auto arr = entry.get_int_array( "default_tint" );
+                if( arr.size() != 3 ) {
+                    debugmsg( "Invalid tile default tint: %s", t_id );
+                } else {
+                    curr_tile.default_tint = SDL_Color{
+                        static_cast<uint8_t>( arr[0] ),
+                        static_cast<uint8_t>( arr[1] ),
+                        static_cast<uint8_t>( arr[2] ),
+                        255
+                    };
+                }
+            } else if( entry.has_string( "default_tint" ) ) {
+                curr_tile.default_tint = entry.get_string( "default_tint" );
+            }
             if( t_multi ) {
                 // fetch additional tiles
                 for( const JsonObject &subentry : entry.get_array( "additional_tiles" ) ) {
@@ -1488,6 +1622,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             } else if( entry.has_array( "additional_tiles" ) ) {
                 entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
             }
+
             // write the information of the base tile to curr_tile
             curr_tile.multitile = t_multi;
             curr_tile.rotates = t_rota;
@@ -1515,6 +1650,32 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
 
     load_tile_spritelists( entry, curr_subtile.fg, "fg" );
     load_tile_spritelists( entry, curr_subtile.bg, "bg" );
+
+    load_tile_spritelists( entry, curr_subtile.fg_mask, "fg_mask" );
+    load_tile_spritelists( entry, curr_subtile.bg_mask, "bg_mask" );
+
+    using vslist = decltype( tile_type::fg );
+    auto ensure_mask = [&]( vslist & mask, const vslist & sprite ) {
+        if( ! mask.empty() ) {
+            for( const auto& [a, b] :  std::views::zip( mask, sprite ) ) {
+                if( ( a.weight != b.weight ) || ( a.obj.size() != b.obj.size() ) ) {
+                    debugmsg( "Tile mask definition must match sprite: %s", id );
+                    mask.clear();
+                }
+            }
+        }
+
+        if( mask.empty() ) {
+            for( auto &l : sprite ) {
+                auto tmp = std::vector<int>( l.obj.size(), TILESET_NO_MASK );
+                mask.add( tmp, l.weight );
+            }
+        }
+    };
+
+    ensure_mask( curr_subtile.fg_mask, curr_subtile.fg );
+    ensure_mask( curr_subtile.bg_mask, curr_subtile.bg );
+
     curr_subtile.has_om_transparency = entry.get_bool( "has_om_transparency", false );
 
     return ts.create_tile_type( id, std::move( curr_subtile ) );
@@ -2608,8 +2769,8 @@ bool cata_tiles::draw_from_id_string(
     if( tile.category == C_OVERMAP_TERRAIN
         && display_tile.has_om_transparency
         && overmap_transparency ) {
-        draw_sprite_at( display_tile, display_tile.fg, screen_pos, loc_rand,
-                        /*fg:*/ true, true_rota, fg_color, ll, apply_visual_effects,
+        draw_sprite_at( display_tile, screen_pos, loc_rand, /*fg:*/ true,
+                        true_rota, fg_color, ll, apply_visual_effects,
                         base_overlay_alpha * overlay_count, height_3d );
         return true;
     }
@@ -2645,33 +2806,50 @@ void cata_tiles::draw_om_tile_recursively( const tripoint_abs_omt omp, const std
         ll, false, base_z_offset, false );
 }
 
-bool cata_tiles::draw_sprite_at(
-    const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-    point p, unsigned int loc_rand, bool rota_fg, int rota,
-    std::optional<SDL_Color> color, lit_level ll, bool apply_visual_effects,
-    int overlay_count, int &height_3d )
+bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
+                                 unsigned int loc_rand, bool is_fg, int rota,
+                                 std::optional<SDL_Color> color, lit_level ll,
+                                 bool apply_visual_effects, int overlay_count,
+                                 int &height_3d )
 {
-    const auto picked = svlist.pick( loc_rand );
-    if( !picked ) {
+
+
+    const auto &sv_list_sprite = is_fg ? tile.fg : tile.bg;
+    const auto picked_sprite_list = sv_list_sprite.pick( loc_rand );
+    if( !picked_sprite_list ) {
+        return true;
+    }
+    const auto &sprite_list = *picked_sprite_list;
+    if( sprite_list.empty() ) {
         return true;
     }
 
-    auto &sprite_list = *picked;
-    if( sprite_list.empty() ) {
+    const auto &sv_list_mask = is_fg ? tile.fg_mask : tile.bg_mask;
+    const auto picked_mask_list = sv_list_mask.pick( loc_rand );
+    if( !picked_mask_list ) {
+        debugmsg( "Failed to load tint mask" );
+        return true;
+    }
+    const auto &mask_list = *picked_mask_list;
+    if( mask_list.size() != sprite_list.size() ) {
+        debugmsg( "Sprite and mask lists size mismatch" );
         return true;
     }
 
     // blit foreground based on rotation
     bool rotate_sprite = false;
     int sprite_num = 0;
-    if( !rota_fg && sprite_list.size() == 1 ) {
+    int mask_num = 0;
+    if( !is_fg && sprite_list.size() == 1 ) {
         // don't rotate, a background tile without manual rotations
         rotate_sprite = false;
         sprite_num = 0;
+        mask_num = 0;
     } else if( sprite_list.size() == 1 ) {
         // just one tile, apply SDL sprite rotation if not in isometric mode
         rotate_sprite = true;
         sprite_num = 0;
+        mask_num = 0;
     } else {
         // multiple rotated tiles defined, don't apply sprite rotation after picking one
         rotate_sprite = false;
@@ -2679,6 +2857,7 @@ bool cata_tiles::draw_sprite_at(
         // four tiles, 0=N, 1=E, 2=S, 3=W
         // extending this to more than 4 rotated tiles will require changing rota to degrees
         sprite_num = rota % sprite_list.size();
+        mask_num = rota & mask_list.size();
     }
 
     tileset_fx_type fx_type;
@@ -2690,6 +2869,7 @@ bool cata_tiles::draw_sprite_at(
                   : tileset_fx_type::overexposed;
     } else if( overlay_count > 0 && static_z_effect ) {
         fx_type = tileset_fx_type::z_overlay;
+        color = std::nullopt;
     } else if( apply_visual_effects && g->u.is_underwater() ) {
         fx_type = ll == lit_level::LOW
                   ? tileset_fx_type::underwater_dark
@@ -2700,8 +2880,39 @@ bool cata_tiles::draw_sprite_at(
         fx_type = tileset_fx_type::none;
     }
 
+    if( is_fg && tile.flags.contains( flag_TINT_NO_FG ) ) {
+        color = std::nullopt;
+    } else if( !is_fg && tile.flags.contains( flag_TINT_NO_BG ) ) {
+        color = std::nullopt;
+    }
+
     const int tile_idx = sprite_list[sprite_num];
-    const texture *sprite_tex = tileset_ptr->get_or_default( tile_idx, fx_type, color );
+    const int mask_idx = mask_list[mask_num];
+
+    constexpr auto resolve_color = []( const tile_type & tt, const std::optional<SDL_Color> &c ) {
+        if( c.has_value() ) {
+            const auto cc = c.value();
+            if (cc != TILESET_NO_COLOR) {
+                return cc;
+            }
+        }
+
+        if( std::holds_alternative<std::string>( tt.default_tint ) ) {
+            const auto &cm = get_all_colors();
+            const auto &c_name = std::get<std::string>( tt.default_tint );
+            const auto nc_id = cm.name_to_id( c_name );
+            if( nc_id != def_c_unset ) {
+                const auto nc_col = cm.get( nc_id );
+                return curses_color_to_SDL( nc_col );
+            }
+        } else if( std::holds_alternative<SDL_Color>( tt.default_tint ) ) {
+            return std::get<SDL_Color>( tt.default_tint );
+        }
+        return TILESET_NO_COLOR;
+    };
+
+    const texture *sprite_tex = tileset_ptr->get_or_default( tile_idx, mask_idx, fx_type,
+                                resolve_color( tile, color ) );
 
     int width = 0;
     int height = 0;
@@ -2718,7 +2929,8 @@ bool cata_tiles::draw_sprite_at(
         const int ret = sprite_tex->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
         if( !static_z_effect && overlay_count > 0 ) {
             const auto overlay =
-                tileset_ptr->get_or_default( tile_idx, tileset_fx_type::z_overlay, std::nullopt );
+                tileset_ptr->get_or_default(
+                    tile_idx, TILESET_NO_MASK, tileset_fx_type::z_overlay, TILESET_NO_COLOR );
             if( overlay ) {
                 overlay->set_alpha_mod( std::min( 192, overlay_count ) );
                 overlay->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
@@ -2786,10 +2998,10 @@ bool cata_tiles::draw_tile_at( const tile_type &tile, point p,
                                bool apply_visual_effects, int &height_3d,
                                int overlay_count )
 {
-    draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, bg_color,
-                    ll, apply_visual_effects, overlay_count );
-    draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, fg_color,
-                    ll, apply_visual_effects, overlay_count, height_3d );
+    draw_sprite_at( tile, p, loc_rand, /*fg:*/ false, rota, bg_color, ll,
+                    apply_visual_effects, overlay_count );
+    draw_sprite_at( tile, p, loc_rand, /*fg:*/ true, rota, fg_color, ll,
+                    apply_visual_effects, overlay_count, height_3d );
     return true;
 }
 
@@ -3331,6 +3543,14 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
     map &here = get_map();
     // first memorize the actual vpart
     const optional_vpart_position vp = here.veh_at( p );
+
+    std::optional<SDL_Color> bgCol {};
+    std::optional<SDL_Color> fgCol {};
+
+    if( vp ) {
+        // TODO
+    }
+
     if( vp && !invisible[0] ) {
         const vehicle &veh = vp->vehicle();
         int veh_part = vp->part_index();
@@ -3353,14 +3573,16 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const bool draw_highlight =
                 cargopart && !veh.get_items( cargopart->part_index() ).empty();
             const tile_search_params tile = {vpname, C_VEHICLE_PART, empty_string, subtile, rotation};
-            const bool ret = draw_from_id_string( tile, p,
-                                                  std::nullopt, std::nullopt, ll, true, z_drop, false, height_3d );
+            const bool ret = draw_from_id_string(
+                                 tile, p, bgCol, fgCol,
+                                 ll, true, z_drop, false, height_3d );
             if( ret && draw_highlight ) {
                 draw_item_highlight( p );
             }
             return ret;
         }
     }
+
     if( overridden ) {
         // and then draw the override vpart
         const vpart_id &vp2 = std::get<0>( override->second );
@@ -3376,6 +3598,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                 vpname, C_VEHICLE_PART, empty_string, subtile,
                 static_cast<int>( std::round( to_degrees( rotation ) ) )
             };
+
             const bool ret = draw_from_id_string(
                                  tile, p, std::nullopt, std::nullopt,
                                  lit_level::LIT, false, z_drop, false, height_3d );
@@ -3391,7 +3614,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const auto [tile_id, subtile, rotation] = ret.value();
             const tile_search_params tile { tile_id, C_VEHICLE_PART, empty_string, subtile, rotation };
             return draw_from_id_string(
-                       tile, p, std::nullopt, std::nullopt,
+                       tile, p, bgCol, fgCol,
                        lit_level::MEMORIZED, true, z_drop, false, height_3d );
         }
     }
@@ -3651,7 +3874,12 @@ void tileset_loader::ensure_default_item_highlight()
     SDL_UpdateTexture( tex.get(), &rect, surface->pixels, surface->pitch );
 
     ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
-    ts.tile_lookup.emplace( tile_lookup_key{ index, tileset_fx_type::none, 0}, texture( tex, rect ) );
+    ts.tile_lookup.emplace( tileset_lookup_key{
+        index,
+        TILESET_NO_MASK,
+        tileset_fx_type::none,
+        TILESET_NO_COLOR
+    }, texture( tex, rect ) );
 #else
     const Uint8 highlight_alpha = 127;
 

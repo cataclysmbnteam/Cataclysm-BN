@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <variant>
 
 #include "animation.h"
 #include "enums.h"
@@ -35,7 +36,7 @@ extern void set_displaybuffer_rendertarget();
 /** Structures */
 struct tile_type {
     // fg and bg are both a weighted list of lists of sprite IDs
-    weighted_int_list<std::vector<int>> fg, bg;
+    weighted_int_list<std::vector<int>> fg, bg, fg_mask, bg_mask;
     bool multitile = false;
     bool rotates = false;
     bool animated = false;
@@ -44,6 +45,8 @@ struct tile_type {
     point offset = point_zero;
 
     std::vector<std::string> available_subtiles;
+    std::set<flag_id> flags;
+    std::variant<SDL_Color, std::string> default_tint;
 };
 
 // Make sure to change TILE_CATEGORY_IDS if this changes!
@@ -147,7 +150,38 @@ enum class tileset_fx_type {
     z_overlay
 };
 
-using tile_lookup_key = std::tuple<size_t, tileset_fx_type, uint32_t>;
+struct tileset_lookup_key {
+    int sprite_index;
+    int mask_index;
+    tileset_fx_type effect;
+    SDL_Color color;
+
+    bool operator==( const tileset_lookup_key &other ) const {
+        return sprite_index == other.sprite_index
+               && mask_index == other.mask_index
+               && effect == other.effect
+               && color == other.color;
+    }
+};
+
+template <>
+struct std::hash<tileset_lookup_key> {
+    size_t operator()( const tileset_lookup_key &v ) const noexcept {
+        std::size_t seed = 0;
+        cata::hash_combine( seed, v.sprite_index );
+        cata::hash_combine( seed, v.mask_index );
+        cata::hash_combine( seed, v.effect );
+        const union {
+            SDL_Color sdl;
+            uint32_t val;
+        } color = { v.color };
+        cata::hash_combine( seed, color.val );
+        return seed;
+    }
+};
+
+constexpr int TILESET_NO_MASK = -1;
+constexpr SDL_Color TILESET_NO_COLOR = {0, 0, 0, 0};
 
 class tileset
 {
@@ -167,7 +201,7 @@ class tileset
 
 #if defined(DYNAMIC_ATLAS)
         std::unique_ptr<dynamic_atlas> tileset_atlas;
-        mutable std::unordered_map<tile_lookup_key, texture, cata::auto_hash<tile_lookup_key>> tile_lookup;
+        mutable std::unordered_map<tileset_lookup_key, texture> tile_lookup;
     public:
         dynamic_atlas *texture_atlas() const { return tileset_atlas.get(); }
     private:
@@ -204,9 +238,9 @@ class tileset
             return tileset_id;
         }
 
-        const texture *get_or_default( const size_t index,
+        const texture *get_or_default( int sprite_index, int mask_index,
                                        const tileset_fx_type &type,
-                                       std::optional<SDL_Color> color ) const;
+                                       const SDL_Color &color ) const;
 
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
@@ -520,36 +554,31 @@ class cata_tiles
          * @brief draw_sprite_at() without height_3d
          *
          * @param tile Tile to draw.
-         * @param svlist list of weighted subtile variants
          * @param p Point to draw the tile at.
          * @param loc_rand picked random int
-         * @param rota_fg rotate foreground: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param is_fg is foreground layer
          * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param color
          * @param ll light level
          * @param apply_visual_effects use night vision and underwater colors?
          * @param overlay_count how blue the tile looks for lower z levels
          */
-        bool draw_sprite_at( const tile_type &tile,
-                             const weighted_int_list<std::vector<int>> &svlist,
-                             point p, unsigned int loc_rand, bool rota_fg,
-                             int rota, std::optional<SDL_Color> color,
-                             lit_level ll, bool apply_visual_effects,
-                             int overlay_count ) {
+        bool draw_sprite_at( const tile_type &tile, point p,
+                             unsigned int loc_rand, bool is_fg, int rota,
+                             std::optional<SDL_Color> color, lit_level ll,
+                             bool apply_visual_effects, int overlay_count ) {
             int discard = 0;
-            return draw_sprite_at( tile, svlist, p, loc_rand, rota_fg, rota,
-                                   color, ll, apply_visual_effects,
-                                   overlay_count, discard );
+            return draw_sprite_at( tile, p, loc_rand, is_fg, rota, color, ll,
+                                   apply_visual_effects, overlay_count, discard );
         }
 
         /**
-         * @brief Try to draw either forground or background using the given reference.
+         * @brief Try to draw either foreground or background using the given reference.
          *
          * @param tile Tile to draw.
-         * @param svlist list of weighted subtile variants
          * @param p Point to draw the tile at.
          * @param loc_rand picked random int
-         * @param rota_fg rotate foreground: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param is_fg is foreground layer
          * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param color
          * @param ll light level
@@ -558,12 +587,11 @@ class cata_tiles
          * @param height_3d return parameter for height of the sprite
          * @return always true.
          */
-        bool draw_sprite_at( const tile_type &tile,
-                             const weighted_int_list<std::vector<int>> &svlist,
-                             point p, unsigned int loc_rand, bool rota_fg, int rota,
-                             std::optional<SDL_Color> color,
-                             lit_level ll, bool apply_visual_effects,
-                             int overlay_count, int &height_3d );
+        bool draw_sprite_at( const tile_type &tile, point p,
+                             unsigned int loc_rand, bool is_fg, int rota,
+                             std::optional<SDL_Color> color, lit_level ll,
+                             bool apply_visual_effects, int overlay_count,
+                             int &height_3d );
 
         /**
          * @brief Calls draw_sprite_at() twice each for foreground and background.

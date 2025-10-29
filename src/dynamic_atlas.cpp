@@ -113,7 +113,7 @@ auto dynamic_atlas::get_staging_area( const int width,
     const auto r_width = round_up( width, hint_sprite_width );
     const auto r_height = round_up( height, hint_sprite_height );
 
-    if( staging_surf == nullptr || staging_surf->w != r_width || staging_surf->h < r_height ) {
+    if( staging_surf == nullptr || staging_surf->w < r_width || staging_surf->h < r_height ) {
         const auto &r = get_sdl_renderer();
         staging_tex = CreateTexture( r, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, r_width,
                                      r_height );
