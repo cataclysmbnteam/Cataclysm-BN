@@ -85,7 +85,6 @@
 #include "overmapbuffer.h"
 
 #include "profile.h"
-#pragma clang optimize off
 
 #define dbg(x) DebugLogFL((x),DC::SDL)
 
@@ -1464,6 +1463,7 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
     const std::string m_id = t_id + "_" + s_id;
     tile_type curr_subtile;
     curr_subtile.fg.add( std::vector<int>( {sprite_id} ), 1 );
+    curr_subtile.fg_mask.add(std::vector<int>( {TILESET_NO_MASK} ), 1 );
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back( s_id );
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
@@ -1527,6 +1527,7 @@ void tileset_loader::load_ascii_set( const JsonObject &entry )
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
+        curr_tile.fg_mask.add(std::vector<int>( {TILESET_NO_MASK} ), 1 );
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
@@ -3565,6 +3566,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
     std::optional<SDL_Color> fgCol {};
 
     if( vp ) {
+        //fgCol = curses_color_to_SDL(vp->vehicle().part_color(vp->part_index()));
         // TODO
     }
 
