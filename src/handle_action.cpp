@@ -1873,9 +1873,33 @@ bool game::handle_action()
                     }
                 }
                 if( !u.in_vehicle ) {
+                    map &here = get_map();
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_below );
+                } else {
+                    bool moved = false;
+                    map &here = get_map();
+                    const optional_vpart_position vp = here.veh_at( u.pos() );
+                    if( vp ) {
+                        const vpart_info info = vp->vehicle().part_info( vp->part_index() );
+                        if( vp && info.has_flag( "LADDER" ) ) {
+                            tripoint where = u.pos();
+                            tripoint below = where;
+                            below.z--;
+                            // Keep going down until we find a tile that is NOT open air
+                            while( get_map().ter( below ).id().str() == "t_open_air" ) {
+                                where.z--;
+                                below.z--;
+                            }
+                            const int dist = u.pos().z - below.z;
+                            if( info.ladder_length() >= dist ) {
+                                get_map().unboard_vehicle( u.pos() );
+                                vertical_move( -dist, true );
+                                moved = true;
+                            }
+                        }
+                    }
                 }
                 break;
 
@@ -1888,7 +1912,24 @@ bool game::handle_action()
                     }
                 }
                 if( !u.in_vehicle ) {
-                    vertical_move( 1, false );
+                    bool moved = false;
+                    point xy = u.pos().xy();
+                    map &here = get_map();
+                    for( int i = u.pos().z; i <= 10; i++ ) {
+                        const optional_vpart_position vp = here.veh_at( tripoint( xy, i ) );
+                        const int dist = i - u.pos().z;
+                        if( vp ) {
+                            const vpart_info info = vp->vehicle().part_info( vp->part_index() );
+                            if( info.has_flag( "LADDER" ) && info.ladder_length() >= dist ) {
+                                vertical_move( dist, true );
+                                moved = true;
+                                break;
+                            }
+                        }
+                    }
+                    if( !moved ) {
+                        vertical_move( 1, false );
+                    }
                 } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_above );
                 } else if( veh_ctrl && ( vp->vehicle().has_part( "ROTOR" ) ||

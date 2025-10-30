@@ -1,0 +1,30 @@
+
+[
+  {
+    "abstract": "ladder",
+    "type": "vehicle_part",
+    "location": "under",
+    "symbol": "|",
+    "color": "light_blue",
+    "broken_symbol": "O",
+    "flags": [ "LADDER", "SHOCK_IMMUNE" ],
+    "description": "A ladder that lets you down from heights."
+  },
+  {
+    "id": "ladder_10",
+    "copy-from": "ladder",
+    "type": "vehicle_part",
+    "name": "10 m rope ladder",
+    "item": "cordage_36",
+    "length": 10,
+    "requirements": {
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [  ] },
+    },
+    "durability": 60,
+    "damage_modifier": 80,
+    "//": "Todo: should explode if damaged or destroyed by bullets, fire, or electric damage.",
+    "flags": [ "LADDER", "SHOCK_IMMUNE" ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
+    "damage_reduction": { "bash": 10 }
+  }
+]

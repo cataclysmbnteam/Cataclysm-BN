@@ -37,6 +37,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
