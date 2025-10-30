@@ -4816,6 +4816,10 @@ void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
     if( p.in_vehicle ) {
+        if( !character_funcs::can_fly( p ) &&
+            !query_yn( _( "Do you really want to jump off the vehicle?" ) ) ) {
+            return;
+        }
         get_map().unboard_vehicle( p.pos() );
     }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
