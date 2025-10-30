@@ -1922,6 +1922,7 @@ bool game::handle_action()
                             const vpart_info info = vp->vehicle().part_info( vp->part_index() );
                             if( info.has_flag( "LADDER" ) && info.ladder_length() >= dist ) {
                                 vertical_move( dist, true );
+                                here.board_vehicle( u.pos(), u.as_character() );
                                 moved = true;
                                 break;
                             }
