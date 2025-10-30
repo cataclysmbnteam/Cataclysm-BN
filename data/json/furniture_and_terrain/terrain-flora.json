@@ -77,7 +77,10 @@
     "harvest_by_season": [
       {
         "seasons": [ "spring", "summer", "autumn", "winter" ],
-        "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ], "no_auto_pickup": true }, { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true } ]
+        "entries": [
+          { "drop": "tanbark", "base_num": [ 2, 8 ], "no_auto_pickup": true },
+          { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true }
+        ]
       }
     ],
     "bash": {
@@ -2471,7 +2474,10 @@
           { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true }
         ]
       },
-      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true } ] }
+      {
+        "seasons": [ "spring", "autumn", "winter" ],
+        "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true } ]
+      }
     ],
     "bash": {
       "str_min": 80,
