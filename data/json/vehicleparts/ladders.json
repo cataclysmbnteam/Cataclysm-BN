@@ -1,4 +1,3 @@
-
 [
   {
     "abstract": "ladder",
@@ -17,9 +16,7 @@
     "name": "10 m rope ladder",
     "item": "cordage_36",
     "length": 10,
-    "requirements": {
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [  ] },
-    },
+    "requirements": { "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [  ] } },
     "durability": 60,
     "damage_modifier": 80,
     "//": "Todo: should explode if damaged or destroyed by bullets, fire, or electric damage.",
