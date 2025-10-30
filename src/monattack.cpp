@@ -5976,6 +5976,11 @@ bool mattack::stretch_attack( monster *z )
 
 bool mattack::zombie_fuse( monster *z )
 {
+    // Don't max out fusion while just vibing away from targets.
+    Creature *target = z->attack_target();
+    if( target == nullptr || !z->sees( *target ) ) {
+        return false;
+    }
     monster *critter = nullptr;
     for( const tripoint &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         critter = g->critter_at<monster>( p );
