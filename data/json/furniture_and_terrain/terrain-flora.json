@@ -77,7 +77,7 @@
     "harvest_by_season": [
       {
         "seasons": [ "spring", "summer", "autumn", "winter" ],
-        "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true } ]
+        "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ], "no_auto_pickup": true }, { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true } ]
       }
     ],
     "bash": {
@@ -2468,10 +2468,10 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+          { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true }
         ]
       },
-      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ], "no_auto_pickup": true } ] }
     ],
     "bash": {
       "str_min": 80,
