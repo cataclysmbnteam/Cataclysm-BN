@@ -4816,12 +4816,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
     if( p.in_vehicle ) {
-        if( !character_funcs::can_fly( p ) ) {
-            add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
-            return;
-        } else {
-            get_map().unboard_vehicle( p.pos() );
-        }
+        get_map().unboard_vehicle( p.pos() );
     }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
@@ -4834,7 +4829,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
             where.z--;
             below.z--;
         }
-
         // where now represents the first NON-open-air tile or the last valid move before hitting one
         const int height = p.pos().z - below.z;
 
