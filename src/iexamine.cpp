@@ -2046,7 +2046,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
         harvest->set_flag( flag_HIDDEN_HALLU );
     }
     // Drop items that're exceed available space and things that aren't comestibles
-    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
+    if( !force_drop && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -2224,7 +2224,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         if( roll >= 1 ) {
             got_anything = true;
             for( int i = 0; i < roll; i++ ) {
-                handle_harvest( p, entry.drop, false );
+                handle_harvest( p, entry.drop, entry.no_auto_pickup );
             }
         }
     }
