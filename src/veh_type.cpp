@@ -283,6 +283,17 @@ void vpart_info::load_balloon( std::optional<vpslot_balloon> &balptr, const Json
     assert( balptr );
 }
 
+void vpart_info::load_ladder( std::optional<vpslot_ladder> &ladptr, const JsonObject &jo )
+{
+    vpslot_ladder lad_info{};
+    if( ladptr ) {
+        lad_info = *ladptr;
+    }
+    assign( jo, "length", lad_info.length );
+    ladptr = lad_info;
+    assert( ladptr );
+}
+
 void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
@@ -495,6 +506,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "BALLOON" ) ) {
         load_balloon( def.balloon_info, jo );
+    }
+
+    if( def.has_flag( "LADDER" ) ) {
+        load_ladder( def.ladder_info, jo );
     }
 
     if( def.has_flag( "WING" ) ) {
@@ -983,6 +998,11 @@ int vpart_info::rotor_diameter() const
 float vpart_info::balloon_height() const
 {
     return has_flag( VPFLAG_BALLOON ) ? balloon_info->height : 0;
+}
+
+int vpart_info::ladder_length() const
+{
+    return has_flag( "LADDER" ) ? ladder_info->length : 0;
 }
 
 float vpart_info::lift_coff() const
