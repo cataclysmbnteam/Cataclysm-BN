@@ -20,7 +20,6 @@
     "requirements": { "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [  ] } },
     "durability": 60,
     "damage_modifier": 80,
-    "//": "Todo: should explode if damaged or destroyed by bullets, fire, or electric damage.",
     "flags": [ "LADDER", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "string_6", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
