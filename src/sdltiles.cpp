@@ -2861,6 +2861,10 @@ static void CheckMessages()
                                 if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }
+                                if( g->u.controlling_vehicle && veh->has_sufficient_lift() ) {
+                                    actions.insert( ACTION_MOVE_UP );
+                                    actions.insert( ACTION_MOVE_DOWN );
+                                }
                             }
                         }
 

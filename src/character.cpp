@@ -708,6 +708,14 @@ void Character::set_all_parts_hp_cur( int set )
     Creature::set_all_parts_hp_cur( set );
 }
 
+void Character::mod_all_parts_hp_cur( int mod )
+{
+    if( mod != 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::mod_all_parts_hp_cur( mod );
+}
+
 field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
@@ -7388,15 +7396,15 @@ int Character::height() const
 {
     switch( get_size() ) {
         case creature_size::tiny:
-            return init_height - 100;
+            return init_height * 0.5;
         case creature_size::small:
-            return init_height - 50;
+            return init_height * 0.75;
         case creature_size::medium:
             return init_height;
         case creature_size::large:
-            return init_height + 50;
+            return init_height * 1.5;
         case creature_size::huge:
-            return init_height + 100;
+            return init_height * 2;
         default:
             break;
     }
@@ -10949,6 +10957,22 @@ int Character::run_cost( int base_cost, bool diag ) const
     return static_cast<int>( movecost );
 }
 
+// Used primarily for ressurection lua scripts
+// count: number of items to drop < 0 means drop all
+void Character::drop_inv( const int count )
+{
+    if( count < 0 || count >= inv.size() ) {
+        std::vector<detached_ptr<item>> tmp = inv_dump_remove();
+        for( auto &itm : tmp ) {
+            get_map().add_item_or_charges( pos(), std::move( itm ) );
+        }
+    } else {
+        for( int i = 0; i < count; i++ ) {
+            int randidx = rng( 0, inv.size() );
+            get_map().add_item_or_charges( pos(), std::move( inv.remove_item( randidx ) ) );
+        }
+    }
+}
 
 void Character::place_corpse()
 {

@@ -126,7 +126,7 @@
           { "id": "iron_ore", "fg": 111 },
           { "id": "m1874_gatling", "fg": 112 },
           { "id": "overlay_wielded_m1874_gatling", "fg": 113 },
-          { "id": "vp_mounted_m1874_gatling", "fg": 114 },
+          { "id": "vp_mounted_m1874_gatling", "fg": 114, "rotates": true },
           { "id": "mon_zombie_acid_mortar", "fg": 115 },
           { "id": "corpse_mon_zombie_acid_mortar", "fg": 116 },
           { "id": "mon_zombie_acid_spawner", "fg": 117 },
@@ -223,7 +223,17 @@
           { "id": [ "overlay_worn_shield_bronze", "overlay_wielded_shield_bronze" ], "fg": 168 },
           { "id": "shield_scute", "fg": 169 },
           { "id": [ "overlay_worn_shield_scute", "overlay_wielded_shield_scute" ], "fg": 170 },
-          { "id": [ "overlay_worn_shield_ballistic_large", "overlay_worn_shield_ballistic_large" ], "fg": 171 }
+          { "id": [ "overlay_worn_shield_ballistic_large", "overlay_worn_shield_ballistic_large" ], "fg": 171 },
+          {
+            "id": [
+              "vp_mounted_huge_crossbow",
+              "vp_mounted_rep_crossbow",
+              "vp_mounted_carbon_rep_crossbow",
+              "vp_mounted_launcher_ballista"
+            ],
+            "fg": 172,
+            "rotates": true
+          }
         ],
         "sprite_width": 32,
         "sprite_height": 32
