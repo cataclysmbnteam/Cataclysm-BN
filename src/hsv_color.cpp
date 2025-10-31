@@ -1,6 +1,8 @@
 #include "hsv_color.h"
 
-auto median( const uint8_t a, const uint8_t b, const uint8_t c )
+#include <algorithm>
+
+static auto median( const uint8_t a, const uint8_t b, const uint8_t c )
 {
     if( ( a > b ) ^ ( a > c ) ) {
         return a;
@@ -15,7 +17,7 @@ auto hsv2rgb( HSVColor color ) -> RGBColor
 {
     constexpr auto E = ( 1 << 16 ) - 1;
 
-    auto [H, S, V, A] = color;
+    const auto [H, S, V, A] = color;
 
     if( S == 0 || V == 0 ) {
         return RGBColor{V, V, V, A};
@@ -69,11 +71,9 @@ auto hsv2rgb( HSVColor color ) -> RGBColor
 
 auto rgb2hsv( RGBColor color ) -> HSVColor
 {
-
-
     const auto [R, G, B, A] = color;
-    const auto min = std::min( R, std::min( G, B ) );
-    const auto max = std::max( R, std::max( G, B ) );
+    const auto min = std::min( {R, G, B } );
+    const auto max = std::max( {R, G, B } );
     const auto med = median( R, G, B );
 
     const auto V = max;

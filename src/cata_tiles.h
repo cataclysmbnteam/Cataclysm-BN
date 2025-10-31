@@ -291,7 +291,7 @@ class tileset_loader
         bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
                                       std::vector<texture> &target ) const;
 
-        bool copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf, point offset ) const;
+        bool copy_surface_to_dynamic_atlas( const SDL_Surface_Ptr &surf, point offset ) ;
 
         /** Returns false if failed to create texture(s). */
         bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, point offset );

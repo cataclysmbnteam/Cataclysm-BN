@@ -107,22 +107,51 @@ struct null_texture_packer final : detail::texture_packer {
     };
 };
 
-auto dynamic_atlas::get_staging_area( const int width,
-                                      const int height ) -> std::tuple<SDL_Texture *, SDL_Surface *, SDL_Rect>
+auto dynamic_atlas::get_staging_area(
+    const int width, const int height ) -> std::tuple<SDL_Texture *, SDL_Surface *, SDL_Rect>
 {
     const auto r_width = round_up( width, hint_sprite_width );
     const auto r_height = round_up( height, hint_sprite_height );
 
-    if( staging_surf == nullptr || staging_surf->w < r_width || staging_surf->h < r_height ) {
+    if( staging_surf == nullptr || staging_surf->w < r_width ||
+        staging_surf->h < r_height ) {
         const auto &r = get_sdl_renderer();
-        staging_tex = CreateTexture( r, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, r_width,
-                                     r_height );
+        staging_tex = CreateTexture( r, SDL_PIXELFORMAT_ABGR8888,
+                                     SDL_TEXTUREACCESS_TARGET, r_width, r_height );
         staging_surf = create_surface_32( r_width, r_height );
         SDL_SetTextureBlendMode( staging_tex.get(), SDL_BLENDMODE_NONE );
         SDL_SetSurfaceBlendMode( staging_surf.get(), SDL_BLENDMODE_NONE );
     }
 
-    return std::make_tuple( staging_tex.get(), staging_surf.get(), SDL_Rect{0, 0, width, height} );
+    return std::make_tuple( staging_tex.get(), staging_surf.get(),
+                            SDL_Rect{0, 0, width, height} );
+}
+
+auto dynamic_atlas::id_assign( const size_t id, const atlas_texture &tex ) -> bool
+{
+
+    const auto it = std::ranges::find_if( sheets, [&]( const sprite_sheet & s ) {
+        return s.texture.get() == std::get<0>( tex ).get();
+    } );
+    if( it == sheets.end() ) {
+        return false;
+    }
+    int sheet_index = std::distance( sheets.begin(), it );
+
+    auto [iter, ok] = sprite_ids.emplace( id, std::make_pair( sheet_index, std::get<1>( tex ) ) );
+    return ok;
+}
+
+auto dynamic_atlas::id_search( const size_t id ) -> std::optional<atlas_texture>
+{
+    const auto it = sprite_ids.find( id );
+    if( it == sprite_ids.end() ) {
+        return std::nullopt;
+    }
+
+    auto [sheet_idx, rect] = it->second;
+
+    return atlas_texture{sheets[sheet_idx].texture, rect};
 }
 
 void dynamic_atlas::readback_load()

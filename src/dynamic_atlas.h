@@ -7,6 +7,8 @@
 
 #include "sdl_wrappers.h"
 
+#include <unordered_map>
+
 class texture;
 
 namespace detail
@@ -55,8 +57,11 @@ class dynamic_atlas
         auto begin() const { return sheets.begin(); }
         auto end() const { return sheets.end(); }
 
+        auto id_assign( size_t id, const atlas_texture &tex ) -> bool;
+        auto id_search( size_t id ) -> std::optional<atlas_texture>;
     private:
         std::vector<sprite_sheet> sheets;
+        std::unordered_map<size_t, std::pair<int, SDL_Rect>> sprite_ids;
         SDL_Surface_Ptr staging_surf;
         SDL_Texture_Ptr staging_tex;
 
