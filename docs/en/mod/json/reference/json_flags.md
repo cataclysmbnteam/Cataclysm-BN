@@ -1660,6 +1660,7 @@ Those flags are added by the game code to specific items (that specific welder, 
   items of parts with this flag are automatically added as component to the vehicle start
   construction.
 - `INTERNAL` Can only be installed on a part with `CARGO` flag.
+- `LADDER` Ladder to get down from a flying vehicle
 - `LIGHT`
 - `LOCKABLE_CARGO` Cargo containers that are able to have a lock installed.
 - `MOUNTABLE` Player can fire mounted weapons from here.
