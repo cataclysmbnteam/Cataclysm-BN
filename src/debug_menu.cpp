@@ -31,7 +31,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "catalua.h"
-#include "cata_tiles.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_id.h"
@@ -41,7 +40,6 @@
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "dynamic_atlas.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -87,7 +85,6 @@
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
-#include "sdltiles.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -120,6 +117,9 @@ extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_j
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "cata_tiles.h"
+#include "dynamic_atlas.h"
+#include "sdltiles.h"
 #endif
 
 namespace debug_menu
