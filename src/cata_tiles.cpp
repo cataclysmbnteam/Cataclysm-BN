@@ -876,34 +876,34 @@ const texture *tileset::get_or_default( const int sprite_index,
         return &entry->second;
     }
 #else
-    if( index >= tile_values.size() ) {
+    if( sprite_index >= tile_values.size() ) {
         return nullptr;
     }
 
     switch( type ) {
         case tileset_fx_type::shadow:
-            return &shadow_tile_values[index];
+            return &shadow_tile_values[sprite_index];
             break;
         case tileset_fx_type::night:
-            return &night_tile_values[index];
+            return &night_tile_values[sprite_index];
             break;
         case tileset_fx_type::overexposed:
-            return &overexposed_tile_values[index];
+            return &overexposed_tile_values[sprite_index];
             break;
         case tileset_fx_type::underwater:
-            return &underwater_tile_values[index];
+            return &underwater_tile_values[sprite_index];
             break;
         case tileset_fx_type::underwater_dark:
-            return &underwater_dark_tile_values[index];
+            return &underwater_dark_tile_values[sprite_index];
             break;
         case tileset_fx_type::memory:
-            return &memory_tile_values[index];
+            return &memory_tile_values[sprite_index];
             break;
         case tileset_fx_type::z_overlay:
-            return &z_overlay_values[index];
+            return &z_overlay_values[sprite_index];
             break;
         default:
-            return &tile_values[index];
+            return &tile_values[sprite_index];
             break;
     }
 #endif
