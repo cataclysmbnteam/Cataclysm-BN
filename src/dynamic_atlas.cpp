@@ -117,9 +117,9 @@ auto dynamic_atlas::get_staging_area(
     if( staging_surf == nullptr || staging_surf->w < r_width ||
         staging_surf->h < r_height ) {
         const auto &r = get_sdl_renderer();
-        staging_tex = CreateTexture( r, SDL_PIXELFORMAT_ABGR8888,
-                                     SDL_TEXTUREACCESS_TARGET, r_width, r_height );
         staging_surf = create_surface_32( r_width, r_height );
+        staging_tex = CreateTexture( r, sdl_color_pixel_format,
+                                     SDL_TEXTUREACCESS_TARGET, r_width, r_height );
         SDL_SetTextureBlendMode( staging_tex.get(), SDL_BLENDMODE_NONE );
         SDL_SetSurfaceBlendMode( staging_surf.get(), SDL_BLENDMODE_NONE );
     }
@@ -238,7 +238,7 @@ atlas_texture dynamic_atlas::allocate_sprite( const int w, const int h )
 
     assert( w <= tex_width && h <= tex_height );
 
-    const auto tex = SDL_CreateTexture( r.get(), SDL_PIXELFORMAT_ABGR8888, tex_access, tex_width,
+    const auto tex = SDL_CreateTexture( r.get(), sdl_color_pixel_format, tex_access, tex_width,
                                         tex_height );
     SDL_SetTextureBlendMode( tex, SDL_BLENDMODE_BLEND );
 
@@ -274,6 +274,7 @@ void dynamic_atlas::readback_dump( const std::string &s ) const
     int i = 0;
     for( auto &q : sheets ) {
         auto name = std::format( "{}/tile_dump_{}.png", s, i++ );
+        // TODO: fix windows saving images with swapped red/blue channels (it seems to want ARGB not ABGR)
         IMG_SavePNG( q.readback.get(), name.c_str() );
     }
 }

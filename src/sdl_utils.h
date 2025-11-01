@@ -182,6 +182,12 @@ SDL_Color color_pixel_z_overlay( const SDL_Color &color );
 
 SDL_Color curses_color_to_SDL( const nc_color &color );
 
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+constexpr static int sdl_color_format = SDL_PIXELFORMAT_RGBA8888;
+#else
+constexpr static int sdl_color_pixel_format = SDL_PIXELFORMAT_ABGR8888;
+#endif
+
 ///@throws std::exception upon errors.
 ///@returns Always a valid pointer.
 SDL_Surface_Ptr create_surface_32( int w, int h );
