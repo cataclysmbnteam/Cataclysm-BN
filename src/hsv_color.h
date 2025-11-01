@@ -1,5 +1,7 @@
 #pragma once
 
+#if defined(TILES)
+
 #include "sdl_wrappers.h"
 
 struct HSVColor {
@@ -17,3 +19,5 @@ using RGBColor = SDL_Color;
 
 auto hsv2rgb( HSVColor color ) -> RGBColor;
 auto rgb2hsv( RGBColor color ) -> HSVColor;
+
+#endif
