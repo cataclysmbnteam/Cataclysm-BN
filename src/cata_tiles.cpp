@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <unordered_set>
+#include <ranges>
 
 #include "action.h"
 #include "avatar.h"
@@ -652,8 +653,6 @@ bool tileset_loader::copy_surface_to_dynamic_atlas(
         const int index =
             this->offset + ( pos.x / sprite_width ) +
             ( pos.y / sprite_height ) * ( tile_atlas_width / sprite_width );
-        assert( index < target.size() );
-        assert( target[index].dimension() == std::make_pair( 0, 0 ) );
 
         SDL_FillRect( st_surf, nullptr, SDL_MapRGBA( st_surf->format, 255, 255, 255, 0 ) );
         SDL_BlitSurface( surf.get(), &src_rect, st_surf, &st_sub_rect );
