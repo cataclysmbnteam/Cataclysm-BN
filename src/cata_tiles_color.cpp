@@ -1,5 +1,5 @@
-#include "cata_tiles.h"
 #if defined(TILES)
+#include "cata_tiles.h"
 
 #include "map.h"
 #include "monster.h"
