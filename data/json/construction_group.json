@@ -1627,16 +1627,16 @@
   {
     "type": "construction_group",
     "id": "build_canvas_floor",
-    "name": "Build canvas flooring [DEBUG]"
+    "name": "Build canvas flooring"
   },
   {
     "type": "construction_group",
     "id": "build_canvas_wall",
-    "name": "Build canvas wall [DEBUG]"
+    "name": "Build canvas wall"
   },
   {
     "type": "construction_group",
     "id": "build_canvas_door",
-    "name": "Build canvas door [DEBUG]"
+    "name": "Build canvas door"
   }
 ]
