@@ -2479,8 +2479,19 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string &src )
 {
     const bool strict = is_strict_enabled( src );
+    if( jo.has_array( "ammo_type" ) ) {
+        slot.type.clear();
+        for( const std::string &id : jo.get_array( "ammo_type" ) ) {
+            slot.type.insert( ammotype( id ) );
+        }
+    } else if( jo.has_string( "ammo_type" ) ) {
+        slot.type.clear();
+        slot.type.insert( ammotype( jo.get_string( "ammo_type" ) ) );
+    }
     assign( jo, "max_power", slot.max_energy, strict, 0_J );
     assign( jo, "initial_power", slot.def_energy, strict, slot.max_energy );
+    assign( jo, "capacity", slot.capacity, strict, 0 );
+    assign( jo, "default_ammo", slot.default_ammo, strict );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
@@ -2488,16 +2499,6 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         load_slot( def.battery, jo, src );
-        load_basic_info( jo, def, src );
-    }
-}
-
-void Item_factory::load_battery_mag( const JsonObject &jo, const std::string &src )
-{
-    itype def;
-    if( load_definition( jo, src, def ) ) {
-        load_slot( def.battery, jo, src );
-        load_slot( def.magazine, jo, src );
         load_basic_info( jo, def, src );
     }
 }
@@ -2688,7 +2689,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "AMMO",
         "ARMOR",
         "BATTERY",
-        "BATTERY_MAGAZINE",
         "BIONIC_ITEM",
         "BOOK",
         "COMESTIBLE",

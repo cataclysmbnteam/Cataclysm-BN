@@ -851,6 +851,8 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
 
     if( base.magazine_current() ) {
         opts.push_back( base.magazine_current() );
+    } else if( base.battery_current() && base.battery_current()->has_flag( flag_REACTOR ) ) {
+        opts.push_back( base.battery_current() );
     }
 
     for( const auto mod : base.gunmods() ) {

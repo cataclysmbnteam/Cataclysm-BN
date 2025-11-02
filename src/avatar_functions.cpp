@@ -38,7 +38,6 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
 static const itype_id itype_large_repairkit( "large_repairkit" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
 static const skill_id skill_weapon( "weapon" );
@@ -827,16 +826,6 @@ bool unload_item( avatar &you, item &loc )
         } else if( target->ammo_remaining() ) {
             int qty = target->ammo_remaining();
 
-            if( target->ammo_current() == itype_plut_cell ) {
-                qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-                if( qty > 0 ) {
-                    add_msg( _( "You recover %i unused plutonium." ), qty );
-                } else {
-                    add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                    return false;
-                }
-            }
-
             // Construct a new ammo item and try to drop it
             detached_ptr<item> ammo = item::spawn( target->ammo_current(), calendar::turn, qty );
 
@@ -863,10 +852,6 @@ bool unload_item( avatar &you, item &loc )
 
             // If successful remove appropriate qty of ammo consuming half as much time as required to load it
             you.moves -= you.item_reload_cost( *target, ammo_ref, qty ) / 2;
-
-            if( target->ammo_current() == itype_plut_cell ) {
-                qty *= PLUTONIUM_CHARGES;
-            }
 
             target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
         }

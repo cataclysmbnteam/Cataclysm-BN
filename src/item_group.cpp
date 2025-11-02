@@ -313,7 +313,8 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
     }
 
     if( max_capacity == -1 && cont != nullptr && !cont->is_null() && ( new_item->made_of( LIQUID ) ||
-            ( !new_item->is_tool() && !new_item->is_gun() && !new_item->is_magazine() ) ) ) {
+            ( !new_item->is_tool() && !new_item->is_gun() && !new_item->is_magazine() &&
+              !new_item->is_battery() ) ) ) {
         max_capacity = new_item->charges_per_volume( cont->get_container_capacity() );
     }
 
@@ -359,7 +360,7 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
         }
     }
 
-    if( ch > 0 && ( new_item->is_gun() || new_item->is_magazine() ) ) {
+    if( ch > 0 && ( new_item->is_gun() || new_item->is_magazine() || new_item->is_battery() ) ) {
         if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( !new_item->ammo_types().empty() ) {

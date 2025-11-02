@@ -66,8 +66,6 @@
 
 static const itype_id fuel_type_battery( "battery" );
 
-static const itype_id itype_plut_cell( "plut_cell" );
-
 static const skill_id skill_mechanics( "mechanics" );
 
 static const quality_id qual_HOSE( "HOSE" );
@@ -2997,8 +2995,8 @@ void act_vehicle_unload_fuel( vehicle *veh )
     auto &you = get_avatar();
     std::vector<itype_id> fuels;
     for( auto &e : veh->fuels_left() ) {
-        if( e.first == fuel_type_battery || e.first->phase != SOLID ) {
-            // This skips battery and plutonium cells
+        if( e.first == fuel_type_battery ) {
+            // This skips battery
             continue;
         }
         fuels.push_back( e.first );
@@ -3013,9 +3011,6 @@ void act_vehicle_unload_fuel( vehicle *veh )
         smenu.text = _( "Remove what?" );
         for( size_t i = 0; i < fuels.size(); i++ ) {
             const itype_id &fuel = fuels[i];
-            if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
-                continue;
-            }
             smenu.entries.emplace_back( uilist_entry( item::nname( fuel ) )
                                         .with_retval( static_cast<int>( i ) ) );
         }
@@ -3030,21 +3025,10 @@ void act_vehicle_unload_fuel( vehicle *veh )
     }
 
     int qty = veh->fuel_left( fuel );
-    if( fuel == itype_plut_cell ) {
-        if( qty / PLUTONIUM_CHARGES == 0 ) {
-            add_msg( m_info, _( "The vehicle has no fully charged plutonium cells." ) );
-            return;
-        }
-        detached_ptr<item> plutonium = item::spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
-        add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium->display_name() );
-        veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
-        you.i_add_or_drop( std::move( plutonium ) );
-    } else {
-        detached_ptr<item> solid_fuel = item::spawn( fuel, calendar::turn, qty );
-        add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel->display_name() );
-        veh->drain( fuel, qty );
-        you.i_add_or_drop( std::move( solid_fuel ) );
-    }
+    detached_ptr<item> solid_fuel = item::spawn( fuel, calendar::turn, qty );
+    add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel->display_name() );
+    veh->drain( fuel, qty );
+    you.i_add_or_drop( std::move( solid_fuel ) );
 }
 
 /**

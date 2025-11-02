@@ -271,7 +271,7 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
         return std::make_pair( 0, 0_J );
     }
     // No charge consumption at this point, there are still points of failure later.
-    if( need_charges || transform_charges || transform_energy > 0_J ) {
+    if( need_charges || need_energy > 0_J || transform_charges || transform_energy > 0_J ) {
         if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
             if( possess ) {
                 const units::energy bio_power = p.get_power_level();

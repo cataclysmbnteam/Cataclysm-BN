@@ -1,5 +1,22 @@
 [
   {
+    "type": "BATTERY",
+    "id": "plut_cell",
+    "category": "spare_parts",
+    "price": "1500 USD",
+    "price_postapoc": "1250 cent",
+    "name": { "str": "plutonium fuel cell" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  It can still be loaded with plutonium slurry at a markedly lower efficiency.",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "REACTOR" ],
+    "volume": "250 ml",
+    "weight": "80 g",
+    "ammo_type": "plutonium",
+    "capacity": 500
+  },
+  {
     "id": "light_minus_battery_cell",
     "type": "BATTERY",
     "category": "battery",

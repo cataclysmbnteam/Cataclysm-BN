@@ -1,3 +1,4 @@
+#pragma optimize("", off)
 #include "item.h"
 
 #include <algorithm>
@@ -121,9 +122,6 @@ static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
-static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_plutonium( "plutonium" );
-
 static const item_category_id itemcat_drugs( "drugs" );
 static const item_category_id itemcat_food( "food" );
 static const item_category_id itemcat_maps( "maps" );
@@ -146,7 +144,6 @@ static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
 static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_joint_roach( "joint_roach" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_stock_small( "stock_small" );
@@ -663,7 +660,7 @@ void item::mod_energy( const units::energy &qty )
         return;
     }
 
-    units::energy val = energy_remaining() + qty;
+    units::energy val = energy + qty;
     if( val < 0_J ) {
         energy = 0_J;
     } else if( val > energy_capacity() ) {
@@ -766,17 +763,21 @@ void item::ammo_set( const itype_id &ammo, int qty )
 
 void item::ammo_unset()
 {
-    if( !is_tool() && !is_gun() && !is_magazine() ) {
+    if( !is_tool() && !is_gun() && !is_magazine() && !is_battery() ) {
         // do nothing
-    } else if( is_magazine() ) {
+    } else if( is_magazine() || is_battery() ) {
         contents.clear_items();
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
-    } else if( magazine_current() ) {
-        magazine_current()->ammo_unset();
+    } else {
+        if( magazine_current() ) {
+            magazine_current()->ammo_unset();
+        }
+        if( battery_current() ) {
+            battery_current()->ammo_unset();
+        }
     }
-
 }
 
 int item::damage() const
@@ -2585,25 +2586,22 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     if( mod->battery_integral() || mod->battery_current() ) {
+        bool has_reactor = mod->has_flag( flag_REACTOR );
         if( mod->battery_current() && parts->test( iteminfo_parts::GUN_BATTERY ) ) {
+            has_reactor |= mod->battery_current()->has_flag( flag_REACTOR );
             info.emplace_back( "GUN", _( "Battery: " ),
                                string_format( "<stat>%s</stat>",
                                               mod->battery_current()->tname() ) );
-            if( mod->battery_current()->ammo_current() && mod->battery_current()->has_flag( flag_REACTOR ) ) {
-                info.emplace_back( "GUN", _( "Reactant: " ), string_format( "<stat>%s %s per charge</stat>",
-                                   ammo_current()->nname( 1 ),
-                                   units::display( units::from_kilojoule( mod->battery_current()->ammo_current()->fuel->energy ) ) ) );
-            }
-        }
-        if( mod->energy_capacity() > 0_J && parts->test( iteminfo_parts::AMMO_ENERGY_REMAINING ) ) {
-            if( !mod->battery_current() && mod->ammo_current() && mod->has_flag( flag_REACTOR ) ) {
+        } else if( mod->battery_integral() && parts->test( iteminfo_parts::AMMO_ENERGY_REMAINING ) ) {
+            if( mod->ammo_current() && has_reactor ) {
                 info.emplace_back( "GUN", _( "Reactant: " ), string_format( "<stat>%s %s per charge</stat>",
                                    mod->ammo_current()->nname( 1 ),
                                    units::display( units::from_kilojoule( mod->ammo_current()->fuel->energy ) ) ) );
             }
-            info.emplace_back( "GUN", _( "Power remaining: " ), string_format( "<stat>%s/%s</stat>",
-                               units::display( mod->energy_remaining() ), units::display( mod->energy_capacity() ) ) );
         }
+        info.emplace_back( "GUN", _( "Power remaining: " ), string_format( "<stat>%s/%s</stat>",
+                           units::display( mod->energy_remaining() ),
+                           has_reactor ? "" : units::display( mod->energy_capacity() ) ) );
     }
 
     if( mod->get_gun_ups_drain() > 0_J && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
@@ -4630,6 +4628,14 @@ nc_color item::color_in_inventory( const player &p ) const
         } else if( has_gun || has_ammo ) {
             ret = c_light_red;
         }
+    } else if( is_battery() ) {
+        // Batteries are green if you have guns/tools for them
+        bool has_gun_tool = p.has_item_with( [this]( const item & it ) {
+            return ( it.is_gun() && it.is_tool() ) && it.battery_compatible().count( typeId() );
+        } );
+        if( has_gun_tool ) {
+            ret = c_green;
+        }
     } else if( is_book() ) {
         const islot_book &tmp = *type->book;
         // Player doesn't actually interested if NPC has identified book yet.
@@ -5258,7 +5264,8 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     std::string powertext;
-    bool is_reactor = has_flag( flag_REACTOR );
+    bool is_reactor = has_flag( flag_REACTOR ) || battery_current() &&
+                      battery_current()->has_flag( flag_REACTOR );
     const units::energy enrg_cap = energy_capacity();
     if( enrg_cap > 0_J ) {
         if( !is_reactor ) {
@@ -5446,10 +5453,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
-        if( ammo_current() == itype_plut_cell ) {
-            units::mass w = ( *ammo_types().begin() )->default_ammotype()->weight;
-            ret += ammo_remaining() * w / PLUTONIUM_CHARGES;
-        } else if( ammo_data() ) {
+        if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
         }
     }
@@ -8266,14 +8270,15 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
     }
 
     // Not enough energy, has ammo, and is a reactor that can convert ammo into energy.
-    if( energy < power && ammo_remaining() > 0 && has_flag( flag_REACTOR ) ) {
+    if( energy < power && ammo_remaining() && has_flag( flag_REACTOR ) ) {
         units::energy fuel_value = units::from_kilojoule( ammo_current()->fuel->energy );
-        int reactor_consume = ammo_consume( std::ceil( ( power - energy ) / fuel_value ), pos );
+        int reactor_consume = ammo_consume( std::ceil( 1.0f * ( power - energy ) / fuel_value ), pos );
         mod_energy( reactor_consume * fuel_value );
     }
 
+    units::energy need = std::min( energy, power );
     if( is_battery() ) {
-        units::energy need = std::min( energy, power );
+        need = std::min( energy, power );
         mod_energy( -need );
         return need;
     } else if( is_tool() || is_gun() ) {
@@ -8283,7 +8288,7 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
             you.mod_power_level( bio_power_used );
             return bio_power_used;
         } else if( battery_integral() ) {
-            units::energy need = std::min( energy, power );
+            need = std::min( energy, power );
             mod_energy( -need );
             return need;
         }
@@ -8339,7 +8344,7 @@ int item::ammo_remaining() const
         return charges;
     }
 
-    if( is_magazine() || is_bandolier() ) {
+    if( is_magazine() || is_battery() || is_bandolier() ) {
         int res = 0;
         for( const item *e : contents.all_items_top() ) {
             res += e->charges;
@@ -8383,6 +8388,10 @@ int item::ammo_capacity( bool potential_capacity ) const
 
     if( is_magazine() ) {
         res = type->magazine->capacity;
+    }
+
+    if( is_battery() ) {
+        res = type->battery->capacity;
     }
 
     if( is_bandolier() ) {
@@ -8491,7 +8500,7 @@ const itype *item::ammo_data() const
         return type;
     }
 
-    if( is_magazine() ) {
+    if( is_magazine() || is_battery() ) {
         return !contents.empty() ? contents.front().ammo_data() : nullptr;
     }
 
@@ -8549,6 +8558,8 @@ itype_id item::ammo_default( bool conversion ) const
         return type->magazine->default_ammo;
     } else if( is_tool() && type->tool->default_ammo != itype_id::NULL_ID() ) {
         return type->tool->default_ammo;
+    } else if( is_battery() ) {
+        return type->battery->default_ammo;
     }
 
     const std::set<ammotype> &atypes = ammo_types( conversion );
@@ -9076,12 +9087,6 @@ void item_reload_option::qty( int val )
     if( target->has_flag( flag_RELOAD_ONE ) && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         remaining_capacity = 1;
     }
-    if( ammo_obj.type->ammo ) {
-        if( ammo_obj.ammo_type() == ammo_plutonium ) {
-            remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
-                                 ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
-        }
-    }
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
     int available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
@@ -9143,10 +9148,6 @@ bool item::reload( Character &who, item &loc, int qty )
                 ? get_remaining_capacity_for_liquid( *ammo )
                 : ammo_capacity() - ammo_remaining();
 
-    if( ammo->ammo_type() == ammo_plutonium ) {
-        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
-    }
-
     qty = std::min( qty, limit );
 
     casings_handle( [&who]( detached_ptr<item> &&e ) {
@@ -9187,7 +9188,7 @@ bool item::reload( Character &who, item &loc, int qty )
         ammo->attempt_split( 0, [&cur, qty]( detached_ptr<item> &&it ) {
             return cur.fill_with( std::move( it ), qty );
         } );
-    } else if( !magazine_integral() ) {
+    } else if( !magazine_integral() || !battery_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( ammo->is_magazine() && magazine_current() ) {
             //~ %1$s: magazine name, %2$s: weapon name
@@ -9216,13 +9217,6 @@ bool item::reload( Character &who, item &loc, int qty )
             qty = std::min( qty, ammo->ammo_remaining() );
             ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
-        } else if( ammo->ammo_type() == ammo_plutonium ) {
-            curammo = ammo->type;
-            ammo->charges -= qty;
-
-            // any excess is wasted rather than overfilling the item
-            charges += qty * PLUTONIUM_CHARGES;
-            charges = std::min( charges, ammo_capacity() );
         } else {
             curammo = ammo->type;
             qty = std::min( qty, ammo->charges );

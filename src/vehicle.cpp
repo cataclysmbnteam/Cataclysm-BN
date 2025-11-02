@@ -81,7 +81,6 @@ static const std::string part_location_onroof( "on_roof" );
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
@@ -5744,17 +5743,10 @@ void vehicle::slow_leak()
             continue;
         }
 
-        // damaged batteries self-discharge without leaking, plutonium leaks slurry
-        if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
+        // damaged batteries self-discharge without leaking.
+        if( fuel != fuel_type_battery ) {
             g->m.add_item_or_charges( dest, item::spawn( fuel, calendar::turn, qty ) );
             p.ammo_consume( qty, global_part_pos3( p ) );
-        } else if( fuel == fuel_type_plutonium_cell ) {
-            if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
-                g->m.add_item_or_charges( dest, item::spawn( "plut_slurry_dense", calendar::turn, qty ) );
-                p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, global_part_pos3( p ) );
-            } else {
-                p.ammo_consume( p.ammo_remaining(), global_part_pos3( p ) );
-            }
         } else {
             p.consume_energy( fuel_type_battery, units::to_joule( mult * p.energy_remaining() ) );
             p.ammo_consume( qty, global_part_pos3( p ) );
@@ -5968,7 +5960,7 @@ void vehicle::place_spawn_items()
                     if( broken && e->mod_damage( rng( 1, e->max_damage() ) ) ) {
                         continue; // we destroyed the item
                     }
-                    if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
+                    if( e->is_tool() || e->is_gun() || e->is_magazine() || e->is_battery() ) {
                         bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e->ammo_remaining() == 0;
                         bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e->magazine_integral() &&
                                           !e->magazine_current();

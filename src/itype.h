@@ -693,10 +693,13 @@ struct islot_magazine {
 };
 
 struct islot_battery {
-    bool was_loaded;
-
+    /** What type of ammo this magazine can be loaded with */
+    std::set<ammotype> type;
+    /** Default type of ammo contained by a battery */
+    itype_id default_ammo = itype_id::NULL_ID();
     units::energy max_energy = 0_kJ;
     units::energy def_energy = 0_kJ;
+    int capacity = 0;
 };
 
 struct islot_ammo : common_ranged_data {

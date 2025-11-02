@@ -151,13 +151,6 @@ static const std::array<vitamin_id, 2> herbivore_blacklist {{
 // Defines the maximum volume that a internal furnace can consume
 const units::volume furnace_max_volume( 3_liter );
 
-// TODO: JSONize.
-const std::map<itype_id, int> plut_charges = {
-    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
-    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
-    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
-};
-
 // TODO: Better name
 enum class item_consumption_t {
     none = 0,
@@ -1431,11 +1424,8 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             break;
 
         case rechargeable_cbm::reactor:
-            if( it.charges > 0 ) {
-                const auto iter = plut_charges.find( it.typeId() );
-                return iter != plut_charges.end() ? it.charges * iter->second : 0;
-            }
 
+            return it.charges * it.type->fuel->energy;
             break;
 
         case rechargeable_cbm::furnace: {

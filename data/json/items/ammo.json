@@ -184,38 +184,20 @@
     "count": 200
   },
   {
-    "type": "BATTERY_MAGAZINE",
-    "id": "plut_cell",
-    "category": "spare_parts",
-    "price": "1500 USD",
-    "price_postapoc": "1250 cent",
-    "name": { "str": "plutonium fuel cell" },
-    "symbol": "=",
-    "color": "green",
-    "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  Unfortunately it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
-    "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "REACTOR" ],
-    "volume": "250 ml",
-    "weight": "80 g",
-    "ammo_type": "plutonium",
-    "capacity": 500
-  },
-  {
     "type": "AMMO",
     "id": "plut_ammo",
     "category": "spare_parts",
     "price": "1500 USD",
     "price_postapoc": "1250 cent",
-    "name": { "str_sp": "plutonium" },
+    "name": { "str": "catalyzed plutonium" },
     "symbol": "=",
     "color": "green",
-    "description": "Individual flecks of radioactive plutonium-244 used to power plutonium fuel cells.  This shouldn't exist outside of the cells themselves, so if you see free plutonium hanging around, it's a bug.",
-    "material": [ "steel", "plastic" ],
+    "description": "A fluid state reactive compound of plutonium 244 mixed with unknown material.  It is capable of spontaneously converting into a plutonium 244 metastate, allowing it to decay rapidly producing incredible amounts of energy when placed into an appropriate reactor.  Handle at your own risk.",
     "volume": "250 ml",
     "weight": "80 g",
     "ammo_type": "plutonium",
     "count": 500,
-    "stack_size": 50,
+    "stack_size": 200,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
     "fuel": { "energy": 10 }
   },
@@ -232,10 +214,11 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "250 ml",
     "weight": "25500 mg",
-    "ammo_type": "reactor_slurry",
+    "ammo_type": "plutonium",
     "phase": "liquid",
     "container": "metal_tank_little",
-    "count": 10
+    "count": 10,
+    "fuel": { "energy": 8 }
   },
   {
     "type": "AMMO",
@@ -250,10 +233,11 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "250 ml",
     "weight": "25500 mg",
-    "ammo_type": "reactor_slurry",
+    "ammo_type": "plutonium",
     "phase": "liquid",
     "container": "metal_tank_little",
-    "count": 10
+    "count": 10,
+    "fuel": { "energy": 4 }
   },
   {
     "type": "AMMO",

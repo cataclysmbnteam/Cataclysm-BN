@@ -362,9 +362,6 @@ void DynamicDataLoader::initialize()
     add( "BATTERY", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_battery( jo, src );
     } );
-    add( "BATTERY_MAGAZINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_battery_mag( jo, src );
-    } );
     add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );

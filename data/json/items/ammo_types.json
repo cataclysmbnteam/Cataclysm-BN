@@ -302,12 +302,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "reactor_slurry",
-    "name": "plutonium slurry",
-    "default": "plut_slurry"
-  },
-  {
-    "type": "ammunition_type",
     "id": "12mm",
     "name": "12mm slugs",
     "default": "12mm"

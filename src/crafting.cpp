@@ -80,8 +80,6 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
 
-static const itype_id itype_plut_cell( "plut_cell" );
-
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
@@ -2418,9 +2416,6 @@ void remove_ammo( item &dis_item, Character &who )
     if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
         detached_ptr<item> ammodrop = item::spawn( dis_item.ammo_current(), calendar::turn );
         ammodrop->charges = dis_item.charges;
-        if( dis_item.ammo_current() == itype_plut_cell ) {
-            ammodrop->charges /= PLUTONIUM_CHARGES;
-        }
         drop_or_handle( std::move( ammodrop ), who );
         dis_item.charges = 0;
     }
