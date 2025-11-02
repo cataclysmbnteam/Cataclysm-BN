@@ -87,7 +87,6 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
@@ -1753,10 +1752,10 @@ void emp_blast( const tripoint &p )
                      cuffs.tname() );
         }
     }
-    // Drain any items of their battery charge
+    // Drain any items of their battery energy
     for( auto &it : here.i_at( p ) ) {
-        if( it->is_tool() && it->ammo_current() == itype_battery ) {
-            it->charges = 0;
+        if( it->is_tool() && it->energy_remaining() > 0_J ) {
+            it->battery_current()->set_energy( 0_J );
         }
     }
     // TODO: Drain NPC energy reserves

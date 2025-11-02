@@ -472,7 +472,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
                          mons->get_name() );
                 mattack::smash_specific( mons, &t );
             } else {
-                mons->use_mech_power( -2 );
+                mons->use_mech_power( -2_kJ );
                 mons->melee_attack( t );
             }
             mod_moves( -mons->type->attack_cost );
@@ -2491,14 +2491,7 @@ double npc_ai::melee_value( const Character &who, const item &weap )
                 weapon.convert( dynamic_cast<const iuse_transform *>
                                 ( use->get_actor_ptr() )->target );
             }
-        } else if( weapon.get_use( "fireweapon_off" ) ) {
-            const use_function *use = weapon.type->get_use( "fireweapon_off" );
-            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
-                weapon.convert( dynamic_cast<const fireweapon_off_actor *>
-                                ( use->get_actor_ptr() )->target_id );
-            }
         }
-
     }
     // start with average effective dps against a range of enemies
     double my_value = weapon.average_dps( *who.as_player(), melee::default_attack( weapon ) );

@@ -49,8 +49,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
     std::pair<int, int> fun;
 
     GIVEN( "food with positive fun" ) {
-        detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
-                                              item::default_charges_tag{} );
+        detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm );
         item &jihelucake = *det;
         dummy.i_add( std::move( det ) );
         fun = dummy.fun_for( jihelucake );
@@ -63,8 +62,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
     }
 
     GIVEN( "food with negative fun" ) {
-        detached_ptr<item> det = item::spawn( "garlic", calendar::start_of_cataclysm,
-                                              item::default_charges_tag{} );
+        detached_ptr<item> det = item::spawn( "garlic", calendar::start_of_cataclysm );
         item &garlic = *det;
         dummy.i_add( std::move( det ) );
         fun = dummy.fun_for( garlic );
@@ -117,8 +115,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
     avatar dummy;
 
-    detached_ptr<item> det = item::spawn( "bone_human", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "bone_human", calendar::start_of_cataclysm );
     item &human = *det;
     dummy.i_add( std::move( det ) );
     REQUIRE( human.has_vitamin( vitamin_human_flesh_vitamin ) );
@@ -162,8 +159,7 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
     avatar dummy;
 
     GIVEN( "some sweet junk food" ) {
-        detached_ptr<item> det = item::spawn( "neccowafers", calendar::start_of_cataclysm,
-                                              item::default_charges_tag{} );
+        detached_ptr<item> det = item::spawn( "neccowafers", calendar::start_of_cataclysm );
         item &necco = *det;
         dummy.i_add( std::move( det ) );
 
@@ -216,8 +212,7 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
 {
     avatar dummy;
 
-    detached_ptr<item> det = item::spawn( "caff_gum", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "caff_gum", calendar::start_of_cataclysm );
     item &caff_gum = *det;
     dummy.i_add( std::move( det ) );
 
@@ -289,8 +284,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_VEGETARIAN ) );
 
         THEN( "they get a morale penalty for eating meat" ) {
-            detached_ptr<item> det = item::spawn( "meat", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "meat", calendar::start_of_cataclysm );
             item &meat = *det;
             dummy.i_add( std::move( det ) );
             REQUIRE( meat.has_flag( flag_ALLERGEN_MEAT ) );
@@ -305,8 +299,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_LACTOSE ) );
 
         THEN( "they get a morale penalty for drinking milk" ) {
-            detached_ptr<item> det = item::spawn( "milk", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "milk", calendar::start_of_cataclysm );
             item &milk = *det;
             dummy.i_add( std::move( det ) );
             REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
@@ -321,8 +314,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_ANTIWHEAT ) );
 
         THEN( "they get a morale penalty for eating wheat" ) {
-            detached_ptr<item> det = item::spawn( "wheat", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "wheat", calendar::start_of_cataclysm );
             item &wheat = *det;
             dummy.i_add( std::move( det ) );
             REQUIRE( wheat.has_flag( flag_ALLERGEN_WHEAT ) );
@@ -337,8 +329,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_MEATARIAN ) );
 
         THEN( "they get a morale penalty for eating vegetables" ) {
-            detached_ptr<item> det = item::spawn( "broccoli", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "broccoli", calendar::start_of_cataclysm );
             item &veggy = *det;
             dummy.i_add( std::move( det ) );
             REQUIRE( veggy.has_flag( flag_ALLERGEN_VEGGY ) );
@@ -353,8 +344,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_ANTIFRUIT ) );
 
         THEN( "they get a morale penalty for eating fruit" ) {
-            detached_ptr<item> det = item::spawn( "apple", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "apple", calendar::start_of_cataclysm );
             item &fruit = *det;
             dummy.i_add( std::move( det ) );
             REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
@@ -369,8 +359,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_ANTIJUNK ) );
 
         THEN( "they get a morale penalty for eating junk food" ) {
-            detached_ptr<item> det = item::spawn( "neccowafers", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "neccowafers", calendar::start_of_cataclysm );
             item &junk = *det;
             dummy.i_add( std::move( det ) );
             REQUIRE( junk.has_flag( flag_ALLERGEN_JUNK ) );
@@ -391,8 +380,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
         REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
         AND_GIVEN( "some rotten chewable food" ) {
-            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm );
             item &jihelucake = *det;
             dummy.i_add( std::move( det ) );
             // food rot > 1.0 is rotten
@@ -406,8 +394,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
         }
 
         AND_GIVEN( "some fresh chewable food" ) {
-            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
-                                                  item::default_charges_tag{} );
+            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm );
             item &jihelucake = *det;
             dummy.i_add( std::move( det ) );
             // food rot < 0.1 is fresh
@@ -426,8 +413,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
 
-    detached_ptr<item> det = item::spawn( "honeycomb", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "honeycomb", calendar::start_of_cataclysm );
     item &honeycomb = *det;
     dummy.i_add( std::move( det ) );
     REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );

@@ -119,6 +119,14 @@ int itype::charges_to_use() const
     return 1;
 }
 
+units::energy itype::energy_to_use() const
+{
+    if( tool ) {
+        return tool->energy_draw;
+    }
+    return 0_J;
+}
+
 int itype::charge_factor() const
 {
     return tool ? tool->charge_factor : 1;
@@ -176,28 +184,29 @@ void itype::tick( player &p, item &it, const tripoint &pos ) const
     }
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos ) const
+std::pair<int, units::energy> itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+std::pair<int, units::energy > itype::invoke( player &p, item &it, const tripoint &pos,
+        const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
                   iuse_name, nname( 1 ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     const auto ret = use->can_call( p, it, false, pos );
 
     if( !ret.success() ) {
         p.add_msg_if_player( m_info, ret.str() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     // used for grenades and such, to increase kill count
     // invoke is called a first time with transform, when the explosive item is activated
@@ -220,6 +229,9 @@ bool itype::can_have_charges() const
         return true;
     }
     if( gun && gun->clip > 0 ) {
+        return true;
+    }
+    if( battery && battery->capacity > 0 ) {
         return true;
     }
     if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {

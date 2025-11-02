@@ -1,24 +1,24 @@
 [
   {
-    "id": "battery_test",
     "type": "BATTERY",
-    "category": "battery",
-    "name": { "str": "test battery", "str_pl": "test batteries" },
-    "description": "This is a testing item for the BATTERY item type.  If you found one in game, it's a bug.",
-    "weight": "200 g",
-    "volume": "250 ml",
-    "price": "15 USD",
-    "price_postapoc": "0 cent",
-    "material": [ "iron", "plastic" ],
+    "id": "plut_cell",
+    "category": "spare_parts",
+    "price": "1500 USD",
+    "price_postapoc": "1250 cent",
+    "name": { "str": "plutonium fuel cell" },
     "symbol": "=",
-    "color": "yellow",
-    "max_capacity": "30 kJ",
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "color": "green",
+    "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  It can still be loaded with plutonium slurry at a markedly lower efficiency.",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "REACTOR" ],
+    "volume": "250 ml",
+    "weight": "80 g",
+    "ammo_type": "plutonium",
+    "capacity": 500
   },
   {
     "id": "light_minus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
@@ -30,14 +30,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "max_power": "50 kJ"
   },
   {
     "id": "light_minus_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "ultra-light plutonium battery", "str_pl": "ultra-light plutonium batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stabilize an exotic nanocompound, manufactured from repurposed plutonium fission cells.  It is universally compatible with small devices.  Although it stores a huge amount of power, it cannot be recharged.",
@@ -49,15 +48,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 500,
-    "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "initial_power": "500 kJ",
+    "max_power": "500 kJ"
   },
   {
     "id": "light_minus_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "ultra-light disposable battery", "str_pl": "ultra-light disposable batteries" },
     "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
@@ -68,15 +66,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 150,
-    "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "initial_power": "150 kJ",
+    "max_power": "150 kJ"
   },
   {
     "id": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "light battery", "str_pl": "light batteries" },
     "description": "This is a light battery cell, universally compatible with all kinds of small devices.",
@@ -88,14 +85,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ],
+    "max_power": "100 kJ"
   },
   {
     "id": "light_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "light battery (high-capacity)", "str_pl": "light batteries (high-capacity)" },
     "description": "This is a high-capacity light battery cell, universally compatible with all kinds of small devices.",
@@ -106,14 +102,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ],
+    "max_power": "150 kJ"
   },
   {
     "id": "light_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "light plutonium battery", "str_pl": "light plutonium batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stabilize an exotic nanocompound, manufactured from repurposed plutonium fission cells.  It is universally compatible with all kinds of personal electronic devices.  Although it stores a huge amount of power, it cannot be recharged.",
@@ -125,15 +120,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 1000,
-    "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ],
+    "initial_power": "1000 kJ",
+    "max_power": "1000 kJ"
   },
   {
     "id": "light_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "light disposable battery", "str_pl": "light disposable batteries" },
     "description": "This is a light battery cell, universally compatible with all kinds of small devices.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
@@ -144,15 +138,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 300,
-    "capacity": 300,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ],
+    "initial_power": "300 kJ",
+    "max_power": "300 kJ"
   },
   {
     "id": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "medium battery", "str_pl": "medium batteries" },
     "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.",
@@ -164,14 +157,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ],
+    "max_power": "500 kJ"
   },
   {
     "id": "medium_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "medium battery (high-capacity)", "str_pl": "medium batteries (high-capacity)" },
     "description": "This is a high-capacity medium battery cell, universally compatible with all kinds of appliances and power tools.",
@@ -182,14 +174,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 750,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ],
+    "max_power": "750 kJ"
   },
   {
     "id": "medium_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "medium plutonium battery", "str_pl": "medium plutonium batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stabilize an exotic nanocompound, manufactured from repurposed plutonium fission cells.  It is universally compatible with all kinds of appliances and power tools.  Although it stores a huge amount of power, it cannot be recharged.",
@@ -201,15 +192,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 5000,
-    "capacity": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ],
+    "initial_power": "5000 kJ",
+    "max_power": "5000 kJ"
   },
   {
     "id": "medium_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "medium disposable battery", "str_pl": "medium disposable batteries" },
     "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
@@ -220,15 +210,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 1500,
-    "capacity": 1500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ],
+    "initial_power": "1500 kJ",
+    "max_power": "1500 kJ"
   },
   {
     "id": "heavy_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "heavy battery", "str_pl": "heavy batteries" },
     "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",
@@ -240,14 +229,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ],
+    "max_power": "1000 kJ"
   },
   {
     "id": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "heavy battery (high-capacity)", "str_pl": "heavy batteries (high-capacity)" },
     "description": "This is a high-capacity heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",
@@ -258,14 +246,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 1500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ],
+    "max_power": "1500 kJ"
   },
   {
     "id": "heavy_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "heavy plutonium battery", "str_pl": "heavy plutonium batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stabilize an exotic nanocompound, manufactured from repurposed plutonium fission cells.  It is universally compatible with all kinds of industrial-grade equipment and large tools.  Although it stores a huge amount of power, it cannot be recharged.",
@@ -277,15 +264,14 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 10000,
-    "capacity": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_BULKY" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_BULKY" ],
+    "initial_power": "10000 kJ",
+    "max_power": "10000 kJ"
   },
   {
     "id": "huge_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "military plutonium fuel cell" },
     "description": "This battery uses a huge plutonium-244 rod to stabilize an exotic nanocompound, manufactured from repurposed plutonium fission cells.  It was used in military mech-suits, was highly experimental, and had no civilian applications.  Although it stores a stupendous amount of power, it cannot be recharged.",
@@ -296,15 +282,14 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "=",
     "color": "red",
-    "ammo_type": "battery",
-    "count": 100000,
-    "capacity": 100000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ],
+    "initial_power": "100000 kJ",
+    "max_power": "100000 kJ"
   },
   {
     "id": "heavy_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "heavy disposable battery", "str_pl": "heavy disposable batteries" },
     "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
@@ -315,10 +300,9 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 3000,
-    "capacity": 3000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY" ],
+    "initial_power": "3000 kJ",
+    "max_power": "3000 kJ"
   }
 ]

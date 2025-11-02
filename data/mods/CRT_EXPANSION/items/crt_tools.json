@@ -13,14 +13,13 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
     "sub": "hotplate",
-    "initial_charges": 75,
-    "max_charges": 75,
-    "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "relic_data": { "recharge_scheme": [ { "type": "solar", "interval": "10 m", "rate": 1 } ] },
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "power_draw": "1 kJ",
+    "initial_power": "75 kJ",
+    "max_power": "75 kJ"
   },
   {
     "id": "knife_crt",

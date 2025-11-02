@@ -2200,7 +2200,7 @@ void debug()
                 break;
             }
 
-            int amount = 0;
+            long long amount = 0;
             string_input_popup popup;
             popup
             .title( _( "By how much?  (in kJ, negative to discharge)" ) )
@@ -2209,9 +2209,9 @@ void debug()
             if( !popup.canceled() ) {
                 vehicle &veh = v_part_pos->vehicle();
                 if( amount >= 0 ) {
-                    veh.charge_battery( amount, false );
+                    veh.charge_battery( units::from_kilojoule( amount ), false );
                 } else {
-                    veh.discharge_battery( -amount, false );
+                    veh.discharge_battery( -units::from_kilojoule( amount ), false );
                 }
             }
             break;

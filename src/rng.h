@@ -27,6 +27,7 @@ cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
 int rng( int lo, int hi );
+int64_t rng64( int64_t lo, int64_t hi );
 double rng_float( double lo, double hi );
 
 template<typename U>

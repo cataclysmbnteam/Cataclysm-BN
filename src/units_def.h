@@ -292,6 +292,16 @@ inline auto operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
     lhs = lhs % rhs;
     return lhs;
 }
+
+template <Arithmetic V, typename U>
+constexpr quantity<V, U> sum_no_wrap( quantity<V, U> a, quantity<V, U> b )
+{
+    if( a > quantity<V, U>( std::numeric_limits<V>::max(), U{} ) - b ||
+        b > quantity<V, U>( std::numeric_limits<V>::max(), U{} ) - a ) {
+        return quantity<V, U>( std::numeric_limits<V>::max(), U{} );
+    }
+    return a + b;
+}
 /**@}*/
 } // namespace units
 

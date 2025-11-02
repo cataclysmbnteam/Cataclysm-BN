@@ -864,7 +864,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
         if( using_bionic ) {
             who.mod_power_level( -25_kJ );
         } else {
-            who.use_charges( itype_electrohack, 25 );
+            who.use_energy( itype_electrohack, 25_kJ );
         }
 
         if( success <= -5 ) {
@@ -1177,7 +1177,8 @@ void hacksaw_activity_actor::do_turn( player_activity &/* act */, Character &who
         progress.pop();
         return;
     }
-    if( tool->ammo_sufficient() ) {
+    if( tool->ammo_sufficient() && tool->energy_sufficient( who ) ) {
+        tool->energy_consume( tool->energy_required(), tool->position() );
         tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 1_minutes ) ) {
@@ -1186,10 +1187,10 @@ void hacksaw_activity_actor::do_turn( player_activity &/* act */, Character &who
         }
     } else {
         if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of power." ), tool->tname() );
         } else { // who.is_npc()
             if( get_avatar().sees( who.pos() ) ) {
-                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                add_msg( _( "%1$s %2$s ran out of power." ), who.disp_name( false,
                          true ), tool->tname() );
             }
         }
@@ -1331,14 +1332,15 @@ void boltcutting_activity_actor::do_turn( player_activity &/* act */, Character 
         progress.pop();
         return;
     }
-    if( tool->ammo_sufficient() ) {
+    if( tool->ammo_sufficient() && tool->energy_sufficient( who ) ) {
+        tool->energy_consume( tool->energy_required(), tool->position() );
         tool->ammo_consume( tool->ammo_required(), tool->position() );
     } else {
         if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of power." ), tool->tname() );
         } else { // who.is_npc()
             if( get_avatar().sees( who.pos() ) ) {
-                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                add_msg( _( "%1$s %2$s ran out of power." ), who.disp_name( false,
                          true ), tool->tname() );
             }
         }
@@ -1705,7 +1707,9 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     // We check available charges when first starting the cut, but this prevents abnormal behavior if torch status changes mid-activity.
-    if( tool->ammo_sufficient() ) {
+    // An oxytorch will probably not use batteries, but just in case a hybrid is made at some point.
+    if( tool->ammo_sufficient() && tool->energy_sufficient( who ) ) {
+        tool->energy_consume( tool->energy_required(), tool->position() );
         tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
@@ -1713,10 +1717,10 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
         }
     } else {
         if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of power." ), tool->tname() );
         } else { // who.is_npc()
             if( get_avatar().sees( who.pos() ) ) {
-                add_msg( _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                add_msg( _( "%1$s %2$s ran out of power." ), who.disp_name( false,
                          true ), tool->tname() );
             }
         }

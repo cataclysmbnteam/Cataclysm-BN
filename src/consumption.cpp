@@ -135,6 +135,8 @@ static const vitamin_id vitamin_wheat_allergen( "wheat_allergen" );
 
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
+static const flag_id flag_BIONIC_CAPACITOR( "BIONIC_CAPACITOR" );
+
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<vitamin_id, 4> carnivore_blacklist {{
@@ -148,13 +150,6 @@ static const std::array<vitamin_id, 2> herbivore_blacklist {{
 
 // Defines the maximum volume that a internal furnace can consume
 const units::volume furnace_max_volume( 3_liter );
-
-// TODO: JSONize.
-const std::map<itype_id, int> plut_charges = {
-    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
-    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
-    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
-};
 
 // TODO: Better name
 enum class item_consumption_t {
@@ -842,7 +837,7 @@ bool Character::eat( item &food, bool force )
     int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( *this->as_player(), food, pos() );
+            charges_used = food.type->invoke( *this->as_player(), food, pos() ).first;
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1316,7 +1311,7 @@ bool Character::feed_furnace_with( item &it )
             it.tname() );
     } else {
         const int profitable_energy = std::min( energy,
-                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
+                                                units::to_kilojoule<int>( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    vgettext( "You digest %d %s and recharge %d point of energy.",
@@ -1355,33 +1350,57 @@ bool Character::fuel_bionic_with( item &it )
         return false;
     }
 
-    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-    const std::string str_loaded  = get_value( it.typeId().str() );
+    if( it.is_battery() ) {
+        for( bionic &bio : *my_bionics ) {
+            if( bio.info().max_energy_draw > 0_J &&
+                bio.energy_stored != bio.info().energy_capacity ) {
+                const int energy_mult = bio.info().energy_multiplier;
 
-    const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
+                units::energy loadable = std::min( it.energy_remaining() * energy_mult,
+                                                   bio.info().energy_capacity - bio.energy_stored );
+                it.mod_energy( - loadable / energy_mult );
+                bio.energy_stored += loadable;
+                add_msg_player_or_npc( m_info,
+                                       //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                                       "You drain %1$s of battery into your %2$s.",
+                                       //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                                       "<npcname> drains %1$i of battery into their %2$s.",
+                                       units::display( loadable ), bio.info().name );
+                break;
+            } else {
+                continue;
+            }
+        }
+        mod_moves( -250 );
+    } else {
+        const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+        const std::string str_loaded = get_value( it.typeId().str() );
 
-    int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
-    int loaded = 0;
+        const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
 
-    if( !str_loaded.empty() ) {
-        loaded = std::stoi( str_loaded );
+        int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
+        int loaded = 0;
+
+        if( !str_loaded.empty() ) {
+            loaded = std::stoi( str_loaded );
+        }
+
+        const std::string new_charge = std::to_string( loadable + loaded );
+
+        loadable = std::ceil( loadable / fuel_multiplier );
+        it.charges -= loadable;
+        // Type and amount of fuel
+        set_value( it.typeId().str(), new_charge );
+        update_fuel_storage( it.typeId() );
+        add_msg_player_or_npc( m_info,
+                               //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                               vgettext( "You load %1$i charge of %2$s in your %3$s.",
+                                         "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                               //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                               vgettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                         "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
+        mod_moves( -250 );
     }
-
-    const std::string new_charge = std::to_string( loadable + loaded );
-
-    loadable = std::ceil( loadable / fuel_multiplier );
-    it.charges -= loadable;
-    // Type and amount of fuel
-    set_value( it.typeId().str(), new_charge );
-    update_fuel_storage( it.typeId() );
-    add_msg_player_or_npc( m_info,
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           vgettext( "You load %1$i charge of %2$s in your %3$s.",
-                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           vgettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
-    mod_moves( -250 );
     return true;
 }
 
@@ -1405,11 +1424,8 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             break;
 
         case rechargeable_cbm::reactor:
-            if( it.charges > 0 ) {
-                const auto iter = plut_charges.find( it.typeId() );
-                return iter != plut_charges.end() ? it.charges * iter->second : 0;
-            }
 
+            return it.charges * it.type->fuel->energy;
             break;
 
         case rechargeable_cbm::furnace: {
@@ -1435,10 +1451,12 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             return amount;
         }
         case rechargeable_cbm::other:
-            const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-            const int to_consume = std::min( it.charges, bid->fuel_capacity );
-            const int to_charge = static_cast<int>( it.fuel_energy() * to_consume * bid->fuel_efficiency );
-            return to_charge;
+            if( !it.is_battery() ) {
+                const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+                const int to_consume = std::min( it.charges, bid->fuel_capacity );
+                const int to_charge = static_cast<int>( it.fuel_energy() * to_consume * bid->fuel_efficiency );
+                return to_charge;
+            }
     }
 
     return 0;
@@ -1534,10 +1552,10 @@ detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
         feed_furnace_with( comest ) ||
         fuel_bionic_with( comest ) ) {
 
-        if( &comest == &*target ) {
+        if( &comest == &*target && !comest.is_battery() ) {
             return target->charges > 0 ? std::move( target ) : detached_ptr<item>();
         } else {
-            if( comest.charges <= 0 ) {
+            if( comest.charges <= 0 && comest.count_by_charges() ) {
                 comest.detach();
             }
             target->on_contents_changed();
@@ -1673,7 +1691,7 @@ bool Character::consume_med( item &target )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( *this->as_player(), target, pos() );
+        amount_used = target.type->invoke( *this->as_player(), target, pos() ).first;
         if( amount_used <= 0 ) {
             return false;
         }

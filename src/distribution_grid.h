@@ -44,7 +44,7 @@ class distribution_grid
         std::vector<tripoint_abs_ms> flat_contents;
         std::vector<tripoint_abs_sm> submap_coords;
 
-        mutable std::optional<int> cached_amount_here;
+        mutable std::optional<units::energy> cached_amount_here;
 
         mapbuffer &mb;
 
@@ -53,8 +53,8 @@ class distribution_grid
         bool empty() const;
         explicit operator bool() const;
         void update( time_point to );
-        int mod_resource( int amt, bool recurse = true );
-        int get_resource( bool recurse = true ) const;
+        units::energy mod_resource( units::energy amt, bool recurse = true );
+        units::energy get_resource( bool recurse = true ) const;
         const std::vector<tripoint_abs_ms> &get_contents() const {
             return flat_contents;
         }

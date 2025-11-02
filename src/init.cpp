@@ -904,7 +904,9 @@ auto init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_
             do package.loaded[k] = nil
         end
     )" );
-    auto range = packs | std::views::filter( []( const mod_id & mod ) { return mod.is_valid() && mod->lua_api_version; } );
+    auto range = packs | std::views::filter( []( const mod_id & mod ) {
+        return mod.is_valid() && mod->lua_api_version;
+    } );
     for( const auto &mod : range ) {
         cata::set_mod_being_loaded( state, mod );
         cata::run_mod_main_script( state, mod );

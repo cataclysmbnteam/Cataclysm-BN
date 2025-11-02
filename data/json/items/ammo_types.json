@@ -304,13 +304,7 @@
     "type": "ammunition_type",
     "id": "plutonium",
     "name": "plutonium",
-    "default": "plut_cell"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "reactor_slurry",
-    "name": "plutonium slurry",
-    "default": "plut_slurry"
+    "default": "plut_ammo"
   },
   {
     "type": "ammunition_type",

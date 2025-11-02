@@ -80,7 +80,7 @@ class angle_in_radians_tag;
 using angle = quantity<double, angle_in_radians_tag>;
 
 class energy_in_joule_tag;
-using energy = quantity<int, energy_in_joule_tag>;
+using energy = quantity<std::int64_t, energy_in_joule_tag>;
 
 class mass_in_milligram_tag;
 using mass = quantity<std::int64_t, mass_in_milligram_tag>;

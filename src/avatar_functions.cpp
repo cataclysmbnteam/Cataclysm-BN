@@ -38,7 +38,6 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
 static const itype_id itype_large_repairkit( "large_repairkit" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
 static const skill_id skill_weapon( "weapon" );
@@ -643,6 +642,13 @@ static detached_ptr<item> add_or_drop_with_msg( avatar &you, detached_ptr<item> 
     return detached_ptr<item>();
 }
 
+enum unload_type {
+    UNLOAD_MAGAZINE,
+    UNLOAD_BATTERY,
+    UNLOAD_BOTH,
+    UNLOAD_NONE,
+};
+
 bool unload_item( avatar &you, item &loc )
 {
     item &it = loc;
@@ -715,11 +721,14 @@ bool unload_item( avatar &you, item &loc )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) {
+    // First: It has no ammo type, cannot contain ammo or has no suitable batteries.
+    if( ( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) &&
+        target->battery_compatible().empty() ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
 
+    // Second: It has the NO_UNLOAD FLAG
     if( target->has_flag( flag_NO_UNLOAD ) ) {
         if( target->has_flag( flag_RECHARGE ) || target->has_flag( flag_USE_UPS ) ) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
@@ -729,12 +738,10 @@ bool unload_item( avatar &you, item &loc )
         return false;
     }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
-        if( target->is_tool() ) {
-            add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
-        } else {
-            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
-        }
+    // Last: It has no current magazine, ammo, casings or batteries inside.
+    if( !target->magazine_current() && !target->battery_current() && target->ammo_remaining() <= 0 &&
+        target->casings_count() <= 0 ) {
+        add_msg( m_info, _( "Your %s is empty!" ), target->tname() );
         return false;
     }
 
@@ -743,36 +750,118 @@ bool unload_item( avatar &you, item &loc )
         return detached_ptr<item>();
     } );
 
-    if( target->is_magazine() ) {
-        // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
-        int mv = 0;
-        int qty = 0;
-        it.contents.remove_top_items_with( [&]( detached_ptr<item> &&contained ) {
-            mv += you.item_reload_cost( it, *contained, contained->charges ) / 2;
-            qty += contained->charges;
-            return add_or_drop_with_msg( you, std::move( contained ), true );
-        } );
+    int unload_func = UNLOAD_NONE;
 
-        // remove the belt linkage
-        if( it.is_ammo_belt() ) {
-            if( it.type->magazine->linkage ) {
-                detached_ptr<item> link = item::spawn( *it.type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( you, std::move( link ), true );
+    // No battery, so unload only magazine/itself.
+    if( !target->battery_current() ) {
+        unload_func = UNLOAD_MAGAZINE;
+        // No mag/internal ammo, so unload only battery.
+    } else if( !target->magazine_current() || target->ammo_remaining() <= 0 ) {
+        unload_func = UNLOAD_BATTERY;
+        // Both available, query player.
+    } else {
+        uilist umenu;
+        umenu.text = "Unload what?";
+
+        umenu.addentry( UNLOAD_MAGAZINE, true, '1', _( "Ammo/Magazine" ) );
+        umenu.addentry( UNLOAD_BATTERY, true, '2', _( "Battery" ) );
+        umenu.addentry( UNLOAD_BOTH, true, '3', _( "Both" ) );
+        umenu.addentry( UNLOAD_NONE, true, '4', _( "None" ) );
+
+        umenu.selected = 1;
+        umenu.query();
+        unload_func = umenu.ret;
+    }
+
+    if( unload_func == UNLOAD_NONE ) {
+        return false;
+    }
+
+    if( unload_func == UNLOAD_MAGAZINE || unload_func == UNLOAD_BOTH ) {
+        if( target->is_magazine() ) {
+            // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
+            int mv = 0;
+            int qty = 0;
+            it.contents.remove_top_items_with( [&]( detached_ptr<item> &&contained ) {
+                if( contained->typeId() != it.ammo_current() ) {
+                    return contained;
+                }
+                mv += you.item_reload_cost( it, *contained, contained->charges ) / 2;
+                qty += contained->charges;
+                return add_or_drop_with_msg( you, std::move( contained ), true );
+            } );
+
+            // remove the belt linkage
+            if( it.is_ammo_belt() ) {
+                if( it.type->magazine->linkage ) {
+                    detached_ptr<item> link = item::spawn( *it.type->magazine->linkage, calendar::turn, qty );
+                    add_or_drop_with_msg( you, std::move( link ), true );
+                }
+                add_msg( _( "You disassemble your %s." ), it.tname() );
+            } else {
+                add_msg( _( "You unload your %s." ), it.tname() );
             }
-            add_msg( _( "You disassemble your %s." ), it.tname() );
-        } else {
-            add_msg( _( "You unload your %s." ), it.tname() );
-        }
 
-        you.mod_moves( -std::min( 200, mv ) );
-        if( loc.has_flag( flag_MAG_DESTROY ) && loc.ammo_remaining() == 0 ) {
-            loc.detach();
+            you.mod_moves( -std::min( 200, mv ) );
+            if( loc.has_flag( flag_MAG_DESTROY ) && loc.ammo_remaining() == 0 ) {
+                loc.detach();
+            }
+            return true;
+        } else if( item *mag = target->magazine_current() ) {
+            bool unloaded = false;
+            target->contents.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
+                if( &*it == mag ) {
+                    it = add_or_drop_with_msg( you, std::move( it ), true );
+                    if( !it ) {
+                        unloaded = true;
+                    }
+                }
+                return std::move( it );
+            } );
+            if( unloaded ) {
+                // Eject magazine consuming half as much time as required to insert it
+                you.moves -= you.item_reload_cost( *target, *mag, -1 ) / 2;
+            }
+
+        } else if( target->ammo_remaining() ) {
+            int qty = target->ammo_remaining();
+
+            // Construct a new ammo item and try to drop it
+            detached_ptr<item> ammo = item::spawn( target->ammo_current(), calendar::turn, qty );
+
+            item &ammo_ref = *ammo;
+
+            if( ammo->made_of( LIQUID ) ) {
+
+
+                ammo = add_or_drop_with_msg( you, std::move( ammo ), false );
+
+                if( ammo ) {
+                    qty -= ammo->charges; // only handled part (or none) of the liquid
+                }
+                if( qty <= 0 ) {
+                    return false; // no liquid was moved
+                }
+
+            } else {
+                ammo = add_or_drop_with_msg( you, std::move( ammo ), qty > 1 );
+                if( ammo ) {
+                    return false;
+                }
+            }
+
+            // If successful remove appropriate qty of ammo consuming half as much time as required to load it
+            you.moves -= you.item_reload_cost( *target, ammo_ref, qty ) / 2;
+
+            target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
         }
-        return true;
-    } else if( item *mag = target->magazine_current() ) {
+    }
+
+    if( unload_func == UNLOAD_BATTERY || unload_func == UNLOAD_BOTH ) {
+        item *bat = target->battery_current();
         bool unloaded = false;
         target->contents.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
-            if( &*it == mag ) {
+            if( &*it == bat ) {
                 it = add_or_drop_with_msg( you, std::move( it ), true );
                 if( !it ) {
                     unloaded = true;
@@ -781,55 +870,9 @@ bool unload_item( avatar &you, item &loc )
             return std::move( it );
         } );
         if( unloaded ) {
-            // Eject magazine consuming half as much time as required to insert it
-            you.moves -= you.item_reload_cost( *target, *mag, -1 ) / 2;
+            // Eject battery consuming half as much time as required to insert it
+            you.moves -= you.item_reload_cost( *target, *bat, -1 ) / 2;
         }
-
-    } else if( target->ammo_remaining() ) {
-        int qty = target->ammo_remaining();
-
-        if( target->ammo_current() == itype_plut_cell ) {
-            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-            if( qty > 0 ) {
-                add_msg( _( "You recover %i unused plutonium." ), qty );
-            } else {
-                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return false;
-            }
-        }
-
-        // Construct a new ammo item and try to drop it
-        detached_ptr<item> ammo = item::spawn( target->ammo_current(), calendar::turn, qty );
-
-        item &ammo_ref = *ammo;
-
-        if( ammo->made_of( LIQUID ) ) {
-
-
-            ammo = add_or_drop_with_msg( you, std::move( ammo ), false );
-
-            if( ammo ) {
-                qty -= ammo->charges; // only handled part (or none) of the liquid
-            }
-            if( qty <= 0 ) {
-                return false; // no liquid was moved
-            }
-
-        } else {
-            ammo = add_or_drop_with_msg( you, std::move( ammo ), qty > 1 );
-            if( ammo ) {
-                return false;
-            }
-        }
-
-        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
-        you.moves -= you.item_reload_cost( *target, ammo_ref, qty ) / 2;
-
-        if( target->ammo_current() == itype_plut_cell ) {
-            qty *= PLUTONIUM_CHARGES;
-        }
-
-        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
     }
 
     // Turn off any active tools

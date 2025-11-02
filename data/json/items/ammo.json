@@ -1,25 +1,5 @@
 [
   {
-    "type": "AMMO",
-    "id": "battery",
-    "category": "spare_parts",
-    "price": "120 USD",
-    "price_postapoc": "2 cent",
-    "name": { "str": "battery", "str_pl": "batteries" },
-    "symbol": "=",
-    "color": "yellow",
-    "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID" ],
-    "material": "iron",
-    "effects": [ "COOKOFF" ],
-    "volume": "100 ml",
-    "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
-    "ammo_type": "battery",
-    "count": 100,
-    "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
-    "fuel": { "energy": 1 }
-  },
-  {
     "type": "TOOL",
     "id": "RTG_coffee",
     "category": "spare_parts",
@@ -205,20 +185,19 @@
   },
   {
     "type": "AMMO",
-    "id": "plut_cell",
+    "id": "plut_ammo",
     "category": "spare_parts",
     "price": "1500 USD",
     "price_postapoc": "1250 cent",
-    "name": { "str": "plutonium fuel cell" },
+    "name": { "str": "catalyzed plutonium" },
     "symbol": "=",
     "color": "green",
-    "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  Unfortunately it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
-    "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
+    "description": "A fluid state reactive compound of plutonium 244 mixed with unknown material.  It is capable of spontaneously converting into a plutonium 244 metastate, allowing it to decay rapidly producing incredible amounts of energy when placed into an appropriate reactor.  Handle at your own risk.",
     "volume": "250 ml",
     "weight": "80 g",
     "ammo_type": "plutonium",
-    "count": 5,
+    "count": 500,
+    "stack_size": 200,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
     "fuel": { "energy": 10 }
   },
@@ -235,10 +214,11 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "250 ml",
     "weight": "25500 mg",
-    "ammo_type": "reactor_slurry",
+    "ammo_type": "plutonium",
     "phase": "liquid",
     "container": "metal_tank_little",
-    "count": 10
+    "count": 10,
+    "fuel": { "energy": 8 }
   },
   {
     "type": "AMMO",
@@ -253,10 +233,11 @@
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "250 ml",
     "weight": "25500 mg",
-    "ammo_type": "reactor_slurry",
+    "ammo_type": "plutonium",
     "phase": "liquid",
     "container": "metal_tank_little",
-    "count": 10
+    "count": 10,
+    "fuel": { "energy": 4 }
   },
   {
     "type": "AMMO",

@@ -2165,15 +2165,21 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( !it.is_fuel() ) {
+    bool is_bat = it.is_battery() && !it.has_flag( flag_REACTOR );
+    if( !it.is_fuel() && !is_bat ) {
         return false;
     }
 
+
     for( const bionic &i : get_bionic_collection() ) {
         const bionic_id &bid = i.id;
-        for( const itype_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.typeId() ) {
-                return true;
+        if( is_bat && bid->max_energy_draw > 0_J ) {
+            return true;
+        } else {
+            for( const itype_id &fuel : bid->fuel_opts ) {
+                if( fuel == it.typeId() ) {
+                    return true;
+                }
             }
         }
     }
@@ -2370,6 +2376,17 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     return capacity - amount_stored;
 }
 
+units::energy Character::get_energy_capacity() const
+{
+    units::energy capacity = 0_J;
+    for( const bionic &bio : *my_bionics ) {
+        if( bio.info().max_energy_draw > 0_J ) {
+            capacity += bio.info().energy_capacity - bio.energy_stored;
+        }
+    }
+    return capacity;
+}
+
 int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 {
     int capacity = 0;
@@ -2381,6 +2398,17 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
                     capacity += bid->fuel_capacity;
                 }
             }
+        }
+    }
+    return capacity;
+}
+
+units::energy Character::get_total_energy_capacity() const
+{
+    units::energy capacity = 0_J;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->energy_capacity > 0_J ) {
+            capacity += bid->energy_capacity;
         }
     }
     return capacity;
@@ -7837,22 +7865,18 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    int charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
-    if( charges_used == 0 ) {
+    auto[chrg, enrg] = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
+    if( chrg == 0 && enrg == 0_J ) {
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
 
-    if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
-        return consume_charges( *actually_used, charges_used );
+    if( used->is_tool() || used->count_by_charges() || used->is_comestible() ||
+        used->get_contained().is_comestible() ) {
+        consume_energy( *actually_used, enrg );
+        return( consume_charges( *actually_used, chrg ) );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         used->detach();
-        return true;
-    } else if( used->count_by_charges() ) {
-        used->charges -= charges_used;
-        if( used->charges <= 0 ) {
-            used->detach();
-        }
         return true;
     }
 
@@ -7963,11 +7987,26 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     if( !it.is_tool() || !it.ammo_required() ) {
         return true;
     }
+    if( !it.ammo_sufficient() ) {
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                               vgettext( "Your %s has %d charge but needs %d.",
+                                         "Your %s has %d charges but needs %d.",
+                                         it.ammo_remaining() ),
+                               it.tname(), it.ammo_remaining(), it.ammo_required() );
+        }
+        return false;
+    }
+    return true;
+}
+
+bool Character::has_enough_power( const item &it, bool show_msg ) const
+{
+    if( !it.is_tool() || !it.ammo_required() ) {
+        return true;
+    }
     if( it.is_power_armor() ) {
-        if( ( character_funcs::can_interface_armor( *this ) &&
-              has_charges( itype_bio_armor, it.ammo_required() ) ) ||
-            ( it.has_flag( flag_USE_UPS ) && has_charges( itype_UPS, it.ammo_required() ) ) ||
-            it.ammo_sufficient() ) {
+        if( it.energy_sufficient( *this ) ) {
             return true;
         }
 
@@ -8049,10 +8088,36 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_power_armor() ) {
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
-        } else if( character_funcs::can_interface_armor( *this ) && has_charges( itype_bio_armor, qty ) ) {
-            use_charges( itype_bio_armor, qty );
+        }
+    }
+
+    used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+    return false;
+}
+
+bool Character::consume_energy( item &used, units::energy qty )
+{
+    if( qty < 0_J ) {
+        debugmsg( "Tried to consume negative power" );
+        return false;
+    }
+
+    if( qty == 0_J ) {
+        return false;
+    }
+
+    if( !used.is_tool() ) {
+        debugmsg( "Tried to consume power for non-tool item" );
+        return false;
+    }
+
+    if( used.is_power_armor() ) {
+        if( used.energy_remaining() >= qty ) {
+            used.energy_consume( qty, pos() );
+        } else if( character_funcs::can_interface_armor( *this ) && has_energy( itype_bio_armor, qty ) ) {
+            use_energy( itype_bio_armor, qty );
         } else {
-            use_charges( itype_UPS, qty );
+            use_energy( itype_UPS, qty );
         }
     }
 
@@ -8061,13 +8126,13 @@ bool Character::consume_charges( item &used, int qty )
     if( used.has_flag( flag_USE_UPS ) ) {
         // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
         // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty ) {
-            used.ammo_consume( qty, pos() );
+        if( used.energy_remaining() >= qty ) {
+            used.energy_consume( qty, pos() );
         } else {
-            use_charges( itype_UPS, qty );
+            use_energy( itype_UPS, qty );
         }
     } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+        used.energy_consume( std::min( qty, used.energy_remaining() ), pos() );
     }
     return false;
 }
@@ -10374,13 +10439,18 @@ bool Character::has_charges( const itype_id &it, int quantity,
     if( it == itype_fire || it == itype_apparatus ) {
         return has_fire( quantity );
     }
-    if( it == itype_UPS && is_mounted() &&
-        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-        auto mons = mounted_creature.get();
-        return quantity <= mons->get_battery_item()->ammo_remaining();
+    return charges_of( it, quantity, filter ) == quantity;
+}
+
+bool Character::has_energy( const itype_id &it, units::energy amount,
+                            const std::function<bool( const item & )> &filter ) const
+{
+    if( it == itype_UPS ) {
+        units::energy UPS_needed = amount;
+        return energy_of( itype_UPS, UPS_needed ) == UPS_needed;
     }
     if( it == itype_bio_armor ) {
-        int mod_qty = 0;
+        units::energy mod_power = 0_J;
         float efficiency = 1;
         for( const bionic &bio : get_bionic_collection() ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
@@ -10390,10 +10460,10 @@ bool Character::has_charges( const itype_id &it, int quantity,
         if( efficiency == 1 ) {
             debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
         }
-        mod_qty = quantity / efficiency;
-        return ( has_power() && get_power_level() >= units::from_kilojoule( mod_qty ) );
+        mod_power = amount / efficiency;
+        return ( has_power() && get_power_level() >= mod_power );
     }
-    return charges_of( it, quantity, filter ) == quantity;
+    return energy_of( it, amount, filter ) == amount;
 }
 
 std::vector<detached_ptr<item>> Character::use_amount( itype_id it, int quantity,
@@ -10413,10 +10483,21 @@ std::vector<detached_ptr<item>> Character::use_amount( itype_id it, int quantity
     return ret;
 }
 
-bool Character::use_charges_if_avail( const itype_id &it, int quantity )
+bool Character::use_charges_if_avail( const itype_id &it, int quantity,
+                                      const std::function<bool( const item & )> &filter )
 {
-    if( has_charges( it, quantity ) ) {
-        use_charges( it, quantity );
+    if( has_charges( it, quantity, filter ) ) {
+        use_charges( it, quantity, filter );
+        return true;
+    }
+    return false;
+}
+
+bool Character::use_energy_if_avail( const itype_id &it, units::energy amount,
+                                     const std::function<bool( const item & )> &filter )
+{
+    if( has_energy( it, amount, filter ) ) {
+        use_energy( it, amount, filter );
         return true;
     }
     return false;
@@ -10428,7 +10509,6 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
     std::vector<detached_ptr<item>> res;
     if( qty <= 0 ) {
         return res;
-
     } else if( what == itype_voltmeter_bionic ) {
         mod_power_level( units::from_kilojoule( -qty ) );
         return res;
@@ -10436,73 +10516,19 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
     } else if( what == itype_toolset ) {
         mod_power_level( units::from_kilojoule( -qty ) );
         return res;
-
     } else if( what == itype_fire ) {
         use_fire( qty );
         return res;
-
-    } else if( what == itype_bio_armor ) {
-        float mod_qty = 0;
-        float efficiency = 1;
-        for( const bionic &bio : get_bionic_collection() ) {
-            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
-                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
-            }
-        }
-        if( efficiency == 1 ) {
-            debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
-        }
-        mod_qty = qty / efficiency;
-        mod_power_level( units::from_kilojoule( -mod_qty ) );
-        return res;
-
-    } else if( what == itype_UPS ) {
-        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
-            mounted_creature.get()->get_battery_item() ) {
-            auto mons = mounted_creature.get();
-            int power_drain = std::min( mons->get_battery_item()->ammo_remaining(), qty );
-            mons->use_mech_power( -power_drain );
-            qty -= std::min( qty, power_drain );
-            return res;
-        }
-        if( has_power() && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-            mod_power_level( units::from_kilojoule( -bio ) );
-            qty -= std::min( qty, bio );
-        }
-
-        remove_items_with( [ & ]( detached_ptr<item> &&e ) {
-            if( e->has_flag( flag_IS_UPS ) && e->ammo_remaining() > 0 ) {
-                int ups_eff_mult = e->type->tool->ups_eff_mult;
-                detached_ptr<item> split = item::spawn( *e );
-                split->ammo_set( e->ammo_current(), e->ammo_remaining() );
-                int used = std::min( qty, e->ammo_remaining() * ups_eff_mult );
-                qty -= used;
-                int rand_increase = x_in_y( used % ups_eff_mult, ups_eff_mult );
-                int really_used = ( used / ups_eff_mult ) + rand_increase;
-                e->ammo_consume( really_used, pos() );
-                res.push_back( std::move( split ) );
-            }
-            return qty != 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
-        } );
-
-        return res;
-
     }
 
-
-    bool has_tool_with_UPS = false;
     tripoint p = pos();
-    remove_items_with( [&qty, filter, &has_tool_with_UPS, &what, &res, &p]( detached_ptr<item> &&e ) {
+    remove_items_with( [&qty, filter, &what, &res, &p]( detached_ptr<item> &&e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
         }
         if( !filter( *e ) ) {
             return VisitResponse::NEXT;
-        }
-        if( e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
-            has_tool_with_UPS = true;
         }
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
@@ -10543,11 +10569,101 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
         return VisitResponse::NEXT;
     } );
 
-    if( has_tool_with_UPS ) {
-        std::vector<detached_ptr<item>> found = use_charges( itype_UPS, qty );
-        res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                    std::make_move_iterator( found.end() ) );
+    return res;
+}
+
+std::vector<detached_ptr<item>> Character::use_energy( const itype_id &what,
+                             const units::energy amount,
+                             const std::function<bool( const item & )> &filter )
+{
+    std::vector<detached_ptr<item>> res;
+    if( amount <= 0_J ) {
+        return res;
+
+    } else if( what == itype_toolset ) {
+        mod_power_level( amount );
+        return res;
+
+    } else if( what == itype_bio_armor ) {
+        units::energy mod_amount = 0_J;
+        float efficiency = 1;
+        for( const bionic &bio : *my_bionics ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
+            }
+        }
+        if( efficiency == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
+        }
+        mod_amount = amount / efficiency;
+        mod_power_level( mod_amount );
+        return res;
+
+    } else if( what == itype_UPS ) {
+        units::energy power_needed = amount;
+        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+            mounted_creature.get()->get_battery_item() ) {
+            auto mons = mounted_creature.get();
+            units::energy power_drain = std::min( mons->get_battery_item()->energy_remaining(), amount );
+            mons->use_mech_power( -power_drain );
+            power_needed -= power_drain;
+            if( power_needed == 0_J ) {
+                return res;
+            }
+        }
+        if( has_power() && has_active_bionic( bio_ups ) ) {
+            units::energy bio = std::min( get_power_level(), amount );
+            mod_power_level( -bio );
+            power_needed -= bio;
+            if( power_needed == 0_J ) {
+                return res;
+            }
+        }
+
+        tripoint p = pos();
+        remove_items_with( [&power_needed, filter, &res, &p]( detached_ptr<item> &&e ) {
+            if( power_needed == 0_J ) {
+                // found sufficient power
+                return VisitResponse::ABORT;
+            }
+            if( !filter( *e ) ) {
+                return VisitResponse::NEXT;
+            }
+            if( e->has_flag( flag_IS_UPS ) ) {
+                power_needed -= e->energy_consume( power_needed, p );
+
+                return VisitResponse::SKIP;
+            }
+
+            // recurse through any nested containers
+            return VisitResponse::NEXT;
+        } );
+
+        return res;
+
     }
+
+    tripoint p = pos();
+    units::energy power_needed = amount;
+    remove_items_with( [&power_needed, filter, &what, &res, &p]( detached_ptr<item> &&e ) {
+        if( power_needed == 0_J ) {
+            // found sufficient charges
+            return VisitResponse::ABORT;
+        }
+        if( !filter( *e ) ) {
+            return VisitResponse::NEXT;
+        }
+        if( e->typeId() == what ) {
+            units::energy n = std::min( e->energy_remaining(), power_needed );
+            power_needed -= n;
+            e->energy_consume( n, p );
+
+            return VisitResponse::SKIP;
+        }
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
 
     return res;
 }
@@ -10634,8 +10750,7 @@ void Character::use_fire( const int quantity )
     } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
         auto firestarters = all_items_with_flag( flag_FIRESTARTER );
         for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
-                use_charges( i->typeId(), quantity );
+            if( use_charges_if_avail( i->typeId(), quantity ) ) {
                 return;
             }
         }
@@ -11901,7 +12016,7 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = clamp( qty, ammo.contents.front().charges, 1 );
-    } else if( ammo.is_magazine() ) {
+    } else if( ammo.is_magazine() || ammo.is_battery() ) {
         qty = 1;
     } else {
         debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname() );

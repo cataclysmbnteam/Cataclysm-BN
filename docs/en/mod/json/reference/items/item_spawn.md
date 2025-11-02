@@ -35,17 +35,18 @@ The format is this:
     "id": "<some name>",
     "ammo": <some number>,
     "magazine": <some number>,
+    "battery": <some number>,
     "purge": <true/false>,
     "delete": [ ... ],
     "entries": [ ... ]
 }
 ```
 
-`purge` is optional. It is a bool for weather or not all previous things defined in the item group should be purged.
+`purge` is optional. It is a bool for whether or not all previous things defined in the item group should be purged.
 `subtype` is optional. It can be `collection` or `distribution`. If unspecified, it defaults to
 `old`, which denotes that this item group uses the old format (which is technically a distribution).
 
-There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo` or `magazine`.
+There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo`, `magazine` or `battery`.
 
 ### Entries array
 
@@ -95,6 +96,9 @@ item(s):
 "charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
+"energy": <string unit>|<array>,
+"energy-min": <string unit>,
+"energy-max": <string unit>,
 "active": "<bool>"
 "contents-item": "<item-id>" (can be a string or an array of strings),
 "contents-group": "<group-id>" (can be a string or an array of strings),
@@ -112,6 +116,10 @@ item. This allows water, that contains a book, that contains a steel frame, that
 `charges`: Setting only min, not max will make the game calculate the max charges based on container
 or ammo/magazine capacity. Setting max too high will decrease it to maximum capacity. Not setting
 min will set it to 0 when max is set.
+
+`energy`: Setting only min, not max will make the game calculate the max power based on toool capacity.
+Setting max too high will decrease it to maximum capacity. Not setting min will set it to 0 when max is set.
+Must be set as a string. Example: `"energy": [ "0 J" , "150 kJ" ]`
 
 `active`: If true, activates the item on spawn. Note that this _does not work_ for itemgroups, only
 individual items _within_ itemgroups.
@@ -179,21 +187,25 @@ there is no error emmitted, it just skips along ( as it was most likely already 
 Here are some ways to make items spawn with/without ammo/magazines (note that `ammo-item` can be
 specified for guns and magazines in the entries array to use a non-default ammo type):
 
-- Specify an ammo/magazine chance (introduced in Section 2) for the entire item group. `ammo`
+- Specify an ammo/magazine/battery chance (introduced in Section 2) for the entire item group. `ammo`
   specifies the percent chance that the entries will spawn fully loaded (if it needs a magazine, it
   will be added for you). `magazine` specifies the percent chance that the entries will spawn with a
-  magazine. Both of these default to 0 if unspecified.
+  magazine. `battery` specifies the percent chance that the entries will spawn with a battery. All of
+  these default to 0 if unspecified.
 
-  Note that `ammo` and `magazine` only apply to tools, guns, and magazines. Furthermore, they don't
+  Note that `ammo`, `magazine`, `battery` only apply to tools, guns, and magazines. Furthermore, they don't
   apply to tools whose entry explicitly specifies how much ammo (charges) to spawn with, or to tools
   whose JSON item definition specifies a random amount or a fixed, nonzero amount of initial
   charges.
 
-  If any item groups are referenced from your item group, then their ammo/magazine chances are
+  If any item groups are referenced from your item group, then their ammo/magazine/battery chances are
   ignored, and yours are used instead.
 
 - Use `charges`, `charges-min`, or `charges-max` in the entries array. A default magazine will be
   added for you if needed.
+
+- Use `energy`, `energy-min`, or `energy-max` in the entries array. A default battery will be added for
+  you if needed.
 
 ## Shortcuts
 

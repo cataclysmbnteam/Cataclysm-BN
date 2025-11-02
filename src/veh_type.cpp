@@ -83,6 +83,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
+    { "E_ENGINE", VPFLAG_E_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "FREEZER", VPFLAG_FREEZER },
     { "LIGHT", VPFLAG_LIGHT },
@@ -1138,9 +1139,11 @@ void vehicle_prototype::load( const JsonObject &jo )
                       vproto.name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
         }
 
-        // constrain both with_magazine and with_ammo to [0-100]
+        // constrain with_magazine, with_battery and with_ammo to [0-100]
         next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
                                              next_spawn.with_magazine ), 100 ), 0 );
+        next_spawn.with_battery = std::max( std::min( spawn_info.get_int( "battery",
+                                            next_spawn.with_battery ), 100 ), 0 );
         next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo", next_spawn.with_ammo ),
                                          100 ), 0 );
 

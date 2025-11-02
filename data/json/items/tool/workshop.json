@@ -118,17 +118,10 @@
     "symbol": "/",
     "color": "yellow",
     "qualities": [ [ "GRIND", 2 ] ],
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "power_draw": 800000,
+    "power_draw": "800 J",
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "brick_kiln",
@@ -236,17 +229,11 @@
     "material": "steel",
     "symbol": "$",
     "color": "dark_gray",
-    "ammo": "battery",
-    "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "20 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "cordless_drill",
@@ -264,15 +251,9 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "distaff_spindle",
@@ -307,12 +288,11 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
-    "initial_charges": 5000,
-    "max_charges": 10000,
-    "charges_per_use": 200,
     "use_action": [ "JACKHAMMER", "TOGGLE_UPS_CHARGING" ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "power_draw": "200 kJ",
+    "initial_power": "5000 kJ",
+    "max_power": "10000 kJ"
   },
   {
     "id": "hacksaw",
@@ -527,12 +507,9 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "battery_well": "1000 ml",
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
   },
   {
     "id": "large_repairkit",
@@ -549,8 +526,6 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
-    "charges_per_use": 25,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -567,14 +542,10 @@
       [ "CASING_FORMING", 1 ]
     ],
     "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "power_draw": "25 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "makeshift_hammer",
@@ -912,23 +883,17 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
     "flags": [ "TRADER_AVOID" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "primitive_hammer",
@@ -1004,8 +969,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 100,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -1021,14 +984,10 @@
       [ "CASING_FORMING", 1 ]
     ],
     "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "power_draw": "100 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "soldering_iron",
@@ -1046,8 +1005,6 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": [
       {
         "type": "repair_item",
@@ -1060,21 +1017,17 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "soldering_ethanol",
@@ -1247,8 +1200,6 @@
     "material": "steel",
     "symbol": ";",
     "color": "red",
-    "ammo": "battery",
-    "charges_per_use": 5,
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1275,13 +1226,9 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "wood_smoother",

@@ -42,6 +42,7 @@
 #include "player_activity_ptr.h"
 #include "pldata.h"
 #include "point.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "stomach.h"
@@ -1064,6 +1065,10 @@ class Character : public Creature, public location_visitable<Character>
         int get_total_fuel_capacity( const itype_id &fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
+        /**Return available energy storage*/
+        units::energy get_energy_capacity() const;
+        /**Return total energy storage*/
+        units::energy get_total_energy_capacity() const;
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         /** Handles bionic effects over time of the entered bionic */
@@ -1134,6 +1139,8 @@ class Character : public Creature, public location_visitable<Character>
 
         /**Convert fuel to bionic power*/
         bool burn_fuel( bionic &bio, bool start = false );
+        /**Discharge a bionic capacitor*/
+        bool discharge( bionic &bio, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( bionic &bio );
         /**Find fuel used by remote powered bionic*/
@@ -1210,15 +1217,26 @@ class Character : public Creature, public location_visitable<Character>
 
         /**
          * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
          */
         bool has_enough_charges( const item &it, bool show_msg ) const;
+
+        /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+        */
+        bool has_enough_power( const item &it, bool show_msg ) const;
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
          *  @param qty number of charges to consume which must be non-zero
          *  @return true if item was destroyed */
         bool consume_charges( item &used, int qty );
+
+        /** Consume energy sof a tool or comestible item, potentially destroying it in the process
+         *  @param used item consuming the energy
+         *  @param qty power to consume which must be greater than zero.
+         *  @return true if item was destroyed (Not currently used) */
+        bool consume_energy( item &used, units::energy qty );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
@@ -1793,18 +1811,30 @@ class Character : public Creature, public location_visitable<Character>
         std::vector<item *> all_items( bool need_charges = false ) const;
 
 
+        // has_charges works ONLY for charges.
+        // has_energy wokrs ONLY for energy
+
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_energy( const itype_id &it, units::energy amount,
+                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
-        // has_amount works ONLY for quantity.
-        // has_charges works ONLY for charges.
         std::vector<detached_ptr<item>> use_amount( itype_id it, int quantity,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         // Uses up charges
-        bool use_charges_if_avail( const itype_id &it, int quantity );
+        bool use_charges_if_avail( const itype_id &it, int quantity,
+                                   const std::function<bool( const item & )> &filter = return_true<item> );
 
         // Uses up charges
         std::vector<detached_ptr<item>> use_charges( const itype_id &what, int qty,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+
+        // Uses up energy if enough is found, if not, returns false and uses no energy
+        bool use_energy_if_avail( const itype_id &it, units::energy amount,
+                                  const std::function<bool( const item & )> &filter = return_true<item> );
+
+        // Uses up energy
+        std::vector<detached_ptr<item>> use_energy( const itype_id &what, const units::energy amount,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_fire( int quantity ) const;
@@ -2557,11 +2587,14 @@ class Character : public Creature, public location_visitable<Character>
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
-        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch,
+                            cost_adjustment cost_ad = cost_adjustment::none );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            cost_adjustment cost_ad = cost_adjustment::none );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+                            const std::string &hotkeys = DEFAULT_HOTKEYS,
+                            cost_adjustment cost_ad = cost_adjustment::none );
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
                                       const tripoint &loc = tripoint_zero );
         pimpl<craft_command> last_craft;

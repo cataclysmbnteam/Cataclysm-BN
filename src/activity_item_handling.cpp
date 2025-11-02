@@ -108,7 +108,6 @@ static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_welder( "welder" );
@@ -1284,13 +1283,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &veh = vp->vehicle();
                 const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
-                    item *welder = item::spawn_temporary( itype_welder, calendar::start_of_cataclysm );
-                    welder->charges = veh.fuel_left( itype_battery, true );
+                    units::energy veh_enrg = veh.energy_left( true );
+                    item *welder = item::spawn_temporary( itype_welder, calendar::start_of_cataclysm, 0, veh_enrg );
                     welder->set_flag( flag_PSEUDO );
                     temp_inv.add_item( *welder, false );
                     item *soldering_iron = item::spawn_temporary( itype_soldering_iron,
-                                           calendar::start_of_cataclysm );
-                    soldering_iron->charges = veh.fuel_left( itype_battery, true );
+                                           calendar::start_of_cataclysm, 0, veh_enrg );
                     soldering_iron->set_flag( flag_PSEUDO );
                     temp_inv.add_item( *soldering_iron, false );
                 }
@@ -1440,9 +1438,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         if( !here.has_flag( "MINEABLE", src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
-        std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+        std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
             return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+                   ( itm.type->can_use( "JACKHAMMER" ) && ( itm.ammo_sufficient() && itm.energy_sufficient( p ) ) );
         } );
         if( mining_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
@@ -1633,10 +1631,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
-static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
+static std::vector<std::tuple<tripoint, itype_id, int, units::energy>> requirements_map( player &p,
         const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
-    std::vector<std::tuple<tripoint, itype_id, int>> requirement_map;
+    std::vector<std::tuple<tripoint, itype_id, int, units::energy>> requirement_map;
     if( p.backlog.empty() || p.backlog.front()->str_values.empty() ) {
         return requirement_map;
     }
@@ -1657,11 +1655,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                              p.backlog.front()->id() == ACT_MULTIPLE_FISH ||
                              p.backlog.front()->id() == ACT_MULTIPLE_MINE;
     // where it is, what it is, how much of it, and how much in total is required of that item.
-    std::vector<std::tuple<tripoint, itype_id, int>> final_map;
+    std::vector<std::tuple<tripoint, itype_id, int, units::energy>> final_map;
     std::vector<tripoint> loot_spots;
     std::vector<tripoint> already_there_spots;
     std::vector<tripoint> combined_spots;
-    std::map<itype_id, int> total_map;
     map &here = get_map();
     tripoint src_loc = here.getlocal( p.backlog.front()->placement );
     for( const tripoint &elem : here.points_in_radius( src_loc,
@@ -1701,7 +1698,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     // a vector of every item in every tile that matches any part of the requirements.
     // will be filtered for amounts/charges afterwards.
     for( const tripoint &point_elem : pickup_task ? loot_spots : combined_spots ) {
-        std::map<itype_id, int> temp_map;
+        std::map<itype_id, std::pair<int, units::energy>> temp_map;
         for( const item * const &stack_elem : here.i_at( point_elem ) ) {
             for( std::vector<item_comp> &elem : req_comps ) {
                 for( item_comp &comp_elem : elem ) {
@@ -1714,7 +1711,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                                                point_elem ) != already_there_spots.end() ) {
                             comp_elem.count -= stack_elem->count();
                         }
-                        temp_map[stack_elem->typeId()] += stack_elem->count();
+                        temp_map[stack_elem->typeId()].first += stack_elem->count();
                     }
                 }
             }
@@ -1729,11 +1726,13 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                         if( comp_elem.by_charges() ) {
                             // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
-                            if( stack_elem->ammo_remaining() >= comp_elem.count ) {
-                                temp_map[stack_elem->typeId()] += stack_elem->ammo_remaining();
+                            if( stack_elem->ammo_sufficient( comp_elem.count ) &&
+                                stack_elem->energy_sufficient( p, stack_elem->energy_required() * comp_elem.count ) ) {
+                                temp_map[stack_elem->typeId()].first += stack_elem->ammo_remaining();
+                                temp_map[stack_elem->typeId()].second += stack_elem->energy_remaining();
                             }
                         } else {
-                            temp_map[stack_elem->typeId()] += stack_elem->count();
+                            temp_map[stack_elem->typeId()].first += stack_elem->count();
                         }
                     }
                 }
@@ -1749,13 +1748,12 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                                                point_elem ) != already_there_spots.end() ) {
                             comp_elem.count -= stack_elem->count();
                         }
-                        temp_map[stack_elem->typeId()] += stack_elem->count();
+                        temp_map[stack_elem->typeId()].first += stack_elem->count();
                     }
                 }
             }
         }
         for( const auto &map_elem : temp_map ) {
-            total_map[map_elem.first] += map_elem.second;
             // if its a construction/crafting task, we can discount any items already near the work spot.
             // we don't need to fetch those, they will be used automatically in the construction.
             // a shovel for tilling, for example, however, needs to be picked up, no matter if its near the spot or not.
@@ -1765,11 +1763,34 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     continue;
                 }
             }
-            requirement_map.emplace_back( point_elem, map_elem.first, map_elem.second );
+            requirement_map.emplace_back( point_elem, map_elem.first, map_elem.second.first,
+                                          map_elem.second.second );
         }
     }
     // Ok we now have a list of all the items that match the requirements, their points, and a quantity for each one.
     // we need to consolidate them, and winnow it down to the minimum required counts, instead of all matching.
+
+    // First, let's sort the requirement_map
+    // To explain, this sorts things so that all the items of same itype_id are together
+    // then it sorts everything by int in descending order, and within that energy in descending order.
+    // This is banking on power using tools not needing charges and vice versa
+    // otherwise the code would have to be a bit more complex.
+    const auto big_sort = []( std::tuple<tripoint, itype_id, int, units::energy> &lhs,
+    std::tuple<tripoint, itype_id, int, units::energy> &rhs ) -> bool {
+        if( std::get<1>( lhs ) != std::get<1>( rhs ) )
+        {
+            return localized_compare( std::get<1>( lhs ).c_str(), std::get<1>( rhs ).c_str() );
+        } else if( std::get<2>( lhs ) != std::get<2>( rhs ) )
+        {
+            return std::get<2>( lhs ) > std::get<2>( rhs );
+        } else if( std::get<3>( lhs ) != std::get<3>( rhs ) )
+        {
+            return std::get<3>( lhs ) > std::get<3>( rhs );
+        }
+        return false;
+    };
+    std::sort( requirement_map.begin(), requirement_map.end(), big_sort );
+
     for( const std::vector<item_comp> &elem : req_comps ) {
         bool line_found = false;
         for( const item_comp &comp_elem : elem ) {
@@ -1784,47 +1805,27 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
                 int quantity_here = std::get<2>( *it );
-                if( comp_elem.type == item_here ) {
-                    item_quantity += quantity_here;
+                if( comp_elem.type != item_here ) {
+                    continue;
                 }
-                if( item_quantity >= quantity_required ) {
-                    // it's just this spot that can fulfil the requirement on its own
-                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
-                                            quantity_required ) );
-                    if( quantity_here >= quantity_required ) {
-                        line_found = true;
-                        break;
-                    } else {
-                        remainder = quantity_required - quantity_here;
-                    }
+
+                // Only this location is required.
+                if( quantity_here >= quantity_required ) {
+                    line_found = true;
+                    final_map.emplace_back( pos_here, item_here,
+                                            std::min<int>( quantity_here, quantity_required ), 0_J );
                     break;
                 }
-                it++;
-            }
-            if( line_found ) {
-                while( true ) {
-                    // go back over things
-                    if( it == requirement_map.begin() ) {
-                        break;
-                    }
-                    if( remainder <= 0 ) {
-                        line_found = true;
-                        break;
-                    }
-                    tripoint pos_here2 = std::get<0>( *it );
-                    itype_id item_here2 = std::get<1>( *it );
-                    int quantity_here2 = std::get<2>( *it );
-                    if( comp_elem.type == item_here2 ) {
-                        if( quantity_here2 >= remainder ) {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            line_found = true;
-                        } else {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            remainder -= quantity_here2;
-                        }
-                    }
-                    it--;
+
+                // If we got here, then more locations are needed, but first, the cumulative check.
+                remainder = quantity_required - item_quantity;
+                item_quantity += quantity_here;
+                if( item_quantity >= quantity_required ) {
+                    line_found = true;
+                    final_map.emplace_back( pos_here, item_here,
+                                            std::min<int>( quantity_here, remainder ), 0_J );
                 }
+                it++;
             }
         }
     }
@@ -1845,44 +1846,26 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 if( comp_elem.type == item_here ) {
                     item_quantity += quantity_here;
                 }
-                if( item_quantity >= quantity_required ) {
-                    // it's just this spot that can fulfil the requirement on its own
-                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
-                                            quantity_required ) );
-                    if( quantity_here >= quantity_required ) {
-                        line_found = true;
-                        break;
-                    } else {
-                        remainder = quantity_required - quantity_here;
-                    }
+
+                // Only this location is required. For tools this should always be true.
+                // As we disregarded all other tools that fell short.
+                // So we don't need to check energy here.
+                if( quantity_here >= quantity_required ) {
+                    line_found = true;
+                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here, quantity_required ),
+                                            std::get<3>( *it ) );
                     break;
                 }
-                it++;
-            }
-            if( line_found ) {
-                while( true ) {
-                    // go back over things
-                    if( it == requirement_map.begin() ) {
-                        break;
-                    }
-                    if( remainder <= 0 ) {
-                        line_found = true;
-                        break;
-                    }
-                    tripoint pos_here2 = std::get<0>( *it );
-                    itype_id item_here2 = std::get<1>( *it );
-                    int quantity_here2 = std::get<2>( *it );
-                    if( comp_elem.type == item_here2 ) {
-                        if( quantity_here2 >= remainder ) {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            line_found = true;
-                        } else {
-                            final_map.emplace_back( pos_here2, item_here2, remainder );
-                            remainder -= quantity_here2;
-                        }
-                    }
-                    it--;
+
+                // If we got here (should be impossible), then more locations are needed, but first, the cumulative check.
+                remainder = quantity_required - item_quantity;
+                item_quantity += quantity_here;
+                if( item_quantity >= quantity_required ) {
+                    line_found = true;
+                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here, remainder ),
+                                            std::get<3>( *it ) );
                 }
+                it++;
             }
         }
     }
@@ -1901,7 +1884,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 item &test_item = *item::spawn_temporary( item_here, calendar::start_of_cataclysm );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.emplace_back( pos_here, item_here, 1 );
+                    final_map.emplace_back( pos_here, item_here, 1, 0_J );
                     line_found = true;
                     break;
                 }
@@ -1909,7 +1892,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             }
         }
     }
-    for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
+    for( const std::tuple<tripoint, itype_id, int, units::energy> &elem : final_map ) {
         add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
                  std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
@@ -2005,8 +1988,8 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
     if( !here.can_put_items_ter_furn( here.getlocal( p.backlog.front()->coords.back() ) ) ) {
         return false;
     }
-    const std::vector<std::tuple<tripoint, itype_id, int>> mental_map_2 = requirements_map( p,
-            distance );
+    const std::vector<std::tuple<tripoint, itype_id, int, units::energy>> mental_map_2 =
+                requirements_map( p, distance );
     int pickup_count = 1;
     auto items_there = here.i_at( src_loc );
     vehicle *src_veh = nullptr;
@@ -2106,7 +2089,8 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
     if( !best_qual ) {
         return false;
     }
-    if( best_qual->type->can_have_charges() ) {
+    if( best_qual->type->charges_to_use() || best_qual->type->energy_to_use() > 0_J ) {
+        p.consume_energy( *best_qual, best_qual->type->energy_to_use() );
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     map &here = get_map();
@@ -2378,9 +2362,9 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
     map &here = get_map();
-    std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+    std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
         return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() && itm.energy_sufficient( p ) );
     } );
     if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || here.veh_at( src_loc ) ||
         !here.has_flag( "MINEABLE", src_loc ) ) {
@@ -2431,7 +2415,8 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
         return false;
     }
     int moves = iuse::chop_moves( p, *best_qual );
-    if( best_qual->type->can_have_charges() ) {
+    if( best_qual->type->charges_to_use() || best_qual->type->energy_to_use() > 0_J ) {
+        p.consume_energy( *best_qual, best_qual->type->energy_to_use() );
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     map &here = get_map();
@@ -2584,8 +2569,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         // get the right zones for the items in the requirements.
         // we previously checked if the items are nearby before we set the fetch task
         // but we will check again later, to be sure nothings changed.
-        std::vector<std::tuple<tripoint, itype_id, int>> mental_map = requirements_map( p,
-                ACTIVITY_SEARCH_DISTANCE );
+        std::vector<std::tuple<tripoint, itype_id, int, units::energy>> mental_map =
+                    requirements_map( p, ACTIVITY_SEARCH_DISTANCE );
         for( const auto &elem : mental_map ) {
             const tripoint &elem_point = std::get<0>( elem );
             src_set.insert( here.getabs( elem_point ) );

@@ -225,28 +225,19 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
                 found_fuel = true;
             }
         }
+        if( bio.info().max_energy_draw > 0_J ) {
+            found_fuel = true;
+            fuel_string += colorize( units::display( bio.energy_stored ) + "/" + units::display(
+                                         bio.info().energy_capacity ), c_green );
+        }
     }
     if( !found_fuel ) {
         fuel_string.clear();
     }
-    std::string power_string;
-    const int curr_power = units::to_joule( who->get_power_level() );
-    const int kilo = curr_power / units::to_joule( 1_kJ );
-    const int joule = ( curr_power % units::to_joule( 1_kJ ) ) / units::to_joule( 1_J );
-    if( kilo > 0 ) {
-        power_string = std::to_string( kilo );
-        if( joule > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + std::to_string( joule );
-        }
-        power_string += pgettext( "energy unit: kilojoule", "kJ" );
-    } else {
-        power_string = std::to_string( joule );
-        power_string += pgettext( "energy unit: joule", "J" );
-    }
 
     const int pwr_str_pos = right_print( window, 1, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
-                                                 power_string, units::to_kilojoule( who->get_max_power_level() ) ) );
+                                                 units::display( who->get_power_level() ), units::display( who->get_max_power_level() ) ) );
 
     mvwputch( window, point( pwr_str_pos - 1, 1 ), BORDER_COLOR, LINE_XOXO ); // |
     mvwputch( window, point( pwr_str_pos - 1, 2 ), BORDER_COLOR, LINE_XXOO ); // |_
@@ -511,7 +502,8 @@ static void draw_connectors( const catacurses::window &win, point start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) ) ||
+                           bio.id->has_flag( STATIC( flag_id( "BIONIC_CAPACITOR" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {

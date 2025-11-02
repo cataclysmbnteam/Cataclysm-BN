@@ -120,7 +120,7 @@ class Item_factory
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         void load_item_group( const JsonArray &entries, const item_group_id &group_id, bool is_collection,
-                              int ammo_chance, int magazine_chance );
+                              int ammo_chance, int magazine_chance, int battery_chance );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */

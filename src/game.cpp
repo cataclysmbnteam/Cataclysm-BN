@@ -250,7 +250,6 @@ static const efftype_id dashing_effect( "dashing" );
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
@@ -2380,7 +2379,7 @@ vehicle *game::remoteveh()
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = veh_pointer_or_null( m.veh_at( vp ) );
-        if( veh && veh->fuel_left( itype_battery, true ) > 0 ) {
+        if( veh && veh->energy_left( true ) > 0_J ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -9108,11 +9107,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( CMM_WALK ) ) {
-            crit->use_mech_power( -2 );
+            crit->use_mech_power( -2_kJ );
         } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-            crit->use_mech_power( -1 );
+            crit->use_mech_power( -1_kJ );
         } else if( u.movement_mode_is( CMM_RUN ) ) {
-            crit->use_mech_power( -3 );
+            crit->use_mech_power( -3_kJ );
         }
     } else {
         u.moves -= u.run_cost( mcost, diag );
@@ -10587,13 +10586,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( u.is_mounted() ) {
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->use_mech_power( -1 );
+            crit->use_mech_power( -1_kJ );
             if( u.movement_mode_is( CMM_WALK ) ) {
-                crit->use_mech_power( -2 );
+                crit->use_mech_power( -2_kJ );
             } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-                crit->use_mech_power( -1 );
+                crit->use_mech_power( -1_kJ );
             } else if( u.movement_mode_is( CMM_RUN ) ) {
-                crit->use_mech_power( -3 );
+                crit->use_mech_power( -3_kJ );
             }
         }
     } else {

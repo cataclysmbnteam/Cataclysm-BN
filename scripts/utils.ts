@@ -50,10 +50,30 @@ export const omitEmpty = <T>(obj: Record<string, T>): Record<string, T> =>
     ),
   )
 
+type AnySchema = BaseSchema<unknown, unknown, BaseIssue<unknown>>
+
+export const prettyParse = <const TSchema extends AnySchema>(
+  schema: TSchema,
+  input: unknown,
+  config?: v.Config<v.InferIssue<TSchema>>,
+): v.InferOutput<TSchema> => {
+  try {
+    return v.parse(schema, input, config)
+  } catch (e) {
+    if (e instanceof v.ValiError) {
+      throw new Error(JSON.stringify(v.flatten<TSchema>(e.issues), null, 2), { cause: e })
+    }
+    throw e
+  }
+}
+
+export const oneOrMany = <const TSchema extends AnySchema>(schema: TSchema) =>
+  v.union([schema, v.array(schema)])
+
 /**
  * create a parser from given schema that parses an array of objects
  */
-export const parseMany = <const TSchema extends BaseSchema<unknown, unknown, BaseIssue<unknown>>>(
+export const parseMany = <const TSchema extends AnySchema>(
   schema: TSchema,
 ) => {
   const parser = v.safeParser(schema)
@@ -94,7 +114,7 @@ function map_to_object(map: Map<any, any>): object {
   return out
 }
 
-export const mapMany = <const TSchema extends BaseSchema<unknown, unknown, BaseIssue<unknown>>>(
+export const mapMany = <const TSchema extends AnySchema>(
   schema: TSchema,
   xs: JSONFileEntry[],
 ) => {

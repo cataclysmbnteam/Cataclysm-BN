@@ -44,8 +44,8 @@
     "dispersion": 180,
     "loudness": 5,
     "durability": 5,
-    "ups_charges": 20,
-    "magazines": [ [ "nail", [ "nailmag" ] ] ]
+    "magazines": [ [ "nail", [ "nailmag" ] ] ],
+    "power_draw": "20 kJ"
   },
   {
     "id": "nailrifle",

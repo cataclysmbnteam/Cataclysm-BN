@@ -171,16 +171,6 @@
   },
   {
     "type": "item_action",
-    "id": "fireweapon_off",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "fireweapon_on",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "transform",
     "name": { "str": "Transform" }
   },
@@ -406,17 +396,7 @@
   },
   {
     "type": "item_action",
-    "id": "FIRECRACKER",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
     "id": "FIRECRACKER_ACT",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER_PACK",
     "name": { "str": "Light up" }
   },
   {

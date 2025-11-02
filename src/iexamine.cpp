@@ -127,7 +127,6 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
@@ -1034,10 +1033,10 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         add_msg( _( "You cannot read!" ) );
         return false;
     }
-    const bool has_item = p.has_charges( itype_electrohack, 25 );
+    const bool has_item = p.has_energy( itype_electrohack, 25_kJ );
     const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
     if( !has_item && !has_bionic ) {
-        add_msg( _( "You don't have a hacking tool with enough charges!" ) );
+        add_msg( _( "You don't have a hacking tool with enough power!" ) );
         return false;
     }
     bool use_bionic = has_bionic;
@@ -1063,7 +1062,7 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         p.assign_activity( std::make_unique<player_activity>( std::make_unique<hacking_activity_actor>(
                                hacking_activity_actor::use_bionic {} ) ) );
     } else {
-        p.use_charges( itype_electrohack, 25 );
+        p.use_energy( itype_electrohack, 25_kJ );
         p.assign_activity( std::make_unique<player_activity>
                            ( std::make_unique<hacking_activity_actor>() ) );
     }
@@ -2965,7 +2964,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         }
     }
 
-    p.use_charges( itype_UPS, 1250 );
+    p.use_energy( itype_UPS, 1250_kJ );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
     detached_ptr<item> result = item::spawn( itype_unfinished_cac2, calendar::turn );
@@ -3153,8 +3152,9 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 p.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( p, *it, false, examp );
-                    p.use_charges( it->typeId(), charges );
+                    const auto [chrg, enrg] = actor->use( p, *it, false, examp );
+                    it->energy_consume( enrg, examp );
+                    p.use_charges( it->typeId(), chrg );
                     return;
                 } else {
                     p.add_msg_if_player( m_bad, can_use.str() );
@@ -4147,10 +4147,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int ammo_index = 0;
 
     for( const itype &at : ammo_types ) {
-        if( at.get_id() != itype_battery ) {
-            ammo_names.emplace_back( at.nname( 1 ) );
-            ammo_filtered.emplace_back( at );
-        }
+        ammo_names.emplace_back( at.nname( 1 ) );
+        ammo_filtered.emplace_back( at );
     }
 
     if( ammo_filtered.empty() ) {
@@ -4291,17 +4289,20 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     };
 
     charges_type charge_type = charges_type::none;
+    fake_item.energy = 0_J;
     fake_item.charges = 0;
 
+    // If it uses grid charges it uses energy, if not it uses charges.
     if( fake_item.has_flag( flag_USES_GRID_POWER ) ) {
         const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-        fake_item.charges = grid.get_resource();
+        fake_item.energy = grid.get_resource();
         charge_type = charges_type::grid;
     } else if( ammo != itype_id::NULL_ID() ) {
         fake_item.charges = count_charges_in_list( &*ammo, m.i_at( examp ) );
         charge_type = charges_type::ammo_from_map;
     }
 
+    const units::energy original_energy = fake_item.energy;
     const int original_charges = fake_item.charges;
     p.invoke_item( &fake_item, examp );
 
@@ -4309,23 +4310,32 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     activity_handlers::repair_activity_hack::patch_activity_for_furniture( *g->u.activity, examp,
             cur_tool.get_id() );
 
+    const units::energy discharged_energy = original_energy - fake_item.energy;
     const int discharged_ammo = original_charges - fake_item.charges;
 
-    if( discharged_ammo == 0 ) {
+    if( discharged_energy == 0_J && discharged_ammo == 0 ) {
         return;
     }
 
     switch( charge_type ) {
         case charges_type::grid: {
+            if( discharged_ammo > 0 ) {
+                debugmsg( "Fake item %s tried to discharge ammo %s from grid at %s.",
+                          cur_tool.get_id().c_str(), ammo.c_str(), abspos.to_string() );
+            }
             distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-            const int remainder = grid.mod_resource( -discharged_ammo );
-            if( remainder != 0 ) {
+            const units::energy remainder = grid.mod_resource( -discharged_energy );
+            if( remainder != 0_J ) {
                 debugmsg( "Fake item %s discharged more charges than have in grid at %s.",
                           cur_tool.get_id().c_str(), abspos.to_string() );
             }
             return;
         }
         case charges_type::ammo_from_map: {
+            if( discharged_energy > 0_J ) {
+                debugmsg( "Fake item %s tried to discharge energy from grid at %s despite having ammo defined.",
+                          cur_tool.get_id().c_str(), abspos.to_string() );
+            }
             int by_ref = discharged_ammo;
             m.use_charges( examp, 0, ammo->get_id(), by_ref );
             if( by_ref != 0 ) {
@@ -4685,7 +4695,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     int pricePerUnit = getGasPricePerLiter( discount );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) &&
-                      ( ( p.has_charges( itype_electrohack, 25 ) ) ||
+                      ( ( p.has_energy( itype_electrohack, 25_kJ ) ) ||
                         ( p.has_bionic( bio_fingerhack ) && p.get_power_level() > 24_kJ ) ) );
 
     uilist amenu;
@@ -6528,10 +6538,11 @@ void iexamine::check_power( player &, const tripoint &examp )
     tripoint_abs_ms abspos( g->m.getabs( examp ) );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( abspos );
     if( battery != nullptr ) {
-        add_msg( m_info, _( "This battery stores %d kJ of electric power." ), battery->get_resource() );
+        add_msg( m_info, _( "This battery stores %s of electric power." ),
+                 units::display( battery->get_resource() ) );
     }
-    int amt = get_distribution_grid_tracker().grid_at( abspos ).get_resource();
-    add_msg( m_info, _( "This electric grid stores %d kJ of electric power." ), amt );
+    units::energy amt = get_distribution_grid_tracker().grid_at( abspos ).get_resource();
+    add_msg( m_info, _( "This electric grid stores %s of electric power." ), units::display( amt ) );
 }
 
 void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )

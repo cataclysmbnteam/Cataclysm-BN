@@ -624,6 +624,16 @@ void string_input_popup::edit( std::string &value )
     }
 }
 
+void string_input_popup::edit( long long &value )
+{
+    only_digits( true );
+    text( std::to_string( value ) );
+    query();
+    if( !canceled() ) {
+        value = std::atoll( text().c_str() );
+    }
+}
+
 // NOLINTNEXTLINE(cata-no-long)
 void string_input_popup::edit( long &value )
 {

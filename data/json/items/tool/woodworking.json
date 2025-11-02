@@ -97,17 +97,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE", "COMBAT_NPC_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "circsaw_on",
@@ -118,14 +112,13 @@
     "description": "A lightweight handheld cordless circular saw.  It is currently on and the blade is spinning; use this item to turn it off.",
     "cutting": 50,
     "to_hit": -1,
-    "power_draw": 1200000,
-    "charges_per_use": 0,
+    "power_draw": "1200 J",
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
     "revert_msg": "Your circular saw goes quiet",
     "use_action": { "type": "transform", "target": "circsaw_off", "msg": "You turn off the circular saw." },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "copper_ax",
@@ -183,8 +176,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": "battery",
-    "charges_per_use": 125,
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 5 ] ],
     "use_action": {
@@ -193,17 +184,13 @@
       "target": "elec_chainsaw_on",
       "msg": "You turn on the electric chainsaw.",
       "moves": 80,
-      "transform_charges": 5,
-      "need_dry": true
+      "need_dry": true,
+      "transform_power": "5 kJ"
     },
     "flags": [ "NONCONDUCTIVE", "POWERED", "COMBAT_NPC_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "125 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "elec_chainsaw_on",
@@ -214,13 +201,13 @@
     "to_hit": -1,
     "bashing": 4,
     "cutting": 70,
-    "power_draw": 170000,
+    "power_draw": "170 J",
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "BUTCHER", -100 ] ],
     "revert_msg": "Your electric chainsaw goes quiet",
     "use_action": { "type": "transform", "target": "elec_chainsaw_off", "msg": "You turn off the electric chainsaw." },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "primitive_adze",

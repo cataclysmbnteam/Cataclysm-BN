@@ -210,14 +210,14 @@
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
     "dynamic_line": {
       "and": [
-        "Well… I had it all pretty together,\u0020",
+        "Well… I had it all pretty together, ",
         {
           "u_has_var": "beggars_recruited",
           "type": "general",
           "context": "recruit",
           "value": "yes",
-          "yes": "but the others have left, and\u0020",
-          "no": "and I feel bad with all the help you've given me already, but\u0020"
+          "yes": "but the others have left, and ",
+          "no": "and I feel bad with all the help you've given me already, but "
         },
         "now the masters won't let me build my sanctuary.  I know I can't build it in here, they wouldn't allow it.  They won't listen to me when I ask for a safe place.  They just want me to disappear, like the others.  Can you help me figure them out?"
       ]

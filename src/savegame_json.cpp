@@ -2244,7 +2244,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
 
-    archive.io( "energy", energy, 0_J );
+    archive.io( "power", energy, 0_J );
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -2428,6 +2428,14 @@ void item::deserialize( JsonIn &jsin )
     // Sealed item migration: items with "unseals_into" set should always have contents
     if( contents.empty() && is_non_resealable_container() ) {
         convert( type->container->unseals_into );
+    }
+
+    // Battery item migration. Items with the obsoleted battery charge ammo get their battery charge converted into power
+    if( !contents.empty() && contents.front().typeId() == itype_id( "battery" ) ) {
+        item &bat = contents.front();
+        mod_energy( units::from_kilojoule( bat.charges ) );
+        remove_item( bat );
+        bat.destroy();
     }
 }
 

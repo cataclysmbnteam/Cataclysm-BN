@@ -157,12 +157,17 @@ class Item_modifier
     public:
         std::pair<int, int> damage;
         std::pair<int, int> count;
+        std::pair<int, int> dirt;
         /**
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
-        std::pair<int, int> dirt;
         std::pair<int, int> charges;
+        /**
+         * Energy to spawn the item with, if this turns out to
+         * be negative, the default is used.
+         */
+        std::pair<units::energy, units::energy> energy;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
          * This takes @ref charges and @ref with_ammo into account.
@@ -207,6 +212,8 @@ class Item_modifier
         int with_ammo;
         /** Chance [0-100%] for items to spawn with their default magazine (if any) */
         int with_magazine;
+        /** Chance [0-100%] for items to spawn with their default battery (if any) */
+        int with_battery;
 };
 /**
  * Basic item creator. It contains either the item id directly,
@@ -241,7 +248,7 @@ class Single_item_creator : public Item_spawn_data
         Type type;
         std::optional<Item_modifier> modifier;
 
-        void inherit_ammo_mag_chances( int ammo, int mag );
+        void inherit_ammo_mag_chances( int ammo, int mag, int bat );
 
         std::vector<detached_ptr<item>> create( const time_point &birthday,
                                                 RecursionList &rec ) const override;
@@ -267,7 +274,7 @@ class Item_group : public Item_spawn_data
             G_DISTRIBUTION
         };
 
-        Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
+        Item_group( Type type, int probability, int ammo_chance, int magazine_chance, int battery_chance );
         ~Item_group() override = default;
 
         const Type type;
@@ -316,6 +323,8 @@ class Item_group : public Item_spawn_data
         const int with_ammo;
         /** Every item in this group has this chance [0-100%] for items to spawn with their default magazine (if any) */
         const int with_magazine;
+        /** Every item in this group has this chance [0-100%] for items to spawn with their default battery (if any) */
+        const int with_battery;
 
     protected:
         /**

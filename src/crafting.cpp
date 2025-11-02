@@ -80,8 +80,6 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
 
-static const itype_id itype_plut_cell( "plut_cell" );
-
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
@@ -558,7 +556,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
             cached_crafting_inventory.add_item( *item::spawn_temporary( bio.info().fake_item, calendar::turn,
-                                                units::to_kilojoule( get_power_level() ) ), true );
+                                                0, get_power_level() ), true );
         }
     }
     if( has_trait( trait_BURROW ) ) {
@@ -1626,15 +1624,19 @@ std::vector<detached_ptr<item>> Character::consume_items( const std::vector<item
 }
 
 struct avail_tool_comp {
-    avail_tool_comp( comp_selection<tool_comp> comp, int charges, int ideal )
-        : comp( comp ), charges( charges ), ideal( ideal )
+    avail_tool_comp( comp_selection<tool_comp> comp, int charges, int ideal_charges,
+                     units::energy energy, units::energy ideal_energy )
+        : comp( comp ), charges( charges ), ideal_charges( ideal_charges ),
+          energy( energy ), ideal_energy( ideal_energy )
     {}
     avail_tool_comp( const avail_tool_comp & ) = default;
     avail_tool_comp &operator =( const avail_tool_comp & ) = default;
 
     comp_selection<tool_comp> comp;
-    int charges;
-    int ideal;
+    int charges = 0;
+    int ideal_charges = 0;
+    units::energy energy = 0_J;
+    units::energy ideal_energy = 0_J;
 };
 
 namespace crafting
@@ -1648,7 +1650,8 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
     std::vector<avail_tool_comp> available_tools;
 
     auto calc_charges = [&]( const tool_comp & t ) {
-        const int full_craft_charges = std::max( 1, t.count * batch );
+        const int charge_mult = std::max( 1, t.count * batch );
+        const int full_craft_charges = t.type->charges_to_use() * charge_mult;
         switch( charge_mod ) {
             case cost_adjustment::none:
                 return std::make_pair( charges_for_complete( full_craft_charges ),
@@ -1665,30 +1668,79 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
         return std::make_pair( INT_MAX, INT_MAX );
     };
 
+    auto calc_energy = [&]( const tool_comp & t ) {
+        const int energy_mult = std::max( 1, t.count * batch );
+        const units::energy full_craft_energy = t.type->energy_to_use() * energy_mult;
+        switch( charge_mod ) {
+            case cost_adjustment::none:
+                return std::make_pair( energy_for_complete( full_craft_energy ),
+                                       energy_for_complete( full_craft_energy ) );
+            case cost_adjustment::start_only:
+                return std::make_pair( energy_for_starting( full_craft_energy ),
+                                       energy_for_complete( full_craft_energy ) );
+            case cost_adjustment::continue_only:
+                return std::make_pair( energy_for_continuing( full_craft_energy ),
+                                       energy_for_complete( full_craft_energy ) );
+        }
+
+        debugmsg( "Invalid tool_energy_mod" );
+        return std::make_pair( units::energy_max, units::energy_max );
+    };
+
     bool found_nocharge = false;
     // Use charges of any tools that require charges used
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const std::pair<int, int> &expected_count = calc_charges( *it );
-            const int count = expected_count.first;
-            const int ideal = expected_count.second;
+            auto [count_charge, ideal_charge] = calc_charges( *it );
+            auto [count_energy, ideal_energy] = calc_energy( *it );
+
             if( player_with_inv ) {
-                if( player_with_inv->has_charges( type, count ) ) {
-                    int total_charges = player_with_inv->charges_of( type );
+                int total_charges = 0;
+                units::energy total_energy = 0_J;
+
+                bool charge_satisfied = !ideal_charge || false;
+                bool energy_satisfied = !( ideal_energy > 0_J ) || false;
+
+                if( !charge_satisfied && player_with_inv->has_charges( type, count_charge ) ) {
+                    charge_satisfied = true;
+                    total_charges = player_with_inv->charges_of( type );
+                }
+                if( !energy_satisfied && player_with_inv->has_energy( type, count_energy ) ) {
+                    energy_satisfied = true;
+                    total_energy = player_with_inv->energy_of( type );
+                }
+                if( charge_satisfied && energy_satisfied ) {
                     comp_selection<tool_comp> sel( usage_from::player, *it );
-                    available_tools.emplace_back( sel, total_charges, ideal );
+                    available_tools.emplace_back( sel, total_charges, ideal_charge, total_energy, ideal_energy );
                 }
             }
-            if( map_inv.has_charges( type, count ) ) {
-                int total_charges = map_inv.charges_of( type );
-                comp_selection<tool_comp> sel( usage_from::map, *it );
-                available_tools.emplace_back( sel, total_charges, ideal );
+
+            if( ideal_charge || ideal_energy > 0_J ) {
+                int total_charges = 0;
+                units::energy total_energy = 0_J;
+
+                bool charge_satisfied = !ideal_charge || false;
+                bool energy_satisfied = !( ideal_energy > 0_J ) || false;
+
+                if( !charge_satisfied && map_inv.has_charges( type, count_charge ) ) {
+                    charge_satisfied = true;
+                    total_charges = map_inv.charges_of( type );
+                }
+                if( !energy_satisfied && map_inv.has_energy( type, count_energy ) ) {
+                    energy_satisfied = true;
+                    total_energy = map_inv.energy_of( type );
+                }
+
+                if( charge_satisfied && energy_satisfied ) {
+                    comp_selection<tool_comp> sel( usage_from::map, *it );
+                    available_tools.emplace_back( sel, total_charges, ideal_charge, total_energy, ideal_energy );
+                }
             }
         } else if( ( player_with_inv && player_with_inv->has_amount( type, 1 ) )
                    || map_inv.has_tools( type, 1 ) ) {
             comp_selection<tool_comp> sel( usage_from::none, *it );
-            available_tools.emplace_back( sel, 0, 0 );
+            available_tools.emplace_back( sel, 0, 0, 0_J, 0_J );
         }
     }
 
@@ -1700,15 +1752,15 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
         if( rhs.comp.use_from == usage_from::none ) {
             return false;
         }
-        if( lhs.charges >= lhs.ideal && rhs.charges < rhs.ideal ) {
-            return true;
-        }
-        if( lhs.charges < lhs.ideal && rhs.charges >= rhs.ideal ) {
-            return false;
-        }
+
+        float lhs_charge_ratio = lhs.charges ? 1.0f * lhs.ideal_charges / lhs.charges : 0;
+        float rhs_charge_ratio = rhs.charges ? 1.0f * rhs.ideal_charges / rhs.charges : 0;
+        float lhs_energy_ratio = lhs.energy > 0_J ? 1.0f * lhs.ideal_energy / lhs.energy : 0;
+        float rhs_energy_ratio = rhs.energy > 0_J ? 1.0f * rhs.ideal_energy / rhs.energy : 0;
+
         // We want "bigger" tools first because those are likely to be vehicle mounted
-        return static_cast<float>( lhs.ideal ) / lhs.charges > static_cast<float>
-               ( rhs.ideal ) / rhs.charges;
+        return lhs_charge_ratio == rhs_charge_ratio ? lhs_energy_ratio > rhs_energy_ratio :
+               lhs_charge_ratio > rhs_charge_ratio ;
     } );
     return available_tools;
 }
@@ -1745,13 +1797,16 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
     uilist tmenu( hotkeys );
     for( const avail_tool_comp &tool : available_tools ) {
         const itype_id &comp_type = tool.comp.comp.type;
-        if( tool.ideal > 1 ) {
+        if( tool.ideal_charges > 1 || tool.ideal_energy > 0_J ) {
             const char *format = tool.comp.use_from == usage_from::map
-                                 ? _( "%s (%d/%d charges nearby)" )
-                                 : _( "%s (%d/%d charges on person)" );
-            std::string str = string_format( format,
-                                             item::nname( comp_type ), tool.ideal,
-                                             tool.charges );
+                                 ? _( "%1$s (%2$s%3$snearby)" )
+                                 : _( "%1$s (%2$s%3$son person)" );
+            std::string charge_count = tool.ideal_charges > 1 ?
+                                       string_format( "%1$d/%2$d Charges ", tool.ideal_charges, tool.charges ) : "";
+            std::string energy_count = tool.ideal_energy > 0_J ?
+                                       string_format( "%1$s/%2$s ", units::display( tool.ideal_energy ),
+                                               units::display( tool.energy ) ) : "";
+            std::string str = string_format( format, item::nname( comp_type ), charge_count, energy_count );
             tmenu.addentry( str );
         } else {
             std::string str = tool.comp.use_from == usage_from::map
@@ -1798,7 +1853,7 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
 
 } // namespace crafting
 
-bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+bool Character::craft_consume_tools( item &craft, int multiplier, bool start_craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1807,26 +1862,32 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
     if( has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    if( start_craft && mulitplier > 1 ) {
-        debugmsg( "start_craft is true, but multiplier is %d > 1", mulitplier );
+    if( start_craft && multiplier > 1 ) {
+        debugmsg( "start_craft is true, but multiplier is %d > 1", multiplier );
         return false;
     }
 
-    const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
-        int ret = charges;
-
-        if( charges <= 0 ) {
+    const auto calc_usage = [&craft, &start_craft, &multiplier]( itype_id type, int uses ) {
+        std::pair<int, units::energy> ret = std::make_pair( type->charges_to_use() * uses,
+                                            type->energy_to_use() * uses );
+        auto [chrg, enrg] = ret;
+        if( !( chrg ||  enrg > 0_J ) ) {
             return ret;
         }
 
         // Account for batch size
-        int full_cost = charges * craft.charges;
+        chrg *= craft.charges;
+        enrg *= craft.charges;
 
         if( start_craft ) {
-            return crafting::charges_for_starting( full_cost );
+            chrg = crafting::charges_for_starting( chrg );
+            enrg = crafting::energy_for_starting( enrg );
+            return ret;
         } else {
             // In case more than 5% progress was accomplished in one turn
-            return crafting::charges_for_continuing( full_cost ) * mulitplier;
+            chrg = crafting::charges_for_continuing( chrg ) * multiplier;
+            enrg = crafting::energy_for_continuing( enrg ) * multiplier;
+            return ret;
         }
     };
 
@@ -1840,23 +1901,23 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
         itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
-            const int count = calc_charges( tool_sel.comp.count );
+            auto [chrg, enrg] = calc_usage( type, tool_sel.comp.count );
             switch( tool_sel.use_from ) {
                 case usage_from::player:
-                    if( !has_charges( type, count ) ) {
+                    if( !( has_charges( type, chrg ) && has_energy( type, enrg ) ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges/power and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges/power and can't continue crafting" ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
                     }
                     break;
                 case usage_from::map:
-                    if( !map_inv.has_charges( type, count ) ) {
+                    if( !( map_inv.has_charges( type, chrg ) && map_inv.has_energy( type, enrg ) ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges/power and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges/power and can't continue crafting" ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -1881,31 +1942,55 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
     // We have the selections, so consume them
     for( const comp_selection<tool_comp> &tool : cached_tool_selections ) {
         comp_selection<tool_comp> to_consume = tool;
-        to_consume.comp.count = calc_charges( to_consume.comp.count );
-        consume_tools( to_consume, 1 );
+        cost_adjustment cost_ad = start_craft ? cost_adjustment::start_only :
+                                  cost_adjustment::continue_only;
+        // craft.charges being batch number and mult being additional progress if in progress craft
+        // This will be attenuated by start craft in the actual function
+        consume_tools( to_consume, ( craft.charges * start_craft ) != 0 ? 1 : multiplier, cost_ad );
     }
     return true;
 }
 
-void Character::consume_tools( const comp_selection<tool_comp> &tool, int batch )
+void Character::consume_tools( const comp_selection<tool_comp> &tool,
+                               int batch, cost_adjustment cost_ad )
 {
-    consume_tools( get_map(), tool, batch, pos(), PICKUP_RANGE );
+    consume_tools( get_map(), tool, batch, pos(), PICKUP_RANGE, cost_ad );
 }
 
 /* we use this if we selected the tool earlier */
-void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                               const tripoint &origin, int radius )
+void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool,
+                               int batch, const tripoint &origin, int radius, cost_adjustment cost_ad )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
     }
 
     int quantity = tool.comp.count * batch;
+    itype_id tooltype = tool.comp.type;
+    std::pair<int, units::energy> act_usage = std::make_pair( tooltype->charges_to_use() * quantity,
+            tooltype->energy_to_use() * quantity );
+    auto [chrg, enrg] = act_usage;
+
+    switch( cost_ad ) {
+        case cost_adjustment::start_only:
+            chrg = crafting::charges_for_starting( chrg );
+            enrg = crafting::energy_for_starting( enrg );
+            break;
+        case cost_adjustment::continue_only:
+            chrg = crafting::charges_for_continuing( chrg );
+            enrg = crafting::energy_for_continuing( enrg );
+            break;
+        default:
+            break;
+    }
+
     if( tool.use_from & usage_from::player ) {
-        use_charges( tool.comp.type, quantity );
+        use_charges( tooltype, chrg );
+        use_energy( tooltype, enrg );
     }
     if( tool.use_from & usage_from::map ) {
-        m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item> );
+        m.use_charges( origin, radius, tooltype, chrg, return_true<item> );
+        m.use_energy( origin, radius, tooltype, enrg, return_true<item> );
     }
 
     // else, usage_from::none (or usage_from::cancel), so we don't use up any tools;
@@ -1915,12 +2000,12 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
 In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
 to consume_tools */
 void Character::consume_tools( const std::vector<tool_comp> &tools, int batch,
-                               const std::string &hotkeys )
+                               const std::string &hotkeys, cost_adjustment cost_ad )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
-    consume_tools( crafting::select_tool_component( tools, batch, map_inv, this, false, hotkeys,
-                   cost_adjustment::none ), batch );
+    consume_tools( crafting::select_tool_component( tools, batch, map_inv, this,
+                   false, hotkeys, cost_adjustment::none ), batch, cost_ad );
 }
 
 ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
@@ -2314,13 +2399,14 @@ void remove_ammo( item &dis_item, Character &who )
         return VisitResponse::NEXT;
     } );
 
+    if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
+        return;
+    }
+
     for( detached_ptr<item> &it : removed ) {
         drop_or_handle( std::move( it ), who );
     }
 
-    if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
-        return;
-    }
     if( dis_item.is_gun() && !dis_item.ammo_current().is_null() ) {
         detached_ptr<item> ammodrop = item::spawn( dis_item.ammo_current(), calendar::turn );
         ammodrop->charges = dis_item.charges;
@@ -2330,9 +2416,6 @@ void remove_ammo( item &dis_item, Character &who )
     if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
         detached_ptr<item> ammodrop = item::spawn( dis_item.ammo_current(), calendar::turn );
         ammodrop->charges = dis_item.charges;
-        if( dis_item.ammo_current() == itype_plut_cell ) {
-            ammodrop->charges /= PLUTONIUM_CHARGES;
-        }
         drop_or_handle( std::move( ammodrop ), who );
         dis_item.charges = 0;
     }
@@ -2444,6 +2527,19 @@ int charges_for_starting( int full_charges )
 int charges_for_continuing( int full_charges )
 {
     return full_charges / 20;
+}
+
+units::energy energy_for_complete( units::energy full_energy )
+{
+    return full_energy;
+}
+units::energy energy_for_starting( units::energy full_energy )
+{
+    return full_energy / 20 + full_energy % 20;
+}
+units::energy energy_for_continuing( units::energy full_energy )
+{
+    return full_energy / 20;
 }
 
 } // namespace crafting

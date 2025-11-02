@@ -150,9 +150,16 @@ std::string tool_comp::to_string( const int batch, const int ) const
 {
     if( by_charges() ) {
         //~ %1$s: tool name, %2$d: charge requirement
-        return string_format( vpgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
-                                         count * batch ),
-                              item::nname( type ), count * batch );
+        units::energy enrg = batch * count * type->energy_to_use();
+        std::string enrg_usage = enrg > 0_J ? units::display( enrg ) : "";
+        int chrg = batch * count * type->charges_to_use();
+        std::string chrg_usage = chrg ? string_format( vgettext( "%d charge", "%d charges", chrg ),
+                                 chrg ) : "";
+        if( enrg > 0_J && chrg ) {
+            enrg_usage += " ";
+        }
+        return string_format( vpgettext( "requirement", "%1$s (%2$s%3$s)", "%1$s (%2$s%3$s)",
+                                         batch ), item::nname( type ), enrg_usage, chrg_usage );
     } else {
         return item::nname( type, std::abs( count ) );
     }
@@ -236,7 +243,7 @@ void tool_comp::load( const JsonValue &value )
     if( count == 0 ) {
         value.throw_error( "tool count must not be 0" );
     }
-    // Note: negative count means charges (of the tool) should be consumed
+    // Note: negative count means charges (of the tool) should not be consumed
 }
 
 void tool_comp::dump( JsonOut &jsout ) const
@@ -741,14 +748,14 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
                                   int batch, cost_adjustment flags )
 {
     bool retval = true;
-    int total_UPS_charges_used = 0;
+    units::energy total_UPS_used = 0_J;
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
-        int UPS_charges_used = std::numeric_limits<int>::max();
+        units::energy UPS_used = units::energy_max;
         for( const auto &tool : set_of_tools ) {
             if( tool.has( crafting_inv, filter, batch, flags,
-            [ &UPS_charges_used ]( int charges ) {
-            UPS_charges_used = std::min( UPS_charges_used, charges );
+            [&UPS_used]( units::energy enrg ) {
+            UPS_used = std::min( UPS_used, enrg );
             } ) ) {
                 tool.available = available_status::a_true;
             } else {
@@ -759,13 +766,12 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
         if( !has_tool_in_set ) {
             retval = false;
         }
-        if( UPS_charges_used != std::numeric_limits<int>::max() ) {
-            total_UPS_charges_used += UPS_charges_used;
+        if( UPS_used != units::energy_max ) {
+            total_UPS_used += UPS_used;
         }
     }
 
-    if( total_UPS_charges_used > 0 &&
-        total_UPS_charges_used > crafting_inv.charges_of( itype_UPS ) ) {
+    if( total_UPS_used > 0_J && total_UPS_used > crafting_inv.energy_of( itype_UPS ) ) {
         return false;
     }
     return retval;
@@ -773,7 +779,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
-    cost_adjustment, const std::function<void( int )> & ) const
+    cost_adjustment, const std::function<void( units::energy )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -792,7 +798,7 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
 
 bool tool_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    cost_adjustment flags, std::function<void( int )> visitor ) const
+    cost_adjustment flags, std::function<void( units::energy )> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -800,16 +806,21 @@ bool tool_comp::has(
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
-        int charges_required = count * batch;
+        int charges_required = count * batch * type->charges_to_use();
+        units::energy energy_required = count * batch * type->energy_to_use();
 
         if( flags == cost_adjustment::start_only ) {
             charges_required = crafting::charges_for_starting( charges_required );
+            energy_required = crafting::energy_for_starting( energy_required );
         } else if( flags == cost_adjustment::continue_only ) {
             charges_required = crafting::charges_for_continuing( charges_required );
+            energy_required = crafting::energy_for_continuing( energy_required );
         }
 
-        int charges_found = crafting_inv.charges_of( type, charges_required, filter, std::move( visitor ) );
-        return charges_found == charges_required;
+        charges_required -= crafting_inv.charges_of( type, charges_required, filter );
+        energy_required -= crafting_inv.energy_of( type, energy_required, filter, std::move( visitor ) );
+
+        return !( charges_required || energy_required > 0_J );
     }
 }
 
@@ -826,7 +837,7 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
 
 bool item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    cost_adjustment, const std::function<void( int )> & ) const
+    cost_adjustment, const std::function<void( units::energy )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;

@@ -250,14 +250,10 @@ class item : public location_visitable<item>, public game_object<item>
         item( const item & );
         item &operator=( const item & );
 
-        explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
-        explicit item( const itype *type, time_point turn = calendar::turn, int qty = -1 );
-
-        /** Suppress randomization and always start with default quantity of charges */
-
-        struct default_charges_tag {};
-        item( const itype_id &id, time_point turn, default_charges_tag );
-        item( const itype *type, time_point turn, default_charges_tag );
+        explicit item( const itype_id &id, time_point turn = calendar::turn, int charge = -1,
+                       units::energy power = -1_J );
+        explicit item( const itype *type, time_point turn = calendar::turn, int charge = -1,
+                       units::energy power = -1_J );
 
         /** Default (or randomized) charges except if counted by charges then only one charge */
 
@@ -343,15 +339,20 @@ class item : public location_visitable<item>, public game_object<item>
         bool revert( const Character *ch, bool alert = true );
 
         /**
+         * Set energy of item. Cannot be negative
+         * @param qty energy quantity to set
+        */
+        void set_energy( const units::energy &qty );
+
+        /**
          * Add or remove energy from a battery.
          * If adding the specified energy quantity would go over the battery's capacity fill
          * the battery and ignore the remainder.
          * If adding the specified energy quantity would reduce the battery's charge level
-         * below 0 do nothing and return how far below 0 it would have gone.
+         * below 0 set it to 0.
          * @param qty energy quantity to add (can be negative)
-         * @return 0 valued energy quantity on success
          */
-        units::energy mod_energy( const units::energy &qty );
+        void mod_energy( const units::energy &qty );
 
         /**
          * Sets the ammo for this instance
@@ -481,6 +482,9 @@ class item : public location_visitable<item>, public game_object<item>
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
+
+        // returns the appropriate color for the percentage provided (for charges/energy)
+        nc_color color_percentage( int pct ) const;
 
         /** Returns the name that will be used when referring to the object in error messages */
         std::string debug_name() const override;
@@ -1877,8 +1881,48 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool is_gun() const;
 
-        /** Quantity of energy currently loaded in tool or battery */
+        /**
+         *  Amount of energy available to a tool including UPS
+         *  if you want only the energy in the tool, use energy_remaining()
+         */
+        units::energy energy_available( const Character &ch,
+                                        units::energy p_needed = units::from_joule( INT_MAX ) ) const;
+        /**
+         *  Amount of energy currently loaded in tool, gun or battery
+         *  For total including UPS use energy_available()
+         */
         units::energy energy_remaining() const;
+        /** Maximum quantity of energy loadable for tool, gun or battery*/
+        units::energy energy_capacity() const;
+        /** @param potential_capacity whether to try a default battery if necessary */
+        units::energy energy_capacity( bool potential_capacity ) const;
+        /** Amount of power consumed per usage of tool or with each shot of gun */
+        units::energy energy_required() const;
+
+        /**
+         * Check that item has sufficient energy
+         * @param ch Character to check (used if ammo is UPS charges)
+         * @param uses number of uses, if unspecified use 1x item default
+        */
+        bool energy_sufficient( const Character &ch, units::energy p_needed = -1_J ) const;
+
+        /**
+         * Consume power(if available) and return the amount of power that was consumed
+         * @param power maximum amount of power to be consumed.
+         * @param pos current location of item, not currently used by anything, but required for the overload
+         * @return amount of power consumed which will be between 0_J and power
+        */
+        units::energy energy_consume( const units::energy power, const tripoint &pos );
+
+        /**
+         * Recharge power(if available) and return the amount of power that was recharged
+         * @param power maximum amount of power to be recharged.
+         * @return amount of power recharged which will be between 0_J and power
+        */
+        units::energy energy_recharge( const units::energy power );
+
+        /** Does item have an integral battery (as opposed to allowing detachable batteries) */
+        bool battery_integral() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
@@ -1968,6 +2012,28 @@ class item : public location_visitable<item>, public game_object<item>
          */
         item *magazine_current();
         const item *magazine_current() const;
+
+        /** Get the default battery type (if any) for this item.
+         *  @param conversion whether to include the effect of any flags or mods which change battery compatibility
+         *  @return battery id or "null" if item has integral battery
+         */
+        itype_id battery_default( bool conversion = true ) const;
+
+        /** Get compatible batteries(if any) for this item.
+         * @param conversion whether to include the effect of any flags or mods which change battery compatibility
+         * @return compatible batteries, always empty if item has integral battery
+         * @see item::battery_integral
+         */
+        std::set<itype_id> battery_compatible( bool conversion = true ) const;
+
+        // Checks if a supplied item is
+
+        /** Currently loaded battery (if any)
+         *  @return current battery or nullptr if either no battery loaded or item has internal battery
+         *  @see item::battery_integral
+         */
+        item *battery_current();
+        const item *battery_current() const;
 
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
@@ -2128,18 +2194,16 @@ class item : public location_visitable<item>, public game_object<item>
 
         /**
          * How many units (ammo or charges) are remaining?
-         * @param ch character responsible for invoking the item
          * @param limit stop searching after this many units found
          * @note also checks availability of UPS charges if applicable
          */
-        int units_remaining( const Character &ch, int limit = INT_MAX ) const;
+        int units_remaining( int limit = INT_MAX ) const;
 
         /**
          * Check if item has sufficient units (ammo or charges) remaining
-         * @param ch Character to check (used if ammo is UPS charges)
          * @param qty units required, if unspecified use item default
          */
-        bool units_sufficient( const Character &ch, int qty = -1 ) const;
+        bool units_sufficient( int qty = -1 ) const;
         /**
          * Returns name of deceased being if it had any or empty string if not
          **/
@@ -2177,7 +2241,7 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool release_monster( const tripoint &target, int radius = 0 );
         /* add the monster at target to this item, despawning it */
-        int contain_monster( const tripoint &target );
+        std::pair<int, units::energy> contain_monster( const tripoint &target );
 
         time_duration age() const;
         void set_age( const time_duration &age );
@@ -2186,7 +2250,7 @@ class item : public location_visitable<item>, public game_object<item>
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
-        int get_gun_ups_drain() const;
+        units::energy get_gun_ups_drain() const;
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
@@ -2417,7 +2481,7 @@ class item : public location_visitable<item>, public game_object<item>
         cata::value_ptr<relic> relic_data;
     public:
         int charges;
-        units::energy energy;      // Amount of energy currently stored in a battery
+        units::energy energy;
 
         int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt
