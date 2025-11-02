@@ -945,10 +945,13 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 draw_om_tile_recursively( omp + tripoint( 0, 0, -z_offset ), id, rotation, subtile, z_offset );
             } else {
                 const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
+
+                auto [bgCol, fgCol] = get_overmap_color( overmap_buffer, omp );
+
                 // light level is now used for choosing between grayscale filter and normal lit tiles.
                 const tile_search_params tile { id, C_OVERMAP_TERRAIN, "overmap_terrain", subtile, rotation };
-                draw_from_id_string( tile, omp.raw(), std::nullopt,
-                                     std::nullopt, ll, false, 0, false,
+                draw_from_id_string( tile, omp.raw(), bgCol, fgCol,
+                                     ll, false, 0, false,
                                      height_3d );
             }
 

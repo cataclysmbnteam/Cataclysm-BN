@@ -34,6 +34,7 @@ class char_preview_adapter : public cata_tiles
             return static_cast<char_preview_adapter *>( ct );
         }
 
+        // TODO: Find a way, if any, to get tint colors for preview
         // This will need to stay in sync with cata_tiles::draw_entity_with_overlays
         void display_avatar_preview_with_overlays( const avatar &ch, const point &p, bool with_clothing ) {
             // ch is never an npc so we can set ent_name directly

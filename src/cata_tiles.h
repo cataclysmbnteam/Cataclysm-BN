@@ -17,6 +17,7 @@
 #include "line.h"
 #include "map_memory.h"
 #include "options.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "point.h"
 #include "sdl_geometry.h"
@@ -27,9 +28,17 @@
 #include "weighted_list.h"
 
 class Character;
+struct char_trait_data;
+using mutation = std::pair<const trait_id, char_trait_data>;
+class monster;
 class JsonObject;
 class pixel_minimap;
 class dynamic_atlas;
+class field;
+class item;
+class optional_vpart_position;
+class effect;
+struct bionic;
 
 extern void set_displaybuffer_rendertarget();
 
@@ -413,6 +422,7 @@ class idle_animation_manager
  *     - The color of the block at 'point'.
  */
 using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>;
+using color_tint_pair = std::pair<std::optional<SDL_Color>, std::optional<SDL_Color>>;
 
 struct tile_render_info;
 
@@ -658,6 +668,30 @@ class cata_tiles
 
         bool draw_block( const tripoint &p, SDL_Color color, int scale );
 
+        static auto get_overmap_color( const overmapbuffer &o,
+                                       const tripoint_abs_omt &p ) -> color_tint_pair;
+        static auto get_terrain_color( const ter_t &t, const map &m,
+                                       const tripoint &p ) -> color_tint_pair;
+        static auto get_furniture_color( const furn_t &f, const map &m,
+                                         const tripoint &p ) -> color_tint_pair;
+        static auto get_graffiti_color( const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_trap_color( const trap &tr, const map &map, tripoint tripoint ) -> color_tint_pair;
+        static auto get_field_color( const field &f, const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_item_color( const item &i, const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_vpart_color(
+            const optional_vpart_position &vp, const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_monster_color(
+            const monster &mon, const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_character_color(
+            const Character &ch, const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_effect_color(
+            const effect &eff, const Character &c, const map &m, const tripoint &p ) -> color_tint_pair;
+        static auto get_bionic_color(
+            const bionic &bio, const Character &c, const map &m, const tripoint &p )-> color_tint_pair;
+        static auto get_mutation_color(
+            const mutation &mut, const Character &c, const map &m,
+            const tripoint &p )-> color_tint_pair;
+
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
                            const bool ( &invisible )[5], int z_drop );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
@@ -678,7 +712,6 @@ class cata_tiles
                                              const bool ( &invisible )[5], int z_drop );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d, bool as_independent_entity = false );
-
 
         bool draw_item_highlight( const tripoint &pos );
 

@@ -162,8 +162,8 @@ SDL_Surface_Ptr load_image( const char *const path )
                                   IMG_GetError() );
     }
     // Convert Surface to raw SDL_Color format if necessary, as load_image doesn't guarantee any particular format to be loaded
-    if (result->format->format != sdl_color_pixel_format) {
-        const auto tmp = SDL_ConvertSurfaceFormat(result.get(), sdl_color_pixel_format, 0);
+    if( result->format->format != sdl_color_pixel_format ) {
+        const auto tmp = SDL_ConvertSurfaceFormat( result.get(), sdl_color_pixel_format, 0 );
         result = SDL_Surface_Ptr{tmp};
     }
     return result;
