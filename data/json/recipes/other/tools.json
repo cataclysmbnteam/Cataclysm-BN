@@ -16,25 +16,14 @@
     "result": "tent_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-
     "skill_used": "tailor",
     "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "time": "1 h",
     "reversible": true,
-
     "autolearn": true,
-    "book_learn": [
-      [ "fun_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "textbook_survival", 1 ]
-    ],
-    
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "SEW", "level": 2 }
-    ],
+    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 2 } ],
     "components": [
       [ [ "sheet", 8 ] ],
       [ [ "spike", 8 ], [ "pointy_stick", 8 ] ],
@@ -48,25 +37,14 @@
     "id_suffix": "_repair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-
     "skill_used": "tailor",
     "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "time": "15 m",
     "reversible": true,
-
     "autolearn": true,
-    "book_learn": [
-      [ "fun_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "textbook_survival", 1 ]
-    ],
-    
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "SEW", "level": 2 }
-    ],
+    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 2 } ],
     "components": [
       [ [ "broketent", 1 ] ],
       [ [ "sheet", 4 ] ],
@@ -80,25 +58,14 @@
     "result": "large_tent_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-
     "skill_used": "tailor",
     "skills_required": [ "survival", 2 ],
     "time": "1 h 30 m",
     "difficulty": 2,
     "reversible": true,
-
     "autolearn": true,
-    "book_learn": [
-      [ "fun_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "textbook_survival", 1 ]
-    ],
-    
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "SEW", "level": 2 }
-    ],
+    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 2 } ],
     "components": [
       [ [ "sheet", 16 ] ],
       [ [ "spike", 16 ], [ "pointy_stick", 16 ] ],
@@ -112,25 +79,14 @@
     "id_suffix": "_repair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-
     "skill_used": "tailor",
     "skills_required": [ "survival", 2 ],
     "time": "30 m",
     "difficulty": 2,
     "reversible": true,
-
     "autolearn": true,
-    "book_learn": [
-      [ "fun_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "textbook_survival", 1 ]
-    ],
-    
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "SEW", "level": 2 }
-    ],
+    "book_learn": [ [ "fun_survival", 1 ], [ "manual_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SEW", "level": 2 } ],
     "components": [
       [ [ "largebroketent", 1 ] ],
       [ [ "sheet", 8 ] ],
