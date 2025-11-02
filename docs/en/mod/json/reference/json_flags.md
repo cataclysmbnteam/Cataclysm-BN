@@ -1675,6 +1675,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NEEDS_WHEEL_MOUNT_MEDIUM` Can only be installed on a part with `WHEEL_MOUNT_MEDIUM` flag.
 - `NEEDS_WINDOW` Can only be installed on a part with `WINDOW` flag.
 - `NO_JACK`
+- `NOCOLLIDE`
+- `NOSMASH`
 - `NOINSTALL` Cannot be installed.
 - `OBSTACLE` Cannot walk through part, unless the part is also `OPENABLE`.
 - `ODDTURN` Only on during odd turns.

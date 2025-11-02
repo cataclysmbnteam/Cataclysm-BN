@@ -446,7 +446,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
         const vpart_info &info = part_info( p );
         if( ( info.location != part_location_structure && !info.has_flag( VPFLAG_EXTENDABLE )
-              && info.rotor_diameter() == 0 ) || parts[ p ].removed ) {
+              && info.rotor_diameter() == 0 ) || parts[ p ].removed || info.has_flag( VPFLAG_NOCOLLIDE ) ) {
             continue;
         }
         empty = false;
