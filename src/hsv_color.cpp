@@ -1,7 +1,5 @@
 #include "hsv_color.h"
 
-#if defined(TILES)
-
 #include <algorithm>
 
 static auto median( const uint8_t a, const uint8_t b, const uint8_t c )
@@ -112,5 +110,3 @@ auto rgb2hsv( RGBColor color ) -> HSVColor
 
     return HSVColor{H, S, V, A};
 }
-
-#endif
