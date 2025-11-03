@@ -486,7 +486,7 @@ void game::chat()
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
-    if (u.has_trait( trait_SHOUT3 )){
+    if( u.has_trait( trait_SHOUT3 ) ) {
         nmenu.addentry( NPC_CHAT_HOWL, true, 'H', _( "Howl" ) );
     }
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
@@ -799,12 +799,11 @@ void game::chat()
     if( !yell_msg.empty() ) {
         message = string_format( "\"%s\"", yell_msg );
     }
-    
-    if ( is_howl ) {
+
+    if( is_howl ) {
         add_msg( _( "You let out an ear-piercing howl!" ), message );
-        u.shout( string_format( _( "%s let out an ear-piercing howl!" ), u.disp_name()), is_order );
-    }
-    else if( !message.empty() ) {
+        u.shout( string_format( _( "%s let out an ear-piercing howl!" ), u.disp_name() ), is_order );
+    } else if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
