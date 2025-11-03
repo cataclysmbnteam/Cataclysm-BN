@@ -1,6 +1,7 @@
 #include "hsv_color.h"
 
 #include <algorithm>
+#include <sstream>
 
 #if defined(TILES)
 #include "sdl_utils.h"
