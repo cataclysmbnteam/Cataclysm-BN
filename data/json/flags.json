@@ -2427,9 +2427,9 @@
     "context": [  ]
   },
   {
-    "id": "TINT_MODE_HSV",
+    "id": "TINT_NONE",
     "type": "json_flag",
-    "//": "Use HSV tint mode",
+    "//": "Do not apply tint",
     "context": [  ]
   }
 ]

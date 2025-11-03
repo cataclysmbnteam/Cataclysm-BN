@@ -98,7 +98,7 @@ static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
 static const flag_id flag_TINT_NO_FG( "TINT_NO_FG" );
 static const flag_id flag_TINT_NO_BG( "TINT_NO_BG" );
-static const flag_id flag_TINT_MODE_HSV( "TINT_MODE_HSV" );
+static const flag_id flag_TINT_NONE( "TINT_NONE" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
@@ -1653,10 +1653,13 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
         for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
             curr_tile.offset = sprite_offset;
-            bool t_multi = entry.get_bool( "multitile", false );
-            bool t_rota = entry.get_bool( "rotates", t_multi );
-            int t_h3d = entry.get_int( "height_3d", 0 );
-            curr_tile.flags = entry.get_tags<flag_id>( "flags" );
+            const bool t_multi = entry.get_bool( "multitile", false );
+            const bool t_rota = entry.get_bool( "rotates", t_multi );
+            const int t_h3d = entry.get_int( "height_3d", 0 );
+            const auto t_flags = entry.get_tags<flag_id>( "flags" );
+            std::optional<RGBColor> t_tint;
+            entry.read( "default_tint", t_tint );
+
             if( t_multi ) {
                 // fetch additional tiles
                 for( const JsonObject &subentry : entry.get_array( "additional_tiles" ) ) {
@@ -1667,9 +1670,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
                     curr_subtile.animated = subentry.get_bool( "animated", false );
-                    if ( !curr_subtile.default_tint.has_value() ) {
-                        curr_subtile.default_tint = curr_tile.default_tint;
-                    }
+                    curr_subtile.default_tint = t_tint;
+                    curr_subtile.flags = t_flags;
                     curr_tile.available_subtiles.push_back( s_id );
                 }
             } else if( entry.has_array( "additional_tiles" ) ) {
@@ -1680,6 +1682,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             curr_tile.multitile = t_multi;
             curr_tile.rotates = t_rota;
             curr_tile.height_3d = t_h3d;
+            curr_tile.default_tint = t_tint;
+            curr_tile.flags = t_flags;
             curr_tile.animated = entry.get_bool( "animated", false );
         }
     }
@@ -1730,45 +1734,6 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
     ensure_mask( curr_subtile.bg_mask, curr_subtile.bg );
 
     curr_subtile.has_om_transparency = entry.get_bool( "has_om_transparency", false );
-
-    if( entry.has_array( "default_tint" ) ) {
-        const auto arr = entry.get_int_array( "default_tint" );
-        if( arr.size() != 3 ) {
-            debugmsg( "Invalid tile default tint: %s", id );
-        } else {
-            curr_subtile.default_tint = SDL_Color{
-                static_cast<uint8_t>( arr[0] ),
-                static_cast<uint8_t>( arr[1] ),
-                static_cast<uint8_t>( arr[2] ),
-                255
-            };
-        }
-    } else if( entry.has_string( "default_tint" ) ) {
-        const auto str = entry.get_string( "default_tint" );
-        const auto& cm = get_all_colors();
-        const auto nc_id = cm.name_to_id(str, report_color_error::no);
-        if (nc_id != def_c_unset) {
-            curr_subtile.default_tint = curses_color_to_SDL(cm.get(nc_id));
-        } else if (str.starts_with("#")) {
-            std::istringstream is( str.substr(1) );
-
-            uint32_t tmp;
-            is >> std::hex;
-            is >> tmp;
-
-            curr_subtile.default_tint = SDL_Color{
-                static_cast<uint8_t>((tmp >> 16) & 0xFF),
-                static_cast<uint8_t>((tmp >> 8) & 0xFF),
-                static_cast<uint8_t>((tmp >> 0) & 0xFF),
-                255
-            };
-        } else {
-            debugmsg( "Unknown color value at %s: %s", id, str.c_str() );
-            curr_subtile.default_tint = std::nullopt;
-        }
-    } else {
-        curr_subtile.default_tint = std::nullopt;
-    }
 
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
@@ -2974,19 +2939,23 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
         fx_type = tileset_fx_type::none;
     }
 
-    if( is_fg && tile.flags.contains( flag_TINT_NO_FG ) ) {
-        color = std::nullopt;
-    } else if( !is_fg && tile.flags.contains( flag_TINT_NO_BG ) ) {
-        color = std::nullopt;
-    }
-
     const int tile_idx = sprite_list[sprite_num];
     const int mask_idx = mask_list[mask_num];
 
-    const auto default_color = tile.default_tint.value_or(TILESET_NO_COLOR);
-    const auto final_color = color.value_or(default_color);
+    const auto default_color = tile.default_tint.value_or( TILESET_NO_COLOR );
 
-    const texture *sprite_tex = tileset_ptr->get_or_default( tile_idx, mask_idx, fx_type, final_color );
+    SDL_Color tint_color;
+    if( tile.flags.contains( flag_TINT_NONE ) ) {
+        tint_color = TILESET_NO_COLOR;
+    } else if( is_fg && tile.flags.contains( flag_TINT_NO_FG ) ) {
+        tint_color = TILESET_NO_COLOR;
+    } else if( !is_fg && tile.flags.contains( flag_TINT_NO_BG ) ) {
+        tint_color = TILESET_NO_COLOR;
+    } else {
+        tint_color = color.value_or( default_color );
+    }
+
+    const texture *sprite_tex = tileset_ptr->get_or_default( tile_idx, mask_idx, fx_type, tint_color );
 
     int width = 0;
     int height = 0;

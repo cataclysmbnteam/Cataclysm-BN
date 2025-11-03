@@ -31,7 +31,7 @@ auto cata_tiles::get_graffiti_color(
 }
 
 auto cata_tiles::get_trap_color(
-    const trap &, const map &, tripoint  ) -> color_tint_pair
+    const trap &, const map &, tripoint ) -> color_tint_pair
 {
     return { std::nullopt, std::nullopt};
 }
