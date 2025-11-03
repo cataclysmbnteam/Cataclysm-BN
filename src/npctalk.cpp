@@ -113,6 +113,7 @@ static const bionic_id bio_voice( "bio_voice" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -199,6 +200,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
+    NPC_CHAT_HOWL,
     NPC_CHAT_MONOLOGUE,
     NPC_CHAT_EMOTE_OVERLAY,
     NPC_CHAT_SENTENCE,
@@ -484,6 +486,9 @@ void game::chat()
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
+    if (u.has_trait( trait_SHOUT3 )){
+        nmenu.addentry( NPC_CHAT_HOWL, true, 'H', _( "Howl" ) );
+    }
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
     nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'O', _( "Monologue" ) );
     nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'E', _( "Emote" ) );
@@ -530,6 +535,7 @@ void game::chat()
     std::string yell_msg;
     std::string monologue_msg;
     bool is_order = true;
+    bool is_howl = false;
     nmenu.query();
 
     if( nmenu.ret < 0 ) {
@@ -603,6 +609,10 @@ void game::chat()
         case NPC_CHAT_YELL:
             is_order = false;
             message = _( "loudly." );
+            break;
+        case NPC_CHAT_HOWL:
+            is_order = false;
+            is_howl = true;
             break;
         case NPC_CHAT_SENTENCE: {
             std::string popupdesc = _( "Enter a sentence to yell" );
@@ -789,9 +799,13 @@ void game::chat()
     if( !yell_msg.empty() ) {
         message = string_format( "\"%s\"", yell_msg );
     }
-    if( !message.empty() ) {
+    if( !message.empty() && !is_howl ) {
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
+    }
+    else if ( is_howl ) {
+        add_msg( _( "You let out an ear-piercing howl!" ), message );
+        u.shout( string_format( _( "%s let out an ear-piercing howl!" ), u.disp_name()), is_order );
     }
     if( !monologue_msg.empty() ) {
         // Normalize input for case-insensitive matching
