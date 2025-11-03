@@ -55,7 +55,7 @@ struct tile_type {
 
     std::vector<std::string> available_subtiles;
     std::set<flag_id> flags;
-    std::variant<SDL_Color, std::string> default_tint;
+    std::optional<SDL_Color> default_tint;
 };
 
 // Make sure to change TILE_CATEGORY_IDS if this changes!
