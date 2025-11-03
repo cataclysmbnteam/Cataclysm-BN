@@ -799,14 +799,16 @@ void game::chat()
     if( !yell_msg.empty() ) {
         message = string_format( "\"%s\"", yell_msg );
     }
-    if( !message.empty() && !is_howl ) {
-        add_msg( _( "You yell %s" ), message );
-        u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
-    }
-    else if ( is_howl ) {
+    
+    if ( is_howl ) {
         add_msg( _( "You let out an ear-piercing howl!" ), message );
         u.shout( string_format( _( "%s let out an ear-piercing howl!" ), u.disp_name()), is_order );
     }
+    else if( !message.empty() ) {
+        add_msg( _( "You yell %s" ), message );
+        u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
+    }
+
     if( !monologue_msg.empty() ) {
         // Normalize input for case-insensitive matching
         std::string lower = monologue_msg;
