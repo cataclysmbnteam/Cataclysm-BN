@@ -8246,7 +8246,7 @@ void Character::shout( std::string msg, bool order )
     }
 
     // Mutations make shouting louder, they also define the default message
-    if ( msg.empty() ){
+    if( msg.empty() ) {
         if( has_trait( trait_SHOUT3 ) ) {
             base = 20;
             add_msg_if_player( m_warning, _( "You let out an ear-piercing howl!" ) );
@@ -8264,7 +8264,8 @@ void Character::shout( std::string msg, bool order )
         }
     } else {
         add_msg_if_player( m_info, _( string_format( "You yell \"%s\"", msg ) ) );
-        msg = is_player() ? _( string_format( "yourself yell \"%s\"", msg ) ) : _( string_format( "yell \"%s\"", msg ) );
+        msg = is_player() ? _( string_format( "yourself yell \"%s\"",
+                                              msg ) ) : _( string_format( "yell \"%s\"", msg ) );
     }
 
 

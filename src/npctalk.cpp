@@ -485,7 +485,9 @@ void game::chat()
                         _( "Talk to…" )
                       );
     }
-    nmenu.addentry( NPC_CHAT_YELL, true, 'a', u.has_trait( trait_SHOUT2 ) ? _( "Scream" ) : u.has_trait( trait_SHOUT3 ) ? _( "Howl" ) : _( "Yell" ) );
+    nmenu.addentry( NPC_CHAT_YELL, true, 'a',
+                    u.has_trait( trait_SHOUT2 ) ? _( "Scream" ) : u.has_trait( trait_SHOUT3 ) ? _( "Howl" ) :
+                    _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
     nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'O', _( "Monologue" ) );
     nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'E', _( "Emote" ) );
@@ -804,7 +806,7 @@ void game::chat()
     }
 
     if( is_yell ) {
-        u.shout(  yell_msg, is_order );
+        u.shout( yell_msg, is_order );
     }
     if( !monologue_msg.empty() ) {
         // Normalize input for case-insensitive matching
