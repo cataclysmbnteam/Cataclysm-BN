@@ -1061,7 +1061,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - `CBM_TECH` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - `CHITIN` May produce chitin when butchered.
 - `CLIMBS` Can climb.
-- `COLDROOF` Immune to cold damage.
 - `CURRENT` this water is flowing.
 - `DESTROYS` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max
   melee bashing)
@@ -1660,6 +1659,7 @@ Those flags are added by the game code to specific items (that specific welder, 
   items of parts with this flag are automatically added as component to the vehicle start
   construction.
 - `INTERNAL` Can only be installed on a part with `CARGO` flag.
+- `LADDER` Ladder to get down from a flying vehicle
 - `LIGHT`
 - `LOCKABLE_CARGO` Cargo containers that are able to have a lock installed.
 - `MOUNTABLE` Player can fire mounted weapons from here.
