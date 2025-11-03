@@ -8,11 +8,12 @@
 #include "ncurses_def.h"
 #endif
 
-auto curses_color_to_RGB(const nc_color &color) -> RGBColor {
+auto curses_color_to_RGB( const nc_color &color ) -> RGBColor
+{
 #if defined(TILES)
     return curses_color_to_SDL( color );
 #else
-    return ncurses::color_to_RGB(color);;
+    return ncurses::color_to_RGB( color );;
 #endif
 }
 
