@@ -1,5 +1,8 @@
 #pragma once
 
+#include "json.h"
+#include "color.h"
+
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #else
@@ -14,12 +17,14 @@ struct RGBColor {
 
 #if defined(TILES)
     RGBColor() = default;
-    RGBColor(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a) : r{r}, g{g}, b{b}, a{a} {}
-    RGBColor(const SDL_Color& c) : r(c.r), g(c.g), b(c.b), a(c.a) {}
+    RGBColor( const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a ) : r{r}, g{g}, b{b}, a{a} {}
+    RGBColor( const SDL_Color &c ) : r( c.r ), g( c.g ), b( c.b ), a( c.a ) {}
     operator SDL_Color() const {
         return SDL_Color{ r, g, b, a };
     }
 #endif
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 struct HSVColor {
@@ -33,5 +38,6 @@ struct HSVColor {
     uint8_t A;
 };
 
+auto curses_color_to_RGB( const nc_color &color ) -> RGBColor;
 auto hsv2rgb( HSVColor color ) -> RGBColor;
 auto rgb2hsv( RGBColor color ) -> HSVColor;

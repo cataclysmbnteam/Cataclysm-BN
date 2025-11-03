@@ -2,6 +2,20 @@
 
 #include <algorithm>
 
+#if defined(TILES)
+#include "sdl_utils.h"
+#else
+#include "ncurses_def.h"
+#endif
+
+auto curses_color_to_RGB(const nc_color &color) -> RGBColor {
+#if defined(TILES)
+    return curses_color_to_SDL( color );
+#else
+    return ncurses::color_to_RGB(color);;
+#endif
+}
+
 static auto median( const uint8_t a, const uint8_t b, const uint8_t c )
 {
     if( ( a > b ) ^ ( a > c ) ) {
@@ -109,4 +123,58 @@ auto rgb2hsv( RGBColor color ) -> HSVColor
     const auto H = static_cast<uint32_t>( ( E * I ) + F );
 
     return HSVColor{H, S, V, A};
+}
+
+void RGBColor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( r );
+    jsout.write( g );
+    jsout.write( b );
+    if( a != 255 ) {
+        jsout.write( a );
+    }
+    jsout.end_array();
+}
+
+void RGBColor::deserialize( JsonIn &jsin )
+{
+    if( jsin.test_array() ) {
+        const auto arr = jsin.get_array();
+        if( arr.size() == 3 ) {
+            r = static_cast<uint8_t>( std::clamp( arr.get_int( 0 ), 0, 255 ) );
+            g = static_cast<uint8_t>( std::clamp( arr.get_int( 1 ), 0, 255 ) );
+            b = static_cast<uint8_t>( std::clamp( arr.get_int( 2 ), 0, 255 ) );
+            a = 255;
+        } else if( arr.size() == 4 ) {
+            r = static_cast<uint8_t>( std::clamp( arr.get_int( 0 ), 0, 255 ) );
+            g = static_cast<uint8_t>( std::clamp( arr.get_int( 1 ), 0, 255 ) );
+            b = static_cast<uint8_t>( std::clamp( arr.get_int( 2 ), 0, 255 ) );
+            a = static_cast<uint8_t>( std::clamp( arr.get_int( 3 ), 0, 255 ) );
+        } else {
+            jsin.error( "Invalid color value" );
+        }
+    } else if( jsin.test_string() ) {
+        const auto str = jsin.get_string();
+        const auto &cm = get_all_colors();
+        const auto nc_id = cm.name_to_id( str, report_color_error::no );
+        if( nc_id != def_c_unset ) {
+            *this = curses_color_to_RGB( cm.get( nc_id ) );
+        } else if( str.starts_with( "#" ) ) {
+            std::istringstream is( str.substr( 1 ) );
+
+            uint32_t tmp;
+            is >> std::hex;
+            is >> tmp;
+
+            r = static_cast<uint8_t>( ( tmp >> 16 ) & 0xFF );
+            g = static_cast<uint8_t>( ( tmp >> 8 ) & 0xFF );
+            b = static_cast<uint8_t>( ( tmp >> 0 ) & 0xFF );
+            a = 255;
+        } else {
+            debugmsg( "Unknown color value: %s", str.c_str() );
+        }
+    } else {
+        debugmsg( "Unknown color value" );
+    }
 }
