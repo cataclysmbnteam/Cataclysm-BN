@@ -458,7 +458,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_large_canvas_door_c",
+    "id": "f_large_canvas_door",
     "name": "heavy-duty canvas flap",
     "description": "This canvas flap door could be pulled aside. If you examine it closely, you could peek outside.",
     "symbol": "+",
