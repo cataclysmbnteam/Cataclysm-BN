@@ -1623,20 +1623,5 @@
     "type": "construction_group",
     "id": "add_grass",
     "name": "Plant Grass"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_canvas_floor",
-    "name": "Build canvas flooring [DEBUG]"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_canvas_wall",
-    "name": "Build canvas wall [DEBUG]"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_canvas_door",
-    "name": "Build canvas door [DEBUG]"
   }
 ]
