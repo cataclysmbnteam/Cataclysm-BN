@@ -2,7 +2,7 @@
 
 ## Purpose of change (The Why)
 
-<!-- e.g resolves #1234 / monster A is too OP despite being an early-game mob -->
+<!-- e.g resolves #1234 / continuation of #5678 / monster A is too OP despite being an early-game mob -->
 
 ## Describe the solution (The How)
 
@@ -12,7 +12,7 @@
 
 ## Testing
 
-<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. -->
+<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions. Also include testing suggestions for reviewers and maintainers. -->
 
 ## Additional context
 
@@ -53,6 +53,10 @@ please remove sections irrelevant to this PR.
   - [ ] If the change alters versions of software required to build or work with the game, please document it.
 - [ ] This is a PR that removes JSON entities.
   - [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
-- [ ] This PR modifies BN's lua API.
+- [ ] This PR adds/removes a mod.
+  - [ ] I have committed the output of `deno task semantic`.
+- [ ] This PR modifies lua scripts or the lua API.
+  - [ ] I have added `lua` scope to the PR title.
+  - [ ] I have added [type annotations](https://emmylua.github.io/annotation.html) to functions so that it's safe and easy to maintain.
   - [ ] I have committed the output of `deno task docs:gen` so the Lua API documentation is updated.
 -->

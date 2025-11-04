@@ -880,7 +880,7 @@ vehicle *game::place_vehicle_nearby(
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.can_float() && !veh.has_part( VPFLAG_BALLOON ) ) {
+        if( veh.can_float() && veh.has_part( VPFLAG_FLOATS ) ) {
             search_types.emplace_back( "river_shore" );
             search_types.emplace_back( "lake_shore" );
             search_types.emplace_back( "lake_surface" );
