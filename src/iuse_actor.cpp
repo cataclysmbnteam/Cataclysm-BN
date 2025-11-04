@@ -6024,7 +6024,7 @@ auto iuse_flowerpot_plant::can_use( const Character &who, const item &i, bool,
         case seedling:
         case mature: {
             const bool can_add_fert = info.fert_amt < fert_per_use.second;
-            const bool has_fert = i.charges > 0;
+            const bool has_fert = i.charges > fert_per_use.first;
             if( !can_add_fert ) {
                 return ret_val<bool>::make_failure( _( "You need to wait for it to grow." ) );
             }
