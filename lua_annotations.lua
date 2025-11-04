@@ -1021,6 +1021,7 @@ function MaterialTypeRaw.new() end
 ---@field has_target fun(arg1: Mission): boolean @Returns true if the mission has a target.
 ---@field in_progress fun(arg1: Mission): boolean @Returns true if the mission is currently in progress.
 ---@field is_assigned fun(arg1: Mission): boolean @Returns true if the mission is currently assigned.
+---@field is_complete fun(arg1: Mission, arg2: CharacterId): boolean @Returns true if the mission goal has been completed (checked against given NPC ID, use invalid ID for no-NPC missions).
 ---@field mission_id fun(arg1: Mission): MissionTypeIdRaw @Returns the mission type ID of this mission.
 ---@field name fun(arg1: Mission): string @Returns the mission's name as a string.
 ---@field reserve_new fun(arg1: MissionTypeIdRaw, arg2: CharacterId): Mission @Reserves a new mission of the given type for the specified NPC. Returns the new mission.
