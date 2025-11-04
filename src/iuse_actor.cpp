@@ -6119,7 +6119,7 @@ auto iuse_flowerpot_plant::on_use_plant( player &p, item &i, const tripoint & ) 
     const auto seed_entries = iexamine::get_seed_entries( seed_inv );
     const int seed_index = iexamine::query_seed( seed_entries, min_seed );
 
-    if( seed_index < 0 || seed_index >= seed_entries.size() ) {
+    if( seed_index < 0 || std::cmp_greater_equal(seed_index, seed_entries.size()) ) {
         add_msg( _( "You saved your seeds for later." ) );
         return 0;
     }
