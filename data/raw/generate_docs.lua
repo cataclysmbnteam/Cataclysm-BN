@@ -227,7 +227,7 @@ and should not be edited directly.
 >
 > All of these do the same thing:
 > * ```
->   print(Angle.from_radians(3):to_degrees(a))
+>   print(Angle.from_radians(3):to_degrees())
 >   ```
 > * ```
 >   print(Angle.to_degrees(Angle.from_radians(3)))
