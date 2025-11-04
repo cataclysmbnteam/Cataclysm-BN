@@ -3801,6 +3801,42 @@ const item *Character::item_worn_with_quality( const quality_id &qual, const bod
     return nullptr;
 }
 
+static auto get_enchantment_mut_visible(
+    const trait_id &, const Character &,
+    const enchantment &, const enchantment_source &src
+)
+{
+    auto visitor = []<typename T>( const T & v ) -> bool {
+        if constexpr( std::is_same_v<T, const item *> )
+        {
+            const item *it = v;
+            return !it->has_flag( flag_id( "HIDDEN" ) );
+        }
+        if constexpr( std::is_same_v<T, const mutation *> )
+        {
+            const mutation *it = v;
+            return it->second.show_sprite;
+        }
+        if constexpr( std::is_same_v<T, const bionic *> )
+        {
+            const bionic *it = v;
+            return it->show_sprite;
+        }
+        return true;
+    };
+
+    return std::visit( visitor, src );
+}
+
+static auto get_enchantment_mut_active(
+    const trait_id &mut, const Character &,
+    const enchantment &, const enchantment_source &
+)
+{
+    // TODO: When mutations ui can deal with enchantment mutations, update this
+    return mut->activated && mut->starts_active;
+}
+
 std::vector<std::string> Character::get_overlay_ids() const
 {
     std::vector<std::string> rval;
@@ -3835,6 +3871,21 @@ std::vector<std::string> Character::get_overlay_ids() const
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+    }
+
+    // and enchantments mutations
+    for( const auto &[ench, src] : enchantment_sources ) {
+        for( const auto &mut : ench->get_mutations() ) {
+            if( !get_enchantment_mut_visible( mut, *this, *ench, src ) ) {
+                continue;
+            }
+
+            const auto active = get_enchantment_mut_active( mut, *this, *ench, src );
+
+            overlay_id = ( active ? "active_" : "" ) + mut.str();
+            order = get_overlay_order_of_mutation( overlay_id );
+            mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        }
     }
 
     for( auto &mutorder : mutation_sorting ) {
@@ -8458,11 +8509,13 @@ void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache
     *enchantment_cache = enchantment();
+    enchantment_sources.clear();
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
+                enchantment_sources.emplace_back( &ench, it );
             }
         }
         return VisitResponse::NEXT;
@@ -8476,6 +8529,7 @@ void Character::recalculate_enchantment_cache()
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
                 enchantment_cache->force_add( ench );
+                enchantment_sources.emplace_back( &ench, &mut_map );
             }
         }
     }
@@ -8488,6 +8542,7 @@ void Character::recalculate_enchantment_cache()
             if( ench.is_active( *this, bio.powered &&
                                 bid->has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) ) {
                 enchantment_cache->force_add( ench );
+                enchantment_sources.emplace_back( &ench, &bio );
             }
         }
     }
