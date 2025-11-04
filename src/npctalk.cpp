@@ -543,6 +543,8 @@ void game::chat()
 
     switch( nmenu.ret ) {
         case NPC_CHAT_TALK: {
+            is_yell = false;
+
             const int npcselect = npc_select_menu( available, _( "Talk to whom?" ), false );
             if( npcselect < 0 ) {
                 return;
@@ -782,22 +784,27 @@ void game::chat()
             break;
         }
         case NPC_CHAT_ORDERS: {
+            is_yell = false;
             npc_temp_orders_menu( followers );
             break;
         }
         case NPC_CHAT_ANIMAL_VEHICLE_FOLLOW: {
+            is_yell = false;
             assign_veh_to_follow();
             break;
         }
         case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW: {
+            is_yell = false;
             tell_veh_stop_following();
             break;
         }
         case NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW: {
+            is_yell = false;
             tell_magic_veh_to_follow();
             break;
         }
         case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW: {
+            is_yell = false;
             tell_magic_veh_stop_following();
             break;
         }
