@@ -2079,7 +2079,7 @@
     "required_skills": [ [ "tailor", 2 ] ],
     "time": "15 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SEW", "level": 2 } ] ],
-    "components": [ [ [ "sheet", 1 ] ], [ [ "spike", 1 ], [ "pointy_stick", 1 ] ], [ [ "filament", 25, "LIST" ] ] ],
+    "components": [ [ [ "sheet", 1 ] ], [ [ "filament", 25, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_canvas_floor"
   },
@@ -2107,7 +2107,7 @@
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SEW", "level": 2 } ] ],
     "components": [
       [ [ "sheet", 1 ] ],
-      [ [ "spike", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ],
       [ [ "adhesive", 1, "LIST" ] ],
       [ [ "filament", 25, "LIST" ] ]
     ],
@@ -2125,7 +2125,7 @@
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "SEW", "level": 2 } ] ],
     "components": [
       [ [ "plastic_sheet", 1 ] ],
-      [ [ "spike", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ],
       [ [ "adhesive", 1, "LIST" ] ],
       [ [ "filament", 25, "LIST" ] ]
     ],
@@ -2141,7 +2141,7 @@
     "required_skills": [ [ "tailor", 2 ] ],
     "time": "15 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SEW", "level": 2 } ] ],
-    "components": [ [ [ "sheet", 1 ] ], [ [ "spike", 1 ], [ "pointy_stick", 1 ] ], [ [ "filament", 25, "LIST" ] ] ],
+    "components": [ [ [ "sheet", 1 ] ], [ [ "filament", 25, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_canvas_door"
   },
@@ -2154,7 +2154,7 @@
     "required_skills": [ [ "tailor", 2 ] ],
     "time": "15 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SEW", "level": 2 } ] ],
-    "components": [ [ [ "sheet", 1 ] ], [ [ "spike", 1 ], [ "pointy_stick", 1 ] ], [ [ "filament", 25, "LIST" ] ] ],
+    "components": [ [ [ "sheet", 1 ] ], [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ], [ [ "filament", 25, "LIST" ] ] ],
     "pre_furniture": "f_canvas_door",
     "post_furniture": "f_large_canvas_door"
   }
