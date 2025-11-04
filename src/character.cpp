@@ -8297,24 +8297,29 @@ void Character::shout( std::string msg, bool order )
     }
 
     // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT3 ) ) {
-        base = 20;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+    if( msg.empty() ) {
+        if( has_trait( trait_SHOUT3 ) ) {
+            base = 20;
+            add_msg_if_player( m_warning, _( "You let out an ear-piercing howl!" ) );
+            msg = is_player() ? _( "yourself let out an ear-piercing howl!" ) : _( "an ear-piercing howl!" );
             shout = "howl";
-        }
-    } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        if( msg.empty() ) {
+        } else if( has_trait( trait_SHOUT2 ) ) {
+            base = 15;
+            add_msg_if_player( m_mixed, _( "You scream loudly!" ) );
             msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
             shout = "scream";
+        } else {
+            add_msg_if_player( m_info, _( "You yell loudly!" ) );
+            msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+            shout = "default";
         }
+    } else {
+        add_msg_if_player( m_info, _( string_format( "You yell \"%s\"", msg ) ) );
+        msg = is_player() ? _( string_format( "yourself yell \"%s\"",
+                                              msg ) ) : _( string_format( "yell \"%s\"", msg ) );
     }
 
-    if( msg.empty() ) {
-        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
-        shout = "default";
-    }
+
     int noise = get_shout_volume();
 
     // Minimum noise volume possible after all reductions.

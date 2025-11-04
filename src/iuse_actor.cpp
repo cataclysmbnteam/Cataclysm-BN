@@ -5946,7 +5946,7 @@ void iuse_flowerpot_plant::load( const JsonObject &jo )
         auto val = jo.get_int( "fert_per_use" );
         fert_per_use = std::make_pair( val, val );
     } else {
-        fert_per_use = std::make_pair( 1, 1 );
+        fert_per_use = std::make_pair( 0, 1 );
     }
 }
 
