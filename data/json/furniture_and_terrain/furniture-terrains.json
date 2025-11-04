@@ -350,7 +350,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "SUN_ROOF_ABOVE", "INDOORS", "FLAT", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -362,7 +362,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "INDOORS", "FLAT", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 }, { "item": "plastic_sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -383,9 +383,9 @@
       "sound_vol": 8,
       "//": "Go straight through without taking any damage.",
       "ranged": { "block_unaimed_chance": "100%" },
-      "items": [ { "item": "rag", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "rag", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -406,9 +406,9 @@
       "sound_vol": 8,
       "//": "Go straight through without taking any damage.",
       "ranged": { "block_unaimed_chance": "100%" },
-      "items": [ { "item": "rag", "count": [ 10, 30 ] }, { "item": "plastic_chunk", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "rag", "count": [ 10, 20 ] }, { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 }, { "item": "plastic_sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -432,9 +432,9 @@
       "sound_vol": 8,
       "//": "Go straight through without taking any damage.",
       "ranged": { "block_unaimed_chance": "100%" },
-      "items": [ { "item": "rag", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "rag", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -456,9 +456,9 @@
       "sound_vol": 8,
       "//": "Go straight through without taking any damage.",
       "ranged": { "block_unaimed_chance": "100%" },
-      "items": [ { "item": "rag", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "rag", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -482,9 +482,9 @@
       "sound_vol": 8,
       "//": "Go straight through without taking any damage.",
       "ranged": { "block_unaimed_chance": "100%" },
-      "items": [ { "item": "rag", "count": [ 10, 30 ] }, { "item": "plastic_chunk", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "rag", "count": [ 10, 20 ] }, { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 }, { "item": "plastic_sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -506,9 +506,9 @@
       "sound_vol": 8,
       "//": "Go straight through without taking any damage.",
       "ranged": { "block_unaimed_chance": "100%" },
-      "items": [ { "item": "rag", "count": [ 10, 30 ] }, { "item": "plastic_chunk", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "rag", "count": [ 10, 20 ] }, { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "sheet", "count": 2 }, { "item": "plastic_sheet", "count": 2 } ] }
+    "deconstruct": { "items": [ { "item": "sheet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ] }
   },
   {
     "type": "furniture",
