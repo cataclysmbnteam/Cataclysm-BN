@@ -3699,8 +3699,8 @@ Function `( Mission, int )`
 
 #### is_complete
 
-Returns true if the mission goal has been completed (checked against given NPC ID, use invalid ID for no-NPC missions).
-Function `( Mission, CharacterId ) -> bool`
+Returns true if the mission goal has been completed (optionally checked against given NPC ID).
+Function `( Mission, Opt( CharacterId ) ) -> bool`
 
 #### assign
 
