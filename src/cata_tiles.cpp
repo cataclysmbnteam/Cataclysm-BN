@@ -462,10 +462,12 @@ static size_t get_surface_hash( SDL_Surface *surf, const SDL_Rect *rect )
     return hash;
 }
 
-template<bool SkipTransparent = true, typename CvtFn>
+template<bool SkipTransparent = true, typename FilterFn>
 static void
-apply_color_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_Surface *src,
-                    const SDL_Rect &srcRect, CvtFn pixel_func )
+apply_color_filter(
+    SDL_Surface *dst, const SDL_Rect &dstRect,
+    SDL_Surface *src, const SDL_Rect &srcRect,
+    FilterFn filter_func )
 {
     assert( dst );
 
@@ -493,7 +495,7 @@ apply_color_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_Surface *src,
                     *pDst = {0, 0, 0, 0};
                 }
             }
-            *pDst = pixel_func( *pSrc );
+            *pDst = filter_func( *pSrc );
         }
     }
 
@@ -505,9 +507,12 @@ apply_color_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_Surface *src,
     }
 }
 
-template<bool SkipTransparent = true, typename CvtFn>
-static void apply_blend_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_Surface *srcA,
-                                const SDL_Rect &srcRectA, SDL_Surface *srcB, const SDL_Rect &srcRectB, CvtFn blend_func )
+template<bool SkipTransparent = true, typename BlendFn>
+static void apply_blend_filter(
+    SDL_Surface *dst, const SDL_Rect &dstRect,
+    SDL_Surface *srcA, const SDL_Rect &srcRectA,
+    SDL_Surface *srcB, const SDL_Rect &srcRectB,
+    BlendFn blend_func )
 {
     assert( dst );
     assert( srcA );
@@ -557,9 +562,9 @@ static void apply_blend_filter( SDL_Surface *dst, const SDL_Rect &dstRect, SDL_S
     }
 }
 
-template<bool SkipTransparent = true, typename CvtFn>
-static SDL_Surface_Ptr apply_color_filter_blit_copy( const SDL_Surface_Ptr &src,
-        CvtFn pixel_converter )
+template<bool SkipTransparent = true, typename FilterFn>
+static SDL_Surface_Ptr apply_color_filter_blit_copy(
+    const SDL_Surface_Ptr &src, FilterFn filter_func )
 {
     assert( src );
     SDL_Surface_Ptr dst = create_surface_32( src->w, src->h );
@@ -578,7 +583,7 @@ static SDL_Surface_Ptr apply_color_filter_blit_copy( const SDL_Surface_Ptr &src,
                     continue;
                 }
             }
-            *pix = pixel_converter( *pix );
+            *pix = filter_func( *pix );
         }
     }
 
@@ -2895,29 +2900,22 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
         return true;
     }
 
-    // blit foreground based on rotation
-    bool rotate_sprite = false;
-    int sprite_num = 0;
-    int mask_num = 0;
-    if( !is_fg && sprite_list.size() == 1 ) {
-        // don't rotate, a background tile without manual rotations
-        rotate_sprite = false;
-        sprite_num = 0;
-        mask_num = 0;
-    } else if( sprite_list.size() == 1 ) {
-        // just one tile, apply SDL sprite rotation if not in isometric mode
-        rotate_sprite = true;
-        sprite_num = 0;
-        mask_num = 0;
-    } else {
-        // multiple rotated tiles defined, don't apply sprite rotation after picking one
-        rotate_sprite = false;
-        // two tiles, tile 0 is N/S, tile 1 is E/W
-        // four tiles, 0=N, 1=E, 2=S, 3=W
-        // extending this to more than 4 rotated tiles will require changing rota to degrees
-        sprite_num = rota % sprite_list.size();
-        mask_num = rota & mask_list.size();
-    }
+    /*
+     * If single tile:
+     *   Don't rotate a background tile
+     *   Rotate foreground
+     * If multiple tiles:
+     *   Don't apply sprite rotation in SDL
+     *   2: tiles, tile 0 is N/S, tile 1 is E/W
+     *   4: tiles, 0=N, 1=E, 2=S, 3=W
+     *   5+ tiles: Animation, should not be used for rotation
+     */
+    const auto num_sprites = sprite_list.size();
+    const auto is_single_sprite = num_sprites == 1;
+    const auto rotate_sprite = is_fg && is_single_sprite;
+    const auto sprite_num = is_single_sprite
+                            ? 0
+                            : ( rota % num_sprites );
 
     tileset_fx_type fx_type;
     if( ll == lit_level::MEMORIZED ) {
@@ -2940,7 +2938,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
     }
 
     const int tile_idx = sprite_list[sprite_num];
-    const int mask_idx = mask_list[mask_num];
+    const int mask_idx = mask_list[sprite_num];
 
     const auto default_color = tile.default_tint.value_or( TILESET_NO_COLOR );
 
