@@ -347,13 +347,16 @@ void map::add_vehicle_to_cache( vehicle *veh )
 
     // Get parts
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().removed ) {
+        if( vpr.part().removed || vpr.part().has_flag( VPFLAG_NOCOLLIDE ) ) {
             continue;
         }
         const tripoint p = veh->global_part_pos3( vpr.part() );
         level_cache &ch = get_cache( p.z );
         ch.veh_in_active_range = true;
-        ch.veh_cached_parts[p] = std::make_pair( veh,  static_cast<int>( vpr.part_index() ) );
+        if( ch.veh_cached_parts.find( p ) == ch.veh_cached_parts.end() ||
+            !vpr.part().has_flag( VPFLAG_NOCOLLIDE ) ) {
+            ch.veh_cached_parts[p] = std::make_pair( veh,  static_cast<int>( vpr.part_index() ) );
+        }
         if( inbounds( p ) ) {
             ch.veh_exists_at[p.x][p.y] = true;
         }
