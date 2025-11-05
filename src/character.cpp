@@ -3870,7 +3870,7 @@ std::vector<Character::overlay_entry> Character::get_overlay_ids() const
             overlay_id,
             &mut
         };
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        mutation_sorting.insert( std::make_pair( order, ent ) );
     }
 
     // then get bionics
@@ -3880,7 +3880,11 @@ std::vector<Character::overlay_entry> Character::get_overlay_ids() const
         }
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        const overlay_entry ent {
+            overlay_id,
+            &bio
+        };
+        mutation_sorting.insert( std::make_pair( order, ent ) );
     }
 
     // and enchantments mutations
@@ -3894,7 +3898,14 @@ std::vector<Character::overlay_entry> Character::get_overlay_ids() const
 
             overlay_id = ( active ? "active_" : "" ) + mut.str();
             order = get_overlay_order_of_mutation( overlay_id );
-            mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+
+            // Maybe don't inherit colors from source (entry = std::nullopt)?
+            const overlay_entry ent {
+                overlay_id,
+                variant_cast<decltype(overlay_entry::entry)>{}(src)
+            };
+
+            mutation_sorting.insert( std::make_pair( order, ent ) );
         }
     }
 
