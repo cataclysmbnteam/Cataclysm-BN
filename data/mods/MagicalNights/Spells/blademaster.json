@@ -153,7 +153,7 @@
     "max_level": 20,
     "difficulty": 10,
     "base_casting_time": 400,
-    "base_energy_cost": 15000,
+    "base_energy_cost": 5000,
     "min_range": 5,
     "max_range": 25,
     "range_increment": 1,
