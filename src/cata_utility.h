@@ -376,16 +376,15 @@ template <typename ...Ts>
 struct variant_cast<std::variant<Ts...>> {
 
     template<typename ... Us>
-    auto operator()(const std::variant<Us...>& var) -> std::variant<Ts...> {
-        constexpr auto visitor = [&](auto&& v)-> std::variant<Ts...>{
-            if constexpr( requires { std::variant<Ts...>{v}; } ) {
-                return v;
-            }
-            else {
-                throw std::bad_variant_access();
-            }
-        };
-        return std::visit( visitor , var );
-    }
+    auto operator()( const std::variant<Us...> &var ) -> std::variant<Ts...> {
+    constexpr auto visitor = [&]( auto &&v )-> std::variant<Ts...> {
+        if constexpr( requires { std::variant<Ts...>{v}; } ) {
+            return v;
+        } else {
+            throw std::bad_variant_access();
+        }
+    };
+    return std::visit( visitor, var );
+                }
 
 };
