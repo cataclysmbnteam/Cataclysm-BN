@@ -1137,6 +1137,24 @@ class map
         bool hit_with_fire( const tripoint &p );
 
         /**
+         * Returns true if there is an item for which filter returns true in the tile at p.
+         * Pass return_true<item> to detect all items.
+         * @param p the location to check at
+         * @param filter what to filter the item by.
+         */
+        bool has_item_with( const tripoint &p,
+                            const std::function<bool( const item & )> &filter );
+
+        /**
+         * Returns true if there is an item for which filter returns true in a 1 tile radius of p.
+         * Pass return_true<item> to detect all adjacent items.
+         * @param p the location to check at
+         * @param filter what to filter the item by.
+         */
+        bool has_adjacent_item_with( const tripoint &p,
+                                     const std::function<bool( const item & )> &filter );
+
+        /**
          * Returns true if there is furniture for which filter returns true in a 1 tile radius of p.
          * Pass return_true<furn_t> to detect all adjacent furniture.
          * @param p the location to check at
@@ -1144,6 +1162,16 @@ class map
          */
         bool has_adjacent_furniture_with( const tripoint &p,
                                           const std::function<bool( const furn_t & )> &filter );
+
+        /**
+         * Returns true if there is terrain for which filter returns true in a 1 tile radius of p.
+         * Pass return_true<ter_t> to detect all adjacent terrain.
+         * @param p the location to check at
+         * @param filter what to filter the terrain by.
+         */
+        bool has_adjacent_terrain_with( const tripoint &p,
+                                        const std::function<bool( const ter_t & )> &filter );
+
         /**
          * Remove moppable fields/items at this location
          *  @param p the location
