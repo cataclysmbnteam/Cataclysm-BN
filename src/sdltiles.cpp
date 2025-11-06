@@ -3490,6 +3490,7 @@ static std::pair<float, float> get_display_scale( int display_index )
     float scale_h = lh ? static_cast<float>( ph ) / static_cast<float>( lh ) : 1.0f;
     return std::make_pair( scale_w, scale_h );
 #else
+    ( void )display_index; // avoid unused parameter lint
     return std::make_pair( 1.0f, 1.0f );
 #endif
 }
@@ -3540,8 +3541,9 @@ static void init_term_size_and_scaling_factor()
 
             } else {
                 // For fullscreen or window borderless maximum size is the display size
-                max_width = current_display.w;
-                max_height = current_display.h;
+                auto [ dpi_scale_w, dpi_scale_h ] = get_display_scale( current_display_id );
+                max_width = dpi_scale_w * current_display.w;
+                max_height = dpi_scale_h * current_display.h;
             }
         } else {
             dbg( DL::Warn ) << "Failed to get current Display Mode, assuming infinite display size.";
