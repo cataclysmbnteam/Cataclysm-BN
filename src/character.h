@@ -237,6 +237,9 @@ struct char_trait_data {
 };
 
 struct mutation_collection : std::unordered_map<trait_id, char_trait_data> {};
+using mutation = std::pair<const trait_id, char_trait_data>;
+using enchantment_source =
+    std::variant<std::monostate, const item *, const mutation *, const bionic *>;
 
 struct mountable_status {
     bool mountable;
@@ -297,7 +300,7 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns true if the character should be dead */
         auto is_dead_state() const -> bool override;
 
-    private:
+    protected:
         mutable std::optional<bool> cached_dead_state;
 
     public:
@@ -308,6 +311,8 @@ class Character : public Creature, public location_visitable<Character>
         void mod_part_hp_max( const bodypart_id &id, int mod ) override;
 
         void set_all_parts_hp_cur( int set ) override;
+
+        void mod_all_parts_hp_cur( int mod ) override;
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -1985,6 +1990,8 @@ class Character : public Creature, public location_visitable<Character>
          * And of course a line of sight exists.
         */
         bool sees_with_infrared( const Creature &critter ) const;
+        // Do parts of place_corpse, but without the corpse, for things like ressurection
+        void drop_inv( const int count );
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile
@@ -2441,6 +2448,8 @@ class Character : public Creature, public location_visitable<Character>
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchantment> enchantment_cache;
+        // for enchantment mutations sprite display, recalculated alongside the cache
+        std::vector<std::pair<const enchantment *, enchantment_source>> enchantment_sources;
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point_abs_omt, time_duration> overmap_time;

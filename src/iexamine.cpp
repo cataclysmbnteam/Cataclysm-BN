@@ -2046,7 +2046,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
         harvest->set_flag( flag_HIDDEN_HALLU );
     }
     // Drop items that're exceed available space and things that aren't comestibles
-    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
+    if( !force_drop && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -2224,7 +2224,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         if( roll >= 1 ) {
             got_anything = true;
             for( int i = 0; i < roll; i++ ) {
-                handle_harvest( p, entry.drop, false );
+                handle_harvest( p, entry.drop, entry.no_auto_pickup );
             }
         }
     }
@@ -2417,7 +2417,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
 /**
  *  Choose seed for planting
  */
-int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
+int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries, int min_req )
 {
     uilist smenu;
 
@@ -2429,7 +2429,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";
 
-        smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
+        smenu.addentry( count++, seed_count >= min_req, MENU_AUTOASSIGN, format.c_str(),
                         seed_name, seed_count );
     }
 
@@ -4816,12 +4816,11 @@ void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
     if( p.in_vehicle ) {
-        if( !character_funcs::can_fly( p ) ) {
-            add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
+        if( !character_funcs::can_fly( p ) &&
+            !query_yn( _( "Do you really want to jump off the vehicle?" ) ) ) {
             return;
-        } else {
-            get_map().unboard_vehicle( p.pos() );
         }
+        get_map().unboard_vehicle( p.pos() );
     }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
@@ -4834,7 +4833,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
             where.z--;
             below.z--;
         }
-
         // where now represents the first NON-open-air tile or the last valid move before hitting one
         const int height = p.pos().z - below.z;
 

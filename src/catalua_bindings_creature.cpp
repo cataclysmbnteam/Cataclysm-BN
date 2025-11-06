@@ -237,6 +237,7 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( mod_part_hp_max, void( const bodypart_id &, int ) );
 
         SET_FX_T( set_all_parts_hp_cur, void( int ) );
+        SET_FX_T( mod_all_parts_hp_cur, void( int ) );
         SET_FX_T( set_all_parts_hp_to_max, void() );
 
         SET_FX_T( get_speed_base, int() const );
@@ -799,7 +800,11 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( get_lowest_hp, int() const );
 
+        // Respawn Stuff
+        SET_FX_T( drop_inv, void( const int count ) );
+
         SET_FX( bodypart_exposure );
+
 
     }
 #undef UT_CLASS // #define UT_CLASS Character
