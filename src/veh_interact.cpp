@@ -2533,7 +2533,7 @@ void veh_interact::display_stats() const
     if( is_boat ) {
         // convert newton to kg.
         units::mass buoyancy_as_mass = units::from_newton(
-                                           veh->max_buoyancy() );
+                                           veh->max_buoyancy() + veh->total_balloon_lift() );
         print_stat(
             _( "Maximum Buoyancy: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( buoyancy_as_mass ),
