@@ -3153,7 +3153,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 80,
-    "description": "An improvised raincatcher made using a tarpaulin, to collect rainwater into the tank beneath it.",
+    "description": "An improvised raincatcher made using a tarp, to collect rainwater into the tank beneath it.",
     "size": "90 L",
     "item": "tarp_raincatcher",
     "location": "on_roof",
