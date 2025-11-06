@@ -25,12 +25,12 @@
     "type": "scenario",
     "id": "prisonbreak",
     "copy-from": "prisonbreak",
-    "extend": { "professions": [ "crt_guard", "crt_juggernaught" ] }
+    "extend": { "professions": [ "crt_guard", "crt_lonewolf_t1", "crt_lonewolf_t2" ] }
   },
   {
     "type": "scenario",
     "id": "alcatraz",
     "copy-from": "alcatraz",
-    "extend": { "professions": [ "crt_guard", "crt_juggernaught" ] }
+    "extend": { "professions": [ "crt_guard", "crt_lonewolf_t1", "crt_lonewolf_t2" ] }
   }
 ]
