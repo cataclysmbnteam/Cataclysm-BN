@@ -6754,7 +6754,16 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
+
+#if defined(TILES)
+            const int minimap_height_opt = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
+            const int minimap_height = minimap_height_opt > 0 ? minimap_height_opt : panel_width / 2;
+            int height = pixel_minimap_option
+                         ? TERMY - minimap_height
+                         : TERMY;
+#else
+            int height = TERMY;
+#endif
 
             // If particularly small, base height on panel width irrespective of other elements.
             // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
@@ -6922,6 +6931,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         ui_manager::redraw();
         if( ( select_zone && has_first_point ) || is_moving_zone ) {
             ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
+        }
+
+        if( pixel_minimap_option ) {
+            ctxt.set_timeout( 125 );
         }
 
         //Wait for input
