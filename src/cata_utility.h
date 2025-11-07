@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
+#include <variant>
 
 #include "enums.h"
 
@@ -367,3 +368,23 @@ template < typename T, int E, std::size_t N = ( E < 0 ? -E : E ) >
                : _pow10p<T>( std::make_index_sequence<N> {} );
 }
 
+
+template <typename T>
+struct variant_cast;
+
+template <typename ...Ts>
+struct variant_cast<std::variant<Ts...>> {
+
+    template<typename ... Us>
+    auto operator()( const std::variant<Us...> &var ) -> std::variant<Ts...> {
+    constexpr auto visitor = [&]( auto &&v )-> std::variant<Ts...> {
+        if constexpr( requires { std::variant<Ts...>{v}; } ) {
+            return v;
+        } else {
+            throw std::bad_variant_access();
+        }
+    };
+    return std::visit( visitor, var );
+                }
+
+};

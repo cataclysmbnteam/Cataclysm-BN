@@ -401,7 +401,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
         && you.movement_mode_is( CMM_WALK )
-        && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+        && m.open_door( &you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
@@ -442,7 +442,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
 
-    if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+    if( m.furn( dest_loc ) != f_safe_c && m.open_door( &you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {

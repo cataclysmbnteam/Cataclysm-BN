@@ -575,7 +575,7 @@ static void open()
         return;
     }
 
-    bool didit = here.open_door( openp, !here.is_outside( u.pos() ) );
+    bool didit = here.open_door( &u, openp, !here.is_outside( u.pos() ) );
 
     if( !didit ) {
         const ter_str_id tid = here.ter( openp ).id();

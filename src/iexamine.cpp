@@ -1896,7 +1896,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    if( here.open_door( examp, true, true ) ) {
+    if( here.can_open_door( &p, examp, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
     } else {
@@ -1910,7 +1910,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
             g->peek( examp );
             p.add_msg_if_player( _( "You peek through the peephole." ) );
         } else if( choice == 1 ) {
-            here.open_door( examp, true, false );
+            here.open_door( &p, examp, true );
             p.add_msg_if_player( _( "You open the door." ) );
         } else {
             p.add_msg_if_player( _( "Never mind." ) );

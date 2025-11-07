@@ -12,6 +12,7 @@
 #include <queue>
 #include <type_traits>
 #include <unordered_map>
+#include <variant>
 
 #include "active_item_cache.h"
 #include "ammo.h"
@@ -140,6 +141,9 @@ static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
 
 // Conversion constant for 100ths of miles per hour to meters per second
 constexpr float velocity_constant = 0.0044704;
+
+static const std::string str_DOOR_LOCKING( "DOOR_LOCKING" );
+static const std::string str_OPENCLOSE_INSIDE("OPENCLOSE_INSIDE");
 
 #define dbg(x) DebugLog((x),DC::Map)
 
@@ -4206,79 +4210,209 @@ bool map::hit_with_fire( const tripoint &p )
     return true;
 }
 
-bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
+bool map::can_open_door(
+    const const_interacting_entity &who, const tripoint &p, bool inside
+) const
 {
-    avatar &you = get_avatar();
+
     const auto &ter = this->ter( p ).obj();
-    const auto &furn = this->furn( p ).obj();
-
     if( ter.open ) {
-        if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
-            return false;
-        }
-        if( you.is_mounted() ) {
-            auto mon = you.mounted_creature.get();
-            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                add_msg( m_info, _( "You can't open things while you're riding." ) );
-                return false;
-            }
-        }
-        if( !check_only ) {
-            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
-                           "open_door", ter.id.str() );
-            ter_set( p, ter.open );
+        return can_open_door_ter( who, ter, p, inside );
+    }
 
-            if( ( you.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || you.has_artifact_with( AEP_SCHIZO ) )
-                && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
-                tripoint mp = p + -2 * you.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
-                g->spawn_hallucination( mp );
-            }
-        }
+    const auto &furn = this->furn( p ).obj();
+    if( furn.open ) {
+        return can_open_door_furn( who, furn, p, inside );
+    }
 
-        return true;
-    } else if( furn.open ) {
-        if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
-            return false;
-        }
-        if( you.is_mounted() ) {
-            auto mon = you.mounted_creature.get();
-            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                add_msg( m_info, _( "You can't open things while you're riding." ) );
-                return false;
-            }
-        }
+    const optional_vpart_position vp = veh_at( p );
+    if( vp ) {
+        return can_open_door_veh( who, vp, p, inside );
+    }
 
-        if( !check_only ) {
-            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
-                           "open_door", furn.id.str() );
-            furn_set( p, furn.open );
-        }
+    return false;
 
-        return true;
-    } else if( const optional_vpart_position vp = veh_at( p ) ) {
-        int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
-        if( openable >= 0 ) {
-            if( you.is_mounted() ) {
-                auto mon = you.mounted_creature.get();
+}
+
+
+bool map::open_door(
+    const interacting_entity &who,  const tripoint &p, const bool inside
+)
+{
+    const auto &ter = this->ter( p ).obj();
+    if( ter.open ) {
+        return open_door_ter( who, ter, p, inside );
+    }
+
+    const auto &furn = this->furn( p ).obj();
+    if( furn.open ) {
+        return open_door_furn( who, furn, p, inside );
+    }
+
+    const optional_vpart_position vp = veh_at( p );
+    if( vp ) {
+        return open_door_veh( who, vp, p, inside );
+    }
+
+    return false;
+}
+
+struct can_open_while_mounted {
+    template<typename T>
+    auto operator()( T u ) -> bool {
+        if constexpr( std::is_same_v<T, Character *> ) {
+            if( u->is_mounted() ) {
+                auto mon = u->mounted_creature.get();
                 if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                     add_msg( m_info, _( "You can't open things while you're riding." ) );
                     return false;
                 }
             }
-            if( !check_only ) {
-                if( !vp->vehicle().handle_potential_theft( you ) ) {
-                    return false;
-                }
-                vp->vehicle().open_all_at( openable );
-            }
-
-            return true;
         }
+        return true;
+    };
+};
 
+bool map::can_open_door_ter(
+    const const_interacting_entity &who, const ter_t &,
+    const tripoint &p, bool inside
+) const
+{
+
+    if( has_flag( str_OPENCLOSE_INSIDE, p ) && !inside ) {
         return false;
     }
 
+    if( !std::visit( can_open_while_mounted{}, who ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+
+bool map::open_door_ter(
+    const interacting_entity &who, const ter_t &ter,
+    const tripoint &p, const bool inside
+)
+{
+    if( !can_open_door_ter( variant_cast<const_interacting_entity> {}( who ), ter, p, inside ) ) {
+        return false;
+    }
+
+    sounds::sound(
+        p, 6, sounds::sound_t::movement, _( "swish" ),
+        true, "open_door", ter.id.str() );
+    ter_set( p, ter.open );
+
+    const auto is_schizo = std::visit( []<typename T>( T u ) -> bool {
+        if constexpr( std::is_same_v<T, Character *> )
+        {
+            return u->has_trait( trait_id( "SCHIZOPHRENIC" ) ) || u->has_artifact_with( AEP_SCHIZO );
+        }
+        return false;
+    }, who );
+
+    const tripoint you_pos = std::visit( []<typename T>( T u ) { return u->pos(); }, who );
+
+    if( is_schizo
+        && one_in( 50 )
+        && !ter.has_flag( "TRANSPARENT" ) ) {
+        const tripoint mp =
+            p + -2 * you_pos.xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
+        g->spawn_hallucination( mp );
+    }
+
+    return true;
+
+}
+
+bool map::can_open_door_furn(
+    const const_interacting_entity &who, const furn_t &,
+    const tripoint &p, bool inside
+) const
+{
+
+    if( has_flag( str_OPENCLOSE_INSIDE, p ) && !inside ) {
+        return false;
+    }
+
+    if( std::visit( can_open_while_mounted{}, who ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+
+bool map::open_door_furn(
+    const interacting_entity &who, const furn_t &furn,
+    const tripoint &p, const bool inside
+)
+{
+    if( !can_open_door_furn( variant_cast<const_interacting_entity> {}( who ), furn, p, inside ) ) {
+        return false;
+    }
+
+    sounds::sound(
+        p, 6, sounds::sound_t::movement, _( "swish" ),
+        true, "open_door", furn.id.str() );
+    furn_set( p, furn.open );
+    return true;
+
+}
+
+bool map::can_open_door_veh(
+    const const_interacting_entity &who, const optional_vpart_position &vp,
+    const tripoint &, bool
+) const
+{
+
+    const int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
+    if( openable < 0 ) {
+        return false;
+    }
+
+    if( !std::visit( can_open_while_mounted{}, who ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+
+bool map::open_door_veh(
+    const interacting_entity &who, const optional_vpart_position &vp,
+    const tripoint &p, bool inside
+)
+{
+    if( !can_open_door_veh( variant_cast<const_interacting_entity> {}( who ), vp, p, inside ) ) {
+        return false;
+    }
+
+    if( std::holds_alternative<Character *>( who ) ) {
+        auto &you = *std::get<Character *>( who );
+        if( you.is_avatar() &&
+            !vp->vehicle().handle_potential_theft( *you.as_avatar() ) ) {
+            return false;
+        }
+    }
+
+    const auto is_owner = std::visit(
+    [&]<typename T>( T u ) -> bool {
+        if constexpr( std::is_same_v<T, Character *> )
+        {
+            return vp->vehicle().is_owned_by( *u );
+        }
+        return false;
+    },
+    who );
+
     return false;
+
+    const int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
+    vp->vehicle().open_all_at( openable );
+    return true;
 }
 
 void map::translate( const ter_id &from, const ter_id &to )
