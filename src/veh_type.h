@@ -296,6 +296,9 @@ class vpart_info
         /** cargo weight modifier (percentage) */
         int cargo_weight_modifier = 100;
 
+        /** base weight modifier (percentage) */
+        int weight_modifier = 100;
+
         /** Flat decrease of damage of a given type. */
         resistances damage_reduction;
 

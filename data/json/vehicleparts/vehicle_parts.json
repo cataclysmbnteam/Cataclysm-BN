@@ -3384,6 +3384,7 @@
     "durability": 100,
     "description": "A set of locks.  Attached to a suitable openable part, it will prevent other people from opening it.",
     "folded_volume": "250 ml",
+    "weight_modifier": 0,
     "item": "cargo_lock",
     "location": "on_openable",
     "requirements": {

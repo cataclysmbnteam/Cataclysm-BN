@@ -7623,11 +7623,16 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part = 0_gram;
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base->weight();
+        const int weight_modifier = vp.part().info().weight_modifier;
+        const int cargo_weight_modifier = vp.part().info().cargo_weight_modifier;
+        if( weight_modifier != 100 ) {
+            m_part *= static_cast<float>( weight_modifier ) / 100.0f;
+        }
         for( const auto &j : get_items( i ) ) {
             m_part_items += j->weight();
         }
-        if( vp.part().info().cargo_weight_modifier != 100 ) {
-            m_part_items *= static_cast<float>( vp.part().info().cargo_weight_modifier ) / 100.0f;
+        if( cargo_weight_modifier != 100 ) {
+            m_part_items *= static_cast<float>( cargo_weight_modifier ) / 100.0f;
         }
         m_part += m_part_items;
 
