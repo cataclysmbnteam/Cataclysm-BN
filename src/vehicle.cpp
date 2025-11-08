@@ -516,7 +516,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool destroyTires = false;
     bool blood_covered = false;
     bool blood_inside = false;
-    bool has_no_key = false;
+    bool doors_locked = false;
     bool destroyAlarm = false;
 
     remove_old_owner();
@@ -542,15 +542,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     const int veh_status = init_veh_status;
     if( init_veh_status == 0 ) {
         // vehicle locked 100%
-        has_no_key = true;
+        doors_locked = true;
         is_locked = true;
     } else if( init_veh_status == -1 ) {
         // vehicle locked 67%
-        has_no_key = rng( 1, 100 ) <= 67;
+        doors_locked = rng( 1, 100 ) <= 67;
         is_locked = rng( 1, 100 ) <= 67;
 
         // if locked, 16% chance something damaged
-        if( one_in( 6 ) && has_no_key ) {
+        if( one_in( 6 ) && ( is_locked || doors_locked ) ) {
             if( one_in( 3 ) ) {
                 destroyTank = true;
             } else if( one_in( 2 ) ) {
@@ -561,32 +561,28 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
     } else if( init_veh_status == 1 ) {
         //  seats are destroyed 5%
-        if( rng( 1, 100 ) <= 5 ) {
-            destroySeats = true;
-        }
+        destroySeats = rng( 1, 100 ) <= 5;
         // controls are destroyed 10%
-        if( rng( 1, 100 ) <= 10 ) {
-            destroyControls = true;
-            veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
-        }
+        destroyControls = rng( 1, 100 ) <= 10;
         // battery, minireactor or gasoline tank are destroyed 8%
-        if( rng( 1, 100 ) <= 8 ) {
-            destroyTank = true;
-        }
+        destroyTank = rng( 1, 100 ) <= 8;
         // engine are destroyed 6%
-        if( rng( 1, 100 ) <= 6 ) {
-            destroyEngine = true;
+        destroyEngine = rng( 1, 100 ) <= 6;
+        // tires are destroyed 37%
+        destroyTires = rng( 1, 100 ) <= 37;
+        // doors locked 34%
+        doors_locked = rng( 1, 100 ) <= 34;
+        // need hotwire 34%
+        is_locked = rng( 1, 100 ) <= 34;
+
+        if( destroyEngine ) {
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
         }
-        // tires are destroyed 37%
-        if( rng( 1, 100 ) <= 37 ) {
-            destroyTires = true;
-            veh_fuel_mult += rng( 0, 18 );  // add 0-18% more fuel if tires are destroyed
+        if( destroyControls ) {
+            veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
         }
-        // vehicle locked 34%
-        if( rng( 1, 100 ) <= 34 ) {
-            has_no_key = true;
-            is_locked = true;
+        if( destroyTires ) {
+            veh_fuel_mult += rng( 0, 18 );  // add 0-18% more fuel if tires are destroyed
         }
     }
 
@@ -601,9 +597,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
         int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
         if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
-            one_in( current_day + 4 ) && !destroyEngine && !has_no_key &&
+            one_in( current_day + 4 ) && !destroyEngine && !is_locked &&
             has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
+            doors_locked = false;
         }
 
         auto light_head  = one_in( 20 );
@@ -664,8 +661,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             doors.emplace( vp.mount() );
         }
     }
+
     for( const auto &door : doors ) {
-        install_part( door, vp_door_lock );
+        const auto idx = install_part( door, vp_door_lock );
+        parts[idx].enabled = doors_locked;
     }
 
     std::optional<point> blood_inside_pos;
@@ -811,7 +810,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
         // if there is no key and an alarm part exists
         // and vehicle has immobilizer 50% chance to add additional fault
-        if( vp.has_feature( "SECURITY" ) && has_no_key && pt.is_available() && one_in( 2 ) ) {
+        if( vp.has_feature( "SECURITY" ) && is_locked && pt.is_available() && one_in( 2 ) ) {
             pt.fault_set( fault_immobiliser );
         }
     }
