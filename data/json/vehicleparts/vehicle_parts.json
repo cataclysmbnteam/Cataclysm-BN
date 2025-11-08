@@ -3375,6 +3375,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "door_lock",
+    "name": { "str": "door lock" },
+    "symbol": "+",
+    "color": "dark_gray",
+    "broken_symbol": "+",
+    "broken_color": "light_gray",
+    "durability": 25,
+    "description": "A set of locks.  Attached to a suitable openable part, it will prevent other people from opening it.",
+    "folded_volume": "250 ml",
+    "item": "cargo_lock",
+    "location": "on_openable",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_metal", 1 ] ] }
+    },
+    "flags": [ "DOOR_LOCKING", "FOLDABLE", "SHOCK_RESISTANT", "NOREMOVE_SECURITY" ],
+    "breaks_into": [ { "item": "clockworks", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "damage_reduction": { "all": 60 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "turret_mount",
     "name": { "str": "turret mount" },
     "symbol": "X",
