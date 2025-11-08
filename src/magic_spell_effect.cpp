@@ -892,6 +892,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( !granted->is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) ) ) {
         granted->set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted->set_flag( flag_id( "ETHEREAL_ITEM" ) );
+        granted->set_flag( flag_id("NO_SALVAGE"));
     }
     if( granted->count_by_charges() && sp.damage() > 0 ) {
         granted->charges = sp.damage();
