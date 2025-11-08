@@ -664,8 +664,13 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             parts[idx].enabled = doors_locked;
         } else {
             // Already installed from blueprint
-            const auto lock = part_with_feature(door, "DOOR_LOCKING", true);
-            parts[lock].enabled = doors_locked;
+            const auto lock = part_with_feature( door, "DOOR_LOCKING", true );
+            if( idx >= 0 ) {
+                parts[lock].enabled = doors_locked;
+            } else {
+                // Already installed from blueprint
+                debugmsg( "Failed to install door locks on vehicle" );
+            }
         }
     }
 
