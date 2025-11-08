@@ -659,7 +659,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
     for( const auto &door : doors ) {
         const auto idx = install_part( door, vp_door_lock );
-        if ( idx >= 0 ) {
+        if( idx >= 0 ) {
             parts[idx].enabled = doors_locked;
         }
     }
