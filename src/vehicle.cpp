@@ -542,12 +542,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     const int veh_status = init_veh_status;
     if( init_veh_status == 0 ) {
         // vehicle locked 100%
-        doors_locked = true;
-        is_locked = true;
+        doors_locked = is_locked = true;
     } else if( init_veh_status == -1 ) {
         // vehicle locked 67%
-        doors_locked = rng( 1, 100 ) <= 67;
-        is_locked = rng( 1, 100 ) <= 67;
+        doors_locked = is_locked = rng( 1, 100 ) <= 67;
 
         // if locked, 16% chance something damaged
         if( one_in( 6 ) && ( is_locked || doors_locked ) ) {
@@ -570,10 +568,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         destroyEngine = rng( 1, 100 ) <= 6;
         // tires are destroyed 37%
         destroyTires = rng( 1, 100 ) <= 37;
-        // doors locked 34%
-        doors_locked = rng( 1, 100 ) <= 34;
-        // need hotwire 34%
-        is_locked = rng( 1, 100 ) <= 34;
+        // locked 34%
+        doors_locked = is_locked = rng( 1, 100 ) <= 34;
 
         if( destroyEngine ) {
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
@@ -600,7 +596,6 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             one_in( current_day + 4 ) && !destroyEngine && !is_locked &&
             has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
-            doors_locked = false;
         }
 
         auto light_head  = one_in( 20 );
@@ -714,6 +709,10 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         if( vp.has_feature( "OPENABLE" ) ) { // doors are closed
             if( !pt.open && one_in( 4 ) ) {
                 open( p );
+                const auto lock = vp.part_with_feature("DOOR_LOCKABLE", true);
+                if (lock) {
+                    lock->part().enabled = false;
+                }
             }
         }
         if( vp.has_feature( "BOARDABLE" ) ) {   // no passengers

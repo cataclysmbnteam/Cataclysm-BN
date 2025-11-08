@@ -1866,16 +1866,21 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_harness = harness_part >= 0;
     const bool has_bike_rack = bike_rack_part >= 0;
     const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0;
+    const int door_lock_part = avail_part_with_feature( interact_part, "DOOR_LOCKING", true );
+    const bool has_door_lock = door_lock_part >= 0;
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
         RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_CRAFTER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_AUTODOC,
-        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
+        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN, PICK_LOCK
     };
     uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+    if( has_door_lock && parts[door_lock_part].enabled ) {
+        selectmenu.addentry( PICK_LOCK, true, 'e', _( "Pick the lock" ) );
+    }
     if( has_controls ) {
         selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
@@ -2132,6 +2137,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case RELOAD_PLANTER: {
             reload_seeds( pos );
+            return;
+        }
+        case PICK_LOCK: {
+            iexamine::locked_object_pickable( get_avatar(), pos );
             return;
         }
     }
