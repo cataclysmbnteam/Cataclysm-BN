@@ -519,7 +519,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool destroyAlarm = false;
 
     remove_old_owner();
-    set_owner( faction_id( "no_faction" ) );
+    remove_owner();
 
     // More realistically it should be -5 days old
     last_update = calendar::start_of_cataclysm;
@@ -1257,12 +1257,8 @@ bool vehicle::has_security_working() const
 {
     bool found_security = false;
     if( fuel_left( fuel_type_battery ) > 0 ) {
-        for( int s : speciality ) {
-            if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
-                found_security = true;
-                break;
-            }
-        }
+        const auto [c, s] = get_controls_and_security();
+        found_security = s >= 0;
     }
     return found_security;
 }
@@ -1578,6 +1574,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     // Find all the flags on parts in this tile that require other flags
     const point pt = parts[p].mount;
     std::vector<int> parts_here = parts_at_relative( pt, false );
+
+    const vpart_info &part = parts[p].id.obj();
+    if (part.has_flag("NOREMOVE_SECURITY")) {
+        const auto [c,s] = get_controls_and_security();
+        if ( s >= 0 ) {
+            reason = string_format( _( "Remove the %1$s %2$s first." ), name, part_info( s ).name() );
+            return false;
+        }
+    }
 
     for( auto &elem : parts_here ) {
         for( const std::string &flag : part_info( elem ).get_flags() ) {
@@ -4849,6 +4854,11 @@ bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt 
         return true;
         // if There is no owner
         // handle transfer of ownership
+    }
+
+    // if we are just checking if we could continue without problems, then the rest is assumed false
+    if( check_only ) {
+        return false;
     }
 
     if( !has_owner() ) {

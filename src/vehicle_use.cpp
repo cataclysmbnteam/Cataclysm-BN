@@ -545,19 +545,24 @@ bool vehicle::interact_vehicle_locked()
     return !( is_locked );
 }
 
-void vehicle::smash_security_system()
-{
-
-    //get security and controls location
+std::pair<int,int> vehicle::get_controls_and_security() const {
     int s = -1;
     int c = -1;
-    for( int p : speciality ) {
-        if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
+    for (const int p : speciality ) {
+        if( part_flag( p, "SECURITY" ) && parts[ p ].is_available(false) ) {
             s = p;
             c = part_with_feature( s, "CONTROLS", true );
             break;
         }
     }
+    return std::make_pair(c, s);
+}
+
+void vehicle::smash_security_system()
+{
+    //get security and controls location
+    auto [c, s] = get_controls_and_security();
+
     //controls and security must both be valid
     if( c >= 0 && s >= 0 ) {
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
