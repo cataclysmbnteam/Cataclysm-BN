@@ -2221,6 +2221,16 @@ void options_manager::add_options_debug()
         this->add_empty_line( debug );
     };
 
+    add_option_group( debug, Group( "rem_act_perf", to_translation( "Performance" ),
+                                    to_translation( "Configure performance settings that can detract from the game." ) ),
+    [&]( auto & page_id ) {
+        add( "SLEEP_PERF", debug, translate_marker( "Sleep Boost" ),
+             translate_marker( "Turns off monster movement and NPC noise detection while sleeping to improve performance" ),
+             false );
+    } );
+
+    add_empty_line();
+
     add( "STRICT_JSON_CHECKS", debug, translate_marker( "Strict JSON checks" ),
          translate_marker( "If true, will show additional warnings for JSON data correctness." ),
          true

@@ -1474,6 +1474,7 @@ bool game::do_turn()
     if( is_game_over() ) {
         return cleanup_at_end();
     }
+    bool skipforperf = get_option<bool>( "SLEEP_PERF" );
     // Actual stuff
     if( new_game ) {
         new_game = false;
@@ -1532,19 +1533,21 @@ bool game::do_turn()
     perhaps_add_random_npc();
     process_voluntary_act_interrupt();
     process_activity();
-    // Process NPC sound events before they move or they hear themselves talking
-    for( npc &guy : all_npcs() ) {
-        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-            sounds::process_sound_markers( &guy );
+    if( !skipforperf ) {
+        // Process NPC sound events before they move or they hear themselves talking
+        for( npc &guy : all_npcs() ) {
+            if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                sounds::process_sound_markers( &guy );
+            }
+        }
+        sounds::process_sound_markers( &u );
+
+        if( u.is_deaf() ) {
+            sfx::do_hearing_loss();
         }
     }
 
     // Process sound events into sound markers for display to the player.
-    sounds::process_sound_markers( &u );
-
-    if( u.is_deaf() ) {
-        sfx::do_hearing_loss();
-    }
 
     if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
@@ -1624,7 +1627,9 @@ bool game::do_turn()
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
-    monmove();
+    if( !skipforperf ) {
+        monmove();
+    }
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
     }
