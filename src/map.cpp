@@ -4421,8 +4421,11 @@ bool map::open_door_veh(
     },
     who );
 
-    const auto lock = vp.part_with_feature( str_DOOR_LOCKING, true );
-    if( lock.has_value() && ( !is_owner || vp->vehicle().is_locked ) ) {
+    const auto lock_part = vp.part_with_feature( str_DOOR_LOCKING, true );
+    const bool has_locked_door = lock_part.has_value() && lock_part.value().part().enabled;
+    // vehicle::is_locked = you have no keys / vehicle has not been hotwired yet
+    // unrelated to the door lock itself
+    if( has_locked_door && ( !is_owner || vp->vehicle().is_locked ) ) {
 
         const auto &veh = vp->vehicle();
         const auto you = std::visit( []( auto &&v ) { return static_cast<const Creature *>( v );}, who );

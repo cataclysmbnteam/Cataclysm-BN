@@ -182,6 +182,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "k" } ]
   },
   {
+    "id": "TOGGLE_DOOR_LOCKS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle reactor",
+    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
+  },
+  {
     "id": "TOGGLE_REAPER",
     "type": "keybinding",
     "category": "VEHICLE",
