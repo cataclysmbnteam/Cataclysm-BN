@@ -1609,7 +1609,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CAPTURE_MOSNTER_VEH` Can be used to capture monsters when mounted on a vehicle.
 - `CARGO_LOCKING` This cargo area is inaccessible to NPCs. Can only be installed on a part with
   `LOCKABLE_CARGO` flag.
-- `DOOR_LOCKING` This part is unopenable to NPCs if enabled from the electronics menu. Can only be
+- `DOOR_LOCKING` This part is unopenable to non-faction NPCs and monsters if enabled from the electronics menu. Can only be
   installed on a part with `OPENABLE` flag.
 - `CARGO` Cargo holding area.
 - `CHIMES` Generates continuous noise when used.

@@ -1637,15 +1637,12 @@ bool lockpick_activity_actor::is_pickable( const tripoint &p )
     const furn_id furn_type = get_map().furn( p );
     const optional_vpart_position veh = get_map().veh_at( p );
     const auto door_lock = veh.part_with_feature( "DOOR_LOCKING", true );
-    const auto cargo_lock = veh.part_with_feature( "CARGO_LOCKING", true );
 
     bool result;
     if( furn_type != f_null ) {
         result = !furn_type->lockpick_result.is_null();
     } else if( door_lock ) {
         result = door_lock.value().part().enabled;
-    } else if( cargo_lock ) {
-        result = true;
     } else {
         result = !ter_type->lockpick_result.is_null();
     }
