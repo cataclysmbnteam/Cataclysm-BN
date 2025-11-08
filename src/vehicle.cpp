@@ -660,7 +660,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     for( const auto &door : doors ) {
         const auto idx = install_part( door, vp_door_lock );
         if( idx >= 0 ) {
+            // Newly installed part
             parts[idx].enabled = doors_locked;
+        } else {
+            // Already installed from blueprint
+            const auto lock = part_with_feature(door, "DOOR_LOCKING", true);
+            parts[lock].enabled = doors_locked;
         }
     }
 

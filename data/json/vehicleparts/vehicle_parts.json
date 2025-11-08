@@ -3386,7 +3386,7 @@
     "folded_volume": "250 ml",
     "weight_modifier": 0,
     "item": "cargo_lock",
-    "location": "on_openable",
+    "location": "door_lock",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
