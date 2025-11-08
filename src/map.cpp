@@ -143,7 +143,7 @@ static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
 constexpr float velocity_constant = 0.0044704;
 
 static const std::string str_DOOR_LOCKING( "DOOR_LOCKING" );
-static const std::string str_OPENCLOSE_INSIDE("OPENCLOSE_INSIDE");
+static const std::string str_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 
 #define dbg(x) DebugLog((x),DC::Map)
 
@@ -4260,7 +4260,9 @@ bool map::open_door(
 struct can_open_while_mounted {
     template<typename T>
     auto operator()( T u ) -> bool {
-        if constexpr( std::is_same_v<T, Character *> ) {
+        constexpr auto is_const_char = std::is_same_v<Character *, T>;
+        constexpr auto is_char = std::is_same_v<const Character *, T>;
+        if constexpr( is_const_char || is_char ) {
             if( u->is_mounted() ) {
                 auto mon = u->mounted_creature.get();
                 if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -4364,11 +4366,11 @@ bool map::open_door_furn(
 
 bool map::can_open_door_veh(
     const const_interacting_entity &who, const optional_vpart_position &vp,
-    const tripoint &, bool
+    const tripoint &, bool inside
 ) const
 {
 
-    const int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
+    const int openable = vp->vehicle().next_part_to_open( vp->part_index(), !inside );
     if( openable < 0 ) {
         return false;
     }
@@ -4408,7 +4410,16 @@ bool map::open_door_veh(
     },
     who );
 
-    return false;
+    const auto lock = vp.part_with_feature( str_DOOR_LOCKING, true );
+    if( lock.has_value() && ( !is_owner || vp->vehicle().is_locked ) ) {
+
+        const auto& veh = vp->vehicle();
+        const auto you = std::visit([](auto&& v) { return static_cast<const Creature*>(v);}, who);
+        const auto dpart = veh.next_part_to_open(vp->part_index(), !inside);
+        you->add_msg_if_player( _( "The %1$s's %2$s is locked." ), veh.name, veh.part_info( dpart ).name() );
+
+        return false;
+    }
 
     const int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
     vp->vehicle().open_all_at( openable );
@@ -4458,7 +4469,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
-    if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
+    if( has_flag( str_OPENCLOSE_INSIDE, p ) && !inside ) {
         return false;
     }
 
