@@ -4413,10 +4413,11 @@ bool map::open_door_veh(
     const auto lock = vp.part_with_feature( str_DOOR_LOCKING, true );
     if( lock.has_value() && ( !is_owner || vp->vehicle().is_locked ) ) {
 
-        const auto& veh = vp->vehicle();
-        const auto you = std::visit([](auto&& v) { return static_cast<const Creature*>(v);}, who);
-        const auto dpart = veh.next_part_to_open(vp->part_index(), !inside);
-        you->add_msg_if_player( _( "The %1$s's %2$s is locked." ), veh.name, veh.part_info( dpart ).name() );
+        const auto &veh = vp->vehicle();
+        const auto you = std::visit( []( auto &&v ) { return static_cast<const Creature *>( v );}, who );
+        const auto dpart = veh.next_part_to_open( vp->part_index(), !inside );
+        you->add_msg_if_player( _( "The %1$s's %2$s is locked." ), veh.name,
+                                veh.part_info( dpart ).name() );
 
         return false;
     }

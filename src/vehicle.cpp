@@ -100,6 +100,7 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifier( "water_purifier" );
+static const vpart_id vp_door_lock( "door_lock" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
@@ -538,42 +539,59 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // -1 = light damage (DEFAULT)
     //  0 = undamaged
     //  1 = disabled, destroyed tires OR engine
-    int veh_status = -1;
+    const int veh_status = init_veh_status;
     if( init_veh_status == 0 ) {
-        veh_status = 0;
-    }
-    if( init_veh_status == 1 ) {
-        int rand = rng( 1, 100 );
-        veh_status = 1;
+        // vehicle locked 100%
+        has_no_key = true;
+        is_locked = true;
+    } else if( init_veh_status == -1 ) {
+        // vehicle locked 67%
+        has_no_key = rng( 1, 100 ) <= 67;
+        is_locked = rng( 1, 100 ) <= 67;
 
-        if( rand <= 5 ) {          //  seats are destroyed 5%
+        // if locked, 16% chance something damaged
+        if( one_in( 6 ) && has_no_key ) {
+            if( one_in( 3 ) ) {
+                destroyTank = true;
+            } else if( one_in( 2 ) ) {
+                destroyEngine = true;
+            } else {
+                destroyTires = true;
+            }
+        }
+    } else if( init_veh_status == 1 ) {
+        //  seats are destroyed 5%
+        if( rng( 1, 100 ) <= 5 ) {
             destroySeats = true;
-        } else if( rand <= 15 ) {  // controls are destroyed 10%
+        }
+        // controls are destroyed 10%
+        if( rng( 1, 100 ) <= 10 ) {
             destroyControls = true;
             veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
-        } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
+        }
+        // battery, minireactor or gasoline tank are destroyed 8%
+        if( rng( 1, 100 ) <= 8 ) {
             destroyTank = true;
-        } else if( rand <= 29 ) {  // engine are destroyed 6%
+        }
+        // engine are destroyed 6%
+        if( rng( 1, 100 ) <= 6 ) {
             destroyEngine = true;
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
-        } else if( rand <= 66 ) {  // tires are destroyed 37%
+        }
+        // tires are destroyed 37%
+        if( rng( 1, 100 ) <= 37 ) {
             destroyTires = true;
             veh_fuel_mult += rng( 0, 18 );  // add 0-18% more fuel if tires are destroyed
-        } else {                   // vehicle locked 34%
+        }
+        // vehicle locked 34%
+        if( rng( 1, 100 ) <= 34 ) {
             has_no_key = true;
+            is_locked = true;
         }
     }
-    // if locked, 16% chance something damaged
-    if( one_in( 6 ) && has_no_key ) {
-        if( one_in( 3 ) ) {
-            destroyTank = true;
-        } else if( one_in( 2 ) ) {
-            destroyEngine = true;
-        } else {
-            destroyTires = true;
-        }
-    } else if( !one_in( 3 ) ) {
-        //most cars should have a destroyed alarm
+
+    //most cars should have a destroyed alarm
+    if( !one_in( 3 ) ) {
         destroyAlarm = true;
     }
 
@@ -635,6 +653,20 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
         for( const vpart_reference &vp : get_parts_including_carried( "WATER_PURIFIER" ) ) {
             vp.part().enabled = true;
+        }
+    }
+
+    // Install Locks
+    if ( is_locked ) {
+        std::set<point> doors;
+        for( const vpart_reference &vp : get_all_parts() ) {
+            if( vp.has_feature( "OPENABLE" ) && vp.has_feature( "BOARDABLE" ) &&
+                !vp.has_feature( "CURTAIN" ) ) {
+                doors.emplace( vp.mount() );
+                }
+        }
+        for( const auto &door : doors ) {
+            install_part( door, vp_door_lock );
         }
     }
 
@@ -779,16 +811,13 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 set_hp( parts[random_entry( wheelcache )], 0 );
             }
         }
-        //sets the vehicle to locked, if there is no key and an alarm part exists
-        if( vp.has_feature( "SECURITY" ) && has_no_key && pt.is_available() ) {
-            is_locked = true;
-
-            if( one_in( 2 ) ) {
-                // if vehicle has immobilizer 50% chance to add additional fault
-                pt.fault_set( fault_immobiliser );
-            }
+        // if there is no key and an alarm part exists
+        // and vehicle has immobilizer 50% chance to add additional fault
+        if( vp.has_feature( "SECURITY" ) && has_no_key && pt.is_available() && one_in( 2 ) ) {
+            pt.fault_set( fault_immobiliser );
         }
     }
+
     // destroy a random number of tires, vehicles with more wheels are more likely to survive
     if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
@@ -1576,9 +1605,9 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     std::vector<int> parts_here = parts_at_relative( pt, false );
 
     const vpart_info &part = parts[p].id.obj();
-    if (part.has_flag("NOREMOVE_SECURITY")) {
-        const auto [c,s] = get_controls_and_security();
-        if ( s >= 0 ) {
+    if( part.has_flag( "NOREMOVE_SECURITY" ) ) {
+        const auto [c, s] = get_controls_and_security();
+        if( s >= 0 ) {
             reason = string_format( _( "Remove the %1$s %2$s first." ), name, part_info( s ).name() );
             return false;
         }
@@ -4880,10 +4909,7 @@ bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt 
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
     }
-    // if we are just checking if we could continue without problems, then the rest is assumed false
-    if( check_only ) {
-        return false;
-    }
+
     // if we got here, there's some theft occurring
     if( prompt ) {
         if( !query_yn(

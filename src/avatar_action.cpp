@@ -398,7 +398,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // Vehicle Openable
     if( dst_veh ) {
-        if ( veh_closed_door ) {
+        if( veh_closed_door ) {
             if( !m.open_door( &you, dest_loc, !outside_vehicle ) ) {
                 return false;
             }

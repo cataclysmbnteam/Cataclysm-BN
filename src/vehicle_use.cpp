@@ -545,17 +545,18 @@ bool vehicle::interact_vehicle_locked()
     return !( is_locked );
 }
 
-std::pair<int,int> vehicle::get_controls_and_security() const {
+std::pair<int, int> vehicle::get_controls_and_security() const
+{
     int s = -1;
     int c = -1;
-    for (const int p : speciality ) {
-        if( part_flag( p, "SECURITY" ) && parts[ p ].is_available(false) ) {
+    for( const int p : speciality ) {
+        if( part_flag( p, "SECURITY" ) && parts[ p ].is_available( false ) ) {
             s = p;
             c = part_with_feature( s, "CONTROLS", true );
             break;
         }
     }
-    return std::make_pair(c, s);
+    return std::make_pair( c, s );
 }
 
 void vehicle::smash_security_system()
