@@ -27,6 +27,7 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -833,6 +834,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     if( !long_descrip.empty() ) {
+        long_descrip = replace_colors( long_descrip );
         const auto wrap_descrip = foldstring( long_descrip, width );
         msg += wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
