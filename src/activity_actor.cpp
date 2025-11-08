@@ -1486,7 +1486,6 @@ void lockpick_activity_actor::start( player_activity &/*act*/, Character & )
     const furn_id furn_type = get_map().furn( target );
     const optional_vpart_position veh = get_map().veh_at( target );
     const auto door_lock = veh.part_with_feature( "DOOR_LOCKING", true );
-    const auto cargo_lock = veh.part_with_feature( "CARGO_LOCKING", true );
 
     if( furn_type != f_null ) {
         if( furn_type->lockpick_result.is_null() ) {
@@ -1495,7 +1494,7 @@ void lockpick_activity_actor::start( player_activity &/*act*/, Character & )
         }
         progress.emplace( furn_type->name(), moves_total );
     } else if( veh ) {
-        if( !door_lock && !cargo_lock ) {
+        if( !door_lock ) {
             debugmsg( "%s has no pickable part", furn_type.id().str() );
             return;
         }
@@ -1538,7 +1537,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const furn_id furn_type = get_map().furn( target );
     const optional_vpart_position veh = get_map().veh_at( target );
     const auto door_lock = veh.part_with_feature( "DOOR_LOCKING", true );
-    const auto cargo_lock = veh.part_with_feature( "CARGO_LOCKING", true );
 
     ter_id new_ter_type = t_null;
     furn_id new_furn_type = f_null;
@@ -1555,7 +1553,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             open_message = furn_type->lockpick_message.translated();
         }
     } else if( veh ) {
-        if( !door_lock && !cargo_lock ) {
+        if( !door_lock ) {
             debugmsg( "%s has no pickable part", furn_type.id().str() );
             return;
         }
@@ -1589,8 +1587,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             get_map().furn_set( target, new_furn_type );
         } else if( door_lock ) {
             door_lock->part().enabled = false;
-        } else if( cargo_lock ) {
-            veh->vehicle().set_hp( cargo_lock->part(), 0 );
         } else {
             get_map().ter_set( target, new_ter_type );
         }
