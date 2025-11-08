@@ -518,6 +518,9 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool has_no_key = false;
     bool destroyAlarm = false;
 
+    remove_old_owner();
+    set_owner( faction_id( "no_faction" ) );
+
     // More realistically it should be -5 days old
     last_update = calendar::start_of_cataclysm;
 
@@ -1045,6 +1048,11 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     selfdrive( point( turn_x, accel_y ) );
+}
+
+tripoint vehicle::get_autodrive_target()
+{
+    return autodrive_local_target;
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ )
@@ -4774,13 +4782,57 @@ std::string vehicle::get_owner_name() const
     return _( g->faction_manager_ptr->get( owner )->name );
 }
 
+bool vehicle::has_owner() const
+{
+    return !owner.is_null();
+}
+
+faction_id vehicle::get_owner() const
+{
+    return owner;
+}
+
 void vehicle::set_owner( const Character &c )
 {
-    if( !c.get_faction() ) {
-        debugmsg( "vehicle::set_owner() player %s has no valid faction", c.disp_name() );
+    const auto faction = c.get_faction();
+    if( !faction ) {
+        debugmsg( "vehicle::set_owner() player %s has no valid faction",
+                  c.disp_name() );
         return;
     }
-    owner = c.get_faction()->id;
+    owner = faction->id;
+}
+
+void vehicle::set_owner( const faction_id &new_owner )
+{
+    owner = new_owner;
+}
+
+void vehicle::remove_owner()
+{
+    owner = faction_id::NULL_ID();
+}
+
+bool vehicle::has_old_owner() const
+{
+    return !old_owner.is_null();
+}
+
+faction_id vehicle::get_old_owner() const
+{
+    return old_owner;
+}
+
+void vehicle::set_old_owner( const faction_id &temp_owner )
+{
+    theft_time = calendar::turn;
+    old_owner = temp_owner;
+}
+
+void vehicle::remove_old_owner()
+{
+    theft_time = std::nullopt;
+    old_owner = faction_id::NULL_ID();
 }
 
 bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt )
@@ -4797,23 +4849,26 @@ bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt 
         return true;
         // if There is no owner
         // handle transfer of ownership
-    } else if( !has_owner() ) {
+    }
+
+    if( !has_owner() ) {
         set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( has_witnesses && has_old_owner() && !is_old_owner( you ) && theft_time &&
-               calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( you.get_faction()->id );
-        remove_old_owner();
+    }
+
+    if( !has_witnesses && has_old_owner() ) {
+        if( !is_old_owner( you ) && theft_time && calendar::turn - *theft_time > 15_minutes ) {
+            set_owner( you.get_faction()->id );
+            remove_old_owner();
+        }
         return true;
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( has_witnesses && old_owner ) {
-        return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
     if( check_only ) {
