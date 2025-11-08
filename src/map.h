@@ -1100,7 +1100,7 @@ class map
         bool open_door(
             const interacting_entity &,
             const tripoint &p, bool inside );
-    private:
+
         bool can_open_door_ter(
             const const_interacting_entity &, const ter_t &ter,
             const tripoint &p, bool inside ) const;
@@ -1121,7 +1121,7 @@ class map
         bool open_door_veh(
             const interacting_entity &, const optional_vpart_position &vp,
             const tripoint &p, bool inside );
-    public:
+
         // Destruction
         /** bash a square for a set number of times at set power.  Does not destroy */
         void batter( const tripoint &p, int power, int tries = 1, bool silent = false );

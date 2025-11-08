@@ -657,17 +657,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     }
 
     // Install Locks
-    if ( is_locked ) {
-        std::set<point> doors;
-        for( const vpart_reference &vp : get_all_parts() ) {
-            if( vp.has_feature( "OPENABLE" ) && vp.has_feature( "BOARDABLE" ) &&
-                !vp.has_feature( "CURTAIN" ) ) {
-                doors.emplace( vp.mount() );
-                }
+    std::set<point> doors;
+    for( const vpart_reference &vp : get_all_parts() ) {
+        if( vp.has_feature( "OPENABLE" ) && vp.has_feature( "BOARDABLE" ) &&
+            !vp.has_feature( "CURTAIN" ) ) {
+            doors.emplace( vp.mount() );
         }
-        for( const auto &door : doors ) {
-            install_part( door, vp_door_lock );
-        }
+    }
+    for( const auto &door : doors ) {
+        install_part( door, vp_door_lock );
     }
 
     std::optional<point> blood_inside_pos;

@@ -4266,7 +4266,7 @@ struct can_open_while_mounted {
             if( u->is_mounted() ) {
                 auto mon = u->mounted_creature.get();
                 if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( m_info, _( "You can't open things while you're riding." ) );
+                    u->add_msg_if_player( m_info, _( "You can't open things while you're riding." ) );
                     return false;
                 }
             }
@@ -4372,6 +4372,17 @@ bool map::can_open_door_veh(
 
     const int openable = vp->vehicle().next_part_to_open( vp->part_index(), !inside );
     if( openable < 0 ) {
+        const int openable_other_way = vp->vehicle().next_part_to_open( vp->part_index(), !inside );
+        if( openable_other_way >= 0 ) {
+            const auto you = std::visit( []( auto &&v ) { return static_cast<const Creature *>( v );}, who );
+            if( inside ) {
+                you->add_msg_if_player( _( "The %1$s's %2$s can only be opened from outside." ), vp->vehicle().name,
+                                        vp->vehicle().part_info( vp->part_index() ).name() );
+            } else {
+                you->add_msg_if_player( _( "The %1$s's %2$s can only be opened from inside." ), vp->vehicle().name,
+                                        vp->vehicle().part_info( vp->part_index() ).name() );
+            }
+        }
         return false;
     }
 
