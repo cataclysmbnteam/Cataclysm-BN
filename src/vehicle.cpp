@@ -709,8 +709,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         if( vp.has_feature( "OPENABLE" ) ) { // doors are closed
             if( !pt.open && one_in( 4 ) ) {
                 open( p );
-                const auto lock = vp.part_with_feature("DOOR_LOCKABLE", true);
-                if (lock) {
+                const auto lock = vp.part_with_feature( "DOOR_LOCKABLE", true );
+                if( lock ) {
                     lock->part().enabled = false;
                 }
             }
@@ -1600,8 +1600,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     const point pt = parts[p].mount;
     std::vector<int> parts_here = parts_at_relative( pt, false );
 
-    const vpart_info &part = parts[p].id.obj();
-    if( part.has_flag( "NOREMOVE_SECURITY" ) ) {
+    if( part_info( p ).has_flag( "NOREMOVE_SECURITY" ) ) {
         const auto [c, s] = get_controls_and_security();
         if( s >= 0 ) {
             reason = string_format( _( "Remove the %1$s %2$s first." ), name, part_info( s ).name() );
@@ -1609,9 +1608,22 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         }
     }
 
-    for( auto &elem : parts_here ) {
+    const auto no_remove_closed = part_info( p ).has_flag( "NOREMOVE_CLOSED" );
+    const auto no_remove_open =  part_info( p ).has_flag( "NOREMOVE_OPEN" );
+    for( const auto &elem : parts_here ) {
+        const auto is_openable = part_info( elem ).has_flag("OPENABLE");
+        if( no_remove_closed && is_openable && !parts[elem].open ) {
+            reason = string_format( _( "Open the attached %s first." ), part_info( elem ).name() );
+            return false;
+        }
+        if( no_remove_open && is_openable &&  parts[elem].open ) {
+            reason = string_format( _( "Close the attached %s first." ), part_info( elem ).name() );
+            return false;
+        }
+
         for( const std::string &flag : part_info( elem ).get_flags() ) {
-            if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+            const auto require_flag = json_flag::get( flag ).requires_flag();
+            if( !require_flag.empty() && part_info( p ).has_flag( require_flag ) ) {
                 reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
                 return false;
             }
