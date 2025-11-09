@@ -51,7 +51,7 @@ static constexpr bool is_inf( float x )
 #if defined(_MSC_VER)
     return x == INFINITY || x == -INFINITY;
 #else
-    return std::isinf(x);
+    return std::isinf( x );
 #endif
 }
 
@@ -1028,7 +1028,7 @@ std::vector<tripoint> Pathfinding::get_route_3d(
             z_path.push_back( best_z_change );
 
             constexpr auto unreasonable_z_hops = 1000;
-            if (z_path.size() > unreasonable_z_hops) {
+            if( z_path.size() > unreasonable_z_hops ) {
                 debugmsg( "Failed to find a path with less than %d z-level changes", unreasonable_z_hops );
                 return std::vector<tripoint>();
             }
