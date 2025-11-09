@@ -2415,6 +2415,10 @@ void options_manager::add_options_world_default()
          0.0, 10.0, 1, 0.1
        );
 
+    add( "VEHICLE_LOCKS", world_default, translate_marker( "Vehicle door locks" ),
+         translate_marker( "Determines if new vehicles can spawn with locked doors." ), true
+       );
+
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1
