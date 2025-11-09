@@ -101,6 +101,8 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const vpart_id vp_door_lock( "door_lock" );
+static const flag_id f_VEHICLE_UNLOCKED( "VEHICLE_UNLOCKED" );
+static const flag_id f_VEHICLE_LOCKED( "VEHICLE_LOCKED" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
@@ -362,8 +364,9 @@ void vehicle::copy_static_from( const vehicle &source )
     vehicle_noise = source.vehicle_noise;
 }
 
-vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
-                  int init_veh_status ): type( type_id )
+vehicle::vehicle(
+    const vproto_id &type_id, int init_veh_fuel, int init_veh_status, std::optional<bool> locked )
+    : type( type_id )
 {
     turn_dir = 0_degrees;
     face.init( 0_degrees );
@@ -379,7 +382,7 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
             parts.emplace_back( part, this );
         }
         refresh_locations_hack();
-        init_state( init_veh_fuel, init_veh_status );
+        init_state( init_veh_fuel, init_veh_status, locked );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
@@ -502,7 +505,8 @@ void vehicle::add_steerable_wheels()
     }
 }
 
-void vehicle::init_state( int init_veh_fuel, int init_veh_status )
+void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
+                          const std::optional<bool> locked )
 {
     // vehicle parts excluding engines are by default turned off
     for( auto &pt : parts ) {
@@ -516,7 +520,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool destroyTires = false;
     bool blood_covered = false;
     bool blood_inside = false;
-    bool doors_locked = false;
+    bool lockDoors = false;
     bool destroyAlarm = false;
 
     remove_old_owner();
@@ -542,13 +546,13 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     const int veh_status = init_veh_status;
     if( init_veh_status == 0 ) {
         // vehicle locked 100%
-        doors_locked = is_locked = true;
+        lockDoors = is_locked = true;
     } else if( init_veh_status == -1 ) {
         // vehicle locked 67%
-        doors_locked = is_locked = rng( 1, 100 ) <= 67;
+        lockDoors = is_locked = rng( 1, 100 ) <= 67;
 
         // if locked, 16% chance something damaged
-        if( one_in( 6 ) && ( is_locked || doors_locked ) ) {
+        if( one_in( 6 ) && ( is_locked || lockDoors ) ) {
             if( one_in( 3 ) ) {
                 destroyTank = true;
             } else if( one_in( 2 ) ) {
@@ -569,7 +573,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         // tires are destroyed 37%
         destroyTires = rng( 1, 100 ) <= 37;
         // locked 34%
-        doors_locked = is_locked = rng( 1, 100 ) <= 34;
+        lockDoors = is_locked = rng( 1, 100 ) <= 34;
 
         if( destroyEngine ) {
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
@@ -650,6 +654,18 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
     // Install Locks
     std::set<point> doors;
+    const auto &proto_flags = type.obj().flags;
+    bool actuallyLockDoors;
+    if( proto_flags.contains( f_VEHICLE_UNLOCKED ) ) {
+        actuallyLockDoors = false;
+    } else if( proto_flags.contains( f_VEHICLE_LOCKED ) ) {
+        actuallyLockDoors = true;
+    } else if( locked.has_value() ) {
+        actuallyLockDoors = locked.value();
+    } else {
+        actuallyLockDoors = lockDoors && get_option<bool>( "VEHICLE_LOCKS" );
+    }
+
     for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.has_feature( "OPENABLE" ) && vp.has_feature( "BOARDABLE" ) &&
             !vp.has_feature( "CURTAIN" ) ) {
@@ -661,12 +677,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const auto idx = install_part( door, vp_door_lock );
         if( idx >= 0 ) {
             // Newly installed part
-            parts[idx].enabled = doors_locked;
+            parts[idx].enabled = actuallyLockDoors;
         } else {
             // Already installed from blueprint
             const auto lock = part_with_feature( door, "DOOR_LOCKING", true );
             if( idx >= 0 ) {
-                parts[lock].enabled = doors_locked;
+                parts[lock].enabled = actuallyLockDoors;
             } else {
                 // Already installed from blueprint
                 debugmsg( "Failed to install door locks on vehicle" );
