@@ -54,6 +54,7 @@ void cata::detail::reg_creature( sol::state &lua )
 
         // Methods
         SET_FX_T( get_name, std::string() const );
+        DOC_PARAMS( "possessive", "capitalize_first" );
         SET_FX_T( disp_name, std::string( bool, bool ) const );
         SET_FX_T( skin_name, std::string() const );
         SET_FX_T( get_grammatical_genders, std::vector<std::string>() const );
