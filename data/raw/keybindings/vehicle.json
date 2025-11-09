@@ -185,7 +185,7 @@
     "id": "TOGGLE_DOOR_LOCKS",
     "type": "keybinding",
     "category": "VEHICLE",
-    "name": "Toggle reactor",
+    "name": "Toggle door locks",
     "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {

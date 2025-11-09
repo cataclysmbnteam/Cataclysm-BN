@@ -1107,6 +1107,10 @@ void vehicle_prototype::load( const JsonObject &jo )
         vproto.parts.push_back( pt );
     };
 
+    if( jo.has_member( "flags" ) ) {
+        vproto.flags = jo.get_tags<flag_id>( "flags" );
+    }
+
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning
         jo.get_array( "blueprint" );

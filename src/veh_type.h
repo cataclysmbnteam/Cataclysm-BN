@@ -429,6 +429,7 @@ struct vehicle_prototype {
     std::string name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::set<flag_id> flags;
 
     std::unique_ptr<vehicle> blueprint;
 
