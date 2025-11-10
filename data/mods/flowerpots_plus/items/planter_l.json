@@ -24,6 +24,7 @@
       "seeds_per_use": [ 1, 5 ],
       "fert_per_use": [ 0, 5 ],
       "fert_boost": 0.1,
+      "terrain": [ "PLANTABLE", "SHALLOW_WATER", "MUSHROOM_PLANTABLE" ],
       "stages": [
         "portable_planter_l",
         "portable_planter_l_seed",

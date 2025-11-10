@@ -5948,6 +5948,10 @@ void iuse_flowerpot_plant::load( const JsonObject &jo )
     } else {
         fert_per_use = std::make_pair( 0, 1 );
     }
+
+    if( jo.has_array( "terrain" ) ) {
+        terrain = jo.get_tags<std::string>( "terrain" );
+    }
 }
 
 auto iuse_flowerpot_plant::clone() const -> std::unique_ptr<iuse_actor>
@@ -6116,10 +6120,21 @@ auto iuse_flowerpot_plant::on_use_plant( player &p, item &i, const tripoint & ) 
     const auto &[min_seed, max_seed] = seeds_per_use;
     const auto &[min_fert, max_fert] = fert_per_use;
 
-    const auto seed_entries = iexamine::get_seed_entries( seed_inv );
+    auto seed_entries = std::vector<seed_tuple> {};
+    std::ranges::copy_if( iexamine::get_seed_entries( seed_inv ),
+    std::back_inserter( seed_entries ), [&]( const seed_tuple & s ) {
+        const auto &[type, name, cnt] = s;
+        return terrain.contains( type->seed->required_terrain_flag );
+    } );
+
+    if( seed_entries.empty() ) {
+        add_msg( _( "You don't have seeds to plant in this." ) );
+        return 0;
+    }
+
     const int seed_index = iexamine::query_seed( seed_entries, min_seed );
 
-    if( seed_index < 0 || seed_index >= seed_entries.size() ) {
+    if( seed_index < 0 || std::cmp_greater_equal( seed_index, seed_entries.size() ) ) {
         add_msg( _( "You saved your seeds for later." ) );
         return 0;
     }
@@ -6394,34 +6409,51 @@ auto iuse_flowerpot_collect::use( player &who, item &, bool, const tripoint & ) 
         return 0;
     }
 
+    const auto actor = dynamic_cast<const iuse_flowerpot_plant *>( target_pot.value()->get_use(
+                           iuse_flowerpot_plant::IUSE_ACTOR )->get_actor_ptr() );
+    if( !actor ) {
+        debugmsg( "Invalid iuse_actor" );
+        return 0;
+    }
+
+    auto stack = get_map().i_at( source_pos );
+
+    constexpr auto is_seed = []( const item * it ) { return it->is_seed(); };
+    const auto seed_it = std::ranges::find_if( stack, is_seed );
+    if( seed_it == stack.end() ) {
+        debugmsg( "Missing seed" );
+        return 0;
+    }
+
+    const item *seed = *seed_it;
+    if( !actor->terrain.contains( seed->type->seed->required_terrain_flag ) ) {
+        add_msg( "You can't collect that into this planter." );
+        return 0;
+    }
+
     // TODO: make an activity actor?
     who.moves -= to_turns<int>( 30_seconds );
-    transfer_map_to_flowerpot( source_pos, *target_pot.value() );
+    transfer_map_to_flowerpot( source_pos, *target_pot.value(), actor, seed->typeId() );
 
     return 0;
 }
 
-void iuse_flowerpot_collect::transfer_map_to_flowerpot( const tripoint &pos, item &flowerpot )
+void iuse_flowerpot_collect::transfer_map_to_flowerpot(
+    const tripoint &map_pos, item &flowerpot, const iuse_flowerpot_plant *actor,
+    const itype_id &seed_type )
 {
     auto &m = get_map();
 
-    const auto furn_id = m.furn( pos );
-
-    const auto actor = dynamic_cast<const iuse_flowerpot_plant *>( flowerpot.get_use(
-                           iuse_flowerpot_plant::IUSE_ACTOR )->get_actor_ptr() );
-    if( !actor ) {
-        debugmsg( "Invalid iuse_actor" );
-        return;
-    }
+    const auto furn_id = m.furn( map_pos );
 
     if( !furn_id->plant ) {
         debugmsg( "Invalid plant_data" );
         return;
     }
 
-    auto stack = m.i_at( pos );
+    auto stack = m.i_at( map_pos );
 
-    constexpr auto is_seed = []( const item * it ) { return it->is_seed(); };
+    const auto is_seed = [&]( const item * it ) { return it->typeId() == seed_type; };
     const auto seed_it = std::ranges::find_if( stack, is_seed );
     if( seed_it == stack.end() ) {
         debugmsg( "Missing seed" );
@@ -6434,21 +6466,21 @@ void iuse_flowerpot_collect::transfer_map_to_flowerpot( const tripoint &pos, ite
 
     std::vector<detached_ptr<item>> comps;
     stack.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
-        if( max_seeds > 0 && it->typeId() == seed->typeId() ) {
+        if( max_seeds > 0 && it->typeId() == seed_type ) {
             // Move the seeds
-            return item::use_charges( std::move( it ), seed->typeId(), max_seeds, comps, pos );
+            return item::use_charges( std::move( it ), seed_type, max_seeds, comps, map_pos );
         }
         if( max_fert > 0 && it->typeId() == itype_fertilizer ) {
             // Clone the fertilizer
             auto tmp = item::spawn( *it );
-            item::use_charges( std::move( tmp ), itype_fertilizer, max_fert, comps, pos );
+            item::use_charges( std::move( tmp ), itype_fertilizer, max_fert, comps, map_pos );
         }
         return std::move( it );
     } );
 
     // Erase fertilizer and reset furniture if no more seeds
     if( std::ranges::find_if( stack, is_seed ) == stack.end() ) {
-        m.furn_set( pos, furn_id->plant->base );
+        m.furn_set( map_pos, furn_id->plant->base );
         stack.remove_top_items_with( []( detached_ptr<item> &&it ) {
             if( it->typeId() == itype_fertilizer )
                 return detached_ptr<item> {};
