@@ -32,10 +32,6 @@ void cata::detail::reg_overmap( sol::state &lua )
         SET_MEMB( types );
         DOC( "Vector of (terrain_type, match_type) pairs to exclude from search." );
         SET_MEMB( exclude_types );
-        DOC( "Search range as {min, max} pair in overmap tiles." );
-        SET_MEMB( search_range );
-        DOC( "Optional search layer range as {min, max} pair of z-levels." );
-        SET_MEMB( search_layers );
         DOC( "If set, filters by terrain seen status (true = seen only, false = unseen only)." );
         SET_MEMB( seen );
         DOC( "If set, filters by terrain explored status (true = explored only, false = unexplored only)." );
@@ -57,6 +53,18 @@ void cata::detail::reg_overmap( sol::state &lua )
         luna::set_fx( ut, "add_exclude_type",
         []( omt_find_params & p, const std::string & type, ot_match_type match ) -> void {
             p.exclude_types.emplace_back( type, match );
+        } );
+
+        DOC( "Set the search range in overmap tiles (min, max)." );
+        luna::set_fx( ut, "set_search_range",
+        []( omt_find_params & p, int min, int max ) -> void {
+            p.search_range = { min, max };
+        } );
+
+        DOC( "Set the search layer range (z-levels)." );
+        luna::set_fx( ut, "set_search_layers",
+        []( omt_find_params & p, int min, int max ) -> void {
+            p.search_layers = std::make_pair( min, max );
         } );
     }
 #undef UT_CLASS
