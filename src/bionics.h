@@ -16,6 +16,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "enums.h"
+#include "color.h"
 
 class JsonIn;
 class JsonObject;
@@ -211,10 +212,11 @@ struct bionic {
         float auto_start_threshold = -1.0;
 };
 
+nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic );
 struct bionic_sort_less {
     bionic_ui_sort_mode mode = bionic_ui_sort_mode::NONE;
-    bool operator()( const bionic& lhs, const bionic& rhs ) const;
-    bool operator()( const bionic* lhs, const bionic* rhs ) const {
+    bool operator()( const bionic &lhs, const bionic &rhs ) const;
+    bool operator()( const bionic *lhs, const bionic *rhs ) const {
         return lhs && rhs && operator()( *lhs, *rhs );
     }
 };

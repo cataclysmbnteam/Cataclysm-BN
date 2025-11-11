@@ -115,7 +115,7 @@ bionic_ui_sort_mode pick_sort_mode()
 
 } // namespace
 
-bool bionic_sort_less::operator()( const bionic& lhs, const bionic& rhs ) const
+bool bionic_sort_less::operator()( const bionic &lhs, const bionic &rhs ) const
 {
     const bionic_data &lbd = lhs.info();
     const bionic_data &rbd = rhs.info();
@@ -508,7 +508,7 @@ static void draw_connectors( const catacurses::window &win, point start,
 }
 
 //get a text color depending on the power/powering state of the bionic
-static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
+nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
     bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );

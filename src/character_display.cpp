@@ -660,7 +660,8 @@ static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionic
 
         const auto& [bio, cnt] =  bionicslist[i];
         const auto fmtstr = cnt > 1 ? "%s (%d)" : "%s";
-        trim_and_print( w_bionics, pos, width, highlight_line ? hilite( c_white ) : c_white, fmtstr,
+        const auto color = get_bionic_text_color( bio, highlight_line );
+        trim_and_print( w_bionics, pos, width, highlight_line ? hilite( color ) : color, fmtstr,
                         bio.info().name, cnt );
     }
     if( do_draw_scrollbar ) {
