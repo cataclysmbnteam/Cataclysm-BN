@@ -529,39 +529,14 @@ static void open()
     const tripoint openp = *openp_;
     map &here = get_map();
 
-    u.moves -= 100;
-
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
-        vehicle *const veh = &vp->vehicle();
-        int openable = veh->next_part_to_open( vp->part_index() );
+        const vehicle *const veh = &vp->vehicle();
+        const int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
-            bool outside = !player_veh || player_veh != veh;
-            if( !outside ) {
-                if( !veh->handle_potential_theft( get_avatar() ) ) {
-                    u.moves += 100;
-                    return;
-                } else {
-                    veh->open( openable );
-                }
-            } else {
-                // Outside means we check if there's anything in that tile outside-openable.
-                // If there is, we open everything on tile. This means opening a closed,
-                // curtained door from outside is possible, but it will magically open the
-                // curtains as well.
-                int outside_openable = veh->next_part_to_open( vp->part_index(), true );
-                if( outside_openable == -1 ) {
-                    const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
-                    u.moves += 100;
-                } else {
-                    if( !veh->handle_potential_theft( get_avatar() ) ) {
-                        u.moves += 100;
-                        return;
-                    } else {
-                        veh->open_all_at( openable );
-                    }
-                }
+            const bool outside = !player_veh || player_veh != veh;
+            if( get_map().open_door_veh( &get_avatar(), vp, openp, !outside ) ) {
+                u.moves -= 100;
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
@@ -570,12 +545,11 @@ static void open()
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
             }
-            u.moves += 100;
         }
         return;
     }
 
-    bool didit = here.open_door( openp, !here.is_outside( u.pos() ) );
+    bool didit = here.open_door( &u, openp, !here.is_outside( u.pos() ) );
 
     if( !didit ) {
         const ter_str_id tid = here.ter( openp ).id();

@@ -1627,8 +1627,16 @@ static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp 
     map &here = get_map();
 
     const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-    p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+    std::string target;
+    if( here.has_furn( examp ) ) {
+        target = here.furnname( examp );
+    } else if( here.veh_at( examp ) ) {
+        target = here.veh_at( examp )->vehicle().name;
+    } else {
+        target = here.tername( examp );
+    }
+    p.add_msg_if_player(
+        _( "You attempt to pick lock of %1$s using your %2$s…" ), target, it->tname() );
     const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
     if( can_use.success() ) {
         p.invoke_item( it, "PICK_LOCK", examp );
@@ -1896,7 +1904,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    if( here.open_door( examp, true, true ) ) {
+    if( here.can_open_door( &p, examp, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
     } else {
@@ -1910,7 +1918,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
             g->peek( examp );
             p.add_msg_if_player( _( "You peek through the peephole." ) );
         } else if( choice == 1 ) {
-            here.open_door( examp, true, false );
+            here.open_door( &p, examp, true );
             p.add_msg_if_player( _( "You open the door." ) );
         } else {
             p.add_msg_if_player( _( "Never mind." ) );
