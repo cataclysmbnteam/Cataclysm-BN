@@ -1373,20 +1373,8 @@ void character_display::disp_info( Character &ch )
         {
             return a.first.info().activated;
         }
-        const bool a_isblank = std::isblank( a.first.invlet );
-        const bool b_is_blank = std::isblank( b.first.invlet );
-        if( !( a_isblank && b_is_blank ) )
-        {
-            if( a_isblank ) {
-                return false;
-            }
-            if( b_is_blank ) {
-                return true;
-            }
-            return a.first.invlet < b.first.invlet;
-        }
-        return a.first.info().name.translated_lt( b.first.info().name );
-        return false;
+        constexpr auto less = bionic_sort_less{ bionic_ui_sort_mode::NAME };
+        return less( a.first, b.first );
     } );
     const unsigned int bionics_win_size_y_max = 2 + bionics_list.size();
 
