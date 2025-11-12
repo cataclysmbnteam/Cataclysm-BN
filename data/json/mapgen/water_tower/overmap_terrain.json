@@ -35,6 +35,14 @@
  },
  {
    "type" : "overmap_terrain",
+   "id" : "water_tower_3zl",
+   "name" : "water tower",
+   "sym" : "87",
+   "color" : "i_yellow",
+   "see_cost" : 2
+ },
+ {
+   "type" : "overmap_terrain",
    "id" : "water_tower_4zl",
    "name" : "water tower",
    "sym" : "87",
@@ -47,15 +55,6 @@
    "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
-   "see_cost" : 2
- },
- {
-   "type" : "overmap_terrain",
-   "id" : "water_tower_6zl",
-   "name" : "water tower",
-   "sym" : "87",
-   "color" : "i_yellow",
-   "extras" : "field",
    "see_cost" : 2
  },
  {

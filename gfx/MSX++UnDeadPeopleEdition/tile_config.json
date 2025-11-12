@@ -36074,7 +36074,7 @@
           "rotates": false
         },
         {
-          "id": [ "water_tower_1zl", "water_tower_2zl", "water_tower_2zl", "water_tower_4zl", "water_tower_5zl", "water_tower_6zl" ],
+          "id": [ "water_tower_1zl", "water_tower_2zl", "water_tower_3zl", "water_tower_4zl", "water_tower_5zl" ],
           "fg": [ 19604 ],
           "rotates": false,
           "has_om_transparency": true 
