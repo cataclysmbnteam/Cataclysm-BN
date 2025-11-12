@@ -4436,7 +4436,7 @@ bool map::open_door_veh(
         return false;
     }
 
-    const int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
+    const int openable = vp->vehicle().next_part_to_open( vp->part_index(), !inside );
     vp->vehicle().open_all_at( openable );
     return true;
 }
