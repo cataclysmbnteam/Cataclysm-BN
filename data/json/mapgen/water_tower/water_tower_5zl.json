@@ -33,14 +33,8 @@
         "........................"
       ],
       "palettes": [ "water_tower" ],
-      "terrain":{
-       " ": "t_od_metal_floor",
-       ".": "t_open_air"
-      },
-      "furniture": {
-        "s": "f_small_satelitte_dish",
-        "c": "f_cellphone_booster"
-      }
+      "terrain": { " ": "t_od_metal_floor", ".": "t_open_air" },
+      "furniture": { "s": "f_small_satelitte_dish", "c": "f_cellphone_booster" }
     }
   }
 ]

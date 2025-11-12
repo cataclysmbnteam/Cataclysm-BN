@@ -33,14 +33,14 @@
         "........................"
       ],
       "palettes": [ "water_tower" ],
-      "terrain":{
-       "=": "t_concrete_wall",
-       ".": "t_grass",
-       "w": "t_sidewalk",
-       " ": "t_metal_floor",
-       ",": "t_strconc_floor",
-       "&": "t_gates_control_metal",
-       "7": "t_water_pump"
+      "terrain": {
+        "=": "t_concrete_wall",
+        ".": "t_grass",
+        "w": "t_sidewalk",
+        " ": "t_metal_floor",
+        ",": "t_strconc_floor",
+        "&": "t_gates_control_metal",
+        "7": "t_water_pump"
       }
     }
   }
