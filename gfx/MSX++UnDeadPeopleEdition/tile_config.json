@@ -36056,7 +36056,18 @@
         { "id": [ "stadium_0_4" ], "fg": [ 19597 ], "rotates": true },
         { "id": [ "stadium_1_4" ], "fg": [ 19598 ], "rotates": true },
         { "id": [ "stadium_2_4" ], "fg": [ 19599 ], "rotates": true },
-        { "id": [ "stadium_3_4" ], "fg": [ 19600 ], "rotates": true }
+        { "id": [ "stadium_3_4" ], "fg": [ 19600 ], "rotates": true },
+        {
+          "id": [ "billboard_0", "billboard_1", "billboard_2" ],
+          "fg": [ 19601 ],
+          "rotates": false
+        },
+        {
+          "id": [ "billboard_1", "billboard_2" ],
+          "fg": [ 19602 ],
+          "rotates": false,
+          "has_om_transparency": true 
+        }
       ],
       "//": "range 19337 to 19636"
     },
