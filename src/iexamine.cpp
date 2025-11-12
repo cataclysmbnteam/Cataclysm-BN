@@ -1699,7 +1699,15 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         }
     }
 
-    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
+    std::string target;
+    if( here.has_furn( examp ) ) {
+        target = here.furnname( examp );
+    } else if( here.veh_at( examp ) ) {
+        target = here.veh_at( examp )->vehicle().name;
+    } else {
+        target = here.tername( examp );
+    }
+
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
             if( prying_tool ) {
@@ -1730,9 +1738,18 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
+    std::string target;
+    if( here.has_furn( examp ) ) {
+        target = here.furnname( examp );
+    } else if( here.veh_at( examp ) ) {
+        target = here.veh_at( examp )->vehicle().name;
+    } else {
+        target = here.tername( examp );
+    }
+
     if( !pick_lock( p, examp ) ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target );
     }
 }
 
