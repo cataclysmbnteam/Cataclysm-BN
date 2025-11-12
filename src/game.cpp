@@ -660,27 +660,38 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+
+    constexpr auto query_gen_failed = []() {
+        return query_yn(
+                   _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) );
+    };
+
     do {
         omtstart = start_loc.find_player_initial_location();
         if( omtstart == overmap::invalid_tripoint ) {
-            if( query_yn(
-                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+            if( query_gen_failed() ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
                 return false;
             }
         }
+
+        start_loc.prepare_map( omtstart );
+
+        // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
+        if( u.starting_vehicle
+            && !place_vehicle_nearby(
+                u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} ) ) {
+            if( query_gen_failed() ) {
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
+                omtstart = overmap::invalid_tripoint;
+            } else {
+                return false;
+            }
+        }
     } while( omtstart == overmap::invalid_tripoint );
-
-    start_loc.prepare_map( omtstart );
-
-    // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
-    }
 
     if( scen->has_map_extra() ) {
         // Map extras can add monster spawn points and similar and should be done before the main
