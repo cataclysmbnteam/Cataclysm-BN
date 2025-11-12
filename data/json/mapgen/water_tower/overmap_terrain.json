@@ -11,7 +11,7 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_0zl",
-   "name" : "Water Tower Base",
+   "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
    "see_cost" : 2,
@@ -20,7 +20,7 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_1zl",
-   "name" : "Water Tower",
+   "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
    "see_cost" : 2
@@ -28,7 +28,7 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_2zl",
-   "name" : "Water Tower",
+   "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
    "see_cost" : 2
@@ -36,7 +36,7 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_4zl",
-   "name" : "Water Tower",
+   "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
    "see_cost" : 2
@@ -44,7 +44,7 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_5zl",
-   "name" : "Water Tower",
+   "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
    "see_cost" : 2
@@ -52,7 +52,7 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_6zl",
-   "name" : "Water Tower",
+   "name" : "water tower",
    "sym" : "87",
    "color" : "i_yellow",
    "extras" : "field",
@@ -61,7 +61,8 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_-1zl",
-   "name" : "Water Tower Access Shaft",
+   "name" : "water tower shaft",
+   "looks_like": "sewer",
    "sym" : "87",
    "color" : "i_yellow",
    "see_cost" : 99
@@ -69,7 +70,8 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_tank",
-   "name" : "Water Tower Reservoir",
+   "name" : "water tower reservoir",
+   "looks_like": "sewer",
    "sym" : "87",
    "color" : "i_yellow",
    "extras" : "subway",
@@ -79,7 +81,8 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_corner",
-   "name" : "Water Tower",
+   "name" : "water tower resorvoir",
+   "looks_like": "sewer",
    "sym" : "87",
    "color" : "i_yellow",
    "extras" : "subway",
@@ -90,7 +93,8 @@
  {
    "type" : "overmap_terrain",
    "id" : "water_tower_edge",
-   "name" : "Water Tower",
+   "name" : "water tower reservoir",
+   "looks_like": "sewer",
    "sym" : "87",
    "color" : "i_yellow",
    "extras" : "subway",
