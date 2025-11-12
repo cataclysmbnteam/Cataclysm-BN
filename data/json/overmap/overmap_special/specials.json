@@ -6392,5 +6392,20 @@
     "locations": [ "land" ],
     "occurrences": [ 2, 8 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "vending_park",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "vending_park_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "vending_park_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "vending_park_roof_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "vending_park_roof_2_north" }
+    ],
+    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road", "existing": true } ],
+    "locations": [ "land" ],
+    "occurrences": [ 0, 4 ],
+    "city_distance": [ 20, -1 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
   }
 ]
