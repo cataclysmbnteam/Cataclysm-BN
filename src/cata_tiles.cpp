@@ -1389,10 +1389,10 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
         // second is the tile_type describing that id
         auto &td = it->second;
-        process_variations_after_loading( td.fg );
-        process_variations_after_loading( td.bg );
+        process_variations_after_loading( td.sprite.fg );
+        process_variations_after_loading( td.sprite.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
-        if( td.bg.empty() && td.fg.empty() ) {
+        if( td.sprite.bg.empty() && td.sprite.fg.empty() ) {
             dbg( DL::Warn ) << "tile " << it->first << " has no (valid) foreground nor background";
             // remove the id from seasonal variations!
             for( auto &container : ts.tile_ids_by_season ) {
@@ -1515,8 +1515,8 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
 {
     const std::string m_id = t_id + "_" + s_id;
     tile_type curr_subtile;
-    curr_subtile.fg.add( std::vector<int>( {sprite_id} ), 1 );
-    curr_subtile.fg_mask.add( std::vector<int>( {TILESET_NO_MASK} ), 1 );
+    curr_subtile.sprite.fg.add( std::vector<int>( {sprite_id} ), 1 );
+    curr_subtile.masks.tint.fg.add( std::vector<int>( {TILESET_NO_MASK} ), 1 );
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back( s_id );
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
@@ -1580,8 +1580,8 @@ void tileset_loader::load_ascii_set( const JsonObject &entry )
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
-        curr_tile.fg_mask.add( std::vector<int>( {TILESET_NO_MASK} ), 1 );
-        auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
+        curr_tile.masks.tint.fg.add( std::vector<int>( {TILESET_NO_MASK} ), 1 );
+        auto &sprites = *( curr_tile.sprite.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
             case LINE_OXOX_C:
@@ -1710,13 +1710,22 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
 {
     tile_type curr_subtile;
 
-    load_tile_spritelists( entry, curr_subtile.fg, "fg" );
-    load_tile_spritelists( entry, curr_subtile.bg, "bg" );
+    load_tile_spritelists( entry, curr_subtile.sprite.fg, "fg" );
+    load_tile_spritelists( entry, curr_subtile.sprite.bg, "bg" );
 
-    load_tile_spritelists( entry, curr_subtile.fg_mask, "fg_mask" );
-    load_tile_spritelists( entry, curr_subtile.bg_mask, "bg_mask" );
+    if( entry.has_array( "masks" ) ) {
+        for( const JsonObject mask_entry : entry.get_array( "masks" ) ) {
+            const auto mask_type = mask_entry.get_string( "type" );
+            if( mask_type == "tint" ) {
+                load_tile_spritelists( mask_entry, curr_subtile.masks.tint.fg, "fg" );
+                load_tile_spritelists( mask_entry, curr_subtile.masks.tint.bg, "bg" );
+            } else {
+                debugmsg_of( DL::Warn, "Invalid tile mask type: %s", mask_type );
+            }
+        }
+    }
 
-    using vslist = decltype( tile_type::fg );
+    using vslist = tile_type::sprite_list;
     auto ensure_mask = [&]( vslist & mask, const vslist & sprite ) {
         if( ! mask.empty() ) {
             for( const auto& [a, b] :  std::views::zip( mask, sprite ) ) {
@@ -1735,8 +1744,8 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
         }
     };
 
-    ensure_mask( curr_subtile.fg_mask, curr_subtile.fg );
-    ensure_mask( curr_subtile.bg_mask, curr_subtile.bg );
+    ensure_mask( curr_subtile.masks.tint.fg, curr_subtile.sprite.fg );
+    ensure_mask( curr_subtile.masks.tint.bg, curr_subtile.sprite.bg );
 
     curr_subtile.has_om_transparency = entry.get_bool( "has_om_transparency", false );
 
@@ -2672,7 +2681,7 @@ bool cata_tiles::draw_from_id_string(
         return p.x + p.y * 65536;
     };
 
-    bool has_variations = display_tile.fg.size() > 1 || display_tile.bg.size() > 1;
+    bool has_variations = display_tile.sprite.fg.size() > 1 || display_tile.sprite.bg.size() > 1;
     bool variations_enabled = !display_tile.animated || idle_animations.enabled();
     // with animated tiles, seed is used for stagger
     bool seed_for_animation = has_variations && variations_enabled && display_tile.animated;
@@ -2811,9 +2820,9 @@ bool cata_tiles::draw_from_id_string(
             idle_animations.mark_present();
             // offset by loc_rand so that everything does not blink at the same time:
             int frame = idle_animations.current_frame() + loc_rand;
-            int frames_in_loop = display_tile.fg.get_weight();
+            int frames_in_loop = display_tile.sprite.fg.get_weight();
             if( frames_in_loop == 1 ) {
-                frames_in_loop = display_tile.bg.get_weight();
+                frames_in_loop = display_tile.sprite.bg.get_weight();
             }
             // loc_rand is actually the weighed index of the selected tile, and
             // for animations the "weight" is the number of frames to show the tile for:
@@ -2878,7 +2887,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
 {
 
 
-    const auto &sv_list_sprite = is_fg ? tile.fg : tile.bg;
+    const auto &sv_list_sprite = is_fg ? tile.sprite.fg : tile.sprite.bg;
     const auto picked_sprite_list = sv_list_sprite.pick( loc_rand );
     if( !picked_sprite_list ) {
         return true;
@@ -2888,14 +2897,14 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
         return true;
     }
 
-    const auto &sv_list_mask = is_fg ? tile.fg_mask : tile.bg_mask;
-    const auto picked_mask_list = sv_list_mask.pick( loc_rand );
-    if( !picked_mask_list ) {
+    const auto &sv_list_tint_mask = is_fg ? tile.masks.tint.fg : tile.masks.tint.bg;
+    const auto picked_tint_mask_list = sv_list_tint_mask.pick( loc_rand );
+    if( !picked_tint_mask_list ) {
         debugmsg( "Failed to load tint mask" );
         return true;
     }
-    const auto &mask_list = *picked_mask_list;
-    if( mask_list.size() != sprite_list.size() ) {
+    const auto &tint_mask_list = *picked_tint_mask_list;
+    if( tint_mask_list.size() != sprite_list.size() ) {
         debugmsg( "Sprite and mask lists size mismatch" );
         return true;
     }
@@ -2938,7 +2947,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, point p,
     }
 
     const int tile_idx = sprite_list[sprite_num];
-    const int mask_idx = mask_list[sprite_num];
+    const int mask_idx = tint_mask_list[sprite_num];
 
     const auto default_color = tile.default_tint.value_or( TILESET_NO_COLOR );
 
@@ -3953,7 +3962,7 @@ void tileset_loader::ensure_default_item_highlight()
     auto [tex, rect] = ts.tileset_atlas->allocate_sprite( ts.tile_width, ts.tile_height );
     SDL_UpdateTexture( tex.get(), &rect, surface->pixels, surface->pitch );
 
-    ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
+    ts.tile_ids[ITEM_HIGHLIGHT].sprite.fg.add( std::vector<int>( {index} ), 1 );
     ts.tile_lookup.emplace( tileset_lookup_key{
         index,
         TILESET_NO_MASK,
@@ -3970,7 +3979,7 @@ void tileset_loader::ensure_default_item_highlight()
     throwErrorIf( SDL_FillRect( surface.get(), nullptr, SDL_MapRGBA( surface->format, 0, 0, 127,
                                 highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
-    ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
+    ts.tile_ids[ITEM_HIGHLIGHT].sprite.fg.add( std::vector<int>( {index} ), 1 );
 #endif
 
 }

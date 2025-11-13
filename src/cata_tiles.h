@@ -44,8 +44,18 @@ extern void set_displaybuffer_rendertarget();
 
 /** Structures */
 struct tile_type {
+    using sprite_list = weighted_int_list<std::vector<int>>;
     // fg and bg are both a weighted list of lists of sprite IDs
-    weighted_int_list<std::vector<int>> fg, bg, fg_mask, bg_mask;
+    struct sprite_pair {
+        sprite_list fg, bg;
+    };
+
+    struct sprite_masks {
+        sprite_pair tint;
+    };
+
+    sprite_pair sprite;
+    sprite_masks masks;
     bool multitile = false;
     bool rotates = false;
     bool animated = false;
