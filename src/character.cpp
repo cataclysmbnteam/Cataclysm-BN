@@ -11021,7 +11021,7 @@ int Character::run_cost( int base_cost, bool diag ) const
 // count: number of items to drop < 0 means drop all
 void Character::drop_inv( const int count )
 {
-    if( count < 0 || count >= inv.size() ) {
+    if( count < 0 || static_cast<size_t>( count ) >= inv.size() ) {
         std::vector<detached_ptr<item>> tmp = inv_dump_remove();
         for( auto &itm : tmp ) {
             get_map().add_item_or_charges( pos(), std::move( itm ) );
@@ -11029,7 +11029,7 @@ void Character::drop_inv( const int count )
     } else {
         for( int i = 0; i < count; i++ ) {
             int randidx = rng( 0, inv.size() );
-            get_map().add_item_or_charges( pos(), std::move( inv.remove_item( randidx ) ) );
+            get_map().add_item_or_charges( pos(), inv.remove_item( randidx ) );
         }
     }
 }

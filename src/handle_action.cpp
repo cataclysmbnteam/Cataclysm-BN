@@ -1842,12 +1842,11 @@ bool game::handle_action()
                     }
                 }
                 if( !u.in_vehicle ) {
-                    map &here = get_map();
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_below );
                 } else {
-                    bool moved = false;
+                    [[maybe_unused]] bool moved = false;
                     map &here = get_map();
                     const optional_vpart_position vp = here.veh_at( u.pos() );
                     if( vp ) {
