@@ -535,7 +535,7 @@ static void open()
         if( openable >= 0 ) {
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
             const bool outside = !player_veh || player_veh != veh;
-            if( get_map().open_door_veh( &get_avatar(), vp, openp, !outside ) ) {
+            if( here.open_door_veh( &get_avatar(), vp, openp, !outside ) ) {
                 u.moves -= 100;
             }
         } else {
@@ -546,12 +546,9 @@ static void open()
                 add_msg( m_info, _( "That %s is already open." ), name );
             }
         }
-        return;
-    }
-
-    bool didit = here.open_door( &u, openp, !here.is_outside( u.pos() ) );
-
-    if( !didit ) {
+    } else if( here.open_door( &u, openp, !here.is_outside( u.pos() ) ) ) {
+        u.moves -= 100;
+    } else {
         const ter_str_id tid = here.ter( openp ).id();
 
         if( here.has_flag( flag_LOCKED, openp ) ) {
@@ -560,11 +557,9 @@ static void open()
         } else if( tid.obj().close ) {
             // if the following message appears unexpectedly, the prior check was for t_door_o
             add_msg( m_info, _( "That door is already open." ) );
-            u.moves += 100;
             return;
         }
         add_msg( m_info, _( "No door there." ) );
-        u.moves += 100;
     }
 }
 
