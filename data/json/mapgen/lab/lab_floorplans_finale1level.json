@@ -100,9 +100,7 @@
       },
       "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 4, "y": 1 } ],
       "place_loot": [ { "item": "id_science", "x": [ 19, 20 ], "y": [ 2, 5 ] } ],
-      "place_monster": [
-        { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 100 }
-      ]
+      "place_monster": [ { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 100 } ]
     }
   },
   {
