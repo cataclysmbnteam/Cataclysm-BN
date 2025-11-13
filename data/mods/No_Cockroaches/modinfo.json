@@ -1,0 +1,14 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "No_Cockroaches",
+    "name": "No Cockroaches",
+    "description": "Removes all cockroach type enemies from the game.",
+    "category": "monster_exclude",
+    "dependencies": [ "bn" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [ "mon_giant_cockroach", "mon_pregnant_giant_cockroach", "mon_giant_cockroach_nymph", "mon_plague_nymph" ]
+  }
+]
