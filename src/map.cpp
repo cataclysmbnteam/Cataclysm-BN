@@ -4339,7 +4339,7 @@ bool map::can_open_door_furn(
         return false;
     }
 
-    if( std::visit( can_open_while_mounted{}, who ) ) {
+    if( !std::visit( can_open_while_mounted{}, who ) ) {
         return false;
     }
 
