@@ -17,5 +17,9 @@
       "mon_skittering_plague",
       "mon_plague_vector"
     ]
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [ "egg_roach", "egg_roach_plague", "feces_roach" ]
   }
 ]
