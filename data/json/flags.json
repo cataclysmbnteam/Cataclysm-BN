@@ -2431,5 +2431,17 @@
     "type": "json_flag",
     "//": "Do not apply tint",
     "context": [  ]
+  },
+  {
+    "id": "VEHICLE_UNLOCKED",
+    "type": "json_flag",
+    "//": "Marks a vehicle to always spawn unlocked",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE_LOCKED",
+    "type": "json_flag",
+    "//": "Marks a vehicle to always spawn locked",
+    "context": [  ]
   }
 ]

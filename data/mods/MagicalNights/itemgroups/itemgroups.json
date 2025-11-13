@@ -9,7 +9,14 @@
     "type": "item_group",
     "id": "mundane_physical_books_basic",
     "//": "mundane enough to be put in standard book locations if we so desire. tier 0 or tier 1 only",
-    "items": [ [ "adventurer_physical_book", 40 ], [ "adventurer_natural_tech_book", 40 ], [ "adventurer_poultice_book", 20 ] ]
+    "items": [
+      [ "adventurer_physical_book", 40 ],
+      [ "adventurer_natural_tech_book", 40 ],
+      [ "adventurer_poultice_book", 20 ],
+      [ "blademaster_weeaboo_stories", 40 ],
+      [ "blademaster_strength_book", 25 ],
+      [ "blademaster_fast_moves_book", 20 ]
+    ]
   },
   {
     "type": "item_group",

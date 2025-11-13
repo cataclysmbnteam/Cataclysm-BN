@@ -2819,7 +2819,8 @@ void Character::add_bionic( const bionic_id &b )
                            units::to_kilojoule( pow_up ) );
     }
 
-    my_bionics->push_back( bionic( b, get_free_invlet( *my_bionics ) ) );
+    const auto invlet = b.obj().activated ? get_free_invlet( *my_bionics ) : ' ';
+    my_bionics->push_back( bionic( b, invlet ) );
     if( b->has_flag( flag_INITIALLY_ACTIVATE ) ) {
         activate_bionic( my_bionics->back() );
     }

@@ -1448,6 +1448,7 @@ class iuse_flowerpot_plant final : public iuse_actor
         float harvest_mult = 1;
         float growth_rate = 1;
         float fert_boost = 0.25;
+        std::set<std::string> terrain = { "PLANTABLE" };
 };
 
 class iuse_flowerpot_collect final : public iuse_actor
@@ -1463,5 +1464,8 @@ class iuse_flowerpot_collect final : public iuse_actor
                       const tripoint & ) const -> ret_val<bool> override;
         auto clone() const -> std::unique_ptr<iuse_actor> override;
     private:
-        static void transfer_map_to_flowerpot( const tripoint &map_pos, item &flowerpot );
+        static void transfer_map_to_flowerpot( const tripoint &map_pos,
+                                               item &flowerpot,
+                                               const iuse_flowerpot_plant *actor,
+                                               const itype_id &seed_type );
 };

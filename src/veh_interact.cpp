@@ -1838,6 +1838,27 @@ bool veh_interact::can_remove_part( int idx, const Character &who )
                                    colorize( aid_string, aid_color ), colorize( str_string, str_color ) ) + "\n";
     }
     std::string reason;
+
+
+    bool inside_vehicle = false;
+    if( who.in_vehicle ) {
+        if( const optional_vpart_position vp = g->m.veh_at( who.pos() ) ) {
+            if( vp->is_inside() ) {
+                inside_vehicle = true;
+            }
+        }
+    }
+
+    if( !inside_vehicle && sel_vpart_info->has_flag( "NOREMOVE_OUTSIDE" ) ) {
+        additional_requirements += string_format( _( "> %1$s%2$s</color>" ), status_color( false ),
+                                   "You must be inside the vehicle to remove this." ) + "\n";
+        ok = false;
+    }
+    if( inside_vehicle && sel_vpart_info->has_flag( "NOREMOVE_INSIDE" ) ) {
+        additional_requirements += string_format( _( "> %1$s%2$s</color>" ), status_color( false ),
+                                   "You must be outside the vehicle to remove this." ) + "\n";
+        ok = false;
+    }
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
         additional_requirements += string_format( _( "> %1$s%2$s</color>" ), status_color( false ),
@@ -2533,7 +2554,7 @@ void veh_interact::display_stats() const
     if( is_boat ) {
         // convert newton to kg.
         units::mass buoyancy_as_mass = units::from_newton(
-                                           veh->max_buoyancy() );
+                                           veh->max_buoyancy() + veh->total_balloon_lift() );
         print_stat(
             _( "Maximum Buoyancy: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( buoyancy_as_mass ),

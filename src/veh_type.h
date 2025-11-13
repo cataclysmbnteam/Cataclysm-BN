@@ -296,6 +296,9 @@ class vpart_info
         /** cargo weight modifier (percentage) */
         int cargo_weight_modifier = 100;
 
+        /** base weight modifier (percentage) */
+        int weight_modifier = 100;
+
         /** Flat decrease of damage of a given type. */
         resistances damage_reduction;
 
@@ -426,6 +429,7 @@ struct vehicle_prototype {
     std::string name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::set<flag_id> flags;
 
     std::unique_ptr<vehicle> blueprint;
 
