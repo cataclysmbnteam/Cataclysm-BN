@@ -101,8 +101,19 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const vpart_id vp_door_lock( "door_lock" );
+
 static const flag_id f_VEHICLE_UNLOCKED( "VEHICLE_UNLOCKED" );
 static const flag_id f_VEHICLE_LOCKED( "VEHICLE_LOCKED" );
+static const flag_id f_VEHICLE_NO_LOCKS( "VEHICLE_NO_LOCKS" );
+
+static const flag_id f_VEHICLE_NO_HOTWIRE( "VEHICLE_NO_HOTWIRE" );
+static const flag_id f_VEHICLE_HOTWIRE( "VEHICLE_HOTWIRE" );
+
+static const std::vector<std::string> vs_NO_HOTWIRING = {
+    "MUSCLE_LEGS",
+    "MUSCLE_ARMS",
+    "ANIMAL_CTRL",
+};
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
@@ -521,6 +532,7 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     bool blood_covered = false;
     bool blood_inside = false;
     bool lockDoors = false;
+    bool needsHotwire = false;
     bool destroyAlarm = false;
 
     remove_old_owner();
@@ -546,13 +558,13 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     const int veh_status = init_veh_status;
     if( init_veh_status == 0 ) {
         // vehicle locked 100%
-        lockDoors = is_locked = true;
+        lockDoors = needsHotwire = true;
     } else if( init_veh_status == -1 ) {
         // vehicle locked 67%
-        lockDoors = is_locked = rng( 1, 100 ) <= 67;
+        lockDoors = needsHotwire = rng( 1, 100 ) <= 67;
 
         // if locked, 16% chance something damaged
-        if( one_in( 6 ) && ( is_locked || lockDoors ) ) {
+        if( one_in( 6 ) && ( needsHotwire || lockDoors ) ) {
             if( one_in( 3 ) ) {
                 destroyTank = true;
             } else if( one_in( 2 ) ) {
@@ -573,7 +585,7 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
         // tires are destroyed 37%
         destroyTires = rng( 1, 100 ) <= 37;
         // locked 34%
-        lockDoors = is_locked = rng( 1, 100 ) <= 34;
+        lockDoors = needsHotwire = rng( 1, 100 ) <= 34;
 
         if( destroyEngine ) {
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
@@ -591,13 +603,41 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
         destroyAlarm = true;
     }
 
+    // Check Prototype Flags
+    const auto &proto_flags = type.obj().flags;
+    if( proto_flags.contains( f_VEHICLE_HOTWIRE ) ) {
+        needsHotwire = true;
+    } else if( proto_flags.contains( f_VEHICLE_NO_HOTWIRE ) ) {
+        needsHotwire = false;
+    } else {
+        // No horse-wiring
+        for( const auto &vp : get_all_parts() ) {
+            if( std::ranges::any_of( vs_NO_HOTWIRING, [&]( const std::string & flag ) { return vp.has_feature( flag );} ) ) {
+                needsHotwire = false;
+                break;
+            }
+        }
+    }
+
+    is_locked = needsHotwire;
+
+    if( proto_flags.contains( f_VEHICLE_UNLOCKED ) ) {
+        lockDoors = false;
+    } else if( proto_flags.contains( f_VEHICLE_LOCKED ) ) {
+        lockDoors = true;
+    } else if( locked.has_value() ) {
+        lockDoors = locked.value();
+    } else {
+        lockDoors = lockDoors && get_option<bool>( "VEHICLE_LOCKS" );
+    }
+
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
         //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
         int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
         if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
-            one_in( current_day + 4 ) && !destroyEngine && !is_locked &&
+            one_in( current_day + 4 ) && !destroyEngine && !needsHotwire &&
             has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
@@ -653,39 +693,29 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     }
 
     // Install Locks
-    std::set<point> doors;
-    const auto &proto_flags = type.obj().flags;
-    bool actuallyLockDoors;
-    if( proto_flags.contains( f_VEHICLE_UNLOCKED ) ) {
-        actuallyLockDoors = false;
-    } else if( proto_flags.contains( f_VEHICLE_LOCKED ) ) {
-        actuallyLockDoors = true;
-    } else if( locked.has_value() ) {
-        actuallyLockDoors = locked.value();
-    } else {
-        actuallyLockDoors = lockDoors && get_option<bool>( "VEHICLE_LOCKS" );
-    }
-
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.has_feature( "OPENABLE" ) && vp.has_feature( "BOARDABLE" ) &&
-            !vp.has_feature( "CURTAIN" ) ) {
-            doors.emplace( vp.mount() );
+    if( !proto_flags.contains( f_VEHICLE_NO_LOCKS ) ) {
+        std::set<point> doors;
+        for( const vpart_reference &vp : get_all_parts() ) {
+            if( vp.has_feature( "OPENABLE" ) && vp.has_feature( "BOARDABLE" ) &&
+                !vp.has_feature( "CURTAIN" ) ) {
+                doors.emplace( vp.mount() );
+            }
         }
-    }
 
-    for( const auto &door : doors ) {
-        const auto idx = install_part( door, vp_door_lock );
-        if( idx >= 0 ) {
-            // Newly installed part
-            parts[idx].enabled = actuallyLockDoors;
-        } else {
-            // Already installed from blueprint
-            const auto lock = part_with_feature( door, "DOOR_LOCKING", true );
+        for( const auto &door : doors ) {
+            const auto idx = install_part( door, vp_door_lock );
             if( idx >= 0 ) {
-                parts[lock].enabled = actuallyLockDoors;
+                // Newly installed part
+                parts[idx].enabled = lockDoors;
             } else {
                 // Already installed from blueprint
-                debugmsg( "Failed to install door locks on vehicle" );
+                const auto lock = part_with_feature( door, "DOOR_LOCKING", true );
+                if( idx >= 0 ) {
+                    parts[lock].enabled = lockDoors;
+                } else {
+                    // Already installed from blueprint
+                    debugmsg( "Failed to install door locks on vehicle" );
+                }
             }
         }
     }
@@ -837,7 +867,7 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
         }
         // if there is no key and an alarm part exists
         // and vehicle has immobilizer 50% chance to add additional fault
-        if( vp.has_feature( "SECURITY" ) && is_locked && pt.is_available() && one_in( 2 ) ) {
+        if( vp.has_feature( "SECURITY" ) && needsHotwire && pt.is_available() && one_in( 2 ) ) {
             pt.fault_set( fault_immobiliser );
         }
     }
