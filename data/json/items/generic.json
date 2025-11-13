@@ -3408,5 +3408,19 @@
     "weight": "660 g",
     "volume": "1230 ml",
     "qualities": [ [ "SLEEP_AID", 2 ] ]
+  },
+  {
+    "id": "cargo_lock",
+    "type": "GENERIC",
+    "name": { "str": "locks and keys set" },
+    "description": "A set of locks and keys designed to be installed on something you want to keep prying hands away.",
+    "symbol": "+",
+    "color": "dark_gray",
+    "material": "steel",
+    "category": "spare_parts",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "8 USD",
+    "price_postapoc": "50 cent"
   }
 ]

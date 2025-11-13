@@ -418,6 +418,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
+    assign( jo, "weight_modifier", def.weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
@@ -1105,6 +1106,10 @@ void vehicle_prototype::load( const JsonObject &jo )
         pt.part = vpart_id( part );
         vproto.parts.push_back( pt );
     };
+
+    if( jo.has_member( "flags" ) ) {
+        vproto.flags = jo.get_tags<flag_id>( "flags" );
+    }
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning

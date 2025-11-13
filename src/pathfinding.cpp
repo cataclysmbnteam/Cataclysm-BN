@@ -1019,7 +1019,7 @@ std::vector<tripoint> Pathfinding::get_route_3d(
 
                 if( is_inf( best_distance ) ) {
                     // No trivial Z path exists, give up
-                    debugmsg( "Failed to find a trivial path across z-levels" );
+                    debugmsg_of( DL::Debug, "Failed to find a trivial path across z-levels" );
                     return std::vector<tripoint>();
                 }
 
