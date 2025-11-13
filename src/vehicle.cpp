@@ -70,6 +70,9 @@
 #include "units_utility.h"
 #include "veh_type.h"
 #include "weather.h"
+
+#pragma clang optimize off
+
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -108,6 +111,9 @@ static const flag_id f_VEHICLE_NO_LOCKS( "VEHICLE_NO_LOCKS" );
 
 static const flag_id f_VEHICLE_NO_HOTWIRE( "VEHICLE_NO_HOTWIRE" );
 static const flag_id f_VEHICLE_HOTWIRE( "VEHICLE_HOTWIRE" );
+
+static const std::string str_DOOR_LOCKING( "DOOR_LOCKING" );
+static const std::string str_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 
 static const std::vector<std::string> vs_NO_HOTWIRING = {
     "MUSCLE_LEGS",
@@ -709,7 +715,7 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
                 parts[idx].enabled = lockDoors;
             } else {
                 // Already installed from blueprint
-                const auto lock = part_with_feature( door, "DOOR_LOCKING", true );
+                const auto lock = part_with_feature( door, str_DOOR_LOCKING, true );
                 if( idx >= 0 ) {
                     parts[lock].enabled = lockDoors;
                 } else {
@@ -767,7 +773,7 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
         if( vp.has_feature( "OPENABLE" ) ) { // doors are closed
             if( !pt.open && one_in( 4 ) ) {
                 open( p );
-                const auto lock = vp.part_with_feature( "DOOR_LOCKABLE", true );
+                const auto lock = vp.part_with_feature( str_DOOR_LOCKING, true );
                 if( lock ) {
                     lock->part().enabled = false;
                 }
