@@ -71,8 +71,6 @@
 #include "veh_type.h"
 #include "weather.h"
 
-#pragma clang optimize off
-
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
