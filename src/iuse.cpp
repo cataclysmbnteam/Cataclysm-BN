@@ -978,7 +978,18 @@ static void do_purify( player &p )
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.id );
+            bool threshlocked = false;
+            for (auto cat : traits_iter.category) {
+                if ( ( cat == p.get_highest_category() ) && p.crossed_threshold() ) {
+                    // We shouldn't be able to get rid of mutations that we have a threshold from
+                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
+                    threshlocked = true;
+                    break;
+                }
+            }
+            if (!threshlocked) {
+                valid.push_back( traits_iter.id );
+            }
         }
     }
     if( valid.empty() ) {
@@ -1021,7 +1032,18 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.id );
+            bool threshlocked = false;
+            for (auto cat : traits_iter.category) {
+                if ( ( cat == p->get_highest_category() ) && p->crossed_threshold() ) {
+                    // We shouldn't be able to get rid of mutations that we have a threshold from
+                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
+                    threshlocked = true;
+                    break;
+                }
+            }
+            if (!threshlocked){
+                valid.push_back( traits_iter.id );
+            }
         }
     }
     if( valid.empty() ) {
@@ -1066,8 +1088,19 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
             !p->has_base_trait( traits_iter.id ) &&
             traits_iter.id->purifiable ) {
             //Looks for active mutation
-            valid.push_back( traits_iter.id );
-            valid_names.push_back( traits_iter.id->name() );
+            bool threshlocked = false;
+            for (auto cat : traits_iter.category) {
+                if ( ( cat == p->get_highest_category() ) && p->crossed_threshold() ) {
+                    // We shouldn't be able to get rid of mutations that we have a threshold from
+                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
+                    threshlocked = true;
+                    break;
+                }
+            }
+            if (!threshlocked) {
+                valid.push_back( traits_iter.id );
+                valid_names.push_back( traits_iter.id->name() );
+            }
         }
     }
     if( valid.empty() ) {
