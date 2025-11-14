@@ -377,6 +377,9 @@ template <bool Static, typename ...Ts>
 struct variant_cast_impl<Static, std::variant<Ts...>> {
     using target_type = std::variant<Ts...>;
 
+    // DO NOT make this into a lambda, due to an issue with MSVC
+    // where it'll fail the constexpr requires check, and fall into the throw branch,
+    // even with a valid target_type constructor
     struct visitor {
         template<typename U>
         auto operator()( U &&v ) -> target_type {
