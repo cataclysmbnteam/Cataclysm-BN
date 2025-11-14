@@ -4298,7 +4298,7 @@ bool map::open_door_ter(
     const tripoint &p, const bool inside
 )
 {
-    if( !can_open_door_ter( variant_cast<const_interacting_entity> {}( who ), ter, p, inside ) ) {
+    if( !can_open_door_ter( static_variant_cast<const_interacting_entity>( who ), ter, p, inside ) ) {
         return false;
     }
 
@@ -4339,7 +4339,7 @@ bool map::can_open_door_furn(
         return false;
     }
 
-    if( std::visit( can_open_while_mounted{}, who ) ) {
+    if( !std::visit( can_open_while_mounted{}, who ) ) {
         return false;
     }
 
@@ -4352,7 +4352,7 @@ bool map::open_door_furn(
     const tripoint &p, const bool inside
 )
 {
-    if( !can_open_door_furn( variant_cast<const_interacting_entity> {}( who ), furn, p, inside ) ) {
+    if( !can_open_door_furn( static_variant_cast<const_interacting_entity>( who ), furn, p, inside ) ) {
         return false;
     }
 
@@ -4399,7 +4399,7 @@ bool map::open_door_veh(
     const tripoint &p, bool inside
 )
 {
-    if( !can_open_door_veh( variant_cast<const_interacting_entity> {}( who ), vp, p, inside ) ) {
+    if( !can_open_door_veh( static_variant_cast<const_interacting_entity>( who ), vp, p, inside ) ) {
         return false;
     }
 
