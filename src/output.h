@@ -590,7 +590,7 @@ std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
 std::pair<std::string, nc_color> get_bar_custom(
     const std::vector<std::string> &segments,
     float cur, float max, int width = 5, bool extra_resolution = true,
-    const std::vector<nc_color> &colors = {                  c_green, c_light_green, c_yellow, c_light_red, c_red} );
+    const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red} );
 
 std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 

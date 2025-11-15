@@ -65,7 +65,7 @@ int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
 
-// These are not chars, they are 2-bytes wide
+// These are not chars, they are multibyte utf-8 codepoints
 static const std::vector<std::string> fancy_bar_ver = {
     "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
 };
