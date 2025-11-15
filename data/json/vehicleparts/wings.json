@@ -152,7 +152,7 @@
     "name": "wooden wing",
     "item": "wing_wood_item",
     "location": "on_roof",
-    "durability": 70,
+    "durability": 20,
     "damage_modifier": 80,
     "breaks_into": "ig_vp_wood_plate",
     "lift_coff": 3,

@@ -2125,10 +2125,11 @@
       [ "reference_fabrication1", 5 ]
     ],
     "using": [ [ "sewing_standard", 12 ] ],
+    "//" : "don't know if leather is a good idea",
     "components": [
       [ [ "2x4", 4 ], [ "foldwoodframe", 1 ] ],
-      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ] ],
-      [ [ "nail", 10 ] ]
+      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ] ,  [ "leather" , 20 ] ],
+      [ [ "nail", 20 ] ]
     ]
   },
   {
