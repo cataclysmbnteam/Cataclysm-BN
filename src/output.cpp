@@ -66,10 +66,10 @@ int OVERMAP_LEGEND_WIDTH;
 scrollingcombattext SCT;
 
 // These are not chars, they are 2-bytes wide
-static const std::vector<std::string> fancy_bar_vertical = {
+static const std::vector<std::string> fancy_bar_ver = {
     "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
 };
-static const std::vector<std::string> fancy_bar_horizontal = {
+static const std::vector<std::string> fancy_bar_hor = {
     "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"
 };
 
@@ -1654,12 +1654,12 @@ std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         return std::make_pair( "-----", c_light_gray );
     }
     const auto bar_style = get_option<std::string>( "HEALTH_STYLE" );
-    if( bar_style == "bar_hor" ) {
-        return get_bar_custom( fancy_bar_horizontal, cur_hp, max_hp, 5, !is_mon );
-    } else if( bar_style == "bar_ver" ) {
-        return get_bar_custom( fancy_bar_vertical, cur_hp, max_hp, 5, !is_mon );
-    } else {
+    if( bar_style == "bar_ascii" ) {
         return get_bar( cur_hp, max_hp, 5, !is_mon );
+    } else if( bar_style == "bar_alt" ) {
+        return get_bar_custom( fancy_bar_hor, cur_hp, max_hp, 5, !is_mon );
+    } else {
+        return get_bar_custom( fancy_bar_ver, cur_hp, max_hp, 5, !is_mon );
     }
 }
 
@@ -1671,14 +1671,15 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
     const auto colors = { c_cyan, c_light_cyan, c_yellow, c_light_red, c_red };
 
     const auto bar_style = get_option<std::string>( "HEALTH_STYLE" );
-    if( bar_style == "bar_hor" ) {
-        return get_bar_custom( fancy_bar_horizontal, cur_stam, max_stam, 5, true,
-                               colors );
-    } else if( bar_style == "bar_ver" ) {
-        return get_bar_custom( fancy_bar_vertical, cur_stam, max_stam, 5, true,
-                               colors );
+    if( bar_style == "bar_ascii" ) {
+        return get_bar(
+                   cur_stam, max_stam, 5, true, colors );
+    } else if( bar_style == "bar_alt" ) {
+        return get_bar_custom(
+                   fancy_bar_hor, cur_stam, max_stam, 5, true, colors );
     } else {
-        return get_bar( cur_stam, max_stam, 5, true, colors );
+        return get_bar_custom(
+                   fancy_bar_ver, cur_stam, max_stam, 5, true, colors );
     }
 }
 

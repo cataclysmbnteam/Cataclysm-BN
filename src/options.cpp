@@ -1554,8 +1554,8 @@ void options_manager::add_options_interface()
     translate_marker( "Switch health-related display styling such as HP and hunger" ), {
         {"number", translate_marker( "Numerical" ) },
         {"bar", translate_marker( "Bar" ) },
-        {"bar_hor", translate_marker( "Fancy Linear" ) },
-        {"bar_ver", translate_marker( "Fancy Cascading" ) },
+        {"bar_alt", translate_marker( "Bar (Alt)" ) },
+        {"bar_ascii", translate_marker( "Bar (Old)" ) },
     },
     "bar" );
 
