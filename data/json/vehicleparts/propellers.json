@@ -29,7 +29,7 @@
     "damage_reduction": { "all": 22 }
   },
   {
-    "id": "propeller_woodl",
+    "id": "propeller_wood",
     "copy-from": "propeller_rotors",
     "type": "vehicle_part",
     "name": "wooden aircraft propeller",
