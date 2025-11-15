@@ -1654,7 +1654,7 @@ std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         return std::make_pair( "-----", c_light_gray );
     }
     const auto bar_style = get_option<std::string>( "HEALTH_STYLE" );
-    if( bar_style == "bar_ascii" ) {
+    if( bar_style == "bar_ascii" || is_mon ) {
         return get_bar( cur_hp, max_hp, 5, !is_mon );
     } else if( bar_style == "bar_alt" ) {
         return get_bar_custom( fancy_bar_hor, cur_hp, max_hp, 5, !is_mon );
