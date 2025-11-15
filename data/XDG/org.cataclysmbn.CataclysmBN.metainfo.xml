@@ -68,6 +68,34 @@
         <content_attribute id="language-discrimination">intense</content_attribute>
     </content_rating>
     <releases>
+        <release version="0.9.1" date="2025-11-14">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.9.1</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Fixed crashes on Windows regarding monsters opening vehicle doors</li>
+                    <li>Prevented unwinnable lab start scenarios</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.9.0" date="2025-11-13">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.9.0</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Removed the FILTHY clothing code</li>
+                    <li>Removed many obsoleted and unmaintained mods</li>
+                    <li>Reworked salvaging items</li>
+                    <li>Added Dark, Light, and Psi damage types</li>
+                    <li>Added smoother scaling for zooming in/out</li>
+                    <li>Added flight to mutations and bionics</li>
+                    <li>Allowed spells to scale based on caster Intelligence, Strength, etc.</li>
+                    <li>Started moving uncommon calibers into an in-repo mod</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.8.0" date="2025-04-28">
             <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.8.0</url>
             <description>
