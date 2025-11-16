@@ -2129,7 +2129,7 @@
     "components": [
       [ [ "2x4", 3 ] ],
       [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ], [ "leather", 40 ] ],
-      [ [ "nail_glue", 20, "LIST"  ] ]
+      [ [ "nail_glue", 20, "LIST" ] ]
     ]
   },
   {
