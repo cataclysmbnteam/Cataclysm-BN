@@ -608,23 +608,28 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     }
 
     // Check Prototype Flags
-    const auto &proto_flags = type.obj().flags;
-    if( proto_flags.contains( f_VEHICLE_HOTWIRE ) ) {
-        needsHotwire = true;
-    } else if( proto_flags.contains( f_VEHICLE_NO_HOTWIRE ) ) {
-        needsHotwire = false;
-    } else {
-        // No horse-wiring
-        for( const auto &vp : get_all_parts() ) {
-            if( std::ranges::any_of( vs_NO_HOTWIRING, [&]( const std::string & flag ) { return vp.has_feature( flag );} ) ) {
-                needsHotwire = false;
-                break;
+    if (get_avail_parts(VPFLAG_CONTROLS).part_count() > 0) {
+        const auto &proto_flags = type.obj().flags;
+        if( proto_flags.contains( f_VEHICLE_HOTWIRE ) ) {
+            needsHotwire = true;
+        } else if( proto_flags.contains( f_VEHICLE_NO_HOTWIRE ) ) {
+            needsHotwire = false;
+        } else {
+            // No horse-wiring
+            for( const auto &vp : get_all_parts() ) {
+                if( std::ranges::any_of( vs_NO_HOTWIRING, [&]( const std::string & flag ) { return vp.has_feature( flag );} ) ) {
+                    needsHotwire = false;
+                    break;
+                }
             }
         }
+    } else {
+        needsHotwire = false;
     }
 
     is_locked = needsHotwire;
 
+    const auto &proto_flags = type.obj().flags;
     if( proto_flags.contains( f_VEHICLE_UNLOCKED ) ) {
         lockDoors = false;
     } else if( proto_flags.contains( f_VEHICLE_LOCKED ) ) {
