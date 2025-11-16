@@ -155,7 +155,7 @@
     "durability": 20,
     "damage_modifier": 80,
     "breaks_into": "ig_vp_wood_plate",
-    "lift_coff": 3,
+    "lift_coff": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "using": [ [ "vehicle_nail_removal", 1 ] ] },

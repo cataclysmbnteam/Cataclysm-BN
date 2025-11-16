@@ -22,7 +22,7 @@
     "description": "A wooden propeller and spinner from an airplane.  When attached to a vehicle, engine power will provide lift to any installed wings, allowing it to take off.",
     "price": "12 USD",
     "price_postapoc": "250 cent",
-    "weight": "15 kg",
+    "weight": "7 kg",
     "volume": "20 L",
     "looks_like": "small_helicopter_rotor",
     "material": [ "wood" ],

@@ -2089,7 +2089,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 4 ],
     "difficulty": 5,
-    "time": "1 h",
+    "time": "2 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [
@@ -2106,7 +2106,7 @@
       { "id": "SAW_W", "level": 2 },
       { "id": "CUT", "level": 1 }
     ],
-    "components": [ [ [ "log", 1 ] ], [ [ "2x4", 3 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "chain", 1 ] ], [ [ "scrap", 10 ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "chain", 1 ] ], [ [ "scrap", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -2127,9 +2127,9 @@
     "using": [ [ "sewing_standard", 12 ] ],
     "//": "don't know if leather is a good idea",
     "components": [
-      [ [ "2x4", 4 ], [ "foldwoodframe", 1 ] ],
-      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ], [ "leather", 20 ] ],
-      [ [ "nail", 20 ] ]
+      [ [ "2x4", 3 ] ],
+      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ], [ "leather", 40 ] ],
+      [ [ "nail_glue", 20, "LIST"  ] ]
     ]
   },
   {

@@ -34,7 +34,7 @@
     "type": "vehicle_part",
     "name": "wooden aircraft propeller",
     "item": "wood_propeller_item",
-    "propeller_diameter": 3,
+    "propeller_diameter": 2,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "2 h", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "2 h", "using": [ [ "vehicle_nail_removal", 1 ] ] },
