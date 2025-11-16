@@ -1689,7 +1689,10 @@ void debug()
                         if( query_int( dir, -90, _( "Vehicle direction (in degrees): " ) ) ) {
                             vehicle *veh = m.add_vehicle( selected_opt, dest,
                                                           normalize( units::from_degrees( dir ) ),
-                                                          100, veh_cond_menu.ret - 1 );
+                                                          100, veh_cond_menu.ret - 1,
+                                                          true,
+                                                          false,
+                                                          true );
                             if( veh != nullptr ) {
                                 m.board_vehicle( dest, &u );
                             }

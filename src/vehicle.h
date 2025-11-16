@@ -471,7 +471,7 @@ class vehicle
         }
 
         vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1,
-                 std::optional<bool> locked = std::nullopt );
+                 std::optional<bool> locked = std::nullopt, std::optional<bool> has_keys = std::nullopt );
         vehicle();
         ~vehicle();
 
@@ -518,7 +518,9 @@ class vehicle
         bool remote_controlled( const Character &who ) const;
 
         // init parts state for randomly generated vehicle
-        void init_state( int init_veh_fuel, int init_veh_status, std::optional<bool> locked );
+        void init_state( int init_veh_fuel, int init_veh_status,
+                         std::optional<bool> locked,
+                         std::optional<bool> has_keys );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,

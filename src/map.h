@@ -1648,10 +1648,12 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle(
-            const std::variant<vgroup_id, vproto_id> &type_, const std::variant<tripoint, point> &p_,
-            units::angle dir, int init_veh_fuel = -1, int init_veh_status = -1,
-            bool merge_wrecks = true, std::optional<bool> locked = std::nullopt );
+        vehicle *add_vehicle( const std::variant<vgroup_id, vproto_id> &type_,
+                              const std::variant<tripoint, point> &p_,
+                              units::angle dir, int init_veh_fuel = -1,
+                              int init_veh_status = -1, bool merge_wrecks = true,
+                              std::optional<bool> locked = std::nullopt,
+                              std::optional<bool> has_keys = std::nullopt );
 
         // Light/transparency
         float light_transparency( const tripoint &p ) const;
