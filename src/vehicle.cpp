@@ -380,7 +380,8 @@ void vehicle::copy_static_from( const vehicle &source )
 }
 
 vehicle::vehicle(
-    const vproto_id &type_id, int init_veh_fuel, int init_veh_status, std::optional<bool> locked )
+    const vproto_id &type_id, int init_veh_fuel, int init_veh_status, std::optional<bool> locked,
+    std::optional<bool> has_keys )
     : type( type_id )
 {
     turn_dir = 0_degrees;
@@ -397,7 +398,7 @@ vehicle::vehicle(
             parts.emplace_back( part, this );
         }
         refresh_locations_hack();
-        init_state( init_veh_fuel, init_veh_status, locked );
+        init_state( init_veh_fuel, init_veh_status, locked, has_keys );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     refresh();
@@ -521,7 +522,8 @@ void vehicle::add_steerable_wheels()
 }
 
 void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
-                          const std::optional<bool> locked )
+                          const std::optional<bool> locked,
+                          const std::optional<bool> has_keys )
 {
     // vehicle parts excluding engines are by default turned off
     for( auto &pt : parts ) {
@@ -610,11 +612,13 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     // Check Prototype Flags
     if( get_avail_parts( VPFLAG_CONTROLS ).part_count() > 0 ) {
         const auto &proto_flags = type.obj().flags;
-        if( proto_flags.contains( f_VEHICLE_HOTWIRE ) ) {
+        if( has_keys.has_value() ) {
+            needsHotwire = !has_keys.value();
+        } else if( proto_flags.contains( f_VEHICLE_HOTWIRE ) ) {
             needsHotwire = true;
         } else if( proto_flags.contains( f_VEHICLE_NO_HOTWIRE ) ) {
             needsHotwire = false;
-        } else {
+        } else  {
             // No horse-wiring
             for( const auto &vp : get_all_parts() ) {
                 if( std::ranges::any_of( vs_NO_HOTWIRING, [&]( const std::string & flag ) { return vp.has_feature( flag );} ) ) {
@@ -630,12 +634,12 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     is_locked = needsHotwire;
 
     const auto &proto_flags = type.obj().flags;
-    if( proto_flags.contains( f_VEHICLE_UNLOCKED ) ) {
+    if( locked.has_value() ) {
+        lockDoors = locked.value();
+    } else if( proto_flags.contains( f_VEHICLE_UNLOCKED ) ) {
         lockDoors = false;
     } else if( proto_flags.contains( f_VEHICLE_LOCKED ) ) {
         lockDoors = true;
-    } else if( locked.has_value() ) {
-        lockDoors = locked.value();
     } else {
         lockDoors = lockDoors && get_option<bool>( "VEHICLE_LOCKS" );
     }

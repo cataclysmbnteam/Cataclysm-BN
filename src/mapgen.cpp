@@ -2159,9 +2159,10 @@ class jmapgen_vehicle : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
+            const std::optional<bool> has_keys = locked.has_value() ? !locked.value() : std::nullopt;
             dat.m.add_vehicle(
                 chosen_id, point( x.get(), y.get() ),
-                random_entry( rotation ), fuel, status, true, locked );
+                random_entry( rotation ), fuel, status, true, locked, has_keys );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -6409,10 +6410,12 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p,
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle(
-    const std::variant<vgroup_id, vproto_id> &type_, const std::variant<tripoint, point> &p_,
-    const units::angle dir, const int veh_fuel, const int veh_status,
-    const bool merge_wrecks, std::optional<bool> locked )
+vehicle *map::add_vehicle( const std::variant<vgroup_id, vproto_id> &type_,
+                           const std::variant<tripoint, point> &p_,
+                           const units::angle dir, const int veh_fuel,
+                           const int veh_status, const bool merge_wrecks,
+                           std::optional<bool> locked,
+                           std::optional<bool> has_keys )
 {
     constexpr auto pos_selector = []<typename T>( const T & v, int z ) -> tripoint {
         if constexpr( std::is_same_v<T, point> )
@@ -6448,7 +6451,7 @@ vehicle *map::add_vehicle(
     }
 
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status, locked );
+    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status, locked, has_keys );
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();

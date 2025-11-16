@@ -1691,7 +1691,8 @@ void debug()
                                                           normalize( units::from_degrees( dir ) ),
                                                           100, veh_cond_menu.ret - 1,
                                                           true,
-                                                          false );
+                                                          false,
+                                                          true );
                             if( veh != nullptr ) {
                                 m.board_vehicle( dest, &u );
                             }
