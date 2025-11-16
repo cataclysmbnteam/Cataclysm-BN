@@ -2159,7 +2159,9 @@ class jmapgen_vehicle : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            const std::optional<bool> has_keys = locked.has_value() ? !locked.value() : std::nullopt;
+            const std::optional<bool> has_keys = locked.has_value()
+                                                 ? std::make_optional( !locked.value() )
+                                                 : std::nullopt;
             dat.m.add_vehicle(
                 chosen_id, point( x.get(), y.get() ),
                 random_entry( rotation ), fuel, status, true, locked, has_keys );
