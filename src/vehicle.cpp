@@ -608,7 +608,7 @@ void vehicle::init_state( const int init_veh_fuel, const int init_veh_status,
     }
 
     // Check Prototype Flags
-    if (get_avail_parts(VPFLAG_CONTROLS).part_count() > 0) {
+    if( get_avail_parts( VPFLAG_CONTROLS ).part_count() > 0 ) {
         const auto &proto_flags = type.obj().flags;
         if( proto_flags.contains( f_VEHICLE_HOTWIRE ) ) {
             needsHotwire = true;
