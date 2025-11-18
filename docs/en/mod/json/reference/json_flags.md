@@ -1580,6 +1580,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `WARM` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - `WET` Item is wet and will slowly dry off (e.g. towel).
 
+## Vehicle Prototypes
+
+### Flags
+
+- `VEHICLE_HOTWIRE` Marks a vehicle to always requiring hotwiring controls
+- `VEHICLE_NO_HOTWIRE` Marks a vehicle to never require hotwiring controls (e.g bycicles)
+- `VEHICLE_UNLOCKED` Marks a vehicle to always spawn unlocked, but possibly requiring hotwiring
+- `VEHICLE_LOCKED` Marks a vehicle to always spawn locked, and possibly requiring hotwiring
+- `VEHICLE_NO_LOCKS` Marks a vehicle to not get locks installed automatically
+
 ## Vehicle Parts
 
 ### Flags

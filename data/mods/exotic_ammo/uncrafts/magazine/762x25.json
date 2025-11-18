@@ -1,0 +1,23 @@
+[
+  {
+    "result": "ppshdrum",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "sheet_metal_small", 7 ] ] ]
+  },
+  {
+    "result": "ppshmag",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "tokarevmag",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  }
+]
