@@ -2106,7 +2106,13 @@
       { "id": "SAW_W", "level": 2 },
       { "id": "CUT", "level": 1 }
     ],
-    "components": [ [ [ "log", 1 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "chain", 1 ] ], [ [ "scrap", 10 ] ] ]
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "wood_structural", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "scrap", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
