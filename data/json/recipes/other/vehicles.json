@@ -2134,7 +2134,7 @@
     "//": "don't know if leather is a good idea",
     "components": [
       [ [ "wood_structural", 2, "LIST" ] ],
-      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ], [ "leather", 40 ] ],
+      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ], [ "leather_tarp", 2 ] ],
       [ [ "nail_glue", 20, "LIST" ] ]
     ]
   },
