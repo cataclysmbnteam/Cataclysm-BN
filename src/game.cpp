@@ -1474,7 +1474,7 @@ bool game::do_turn()
     if( is_game_over() ) {
         return cleanup_at_end();
     }
-    bool skipforperf = get_option<bool>( "SLEEP_PERF" );
+    bool skipforperf = get_option<bool>( "SLEEP_PERF" ) && u.in_sleep_state();
     // Actual stuff
     if( new_game ) {
         new_game = false;
@@ -1555,12 +1555,14 @@ bool game::do_turn()
                 cleanup_dead();
                 mon_info_update();
                 // Process any new sounds the player caused during their turn.
-                for( npc &guy : all_npcs() ) {
-                    if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-                        sounds::process_sound_markers( &guy );
+                if( !skipforperf ) {
+                    for( npc &guy : all_npcs() ) {
+                        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                            sounds::process_sound_markers( &guy );
+                        }
                     }
+                    sounds::process_sound_markers( &u );
                 }
-                sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH && wait_popup ) {
                     wait_popup.reset();
                     ui_manager::redraw();
@@ -1614,9 +1616,11 @@ bool game::do_turn()
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
 
-    m.process_falling();
-    autopilot_vehicles();
-    m.vehmove();
+    if( !skipforperf ) {
+        m.process_falling();
+        autopilot_vehicles();
+        m.vehmove();
+    }
     m.process_fields();
     m.process_items();
     m.creature_in_field( u );
