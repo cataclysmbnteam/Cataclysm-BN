@@ -252,6 +252,13 @@ struct mountable_status {
     };
 };
 
+struct healable_bp {
+    mutable bool allowed;
+    bodypart_id bp;
+    std::string name; // Translated name as it appears in the menu.
+    int bonus;
+};
+
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -906,6 +913,9 @@ class Character : public Creature, public location_visitable<Character>
         tripoint_abs_omt global_omt_location() const;
 
     private:
+        /** Selects best target for healing item application */
+        int get_best_selection_index( const std::vector<healable_bp> &parts,
+                              float bandage_power, float disinfectant_power ) const;
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
