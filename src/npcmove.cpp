@@ -1788,33 +1788,33 @@ healing_options npc::patient_assessment( const Character &c )
     healing_options try_to_fix;
     try_to_fix.clear_all();
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
-
-        if( c.has_effect( effect_bleed, elem.first ) ) {
+    for( const auto &part : c.get_all_body_parts( true ) ) {
+        const auto &bp = get_part( part );
+        if( c.has_effect( effect_bleed, part.id() ) ) {
             try_to_fix.bleed = true;
         }
 
-        if( c.has_effect( effect_bite, elem.first ) ) {
+        if( c.has_effect( effect_bite, part.id() ) ) {
             try_to_fix.bite = true;
         }
 
-        if( c.has_effect( effect_infected, elem.first ) ) {
+        if( c.has_effect( effect_infected, part.id() ) ) {
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
-        if( elem.first == bodypart_str_id( "head" ) ) {
+        if( part == bodypart_str_id( "head" ) ) {
             part_threshold += 20;
-        } else if( elem.first == bodypart_str_id( "torso" ) ) {
+        } else if( part == bodypart_str_id( "torso" ) ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );
-        part_threshold = part_threshold * elem.second.get_hp_max() / 100;
+        part_threshold = part_threshold * bp.get_hp_max() / 100;
 
-        if( elem.second.get_hp_cur() <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, elem.first ) ) {
+        if( bp.get_hp_cur() <= part_threshold ) {
+            if( !c.has_effect( effect_bandaged, part.id() ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, elem.first ) ) {
+            if( !c.has_effect( effect_disinfected, part.id() ) ) {
                 try_to_fix.disinfect = true;
             }
         }
