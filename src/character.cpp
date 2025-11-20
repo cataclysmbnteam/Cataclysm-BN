@@ -6587,7 +6587,7 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
 }
 
 int Character::get_best_selection_index( const std::vector<healable_bp> &parts,
-                                         float bandage_power, float disinfectant_power ) const
+        float bandage_power, float disinfectant_power ) const
 {
     int best_selection_index = -1;
     int max_priority = -1;
@@ -6625,18 +6625,18 @@ int Character::get_best_selection_index( const std::vector<healable_bp> &parts,
                 }
             }
         }
-        
+
         // Disinfectant Priority Check (Secondary/Fallback priority)
-        if( is_disinfectant && !has_effect( effect_bleed, bp_str_id ) ) { 
+        if( is_disinfectant && !has_effect( effect_bleed, bp_str_id ) ) {
             if( has_effect( effect_bite, bp_str_id ) ) {
                 // Check if this priority (1000) is higher than any non-bleeding bandaging priority (max 500+dmg)
-                if (current_priority < 1000) {
+                if( current_priority < 1000 ) {
                     current_priority = 1000; // PRIORITY 1: Deep Bite
                 }
             } else if( !has_effect( effect_disinfected, bp_str_id ) ) {
                 // PRIORITY 2: Max Damage, not disinfected yet.
-                if (current_priority < 500 + cur_dmg) {
-                     current_priority = 500 + cur_dmg;
+                if( current_priority < 500 + cur_dmg ) {
+                    current_priority = 500 + cur_dmg;
                 }
             } else {
                 // PRIORITY 3: Disinfected, but could benefit from quality improvement
@@ -6644,7 +6644,7 @@ int Character::get_best_selection_index( const std::vector<healable_bp> &parts,
                 int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
                 if( new_d_power > d_power ) {
                     int potential_priority = 100 + ( new_d_power - d_power );
-                    if (current_priority < potential_priority) {
+                    if( current_priority < potential_priority ) {
                         current_priority = potential_priority;
                     }
                 }
