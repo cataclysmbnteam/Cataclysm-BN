@@ -6391,8 +6391,8 @@ float Character::get_hit_base() const
 }
 
 
-int get_best_selection_index(const Character *c, const std::vector<healable_bp> &parts,
-        float bandage_power, float disinfectant_power ) 
+int get_best_selection_index( const Character *c, const std::vector<healable_bp> &parts,
+                              float bandage_power, float disinfectant_power )
 {
     int best_selection_index = -1;
     int max_priority = -1;
@@ -6655,7 +6655,8 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
         bmenu.text = _( "No limb would benefit from it." );
         bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
     } else {
-        const int preferred_index = get_best_selection_index(this, parts, bandage_power, disinfectant_power );
+        const int preferred_index = get_best_selection_index( this, parts, bandage_power,
+                                    disinfectant_power );
         bmenu.selected = preferred_index;
     }
 
