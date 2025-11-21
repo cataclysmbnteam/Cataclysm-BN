@@ -1475,6 +1475,9 @@ bool game::do_turn()
         return cleanup_at_end();
     }
     bool skipforperf = get_option<bool>( "SLEEP_PERF" ) && u.in_sleep_state();
+    bool vehperf = get_option<bool>( "SKIP_VEH" );
+    bool soundperf = get_option<bool>( "SKIP_SOUND" );
+    bool monperf = get_option<bool>( "SKIP_MON" );
     // Actual stuff
     if( new_game ) {
         new_game = false;
@@ -1533,7 +1536,7 @@ bool game::do_turn()
     perhaps_add_random_npc();
     process_voluntary_act_interrupt();
     process_activity();
-    if( !skipforperf ) {
+    if( !skipforperf || !soundperf ) {
         // Process NPC sound events before they move or they hear themselves talking
         for( npc &guy : all_npcs() ) {
             if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
@@ -1555,7 +1558,7 @@ bool game::do_turn()
                 cleanup_dead();
                 mon_info_update();
                 // Process any new sounds the player caused during their turn.
-                if( !skipforperf ) {
+                if( !skipforperf || !soundperf ) {
                     for( npc &guy : all_npcs() ) {
                         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
                             sounds::process_sound_markers( &guy );
@@ -1616,7 +1619,7 @@ bool game::do_turn()
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
 
-    if( !skipforperf ) {
+    if( !skipforperf || !vehperf ) {
         m.process_falling();
         autopilot_vehicles();
         m.vehmove();
@@ -1631,7 +1634,7 @@ bool game::do_turn()
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
-    if( !skipforperf ) {
+    if( !skipforperf || !monperf ) {
         monmove();
     }
     if( calendar::once_every( 5_minutes ) ) {
