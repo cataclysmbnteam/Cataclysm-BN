@@ -6391,10 +6391,11 @@ float Character::get_hit_base() const
 }
 
 
-namespace {
+namespace
+{
 
 auto get_best_selection_index( const Character &c, const std::vector<healable_bp> &parts,
-                              float bandage_power, float disinfectant_power ) -> int
+                               float bandage_power, float disinfectant_power ) -> int
 {
     int best_selection_index = -1;
     int max_priority = -1;
