@@ -63,6 +63,21 @@
   },
   {
     "type": "recipe",
+    "result": "solar_panel",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "foldable_solar_panel", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "wind_turbine",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
