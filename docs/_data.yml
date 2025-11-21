@@ -15,3 +15,6 @@ menu_links:
 repo:
   url: https://github.com/cataclysmbnteam/Cataclysm-BN
   path: /docs
+
+extra_head: |
+  <script type="module" src="/redirect.js"></script>
