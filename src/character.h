@@ -252,13 +252,6 @@ struct mountable_status {
     };
 };
 
-struct healable_bp {
-    mutable bool allowed;
-    bodypart_id bp;
-    std::string name; // Translated name as it appears in the menu.
-    int bonus;
-};
-
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
