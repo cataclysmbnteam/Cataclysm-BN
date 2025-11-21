@@ -1474,10 +1474,10 @@ bool game::do_turn()
     if( is_game_over() ) {
         return cleanup_at_end();
     }
-    bool skipforperf = get_option<bool>( "SLEEP_PERF" ) && u.in_sleep_state();
-    bool vehperf = get_option<bool>( "SKIP_VEH" );
-    bool soundperf = get_option<bool>( "SKIP_SOUND" );
-    bool monperf = get_option<bool>( "SKIP_MON" );
+    const auto skipforperf = get_option<bool>( "SLEEP_PERF" ) && u.in_sleep_state();
+    const auto vehperf = get_option<bool>( "SKIP_VEH" );
+    const auto soundperf = get_option<bool>( "SKIP_SOUND" );
+    const auto monperf = get_option<bool>( "SKIP_MON" );
     // Actual stuff
     if( new_game ) {
         new_game = false;
