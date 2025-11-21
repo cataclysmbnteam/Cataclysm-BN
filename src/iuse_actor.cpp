@@ -3964,20 +3964,20 @@ bodypart_str_id heal_actor::use_healing_item( player &healer, player &patient, i
         // NPCs heal whatever has sustained the most damaged that they can heal but never
         // rebandage parts
         int highest_damage = 0;
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
-            const bodypart &part = elem.second;
+        for( const auto &part : patient.get_all_body_parts( true ) ) {
+            const auto &bp = patient.get_part( part );
             int damage = 0;
-            if( ( !patient.has_effect( effect_bandaged, elem.first ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, elem.first ) && disinfectant_power > 0 ) ) {
-                damage += part.get_hp_max() - part.get_hp_cur();
-                damage += damage > 0 ? part.get_id()->essential * essential_value : 0;
-                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
-                damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
+            if( ( !patient.has_effect( effect_bandaged, part.id() ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, part.id() ) && disinfectant_power > 0 ) ) {
+                damage += bp.get_hp_max() - bp.get_hp_cur();
+                damage += damage > 0 ? bp.get_id()->essential * essential_value : 0;
+                damage += bleed * patient.get_effect_dur( effect_bleed, part.id() ) / 5_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, part.id() ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, part.id() ) / 10_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
-                healed = elem.first;
+                healed = part.id();
             }
         }
     } else if( patient.is_player() ) {
