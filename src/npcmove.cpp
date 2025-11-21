@@ -1789,7 +1789,7 @@ healing_options npc::patient_assessment( const Character &c )
     try_to_fix.clear_all();
 
     for( const auto &part : c.get_all_body_parts( true ) ) {
-        const auto &bp = get_part( part );
+        const auto &bp = c.get_part( part );
         if( c.has_effect( effect_bleed, part.id() ) ) {
             try_to_fix.bleed = true;
         }
