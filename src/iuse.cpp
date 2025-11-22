@@ -977,7 +977,8 @@ static void do_purify( player &p )
     std::vector<trait_id> valid; // Which flags the player has
     // We should use the actual thresh category if present, but old characters might not have it
     // So if they don't have it then we default to old behavior of highest category
-    mutation_category_id thresh = p.thresh_category != mutation_category_id::NULL_ID() ? p.thresh_category : p.get_highest_category();
+    mutation_category_id thresh = p.thresh_category != mutation_category_id::NULL_ID() ?
+                                  p.thresh_category : p.get_highest_category();
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
@@ -1032,7 +1033,8 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     // We should use the actual thresh category if present, but old characters might not have it
     // So if they don't have it then we default to old behavior of highest category
-    mutation_category_id thresh = p->thresh_category != mutation_category_id::NULL_ID() ? p->thresh_category : p->get_highest_category();
+    mutation_category_id thresh = p->thresh_category != mutation_category_id::NULL_ID() ?
+                                  p->thresh_category : p->get_highest_category();
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
@@ -1088,7 +1090,8 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 
     // We should use the actual thresh category if present, but old characters might not have it
     // So if they don't have it then we default to old behavior of highest category
-    mutation_category_id thresh = p->thresh_category != mutation_category_id::NULL_ID() ? p->thresh_category : p->get_highest_category();
+    mutation_category_id thresh = p->thresh_category != mutation_category_id::NULL_ID() ?
+                                  p->thresh_category : p->get_highest_category();
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
