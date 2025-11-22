@@ -2228,17 +2228,14 @@ void options_manager::add_options_debug()
     add_option_group( debug, Group( "rem_act_perf", to_translation( "Performance" ),
                                     to_translation( "Configure performance settings that can detract from the game." ) ),
     [&]( auto & page_id ) {
-        add( "SKIP_VEH", debug, translate_marker( "Skip Vehicle Movement" ),
-             translate_marker( "Turns off vehicle movement and autodrive when perf boost is on" ),
+        add( "SLEEP_SKIP_VEH", page_id, translate_marker( "Sleep Boost: Skip Vehicle Movement" ),
+             translate_marker( "Turns off vehicle movement and autodrive while sleeping" ),
+             true );
+        add( "SLEEP_SKIP_SOUND", page_id, translate_marker( "Sleep Boost: Skip Sound Processing On Sleep" ),
+             translate_marker( "Sounds are not processed while sleeping" ),
              false );
-        add( "SKIP_SOUND", debug, translate_marker( "Skip Sound Processing" ),
-             translate_marker( "Sounds are not processed when perf boost is on" ),
-             false );
-        add( "SKIP_MON", debug, translate_marker( "Skip Monster Movement" ),
+        add( "SLEEP_SKIP_MON", page_id, translate_marker( "Sleep Boost: Skip Monster Movement" ),
              translate_marker( "Monsters do not move while sleeping" ),
-             false );
-        add( "SLEEP_PERF", debug, translate_marker( "Sleep Boost" ),
-             translate_marker( "Boost performance while sleeping" ),
              false );
     } );
 
