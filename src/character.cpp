@@ -6390,18 +6390,105 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
+
+namespace
+{
+
+struct healable_bp {
+    mutable bool allowed;
+    bodypart_id bp;
+    std::string name; // Translated name as it appears in the menu.
+    int bonus;
+};
+
+auto get_best_selection_index( const Character &c, const std::vector<healable_bp> &parts,
+                               float bandage_power, float disinfectant_power ) -> int
+{
+    int best_selection_index = -1;
+    int max_priority = -1;
+
+    const bool is_disinfectant = disinfectant_power > 0.0f;
+    const bool is_bandage = bandage_power > 0.0f;
+
+    for( size_t i = 0; i < parts.size(); ++i ) {
+        if( !parts[i].allowed ) {
+            continue;
+        }
+
+        const bodypart_id &bp = parts[i].bp;
+        const bodypart_str_id &bp_str_id = bp.id();
+        int current_priority = 0;
+
+        // Calculate damage deficit for tie-breaking/general priority
+        const int cur_hp = c.get_part_hp_cur( bp );
+        const int max_hp = c.get_part_hp_max( bp );
+        const int cur_dmg = max_hp - cur_hp;
+
+        // Bandaging Priority Check (Highest priority overall)
+        if( is_bandage ) {
+            if( c.has_effect( effect_bleed, bp_str_id ) ) {
+                current_priority = 2000; // PRIORITY 1: Bleeding
+            } else if( !c.has_effect( effect_bandaged, bp_str_id ) ) {
+                // PRIORITY 2: Max Damage, not bandaged yet.
+                current_priority = 500 + cur_dmg;
+            } else {
+                // PRIORITY 3: Bandaged, but can be improved
+                const int b_power = c.get_effect_int( effect_bandaged, bp_str_id );
+                int new_b_power = static_cast<int>( std::floor( bandage_power ) );
+                if( new_b_power > b_power ) {
+                    current_priority = 100 + ( new_b_power - b_power );
+                }
+            }
+        }
+
+        // Disinfectant Priority Check (Secondary/Fallback priority)
+        if( is_disinfectant && !c.has_effect( effect_bleed, bp_str_id ) ) {
+            if( c.has_effect( effect_bite, bp_str_id ) ) {
+                // Check if this priority (1000) is higher than any non-bleeding bandaging priority (max 500+dmg)
+                if( current_priority < 1000 ) {
+                    current_priority = 1000; // PRIORITY 1: Deep Bite
+                }
+            } else if( !c.has_effect( effect_disinfected, bp_str_id ) ) {
+                // PRIORITY 2: Max Damage, not disinfected yet.
+                if( current_priority < 500 + cur_dmg ) {
+                    current_priority = 500 + cur_dmg;
+                }
+            } else {
+                // PRIORITY 3: Disinfected, but could benefit from quality improvement
+                const int d_power = c.get_effect_int( effect_disinfected, bp_str_id );
+                int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
+                if( new_d_power > d_power ) {
+                    int potential_priority = 100 + ( new_d_power - d_power );
+                    if( current_priority < potential_priority ) {
+                        current_priority = potential_priority;
+                    }
+                }
+            }
+        }
+
+        // General update
+        if( current_priority > max_priority ) {
+            max_priority = current_priority;
+            best_selection_index = i;
+        }
+    }
+
+    // PRIORITY 4: Fallback to the first item (index 0 / Head)
+    // This is "nothing will benefit from an item" path
+    if( best_selection_index == -1 ) {
+        return 0;
+    } else {
+        return best_selection_index;
+    }
+}
+
+} // namespace
+
 bodypart_str_id Character::body_window( const std::string &menu_header,
                                         bool show_all, bool precise,
                                         int normal_bonus, int head_bonus, int torso_bonus,
                                         float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
-    struct healable_bp {
-        mutable bool allowed;
-        bodypart_id bp;
-        std::string name; // Translated name as it appears in the menu.
-        int bonus;
-    };
-
     std::vector<healable_bp> parts;
     for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         // Ugly!
@@ -6579,6 +6666,10 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
         bmenu.desc_enabled = false;
         bmenu.text = _( "No limb would benefit from it." );
         bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
+    } else {
+        const int preferred_index = get_best_selection_index( *this, parts, bandage_power,
+                                    disinfectant_power );
+        bmenu.selected = preferred_index;
     }
 
     bmenu.query();
