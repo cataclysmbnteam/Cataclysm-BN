@@ -2225,6 +2225,22 @@ void options_manager::add_options_debug()
         this->add_empty_line( debug );
     };
 
+    add_option_group( debug, Group( "rem_act_perf", to_translation( "Performance" ),
+                                    to_translation( "Configure performance settings that can detract from the game." ) ),
+    [&]( auto & page_id ) {
+        add( "SLEEP_SKIP_VEH", page_id, translate_marker( "Sleep Boost: Skip Vehicle Movement" ),
+             translate_marker( "Turns off vehicle movement and autodrive while sleeping" ),
+             true );
+        add( "SLEEP_SKIP_SOUND", page_id, translate_marker( "Sleep Boost: Skip Sound Processing On Sleep" ),
+             translate_marker( "Sounds are not processed while sleeping" ),
+             false );
+        add( "SLEEP_SKIP_MON", page_id, translate_marker( "Sleep Boost: Skip Monster Movement" ),
+             translate_marker( "Monsters do not move while sleeping" ),
+             false );
+    } );
+
+    add_empty_line();
+
     add( "STRICT_JSON_CHECKS", debug, translate_marker( "Strict JSON checks" ),
          translate_marker( "If true, will show additional warnings for JSON data correctness." ),
          true
