@@ -14,6 +14,7 @@
 #include <ranges>
 #include <type_traits>
 #include <vector>
+#include <ranges>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -3837,30 +3838,39 @@ static auto get_enchantment_mut_active(
     return mut->activated && mut->starts_active;
 }
 
-std::vector<std::string> Character::get_overlay_ids() const
+std::vector<Character::overlay_entry> Character::get_overlay_ids() const
 {
-    std::vector<std::string> rval;
-    std::multimap<int, std::string> mutation_sorting;
+    std::vector<overlay_entry> rval;
+    std::multimap<int, overlay_entry> mutation_sorting;
     int order;
     std::string overlay_id;
 
     // first get effects
-    for( const auto &eff_pr : *effects ) {
-        if( !eff_pr.second.begin()->second.is_removed() ) {
-            const std::string &looks_like = eff_pr.first.obj().get_looks_like();
+    for( const auto &[eff_type, eff_by_part] : *effects ) {
+        const auto eff = eff_by_part.begin()->second;
+        if( !eff.is_removed() ) {
+            const std::string &looks_like = eff_type.obj().get_looks_like();
 
-            rval.emplace_back( "effect_" + ( looks_like.empty() ? eff_pr.first.str() : looks_like ) );
+            const overlay_entry ent {
+                "effect_" + ( looks_like.empty() ? eff_type.str() : looks_like ),
+                &eff
+            };
+            rval.emplace_back( ent );
         }
     }
 
     // then get mutations
-    for( const std::pair<const trait_id, char_trait_data> &mut : my_mutations ) {
+    for( const mutation &mut : my_mutations ) {
         if( !mut.second.show_sprite ) {
             continue;
         }
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        const overlay_entry ent {
+            overlay_id,
+            &mut
+        };
+        mutation_sorting.insert( std::make_pair( order, ent ) );
     }
 
     // then get bionics
@@ -3870,7 +3880,11 @@ std::vector<std::string> Character::get_overlay_ids() const
         }
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        const overlay_entry ent {
+            overlay_id,
+            &bio
+        };
+        mutation_sorting.insert( std::make_pair( order, ent ) );
     }
 
     // and enchantments mutations
@@ -3884,12 +3898,23 @@ std::vector<std::string> Character::get_overlay_ids() const
 
             overlay_id = ( active ? "active_" : "" ) + mut.str();
             order = get_overlay_order_of_mutation( overlay_id );
-            mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+
+            // Maybe don't inherit colors from source (entry = std::nullopt)?
+            const overlay_entry ent {
+                overlay_id,
+                variant_cast<decltype( overlay_entry::entry )>{}( src )
+            };
+
+            mutation_sorting.insert( std::make_pair( order, ent ) );
         }
     }
 
-    for( auto &mutorder : mutation_sorting ) {
-        rval.push_back( "mutation_" + mutorder.second );
+    for( const auto &[id, ent] : mutation_sorting | std::views::values ) {
+        const overlay_entry actual_ent {
+            "mutation_" + id,
+            ent
+        };
+        rval.push_back( actual_ent );
     }
 
     // next clothing
@@ -3898,18 +3923,30 @@ std::vector<std::string> Character::get_overlay_ids() const
         if( worn_item->has_flag( flag_id( "HIDDEN" ) ) ) {
             continue;
         }
-        rval.push_back( "worn_" + worn_item->typeId().str() );
+        const overlay_entry ent {
+            "worn_" + worn_item->typeId().str(),
+            worn_item
+        };
+        rval.push_back( ent );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     const item &weapon = primary_weapon();
     if( is_armed() ) {
-        rval.push_back( "wielded_" + weapon.typeId().str() );
+        const overlay_entry ent {
+            "wielded_" + weapon.typeId().str(),
+            &weapon
+        };
+        rval.push_back( ent );
     }
 
     if( move_mode != CMM_WALK ) {
-        rval.push_back( io::enum_to_string( move_mode ) );
+        const overlay_entry ent {
+            io::enum_to_string( move_mode ),
+            std::monostate{}
+        };
+        rval.push_back( ent );
     }
     return rval;
 }

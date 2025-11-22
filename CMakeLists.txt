@@ -17,6 +17,10 @@ set(CMAKE_TLS_VERIFY ON)
 include(CMakeDependentOption)
 include(ExternalProject)
 option(TILES "Build graphical tileset version." "OFF")
+cmake_dependent_option(DYNAMIC_ATLAS
+    "Enable dynamic atlas generation" ON
+    TILES OFF
+)
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
@@ -204,6 +208,7 @@ endif ()
 message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 message(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 message(STATUS "TILES                         : ${TILES}")
+message(STATUS "DYNAMIC_ATLAS                 : ${DYNAMIC_ATLAS}")
 message(STATUS "CURSES                        : ${CURSES}")
 message(STATUS "SOUND                         : ${SOUND}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")

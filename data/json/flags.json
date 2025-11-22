@@ -2415,6 +2415,24 @@
     "context": [  ]
   },
   {
+    "id": "TINT_NO_FG",
+    "type": "json_flag",
+    "//": "Do not apply tint to background",
+    "context": [  ]
+  },
+  {
+    "id": "TINT_NO_BG",
+    "type": "json_flag",
+    "//": "Do not apply tint to foreground",
+    "context": [  ]
+  },
+  {
+    "id": "TINT_NONE",
+    "type": "json_flag",
+    "//": "Do not apply tint",
+    "context": [  ]
+  },
+  {
     "id": "VEHICLE_UNLOCKED",
     "type": "json_flag",
     "//": "Marks a vehicle to always spawn unlocked, but possibly requiring hotwiring",
