@@ -1707,6 +1707,9 @@ class Character : public Creature, public location_visitable<Character>
         // --------------- Values ---------------
         std::string name; // Pre-cataclysm name, invariable
         bool male = true;
+        
+        // Threshold category if crossed
+        mutation_category_id thresh_category = mutation_category_id::NULL_ID();
 
         location_vector<item> worn;
         // Means player sit inside vehicle on the tile he is now
