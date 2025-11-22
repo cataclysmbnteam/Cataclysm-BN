@@ -1687,6 +1687,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NEEDS_WHEEL_MOUNT_MEDIUM` Can only be installed on a part with `WHEEL_MOUNT_MEDIUM` flag.
 - `NEEDS_WINDOW` Can only be installed on a part with `WINDOW` flag.
 - `NO_JACK`
+- `NOCOLLIDE`
+- `NOSMASH`
 - `NOINSTALL` Cannot be installed.
 - `NOREMOVE_SECURITY` Cannot be uninstalled if the vehicle has a working security system.
 - `NOREMOVE_OPEN` Cannot be uninstalled if there's an open `OPENABLE` part in the same tile.
