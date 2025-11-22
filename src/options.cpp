@@ -1551,8 +1551,12 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "HEALTH_STYLE", interface, translate_marker( "Health Display Style" ),
-         translate_marker( "Switch health-related display styling such as HP and hunger" ),
-    {{ "number", translate_marker( "Numerical" )}, {"bar", translate_marker( "Bar" )}},
+    translate_marker( "Switch health-related display styling such as HP and hunger" ), {
+        {"number", translate_marker( "Numerical" ) },
+        {"bar", translate_marker( "Bar" ) },
+        {"bar_alt", translate_marker( "Bar (Alt)" ) },
+        {"bar_ascii", translate_marker( "Bar (Old)" ) },
+    },
     "bar" );
 
     add_empty_line();
@@ -2432,6 +2436,10 @@ void options_manager::add_options_world_default()
     add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage scaling factor" ),
          translate_marker( "A scaling factor that determines how damaged vehicles are." ),
          0.0, 10.0, 1, 0.1
+       );
+
+    add( "VEHICLE_LOCKS", world_default, translate_marker( "Vehicle door locks" ),
+         translate_marker( "Determines if new vehicles can spawn with locked doors." ), true
        );
 
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),

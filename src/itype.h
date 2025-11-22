@@ -812,6 +812,12 @@ struct islot_seed {
      */
     std::string required_terrain_flag = "PLANTABLE";
     islot_seed() = default;
+
+    /**
+     * Time it takes to grow from one stage to another. There are 4 plant stages:
+     * seed, seedling, mature and harvest. Non-seed items return 0.
+     */
+    time_duration get_plant_epoch() const;
 };
 
 struct islot_artifact {

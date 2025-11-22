@@ -37,6 +37,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
@@ -655,7 +656,7 @@ bool can_interact_at( action_id action, const tripoint &p )
     map &here = get_map();
     switch( action ) {
         case ACTION_OPEN:
-            return here.open_door( p, !here.is_outside( g->u.pos() ), true );
+            return here.can_open_door( &get_avatar(), p, !here.is_outside( g->u.pos() ) );
         case ACTION_CLOSE: {
             const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&

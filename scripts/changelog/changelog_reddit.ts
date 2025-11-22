@@ -86,7 +86,7 @@ ${commitsSection(commits)}
 
 ## How to help:
 
-https://docs.cataclysmbn.org/en/contribute/contributing/
+https://docs.cataclysmbn.org/contribute/contributing/
 
 - **Translations!** https://www.transifex.com/bn-team/cataclysm-bright-nights/
 - **Contributing via code changes.**

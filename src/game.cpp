@@ -660,27 +660,38 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+
+    constexpr auto query_gen_failed = []() {
+        return query_yn(
+                   _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) );
+    };
+
     do {
         omtstart = start_loc.find_player_initial_location();
         if( omtstart == overmap::invalid_tripoint ) {
-            if( query_yn(
-                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+            if( query_gen_failed() ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
                 return false;
             }
         }
+
+        start_loc.prepare_map( omtstart );
+
+        // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
+        if( u.starting_vehicle
+            && !place_vehicle_nearby(
+                u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} ) ) {
+            if( query_gen_failed() ) {
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
+                omtstart = overmap::invalid_tripoint;
+            } else {
+                return false;
+            }
+        }
     } while( omtstart == overmap::invalid_tripoint );
-
-    start_loc.prepare_map( omtstart );
-
-    // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
-    }
 
     if( scen->has_map_extra() ) {
         // Map extras can add monster spawn points and similar and should be done before the main
@@ -880,7 +891,7 @@ vehicle *game::place_vehicle_nearby(
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.can_float() && !veh.has_part( VPFLAG_BALLOON ) ) {
+        if( veh.can_float() && veh.has_part( VPFLAG_FLOATS ) ) {
             search_types.emplace_back( "river_shore" );
             search_types.emplace_back( "lake_shore" );
             search_types.emplace_back( "lake_surface" );
@@ -910,7 +921,8 @@ vehicle *game::place_vehicle_nearby(
             }
         };
         vehicle *veh = target_map.add_vehicle(
-                           id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
+                           id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
+                           0, false, false, true );
         if( veh ) {
             tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
             veh->sm_pos =  ms_to_sm_remain( abs_local );
@@ -6766,7 +6778,16 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
+
+#if defined(TILES)
+            const int minimap_height_opt = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
+            const int minimap_height = minimap_height_opt > 0 ? minimap_height_opt : panel_width / 2;
+            int height = pixel_minimap_option
+                         ? TERMY - minimap_height
+                         : TERMY;
+#else
+            int height = TERMY;
+#endif
 
             // If particularly small, base height on panel width irrespective of other elements.
             // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
@@ -6934,6 +6955,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         ui_manager::redraw();
         if( ( select_zone && has_first_point ) || is_moving_zone ) {
             ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
+        }
+
+        if( pixel_minimap_option ) {
+            ctxt.set_timeout( 125 );
         }
 
         //Wait for input

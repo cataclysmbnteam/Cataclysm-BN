@@ -123,6 +123,10 @@ struct vpslot_balloon {
     float height = 1;
 };
 
+struct vpslot_ladder {
+    int length = 0;
+};
+
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
     float multiplier = 1.0f;
@@ -157,6 +161,7 @@ class vpart_info
         std::optional<vpslot_propeller> propeller_info;
         std::optional<vpslot_wing> wing_info;
         std::optional<vpslot_balloon> balloon_info;
+        std::optional<vpslot_ladder> ladder_info;
         std::optional<vpslot_workbench> workbench_info;
         std::optional<vpslot_crafter> crafter_info;
 
@@ -291,6 +296,9 @@ class vpart_info
         /** cargo weight modifier (percentage) */
         int cargo_weight_modifier = 100;
 
+        /** base weight modifier (percentage) */
+        int weight_modifier = 100;
+
         /** Flat decrease of damage of a given type. */
         resistances damage_reduction;
 
@@ -328,6 +336,7 @@ class vpart_info
         float lift_coff() const;
         int propeller_diameter() const;
         float balloon_height() const;
+        int ladder_length() const;
         const std::vector<itype_id> craftertools() const;
         /**
          * Getter for optional workbench info
@@ -372,6 +381,7 @@ class vpart_info
         static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load_wing( std::optional<vpslot_wing> &wptr, const JsonObject &jo );
         static void load_balloon( std::optional<vpslot_balloon> &balptr, const JsonObject &jo );
+        static void load_ladder( std::optional<vpslot_ladder> &ladptr, const JsonObject &jo );
         static void load_propeller( std::optional<vpslot_propeller> &proptr, const JsonObject &jo );
         static void load_crafter( std::optional<vpslot_crafter> &craftptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
@@ -419,6 +429,7 @@ struct vehicle_prototype {
     std::string name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::set<flag_id> flags;
 
     std::unique_ptr<vehicle> blueprint;
 

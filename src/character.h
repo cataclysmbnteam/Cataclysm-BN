@@ -237,6 +237,9 @@ struct char_trait_data {
 };
 
 struct mutation_collection : std::unordered_map<trait_id, char_trait_data> {};
+using mutation = std::pair<const trait_id, char_trait_data>;
+using enchantment_source =
+    std::variant<std::monostate, const item *, const mutation *, const bionic *>;
 
 struct mountable_status {
     bool mountable;
@@ -2445,6 +2448,8 @@ class Character : public Creature, public location_visitable<Character>
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchantment> enchantment_cache;
+        // for enchantment mutations sprite display, recalculated alongside the cache
+        std::vector<std::pair<const enchantment *, enchantment_source>> enchantment_sources;
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point_abs_omt, time_duration> overmap_time;

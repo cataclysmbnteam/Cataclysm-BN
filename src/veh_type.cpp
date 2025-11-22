@@ -27,6 +27,7 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -283,6 +284,17 @@ void vpart_info::load_balloon( std::optional<vpslot_balloon> &balptr, const Json
     assert( balptr );
 }
 
+void vpart_info::load_ladder( std::optional<vpslot_ladder> &ladptr, const JsonObject &jo )
+{
+    vpslot_ladder lad_info{};
+    if( ladptr ) {
+        lad_info = *ladptr;
+    }
+    assign( jo, "length", lad_info.length );
+    ladptr = lad_info;
+    assert( ladptr );
+}
+
 void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
@@ -406,6 +418,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
+    assign( jo, "weight_modifier", def.weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
@@ -495,6 +508,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "BALLOON" ) ) {
         load_balloon( def.balloon_info, jo );
+    }
+
+    if( def.has_flag( "LADDER" ) ) {
+        load_ladder( def.ladder_info, jo );
     }
 
     if( def.has_flag( "WING" ) ) {
@@ -818,6 +835,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     if( !long_descrip.empty() ) {
+        long_descrip = replace_colors( long_descrip );
         const auto wrap_descrip = foldstring( long_descrip, width );
         msg += wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
@@ -985,6 +1003,11 @@ float vpart_info::balloon_height() const
     return has_flag( VPFLAG_BALLOON ) ? balloon_info->height : 0;
 }
 
+int vpart_info::ladder_length() const
+{
+    return has_flag( "LADDER" ) ? ladder_info->length : 0;
+}
+
 float vpart_info::lift_coff() const
 {
     return has_flag( VPFLAG_WING ) ? wing_info->lift_coff : 0;
@@ -1083,6 +1106,10 @@ void vehicle_prototype::load( const JsonObject &jo )
         pt.part = vpart_id( part );
         vproto.parts.push_back( pt );
     };
+
+    if( jo.has_member( "flags" ) ) {
+        vproto.flags = jo.get_tags<flag_id>( "flags" );
+    }
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning

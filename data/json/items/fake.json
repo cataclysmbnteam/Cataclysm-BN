@@ -475,6 +475,42 @@
     "flags": [ "USES_GRID_POWER" ]
   },
   {
+    "id": "fake_arcade_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "arcade machine" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [ "PLAY_GAME" ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_pinball_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "pinball machine" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [ "PLAY_GAME" ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_pool_table",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "pool table" },
+    "use_action": [ "PLAY_GAME" ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_roulette_table",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "roulette table" },
+    "use_action": [ "PLAY_GAME" ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
     "id": "fake_gridgunkit",
     "copy-from": "fake_item",
     "type": "TOOL",

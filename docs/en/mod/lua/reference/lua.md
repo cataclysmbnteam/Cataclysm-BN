@@ -3697,6 +3697,11 @@ Function `( Mission ) -> bool`
 Marks a mission step as complete, taking an integer step index.
 Function `( Mission, int )`
 
+#### is_complete
+
+Returns true if the mission goal has been completed (optionally checked against given NPC ID).
+Function `( Mission, Opt( CharacterId ) ) -> bool`
+
 #### assign
 
 Assigns this mission to the given avatar.
