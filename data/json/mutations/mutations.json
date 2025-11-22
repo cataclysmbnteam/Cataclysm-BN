@@ -6834,5 +6834,21 @@
     "purifiable": false,
     "profession": true,
     "scent_type": "sc_fetid"
+  },
+  {
+    "type": "mutation",
+    "id": "UDDERS",
+    "name": { "str": "Udders" },
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 6,
+    "description": "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
+    "types": [ "METABOLISM" ],
+    "threshreq": [ "THRESH_CATTLE" ],
+    "category": [ "CATTLE" ],
+    "active": true,
+    "cost": 10,
+    "hunger": true,
+    "spawn_item": { "type": "milk", "message": "You milk yourself." }
   }
 ]
