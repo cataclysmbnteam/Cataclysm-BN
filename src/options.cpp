@@ -2230,7 +2230,7 @@ void options_manager::add_options_debug()
     [&]( auto & page_id ) {
         add( "SLEEP_SKIP_VEH", page_id, translate_marker( "Sleep Boost: Skip Vehicle Movement" ),
              translate_marker( "Turns off vehicle movement and autodrive while sleeping" ),
-             true );
+             false );
         add( "SLEEP_SKIP_SOUND", page_id, translate_marker( "Sleep Boost: Skip Sound Processing On Sleep" ),
              translate_marker( "Sounds are not processed while sleeping" ),
              false );
