@@ -515,7 +515,7 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "556": 160 },
+    "starting_ammo": { "556": 180 },
     "special_attacks": [
       {
         "type": "gun",
@@ -578,7 +578,7 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 8mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "8mm_caseless": 120 },
+    "starting_ammo": { "8mm_caseless": 125 },
     "special_attacks": [
       {
         "type": "gun",
