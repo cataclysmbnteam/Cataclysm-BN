@@ -163,6 +163,12 @@ bool can_fly( Character &ch )
     return false;
 }
 
+auto is_driving( const Character &p ) -> bool
+{
+    const optional_vpart_position vp = get_map().veh_at( p.pos() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
+}
+
 bool is_book_morale_boosted( const Character &ch, const item &book )
 {
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
