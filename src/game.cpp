@@ -1486,9 +1486,10 @@ bool game::do_turn()
     if( is_game_over() ) {
         return cleanup_at_end();
     }
-    const auto vehperf = get_option<bool>( "SLEEP_SKIP_VEH" );
-    const auto soundperf = get_option<bool>( "SLEEP_SKIP_SOUND" );
-    const auto monperf = get_option<bool>( "SLEEP_SKIP_MON" );
+    const bool asleep = u.in_sleep_state();
+    const auto vehperf = asleep && get_option<bool>( "SLEEP_SKIP_VEH" );
+    const auto soundperf = asleep && get_option<bool>( "SLEEP_SKIP_SOUND" );
+    const auto monperf = asleep && get_option<bool>( "SLEEP_SKIP_MON" );
     // Actual stuff
     if( new_game ) {
         new_game = false;
