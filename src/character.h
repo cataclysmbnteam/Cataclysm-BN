@@ -1573,6 +1573,10 @@ class Character : public Creature, public location_visitable<Character>
         const item *item_worn_with_id( const itype_id &item_id,
                                        const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
 
+        struct overlay_entry {
+            std::string id;
+            std::variant<std::monostate, const effect *, const item *, const mutation *, const bionic *> entry;
+        };
         // drawing related stuff
         /**
          * Returns a list of the IDs of overlays on this character,
@@ -1580,7 +1584,7 @@ class Character : public Creature, public location_visitable<Character>
          *
          * Only required for rendering.
          */
-        std::vector<std::string> get_overlay_ids() const;
+        std::vector<overlay_entry> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;

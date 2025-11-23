@@ -6849,6 +6849,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
     if( use_tiles ) {
         ctxt.register_action( "zoom_out" );
         ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "debug_tileset" );
     }
 #if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -7034,6 +7035,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
+            }
+        } else if( action == "debug_tileset" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_tiles_no_vfx();
             }
         } else if( action == "debug_submap_grid" ) {
             g->debug_submap_grid_overlay = !g->debug_submap_grid_overlay;
@@ -11694,6 +11699,13 @@ void game::display_transparency()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+    }
+}
+
+void game::display_tiles_no_vfx()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_TILES_NO_VFX );
     }
 }
 
