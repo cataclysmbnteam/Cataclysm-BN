@@ -155,6 +155,7 @@ struct bionic_data {
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static void check_consistency();
     static void finalize_all();
+    static std::vector<bionic_data> get_all();
     static void reset();
 
     bool was_loaded = false;

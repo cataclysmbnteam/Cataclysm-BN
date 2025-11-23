@@ -269,6 +269,10 @@ void bionic_data::finalize_all()
     }
 }
 
+std::vector<bionic_data> bionic_data::get_all(){
+    return bionic_factory.get_all();
+}
+
 void bionic_data::reset()
 {
     bionic_factory.reset();

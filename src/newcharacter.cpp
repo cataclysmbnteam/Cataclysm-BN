@@ -1463,6 +1463,405 @@ tab_direction set_traits( avatar &u, points_left &points )
     } while( true );
 }
 
+tab_direction set_bionics( avatar &u, points_left &points )
+{
+    const int max_traits_points = get_option<int>( "MAX_TRAITS_POINTS" );
+
+    // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
+    int num_good = 0;
+    int num_bad = 0;
+
+    struct bionic_entry {
+        bionic_id id;
+        bool avatar_has;
+        bool conflicts;
+        bool forbidden;
+    };
+    std::vector<trait_entry> vStartingTraits[3];
+
+    for( auto &traits_iter : bionic_data::get_all() ) {
+        // Don't list blacklisted traits
+        if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
+            continue;
+        }
+
+        // Always show profession locked traits, regardless of if they are forbidden
+        const std::vector<bionic_id> profbionics = u.prof->CBMs();
+        const bool is_profbionic = std::find( profbionics.begin(), profbionics.end(),
+                                             bio_iter.id ) != profbionics.end();
+        // We show all starting traits, even if we can't pick them, to keep the interface consistent.
+        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+            size_t page;
+            if( traits_iter.points > 0 ) {
+                page = 0;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_good += traits_iter.points;
+                }
+            } else if( traits_iter.points < 0 ) {
+                page = 1;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_bad += traits_iter.points;
+                }
+            } else {
+                page = 2;
+            }
+            vStartingTraits[page].push_back( { traits_iter.id, false, false, g->scen->is_forbidden_trait( traits_iter.id ) } );
+        }
+    }
+    //If the third page is empty, only use the first two.
+    const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
+
+    for( auto &vStartingTrait : vStartingTraits ) {
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), []( const trait_entry & a,
+        const trait_entry & b ) {
+            return trait_display_nocolor_sort( a.id, b.id );
+        } );
+    }
+
+    const auto recalc_display_cache = [&]() {
+        for( int page = 0; page < used_pages; page++ ) {
+            for( trait_entry &entry : vStartingTraits[page] ) {
+                entry.conflicts = newcharacter::has_conflicting_trait( u, entry.id );
+                entry.avatar_has = u.has_trait( entry.id );
+            }
+        }
+    };
+    recalc_display_cache();
+
+    int iCurWorkingPage = 0;
+    int iStartPos[3] = { 0, 0, 0 };
+    int iCurrentLine[3] = { 0, 0, 0 };
+    size_t traits_size[3];
+    for( int i = 0; i < 3; i++ ) {
+        traits_size[i] = vStartingTraits[i].size();
+    }
+
+    size_t iContentHeight;
+    size_t page_width;
+
+    ui_adaptor ui;
+    catacurses::window w;
+    catacurses::window w_description;
+
+#if defined(TILES)
+    character_preview_window character_preview;
+    character_preview.init( &u );
+    const bool use_character_preview = get_option<bool>( "USE_CHARACTER_PREVIEW" ) &&
+                                       get_option<bool>( "USE_TILES" );
+#endif
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+
+#if defined(TILES)
+        const int int_page_width = static_cast<int>( page_width );
+
+        if( use_character_preview ) {
+            constexpr int preview_nlines_min = 7;
+            constexpr int preview_ncols_min = 10;
+            const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
+            const int preview_ncols = std::max( ( TERMX - int_page_width * 3 - 4 ) / 3 - 5, preview_ncols_min );
+            constexpr auto orientation = character_preview_window::Orientation{
+                character_preview_window::TOP_RIGHT,
+                character_preview_window::Margin{0, 2, 5, 0}
+            };
+            character_preview.prepare(
+                preview_nlines, preview_ncols,
+                &orientation, int_page_width * 3 + 5
+            );
+        }
+#endif
+
+        ui.position_from_window( w );
+
+        iContentHeight = TERMY - 9;
+
+        for( int i = 0; i < 3; i++ ) {
+            // Shift start position to avoid iterating beyond end
+            int total = static_cast<int>( traits_size[i] );
+            int heigth = static_cast<int>( iContentHeight );
+            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
+        }
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
+
+    input_context ctxt( "NEW_CHAR_TRAITS" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "RANDOMIZE" );
+    ctxt.register_action( "REROLL_CHARACTER" );
+    ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
+    ctxt.register_action( "REROLL_APPEARANCE" );
+    ctxt.register_action( "QUIT" );
+#if defined(TILES)
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "TOGGLE_CHARACTER_PREVIEW_CLOTHES" );
+#endif
+
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w );
+        werase( w_description );
+
+        draw_character_tabs( w, _( "TRAITS" ) );
+
+        draw_points( w, points );
+        int full_string_length = 0;
+        const int remaining_points_length = utf8_width( points.to_string(), true );
+        if( !points.is_freeform() ) {
+            std::string full_string =
+                string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
+                               num_good, max_trait_points, num_bad, max_trait_points );
+            fold_and_print( w, point( remaining_points_length + 3, 3 ), getmaxx( w ) - 2, c_white,
+                            full_string );
+            full_string_length = utf8_width( full_string, true ) + remaining_points_length + 3;
+        } else {
+            full_string_length = remaining_points_length + 3;
+        }
+
+        for( int iCurrentPage = 0; iCurrentPage < 3; iCurrentPage++ ) {
+            nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
+            switch( iCurrentPage ) {
+                case 0:
+                    col_on_act = COL_TR_GOOD_ON_ACT;
+                    col_off_act = COL_TR_GOOD_OFF_ACT;
+                    col_on_pas = COL_TR_GOOD_ON_PAS;
+                    col_off_pas = COL_TR_GOOD_OFF_PAS;
+                    col_tr = COL_TR_GOOD;
+                    break;
+                case 1:
+                    col_on_act = COL_TR_BAD_ON_ACT;
+                    col_off_act = COL_TR_BAD_OFF_ACT;
+                    col_on_pas = COL_TR_BAD_ON_PAS;
+                    col_off_pas = COL_TR_BAD_OFF_PAS;
+                    col_tr = COL_TR_BAD;
+                    break;
+                default:
+                    col_on_act = COL_TR_NEUT_ON_ACT;
+                    col_off_act = COL_TR_NEUT_OFF_ACT;
+                    col_on_pas = COL_TR_NEUT_ON_PAS;
+                    col_off_pas = COL_TR_NEUT_OFF_PAS;
+                    col_tr = COL_TR_NEUT;
+                    break;
+            }
+
+            int &start = iStartPos[iCurrentPage];
+            int current = iCurrentLine[iCurrentPage];
+            calcStartPos( start, current, iContentHeight, traits_size[iCurrentPage] );
+            int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
+
+            for( int i = start; i < end; i++ ) {
+                const trait_entry &entry = vStartingTraits[iCurrentPage][i];
+                const mutation_branch &mdata = entry.id.obj();
+                if( current == i && iCurrentPage == iCurWorkingPage ) {
+                    int points = mdata.points;
+                    bool negativeTrait = points < 0;
+                    if( negativeTrait ) {
+                        points *= -1;
+                    }
+                    mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
+                               vgettext( "%s %s %d point", "%s %s %d points", points ),
+                               mdata.name(),
+                               negativeTrait ? _( "earns" ) : _( "costs" ),
+                               points );
+                    fold_and_print( w_description, point_zero,
+                                    TERMX - 2, col_tr,
+                                    mdata.desc() );
+                }
+
+                nc_color col;
+                if( iCurWorkingPage == iCurrentPage ) {
+                    if( entry.avatar_has ) {
+                        col = col_on_act;
+                    } else if( entry.conflicts || entry.forbidden ) {
+                        col = c_dark_gray;
+                    } else {
+                        col = col_off_act;
+                    }
+                    if( current == i ) {
+                        col = hilite( col );
+                    }
+                } else {
+                    if( entry.avatar_has ) {
+                        col = col_on_pas;
+                    } else if( entry.conflicts || entry.forbidden ) {
+                        col = c_light_gray;
+                    } else {
+                        col = col_off_pas;
+                    }
+                }
+
+                int cur_y = 5 + i - start;
+                int cur_x = 2 + iCurrentPage * page_width;
+                mvwprintz( w, point( cur_x, cur_y ), col, utf8_truncate( mdata.name(), page_width - 2 ) );
+            }
+
+            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
+                            point( page_width * iCurrentPage, 5 ) );
+        }
+        // Draws main window, traits description window and character preview window
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
+#if defined(TILES)
+        // Draws character preview
+        if( use_character_preview ) {
+            character_preview.display();
+        }
+#endif
+    } );
+
+    do {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+#if defined(TILES)
+        if( action == "zoom_in" && use_character_preview ) {
+            character_preview.zoom_in();
+        }
+        if( action == "zoom_out" && use_character_preview ) {
+            character_preview.zoom_out();
+        }
+        if( action == "TOGGLE_CHARACTER_PREVIEW_CLOTHES" && use_character_preview ) {
+            character_preview.toggle_clothes();
+        }
+#endif
+        if( action == "LEFT" ) {
+            iCurWorkingPage--;
+            if( iCurWorkingPage < 0 ) {
+                iCurWorkingPage = used_pages - 1;
+            }
+        } else if( action == "RIGHT" ) {
+            iCurWorkingPage++;
+            if( iCurWorkingPage > used_pages - 1 ) {
+                iCurWorkingPage = 0;
+            }
+        } else if( action == "UP" ) {
+            if( iCurrentLine[iCurWorkingPage] == 0 ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage]--;
+            }
+        } else if( action == "REROLL_CHARACTER" ) {
+            points.init_from_options();
+            u.randomize( false, points );
+            // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
+            return tab_direction::NONE;
+        } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" ) {
+            points.init_from_options();
+            u.randomize( true, points );
+            // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
+            return tab_direction::NONE;
+        } else if( action == "REROLL_APPEARANCE" ) {
+            u.randomize_cosmetics();
+            //u.set_body();
+            // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
+            return tab_direction::NONE;
+        } else if( action == "DOWN" ) {
+            iCurrentLine[iCurWorkingPage]++;
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            }
+        } else if( action == "RANDOMIZE" ) {
+            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
+        } else if( action == "CONFIRM" ) {
+            int inc_type = 0;
+            const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]].id;
+            const mutation_branch &mdata = cur_trait.obj();
+
+            // Look through the profession bionics, and see if any of them conflict with this trait
+            std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+            const bool has_trait = u.has_trait( cur_trait );
+
+            if( has_trait ) {
+
+                inc_type = -1;
+
+                if( g->scen->is_locked_trait( cur_trait ) ) {
+                    inc_type = 0;
+                    popup( _( "Your scenario of %s prevents you from removing this trait." ),
+                           g->scen->gender_appropriate_name( u.male ) );
+                } else if( u.prof->is_locked_trait( cur_trait ) ) {
+                    inc_type = 0;
+                    popup( _( "Your profession of %s prevents you from removing this trait." ),
+                           u.prof->gender_appropriate_name( u.male ) );
+                }
+            } else if( newcharacter::has_conflicting_trait( u, cur_trait ) ) {
+                popup( _( "You already picked a conflicting trait!" ) );
+            } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
+                popup( _( "The scenario you picked prevents you from taking this trait!" ) );
+            } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
+                popup( _( "Your profession of %s prevents you from taking this trait." ),
+                       u.prof->gender_appropriate_name( u.male ) );
+            } else if( !cbms_blocking_trait.empty() ) {
+                // Grab a list of the names of the bionics that block this trait
+                // So that the player know what is preventing them from taking it
+                std::vector<std::string> conflict_names;
+                conflict_names.reserve( cbms_blocking_trait.size() );
+                for( const bionic_id &conflict : cbms_blocking_trait ) {
+                    conflict_names.emplace_back( conflict->name.translated() );
+                }
+                popup( _( "The following bionics prevent you from taking this trait: %s." ),
+                       enumerate_as_string( conflict_names ) );
+            } else if( iCurWorkingPage == 0 && num_good + mdata.points >
+                       max_trait_points && !points.is_freeform() ) {
+                popup( vgettext( "Sorry, but you can only take %d point of advantages.",
+                                 "Sorry, but you can only take %d points of advantages.", max_trait_points ),
+                       max_trait_points );
+
+            } else if( iCurWorkingPage != 0 && num_bad + mdata.points <
+                       -max_trait_points && !points.is_freeform() ) {
+                popup( vgettext( "Sorry, but you can only take %d point of disadvantages.",
+                                 "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
+                       max_trait_points );
+
+            } else {
+                inc_type = 1;
+            }
+
+            //inc_type is either -1 or 1, so we can just multiply by it to invert
+            if( inc_type != 0 ) {
+                u.toggle_trait( cur_trait );
+#if defined(TILES)
+                // If character had trait - it's now removed. Trait could blocked some clothes, need to retoggle
+                if( has_trait && character_preview.clothes_showing() ) {
+                    character_preview.toggle_clothes();
+                    character_preview.toggle_clothes();
+                }
+#endif
+                points.trait_points -= mdata.points * inc_type;
+                if( iCurWorkingPage == 0 ) {
+                    num_good += mdata.points * inc_type;
+                } else {
+                    num_bad += mdata.points * inc_type;
+                }
+            }
+
+            recalc_display_cache();
+        } else if( action == "PREV_TAB" ) {
+#if defined(TILES)
+            character_preview.clear();
+#endif
+            return tab_direction::BACKWARD;
+        } else if( action == "NEXT_TAB" ) {
+#if defined(TILES)
+            character_preview.clear();
+#endif
+            return tab_direction::FORWARD;
+        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
+#if defined(TILES)
+            character_preview.clear();
+#endif
+            return tab_direction::QUIT;
+        }
+    } while( true );
+}
+
 struct {
     bool sort_by_points = true;
     bool male = false;
