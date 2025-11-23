@@ -1487,7 +1487,8 @@ bool game::do_turn()
         return cleanup_at_end();
     }
     const bool asleep = u.in_sleep_state();
-    const auto vehperf = asleep && get_option<bool>( "SLEEP_SKIP_VEH" );
+    const auto vehperf = asleep && !character_funcs::is_driving( u ) &&
+                         get_option<bool>( "SLEEP_SKIP_VEH" );
     const auto soundperf = asleep && get_option<bool>( "SLEEP_SKIP_SOUND" );
     const auto monperf = asleep && get_option<bool>( "SLEEP_SKIP_MON" );
     // Actual stuff
