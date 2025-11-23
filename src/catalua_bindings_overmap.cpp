@@ -42,6 +42,7 @@ void cata::detail::reg_overmap( sol::state &lua )
         // TODO: Add om_special field after implementing comparison operators for overmap_special
         DOC( "If set, limits the number of results returned." );
         SET_MEMB( max_results );
+        // NOTE: force_sync field omitted - automatically set to true in Lua bindings for thread safety
 
         DOC( "Helper method to add a terrain type to search for." );
         luna::set_fx( ut, "add_type",
@@ -76,7 +77,8 @@ void cata::detail::reg_overmap( sol::state &lua )
     // Finding methods
     DOC( "Find all overmap terrain tiles matching the given parameters. Returns a vector of tripoints." );
     luna::set_fx( lib, "find_all",
-    []( const tripoint & origin, const omt_find_params & params ) -> std::vector<tripoint> {
+    []( const tripoint & origin, omt_find_params params ) -> std::vector<tripoint> {
+        params.force_sync = true;
         auto results = overmap_buffer.find_all( tripoint_abs_omt( origin ), params );
         std::vector<tripoint> lua_results;
         lua_results.reserve( results.size() );
@@ -88,7 +90,8 @@ void cata::detail::reg_overmap( sol::state &lua )
 
     DOC( "Find the closest overmap terrain tile matching the given parameters. Returns a tripoint or nil if not found." );
     luna::set_fx( lib, "find_closest",
-    []( const tripoint & origin, const omt_find_params & params ) -> sol::optional<tripoint> {
+    []( const tripoint & origin, omt_find_params params ) -> sol::optional<tripoint> {
+        params.force_sync = true;
         tripoint_abs_omt result = overmap_buffer.find_closest( tripoint_abs_omt( origin ), params );
         if( result == tripoint_abs_omt( tripoint_min ) ) {
             return sol::nullopt;
@@ -98,7 +101,8 @@ void cata::detail::reg_overmap( sol::state &lua )
 
     DOC( "Find a random overmap terrain tile matching the given parameters. Returns a tripoint or nil if not found." );
     luna::set_fx( lib, "find_random",
-    []( const tripoint & origin, const omt_find_params & params ) -> sol::optional<tripoint> {
+    []( const tripoint & origin, omt_find_params params ) -> sol::optional<tripoint> {
+        params.force_sync = true;
         tripoint_abs_omt result = overmap_buffer.find_random( tripoint_abs_omt( origin ), params );
         if( result == tripoint_abs_omt( tripoint_min ) ) {
             return sol::nullopt;
