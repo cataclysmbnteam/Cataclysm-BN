@@ -3902,7 +3902,7 @@ std::vector<Character::overlay_entry> Character::get_overlay_ids() const
             // Maybe don't inherit colors from source (entry = std::nullopt)?
             const overlay_entry ent {
                 overlay_id,
-                variant_cast<decltype( overlay_entry::entry )>{}( src )
+                static_variant_cast<decltype( overlay_entry::entry )>( src )
             };
 
             mutation_sorting.insert( std::make_pair( order, ent ) );
