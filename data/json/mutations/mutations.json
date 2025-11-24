@@ -6842,7 +6842,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 6,
-    "description": "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
+    "description": "You have grown a set of udders low on your torso. They hang visibly and add noticeable bulk. The glands naturally produce a mild, nutrient-rich milk when you are well-fed, though the output is modest and not a reliable source of nutrition for yourself.",
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CATTLE" ],
     "category": [ "CATTLE" ],
