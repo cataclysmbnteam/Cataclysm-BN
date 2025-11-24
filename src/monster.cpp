@@ -669,37 +669,47 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &g->u ) );
+    const avatar &ply = get_avatar();
+    auto att = attitude_names.at( attitude( &g->u ) );
+    if (ply.has_trait(trait_INATTENTIVE)) {
+            att = attitude_names.at(MATT_UNKNOWN);
+    } 
     return {
         _( att.first ),
-        all_colors.get( att.second )
+         all_colors.get( att.second )
     };
+    
 }
 
 static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 {
+    const avatar &ply = get_avatar();
     std::string damage_info;
     nc_color col;
-    if( cur_hp >= max_hp ) {
-        damage_info = _( "It is uninjured." );
+    if (ply.has_trait(trait_INATTENTIVE)) {
+        damage_info = _( "It looks fine." );
         col = c_green;
-    } else if( cur_hp >= max_hp * 0.8 ) {
-        damage_info = _( "It is lightly injured." );
-        col = c_light_green;
-    } else if( cur_hp >= max_hp * 0.6 ) {
-        damage_info = _( "It is moderately injured." );
-        col = c_yellow;
-    } else if( cur_hp >= max_hp * 0.3 ) {
-        damage_info = _( "It is heavily injured." );
-        col = c_yellow;
-    } else if( cur_hp >= max_hp * 0.1 ) {
-        damage_info = _( "It is severely injured." );
-        col = c_light_red;
     } else {
-        damage_info = _( "It is nearly dead!" );
-        col = c_red;
+        if( cur_hp >= max_hp ) {
+            damage_info = _( "It is uninjured." );
+            col = c_green;
+        } else if( cur_hp >= max_hp * 0.8 ) {
+            damage_info = _( "It is lightly injured." );
+            col = c_light_green;
+        } else if( cur_hp >= max_hp * 0.6 ) {
+            damage_info = _( "It is moderately injured." );
+            col = c_yellow;
+        } else if( cur_hp >= max_hp * 0.3 ) {
+            damage_info = _( "It is heavily injured." );
+            col = c_yellow;
+        } else if( cur_hp >= max_hp * 0.1 ) {
+            damage_info = _( "It is severely injured." );
+            col = c_light_red;
+        } else {
+            damage_info = _( "It is nearly dead!" );
+            col = c_red;
+        }
     }
-
     // show exact monster HP if in debug mode
     if( debug_mode ) {
         damage_info += " ";
@@ -763,11 +773,6 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
     wprintw( w, " " );
     const auto att = get_attitude();
-    if (player_knows) {
-        wprintz( w, att.second, att.first );
-    } else {
-         wprintz( w, c_white, _("Unknown") );
-    }
 
     if( debug_mode ) {
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
