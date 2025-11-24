@@ -6847,8 +6847,9 @@
     "threshreq": [ "THRESH_CATTLE" ],
     "category": [ "CATTLE" ],
     "active": true,
-    "cost": 10,
+    "cost": 24,
     "hunger": true,
+    "thirst": true,
     "spawn_item": { "type": "milk", "message": "You milk yourself." }
   }
 ]
