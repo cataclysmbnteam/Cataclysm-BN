@@ -2320,7 +2320,7 @@ int npc::follow_distance() const
 nc_color npc::basic_symbol_color() const
 {
     const avatar &ply = get_avatar();
-    if (!ply.has_trait(trait_INATTENTIVE)) {
+    if( !ply.has_trait( trait_INATTENTIVE ) ) {
         if( attitude == NPCATT_KILL ) {
             return c_red;
         } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
@@ -2672,7 +2672,7 @@ std::string io::enum_to_string<npc_attitude>( npc_attitude att )
 std::string npc_attitude_name( npc_attitude att )
 {
     const avatar &ply = get_avatar();
-    if (ply.has_trait(trait_INATTENTIVE)) {
+    if( ply.has_trait( trait_INATTENTIVE ) ) {
         return _( "Unknown" );
     } else {
         switch( att ) {
@@ -3179,7 +3179,7 @@ std::string npc::extended_description() const
     ss += Character::extended_description();
 
     ss += "\n--\n";
-    if (!ply.has_trait(trait_INATTENTIVE)) {
+    if( !ply.has_trait( trait_INATTENTIVE ) ) {
         if( attitude == NPCATT_KILL ) {
             ss += _( "Is trying to kill you." );
         } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
@@ -3196,7 +3196,7 @@ std::string npc::extended_description() const
             ss += _( "Is neutral." );
         }
     } else {
-        ss += _("It is a person.");
+        ss += _( "It is a person." );
     }
 
     if( display_object_ids ) {
