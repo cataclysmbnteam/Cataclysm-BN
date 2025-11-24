@@ -680,10 +680,11 @@ bool game::start_game()
         start_loc.prepare_map( omtstart );
 
         // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
-        if( u.starting_vehicle
-            && !place_vehicle_nearby(
-                u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} ) ) {
-            if( query_gen_failed() ) {
+        if( u.starting_vehicle ) {
+            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} );
+            if( veh ) {
+                veh->set_owner( u );
+            } else if( query_gen_failed() ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
                 omtstart = overmap::invalid_tripoint;

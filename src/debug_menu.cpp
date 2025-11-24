@@ -1703,6 +1703,7 @@ void debug()
                                                           false,
                                                           true );
                             if( veh != nullptr ) {
+                                veh->set_owner( u );
                                 m.board_vehicle( dest, &u );
                             }
                         }
