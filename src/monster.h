@@ -66,7 +66,8 @@ enum monster_attitude : int {
     MATT_IGNORE,
     MATT_FOLLOW,
     MATT_ATTACK,
-    MATT_ZLAVE,
+    MATT_ZLAVE, 
+    MATT_UNKNOWN,
     NUM_MONSTER_ATTITUDES
 };
 

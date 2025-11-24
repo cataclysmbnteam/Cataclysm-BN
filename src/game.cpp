@@ -269,6 +269,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
@@ -7475,11 +7476,15 @@ void game::list_items_monsters()
     }
 
     std::sort( mons.begin(), mons.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        const auto att_lhs = lhs->attitude_to( u );
-        const auto att_rhs = rhs->attitude_to( u );
+        if( !u.has_trait( trait_INATTENTIVE ) ) {
+            const auto att_lhs = lhs->attitude_to( u );
+            const auto att_rhs = rhs->attitude_to( u );
 
-        return att_lhs < att_rhs || ( att_lhs == att_rhs
-                                      && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+            return att_lhs < att_rhs || ( att_lhs == att_rhs
+                                          && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        } else { // Sort just by ditance if player has inattentive trait
+            return ( rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        }
     } );
 
     // If the current list is empty, switch to the non-empty list
@@ -8027,11 +8032,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Attitude> mSortCategory;
 
-    for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
-        const auto attitude = monster_list[i]->attitude_to( u );
-        if( attitude != last_attitude ) {
-            mSortCategory[i + mSortCategory.size()] = attitude;
-            last_attitude = attitude;
+    const bool player_knows = !u.has_trait( trait_INATTENTIVE );
+    if( player_knows ) {
+        for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
+            const auto attitude = monster_list[i]->attitude_to( u );
+            if( static_cast<int>( attitude ) != last_attitude ) {
+                mSortCategory[i + mSortCategory.size()] = attitude;
+                last_attitude = static_cast<int>( attitude );
+            }
         }
     }
 
@@ -8082,7 +8090,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                 const auto endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
-                    if( CatSortIter != mSortCategory.cend() ) {
+
+                    if( player_knows && CatSortIter != mSortCategory.cend() ) {
                         const int iCurPos = iStartPos + y;
                         const int iCatPos = CatSortIter->first;
                         if( iCurPos == iCatPos ) {
@@ -8097,7 +8106,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const auto critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( g->u ) ) {
+                    if( critter->sees( g->u ) && player_knows ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;
@@ -8139,7 +8148,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         std::tie( sText, color ) =
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
-                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    if( !player_knows ) {
+                        sText = _( "Unknown" );
+                        color = c_yellow;
+                    }
+                    mvwprintz( w_monsters, point( width - 19, y ), color, sText );
 
                     if( m != nullptr ) {
                         const auto att = m->get_attitude();

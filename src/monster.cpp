@@ -128,6 +128,7 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -162,6 +163,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown" ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -751,6 +753,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
+    const bool player_knows = g->u.has_trait( trait_INATTENTIVE );
+
     mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
     wprintw( w, " " );
     const auto att = get_attitude();
@@ -772,12 +776,16 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
     }
 
-    if( sees( g->u ) ) {
+    if( sees( g->u ) && player_knows ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
 
     const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
-    mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
+    if (player_knows) {
+        mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
+    } else {
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "Looks like it can may be probably move." ) );
+    }
 
     std::string effects = get_effect_status();
     if( !effects.empty() ) {
@@ -1343,6 +1351,7 @@ Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::A_HOSTILE;
             case MATT_NULL:
+            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -1371,6 +1380,8 @@ std::string io::enum_to_string<monster_attitude>( monster_attitude att )
             return "MATT_ATTACK";
         case MATT_ZLAVE:
             return "MATT_ZLAVE";
+        case MATT_UNKNOWN:
+            return "MATT_UNKNOWN";
         case NUM_MONSTER_ATTITUDES:
             break;
     }
