@@ -78,9 +78,6 @@ item_penalties get_item_penalties( const location_vector<item>::const_iterator &
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
-        if( _bp->token && _bp.id().is_null() ) {
-            continue;
-        }
         if( !worn_item->covers( bp ) ) {
             continue;
         }
