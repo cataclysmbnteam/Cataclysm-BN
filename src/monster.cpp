@@ -671,14 +671,14 @@ std::pair<std::string, nc_color> monster::get_attitude() const
 {
     const avatar &ply = get_avatar();
     auto att = attitude_names.at( attitude( &g->u ) );
-    if (ply.has_trait(trait_INATTENTIVE)) {
-            att = attitude_names.at(MATT_UNKNOWN);
-    } 
+    if( ply.has_trait( trait_INATTENTIVE ) ) {
+        att = attitude_names.at( MATT_UNKNOWN );
+    }
     return {
         _( att.first ),
-         all_colors.get( att.second )
+        all_colors.get( att.second )
     };
-    
+
 }
 
 static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
@@ -686,7 +686,7 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     const avatar &ply = get_avatar();
     std::string damage_info;
     nc_color col;
-    if (ply.has_trait(trait_INATTENTIVE)) {
+    if( ply.has_trait( trait_INATTENTIVE ) ) {
         damage_info = _( "It looks fine." );
         col = c_green;
     } else {
@@ -740,16 +740,16 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
 
     const avatar &ply = get_avatar();
     const bool player_knows = !ply.has_trait( trait_INATTENTIVE );
-    if (player_knows) {
+    if( player_knows ) {
         float player_runcost = ply.run_cost( 100 );
         if( player_runcost == 0 ) {
-           player_runcost = 1.0f;
+            player_runcost = 1.0f;
         }
 
-    // determine tiles per turn (tpt)
+        // determine tiles per turn (tpt)
         const float player_tpt = ply.get_speed() / player_runcost;
         const float ratio = player_tpt == 0 ?
-                        2.00f : mon_speed_rating / player_tpt;
+                            2.00f : mon_speed_rating / player_tpt;
 
         for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
             if( ratio >= std::get<0>( speed_case ) ) {
@@ -757,7 +757,7 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
             }
         }
     } else {
-        return std::make_pair( _("It is a creature."), c_white);
+        return std::make_pair( _( "It is a creature." ), c_white );
     }
 
     debugmsg( "speed_description: no ratio value matched" );
@@ -796,7 +796,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
     mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
-    
+
 
     std::string effects = get_effect_status();
     if( !effects.empty() ) {
