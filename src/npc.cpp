@@ -2673,7 +2673,7 @@ std::string npc_attitude_name( npc_attitude att )
 {
     const avatar &ply = get_avatar();
     if( ply.has_trait( trait_INATTENTIVE ) ) {
-        return _( "Unknown" );
+        return _( "" );
     } else {
         switch( att ) {
             // Don't care/ignoring player

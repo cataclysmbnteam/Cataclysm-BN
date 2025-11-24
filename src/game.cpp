@@ -8148,11 +8148,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         std::tie( sText, color ) =
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
-                    if( !player_knows ) {
-                        sText = _( "Unknown" );
-                        color = c_yellow;
+                    if( player_knows ) {
+                        mvwprintz( w_monsters, point( width - 19, y ), color, sText );
                     }
-                    mvwprintz( w_monsters, point( width - 19, y ), color, sText );
 
                     if( m != nullptr ) {
                         const auto att = m->get_attitude();
