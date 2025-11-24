@@ -148,7 +148,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             mission->step_complete( 1 );
         }
         if( type->goal == MGOAL_KILL_MONSTERS ) {
-            if( mission->monster_kill_goal-- == 0 ) {
+            if( --mission->monster_kill_goal <= 0 ) {
                 mission->step_complete( 1 );
             }
         }
@@ -700,6 +700,11 @@ mission::mission()
     bad_fac_id = -1;
     step = 0;
     player_id = character_id();
+}
+
+void mission::register_kill_needed()
+{
+    monster_kill_goal++;
 }
 
 namespace io

@@ -330,7 +330,7 @@ class mission
         // Monster species that are to be killed
         species_id monster_species;
         // The number of monsters you need to kill
-        int monster_kill_goal = 0;
+        int monster_kill_goal = -1;
         // The kill count you need to reach to complete mission
         int kill_count_to_reach = 0;
         time_point deadline;
@@ -370,6 +370,7 @@ class mission
         character_id get_npc_id() const;
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
+        void register_kill_needed();
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.

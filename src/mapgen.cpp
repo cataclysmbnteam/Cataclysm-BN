@@ -113,7 +113,7 @@ static void science_room( map *m, const point &p1, const point &p2, int z, int r
 void map::generate( const tripoint &p, const time_point &when )
 {
     dbg( DL::Info ) << "map::generate( g[" << g.get() << "], p[" << p <<
-                    "], when[" << to_string( when ) << "] )";
+                       "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( p );
 
@@ -400,7 +400,7 @@ static mapgen_factory oter_mapgen;
  * stores function ref and/or required data
  */
 std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
+nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
 /*
@@ -2036,6 +2036,7 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
+        bool use_pack_size;
         jmapgen_monster( const JsonObject &jsi ) :
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
@@ -2043,7 +2044,8 @@ class jmapgen_monster : public jmapgen_piece
                                          !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
-            , target( jsi.get_bool( "target", false ) ) {
+            , target( jsi.get_bool( "target", false ) )
+            , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
@@ -2099,7 +2101,7 @@ class jmapgen_monster : public jmapgen_piece
             mongroup_id chosen_group = m_id.get( dat );
             if( !chosen_group.is_null() ) {
                 MonsterGroupResult spawn_details =
-                    MonsterGroupManager::GetResultFromGroup( chosen_group );
+                    MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, use_pack_size );
                 dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
                 friendly, -1, mission_id, name );
@@ -2773,7 +2775,7 @@ class jmapgen_nested : public jmapgen_piece
                 neighbor_connection_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         std::set<overmap_connection_id> dir_connections = jsi.get_tags<overmap_connection_id>
-                                ( io::enum_to_string( dir ) );
+                            ( io::enum_to_string( dir ) );
                         if( !dir_connections.empty() ) {
                             neighbors[dir] = std::move( dir_connections );
                         }
@@ -3281,7 +3283,7 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
             }
         }
         std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =
-                    format_placings[placing.first];
+            format_placings[placing.first];
         these_placings.insert( these_placings.end(),
                                constrained_placings.begin(), constrained_placings.end() );
     }
@@ -6636,7 +6638,7 @@ void map::rotate( int turns, const bool setpos_safe )
     // uses submap coordinates
     // TODO: fix point types
     const std::vector<shared_ptr_fast<npc>> npcs =
-            overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
+        overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
@@ -7462,7 +7464,7 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &da
 }
 
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
-            const std::string &update_mapgen_id )
+    const std::string &update_mapgen_id )
 {
     const int fake_map_z = -9;
 
