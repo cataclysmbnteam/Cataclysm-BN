@@ -2359,7 +2359,8 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
                  to_degrees( face.dir() ), to_degrees( new_dir ) );
         return false;
     }
-
+    new_vehicle->owner = owner;
+    new_vehicle->old_owner = old_owner;
     std::vector<point> new_mounts;
     new_vehicle->name = veh_record.substr( vehicle_part::name_offset );
     for( auto carried_part : carried_parts ) {
@@ -2572,6 +2573,8 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 // the split part was out of the map bounds.
                 continue;
             }
+            new_vehicle->owner = owner;
+            new_vehicle->old_owner = old_owner;
             new_vehicle->name = name;
             new_vehicle->move = move;
             new_vehicle->turn_dir = turn_dir;
