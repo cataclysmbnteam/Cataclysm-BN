@@ -729,20 +729,25 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
     };
 
     const avatar &ply = get_avatar();
-    float player_runcost = ply.run_cost( 100 );
-    if( player_runcost == 0 ) {
-        player_runcost = 1.0f;
-    }
+    const bool player_knows = !ply.has_trait( trait_INATTENTIVE );
+    if (player_knows) {
+        float player_runcost = ply.run_cost( 100 );
+        if( player_runcost == 0 ) {
+           player_runcost = 1.0f;
+        }
 
     // determine tiles per turn (tpt)
-    const float player_tpt = ply.get_speed() / player_runcost;
-    const float ratio = player_tpt == 0 ?
+        const float player_tpt = ply.get_speed() / player_runcost;
+        const float ratio = player_tpt == 0 ?
                         2.00f : mon_speed_rating / player_tpt;
 
-    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio >= std::get<0>( speed_case ) ) {
-            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+        for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
+            if( ratio >= std::get<0>( speed_case ) ) {
+                return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+            }
         }
+    } else {
+        return std::make_pair( _("It is a creature."), c_white);
     }
 
     debugmsg( "speed_description: no ratio value matched" );
@@ -753,12 +758,16 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    const bool player_knows = g->u.has_trait( trait_INATTENTIVE );
+    const bool player_knows = !g->u.has_trait( trait_INATTENTIVE );
 
     mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
     wprintw( w, " " );
     const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
+    if (player_knows) {
+        wprintz( w, att.second, att.first );
+    } else {
+         wprintz( w, c_white, _("Unknown") );
+    }
 
     if( debug_mode ) {
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
@@ -781,11 +790,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
-    if (player_knows) {
-        mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
-    } else {
-        mvwprintz( w, point( column, ++vStart ), c_white, _( "Looks like it can may be probably move." ) );
-    }
+    mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
+    
 
     std::string effects = get_effect_status();
     if( !effects.empty() ) {
