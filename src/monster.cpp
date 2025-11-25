@@ -670,7 +670,8 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
     const avatar &ply = get_avatar();
-    const auto att = attitude_names.at( ply.has_trait( trait_INATTENTIVE ) ? MATT_UNKNOWN : attitude( &g->u ) );
+    const auto att = attitude_names.at( ply.has_trait( trait_INATTENTIVE ) ? MATT_UNKNOWN : attitude(
+                                            &g->u ) );
     return {
         _( att.first ),
         all_colors.get( att.second )
