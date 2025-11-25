@@ -7482,7 +7482,7 @@ void game::list_items_monsters()
 
             return att_lhs < att_rhs || ( att_lhs == att_rhs
                                           && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
-        } else { // Sort just by ditance if player has inattentive trait
+        } else { // Sort just by distance if player has inattentive trait
             return ( rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
         }
     } );
