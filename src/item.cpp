@@ -3161,15 +3161,14 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( elem.is_hidden() && !knows_it ) {
             continue;
         }
+        // Always use the recipe's result name to ensure proper translation
+        const std::string name = elem.recipe->result_name();
         if( knows_it ) {
-            // In case the recipe is known, but has a different name in the book, use the
-            // real name to avoid confusing the player.
-            const std::string name = elem.recipe->result_name();
             recipe_list.push_back( "<bold>" + name + "</bold>" );
         } else if( !can_learn ) {
-            recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+            recipe_list.push_back( "<color_brown>" + name + "</color>" );
         } else {
-            recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+            recipe_list.push_back( "<dark>" + name + "</dark>" );
         }
     }
 
