@@ -1146,7 +1146,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
-    "components": [ [ [ "pipe", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ], [ "xlframe", 1 ] ] ]
   },
   {
     "type": "recipe",
