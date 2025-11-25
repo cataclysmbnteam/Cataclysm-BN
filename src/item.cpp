@@ -3167,9 +3167,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const std::string name = elem.recipe->result_name();
             recipe_list.push_back( "<bold>" + name + "</bold>" );
         } else if( !can_learn ) {
-            recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+            recipe_list.push_back( "<color_brown>" + elem.name.translated() + "</color>" );
         } else {
-            recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+            recipe_list.push_back( "<dark>" + elem.name.translated() + "</dark>" );
         }
     }
 

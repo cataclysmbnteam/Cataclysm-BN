@@ -390,7 +390,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        std::string name;
+        translation name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
