@@ -18,6 +18,11 @@ set(CATACLYSM_DATA_FILES
         cataicon.ico)
 
 if (RELEASE)
-    install(DIRECTORY ${CATACLYSM_DATA_DIRS} TYPE DATA)
-    install(FILES ${CATACLYSM_DATA_FILES} TYPE DATA)
+    if (USE_PREFIX_DATA_DIR)
+        install(DIRECTORY ${CATACLYSM_DATA_DIRS} TYPE DATA)
+        install(FILES ${CATACLYSM_DATA_FILES} TYPE DATA)
+    else()
+        install(DIRECTORY ${CATACLYSM_DATA_DIRS} DESTINATION data)
+        install(FILES ${CATACLYSM_DATA_FILES} DESTINATION data)
+    endif()
 endif ()

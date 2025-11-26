@@ -484,15 +484,24 @@ if (CATA_CLANG_TIDY_PLUGIN)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 
-install(DIRECTORY doc TYPE DOC)
-
 if (RELEASE)
-    install(FILES
-        ${CMAKE_SOURCE_DIR}/README.md
-        ${CMAKE_SOURCE_DIR}/LICENSE.txt
-        ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
-        ${CMAKE_SOURCE_DIR}/VERSION.txt
-        TYPE DOC)
+    if (USE_PREFIX_DATA_DIR)
+        install(DIRECTORY doc TYPE DOC)
+        install(FILES
+            ${CMAKE_SOURCE_DIR}/README.md
+            ${CMAKE_SOURCE_DIR}/LICENSE.txt
+            ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+            ${CMAKE_SOURCE_DIR}/VERSION.txt
+            TYPE DOC)
+    else()
+        install(DIRECTORY doc DESTINATION .)
+        install(FILES
+            ${CMAKE_SOURCE_DIR}/README.md
+            ${CMAKE_SOURCE_DIR}/LICENSE.txt
+            ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+            ${CMAKE_SOURCE_DIR}/VERSION.txt
+            DESTINATION .)
+    endif()
     if (TILES)
         if (USE_PREFIX_DATA_DIR)
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
@@ -501,6 +510,11 @@ if (RELEASE)
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
                 DESTINATION .)
         endif()
+    endif()
+    # Install cataclysm-launcher for portable Linux builds
+    if (NOT USE_PREFIX_DATA_DIR AND UNIX AND NOT APPLE)
+        install(PROGRAMS ${CMAKE_SOURCE_DIR}/cataclysm-launcher
+            DESTINATION .)
     endif()
 endif()
 

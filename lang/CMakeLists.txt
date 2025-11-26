@@ -55,6 +55,15 @@ foreach (LANG ${LANGUAGES})
         COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po -o
                 ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    # FIXME: check if this works
-    # install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
 endforeach ()
+
+# Install translations
+if (RELEASE)
+    if (USE_PREFIX_DATA_DIR)
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo
+            DESTINATION ${CMAKE_INSTALL_LOCALEDIR})
+    else()
+        install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo
+            DESTINATION lang)
+    endif()
+endif ()
