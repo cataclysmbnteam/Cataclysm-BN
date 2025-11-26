@@ -204,24 +204,25 @@ cmake --install build
 
 ### Creating Distribution Packages
 
-To create a portable distribution package (similar to release builds), use `USE_PREFIX_DATA_DIR=OFF`
-and install with `--prefix`:
+Use the `dist-tiles` or `dist-curses` presets to create portable distribution packages:
 
 ```sh
-# Configure for portable layout
-cmake -B build -G Ninja \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DTILES=ON \
-  -DSOUND=ON \
-  -DLANGUAGES=all \
-  -DJSON_FORMAT=ON \
-  -DUSE_PREFIX_DATA_DIR=OFF
+# Configure for tiles distribution
+cmake --preset dist-tiles
 
 # Build the game and tools
-cmake --build build --target cataclysm-bn-tiles json_formatter
+cmake --build --preset dist-tiles
 
 # Create distribution package
 cmake --install build --prefix cataclysmbn-linux-tiles
+```
+
+For curses-only builds:
+
+```sh
+cmake --preset dist-curses
+cmake --build --preset dist-curses
+cmake --install build --prefix cataclysmbn-linux-curses
 ```
 
 This creates a self-contained directory with the following structure:
@@ -249,6 +250,14 @@ tar -czvf cataclysmbn-linux-tiles.tar.gz cataclysmbn-linux-tiles
 > [!TIP]
 > The `cataclysm-launcher` script sets up the correct working directory and library paths.
 > Use it to run the game from any location.
+
+#### Distribution Presets
+
+| Preset        | Description                             |
+| ------------- | --------------------------------------- |
+| `dist-tiles`  | Tiles + Sound + Languages               |
+| `dist-curses` | Curses + Languages                      |
+| `lint`        | Minimal build for formatting tools only |
 
 #### Portable vs System Install
 

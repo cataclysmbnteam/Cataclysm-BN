@@ -8,7 +8,7 @@ This guide explains how to format and lint code in Cataclysm: Bright Nights.
 
 | File Type       | Tool           | Command                                            |
 | --------------- | -------------- | -------------------------------------------------- |
-| C++ (`.cpp/.h`) | astyle         | `make astyle`                                      |
+| C++ (`.cpp/.h`) | astyle         | `cmake --build build --target astyle`              |
 | JSON            | json_formatter | `cmake --build build --target style-json-parallel` |
 | Markdown        | deno fmt       | `deno fmt`                                         |
 | TypeScript      | deno fmt       | `deno fmt`                                         |
@@ -30,9 +30,6 @@ style violations, a commit will be pushed to fix them.
 C++ files are formatted with [astyle](http://astyle.sourceforge.net/).
 
 ```sh
-# Format all C++ files
-make astyle
-
 # Install astyle (Ubuntu/Debian)
 sudo apt install astyle
 
@@ -43,29 +40,33 @@ sudo dnf install astyle
 brew install astyle
 ```
 
+### Using CMake
+
+```sh
+# Configure (only needed once, or use an existing build)
+cmake --preset lint
+
+# Format all C++ files
+cmake --build build --target astyle
+```
+
 The style configuration is in `.astylerc` at the repository root.
 
 ## JSON Formatting
 
 JSON files are formatted with `json_formatter`, a custom tool built from the project source.
 
-### Using CMake (Recommended)
+### Using CMake
 
 ```sh
-# Configure with JSON_FORMAT enabled
-cmake -B build -DJSON_FORMAT=ON
+# Configure (only needed once, or use an existing build)
+cmake --preset lint
 
 # Format all JSON files in parallel
 cmake --build build --target style-json-parallel
 
 # Format all JSON files sequentially (slower, but useful for debugging)
 cmake --build build --target style-json
-```
-
-### Using Makefile (Legacy)
-
-```sh
-make style-all-json-parallel RELEASE=1
 ```
 
 > [!NOTE]
@@ -116,17 +117,14 @@ tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*
 Before committing, run these checks:
 
 ```sh
-# 1. Format C++
-make astyle
+# Configure once (creates build directory with formatting tools)
+cmake --preset lint
 
-# 2. Format JSON (requires CMake build with JSON_FORMAT=ON)
-cmake --build build --target style-json-parallel
-
-# 3. Format Markdown/TypeScript
-deno fmt
-
-# 4. Format Lua
-deno task dprint fmt
+# Format all code
+cmake --build build --target astyle           # C++
+cmake --build build --target style-json-parallel  # JSON
+deno fmt                                       # Markdown/TypeScript
+deno task dprint fmt                           # Lua
 ```
 
 ## CI Integration
@@ -165,19 +163,32 @@ autocmd BufWritePre *.md,*.ts !deno fmt %
 
 ## Troubleshooting
 
-### "json_formatter not found"
+### "json_formatter not found" or "style-json-parallel target not found"
 
-Make sure you configured CMake with `-DJSON_FORMAT=ON`:
+Make sure you configured CMake with the `lint` preset or with `-DJSON_FORMAT=ON`:
 
 ```sh
-cmake -B build -DJSON_FORMAT=ON
+cmake --preset lint
 cmake --build build --target json_formatter
 ```
 
-### "style-json-parallel target not found"
+### "astyle target not found"
 
-This target is only available on Unix-like systems (Linux, macOS). On Windows, use WSL or format
-JSON files individually.
+Make sure `astyle` is installed and in your PATH:
+
+```sh
+# Check if astyle is available
+which astyle
+
+# Install if missing (Ubuntu/Debian)
+sudo apt install astyle
+```
+
+Then reconfigure CMake:
+
+```sh
+cmake --preset lint
+```
 
 ### astyle produces different results
 
