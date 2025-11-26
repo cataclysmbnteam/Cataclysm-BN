@@ -193,26 +193,11 @@ jobs:
       # Build with CMake (Linux)
       - name: Configure with CMake (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DTILES=${{ matrix.tiles && 'ON' || 'OFF' }} \
-            -DCURSES=${{ !matrix.tiles && 'ON' || 'OFF' }} \
-            -DSOUND=${{ matrix.sound && 'ON' || 'OFF' }} \
-            -DLANGUAGES=all \
-            -DBACKTRACE=ON \
-            -DLIBBACKTRACE=ON \
-            -DJSON_FORMAT=ON \
-            -DUSE_PREFIX_DATA_DIR=OFF
+        run: cmake --preset ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }}
 
       - name: Build with CMake (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
-        run: |
-          if [ "${{ matrix.tiles }}" = "true" ]; then
-            cmake --build build --parallel $(nproc) --target cataclysm-bn-tiles json_formatter
-          else
-            cmake --build build --parallel $(nproc) --target cataclysm-bn json_formatter
-          fi
+        run: cmake --build --preset ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }} --parallel $(nproc)
 
       - name: Create distribution package (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
