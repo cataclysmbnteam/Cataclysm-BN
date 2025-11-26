@@ -141,13 +141,10 @@ jobs:
 
       - uses: ammaraskar/gcc-problem-matcher@master
 
-      - name: run JSON linting (test-stage only)
+      - name: run JSON syntax validation (test-stage only)
         if: ${{ env.SKIP == 'false' && env.TEST_STAGE == '1' }}
         run: |
           build-scripts/lint-json.sh
-          # TODO: migrate to CMake target once available
-          make style-all-json-parallel RELEASE=1
-          tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
 
       - name: Configure with CMake
         if: ${{ env.SKIP == 'false' }}
@@ -165,11 +162,18 @@ jobs:
             -DBACKTRACE=ON \
             -DLIBBACKTRACE=${{ matrix.libbacktrace == 1 && 'ON' || 'OFF' }} \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DJSON_FORMAT=${{ env.TEST_STAGE == '1' && 'ON' || 'OFF' }} \
             -DTESTS=ON
 
       - name: Build with CMake
         if: ${{ env.SKIP == 'false' }}
         run: cmake --build build --parallel $(nproc)
+
+      - name: run JSON formatting check (test-stage only)
+        if: ${{ env.SKIP == 'false' && env.TEST_STAGE == '1' }}
+        run: |
+          cmake --build build --target style-json-parallel
+          tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
 
       - name: post-build ccache stats and cleanup
         if: ${{ env.SKIP == 'false' && !failure() }}
