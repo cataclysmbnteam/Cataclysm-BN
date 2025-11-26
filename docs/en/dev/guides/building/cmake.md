@@ -252,11 +252,11 @@ tar -czvf cataclysmbn-linux-tiles.tar.gz cataclysmbn-linux-tiles
 
 #### Portable vs System Install
 
-| Option                    | `USE_PREFIX_DATA_DIR=OFF` | `USE_PREFIX_DATA_DIR=ON` |
-| ------------------------- | ------------------------- | ------------------------ |
-| Data location             | `./data/`                 | `/usr/share/cataclysm-bn/` |
-| Config location           | `./config/`               | `~/.config/cataclysm-bn/` |
-| Best for                  | Portable/release builds   | System packages (deb/rpm) |
+| Option          | `USE_PREFIX_DATA_DIR=OFF` | `USE_PREFIX_DATA_DIR=ON`   |
+| --------------- | ------------------------- | -------------------------- |
+| Data location   | `./data/`                 | `/usr/share/cataclysm-bn/` |
+| Config location | `./config/`               | `~/.config/cataclysm-bn/`  |
+| Best for        | Portable/release builds   | System packages (deb/rpm)  |
 
 To change build options, you can either pass the options on the command line:
 

@@ -6,13 +6,13 @@ This guide explains how to format and lint code in Cataclysm: Bright Nights.
 
 ## Quick Reference
 
-| File Type       | Tool           | Command                                |
-| --------------- | -------------- | -------------------------------------- |
-| C++ (`.cpp/.h`) | astyle         | `make astyle`                          |
+| File Type       | Tool           | Command                                            |
+| --------------- | -------------- | -------------------------------------------------- |
+| C++ (`.cpp/.h`) | astyle         | `make astyle`                                      |
 | JSON            | json_formatter | `cmake --build build --target style-json-parallel` |
-| Markdown        | deno fmt       | `deno fmt`                             |
-| TypeScript      | deno fmt       | `deno fmt`                             |
-| Lua             | dprint         | `deno task dprint fmt`                 |
+| Markdown        | deno fmt       | `deno fmt`                                         |
+| TypeScript      | deno fmt       | `deno fmt`                                         |
+| Lua             | dprint         | `deno task dprint fmt`                             |
 
 ## Automated Formatting
 

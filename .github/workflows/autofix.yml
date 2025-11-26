@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: sudo apt-get install astyle
+      - run: sudo apt-get install astyle ninja-build
 
       - uses: denoland/setup-deno@v2
         with: { cache: true }
@@ -50,7 +50,9 @@ jobs:
         run: deno task dprint fmt
 
       - name: format JSON
-        run: make style-all-json-parallel RELEASE=1
+        run: |
+          cmake -B build -G Ninja -DJSON_FORMAT=ON -DTILES=OFF -DCURSES=OFF -DTESTS=OFF
+          cmake --build build --target style-json-parallel
 
       # autofix.ci cannot edit .github directory due to security reasons
       - name: unstage .github
