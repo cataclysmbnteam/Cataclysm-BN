@@ -199,22 +199,27 @@ jobs:
             -DTILES=${{ matrix.tiles && 'ON' || 'OFF' }} \
             -DCURSES=${{ !matrix.tiles && 'ON' || 'OFF' }} \
             -DSOUND=${{ matrix.sound && 'ON' || 'OFF' }} \
-            -DLOCALIZE=ON \
+            -DLANGUAGES=all \
             -DBACKTRACE=ON \
             -DLIBBACKTRACE=ON \
-            -DCMAKE_INSTALL_PREFIX=/usr
+            -DJSON_FORMAT=ON \
+            -DUSE_PREFIX_DATA_DIR=OFF
 
       - name: Build with CMake (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
-        run: cmake --build build --parallel $(nproc)
+        run: |
+          if [ "${{ matrix.tiles }}" = "true" ]; then
+            cmake --build build --parallel $(nproc) --target cataclysm-bn-tiles json_formatter
+          else
+            cmake --build build --parallel $(nproc) --target cataclysm-bn json_formatter
+          fi
 
       - name: Create distribution package (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
         run: |
-          DESTDIR=install cmake --install build
-          cd install
-          tar -czf ../cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.tar.gz .
-          cd ..
+          cmake --install build --prefix cataclysmbn-${{ inputs.version-label }}
+          tar -czvf cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.tar.gz \
+            cataclysmbn-${{ inputs.version-label }}
 
       # Build with CMake (Windows MSVC)
       - name: Build CBN (windows msvc)
