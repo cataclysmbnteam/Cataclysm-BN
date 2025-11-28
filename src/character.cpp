@@ -4096,6 +4096,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         int newLevel = get_skill_level( id );
         if( newLevel > oldLevel ) {
             g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+            // Athletics (swimming) skill modifies encumbrance, so make sure encumbrance is updated.
+            // No harm flagging for any skill level-up in general.
+            flag_encumbrance();
         }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
@@ -4265,6 +4268,9 @@ void Character::do_skill_rust()
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
             add_msg_if_player( m_bad, _( "Your skill in %s has reduced to %d!" ), aSkill.name(), newSkill );
+            // Athletics (swimming) skill modifies encumbrance, so make sure encumbrance is updated.
+            // No harm flagging for any skill rust in general.
+            flag_encumbrance();
         }
     }
 }
