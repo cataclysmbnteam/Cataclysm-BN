@@ -477,6 +477,10 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
+    if( !debugLevel.test( debug_level ) ) {
+        return;
+    }
+
     // Show excessive repetition prompt once per excessive set
     bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
 
