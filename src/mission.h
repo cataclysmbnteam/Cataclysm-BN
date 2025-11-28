@@ -70,6 +70,7 @@ enum mission_goal : int {
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     MGOAL_TALK_TO_NPC,       // Talk to a given NPC
     MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
+    MGOAL_KILL_MONSTERS,     // Kill a number of specific mission-tagged monsters
     NUM_MGOAL
 };
 
