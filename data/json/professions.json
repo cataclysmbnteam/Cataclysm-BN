@@ -6989,30 +6989,18 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
-{
+  {
     "type": "profession",
     "id": "knight",
     "name": "Knight",
     "description": "Chivalry! Daring! Honor! All traits that are useless in the Cataclysm. But you know how to fight with a sword and you have this armor so it could be worse.",
     "points": 4,
-    "skills": [
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "cutting" },
-    ],
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "cutting" } ],
     "traits": [ "PROF_KNIGHT", "ANTIJUNK" ],
     "items": {
       "both": {
-        "items": [
-          "chainmail_hauberk",
-          "chainmail_feet",
-          "helmet_plate",
-          "chainmail_hands",
-	  "socks",
-	  "shield_leather",
-        ],
-        "entries": [
-          { "item": "longsword", "container-item":  "scabbard"  },
-        ]
+        "items": [ "chainmail_hauberk", "chainmail_feet", "helmet_plate", "chainmail_hands", "socks", "shield_leather" ],
+        "entries": [ { "item": "longsword", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
     }
