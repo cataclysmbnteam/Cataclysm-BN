@@ -2255,7 +2255,7 @@ void item::io( Archive &archive )
     archive.io( "bday", bday, calendar::start_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
-    archive.io( "item_vars", item_vars, io::empty_default_tag() );
+    archive.io( "item_vars", item_vars_, io::empty_default_tag() );
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -2361,9 +2361,9 @@ void item::io( Archive &archive )
     // Books without any chapters don't need to store a remaining-chapters
     // counter, it will always be 0 and it prevents proper stacking.
     if( get_chapters() == 0 ) {
-        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+        for( auto it = item_vars_.begin(); it != item_vars_.end(); ) {
             if( it->first.starts_with( "remaining-chapters-" ) ) {
-                item_vars.erase( it++ );
+                item_vars_.erase( it++ );
             } else {
                 ++it;
             }
@@ -2371,8 +2371,8 @@ void item::io( Archive &archive )
     }
 
     // Remove stored translated gerund in favor of storing the inscription tool type
-    item_vars.erase( "item_label_type" );
-    item_vars.erase( "item_note_type" );
+    item_vars_.erase( "item_label_type" );
+    item_vars_.erase( "item_note_type" );
 
     // Activate corpses from old saves
     if( is_corpse() && !is_active() ) {
@@ -3928,6 +3928,28 @@ void submap::store( JsonOut &jsout ) const
         pr.second.serialize( jsout );
     }
     jsout.end_array();
+
+    jsout.member( "furniture_vars" );
+    jsout.start_array();
+    for( const auto &[key, value] : frn_vars ) {
+        if( value.empty() ) {
+            continue;
+        }
+        jsout.write( key );
+        jsout.write( value );
+    }
+    jsout.end_array();
+
+    jsout.member( "terrain_vars" );
+    jsout.start_array();
+    for( const auto &[key, value] : ter_vars ) {
+        if( value.empty() ) {
+            continue;
+        }
+        jsout.write( key );
+        jsout.write( value );
+    }
+    jsout.end_array();
 }
 
 void submap::load( JsonIn &jsin, const std::string &member_name, int version,
@@ -4170,6 +4192,22 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             point_sm_ms p;
             jsin.read( p );
             active_furniture[p].deserialize( jsin );
+        }
+    } else if( member_name == "furniture_vars" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            point loc;
+            jsin.read( loc );
+            auto &vars = frn_vars[loc];
+            jsin.read( vars );
+        }
+    } else if( member_name == "terrain_vars" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            point loc;
+            jsin.read( loc );
+            auto &vars = ter_vars[loc];
+            jsin.read( vars );
         }
     } else {
         jsin.skip_value();
