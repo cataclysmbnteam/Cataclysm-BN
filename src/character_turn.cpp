@@ -903,6 +903,7 @@ void Character::process_items()
     }
     if( update_required ) {
         reset_encumbrance();
+        set_check_encumbrance( false );
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += std::min( units::to_kilojoule( get_power_level() ), 10 );
