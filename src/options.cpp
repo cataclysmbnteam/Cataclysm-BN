@@ -1551,8 +1551,12 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "HEALTH_STYLE", interface, translate_marker( "Health Display Style" ),
-         translate_marker( "Switch health-related display styling such as HP and hunger" ),
-    {{ "number", translate_marker( "Numerical" )}, {"bar", translate_marker( "Bar" )}},
+    translate_marker( "Switch health-related display styling such as HP and hunger" ), {
+        {"number", translate_marker( "Numerical" ) },
+        {"bar", translate_marker( "Bar" ) },
+        {"bar_alt", translate_marker( "Bar (Alt)" ) },
+        {"bar_ascii", translate_marker( "Bar (Old)" ) },
+    },
     "bar" );
 
     add_empty_line();
@@ -2221,6 +2225,22 @@ void options_manager::add_options_debug()
         this->add_empty_line( debug );
     };
 
+    add_option_group( debug, Group( "rem_act_perf", to_translation( "Performance" ),
+                                    to_translation( "Configure performance settings that can detract from the game." ) ),
+    [&]( auto & page_id ) {
+        add( "SLEEP_SKIP_VEH", page_id, translate_marker( "Sleep Boost: Skip Vehicle Movement" ),
+             translate_marker( "Turns off vehicle movement and autodrive while sleeping" ),
+             true );
+        add( "SLEEP_SKIP_SOUND", page_id, translate_marker( "Sleep Boost: Skip Sound Processing On Sleep" ),
+             translate_marker( "Sounds are not processed while sleeping" ),
+             false );
+        add( "SLEEP_SKIP_MON", page_id, translate_marker( "Sleep Boost: Skip Monster Movement" ),
+             translate_marker( "Monsters do not move while sleeping" ),
+             false );
+    } );
+
+    add_empty_line();
+
     add( "STRICT_JSON_CHECKS", debug, translate_marker( "Strict JSON checks" ),
          translate_marker( "If true, will show additional warnings for JSON data correctness." ),
          true
@@ -2413,6 +2433,10 @@ void options_manager::add_options_world_default()
     add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage scaling factor" ),
          translate_marker( "A scaling factor that determines how damaged vehicles are." ),
          0.0, 10.0, 1, 0.1
+       );
+
+    add( "VEHICLE_LOCKS", world_default, translate_marker( "Vehicle door locks" ),
+         translate_marker( "Determines if new vehicles can spawn with locked doors." ), true
        );
 
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),

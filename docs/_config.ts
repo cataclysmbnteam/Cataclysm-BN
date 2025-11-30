@@ -22,5 +22,6 @@ site
     locales: { ko },
     formats: { HUMAN_DATE: "yyyy-MM-dd", HUMAN_DATETIME: "yyyy-MM-dd ppp" },
   }))
+  .copy("redirect.js")
 
 export default site

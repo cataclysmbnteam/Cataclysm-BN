@@ -660,27 +660,39 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+
+    constexpr auto query_gen_failed = []() {
+        return query_yn(
+                   _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) );
+    };
+
     do {
         omtstart = start_loc.find_player_initial_location();
         if( omtstart == overmap::invalid_tripoint ) {
-            if( query_yn(
-                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+            if( query_gen_failed() ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
                 return false;
             }
         }
+
+        start_loc.prepare_map( omtstart );
+
+        // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
+        if( u.starting_vehicle ) {
+            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} );
+            if( veh ) {
+                veh->set_owner( u );
+            } else if( query_gen_failed() ) {
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
+                omtstart = overmap::invalid_tripoint;
+            } else {
+                return false;
+            }
+        }
     } while( omtstart == overmap::invalid_tripoint );
-
-    start_loc.prepare_map( omtstart );
-
-    // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
-    }
 
     if( scen->has_map_extra() ) {
         // Map extras can add monster spawn points and similar and should be done before the main
@@ -910,7 +922,8 @@ vehicle *game::place_vehicle_nearby(
             }
         };
         vehicle *veh = target_map.add_vehicle(
-                           id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
+                           id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
+                           0, false, false, true );
         if( veh ) {
             tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
             veh->sm_pos =  ms_to_sm_remain( abs_local );
@@ -1474,6 +1487,11 @@ bool game::do_turn()
     if( is_game_over() ) {
         return cleanup_at_end();
     }
+    const bool asleep = u.in_sleep_state();
+    const auto vehperf = asleep && !character_funcs::is_driving( u ) &&
+                         get_option<bool>( "SLEEP_SKIP_VEH" );
+    const auto soundperf = asleep && get_option<bool>( "SLEEP_SKIP_SOUND" );
+    const auto monperf = asleep && get_option<bool>( "SLEEP_SKIP_MON" );
     // Actual stuff
     if( new_game ) {
         new_game = false;
@@ -1532,19 +1550,21 @@ bool game::do_turn()
     perhaps_add_random_npc();
     process_voluntary_act_interrupt();
     process_activity();
-    // Process NPC sound events before they move or they hear themselves talking
-    for( npc &guy : all_npcs() ) {
-        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-            sounds::process_sound_markers( &guy );
+    if( !soundperf ) {
+        // Process NPC sound events before they move or they hear themselves talking
+        for( npc &guy : all_npcs() ) {
+            if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                sounds::process_sound_markers( &guy );
+            }
+        }
+        sounds::process_sound_markers( &u );
+
+        if( u.is_deaf() ) {
+            sfx::do_hearing_loss();
         }
     }
 
     // Process sound events into sound markers for display to the player.
-    sounds::process_sound_markers( &u );
-
-    if( u.is_deaf() ) {
-        sfx::do_hearing_loss();
-    }
 
     if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
@@ -1552,12 +1572,14 @@ bool game::do_turn()
                 cleanup_dead();
                 mon_info_update();
                 // Process any new sounds the player caused during their turn.
-                for( npc &guy : all_npcs() ) {
-                    if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-                        sounds::process_sound_markers( &guy );
+                if( !soundperf ) {
+                    for( npc &guy : all_npcs() ) {
+                        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                            sounds::process_sound_markers( &guy );
+                        }
                     }
+                    sounds::process_sound_markers( &u );
                 }
-                sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH && wait_popup ) {
                     wait_popup.reset();
                     ui_manager::redraw();
@@ -1611,9 +1633,11 @@ bool game::do_turn()
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
 
-    m.process_falling();
-    autopilot_vehicles();
-    m.vehmove();
+    if( !vehperf ) {
+        m.process_falling();
+        autopilot_vehicles();
+        m.vehmove();
+    }
     m.process_fields();
     m.process_items();
     m.creature_in_field( u );
@@ -1624,7 +1648,9 @@ bool game::do_turn()
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
-    monmove();
+    if( !monperf ) {
+        monmove();
+    }
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
     }
@@ -6754,7 +6780,16 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
+
+#if defined(TILES)
+            const int minimap_height_opt = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
+            const int minimap_height = minimap_height_opt > 0 ? minimap_height_opt : panel_width / 2;
+            int height = pixel_minimap_option
+                         ? TERMY - minimap_height
+                         : TERMY;
+#else
+            int height = TERMY;
+#endif
 
             // If particularly small, base height on panel width irrespective of other elements.
             // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
@@ -6815,6 +6850,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
     if( use_tiles ) {
         ctxt.register_action( "zoom_out" );
         ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "debug_tileset" );
     }
 #if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -6924,6 +6960,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         }
 
+        if( pixel_minimap_option ) {
+            ctxt.set_timeout( 125 );
+        }
+
         //Wait for input
         // only specify a timeout here if "EDGE_SCROLL" is enabled
         // otherwise use the previously set timeout
@@ -6996,6 +7036,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
+            }
+        } else if( action == "debug_tileset" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_tiles_no_vfx();
             }
         } else if( action == "debug_submap_grid" ) {
             g->debug_submap_grid_overlay = !g->debug_submap_grid_overlay;
@@ -11663,6 +11707,13 @@ void game::display_transparency()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+    }
+}
+
+void game::display_tiles_no_vfx()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_TILES_NO_VFX );
     }
 }
 

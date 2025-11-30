@@ -6,7 +6,7 @@
 # Validate the PR title, and ignore all commit messages
 enabled: true
 titleOnly: true
-targetUrl: "https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/"
+targetUrl: "https://docs.cataclysmbn.org/contribute/changelog_guidelines/"
 types:
   - feat
   - fix
@@ -54,6 +54,7 @@ scopes:
   - mods/desertpack
   - mods/disable_lifting
   - mods/exotic_ammo
+  - mods/flowerpots_plus
   - mods/fuji_mpp
   - mods/innawoods
   - mods/jump_pad

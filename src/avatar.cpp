@@ -805,7 +805,7 @@ static void skim_book_msg( const item &book, avatar &u )
         if( elem.is_hidden() && !u.knows_recipe( elem.recipe ) ) {
             continue;
         }
-        recipe_list.push_back( elem.name );
+        recipe_list.push_back( elem.name.translated() );
     }
     if( !recipe_list.empty() ) {
         std::string recipe_line =

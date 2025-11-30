@@ -237,6 +237,9 @@ struct char_trait_data {
 };
 
 struct mutation_collection : std::unordered_map<trait_id, char_trait_data> {};
+using mutation = std::pair<const trait_id, char_trait_data>;
+using enchantment_source =
+    std::variant<std::monostate, const item *, const mutation *, const bionic *>;
 
 struct mountable_status {
     bool mountable;
@@ -1570,6 +1573,10 @@ class Character : public Creature, public location_visitable<Character>
         const item *item_worn_with_id( const itype_id &item_id,
                                        const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
 
+        struct overlay_entry {
+            std::string id;
+            std::variant<std::monostate, const effect *, const item *, const mutation *, const bionic *> entry;
+        };
         // drawing related stuff
         /**
          * Returns a list of the IDs of overlays on this character,
@@ -1577,7 +1584,7 @@ class Character : public Creature, public location_visitable<Character>
          *
          * Only required for rendering.
          */
-        std::vector<std::string> get_overlay_ids() const;
+        std::vector<overlay_entry> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
@@ -1704,6 +1711,9 @@ class Character : public Creature, public location_visitable<Character>
         // --------------- Values ---------------
         std::string name; // Pre-cataclysm name, invariable
         bool male = true;
+
+        // Threshold category if crossed
+        mutation_category_id thresh_category = mutation_category_id::NULL_ID();
 
         location_vector<item> worn;
         // Means player sit inside vehicle on the tile he is now
@@ -2445,6 +2455,8 @@ class Character : public Creature, public location_visitable<Character>
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchantment> enchantment_cache;
+        // for enchantment mutations sprite display, recalculated alongside the cache
+        std::vector<std::pair<const enchantment *, enchantment_source>> enchantment_sources;
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point_abs_omt, time_duration> overmap_time;

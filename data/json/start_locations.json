@@ -537,5 +537,11 @@
       "convention_3_2_2",
       "convention_4_2_2"
     ]
+  },
+  {
+    "type": "start_location",
+    "id": "water_tower",
+    "name": "Water Tower",
+    "terrain": [ "water_tower_-1zl" ]
   }
 ]
