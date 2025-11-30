@@ -406,7 +406,10 @@ class ExplosionProcess
             event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
         auto is_animated() const -> bool {
-            return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
+            if( test_mode || get_option<int>( "ANIMATION_DELAY" ) <= 0 ) { return false; }
+
+            const int skip_after = get_option<int>( "SKIP_EXPLOSION_ANIMATION_AFTER" );
+            return skip_after == 0 || get_explosion_queue().get_count() <= skip_after;
         }
 
         bool process_next();
@@ -1891,9 +1894,11 @@ explosion_queue &get_explosion_queue()
 
 void explosion_queue::execute()
 {
+    explosion_count = 0;
     while( !elems.empty() ) {
         queued_explosion exp = std::move( elems.front() );
         elems.pop_front();
+        explosion_count++;
         switch( exp.type ) {
             case ExplosionType::Regular:
                 explosion_funcs::regular( exp );
