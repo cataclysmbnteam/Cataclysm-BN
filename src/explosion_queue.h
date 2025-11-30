@@ -59,9 +59,7 @@ class explosion_queue
 
         void execute();
 
-        void clear() {
-            elems.clear();
-        }
+        void clear() { elems.clear(); }
 };
 
 explosion_queue &get_explosion_queue();

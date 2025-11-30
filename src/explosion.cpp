@@ -405,7 +405,7 @@ class ExplosionProcess
             assert( delay >= 0 );
             event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
-        bool is_animated() {
+        auto is_animated() const -> bool {
             return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
         }
 
