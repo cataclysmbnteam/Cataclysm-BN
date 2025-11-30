@@ -6999,7 +6999,7 @@
     "traits": [ "PROF_KNIGHT", "ANTIJUNK" ],
     "items": {
       "both": {
-        "items": [ "chainmail_hauberk", "chainmail_feet", "helmet_plate", "chainmail_hands", "socks", "shield_leather" ],
+        "items": [ "breeches", "chainmail_hauberk", "socks", "chainmail_feet", "helmet_plate", "chainmail_hands", "shield_leather" ],
         "entries": [ { "item": "longsword", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
