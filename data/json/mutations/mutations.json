@@ -6834,5 +6834,16 @@
     "purifiable": false,
     "profession": true,
     "scent_type": "sc_fetid"
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_KNIGHT",
+    "name": { "str": "Swordsman" },
+    "points": 0,
+    "description": "You have trained in the ways of the European nobility. Mostly useless even before the Cataclysm, now the only thing worth anything is the swordsmanship.",
+    "valid": false,
+    "initial_ma_styles": [ "style_swordsmanship" ],
+    "purifiable": false,
+    "profession": true
   }
 ]
