@@ -2891,8 +2891,14 @@ void target_ui::update_target_list()
         targets = ranged::targetable_creatures( *you, range );
     }
 
-    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist_exact( lhs->pos(), you->pos() ) < rl_dist_exact( rhs->pos(), you->pos() );
+    map &here = get_map();
+    const auto player_pos = you->pos();
+
+    std::ranges::sort( targets, {}, [&]( const Creature * c ) -> std::tuple<bool, bool, int> {
+        const auto target_pos = c->pos();
+        const bool same_z = player_pos.z == target_pos.z;
+        const bool has_los = here.sees( player_pos, target_pos, range );
+        return { !has_los, !same_z, rl_dist_exact( target_pos, player_pos ) };
     } );
 }
 
