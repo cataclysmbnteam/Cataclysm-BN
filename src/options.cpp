@@ -1937,6 +1937,14 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "SKIP_EXPLOSION_ANIMATION_AFTER", graphics,
+         translate_marker( "Maximum rendered explosions per turn" ),
+         translate_marker( "Skip rendering explosions after this many count per turn to prevent softlocks from chain reactions. Set to 0 to disable." ),
+         0, 100, 10
+       );
+
+    get_option( "SKIP_EXPLOSION_ANIMATION_AFTER" ).setPrerequisite( "ANIMATIONS" );
+
     add( "BULLETS_AS_LASERS", graphics, translate_marker( "Draw bullets as lines" ),
          translate_marker( "If true, bullets are drawn as lines of images, and the animation lasts only one frame." ),
          false
