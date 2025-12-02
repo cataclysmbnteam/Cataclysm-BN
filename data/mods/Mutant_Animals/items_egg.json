@@ -1,0 +1,74 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bird",
+    "name": { "str": "bird egg" },
+    "weight": "57 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 5,
+    "healthy": 1,
+    "calories": 115,
+    "description": "Nutritious egg laid by a bird.",
+    "price": "2 USD",
+    "material": "egg",
+    "volume": "51 ml",
+    "stack_size": 5,
+    "fun": -3,
+    "flags": [ "RAW" ],
+    "rot_spawn": "GROUP_EGG_BIRD_WILD",
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 21 ] ],
+    "rot_spawn_chance": 50
+},
+{
+    "type": "COMESTIBLE",
+    "id": "egg_songbird",
+    "name": { "str": "songbird egg" },
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_SONGBIRD"
+},
+{
+    "type": "COMESTIBLE",
+    "id": "egg_bird_mutant_vultch",
+    "name": { "str": "vultch egg" },
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_VULTCH"
+},
+{
+    "type": "COMESTIBLE",
+    "id": "egg_bird_mutant_iridescent",
+    "name": { "str": "iridescent egg" },
+    "color": "pink",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_IRIDESCENT"
+},
+{
+    "type": "COMESTIBLE",
+    "id": "egg_bird_mutant_ghoul",
+    "name": { "str": "ghoul bird egg" },
+    "copy-from": "egg_bird",
+    "use_action": "POISON",
+    "quench": -4,
+    "healthy": -10,
+    "calories": 115,
+    "description": "Poisonous egg laid by a bird.",
+    "price": "0 cent",
+    "material": "egg",
+    "volume": "250 ml",
+    "stack_size": 5,
+    "fun": -50,
+    "rot_spawn": "GROUP_EGG_GHOUL"
+},
+{
+    "type": "COMESTIBLE",
+    "id": "egg_bird_mutant_elephant",
+    "volume": "1 L",
+    "calories": 500,
+    "weight": "300 g",
+    "name": { "str": "elephant egg" },
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_ELEPHANT"
+}
+]

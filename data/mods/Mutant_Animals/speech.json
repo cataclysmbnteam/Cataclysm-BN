@@ -1,0 +1,278 @@
+[
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "\"tweet tweet tweet.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "\"chirp chirp chirp.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "\"cookoo cookoo.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "\"caw-caw. caw-caw.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "whistling and chirping.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "birds singing.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "singing birds.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "a bird song.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "the jargon of forest birds.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "the calls of birds.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "the warning cries of small birds.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "the uplifiting sounds of nature.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "a loud caw-cawing.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "repetitive chirping.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_songbird",
+    "sound": "whistles and trills.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "otherworldly music.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "the strange notes of mutant birds.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "wild discordant birdcalls.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "ethereal piping.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "unfamiliar bird calls.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "the strange sounds of an alien forest.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "the weird cries of mutant birds.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "an unnatural droning sound.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "the music of a new world.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "piercing cries of an unknown bird.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "bird calls, unlike any you've heard before.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "hideous death cries.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bird_mutant_songbird",
+    "sound": "hypnotic birdcalls.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_mutant_digiri",
+    "sound": "\"wlo wlo wlo wlooooowlowlo.\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_mutant_digiri",
+    "sound": "\"raaaanrzh raaaanrzh raaaanrzh.\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_mutant_digiri",
+    "sound": "\"vrooonoo vroonoo vrooooonoo vroonoo.\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dog_mutant_digiri",
+    "sound": "\"bjyoooom bjyoooom bjyoooom.\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_deer_sick_crying",
+    "sound": "\"Hreeeeeeeech!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_deer_sick_crying",
+    "sound": "\"Auuuuuuwuuu!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_deer_sick_crying",
+    "sound": "\"Raaaaahaaaaa!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_deer_sick_crying",
+    "sound": "\"Neeeeeeehuuuuuu!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"I could use some help over here.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"Don't leave me behind.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"We've always been friends, right?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"Come closer.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"Let's team up.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"Help!  I can't swim!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"Help a guy out, would ya?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"It's too dark to see.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"Follow me.  I'll show you the way.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fish_mutant_whisper",
+    "sound": "\"We should stick together.\"",
+    "volume": 30
+  }
+]

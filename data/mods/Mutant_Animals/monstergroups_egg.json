@@ -1,0 +1,110 @@
+[
+  {
+    "name": "GROUP_EGG_BIRD_WILD",
+    "type": "monstergroup",
+    "default": "mon_bird_sick_chick",
+    "monsters": [
+      { "monster": "mon_bird_sick_chick", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_crow_chick", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_chicken_chick", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_turkey_chick", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_duck_chick", "freq": 150, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_CHICKEN",
+    "type": "monstergroup",
+    "default": "mon_chicken_chick",
+    "monsters": [
+      { "monster": "mon_chicken_chick", "freq": 900, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_chick", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_CROW",
+    "type": "monstergroup",
+    "default": "mon_crow_chick",
+    "monsters": [
+      { "monster": "mon_crow_chick", "freq": 900, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_chick", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_DUCK",
+    "type": "monstergroup",
+    "default": "mon_duck_chick",
+    "monsters": [
+      { "monster": "mon_duck_chick", "freq": 900, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_chick", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_TURKEY",
+    "type": "monstergroup",
+    "default": "mon_turkey_chick",
+    "monsters": [
+      { "monster": "mon_turkey_chick", "freq": 900, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_chick", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_SNAKE",
+    "type": "monstergroup",
+    "default": "mon_rattlesnake",
+    "monsters": [
+      { "monster": "mon_snake_sick_molting", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_snake_mutant_jaculus", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_snake_mutant_bone", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_snake_mutant_frostbite", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake", "freq": 400, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_PARASITE",
+    "type": "monstergroup",
+    "default": "mon_dermatik_larva",
+    "monsters": [
+      { "monster": "mon_dermatik_larva", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_SONGBIRD",
+    "type": "monstergroup",
+    "default": "mon_songbird",
+    "monsters": [
+      { "monster": "mon_songbird", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_VULTCH",
+    "type": "monstergroup",
+    "default":  "mon_bird_mutant_vultch",
+    "monsters": [
+      { "monster":  "mon_bird_mutant_vultch", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_IRIDESCENT",
+    "type": "monstergroup",
+    "default": "mon_bird_mutant_iridescent",
+    "monsters": [
+      { "monster": "mon_bird_mutant_iridescent", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_GHOUL",
+    "type": "monstergroup",
+    "default": "mon_bird_mutant_ghoul",
+    "monsters": [
+      { "monster": "mon_bird_mutant_ghoul", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_ELEPHANT",
+    "type": "monstergroup",
+    "default": "mon_bird_mutant_elephant",
+    "monsters": [
+      { "monster": "mon_bird_mutant_elephant", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "eggs_bug",
+    "//": "Tame eggs are excluded for safety.",
+    "type": "requirement",
+    "components": [
+      [
+        [ "egg_acid_ant", 1 ],
+        [ "egg_bee", 1 ],
+        [ "egg_butterfly", 1 ],
+        [ "egg_centipede", 1 ],
+        [ "egg_dragonfly", 1 ],
+        [ "egg_fly", 1 ],
+        [ "egg_mosquito", 1 ],
+        [ "egg_locust", 1 ],
+        [ "egg_wasp", 1 ],
+        [ "egg_cellar_spider", 1 ],
+        [ "egg_jumping_spider", 1 ],
+        [ "egg_trapdoor_spider", 1 ],
+        [ "egg_blackwidow_spider", 1 ],
+        [ "egg_web_spider", 1 ],
+        [ "egg_wolf_spider", 1 ]
+      ]
+    ]
+  }
+]

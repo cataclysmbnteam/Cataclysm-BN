@@ -1,0 +1,306 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "abstract": "egg_bug",
+    "name": { "str": "bug egg" },
+    "weight": "300 g",
+    "color": "white",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 10,
+    "healthy": 1,
+    "calories": 400,
+    "description": "Some kind of sickass bug egg. It's gross, dude, don't eat it.",
+    "price": "1 USD",
+    "material": "egg",
+    "volume": "250 ml",
+    "stack_size": 4,
+    "fun": -20,
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "spider_egg",
+    "copy-from": "egg_bug",
+    "name": { "str": "mutant spider egg" },
+    "description": "A fist-sized egg from a giant spider.  Incredibly gross."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_roach",
+    "name": { "str": "roach egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
+    "rot_spawn": "GROUP_EGG_ROACH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_roach_plague",
+    "name": { "str": "roach egg" },
+    "copy-from": "egg_roach",
+    "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_locust",
+    "name": { "str": "mutant locust egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant locust.",
+    "rot_spawn": "GROUP_EGG_LOCUST",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "ant_egg",
+    "name": { "str": "mutant ant egg" },
+    "copy-from": "egg_bug",
+    "description": "A large white ant egg, the size of a softball.",
+    "rot_spawn": "GROUP_EGG_ANT",
+    "rot_spawn_chance": 60
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_ant",
+    "name": { "str": "mutant ant egg" },
+    "copy-from": "egg_bug",
+    "description": "A large white ant egg, the size of a softball.",
+    "rot_spawn": "GROUP_EGG_TAME_ANT",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_acid_ant",
+    "name": { "str": "mutant acid ant egg" },
+    "copy-from": "egg_bug",
+    "description": "A large white acid ant egg, the size of a softball.",
+    "rot_spawn": "GROUP_EGG_ANT",
+    "rot_spawn_chance": 60
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_acid_ant",
+    "name": { "str": "mutant acid ant egg" },
+    "copy-from": "egg_bug",
+    "description": "A large white acid ant egg, the size of a softball.",
+    "rot_spawn": "GROUP_EGG_TAME_ANT",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bee",
+    "name": { "str": "mutant bee egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant bee.",
+    "rot_spawn": "GROUP_EGG_BEE",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_bee",
+    "name": { "str": "mutant bee egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant bee.",
+    "rot_spawn": "GROUP_EGG_TAME_BEE",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_queen_bee",
+    "name": { "str": "mutant bee egg" },
+    "copy-from": "egg_bug",
+    "color": "yellow",
+    "description": "A fist-sized egg from a mutant bee, marinated in a soup of mutagen and royal jelly.",
+    "rot_spawn": "GROUP_EGG_QUEEN_BEE",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": { "str": "mutant butterfly egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant butterfly.",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_beetle",
+    "name": { "str": "mutant beetle egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant beetle.",
+    "rot_spawn": "GROUP_EGG_BEETLE",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_beetle",
+    "name": { "str": "mutant beetle egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant beetle.",
+    "rot_spawn": "GROUP_EGG_TAME_BEETLE",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_centipede",
+    "name": { "str": "mutant centipede egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant centipede.",
+    "rot_spawn": "GROUP_EGG_CENTIPEDE",
+    "rot_spawn_chance": 80
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dragonfly",
+    "name": { "str": "mutant dragonfly egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant dragonfly.",
+    "rot_spawn": "GROUP_EGG_DRAGONFLY",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_dragonfly",
+    "name": { "str": "mutant dragonfly egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant dragonfly.",
+    "rot_spawn": "GROUP_EGG_TAME_DRAGONFLY",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fly",
+    "name": { "str": "mutant fly egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant dragonfly.",
+    "rot_spawn": "GROUP_EGG_FLY",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_fly",
+    "name": { "str": "mutant fly egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant fly.",
+    "rot_spawn": "GROUP_EGG_TAME_FLY",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mosquito",
+    "name": { "str": "mutant mosquito egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant mosquito.",
+    "rot_spawn": "GROUP_EGG_MOSQUITO",
+    "rot_spawn_chance": 80
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_wasp",
+    "name": { "str": "mutant wasp egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant wasp.  You can almost feel the hatred emanating from within.",
+    "rot_spawn": "GROUP_EGG_WASP",
+    "rot_spawn_chance": 80
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_wasp",
+    "name": { "str": "mutant wasp egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant wasp.",
+    "rot_spawn": "GROUP_EGG_TAME_WASP",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cellar_spider",
+    "name": { "str": "mutant fly egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant cellar-spider.",
+    "rot_spawn": "GROUP_EGG_CELLAR_SPIDER",
+    "rot_spawn_chance": 90
+  },
+
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_jumping_spider",
+    "name": { "str": "mutant jumping-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant jumping-spider.",
+    "rot_spawn": "GROUP_EGG_JUMPING_SPIDER",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_jumping_spider",
+    "name": { "str": "mutant jumping-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant jumping-spider.",
+    "rot_spawn": "GROUP_EGG_TAME_JUMPING_SPIDER",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_trapdoor_spider",
+    "name": { "str": "mutant trapdoor-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant trapdoor-spider.",
+    "rot_spawn": "GROUP_EGG_TRAPDOOR_SPIDER",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_trapdoor_spider",
+    "name": { "str": "mutant trapdoor-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant trapdoor-spider.",
+    "rot_spawn": "GROUP_EGG_TAME_TRAPDOOR_SPIDER",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_web_spider",
+    "name": { "str": "mutant web-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant web-spider.",
+    "rot_spawn": "GROUP_EGG_WEB_SPIDER",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_web_spider",
+    "name": { "str": "mutant web-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant web-spider.",
+    "rot_spawn": "GROUP_EGG_TAME_WEB_SPIDER",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_blackwidow_spider",
+    "name": { "str": "mutant blackwidow egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant blackwidow spider.",
+    "rot_spawn": "GROUP_EGG_BLACKWIDOW_SPIDER",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_wolf_spider",
+    "name": { "str": "mutant wolf-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant wolf-spider.",
+    "rot_spawn": "GROUP_EGG_WOLF_SPIDER",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tame_wolf_spider",
+    "name": { "str": "mutant wolf-spider egg" },
+    "copy-from": "egg_bug",
+    "description": "A fist-sized egg from a mutant wolf-spider.",
+    "rot_spawn": "GROUP_EGG_TAME_WOLF_SPIDER",
+    "rot_spawn_chance": 100
+  }
+]

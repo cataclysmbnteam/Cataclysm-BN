@@ -1,0 +1,9 @@
+[
+  {
+    "id": "emit_nuclear_trail",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "qty": 5,
+    "chance": 15
+  }
+]

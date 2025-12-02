@@ -1,0 +1,15 @@
+[
+  {
+    "type":"monstergroup",
+    "name": "GROUP_WILDERNESS",
+    "override": false,
+    "auto_total": true,
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_giant_beetle", "freq": 100, "cost_multiplier": 5, "pack_size": [ 2, 4 ], "conditions": [ "DAWN", "DAY", "DUSK" ] },
+      { "monster": "mon_small_butterfly", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 10 ], "conditions": [ "DAWN", "DAY"] },
+      { "monster": "mon_small_firefly", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 8 ], "conditions": [ "NIGHT", "DUSK" ] },
+      { "monster": "mon_small_moth", "freq": 100, "cost_multiplier": 1, "pack_size": [ 3, 5 ], "conditions": [ "NIGHT", "DUSK" ] }
+    ]
+  }
+]

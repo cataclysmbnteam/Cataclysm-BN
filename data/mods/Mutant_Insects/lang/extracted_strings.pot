@@ -1,0 +1,1339 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mutant_insects\n"
+"POT-Creation-Date: 2021-06-29 14:16+0300\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ./harvest.json
+msgid "stinger"
+msgid_plural "stingers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for stinger
+#: ./harvest.json
+msgid ""
+"A six-inch stinger from a giant insect.  Makes a mediocre melee weapon."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"BZZzzzzzzzzzzz.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"BZzzzt. BZZzzzzzzzt.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"VRRRrrrrzzzzzzzzz.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"VRrrrzt.  VRRRrrzzzzzzt.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "A loud buzz."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "The piercing buzzing of a mutant insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "A loud drone from a giant insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"Bzzzzzzzzzzzzz.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"Bzzzzt. Bzzzzzzzzzt.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"Vrrrrrrzzzzzzzzz.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"Vrrrrzt.  Vrrrrrzzzzzzt.\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "An annoying buzz."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "The buzzing of a mutant insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "An irritating drone from a large insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"BZZZZZzzzzzzzz!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"BZZZzt! BZZZZZzzzt!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"VRRRRRRZZzzzzzzzz!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"VRRRZZzzzt!  VRRRRRZZzzzzt!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "A very loud buzz."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "The deafening buzzing of a mutant insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "A very loud drone from a giant insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"BZZZZZZZZZZZZZZZZZ!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"BZZZZZT! BZZZZZZT!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"VRRRRRRZZZZZZZZZZ!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "\"VRRRZZZZT!  VRRRRRZZZZZZT!\""
+msgstr ""
+
+#: ./insect_noises.json
+msgid "A deafeningly loud buzzzing noise."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "The earsplitting buzz of a mega insect."
+msgstr ""
+
+#: ./insect_noises.json
+msgid "The thundering drone of a flying mega insect."
+msgstr ""
+
+#: ./items.json
+msgid "bug dirt"
+msgid_plural "bug dirts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bug dirt
+#: ./items.json
+msgid "Large black pellets of rotting material."
+msgstr ""
+
+#: ./items.json
+msgid "concentrated acid"
+msgid_plural "concentrated acid"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'concentrated acid', 'str_pl': 'concentrated
+#. acid'}
+#: ./items.json
+msgid "Concentrated acid.  Don't drink it."
+msgstr ""
+
+#: ./items_egg.json
+msgid "bug egg"
+msgid_plural "bug eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bug egg
+#: ./items_egg.json
+msgid "Some kind of sickass bug egg. It's gross, dude, don't eat it."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant spider egg"
+msgid_plural "mutant spider eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant spider egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a giant spider.  Incredibly gross."
+msgstr ""
+
+#: ./items_egg.json
+msgid "roach egg"
+msgid_plural "roach eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for roach egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a giant roach.  Incredibly gross."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant locust egg"
+msgid_plural "mutant locust eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant locust egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant locust."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant ant egg"
+msgid_plural "mutant ant eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant ant egg
+#: ./items_egg.json
+msgid "A large white ant egg, the size of a softball."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant acid ant egg"
+msgid_plural "mutant acid ant eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant acid ant egg
+#: ./items_egg.json
+msgid "A large white acid ant egg, the size of a softball."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant bee egg"
+msgid_plural "mutant bee eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant bee egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant bee."
+msgstr ""
+
+#. ~ Description for mutant bee egg
+#: ./items_egg.json
+msgid ""
+"A fist-sized egg from a mutant bee, marinated in a soup of mutagen and royal"
+" jelly."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant butterfly egg"
+msgid_plural "mutant butterfly eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant butterfly egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant butterfly."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant beetle egg"
+msgid_plural "mutant beetle eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant beetle egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant beetle."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant centipede egg"
+msgid_plural "mutant centipede eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant centipede egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant centipede."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant dragonfly egg"
+msgid_plural "mutant dragonfly eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant dragonfly egg
+#. ~ Description for mutant fly egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant dragonfly."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant fly egg"
+msgid_plural "mutant fly eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant fly egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant fly."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant mosquito egg"
+msgid_plural "mutant mosquito eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant mosquito egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant mosquito."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant wasp egg"
+msgid_plural "mutant wasp eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant wasp egg
+#: ./items_egg.json
+msgid ""
+"A fist-sized egg from a mutant wasp.  You can almost feel the hatred "
+"emanating from within."
+msgstr ""
+
+#. ~ Description for mutant wasp egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant wasp."
+msgstr ""
+
+#. ~ Description for mutant fly egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant cellar-spider."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant jumping-spider egg"
+msgid_plural "mutant jumping-spider eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant jumping-spider egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant jumping-spider."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant trapdoor-spider egg"
+msgid_plural "mutant trapdoor-spider eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant trapdoor-spider egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant trapdoor-spider."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant web-spider egg"
+msgid_plural "mutant web-spider eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant web-spider egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant web-spider."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant blackwidow egg"
+msgid_plural "mutant blackwidow eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant blackwidow egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant blackwidow spider."
+msgstr ""
+
+#: ./items_egg.json
+msgid "mutant wolf-spider egg"
+msgid_plural "mutant wolf-spider eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant wolf-spider egg
+#: ./items_egg.json
+msgid "A fist-sized egg from a mutant wolf-spider."
+msgstr ""
+
+#: ./modinfo.json
+msgid "Mutant Insects"
+msgstr ""
+
+#. ~ Description for Mutant Insects
+#: ./modinfo.json
+msgid ""
+"Expands giant insects, eggs, larva.  Adds new types.  Insects evolve into "
+"mega-sized insects.  Some larva are tameable.  Eggs can be modified with "
+"mutagen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "small bug"
+msgid_plural "small bugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for small bug
+#: ./mutant_insect.json
+msgid "A gross bug about the size of rat.  Maybe immature."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "large bug"
+msgid_plural "large bugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for large bug
+#: ./mutant_insect.json
+msgid "A gross bug the size of a dog."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant bug"
+msgid_plural "giant bugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant bug
+#: ./mutant_insect.json
+msgid "A gigantic bug the size of a dog."
+msgstr ""
+
+#. ~ Description for giant bug
+#: ./mutant_insect.json
+msgid "An enormous bug the size of a cow or horse."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "small larva"
+msgid_plural "small larvas"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for small larva
+#: ./mutant_insect.json
+msgid "A gross worm the size of rat."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "large larva"
+msgid_plural "large larvas"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for large larva
+#: ./mutant_insect.json
+msgid "A gross worm the size of a dog."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant acidic ant"
+msgid_plural "giant acidic ants"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant acidic ant
+#: ./mutant_insect.json
+msgid ""
+"A monstrous brown ant the size of a human.  Glistening liquid periodically "
+"drips from its swollen abdomen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant acidic ant queen"
+msgid_plural "giant acidic ant queens"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant acidic ant queen
+#: ./mutant_insect.json
+msgid ""
+"An enormous brown ant the size of a cow.  Its orifice seems developed only "
+"for egg-laying rather than spraying acid."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant acidic ant soldier"
+msgid_plural "giant acidic ant soldiers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant acidic ant soldier
+#: ./mutant_insect.json
+msgid ""
+"A monstrous wolly brown ant the size of an adult human.  Glistening liquid "
+"periodically drips from its swollen abdomen and it bears a pair of scythe "
+"like mandibles."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mega acid ant"
+msgid_plural "mega acid ants"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega acid ant
+#: ./mutant_insect.json
+msgid ""
+"A monstrous woolly brown ant the size of a water buffalo.  Glistening liquid"
+" periodically drips from its swollen abdomen and it bears a pair of scythe "
+"like mandibles."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant acidic ant larva"
+msgid_plural "giant acidic ant larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'giant acidic ant larva', 'str_pl': 'giant acidic
+#. ant larvae'}
+#: ./mutant_insect.json
+msgid ""
+"A yellow grub the size of a dog.  It squirms and oozes gelatinous fluids."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid ""
+"A yellow grub the size of a dog.  It squirms and oozes gelatinous fluids.  "
+"This one seems unusually friendly."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant ant"
+msgid_plural "giant ants"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant ant
+#: ./mutant_insect.json
+msgid ""
+"An enormous red ant the size of a full grown human.  It possesses a pair of "
+"wriggling antennae and vicious-looking mandibles."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant ant queen"
+msgid_plural "giant ant queens"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant ant queen
+#: ./mutant_insect.json
+msgid ""
+"A colossal red ant the size of a cow.  It moves slowly and deliberately, "
+"tending to nearby eggs and continually laying more."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant ant soldier"
+msgid_plural "giant ant soldiers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant ant soldier
+#: ./mutant_insect.json
+msgid ""
+"A huge and hairy red ant the size of an adult human.  Bulging pincers extend"
+" from its jaws."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mega ant"
+msgid_plural "mega ants"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega ant
+#: ./mutant_insect.json
+msgid ""
+"A monstrous red ant the size of a bison.   Bulging pincers extend from its "
+"jaws."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "gigantic ant larva"
+msgid_plural "gigantic ant larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'gigantic ant larva', 'str_pl': 'gigantic ant
+#. larvae'}
+#. ~ Description for {'str': 'giant wasp larva', 'str_pl': 'giant wasp
+#. larvae'}
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a dog.  On one "
+"end is a set of squirming mouth parts."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a dog.  On one "
+"end is a set of squirming mouth parts.  THis one seems rather playful."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant bee"
+msgid_plural "giant bees"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant bee
+#: ./mutant_insect.json
+msgid ""
+"With a stinger the size of a kitchen knife, this dog-sized insect's black "
+"and yellow markings warn you to leave it undisturbed."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant queen bee"
+msgid_plural "giant queen bees"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant queen bee
+#: ./mutant_insect.json
+msgid ""
+"A colossal bee the size of a cow.  It moves slowly and deliberately, tending"
+" to nearby eggs and continually laying more."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant bee larva"
+msgid_plural "mutant bee larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'mutant bee larva', 'str_pl': 'mutant bee
+#. larvae'}
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a squirrel.  On "
+"one end is a set of squirming mouth parts."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a squirrel.  On "
+"one end is a set of squirming mouth parts.  This one seems rather playful."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a squirrel.  On "
+"one end is a set of squirming mouth parts.  This one seems proud and "
+"commanding."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "gigantic beetle"
+msgid_plural "gigantic beetles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gigantic beetle
+#: ./mutant_insect.json
+msgid ""
+"An enormous beetle the size of a Galapagos turtle.  It has a hard black "
+"shell."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mega beetle"
+msgid_plural "mega beetles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega beetle
+#: ./mutant_insect.json
+msgid "An enormous beetle the size of a hippo.  It has a hard black shell."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "gigantic beetle larva"
+msgid_plural "gigantic beetle larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'gigantic beetle larva', 'str_pl': 'gigantic
+#. beetle larvae'}
+#: ./mutant_insect.json
+msgid "A worm-like beetle larva the size of a dog."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "A worm-like larva the size of a dog. This one seems fairly tame."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "gigantic butterfly"
+msgid_plural "gigantic butterflys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gigantic butterfly
+#: ./mutant_insect.json
+msgid ""
+"An enormous butterfly with a wingspan the size of a kite.  It has colorful "
+"wings that swirl with hypnotic colors."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant butterfly chrysalis"
+msgid_plural "mutant butterfly chrysaliss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant butterfly chrysalis
+#: ./mutant_insect.json
+msgid "A silken cacoon containing what will become a mutant butterfly."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant caterpillar"
+msgid_plural "mutant caterpillars"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant caterpillar
+#: ./mutant_insect.json
+msgid ""
+"A thick green caterpillar the size of a person's arm. If slowly chews leaves"
+" and grass and seeds."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant centipede"
+msgid_plural "mutant centipedes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant centipede
+#: ./mutant_insect.json
+msgid ""
+"A mutant centipede grown to the size of an alligator. Its pincers have a "
+"deadly poison."
+msgstr ""
+
+#. ~ Description for mutant centipede
+#: ./mutant_insect.json
+msgid ""
+"A mutant centipede grown to the size of a tiger. Its pincers have a deadly "
+"poison."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant cockroach nymph"
+msgid_plural "giant cockroach nymphs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant cockroach nymph
+#: ./mutant_insect.json
+msgid "An immature mutant cockroach about the size of a rat."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant cockroach"
+msgid_plural "giant cockroachs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant cockroach
+#: ./mutant_insect.json
+msgid "A mutant cockroach the size of a small dog."
+msgstr ""
+
+#. ~ Description for giant cockroach
+#: ./mutant_insect.json
+msgid ""
+"A mutant cockroach the size of a small dog.  Its abdomen is heavily swollen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "plagueroach nymph"
+msgid_plural "plagueroach nymphs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for plagueroach nymph
+#: ./mutant_insect.json
+msgid "An infected mutant cockroach about the size of a rat."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant plagueroach"
+msgid_plural "giant plagueroachs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant plagueroach
+#: ./mutant_insect.json
+msgid "An infected mutant cockroach the size of a small dog."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "pregnant plagueroach"
+msgid_plural "pregnant plagueroachs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pregnant plagueroach
+#: ./mutant_insect.json
+msgid ""
+"An infected mutant cockroach the size of a small dog.  Its abdomen is "
+"heavily swollen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant dermatik"
+msgid_plural "mutant dermatiks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant dermatik
+#: ./mutant_insect.json
+msgid ""
+"A mutant wasp the size of a squirrel, with a barbed ovipositor extruding "
+"from the abdomen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant dermatik larva"
+msgid_plural "mutant dermatik larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'mutant dermatik larva', 'str_pl': 'mutant
+#. dermatik larvae'}
+#: ./mutant_insect.json
+msgid ""
+"A fat white grub as big as a squirrel, with a pair of large, spadelike "
+"mandibles."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant dragonfly"
+msgid_plural "mutant dragonflys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant dragonfly
+#: ./mutant_insect.json
+msgid ""
+"A mutant dragonfly which has grown to the size of a crow.  It darts and "
+"weaves through the air."
+msgstr ""
+
+#. ~ Description for mutant dragonfly
+#: ./mutant_insect.json
+msgid ""
+"A mutant dragonfly which has grown to the size of a crow.  It darts and "
+"weaves through the air.  This one seems especially intelligent."
+msgstr ""
+
+#. ~ Description for mutant dragonfly
+#: ./mutant_insect.json
+msgid ""
+"A giant dragonfly the size of a condor.  It buzzes through the air on "
+"glistening wings."
+msgstr ""
+
+#. ~ Description for mutant dragonfly
+#: ./mutant_insect.json
+msgid ""
+"A giant dragonfly as large as a human being.  It buzzes through the air on "
+"glistening wings."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mega dragonfly"
+msgid_plural "mega dragonflys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega dragonfly
+#: ./mutant_insect.json
+msgid ""
+"A giant dragonfly the size of a horse.  It makes a deafening buzz as it "
+"slowly hovers above the ground."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant firefly"
+msgid_plural "mutant fireflys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant firefly
+#: ./mutant_insect.json
+msgid ""
+"A bioluminescent insect the size of a sparrow. It lights up the evening "
+"gloom with its yellow glow."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant fly"
+msgid_plural "mutant flys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant fly
+#: ./mutant_insect.json
+msgid ""
+"A giant mutant fly the size of a chicken.  It buzzes and drones incessantly."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant fly"
+msgid_plural "giant flys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant fly
+#: ./mutant_insect.json
+msgid "A giant fly the size of a sheep.  It buzzes and drones incessantly."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mega fly"
+msgid_plural "mega flys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega fly
+#: ./mutant_insect.json
+msgid ""
+"A giant fly the size of a horse.  It makes a deafening buzz as it slowly "
+"hovers above the ground."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant maggot"
+msgid_plural "mutant maggots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant maggot
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a housecat.  On "
+"one end is a set of squirming mouth parts."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a housecat.  On "
+"one end is a set of squirming mouth parts.  This one seems rather playful."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant locust"
+msgid_plural "mutant locusts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant locust
+#: ./mutant_insect.json
+msgid ""
+"A mutant locust nymph the size of a crow. It's still growing and hungry."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant locust"
+msgid_plural "giant locusts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant locust
+#: ./mutant_insect.json
+msgid "A giant locust the size of a racoon.  It's clumsy, stupid, and hungry."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant moth"
+msgid_plural "mutant moths"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant moth
+#: ./mutant_insect.json
+msgid ""
+"A fuzzy mutated moth with a wingspan the size of a kite. It soars and flits "
+"through the darkness."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant mosquito"
+msgid_plural "mutant mosquitos"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant mosquito
+#: ./mutant_insect.json
+msgid ""
+"An enormous mutant mosquito the size of an eagle.  Its face is dominated by "
+"a long, spear-tipped proboscis."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mutant mosquito larva"
+msgid_plural "mutant mosquito larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'mutant mosquito larva', 'str_pl': 'mutant
+#. mosquito larvae'}
+#: ./mutant_insect.json
+msgid ""
+"A mutant mosquito larva the size of a squirrel.  It floats at the surface of"
+" the water waiting to catach smaller prey."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant wasp"
+msgid_plural "giant wasps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant wasp
+#: ./mutant_insect.json
+msgid ""
+"A gigantic slender-bodied wasp about the size of an adult human. It is armed"
+" with an evil-looking stinger and bears ominous red markings on its abdomen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "mega wasp"
+msgid_plural "mega wasps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega wasp
+#: ./mutant_insect.json
+msgid ""
+"A gigantic slender-bodied wasp about the size of a cow. It is armed with an "
+"evil-looking stinger and bears ominous red markings on its abdomen."
+msgstr ""
+
+#: ./mutant_insect.json
+msgid "giant wasp larva"
+msgid_plural "giant wasp larvae"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_insect.json
+msgid ""
+"A pulsating sausage of glistening white flesh, the size of a dog.  On one "
+"end is a set of squirming mouth parts.  This one seems less aggressive."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "large spider"
+msgid_plural "large spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_spider.json
+msgid "giant spider"
+msgid_plural "giant spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_spider.json
+msgid "mega spider"
+msgid_plural "mega spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_spider.json
+msgid "giant cellar-spiderling"
+msgid_plural "giant cellar-spiderlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant cellar-spiderling
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched giant cellar spider the size of a rat.  Too small to possess"
+" much venom, but still quick and agile like an adult."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant cellar-spider"
+msgid_plural "giant cellar-spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant cellar-spider
+#: ./mutant_spider.json
+msgid ""
+"A twitchy mutant spider about the size of a dog, with a relatively small "
+"body and spindly long legs.  Its smaller brethren are known for being agile,"
+" and for preying upon other spiders."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant jumping-spiderling"
+msgid_plural "giant jumping-spiderlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant jumping-spiderling
+#: ./mutant_spider.json
+msgid "A newly-hatched mutant jumping spider the size of a rat."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched mutant jumping spider the size of a rat.  This one is highly"
+" intelligent."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant jumping-spider"
+msgid_plural "giant jumping-spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant jumping-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant humping-spider about the size of a dog.  It has big forelegs and two"
+" pairs of inquisitive-looking eyes."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant jumping spider"
+msgid_plural "giant jumping spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant jumping spider
+#: ./mutant_spider.json
+msgid ""
+"A giant jumping-spider about the size of a cougar.  It has big forelegs and "
+"two pairs of inquisitive-looking eyes."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "mega jumping spider"
+msgid_plural "mega jumping spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega jumping spider
+#: ./mutant_spider.json
+msgid ""
+"A giant jumping-spider about the size of a horse.  It has big forelegs and "
+"two pairs of inquisitive-looking eyes."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant trapdoor-spiderling"
+msgid_plural "giant trapdoor-spiderlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant trapdoor-spiderling
+#: ./mutant_spider.json
+msgid "A newly-hatched mutant spider the size of a rat."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched mutant spider the size of a rat.  This one is excepptionally"
+" cute."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant trapdoor-spider"
+msgid_plural "giant trapdoor-spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant trapdoor-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant trapdoor-spider about the size of a dog. It digs a deep underground "
+"burrow that serves as a pit to trap unwary prey."
+msgstr ""
+
+#. ~ Description for giant trapdoor-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant trapdoor-spider about the size of a cougar.  It digs a deep "
+"underground burrow that serves as a pit to trap unwary prey."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "mega trapdoor-spider"
+msgid_plural "mega trapdoor-spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega trapdoor-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant trapdoor-spider about the size of a horse.  It digs a deep "
+"underground burrow that serves as a pit to trap unwary prey."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant web-spiderling"
+msgid_plural "giant web-spiderlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant web-spiderling
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched mutant web-spider the size of a rat.  It waits for prey to "
+"become ensnared in the vast webs that it weaves between the trees."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched mutant web-spider the size of a rat.  This one is rather "
+"friendly."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant web spider"
+msgid_plural "giant web spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant web spider
+#: ./mutant_spider.json
+msgid ""
+"A giant web-spider about the size of a dog.  It waits for prey to become "
+"ensnared in the vast webs that it weaves between the trees."
+msgstr ""
+
+#. ~ Description for giant web spider
+#: ./mutant_spider.json
+msgid ""
+"A giant web-spider about the size of a cougar.  It waits for prey to become "
+"ensnared in the vast webs that it weaves between the trees."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "mega web-spider"
+msgid_plural "mega web-spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega web-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant web-spider about the size of a horse.  It waits for prey to become "
+"ensnared in the vast webs that it weaves between the trees."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant blackwidow spiderling"
+msgid_plural "giant blackwidow spiderlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant blackwidow spiderling
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched mutant blackwidow the size of a rat.  A highly venomous "
+"nightmare come to life."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant blackwidow spider"
+msgid_plural "giant blackwidow spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant blackwidow spider
+#: ./mutant_spider.json
+msgid ""
+"A giant spider about the size of a dog.  A highly venomous nightmare come to"
+" life."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant wolf-spiderling"
+msgid_plural "giant wolf-spiderlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant wolf-spiderling
+#: ./mutant_spider.json
+msgid "A newly-hatched mutant wolf-spider the size of a rat."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid ""
+"A newly-hatched mutant wolf spider the size of a rat.  This one is "
+"excepptionally cute and fuzzy."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "giant wolf-spider"
+msgid_plural "giant wolf-spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant wolf-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant wolf-spider about the size of a dog.  It moves quickly and "
+"aggressively to catch and consume prey."
+msgstr ""
+
+#. ~ Description for giant wolf-spider
+#: ./mutant_spider.json
+msgid ""
+"A giant mutant spider twice the size of than an actual wolf.  It moves "
+"quickly and aggressively to catch and consume prey."
+msgstr ""
+
+#: ./mutant_spider.json
+msgid "mega wolf spider"
+msgid_plural "mega wolf spiders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mega wolf spider
+#: ./mutant_spider.json
+msgid ""
+"A giant wolf spider about the size of a horse.  It moves quickly and "
+"aggressively to catch and consume prey."
+msgstr ""

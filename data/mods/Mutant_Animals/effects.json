@@ -1,0 +1,50 @@
+[
+  {
+    "type": "effect_type",
+    "id": "rat_fever",
+    "name": [ "Rat Fever" ],
+    "desc": [ "You have contracted a viral infection from a rat bite." ],
+    "apply_message": "You have contracted a fever.",
+    "rating": "bad",
+    "resist_effects": [ "antibiotic" ],
+    "resist_traits": [ "INFRESIST", "DISRESISTANT" ],
+    "base_mods": {
+      "thirst_tick": [ 300 ],
+      "thirst_min": [ 1 ],
+      "fatigue_tick": [ 50 ],
+      "fatigue_min": [ 1 ],
+      "str_mod": [ -4, -2 ],
+      "dex_mod": [ -2, 0 ],
+      "per_mod": [ -1, 0 ],
+      "int_mod": [ -2, 0 ],
+      "pain_max_val": [ 15 ],
+      "pain_min": [ 1, 0 ],
+      "cough_chance": [ 300, 0 ],
+      "vomit_chance": [ 3600, 7200 ]
+    },
+    "max_duration": "16 h"
+  },
+  {
+    "type": "effect_type",
+    "id": "cureall",
+    "//": "This type of entry may conflict with other mods that edit royal jelly.",
+    "removes_effects": [
+      "rat_fever",
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "blind",
+      "poison",
+      "stung",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "infected",
+      "asthma"
+    ],
+    "base_mods": { "pkill_min": [ 5 ] }
+  }
+]

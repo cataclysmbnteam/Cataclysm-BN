@@ -1,0 +1,28 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "stinger",
+    "name": { "str": "stinger" },
+    "description": "A six-inch stinger from a giant insect.  Makes a mediocre melee weapon.",
+    "weight": "540 g",
+    "to_hit": -1,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "bone" ],
+    "volume": "250 ml",
+    "cutting": 10,
+    "flags": [ "STAB", "SPEAR" ],
+    "price": "30 USD"
+  },
+  {
+    "id": "arachnid_stinger",
+    "type": "harvest",
+    "entries": [
+      { "drop": "stinger", "type": "bone", "max": 1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "gamma_toad_death_drops",
+    "entries": [ { "item": "plut_slurry_free", "count": [ 1, 4 ], "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mutant_cowmoss_death_drops",
+    "entries": [ { "item": "withered", "count": [ 20, 30 ], "container-item": "null" } ]
+  }
+]

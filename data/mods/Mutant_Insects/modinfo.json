@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mutant_insects",
+    "name": "Mutant Insects",
+    "authors": [ "Sunshine" ],
+    "description": "Expands giant insects, eggs, larva.  Adds new types.  Insects evolve into mega-sized insects.  Some larva are tameable.  Eggs can be modified with mutagen.",
+    "category": "creatures",
+    "dependencies": [ "bn" ]
+  }
+]
