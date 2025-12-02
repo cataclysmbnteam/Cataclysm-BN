@@ -481,6 +481,14 @@ static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     bool sound_played = false;
+    unsigned int affected = 0;
+    for ( const auto &target : targets ) {
+        // figure out the number of targets we're dealing damage to
+        Creature *const cr = g->critter_at<Creature>( target );
+        if( cr ) {
+            affected++;
+        }
+    }
     for( const tripoint &target : targets ) {
         if( !sp.is_valid_target( caster, target ) ) {
             continue;
@@ -500,14 +508,6 @@ static void damage_targets( const spell &sp, Creature &caster,
         bolt.impact = ( caster.is_monster() ) ? sp.get_damage_instance() : sp.get_damage_instance(
                           *caster.as_character() );
         if (sp.has_flag(spell_flag::DIVIDE_DAMAGE)) {
-            unsigned int affected = 0;
-            for ( const auto &target : targets ) {
-                // figure out the number of targets to actually deal damage to
-                Creature *const cr = g->critter_at<Creature>( target );
-                if( cr ) {
-                    affected++;
-                }
-            }
             bolt.impact.mult_damage(1.0f / affected);
         }
         bolt.add_effect( ammo_effect_magic );
