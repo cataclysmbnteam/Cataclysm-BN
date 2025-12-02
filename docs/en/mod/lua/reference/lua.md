@@ -6662,6 +6662,7 @@ Function `( Volume, Volume ) -> bool`
 - `MATT_FOLLOW` = `5`
 - `MATT_ATTACK` = `6`
 - `MATT_ZLAVE` = `7`
+- `MATT_UNKNOWN` = `8`
 
 ## MonsterFactionAttitude
 
@@ -7166,7 +7167,7 @@ Function `()`
 Called when character stat gets reset
 Function `()`
 
-#### on_char_death
+#### on_character_death
 
 Called when a character is dead
 Function `()`
