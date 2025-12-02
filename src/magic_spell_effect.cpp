@@ -482,7 +482,7 @@ static void damage_targets( const spell &sp, Creature &caster,
 {
     bool sound_played = false;
     unsigned int affected = 0;
-    for ( const auto &target : targets ) {
+    for( const auto &target : targets ) {
         // figure out the number of targets we're dealing damage to
         Creature *const cr = g->critter_at<Creature>( target );
         if( cr ) {
@@ -507,8 +507,8 @@ static void damage_targets( const spell &sp, Creature &caster,
         bolt.speed = 10000;
         bolt.impact = ( caster.is_monster() ) ? sp.get_damage_instance() : sp.get_damage_instance(
                           *caster.as_character() );
-        if (sp.has_flag(spell_flag::DIVIDE_DAMAGE)) {
-            bolt.impact.mult_damage(1.0f / affected);
+        if( sp.has_flag( spell_flag::DIVIDE_DAMAGE ) ) {
+            bolt.impact.mult_damage( 1.0f / affected );
         }
         bolt.add_effect( ammo_effect_magic );
 
