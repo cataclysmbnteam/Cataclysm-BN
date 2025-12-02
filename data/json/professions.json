@@ -808,7 +808,8 @@
     "id": "prospector",
     "name": "Prospector",
     "description": "Yee haw!  Ye've struck it rich in the Cataclysm, findin' yerself a whole new world to pan fer gold in.  Just be sure to watch out fer them thar zombies and other varmints lookin' to make a meal outta ya!",
-    "points": 1,
+    "points": 4,
+    "//": "one point for the skills, three points for the survival gear and useful items",
     "items": {
       "both": {
         "items": [ "oil_lamp", "coffee_raw", "jerky", "hardtack", "dynamite", "shelter_kit", "pickaxe", "propick_alpha", "makeshift_hammer", "shovel_short", "socks_wool", "mocassins", "bandana", "technician_pants_gray", "bindle", "jacket_flannel", "backpack_leather", "straw_hat" ]

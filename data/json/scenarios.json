@@ -237,7 +237,8 @@
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "professions": [ 
       "churl",
-      "prospector"
+      "prospector",
+      "knight"
      ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
