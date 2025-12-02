@@ -481,7 +481,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     bool sound_played = false;
-    const int affected = std::ranges::count_if( targets, [&]( const auto &target ) { return g->critter_at<Creature>( target ) != nullptr; });
+    const int affected = std::ranges::count_if( targets, [&]( const auto & target ) { return g->critter_at<Creature>( target ) != nullptr; } );
     for( const tripoint &target : targets ) {
         if( !sp.is_valid_target( caster, target ) ) {
             continue;
