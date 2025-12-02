@@ -128,6 +128,7 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -162,6 +163,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_UNKNOWN, { "", def_h_white}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -667,37 +669,45 @@ void monster::get_HP_Bar( nc_color &color, std::string &text ) const
 
 std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    const auto att = attitude_names.at( attitude( &g->u ) );
+    const avatar &ply = get_avatar();
+    const auto att = attitude_names.at( ply.has_trait( trait_INATTENTIVE ) ? MATT_UNKNOWN : attitude(
+                                            &g->u ) );
     return {
         _( att.first ),
         all_colors.get( att.second )
     };
+
 }
 
 static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 {
+    const avatar &ply = get_avatar();
     std::string damage_info;
     nc_color col;
-    if( cur_hp >= max_hp ) {
-        damage_info = _( "It is uninjured." );
+    if( ply.has_trait( trait_INATTENTIVE ) ) {
+        damage_info = _( "It looks fine." );
         col = c_green;
-    } else if( cur_hp >= max_hp * 0.8 ) {
-        damage_info = _( "It is lightly injured." );
-        col = c_light_green;
-    } else if( cur_hp >= max_hp * 0.6 ) {
-        damage_info = _( "It is moderately injured." );
-        col = c_yellow;
-    } else if( cur_hp >= max_hp * 0.3 ) {
-        damage_info = _( "It is heavily injured." );
-        col = c_yellow;
-    } else if( cur_hp >= max_hp * 0.1 ) {
-        damage_info = _( "It is severely injured." );
-        col = c_light_red;
     } else {
-        damage_info = _( "It is nearly dead!" );
-        col = c_red;
+        if( cur_hp >= max_hp ) {
+            damage_info = _( "It is uninjured." );
+            col = c_green;
+        } else if( cur_hp >= max_hp * 0.8 ) {
+            damage_info = _( "It is lightly injured." );
+            col = c_light_green;
+        } else if( cur_hp >= max_hp * 0.6 ) {
+            damage_info = _( "It is moderately injured." );
+            col = c_yellow;
+        } else if( cur_hp >= max_hp * 0.3 ) {
+            damage_info = _( "It is heavily injured." );
+            col = c_yellow;
+        } else if( cur_hp >= max_hp * 0.1 ) {
+            damage_info = _( "It is severely injured." );
+            col = c_light_red;
+        } else {
+            damage_info = _( "It is nearly dead!" );
+            col = c_red;
+        }
     }
-
     // show exact monster HP if in debug mode
     if( debug_mode ) {
         damage_info += " ";
@@ -727,20 +737,25 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
     };
 
     const avatar &ply = get_avatar();
-    float player_runcost = ply.run_cost( 100 );
-    if( player_runcost == 0 ) {
-        player_runcost = 1.0f;
-    }
-
-    // determine tiles per turn (tpt)
-    const float player_tpt = ply.get_speed() / player_runcost;
-    const float ratio = player_tpt == 0 ?
-                        2.00f : mon_speed_rating / player_tpt;
-
-    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio >= std::get<0>( speed_case ) ) {
-            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+    const bool player_knows = !ply.has_trait( trait_INATTENTIVE );
+    if( player_knows ) {
+        float player_runcost = ply.run_cost( 100 );
+        if( player_runcost == 0 ) {
+            player_runcost = 1.0f;
         }
+
+        // determine tiles per turn (tpt)
+        const float player_tpt = ply.get_speed() / player_runcost;
+        const float ratio = player_tpt == 0 ?
+                            2.00f : mon_speed_rating / player_tpt;
+
+        for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
+            if( ratio >= std::get<0>( speed_case ) ) {
+                return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+            }
+        }
+    } else {
+        return std::make_pair( _( "It is a creature." ), c_white );
     }
 
     debugmsg( "speed_description: no ratio value matched" );
@@ -751,10 +766,11 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
+    const bool player_knows = !g->u.has_trait( trait_INATTENTIVE );
+
     mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
     wprintw( w, " " );
     const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
 
     if( debug_mode ) {
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
@@ -772,12 +788,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
     }
 
-    if( sees( g->u ) ) {
+    if( sees( g->u ) && player_knows ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
 
     const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
     mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
+
 
     std::string effects = get_effect_status();
     if( !effects.empty() ) {
@@ -1343,6 +1360,7 @@ Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::A_HOSTILE;
             case MATT_NULL:
+            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -1371,6 +1389,8 @@ std::string io::enum_to_string<monster_attitude>( monster_attitude att )
             return "MATT_ATTACK";
         case MATT_ZLAVE:
             return "MATT_ZLAVE";
+        case MATT_UNKNOWN:
+            return "MATT_UNKNOWN";
         case NUM_MONSTER_ATTITUDES:
             break;
     }
