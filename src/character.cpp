@@ -4192,7 +4192,7 @@ void Character::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
 
-    cata::run_hooks( "on_char_death", [ &, this]( auto & params ) {
+    cata::run_hooks( "on_character_death", [ &, this]( auto & params ) {
         params["char"] = this;
         params["killer"] = get_killer();
     } );

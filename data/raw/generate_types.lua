@@ -324,7 +324,7 @@ on_mapgen_postprocess = {}
 
 ---@class OnMonDeathParams
 ---@field mon Monster
----@field killer Character
+---@field killer Character?
 on_mon_death = {}
 ]]
 
