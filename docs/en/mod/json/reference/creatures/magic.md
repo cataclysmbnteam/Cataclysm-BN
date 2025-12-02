@@ -127,6 +127,8 @@ experience you need to get to a level is below:
 
 - `RANDOM_DAMAGE` - picks random number between min+increment\*level and max instead of normal
   behavior
+  
+- `DIVIDE_DAMAGE` - divides the spell's damage among all the creatures it hits evenly
 
 - `RANDOM_DURATION` - picks random number between min+increment\*level and max instead of normal
   behavior
