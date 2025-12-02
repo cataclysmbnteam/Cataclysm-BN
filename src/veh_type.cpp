@@ -108,7 +108,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "BALLOON", VPFLAG_BALLOON },
     { "WING", VPFLAG_WING },
     { "PROPELLER", VPFLAG_PROPELLER },
-    { "EXTENDABLE", VPFLAG_EXTENDABLE }
+    { "EXTENDABLE", VPFLAG_EXTENDABLE },
+    { "NOFIELDS", VPFLAG_NOFIELDS }
 };
 
 static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
