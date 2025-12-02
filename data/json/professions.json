@@ -812,14 +812,29 @@
     "//": "one point for the skills, three points for the survival gear and useful items",
     "items": {
       "both": {
-        "items": [ "oil_lamp", "coffee_raw", "jerky", "hardtack", "dynamite", "shelter_kit", "pickaxe", "propick_alpha", "makeshift_hammer", "shovel_short", "socks_wool", "mocassins", "bandana", "technician_pants_gray", "bindle", "jacket_flannel", "backpack_leather", "straw_hat" ]
+        "items": [
+          "oil_lamp",
+          "coffee_raw",
+          "jerky",
+          "hardtack",
+          "dynamite",
+          "shelter_kit",
+          "pickaxe",
+          "propick_alpha",
+          "makeshift_hammer",
+          "shovel_short",
+          "socks_wool",
+          "mocassins",
+          "bandana",
+          "technician_pants_gray",
+          "bindle",
+          "jacket_flannel",
+          "backpack_leather",
+          "straw_hat"
+        ]
       }
     },
-    "skills": [
-      { "level": 3, "name": "survival" },
-      { "level": 2, "name": "swimming" },
-      { "level": 1, "name": "cooking" }
-    ],
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "cooking" } ],
     "traits": [ "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
   },
   {
