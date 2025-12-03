@@ -1279,6 +1279,8 @@ class LuaCallVisitor(ast.ASTVisitor):
         return None
 
     def __find_comment(self, line):
+        if line is None:
+            return None
         comments = self.__find_trans_comments_before(line)
         if len(comments) != 0:
             return '\n'.join(comments)
@@ -1293,13 +1295,15 @@ class LuaCallVisitor(ast.ASTVisitor):
             found = False
             if isinstance(node.func, astnodes.Name):
                 func_id = node.func.id
-                func_line = node.func.first_token.line
+                first_token = node.func.first_token
+                func_line = first_token.line if first_token else None
                 func_args = node.args
                 found = True
             elif isinstance(node.func, astnodes.Index):
                 if isinstance(node.func.idx, astnodes.Name):
                     func_id = node.func.idx.id
-                    func_line = node.func.idx.first_token.line
+                    first_token = node.func.idx.first_token
+                    func_line = first_token.line if first_token else None
                     func_args = node.args
                     found = True
             if not found:
