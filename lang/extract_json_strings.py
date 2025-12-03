@@ -1343,11 +1343,38 @@ class LuaCallVisitor(ast.ASTVisitor):
             writestr_basic(self.state, msgid, msgid_plural, msgctxt, comment, check_c_format = True)
 
 
+# https://github.com/boolangery/py-lua-parser/pull/62
+from luaparser.builder import BuilderVisitor  # noqa: E402
+from luaparser.parser.LuaLexer import LuaLexer  # noqa: E402
+from luaparser.parser.LuaParser import LuaParser  # noqa: E402
+from luaparser.ast import SyntaxException  # noqa: E402
+from antlr4.error.ErrorListener import ConsoleErrorListener  # noqa: E402
+from antlr4 import InputStream, CommonTokenStream, Token  # noqa: E402
+
+# workaround till 3.3.1 is released, see:
+# https://github.com/boolangery/py-lua-parser/issues/71
+# https://github.com/boolangery/py-lua-parser/pull/62
+def parse(source: str) -> astnodes.Chunk:
+    """Parse Lua source to a Chunk."""
+    lexer = LuaLexer(InputStream(source))
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(ConsoleErrorListener())
+    token_stream = CommonTokenStream(lexer, channel=Token.DEFAULT_CHANNEL)
+    parser = LuaParser(token_stream)
+    parser.addErrorListener(ConsoleErrorListener())
+    tree = parser.start_()
+    if parser.getNumberOfSyntaxErrors() > 0:
+        raise SyntaxException("syntax errors")
+    else:
+        v = BuilderVisitor(token_stream)
+        val = v.visit(tree)
+        return val
+
 def extract_lua(state, source):
     """Find any extractable strings in the given Lua source code,
     and write them to the PO file provided by the state."""
 
-    tree = ast.parse(source)
+    tree = parse(source)
 
     #print(ast.to_pretty_str(tree))
 
