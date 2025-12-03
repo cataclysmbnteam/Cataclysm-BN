@@ -1061,7 +1061,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - `CBM_TECH` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - `CHITIN` May produce chitin when butchered.
 - `CLIMBS` Can climb.
-- `COLDROOF` Immune to cold damage.
 - `CURRENT` this water is flowing.
 - `DESTROYS` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max
   melee bashing)
@@ -1581,6 +1580,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `WARM` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - `WET` Item is wet and will slowly dry off (e.g. towel).
 
+## Vehicle Prototypes
+
+### Flags
+
+- `VEHICLE_HOTWIRE` Marks a vehicle to always requiring hotwiring controls
+- `VEHICLE_NO_HOTWIRE` Marks a vehicle to never require hotwiring controls (e.g bycicles)
+- `VEHICLE_UNLOCKED` Marks a vehicle to always spawn unlocked, but possibly requiring hotwiring
+- `VEHICLE_LOCKED` Marks a vehicle to always spawn locked, and possibly requiring hotwiring
+- `VEHICLE_NO_LOCKS` Marks a vehicle to not get locks installed automatically
+
 ## Vehicle Parts
 
 ### Flags
@@ -1610,6 +1619,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CAPTURE_MOSNTER_VEH` Can be used to capture monsters when mounted on a vehicle.
 - `CARGO_LOCKING` This cargo area is inaccessible to NPCs. Can only be installed on a part with
   `LOCKABLE_CARGO` flag.
+- `DOOR_LOCKING` This part is unopenable to non-faction NPCs and monsters if enabled from the electronics menu. Can only be
+  installed on a part with `OPENABLE` flag.
 - `CARGO` Cargo holding area.
 - `CHIMES` Generates continuous noise when used.
 - `CIRCLE_LIGHT` Projects a circular radius of light when turned on.
@@ -1660,6 +1671,7 @@ Those flags are added by the game code to specific items (that specific welder, 
   items of parts with this flag are automatically added as component to the vehicle start
   construction.
 - `INTERNAL` Can only be installed on a part with `CARGO` flag.
+- `LADDER` Ladder to get down from a flying vehicle
 - `LIGHT`
 - `LOCKABLE_CARGO` Cargo containers that are able to have a lock installed.
 - `MOUNTABLE` Player can fire mounted weapons from here.
@@ -1676,6 +1688,11 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NEEDS_WINDOW` Can only be installed on a part with `WINDOW` flag.
 - `NO_JACK`
 - `NOINSTALL` Cannot be installed.
+- `NOREMOVE_SECURITY` Cannot be uninstalled if the vehicle has a working security system.
+- `NOREMOVE_OPEN` Cannot be uninstalled if there's an open `OPENABLE` part in the same tile.
+- `NOREMOVE_CLOSED` Cannot be uninstalled if there's a closed `OPENABLE` part in the same tile.
+- `NOREMOVE_INSIDE` Cannot be uninstalled from inside the vehicle.
+- `NOREMOVE_OUTSIDE` Cannot be uninstalled from outside the vehicle.
 - `OBSTACLE` Cannot walk through part, unless the part is also `OPENABLE`.
 - `ODDTURN` Only on during odd turns.
 - `ON_CONTROLS` Can only be installed on a part with `CONTROLS` flag.

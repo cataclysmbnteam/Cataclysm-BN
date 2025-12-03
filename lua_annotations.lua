@@ -25,7 +25,7 @@ on_mapgen_postprocess = {}
 
 ---@class OnMonDeathParams
 ---@field mon Monster
----@field killer Character
+---@field killer Character?
 on_mon_death = {}
 --================---- Classes ----================
 
@@ -155,6 +155,7 @@ function BodyPartTypeIntId.new() end
 ---@field crossed_threshold fun(arg1: Character): boolean
 ---@field deactivate_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field dismount fun(arg1: Character)
+---@field drop_inv fun(arg1: Character, arg2: integer)
 ---@field expose_to_disease fun(arg1: Character, arg2: DiseaseTypeId)
 ---@field fall_asleep fun(arg1: Character) | fun(arg1: Character, arg2: TimeDuration)
 ---@field forced_dismount fun(arg1: Character)
@@ -458,6 +459,7 @@ function CharacterId.new() end
 ---@field is_underwater fun(arg1: Creature): boolean
 ---@field is_warm fun(arg1: Creature): boolean
 ---@field knock_back_to fun(arg1: Creature, arg2: Tripoint)
+---@field mod_all_parts_hp_cur fun(arg1: Creature, arg2: integer)
 ---@field mod_moves fun(arg1: Creature, arg2: integer)
 ---@field mod_pain fun(arg1: Creature, arg2: integer)
 ---@field mod_pain_noresist fun(arg1: Creature, arg2: integer)
@@ -1019,6 +1021,7 @@ function MaterialTypeRaw.new() end
 ---@field has_target fun(arg1: Mission): boolean @Returns true if the mission has a target.
 ---@field in_progress fun(arg1: Mission): boolean @Returns true if the mission is currently in progress.
 ---@field is_assigned fun(arg1: Mission): boolean @Returns true if the mission is currently assigned.
+---@field is_complete fun(arg1: Mission, arg2: CharacterId?): boolean @Returns true if the mission goal has been completed (optionally checked against given NPC ID).
 ---@field mission_id fun(arg1: Mission): MissionTypeIdRaw @Returns the mission type ID of this mission.
 ---@field name fun(arg1: Mission): string @Returns the mission's name as a string.
 ---@field reserve_new fun(arg1: MissionTypeIdRaw, arg2: CharacterId): Mission @Reserves a new mission of the given type for the specified NPC. Returns the new mission.
@@ -1819,7 +1822,8 @@ coords = {}
 ---@field look_around fun(): Tripoint?
 ---@field place_monster_around fun(arg1: MtypeId, arg2: Tripoint, arg3: integer): Monster
 ---@field place_monster_at fun(arg1: MtypeId, arg2: Tripoint): Monster
----@field place_player_overmap_at fun(arg1: Tripoint)
+---@field place_player_local_at fun(arg1: Tripoint) @Teleports player to local coordinates within active map
+---@field place_player_overmap_at fun(arg1: Tripoint) @Teleports player to absolute coordinate in overmap
 ---@field play_ambient_variant_sound fun(arg1: string, arg2: string, arg3: integer, arg4: SfxChannel, arg5: integer, arg6: number, arg7: integer)
 ---@field play_variant_sound fun(arg1: string, arg2: string, arg3: integer) | fun(arg1: string, arg2: string, arg3: integer, arg4: Angle, arg5: number, arg6: number)
 ---@field remove_npc_follower fun(arg1: Npc)
@@ -1841,8 +1845,8 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
+---@field on_character_death fun() @Called when a character is dead
 ---@field on_character_reset_stats fun() @Called when character stat gets reset
----@field on_char_death fun() @Called when a character is dead
 ---@field on_creature_blocked fun() @Called when a character successfully blocks
 ---@field on_creature_dodged fun() @Called when a character successfully dodges
 ---@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
@@ -2127,7 +2131,8 @@ MonsterAttitude = {
 	MATT_IGNORE = 4,
 	MATT_FOLLOW = 5,
 	MATT_ATTACK = 6,
-	MATT_ZLAVE = 7
+	MATT_ZLAVE = 7,
+	MATT_UNKNOWN = 8
 }
 
 ---@enum MonsterFactionAttitude

@@ -1332,6 +1332,10 @@ Function `( Character ) -> double`
 
 Function `( Character ) -> int`
 
+#### drop_inv
+
+Function `( Character, int )`
+
 #### bodypart_exposure
 
 Function `( Character ) -> Map( BodyPartTypeIntId, double )`
@@ -1716,6 +1720,10 @@ Function `( Creature, BodyPartTypeIntId, int )`
 Function `( Creature, BodyPartTypeIntId, int )`
 
 #### set_all_parts_hp_cur
+
+Function `( Creature, int )`
+
+#### mod_all_parts_hp_cur
 
 Function `( Creature, int )`
 
@@ -3688,6 +3696,11 @@ Function `( Mission ) -> bool`
 
 Marks a mission step as complete, taking an integer step index.
 Function `( Mission, int )`
+
+#### is_complete
+
+Returns true if the mission goal has been completed (optionally checked against given NPC ID).
+Function `( Mission, Opt( CharacterId ) ) -> bool`
 
 #### assign
 
@@ -6649,6 +6662,7 @@ Function `( Volume, Volume ) -> bool`
 - `MATT_FOLLOW` = `5`
 - `MATT_ATTACK` = `6`
 - `MATT_ZLAVE` = `7`
+- `MATT_UNKNOWN` = `8`
 
 ## MonsterFactionAttitude
 
@@ -6984,6 +6998,12 @@ Function `( ... )`
 
 #### place_player_overmap_at
 
+Teleports player to absolute coordinate in overmap
+Function `( Tripoint )`
+
+#### place_player_local_at
+
+Teleports player to local coordinates within active map
 Function `( Tripoint )`
 
 #### current_turn
@@ -7147,7 +7167,7 @@ Function `()`
 Called when character stat gets reset
 Function `()`
 
-#### on_char_death
+#### on_character_death
 
 Called when a character is dead
 Function `()`

@@ -1013,5 +1013,15 @@
     "type": "item_action",
     "id": "music_player",
     "name": { "str": "Listen to music" }
+  },
+  {
+    "type": "item_action",
+    "id": "flowerpot_plant",
+    "name": { "str": "Use the planter" }
+  },
+  {
+    "type": "item_action",
+    "id": "flowerpot_collect",
+    "name": { "str": "Collect a plant" }
   }
 ]

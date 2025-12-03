@@ -56,7 +56,7 @@
 - [vcpkjg](docs/en/dev/guides/building/vs_vcpkg.md)
 - [cmake](docs/en/dev/guides/building/cmake.md)
 
-자세한 내용은 [공식 문서](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/)를
+자세한 내용은 [공식 문서](https://docs.cataclysmbn.org/dev/guides/building/cmake/)를
 참고해주세요.
 
 ## 기여하기

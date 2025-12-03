@@ -25,7 +25,8 @@
       "lume/types.ts"
     ],
     "jsx": "react-jsx",
-    "jsxImportSource": "lume"
+    "jsxImportSource": "lume",
+    "checkJs": true
   },
   "unstable": [
     "temporal",
@@ -35,6 +36,7 @@
   "lint": {
     "plugins": [
       "https://deno.land/x/lume@v3.0.8/lint.ts"
-    ]
+    ],
+    "rules": { "exclude": ["no-unversioned-import", "no-import-prefix"] }
   }
 }
