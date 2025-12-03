@@ -913,7 +913,12 @@
     },
     "vehicle": "dogsled",
     "pets": [ { "name": "mon_dog", "amount": 4 } ],
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 3, "name": "traps" }, { "level": 2, "name": "fabrication" }, { "level": 1, "name": "cooking" } ],
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 3, "name": "traps" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 1, "name": "cooking" }
+    ],
     "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
   },
   {

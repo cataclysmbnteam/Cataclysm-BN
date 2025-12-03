@@ -358,7 +358,7 @@
     "id": "dogsled",
     "type": "vehicle",
     "name": "Dogsled",
-    "parts": [ 
+    "parts": [
       { "x": 0, "y": 0, "part": "frame_wood_light_vertical" },
       { "x": -1, "y": 0, "parts": [ "frame_wood_light_vertical", "wood box" ] },
       { "x": 1, "y": 0, "part": "frame_wood_light_cover" },
@@ -374,12 +374,12 @@
       { "x": 3, "y": -1, "part": "yoke_harness" },
       { "x": 3, "y": 1, "part": "yoke_harness" },
       { "x": 0, "y": -1, "part": "frame_wood_light_vertical" },
-      { "x": 0, "y": 1, "part": "makeshift_sled_runner_part" }, 
-      { "x": 0, "y": -1, "part": "makeshift_sled_runner_part" }, 
-      { "x": 2, "y": 1, "part": "yoke_harness" }, 
-      { "x": 3, "y": 0, "part": "folding_wooden_frame" }, 
-      { "x": 1, "y": 1, "part": "frame_wood_light_se" }, 
+      { "x": 0, "y": 1, "part": "makeshift_sled_runner_part" },
+      { "x": 0, "y": -1, "part": "makeshift_sled_runner_part" },
+      { "x": 2, "y": 1, "part": "yoke_harness" },
+      { "x": 3, "y": 0, "part": "folding_wooden_frame" },
+      { "x": 1, "y": 1, "part": "frame_wood_light_se" },
       { "x": 0, "y": 1, "part": "frame_wood_light_vertical" }
-     ]
+    ]
   }
 ]
