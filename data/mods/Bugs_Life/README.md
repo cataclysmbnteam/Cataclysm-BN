@@ -1,5 +1,5 @@
 # Bugs_life
-Mod for CDDA. It adds new kinds of mutated insects and more.
+Mod for CBN. It adds new kinds of mutated insects and more.
 
 Monsters:
 
