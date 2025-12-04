@@ -1869,8 +1869,8 @@ hooks = {}
 ---@class locale
 ---@field gettext fun(arg1: string): string @Expects english source string, returns translated string.
 ---@field pgettext fun(arg1: string, arg2: string): string @First is context string. Second is english source string.
----@field vgettext fun(arg1: string, arg2: string, arg3: any): string @First is english singular string, second is english plural string. Number is amount to translate for.
----@field vpgettext fun(arg1: string, arg2: string, arg3: string, arg4: any): string @First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
+---@field vgettext fun(arg1: string, arg2: string, arg3: integer): string @First is english singular string, second is english plural string. Number is amount to translate for.
+---@field vpgettext fun(arg1: string, arg2: string, arg3: string, arg4: integer): string @First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
 locale = {}
 
 --- Library for testing purposes

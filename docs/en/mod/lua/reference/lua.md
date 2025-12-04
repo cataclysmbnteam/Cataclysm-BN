@@ -6797,13 +6797,13 @@ Localization API.
 
 #### vgettext {#sol::nil::vgettext}
 
-🇫 Function --> <code>( string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
+🇫 Function --> <code>( string, string, integer ) -> string</code>
 
 > First is english singular string, second is english plural string. Number is amount to translate for.
 
 #### vpgettext {#sol::nil::vpgettext}
 
-🇫 Function --> <code>( string, string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
+🇫 Function --> <code>( string, string, string, integer ) -> string</code>
 
 > First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
 
