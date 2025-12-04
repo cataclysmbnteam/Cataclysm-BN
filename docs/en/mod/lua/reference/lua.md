@@ -9,5963 +9,6393 @@ edit: false
 > This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
 > and should not be edited directly.
 
-> [!WARNING]
->
-> In Lua, functions can be called with a `:` and pass the object itself as the first argument, eg:
->
-> Members where this behaviour is intended to be used are marked as 🇲 Methods<br/>
-> Their signature documentation hides the first argument to reflect that
->
-> - Call 🇫 Function members with a `.`
-> - Call 🇲 Method members with a `:`
->
-> Alternatively, you can still call 🇲 Methods with a `.`, from the class type or the variable itself
-> but a value of the given type must be passed as the first parameter (that is hidden)
->
-> All of these do the same thing:
->
-> - ```
->   print(Angle.from_radians(3):to_degrees())
->   ```
-> - ```
->   print(Angle.to_degrees(Angle.from_radians(3)))
->   ```
-> - ```
->   local a = Angle.from_radians(3)
->   print(a:to_degrees())
->   ```
-> - ```
->   local a = Angle.from_radians(3)
->   print(a.to_degrees(a))
->   ```
-> - ```
->   local a = Angle.from_radians(3)
->   print(Angle.to_degrees(a))
->   ```
-
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
 
-## ActivityTypeId {#sol::ActivityTypeId}
+## ActivityTypeId
 
-### Bases {#sol::ActivityTypeId::@bases}
-
-No base classes.
-
-### Constructors {#sol::ActivityTypeId::@ctors}
-
-- ActivityTypeId.new( )
-- ActivityTypeId.new( [ActivityTypeId](#sol::ActivityTypeId) )
-- ActivityTypeId.new( string )
-
-### Members {#sol::ActivityTypeId::@members}
-
-#### NULL_ID {#sol::ActivityTypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [ActivityTypeId](#sol::ActivityTypeId)</code>
-
-#### obj {#sol::ActivityTypeId::obj}
-
-🇲 Method --> <code>( ) -> ActivityTypeRaw</code>
-
-#### is_valid {#sol::ActivityTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::ActivityTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::ActivityTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::ActivityTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## Angle {#sol::Angle}
-
-### Bases {#sol::Angle::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Angle::@ctors}
+### Constructors
+
+#### `ActivityTypeId.new()`
+
+#### `ActivityTypeId.new( ActivityTypeId )`
+
+#### `ActivityTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( ActivityTypeId ) -> ActivityTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( ActivityTypeId ) -> bool`
+
+#### is_valid
+
+Function `( ActivityTypeId ) -> bool`
+
+#### str
+
+Function `( ActivityTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> ActivityTypeId`
+
+#### __tostring
+
+Function `( ActivityTypeId ) -> string`
+
+#### serialize
+
+Function `( ActivityTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( ActivityTypeId, <cppval: 6JsonIn > )`
+
+## Angle
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::Angle::@members}
+### Members
 
-#### from_radians {#sol::Angle::from_radians}
+#### from_radians
 
-🇫 Function --> <code>( number ) -> [Angle](#sol::Angle)</code>
+Function `( double ) -> Angle`
 
-#### to_arcmin {#sol::Angle::to_arcmin}
+#### to_radians
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Angle ) -> double`
 
-#### to_degrees {#sol::Angle::to_degrees}
+#### from_degrees
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( double ) -> Angle`
 
-#### from_arcmin {#sol::Angle::from_arcmin}
+#### to_degrees
 
-🇫 Function --> <code>( number ) -> [Angle](#sol::Angle)</code>
+Function `( Angle ) -> double`
 
-#### from_degrees {#sol::Angle::from_degrees}
+#### from_arcmin
 
-🇫 Function --> <code>( number ) -> [Angle](#sol::Angle)</code>
+Function `( double ) -> Angle`
 
-#### to_radians {#sol::Angle::to_radians}
+#### to_arcmin
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Angle ) -> double`
 
-## Avatar {#sol::Avatar}
+#### __eq
 
-### Bases {#sol::Avatar::@bases}
+Function `( Angle, Angle ) -> bool`
+
+#### __lt
+
+Function `( Angle, Angle ) -> bool`
+
+#### __le
+
+Function `( Angle, Angle ) -> bool`
+
+## Avatar
+
+### Bases
 
 - `Player`
 - `Character`
 - `Creature`
 
-### Constructors {#sol::Avatar::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Avatar::@members}
+### Members
 
-#### get_active_missions {#sol::Avatar::get_active_missions}
+#### get_active_missions
 
-🇲 Method --> <code>( ) -> [Mission](#sol::Mission)[]</code>
+Function `( Avatar ) -> Vector( Mission )`
 
-#### get_completed_missions {#sol::Avatar::get_completed_missions}
+#### get_completed_missions
 
-🇲 Method --> <code>( ) -> [Mission](#sol::Mission)[]</code>
+Function `( Avatar ) -> Vector( Mission )`
 
-#### get_failed_missions {#sol::Avatar::get_failed_missions}
+#### get_failed_missions
 
-🇲 Method --> <code>( ) -> [Mission](#sol::Mission)[]</code>
+Function `( Avatar ) -> Vector( Mission )`
 
-## BionicDataId {#sol::BionicDataId}
+## BionicDataId
 
-### Bases {#sol::BionicDataId::@bases}
-
-No base classes.
-
-### Constructors {#sol::BionicDataId::@ctors}
-
-- BionicDataId.new( )
-- BionicDataId.new( [BionicDataId](#sol::BionicDataId) )
-- BionicDataId.new( string )
-
-### Members {#sol::BionicDataId::@members}
-
-#### NULL_ID {#sol::BionicDataId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [BionicDataId](#sol::BionicDataId)</code>
-
-#### obj {#sol::BionicDataId::obj}
-
-🇲 Method --> <code>( ) -> BionicDataRaw</code>
-
-#### is_valid {#sol::BionicDataId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::BionicDataId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::BionicDataId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::BionicDataId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## BodyPartTypeId {#sol::BodyPartTypeId}
-
-### Bases {#sol::BodyPartTypeId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::BodyPartTypeId::@ctors}
+### Constructors
 
-- BodyPartTypeId.new( )
-- BodyPartTypeId.new( [BodyPartTypeId](#sol::BodyPartTypeId) )
-- BodyPartTypeId.new( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) )
-- BodyPartTypeId.new( string )
+#### `BionicDataId.new()`
 
-### Members {#sol::BodyPartTypeId::@members}
+#### `BionicDataId.new( BionicDataId )`
 
-#### NULL_ID {#sol::BodyPartTypeId::NULL_ID}
+#### `BionicDataId.new( string )`
 
-🇫 Function --> <code>( ) -> [BodyPartTypeId](#sol::BodyPartTypeId)</code>
+### Members
 
-#### str {#sol::BodyPartTypeId::str}
+#### obj
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( BionicDataId ) -> BionicDataRaw`
 
-#### obj {#sol::BodyPartTypeId::obj}
+#### implements_int_id
 
-🇲 Method --> <code>( ) -> BodyPartTypeRaw</code>
+Function `() -> bool`
 
-#### is_null {#sol::BodyPartTypeId::is_null}
+#### is_null
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( BionicDataId ) -> bool`
 
-#### is_valid {#sol::BodyPartTypeId::is_valid}
+#### is_valid
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( BionicDataId ) -> bool`
 
-#### implements_int_id {#sol::BodyPartTypeId::implements_int_id}
+#### str
 
-🇫 Function --> <code>( ) -> boolean</code>
+Function `( BionicDataId ) -> string`
 
-#### int_id {#sol::BodyPartTypeId::int_id}
+#### NULL_ID
 
-🇲 Method --> <code>( ) -> [BodyPartTypeIntId](#sol::BodyPartTypeIntId)</code>
+Function `() -> BionicDataId`
 
-## BodyPartTypeIntId {#sol::BodyPartTypeIntId}
+#### __tostring
 
-### Bases {#sol::BodyPartTypeIntId::@bases}
+Function `( BionicDataId ) -> string`
+
+#### serialize
+
+Function `( BionicDataId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( BionicDataId, <cppval: 6JsonIn > )`
+
+## BodyPartTypeId
+
+### Bases
 
 No base classes.
 
-### Constructors {#sol::BodyPartTypeIntId::@ctors}
+### Constructors
 
-- BodyPartTypeIntId.new( )
-- BodyPartTypeIntId.new( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) )
-- BodyPartTypeIntId.new( [BodyPartTypeId](#sol::BodyPartTypeId) )
+#### `BodyPartTypeId.new()`
 
-### Members {#sol::BodyPartTypeIntId::@members}
+#### `BodyPartTypeId.new( BodyPartTypeId )`
 
-#### obj {#sol::BodyPartTypeIntId::obj}
+#### `BodyPartTypeId.new( BodyPartTypeIntId )`
 
-🇲 Method --> <code>( ) -> BodyPartTypeRaw</code>
+#### `BodyPartTypeId.new( string )`
 
-#### is_valid {#sol::BodyPartTypeIntId::is_valid}
+### Members
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### obj
 
-#### str_id {#sol::BodyPartTypeIntId::str_id}
+Function `( BodyPartTypeId ) -> BodyPartTypeRaw`
 
-🇲 Method --> <code>( ) -> [BodyPartTypeId](#sol::BodyPartTypeId)</code>
+#### int_id
 
-## Character {#sol::Character}
+Function `( BodyPartTypeId ) -> BodyPartTypeIntId`
 
-### Bases {#sol::Character::@bases}
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( BodyPartTypeId ) -> bool`
+
+#### is_valid
+
+Function `( BodyPartTypeId ) -> bool`
+
+#### str
+
+Function `( BodyPartTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> BodyPartTypeId`
+
+#### __tostring
+
+Function `( BodyPartTypeId ) -> string`
+
+#### serialize
+
+Function `( BodyPartTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( BodyPartTypeId, <cppval: 6JsonIn > )`
+
+## BodyPartTypeIntId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `BodyPartTypeIntId.new()`
+
+#### `BodyPartTypeIntId.new( BodyPartTypeIntId )`
+
+#### `BodyPartTypeIntId.new( BodyPartTypeId )`
+
+### Members
+
+#### obj
+
+Function `( BodyPartTypeIntId ) -> BodyPartTypeRaw`
+
+#### str_id
+
+Function `( BodyPartTypeIntId ) -> BodyPartTypeId`
+
+#### is_valid
+
+Function `( BodyPartTypeIntId ) -> bool`
+
+#### __tostring
+
+Function `( BodyPartTypeIntId ) -> string`
+
+## Character
+
+### Bases
 
 - `Creature`
 
-### Constructors {#sol::Character::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Character::@members}
+### Members
 
-#### name {#sol::Character::name}
+#### name
 
-🇻 Variable --> <code>string</code>
+Variable of type `string`
 
-#### follower_ids {#sol::Character::follower_ids}
+#### male
 
-🇻 Variable --> <code>[CharacterId](#sol::CharacterId)[]</code>
+Variable of type `bool`
 
-#### cash {#sol::Character::cash}
+#### focus_pool
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### mutation_category_level {#sol::Character::mutation_category_level}
+#### cash
 
-🇻 Variable --> <code>table<[MutationCategoryTraitId](#sol::MutationCategoryTraitId), integer></code>
+Variable of type `int`
 
-#### male {#sol::Character::male}
+#### follower_ids
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `Set( CharacterId )`
 
-#### focus_pool {#sol::Character::focus_pool}
+#### mutation_category_level
 
-🇻 Variable --> <code>integer</code>
+Variable of type `Map( MutationCategoryTraitId, int )`
 
-#### rust_rate {#sol::Character::rust_rate}
+#### getID
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Character ) -> CharacterId`
 
-#### mod_skill_level {#sol::Character::mod_skill_level}
+#### setID
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId), integer )</code>
+Function `( Character, CharacterId, bool )`
 
-#### practice {#sol::Character::practice}
+#### reset
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId), integer, integer, boolean )</code>
+Function `( Character )`
 
-#### set_skill_level {#sol::Character::set_skill_level}
+#### reset_encumbrance
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId), integer )</code>
+Function `( Character )`
 
-#### read_speed {#sol::Character::read_speed}
+#### get_str
 
-🇲 Method --> <code>( boolean ) -> integer</code>
+Function `( Character ) -> int`
 
-#### get_skill_level_object {#sol::Character::get_skill_level_object}
+#### get_dex
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId) ) -> [SkillLevel](#sol::SkillLevel)</code>
+Function `( Character ) -> int`
 
-#### item_worn_with_id {#sol::Character::item_worn_with_id}
+#### get_per
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> [Item](#sol::Item)</code>
+Function `( Character ) -> int`
 
-#### get_skill_level {#sol::Character::get_skill_level}
+#### get_int
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId) ) -> integer</code>
+Function `( Character ) -> int`
 
-#### worn_with_flag {#sol::Character::worn_with_flag}
+#### get_str_base
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+Function `( Character ) -> int`
 
-#### get_all_skills {#sol::Character::get_all_skills}
+#### get_dex_base
 
-🇲 Method --> <code>( ) -> [SkillLevelMap](#sol::SkillLevelMap)</code>
+Function `( Character ) -> int`
 
-#### worn_with_id {#sol::Character::worn_with_id}
+#### get_per_base
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+Function `( Character ) -> int`
 
-#### get_time_died {#sol::Character::get_time_died}
+#### get_int_base
 
-🇲 Method --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+Function `( Character ) -> int`
 
-#### item_worn_with_flag {#sol::Character::item_worn_with_flag}
+#### get_str_bonus
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> [Item](#sol::Item)</code>
+Function `( Character ) -> int`
 
-#### is_rad_immune {#sol::Character::is_rad_immune}
+#### get_dex_bonus
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character ) -> int`
 
-#### healing_rate {#sol::Character::healing_rate}
+#### get_per_bonus
 
-🇲 Method --> <code>( number ) -> number</code>
+Function `( Character ) -> int`
 
-#### rest_quality {#sol::Character::rest_quality}
+#### get_int_bonus
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Character ) -> int`
 
-#### add_addiction {#sol::Character::add_addiction}
+#### set_str_bonus
 
-🇲 Method --> <code>( [AddictionType](#sol::AddictionType), integer )</code>
+Function `( Character, int )`
 
-#### crossed_threshold {#sol::Character::crossed_threshold}
+#### set_dex_bonus
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, int )`
 
-#### rem_addiction {#sol::Character::rem_addiction}
+#### set_per_bonus
 
-🇲 Method --> <code>( [AddictionType](#sol::AddictionType) )</code>
+Function `( Character, int )`
 
-#### addiction_level {#sol::Character::addiction_level}
+#### set_int_bonus
 
-🇲 Method --> <code>( [AddictionType](#sol::AddictionType) ) -> integer</code>
+Function `( Character, int )`
 
-#### has_addiction {#sol::Character::has_addiction}
+#### mod_str_bonus
 
-🇲 Method --> <code>( [AddictionType](#sol::AddictionType) ) -> boolean</code>
+Function `( Character, int )`
 
-#### is_throw_immune {#sol::Character::is_throw_immune}
+#### mod_dex_bonus
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, int )`
 
-#### clear_mutations {#sol::Character::clear_mutations}
+#### mod_per_bonus
 
-🇲 Method --> <code>( )</code>
+Function `( Character, int )`
 
-#### get_mutations {#sol::Character::get_mutations}
+#### mod_int_bonus
 
-🇲 Method --> <code>( boolean ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
+Function `( Character, int )`
 
-#### is_wearing_on_bp {#sol::Character::is_wearing_on_bp}
+#### mod_speed_bonus
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+Function `( Character, int )`
 
-#### clear_skills {#sol::Character::clear_skills}
+#### set_speed_bonus
 
-🇲 Method --> <code>( )</code>
+Function `( Character, int )`
 
-#### healing_rate_medicine {#sol::Character::healing_rate_medicine}
+#### get_healthy
 
-🇲 Method --> <code>( number, [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> number</code>
+Function `( Character ) -> double`
 
-#### get_base_traits {#sol::Character::get_base_traits}
+#### get_healthy_mod
 
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
+Function `( Character ) -> double`
 
-#### mutation_value {#sol::Character::mutation_value}
+#### mod_healthy
 
-🇲 Method --> <code>( string ) -> number</code>
+Function `( Character, double )`
 
-#### is_wearing {#sol::Character::is_wearing}
+#### mod_healthy_mod
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Function `( Character, double, double )`
 
-#### can_unwield {#sol::Character::can_unwield}
+#### set_healthy
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Function `( Character, double )`
 
-#### unwield {#sol::Character::unwield}
+#### set_healthy_mod
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, double )`
 
-#### add_bionic {#sol::Character::add_bionic}
+#### get_stored_kcal
 
-🇲 Method --> <code>( [BionicDataId](#sol::BionicDataId) )</code>
+Function `( Character ) -> int`
 
-#### remove_bionic {#sol::Character::remove_bionic}
+#### max_stored_kcal
 
-🇲 Method --> <code>( [BionicDataId](#sol::BionicDataId) )</code>
+Function `( Character ) -> int`
 
-#### get_power_level {#sol::Character::get_power_level}
+#### get_kcal_percent
 
-🇲 Method --> <code>( ) -> [Energy](#sol::Energy)</code>
+Function `( Character ) -> double`
 
-#### mod_power_level {#sol::Character::mod_power_level}
+#### get_thirst
 
-🇲 Method --> <code>( [Energy](#sol::Energy) )</code>
+Function `( Character ) -> int`
 
-#### get_max_power_level {#sol::Character::get_max_power_level}
+#### get_fatigue
 
-🇲 Method --> <code>( ) -> [Energy](#sol::Energy)</code>
+Function `( Character ) -> int`
 
-#### mod_max_power_level {#sol::Character::mod_max_power_level}
+#### get_sleep_deprivation
 
-🇲 Method --> <code>( [Energy](#sol::Energy) )</code>
+Function `( Character ) -> int`
 
-#### get_free_bionics_slots {#sol::Character::get_free_bionics_slots}
+#### mod_stored_kcal
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Character, int )`
 
-#### get_used_bionics_slots {#sol::Character::get_used_bionics_slots}
+#### mod_thirst
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Character, int )`
 
-#### has_active_bionic {#sol::Character::has_active_bionic}
+#### mod_fatigue
 
-🇲 Method --> <code>( [BionicDataId](#sol::BionicDataId) ) -> boolean</code>
+Function `( Character, int )`
 
-#### get_total_bionics_slots {#sol::Character::get_total_bionics_slots}
+#### mod_sleep_deprivation
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Character, int )`
 
-#### has_any_bionic {#sol::Character::has_any_bionic}
+#### set_stored_kcal
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, int )`
 
-#### clear_bionics {#sol::Character::clear_bionics}
+#### set_thirst
 
-🇲 Method --> <code>( )</code>
+Function `( Character, int )`
 
-#### has_bionics {#sol::Character::has_bionics}
+#### set_fatigue
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, int )`
 
-#### is_wielding {#sol::Character::is_wielding}
+#### set_sleep_deprivation
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Function `( Character, int )`
 
-#### set_power_level {#sol::Character::set_power_level}
+#### get_faction_id
 
-🇲 Method --> <code>( [Energy](#sol::Energy) )</code>
+Function `( Character ) -> FactionId`
 
-#### is_max_power {#sol::Character::is_max_power}
+#### set_faction_id
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, FactionId )`
 
-#### is_armed {#sol::Character::is_armed}
+#### sight_impaired
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character ) -> bool`
 
-#### can_pick_weight {#sol::Character::can_pick_weight}
+#### has_alarm_clock
 
-🇲 Method --> <code>( [Mass](#sol::Mass), boolean ) -> boolean</code>
+Function `( Character ) -> bool`
 
-#### can_wield {#sol::Character::can_wield}
+#### has_watch
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Function `( Character ) -> bool`
 
-#### is_hauling {#sol::Character::is_hauling}
+#### get_part_temp_btu
 
-🇲 Method --> <code>( ) -> boolean</code>
+Gets the current temperature of a specific body part (in Body Temperature Units).
+Function `( Character, BodyPartTypeIntId ) -> int`
 
-#### wield {#sol::Character::wield}
+#### set_part_temp_btu
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Sets a specific body part to a given temperature (in Body Temperature Units).
+Function `( Character, BodyPartTypeIntId, int )`
 
-#### set_max_power_level {#sol::Character::set_max_power_level}
+#### get_temp_btu
 
-🇲 Method --> <code>( [Energy](#sol::Energy) )</code>
+Gets all bodyparts and their associated temperatures (in Body Temperature Units).
+Function `( Character ) -> Map( BodyPartTypeIntId, int )`
 
-#### can_pick_volume {#sol::Character::can_pick_volume}
+#### set_temp_btu
 
-🇲 Method --> <code>( [Volume](#sol::Volume) ) -> boolean</code>
+Sets ALL body parts on a creature to the given temperature (in Body Temperature Units).
+Function `( Character, int )`
 
-#### volume_carried {#sol::Character::volume_carried}
+#### blood_loss
 
-🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+Function `( Character, BodyPartTypeIntId ) -> int`
 
-#### has_power {#sol::Character::has_power}
+#### get_part_encumbrance
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, BodyPartTypeId ) -> int`
 
-#### volume_capacity {#sol::Character::volume_capacity}
+#### is_wearing_power_armor
 
-🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+Function `( Character, bool ) -> bool`
 
-#### has_max_power {#sol::Character::has_max_power}
+#### is_wearing_active_power_armor
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character ) -> bool`
 
-#### weight_carried {#sol::Character::weight_carried}
+#### is_wearing_active_optcloak
 
-🇲 Method --> <code>( ) -> [Mass](#sol::Mass)</code>
+Function `( Character ) -> bool`
 
-#### is_worn {#sol::Character::is_worn}
+#### in_climate_control
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Function `( Character ) -> bool`
 
-#### add_item_with_id {#sol::Character::add_item_with_id}
+#### is_blind
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), integer )</code>
+Function `( Character ) -> bool`
 
-> Adds an item with the given id and amount
+#### is_invisible
 
-#### has_item_with_flag {#sol::Character::has_item_with_flag}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId), boolean ) -> boolean</code>
+#### get_movement_mode
 
-> Checks for an item with the given flag
+Function `( Character ) -> CharacterMoveMode`
 
-#### get_item_with_id {#sol::Character::get_item_with_id}
+#### set_movement_mode
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), boolean ) -> [Item](#sol::Item)</code>
+Function `( Character, CharacterMoveMode )`
 
-> Gets the first occurrence of an item with the given id
+#### expose_to_disease
 
-#### fall_asleep {#sol::Character::fall_asleep}
+Function `( Character, DiseaseTypeId )`
 
-🇲 Method --> <code>( )</code>\
-🇲 Method --> <code>( [TimeDuration](#sol::TimeDuration) )</code>
+#### is_quiet
 
-#### rooted {#sol::Character::rooted}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### is_stealthy
 
-#### get_hostile_creatures {#sol::Character::get_hostile_creatures}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( integer ) -> [Creature](#sol::Creature)[]</code>
+#### uncanny_dodge
 
-#### wearing_something_on {#sol::Character::wearing_something_on}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+#### get_melee_stamina_cost
 
-#### get_visible_creatures {#sol::Character::get_visible_creatures}
+Function `( Character, Item ) -> int`
 
-🇲 Method --> <code>( integer ) -> [Creature](#sol::Creature)[]</code>
+#### cough
 
-#### is_wearing_helmet {#sol::Character::is_wearing_helmet}
+Function `( Character, bool, int )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### bionic_armor_bonus
 
-#### blossoms {#sol::Character::blossoms}
+Function `( Character, BodyPartTypeIntId, DamageType ) -> double`
 
-🇲 Method --> <code>( )</code>
+#### mabuff_armor_bonus
 
-#### get_painkiller {#sol::Character::get_painkiller}
+Function `( Character, DamageType ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### has_base_trait
 
-#### vomit {#sol::Character::vomit}
+Function `( Character, MutationBranchId ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### has_trait_flag
 
-#### spores {#sol::Character::spores}
+Function `( Character, JsonTraitFlagId ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### has_opposite_trait
 
-#### restore_scent {#sol::Character::restore_scent}
+Function `( Character, MutationBranchId ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### set_mutation
 
-#### set_painkiller {#sol::Character::set_painkiller}
+Function `( Character, MutationBranchId )`
 
-🇲 Method --> <code>( integer )</code>
+#### unset_mutation
 
-#### mod_painkiller {#sol::Character::mod_painkiller}
+Function `( Character, MutationBranchId )`
 
-🇲 Method --> <code>( integer )</code>
+#### activate_mutation
 
-#### shout {#sol::Character::shout}
+Function `( Character, MutationBranchId )`
 
-🇲 Method --> <code>( string, boolean )</code>
+#### deactivate_mutation
 
-#### get_morale_level {#sol::Character::get_morale_level}
+Function `( Character, MutationBranchId )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### can_mount
 
-#### has_morale {#sol::Character::has_morale}
+Function `( Character, Monster ) -> bool`
 
-🇲 Method --> <code>( [MoraleTypeDataId](#sol::MoraleTypeDataId) ) -> boolean</code>
+#### mount_creature
 
-#### irradiate {#sol::Character::irradiate}
+Function `( Character, Monster )`
 
-🇲 Method --> <code>( number, boolean ) -> boolean</code>
+#### is_mounted
 
-#### suffer {#sol::Character::suffer}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### check_mount_will_move
 
-#### can_hear {#sol::Character::can_hear}
+Function `( Character, Tripoint ) -> bool`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer ) -> boolean</code>
+#### check_mount_is_spooked
 
-#### get_lowest_hp {#sol::Character::get_lowest_hp}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### dismount
 
-#### hearing_ability {#sol::Character::hearing_ability}
+Function `( Character )`
 
-🇲 Method --> <code>( ) -> number</code>
+#### forced_dismount
 
-#### add_morale {#sol::Character::add_morale}
+Function `( Character )`
 
-🇲 Method --> <code>( [MoraleTypeDataId](#sol::MoraleTypeDataId), integer, integer, [TimeDuration](#sol::TimeDuration), [TimeDuration](#sol::TimeDuration), boolean, ItypeRaw )</code>
+#### is_deaf
 
-#### learn_recipe {#sol::Character::learn_recipe}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( [RecipeId](#sol::RecipeId) )</code>
+#### has_two_arms
 
-#### has_morale_to_craft {#sol::Character::has_morale_to_craft}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_working_arm_count
 
-#### get_morale {#sol::Character::get_morale}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [MoraleTypeDataId](#sol::MoraleTypeDataId) ) -> integer</code>
+#### get_working_leg_count
 
-#### knows_recipe {#sol::Character::knows_recipe}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [RecipeId](#sol::RecipeId) ) -> boolean</code>
+#### is_limb_disabled
 
-#### rem_morale {#sol::Character::rem_morale}
+Function `( Character, BodyPartTypeIntId ) -> bool`
 
-🇲 Method --> <code>( [MoraleTypeDataId](#sol::MoraleTypeDataId) )</code>
+#### is_limb_broken
 
-#### has_morale_to_read {#sol::Character::has_morale_to_read}
+Function `( Character, BodyPartTypeIntId ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### can_run
 
-#### clear_morale {#sol::Character::clear_morale}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### hurtall
 
-#### has_item_with_id {#sol::Character::has_item_with_id}
+Function `( Character, int, Creature, bool )`
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), boolean ) -> boolean</code>
+#### hitall
 
-> Checks for an item with the given id
+Function `( Character, int, int, Creature ) -> int`
 
-#### get_shout_volume {#sol::Character::get_shout_volume}
+#### heal
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Character, BodyPartTypeIntId, int )`
 
-#### mod_stamina {#sol::Character::mod_stamina}
+#### healall
 
-🇲 Method --> <code>( integer )</code>
+Function `( Character, int )`
 
-#### base_age {#sol::Character::base_age}
+#### global_square_location
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Character ) -> Tripoint`
 
-#### metabolic_rate {#sol::Character::metabolic_rate}
+#### global_sm_location
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Character ) -> Tripoint`
 
-#### set_base_age {#sol::Character::set_base_age}
+#### has_mabuff
 
-🇲 Method --> <code>( integer )</code>
+Function `( Character, MartialArtsBuffId ) -> bool`
 
-#### age {#sol::Character::age}
+#### mabuff_tohit_bonus
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Character ) -> double`
 
-#### mod_base_age {#sol::Character::mod_base_age}
+#### mabuff_dodge_bonus
 
-🇲 Method --> <code>( integer )</code>
+Function `( Character ) -> double`
 
-#### base_height {#sol::Character::base_height}
+#### mabuff_block_bonus
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Character ) -> int`
 
-#### cancel_activity {#sol::Character::cancel_activity}
+#### mabuff_speed_bonus
 
-🇲 Method --> <code>( )</code>
+Function `( Character ) -> int`
 
-#### assign_activity {#sol::Character::assign_activity}
+#### mabuff_arpen_bonus
 
-🇲 Method --> <code>( [ActivityTypeId](#sol::ActivityTypeId), integer, integer, integer, string )</code>
+Function `( Character, DamageType ) -> int`
 
-#### has_bionic {#sol::Character::has_bionic}
+#### mabuff_damage_mult
 
-🇲 Method --> <code>( [BionicDataId](#sol::BionicDataId) ) -> boolean</code>
+Function `( Character, DamageType ) -> double`
 
-#### has_activity {#sol::Character::has_activity}
+#### mabuff_damage_bonus
 
-🇲 Method --> <code>( [ActivityTypeId](#sol::ActivityTypeId) ) -> boolean</code>
+Function `( Character, DamageType ) -> int`
 
-#### all_items_with_flag {#sol::Character::all_items_with_flag}
+#### mabuff_attack_cost_penalty
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId), boolean ) -> [Item](#sol::Item)[]</code>
+Function `( Character ) -> int`
 
-> Gets all items with the given flag
+#### mabuff_attack_cost_mult
 
-#### inv_remove_item {#sol::Character::inv_remove_item}
+Function `( Character ) -> double`
 
-🇲 Method --> <code>( [Item](#sol::Item) )</code>
+#### mutation_effect
 
-> Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+Function `( Character, MutationBranchId )`
 
-#### all_items {#sol::Character::all_items}
+#### mutation_loss_effect
 
-🇲 Method --> <code>( boolean ) -> [Item](#sol::Item)[]</code>
+Function `( Character, MutationBranchId )`
 
-> Gets all items
+#### has_active_mutation
 
-#### wake_up {#sol::Character::wake_up}
+Function `( Character, MutationBranchId ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### mutate
 
-#### set_base_height {#sol::Character::set_base_height}
+Function `( Character )`
 
-🇲 Method --> <code>( integer )</code>
+#### mutation_ok
 
-#### height {#sol::Character::height}
+Function `( Character, MutationBranchId, bool, bool ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### mutate_category
 
-#### mod_rad {#sol::Character::mod_rad}
+Function `( Character, MutationCategoryTraitId )`
 
-🇲 Method --> <code>( integer )</code>
+#### mutate_towards
 
-#### set_rad {#sol::Character::set_rad}
+Function `( Character, Vector( MutationBranchId ), int ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### mutate_towards
 
-#### get_stamina {#sol::Character::get_stamina}
+Function `( Character, MutationBranchId ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### mutate_towards
 
-#### set_stamina {#sol::Character::set_stamina}
+Function `( Character, Vector( MutationBranchId ), int ) -> bool`
+Function `( Character, MutationBranchId ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### remove_mutation
 
-#### get_stamina_max {#sol::Character::get_stamina_max}
+Function `( Character, MutationBranchId, bool )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### has_child_flag
 
-#### mod_base_height {#sol::Character::mod_base_height}
+Function `( Character, MutationBranchId ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### remove_child_flag
 
-#### get_rad {#sol::Character::get_rad}
+Function `( Character, MutationBranchId )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### get_highest_category
 
-#### set_stim {#sol::Character::set_stim}
+Function `( Character ) -> MutationCategoryTraitId`
 
-🇲 Method --> <code>( integer )</code>
+#### is_weak_to_water
 
-#### bodyweight {#sol::Character::bodyweight}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> [Mass](#sol::Mass)</code>
+#### mutation_armor
 
-#### mod_stim {#sol::Character::mod_stim}
+Function `( Character, BodyPartTypeIntId, DamageType ) -> double`
 
-🇲 Method --> <code>( integer )</code>
+#### get_bionics
 
-#### bionics_weight {#sol::Character::bionics_weight}
+Function `( Character ) -> Vector( BionicDataId )`
 
-🇲 Method --> <code>( ) -> [Mass](#sol::Mass)</code>
+#### has_bionic
 
-#### get_stim {#sol::Character::get_stim}
+Function `( Character, BionicDataId ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### has_active_bionic
 
-#### get_armor_acid {#sol::Character::get_armor_acid}
+Function `( Character, BionicDataId ) -> bool`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+#### has_any_bionic
 
-#### get_bionics {#sol::Character::get_bionics}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> [BionicDataId](#sol::BionicDataId)[]</code>
+#### has_bionics
 
-#### is_weak_to_water {#sol::Character::is_weak_to_water}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### clear_bionics
 
-#### drop_inv {#sol::Character::drop_inv}
+Function `( Character )`
 
-🇲 Method --> <code>( integer )</code>
+#### get_used_bionics_slots
 
-#### mod_fatigue {#sol::Character::mod_fatigue}
+Function `( Character, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( integer )</code>
+#### get_total_bionics_slots
 
-#### mod_thirst {#sol::Character::mod_thirst}
+Function `( Character, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( integer )</code>
+#### get_free_bionics_slots
 
-#### mod_sleep_deprivation {#sol::Character::mod_sleep_deprivation}
+Function `( Character, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( integer )</code>
+#### remove_bionic
 
-#### set_thirst {#sol::Character::set_thirst}
+Function `( Character, BionicDataId )`
 
-🇲 Method --> <code>( integer )</code>
+#### add_bionic
 
-#### set_stored_kcal {#sol::Character::set_stored_kcal}
+Function `( Character, BionicDataId )`
 
-🇲 Method --> <code>( integer )</code>
+#### get_power_level
 
-#### set_fatigue {#sol::Character::set_fatigue}
+Function `( Character ) -> Energy`
 
-🇲 Method --> <code>( integer )</code>
+#### get_max_power_level
 
-#### mod_stored_kcal {#sol::Character::mod_stored_kcal}
+Function `( Character ) -> Energy`
 
-🇲 Method --> <code>( integer )</code>
+#### mod_power_level
 
-#### get_fatigue {#sol::Character::get_fatigue}
+Function `( Character, Energy )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### mod_max_power_level
 
-#### get_stored_kcal {#sol::Character::get_stored_kcal}
+Function `( Character, Energy )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### set_power_level
 
-#### get_sleep_deprivation {#sol::Character::get_sleep_deprivation}
+Function `( Character, Energy )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### set_max_power_level
 
-#### max_stored_kcal {#sol::Character::max_stored_kcal}
+Function `( Character, Energy )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### is_max_power
 
-#### get_thirst {#sol::Character::get_thirst}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### has_power
 
-#### get_kcal_percent {#sol::Character::get_kcal_percent}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> number</code>
+#### has_max_power
 
-#### set_healthy_mod {#sol::Character::set_healthy_mod}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( number )</code>
+#### is_worn
 
-#### set_sleep_deprivation {#sol::Character::set_sleep_deprivation}
+Function `( Character, Item ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### weight_carried
 
-#### set_faction_id {#sol::Character::set_faction_id}
+Function `( Character ) -> Mass`
 
-🇲 Method --> <code>( [FactionId](#sol::FactionId) )</code>
+#### volume_carried
 
-#### get_part_encumbrance {#sol::Character::get_part_encumbrance}
+Function `( Character ) -> Volume`
 
-🇲 Method --> <code>( [BodyPartTypeId](#sol::BodyPartTypeId) ) -> integer</code>
+#### volume_capacity
 
-#### blood_loss {#sol::Character::blood_loss}
+Function `( Character ) -> Volume`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+#### can_pick_volume
 
-#### is_wearing_power_armor {#sol::Character::is_wearing_power_armor}
+Function `( Character, Volume ) -> bool`
 
-🇲 Method --> <code>( boolean ) -> boolean</code>
+#### can_pick_weight
 
-#### is_wearing_active_optcloak {#sol::Character::is_wearing_active_optcloak}
+Function `( Character, Mass, bool ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_armed
 
-#### is_wearing_active_power_armor {#sol::Character::is_wearing_active_power_armor}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### can_wield
 
-#### get_faction_id {#sol::Character::get_faction_id}
+Function `( Character, Item ) -> bool`
 
-🇲 Method --> <code>( ) -> [FactionId](#sol::FactionId)</code>
+#### wield
 
-#### set_temp_btu {#sol::Character::set_temp_btu}
+Function `( Character, Item ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### can_unwield
 
-> Sets ALL body parts on a creature to the given temperature (in Body Temperature Units).
+Function `( Character, Item ) -> bool`
 
-#### set_part_temp_btu {#sol::Character::set_part_temp_btu}
+#### unwield
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer )</code>
+Function `( Character ) -> bool`
 
-> Sets a specific body part to a given temperature (in Body Temperature Units).
+#### is_wielding
 
-#### sight_impaired {#sol::Character::sight_impaired}
+Function `( Character, Item ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_wearing
 
-#### get_temp_btu {#sol::Character::get_temp_btu}
+Function `( Character, Item ) -> bool`
 
-🇲 Method --> <code>( ) -> table<[BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer></code>
+#### is_wearing_on_bp
 
-> Gets all bodyparts and their associated temperatures (in Body Temperature Units).
+Function `( Character, ItypeId, BodyPartTypeIntId ) -> bool`
 
-#### has_alarm_clock {#sol::Character::has_alarm_clock}
+#### worn_with_flag
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Character, JsonFlagId, BodyPartTypeIntId ) -> bool`
 
-#### get_part_temp_btu {#sol::Character::get_part_temp_btu}
+#### worn_with_id
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Character, ItypeId, BodyPartTypeIntId ) -> bool`
 
-> Gets the current temperature of a specific body part (in Body Temperature Units).
+#### item_worn_with_flag
 
-#### has_watch {#sol::Character::has_watch}
+Function `( Character, JsonFlagId, BodyPartTypeIntId ) -> Item`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### item_worn_with_id
 
-#### in_climate_control {#sol::Character::in_climate_control}
+Function `( Character, ItypeId, BodyPartTypeIntId ) -> Item`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_skill_level
 
-#### set_healthy {#sol::Character::set_healthy}
+Function `( Character, SkillId ) -> int`
 
-🇲 Method --> <code>( number )</code>
+#### get_all_skills
 
-#### mod_healthy {#sol::Character::mod_healthy}
+Function `( Character ) -> SkillLevelMap`
 
-🇲 Method --> <code>( number )</code>
+#### get_skill_level_object
 
-#### get_str_base {#sol::Character::get_str_base}
+Function `( Character, SkillId ) -> SkillLevel`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### set_skill_level
 
-#### get_int {#sol::Character::get_int}
+Function `( Character, SkillId, int )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### mod_skill_level
 
-#### get_dex_base {#sol::Character::get_dex_base}
+Function `( Character, SkillId, int )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### rust_rate
 
-#### get_int_base {#sol::Character::get_int_base}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### practice
 
-#### get_per_base {#sol::Character::get_per_base}
+Function `( Character, SkillId, int, int, bool )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### read_speed
 
-#### get_str_bonus {#sol::Character::get_str_bonus}
+Function `( Character, bool ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### get_time_died
 
-#### get_per {#sol::Character::get_per}
+Function `( Character ) -> TimePoint`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### is_rad_immune
 
-#### get_str {#sol::Character::get_str}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### is_throw_immune
 
-#### getID {#sol::Character::getID}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( ) -> [CharacterId](#sol::CharacterId)</code>
+#### rest_quality
 
-#### get_dex {#sol::Character::get_dex}
+Function `( Character ) -> double`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### healing_rate
 
-#### setID {#sol::Character::setID}
+Function `( Character, double ) -> double`
 
-🇲 Method --> <code>( [CharacterId](#sol::CharacterId), boolean )</code>
+#### healing_rate_medicine
 
-#### reset_encumbrance {#sol::Character::reset_encumbrance}
+Function `( Character, double, BodyPartTypeIntId ) -> double`
 
-🇲 Method --> <code>( )</code>
+#### mutation_value
 
-#### reset {#sol::Character::reset}
+Function `( Character, string ) -> double`
 
-🇲 Method --> <code>( )</code>
+#### get_base_traits
 
-#### mod_healthy_mod {#sol::Character::mod_healthy_mod}
+Function `( Character ) -> Vector( MutationBranchId )`
 
-🇲 Method --> <code>( number, number )</code>
+#### get_mutations
 
-#### get_dex_bonus {#sol::Character::get_dex_bonus}
+Function `( Character, bool ) -> Vector( MutationBranchId )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### clear_skills
 
-#### get_int_bonus {#sol::Character::get_int_bonus}
+Function `( Character )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### clear_mutations
 
-#### mod_speed_bonus {#sol::Character::mod_speed_bonus}
+Function `( Character )`
 
-🇲 Method --> <code>( integer )</code>
+#### crossed_threshold
 
-#### mod_int_bonus {#sol::Character::mod_int_bonus}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### add_addiction
 
-#### set_speed_bonus {#sol::Character::set_speed_bonus}
+Function `( Character, AddictionType, int )`
 
-🇲 Method --> <code>( integer )</code>
+#### rem_addiction
 
-#### get_healthy_mod {#sol::Character::get_healthy_mod}
+Function `( Character, AddictionType )`
 
-🇲 Method --> <code>( ) -> number</code>
+#### has_addiction
 
-#### get_healthy {#sol::Character::get_healthy}
+Function `( Character, AddictionType ) -> bool`
 
-🇲 Method --> <code>( ) -> number</code>
+#### addiction_level
 
-#### get_per_bonus {#sol::Character::get_per_bonus}
+Function `( Character, AddictionType ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### is_hauling
 
-#### mod_per_bonus {#sol::Character::mod_per_bonus}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### add_item_with_id
 
-#### mod_str_bonus {#sol::Character::mod_str_bonus}
+Adds an item with the given id and amount
+Function `( Character, ItypeId, int )`
 
-🇲 Method --> <code>( integer )</code>
+#### has_item_with_id
 
-#### set_str_bonus {#sol::Character::set_str_bonus}
+Checks for an item with the given id
+Function `( Character, ItypeId, bool ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### get_item_with_id
 
-#### mod_dex_bonus {#sol::Character::mod_dex_bonus}
+Gets the first occurrence of an item with the given id
+Function `( Character, ItypeId, bool ) -> Item`
 
-🇲 Method --> <code>( integer )</code>
+#### has_item_with_flag
 
-#### set_dex_bonus {#sol::Character::set_dex_bonus}
+Checks for an item with the given flag
+Function `( Character, JsonFlagId, bool ) -> bool`
 
-🇲 Method --> <code>( integer )</code>
+#### all_items_with_flag
 
-#### set_int_bonus {#sol::Character::set_int_bonus}
+Gets all items with the given flag
+Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 
-🇲 Method --> <code>( integer )</code>
+#### all_items
 
-#### set_per_bonus {#sol::Character::set_per_bonus}
+Gets all items
+Function `( Character, bool ) -> Vector( Item )`
 
-🇲 Method --> <code>( integer )</code>
+#### inv_remove_item
 
-#### mutation_armor {#sol::Character::mutation_armor}
+Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+Function `( Character, Item )`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), [DamageType](#sol::DamageType) ) -> number</code>
+#### assign_activity
 
-#### is_blind {#sol::Character::is_blind}
+Function `( Character, ActivityTypeId, int, int, int, string )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### has_activity
 
-#### get_movement_mode {#sol::Character::get_movement_mode}
+Function `( Character, ActivityTypeId ) -> bool`
 
-🇲 Method --> <code>( ) -> [CharacterMoveMode](#sol::CharacterMoveMode)</code>
+#### cancel_activity
 
-#### mabuff_block_bonus {#sol::Character::mabuff_block_bonus}
+Function `( Character )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### metabolic_rate
 
-#### mabuff_dodge_bonus {#sol::Character::mabuff_dodge_bonus}
+Function `( Character ) -> double`
 
-🇲 Method --> <code>( ) -> number</code>
+#### base_age
 
-#### mabuff_speed_bonus {#sol::Character::mabuff_speed_bonus}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### set_base_age
 
-#### mabuff_damage_mult {#sol::Character::mabuff_damage_mult}
+Function `( Character, int )`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> number</code>
+#### mod_base_age
 
-#### mabuff_arpen_bonus {#sol::Character::mabuff_arpen_bonus}
+Function `( Character, int )`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> integer</code>
+#### age
 
-#### mabuff_damage_bonus {#sol::Character::mabuff_damage_bonus}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> integer</code>
+#### base_height
 
-#### mabuff_tohit_bonus {#sol::Character::mabuff_tohit_bonus}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( ) -> number</code>
+#### set_base_height
 
-#### global_sm_location {#sol::Character::global_sm_location}
+Function `( Character, int )`
 
-🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
+#### mod_base_height
 
-#### hitall {#sol::Character::hitall}
+Function `( Character, int )`
 
-🇲 Method --> <code>( integer, integer, [Creature](#sol::Creature) ) -> integer</code>
+#### height
 
-#### has_mabuff {#sol::Character::has_mabuff}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [MartialArtsBuffId](#sol::MartialArtsBuffId) ) -> boolean</code>
+#### bodyweight
 
-#### heal {#sol::Character::heal}
+Function `( Character ) -> Mass`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer )</code>
+#### bionics_weight
 
-#### global_square_location {#sol::Character::global_square_location}
+Function `( Character ) -> Mass`
 
-🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
+#### get_armor_acid
 
-#### healall {#sol::Character::healall}
+Function `( Character, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( integer )</code>
+#### get_stim
 
-#### hurtall {#sol::Character::hurtall}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( integer, [Creature](#sol::Creature), boolean )</code>
+#### set_stim
 
-#### mabuff_attack_cost_penalty {#sol::Character::mabuff_attack_cost_penalty}
+Function `( Character, int )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### mod_stim
 
-#### mutation_effect {#sol::Character::mutation_effect}
+Function `( Character, int )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### get_rad
 
-#### remove_mutation {#sol::Character::remove_mutation}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId), boolean )</code>
+#### set_rad
 
-#### mutate_towards {#sol::Character::mutate_towards}
+Function `( Character, int )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId)[], integer ) -> boolean</code>\
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+#### mod_rad
 
-#### has_child_flag {#sol::Character::has_child_flag}
+Function `( Character, int )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+#### get_stamina
 
-#### get_highest_category {#sol::Character::get_highest_category}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( ) -> [MutationCategoryTraitId](#sol::MutationCategoryTraitId)</code>
+#### get_stamina_max
 
-#### remove_child_flag {#sol::Character::remove_child_flag}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### set_stamina
 
-#### mabuff_attack_cost_mult {#sol::Character::mabuff_attack_cost_mult}
+Function `( Character, int )`
 
-🇲 Method --> <code>( ) -> number</code>
+#### mod_stamina
 
-#### mutate_towards {#sol::Character::mutate_towards}
+Function `( Character, int )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+#### wake_up
 
-#### mutate_category {#sol::Character::mutate_category}
+Function `( Character )`
 
-🇲 Method --> <code>( [MutationCategoryTraitId](#sol::MutationCategoryTraitId) )</code>
+#### get_shout_volume
 
-#### mutation_loss_effect {#sol::Character::mutation_loss_effect}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### shout
 
-#### mutate_towards {#sol::Character::mutate_towards}
+Function `( Character, string, bool )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId)[], integer ) -> boolean</code>
+#### vomit
 
-#### has_active_mutation {#sol::Character::has_active_mutation}
+Function `( Character )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+#### restore_scent
 
-#### mutation_ok {#sol::Character::mutation_ok}
+Function `( Character )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId), boolean, boolean ) -> boolean</code>
+#### mod_painkiller
 
-#### mutate {#sol::Character::mutate}
+Function `( Character, int )`
 
-🇲 Method --> <code>( )</code>
+#### set_painkiller
 
-#### is_invisible {#sol::Character::is_invisible}
+Function `( Character, int )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_painkiller
 
-#### can_run {#sol::Character::can_run}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### spores
 
-#### is_limb_disabled {#sol::Character::is_limb_disabled}
+Function `( Character )`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+#### blossoms
 
-#### mabuff_armor_bonus {#sol::Character::mabuff_armor_bonus}
+Function `( Character )`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> integer</code>
+#### rooted
 
-#### bionic_armor_bonus {#sol::Character::bionic_armor_bonus}
+Function `( Character )`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), [DamageType](#sol::DamageType) ) -> number</code>
+#### fall_asleep
 
-#### has_base_trait {#sol::Character::has_base_trait}
+Function `( Character )`
+Function `( Character, TimeDuration )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+#### get_hostile_creatures
 
-#### has_opposite_trait {#sol::Character::has_opposite_trait}
+Function `( Character, int ) -> Vector( Creature )`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+#### get_visible_creatures
 
-#### has_trait_flag {#sol::Character::has_trait_flag}
+Function `( Character, int ) -> Vector( Creature )`
 
-🇲 Method --> <code>( [JsonTraitFlagId](#sol::JsonTraitFlagId) ) -> boolean</code>
+#### wearing_something_on
 
-#### set_mutation {#sol::Character::set_mutation}
+Function `( Character, BodyPartTypeIntId ) -> bool`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### is_wearing_helmet
 
-#### cough {#sol::Character::cough}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( boolean, integer )</code>
+#### get_morale_level
 
-#### uncanny_dodge {#sol::Character::uncanny_dodge}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### add_morale
 
-#### set_movement_mode {#sol::Character::set_movement_mode}
+Function `( Character, MoraleTypeDataId, int, int, TimeDuration, TimeDuration, bool, ItypeRaw )`
 
-🇲 Method --> <code>( [CharacterMoveMode](#sol::CharacterMoveMode) )</code>
+#### has_morale
 
-#### get_melee_stamina_cost {#sol::Character::get_melee_stamina_cost}
+Function `( Character, MoraleTypeDataId ) -> bool`
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> integer</code>
+#### get_morale
 
-#### expose_to_disease {#sol::Character::expose_to_disease}
+Function `( Character, MoraleTypeDataId ) -> int`
 
-🇲 Method --> <code>( [DiseaseTypeId](#sol::DiseaseTypeId) )</code>
+#### rem_morale
 
-#### is_stealthy {#sol::Character::is_stealthy}
+Function `( Character, MoraleTypeDataId )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### clear_morale
 
-#### is_quiet {#sol::Character::is_quiet}
+Function `( Character )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### has_morale_to_read
 
-#### is_limb_broken {#sol::Character::is_limb_broken}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+#### has_morale_to_craft
 
-#### unset_mutation {#sol::Character::unset_mutation}
+Function `( Character ) -> bool`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### knows_recipe
 
-#### deactivate_mutation {#sol::Character::deactivate_mutation}
+Function `( Character, RecipeId ) -> bool`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### learn_recipe
 
-#### is_deaf {#sol::Character::is_deaf}
+Function `( Character, RecipeId )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### suffer
 
-#### forced_dismount {#sol::Character::forced_dismount}
+Function `( Character )`
 
-🇲 Method --> <code>( )</code>
+#### irradiate
 
-#### has_two_arms {#sol::Character::has_two_arms}
+Function `( Character, double, bool ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### can_hear
 
-#### get_working_leg_count {#sol::Character::get_working_leg_count}
+Function `( Character, Tripoint, int ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### hearing_ability
 
-#### get_working_arm_count {#sol::Character::get_working_arm_count}
+Function `( Character ) -> double`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### get_lowest_hp
 
-#### activate_mutation {#sol::Character::activate_mutation}
+Function `( Character ) -> int`
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) )</code>
+#### drop_inv
 
-#### dismount {#sol::Character::dismount}
+Function `( Character, int )`
 
-🇲 Method --> <code>( )</code>
+#### bodypart_exposure
 
-#### check_mount_will_move {#sol::Character::check_mount_will_move}
+Function `( Character ) -> Map( BodyPartTypeIntId, double )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> boolean</code>
+## CharacterId
 
-#### can_mount {#sol::Character::can_mount}
-
-🇲 Method --> <code>( [Monster](#sol::Monster) ) -> boolean</code>
-
-#### check_mount_is_spooked {#sol::Character::check_mount_is_spooked}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### mount_creature {#sol::Character::mount_creature}
-
-🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
-
-#### is_mounted {#sol::Character::is_mounted}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### bodypart_exposure {#sol::Character::bodypart_exposure}
-
-🇲 Method --> <code>( ) -> table<[BodyPartTypeIntId](#sol::BodyPartTypeIntId), number></code>
-
-## CharacterId {#sol::CharacterId}
-
-### Bases {#sol::CharacterId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::CharacterId::@ctors}
+### Constructors
 
-- CharacterId.new( )
-- CharacterId.new( int )
+#### `CharacterId.new()`
 
-### Members {#sol::CharacterId::@members}
+#### `CharacterId.new( int )`
 
-#### is_valid {#sol::CharacterId::is_valid}
+### Members
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_valid
 
-#### get_value {#sol::CharacterId::get_value}
+Function `( CharacterId ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### get_value
 
-## Creature {#sol::Creature}
+Function `( CharacterId ) -> int`
 
-### Bases {#sol::Creature::@bases}
+## Creature
+
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Creature::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Creature::@members}
+### Members
 
-#### get_name {#sol::Creature::get_name}
+#### get_name
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( Creature ) -> string`
 
-#### get_armor_bullet_base {#sol::Creature::get_armor_bullet_base}
+#### disp_name
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature, bool, bool ) -> string`
 
-#### get_armor_bash_bonus {#sol::Creature::get_armor_bash_bonus}
+#### skin_name
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> string`
 
-#### get_armor_cut_base {#sol::Creature::get_armor_cut_base}
+#### get_grammatical_genders
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> Vector( string )`
 
-#### get_armor_bash_base {#sol::Creature::get_armor_bash_base}
+#### is_avatar
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> bool`
 
-#### get_armor_bullet {#sol::Creature::get_armor_bullet}
+#### is_npc
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> bool`
 
-#### get_armor_cut_bonus {#sol::Creature::get_armor_cut_bonus}
+#### is_monster
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> bool`
 
-#### get_armor_type {#sol::Creature::get_armor_type}
+#### as_monster
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType), [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> Monster`
 
-#### get_armor_bullet_bonus {#sol::Creature::get_armor_bullet_bonus}
+#### as_npc
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> Npc`
 
-#### get_melee {#sol::Creature::get_melee}
+#### as_character
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> Character`
 
-#### get_dodge {#sol::Creature::get_dodge}
+#### as_avatar
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> Avatar`
 
-#### get_hit {#sol::Creature::get_hit}
+#### dodge_roll
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> double`
 
-#### get_armor_cut {#sol::Creature::get_armor_cut}
+#### stability_roll
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> double`
 
-#### get_env_resist {#sol::Creature::get_env_resist}
+#### attitude_to
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature, Creature ) -> Attitude`
 
-#### get_perceived_pain {#sol::Creature::get_perceived_pain}
+#### sees
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, Creature ) -> bool`
 
-#### get_pain {#sol::Creature::get_pain}
+#### sight_range
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, int ) -> int`
 
-#### set_pain {#sol::Creature::set_pain}
+#### power_rating
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature ) -> double`
 
-#### get_armor_bash {#sol::Creature::get_armor_bash}
+#### speed_rating
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> double`
 
-#### get_moves {#sol::Creature::get_moves}
+#### ranged_target_size
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> double`
 
-#### set_moves {#sol::Creature::set_moves}
+#### knock_back_to
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature, Tripoint )`
 
-#### mod_moves {#sol::Creature::mod_moves}
+#### deal_damage
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature, Creature, BodyPartTypeIntId, DamageInstance ) -> DealtDamageInstance`
 
-#### get_num_dodges {#sol::Creature::get_num_dodges}
+#### apply_damage
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, Creature, BodyPartTypeIntId, int, bool )`
 
-#### get_num_blocks {#sol::Creature::get_num_blocks}
+#### size_melee_penalty
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> int`
 
-#### mod_pain_noresist {#sol::Creature::mod_pain_noresist}
+#### digging
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature ) -> bool`
 
-#### get_speed {#sol::Creature::get_speed}
+#### is_on_ground
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> bool`
 
-#### get_hp {#sol::Creature::get_hp}
+#### is_underwater
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature ) -> bool`
 
-#### get_speed_bonus {#sol::Creature::get_speed_bonus}
+#### set_underwater
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, bool )`
 
-#### get_speed_mult {#sol::Creature::get_speed_mult}
+#### is_warm
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> bool`
 
-#### get_speed_base {#sol::Creature::get_speed_base}
+#### in_species
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, SpeciesTypeId ) -> bool`
 
-#### set_all_parts_hp_to_max {#sol::Creature::set_all_parts_hp_to_max}
+#### has_weapon
 
-🇲 Method --> <code>( )</code>
+Function `( Creature ) -> bool`
 
-#### mod_all_parts_hp_cur {#sol::Creature::mod_all_parts_hp_cur}
+#### is_hallucination
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature ) -> bool`
 
-#### get_block_bonus {#sol::Creature::get_block_bonus}
+#### is_dead
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature ) -> bool`
 
-#### get_hit_base {#sol::Creature::get_hit_base}
+#### is_elec_immune
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> bool`
 
-#### get_dodge_base {#sol::Creature::get_dodge_base}
+#### is_immune_effect
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature, EffectTypeId ) -> bool`
 
-#### get_hit_bonus {#sol::Creature::get_hit_bonus}
+#### is_immune_damage
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature, DamageType ) -> bool`
 
-#### get_dodge_bonus {#sol::Creature::get_dodge_bonus}
+#### get_pos_ms
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> Tripoint`
 
-#### get_size {#sol::Creature::get_size}
+#### set_pos_ms
 
-🇲 Method --> <code>( ) -> [MonsterSize](#sol::MonsterSize)</code>
+Function `( Creature, Tripoint )`
 
-#### set_all_parts_hp_cur {#sol::Creature::set_all_parts_hp_cur}
+#### has_effect
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> bool`
 
-#### mod_part_hp_cur {#sol::Creature::mod_part_hp_cur}
+#### has_effect_with_flag
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer )</code>
+Function `( Creature, JsonFlagId, Opt( BodyPartTypeId ) ) -> bool`
 
-#### has_flag {#sol::Creature::has_flag}
+#### get_effect_dur
 
-🇲 Method --> <code>( [MonsterFlag](#sol::MonsterFlag) ) -> boolean</code>
+Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> TimeDuration`
 
-#### hp_percentage {#sol::Creature::hp_percentage}
+#### get_effect_int
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> int`
 
-#### get_hp_max {#sol::Creature::get_hp_max}
+#### add_effect
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Effect type, duration, bodypart and intensity
+Function `( Creature, EffectTypeId, TimeDuration, Opt( BodyPartTypeId ), Opt( int ) )`
 
-#### mod_part_hp_max {#sol::Creature::mod_part_hp_max}
+#### remove_effect
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer )</code>
+Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> bool`
 
-#### get_part_hp_cur {#sol::Creature::get_part_hp_cur}
+#### clear_effects
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature )`
 
-#### get_part_healed_total {#sol::Creature::get_part_healed_total}
+#### set_value
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature, string, string )`
 
-#### get_part_hp_max {#sol::Creature::get_part_hp_max}
+#### remove_value
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
+Function `( Creature, string )`
 
-#### set_part_hp_max {#sol::Creature::set_part_hp_max}
+#### get_value
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer )</code>
+Function `( Creature, string ) -> string`
 
-#### set_part_hp_cur {#sol::Creature::set_part_hp_cur}
+#### get_weight
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer )</code>
+Function `( Creature ) -> Mass`
 
-#### has_grab_break_tec {#sol::Creature::has_grab_break_tec}
+#### has_trait
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Creature, MutationBranchId ) -> bool`
 
-#### mod_pain {#sol::Creature::mod_pain}
+#### mod_pain
 
-🇲 Method --> <code>( integer )</code>
+Function `( Creature, int )`
 
-#### get_weight {#sol::Creature::get_weight}
+#### mod_pain_noresist
 
-🇲 Method --> <code>( ) -> [Mass](#sol::Mass)</code>
+Function `( Creature, int )`
 
-#### sight_range {#sol::Creature::sight_range}
+#### set_pain
 
-🇲 Method --> <code>( integer ) -> integer</code>
+Function `( Creature, int )`
 
-#### power_rating {#sol::Creature::power_rating}
+#### get_pain
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> int`
 
-#### sees {#sol::Creature::sees}
+#### get_perceived_pain
 
-🇲 Method --> <code>( [Creature](#sol::Creature) ) -> boolean</code>
+Function `( Creature ) -> int`
 
-#### attitude_to {#sol::Creature::attitude_to}
+#### get_moves
 
-🇲 Method --> <code>( [Creature](#sol::Creature) ) -> [Attitude](#sol::Attitude)</code>
+Function `( Creature ) -> int`
 
-#### stability_roll {#sol::Creature::stability_roll}
+#### mod_moves
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature, int )`
 
-#### speed_rating {#sol::Creature::speed_rating}
+#### set_moves
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature, int )`
 
-#### knock_back_to {#sol::Creature::knock_back_to}
+#### get_num_blocks
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
+Function `( Creature ) -> int`
 
-#### ranged_target_size {#sol::Creature::ranged_target_size}
+#### get_num_dodges
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature ) -> int`
 
-#### apply_damage {#sol::Creature::apply_damage}
+#### get_env_resist
 
-🇲 Method --> <code>( [Creature](#sol::Creature), [BodyPartTypeIntId](#sol::BodyPartTypeIntId), integer, boolean )</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### deal_damage {#sol::Creature::deal_damage}
+#### get_armor_bash
 
-🇲 Method --> <code>( [Creature](#sol::Creature), [BodyPartTypeIntId](#sol::BodyPartTypeIntId), [DamageInstance](#sol::DamageInstance) ) -> [DealtDamageInstance](#sol::DealtDamageInstance)</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### size_melee_penalty {#sol::Creature::size_melee_penalty}
+#### get_armor_cut
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### dodge_roll {#sol::Creature::dodge_roll}
+#### get_armor_bullet
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### as_character {#sol::Creature::as_character}
+#### get_armor_bash_base
 
-🇲 Method --> <code>( ) -> [Character](#sol::Character)</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### get_grammatical_genders {#sol::Creature::get_grammatical_genders}
+#### get_armor_cut_base
 
-🇲 Method --> <code>( ) -> string[]</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### skin_name {#sol::Creature::skin_name}
+#### get_armor_bullet_base
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-#### disp_name {#sol::Creature::disp_name}
+#### get_armor_bash_bonus
 
-🇲 Method --> <code>( possessive: boolean, capitalize_first: boolean ) -> string</code>
+Function `( Creature ) -> int`
 
-#### as_avatar {#sol::Creature::as_avatar}
+#### get_armor_cut_bonus
 
-🇲 Method --> <code>( ) -> [Avatar](#sol::Avatar)</code>
+Function `( Creature ) -> int`
 
-#### is_avatar {#sol::Creature::is_avatar}
+#### get_armor_bullet_bonus
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Creature ) -> int`
 
-#### is_monster {#sol::Creature::is_monster}
+#### get_armor_type
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Creature, DamageType, BodyPartTypeIntId ) -> int`
 
-#### is_npc {#sol::Creature::is_npc}
+#### get_dodge
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Creature ) -> double`
 
-#### as_npc {#sol::Creature::as_npc}
+#### get_melee
 
-🇲 Method --> <code>( ) -> [Npc](#sol::Npc)</code>
+Function `( Creature ) -> double`
 
-#### as_monster {#sol::Creature::as_monster}
+#### get_hit
 
-🇲 Method --> <code>( ) -> [Monster](#sol::Monster)</code>
+Function `( Creature ) -> double`
 
-#### has_trait {#sol::Creature::has_trait}
+#### get_speed
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+Function `( Creature ) -> int`
 
-#### digging {#sol::Creature::digging}
+#### get_size
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Creature ) -> MonsterSize`
 
-#### is_underwater {#sol::Creature::is_underwater}
+#### get_hp
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Creature, Opt( BodyPartTypeIntId ) ) -> int`
 
-#### get_effect_int {#sol::Creature::get_effect_int}
+#### get_hp_max
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> integer</code>
+Function `( Creature, Opt( BodyPartTypeIntId ) ) -> int`
 
-#### add_effect {#sol::Creature::add_effect}
+#### hp_percentage
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [TimeDuration](#sol::TimeDuration), [BodyPartTypeId](#sol::BodyPartTypeId), integer )</code>
+Function `( Creature ) -> int`
 
-> Effect type, duration, bodypart and intensity
+#### has_flag
 
-#### get_effect_dur {#sol::Creature::get_effect_dur}
+Function `( Creature, MonsterFlag ) -> bool`
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> [TimeDuration](#sol::TimeDuration)</code>
+#### get_part_hp_cur
 
-#### has_effect_with_flag {#sol::Creature::has_effect_with_flag}
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
+#### get_part_hp_max
 
-#### has_effect {#sol::Creature::has_effect}
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
+#### get_part_healed_total
 
-#### remove_effect {#sol::Creature::remove_effect}
+Function `( Creature, BodyPartTypeIntId ) -> int`
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
+#### set_part_hp_cur
 
-#### set_value {#sol::Creature::set_value}
+Function `( Creature, BodyPartTypeIntId, int )`
 
-🇲 Method --> <code>( string, string )</code>
+#### set_part_hp_max
 
-#### clear_effects {#sol::Creature::clear_effects}
+Function `( Creature, BodyPartTypeIntId, int )`
 
-🇲 Method --> <code>( )</code>
+#### mod_part_hp_cur
 
-#### get_value {#sol::Creature::get_value}
+Function `( Creature, BodyPartTypeIntId, int )`
 
-🇲 Method --> <code>( string ) -> string</code>
+#### mod_part_hp_max
 
-#### remove_value {#sol::Creature::remove_value}
+Function `( Creature, BodyPartTypeIntId, int )`
 
-🇲 Method --> <code>( string )</code>
+#### set_all_parts_hp_cur
 
-#### is_on_ground {#sol::Creature::is_on_ground}
+Function `( Creature, int )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### mod_all_parts_hp_cur
 
-#### set_pos_ms {#sol::Creature::set_pos_ms}
+Function `( Creature, int )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
+#### set_all_parts_hp_to_max
 
-#### is_immune_damage {#sol::Creature::is_immune_damage}
+Function `( Creature )`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> boolean</code>
+#### get_speed_base
 
-#### in_species {#sol::Creature::in_species}
+Function `( Creature ) -> int`
 
-🇲 Method --> <code>( [SpeciesTypeId](#sol::SpeciesTypeId) ) -> boolean</code>
+#### get_speed_bonus
 
-#### is_warm {#sol::Creature::is_warm}
+Function `( Creature ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_speed_mult
 
-#### set_underwater {#sol::Creature::set_underwater}
+Function `( Creature ) -> double`
 
-🇲 Method --> <code>( boolean )</code>
+#### get_block_bonus
 
-#### get_pos_ms {#sol::Creature::get_pos_ms}
+Function `( Creature ) -> int`
 
-🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
+#### get_dodge_base
 
-#### has_weapon {#sol::Creature::has_weapon}
+Function `( Creature ) -> double`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_hit_base
 
-#### is_dead {#sol::Creature::is_dead}
+Function `( Creature ) -> double`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_dodge_bonus
 
-#### is_hallucination {#sol::Creature::is_hallucination}
+Function `( Creature ) -> double`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_hit_bonus
 
-#### is_immune_effect {#sol::Creature::is_immune_effect}
+Function `( Creature ) -> double`
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId) ) -> boolean</code>
+#### has_grab_break_tec
 
-#### is_elec_immune {#sol::Creature::is_elec_immune}
+Function `( Creature ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_weight_capacity
 
-#### get_weight_capacity {#sol::Creature::get_weight_capacity}
+Function `( Creature ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+## DamageInstance
 
-## DamageInstance {#sol::DamageInstance}
+new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 
-> Represents a bunch of damage amounts\
-> Constructors are:\
-> new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
-
-### Bases {#sol::DamageInstance::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::DamageInstance::@ctors}
+### Constructors
 
-- DamageInstance.new( )
-- DamageInstance.new( [DamageType](#sol::DamageType), double, double, double, double )
+#### `DamageInstance.new()`
 
-### Members {#sol::DamageInstance::@members}
+#### `DamageInstance.new( DamageType, double, double, double, double )`
 
-#### damage_units {#sol::DamageInstance::damage_units}
+### Members
 
-🇻 Variable --> <code>[DamageUnit](#sol::DamageUnit)[]</code>
+#### damage_units
 
-#### empty {#sol::DamageInstance::empty}
+Variable of type `Vector( DamageUnit )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### mult_damage
 
-#### add_damage {#sol::DamageInstance::add_damage}
+Function `( DamageInstance, double, bool )`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType), number, number, number, number )</code>
+#### type_damage
 
-#### add {#sol::DamageInstance::add}
+Function `( DamageInstance, DamageType ) -> double`
 
-🇲 Method --> <code>( [DamageUnit](#sol::DamageUnit) )</code>
+#### total_damage
 
-#### clear {#sol::DamageInstance::clear}
+Function `( DamageInstance ) -> double`
 
-🇲 Method --> <code>( )</code>
+#### clear
 
-#### type_damage {#sol::DamageInstance::type_damage}
+Function `( DamageInstance )`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> number</code>
+#### empty
 
-#### total_damage {#sol::DamageInstance::total_damage}
+Function `( DamageInstance ) -> bool`
 
-🇲 Method --> <code>( ) -> number</code>
+#### add_damage
 
-#### mult_damage {#sol::DamageInstance::mult_damage}
+Function `( DamageInstance, DamageType, double, double, double, double )`
 
-🇲 Method --> <code>( number, boolean )</code>
+#### add
 
-## DamageUnit {#sol::DamageUnit}
+Function `( DamageInstance, DamageUnit )`
 
-> Represents a damage amount\
-> Constructors are:\
-> new()\
-> new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
+#### __eq
 
-### Bases {#sol::DamageUnit::@bases}
+Function `( DamageInstance, DamageInstance ) -> bool`
 
-No base classes.
+## DamageUnit
 
-### Constructors {#sol::DamageUnit::@ctors}
+new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 
-- DamageUnit.new( [DamageType](#sol::DamageType), double, double, double, double )
-
-### Members {#sol::DamageUnit::@members}
-
-#### type {#sol::DamageUnit::type}
-
-🇻 Variable --> <code>[DamageType](#sol::DamageType)</code>
-
-#### res_mult {#sol::DamageUnit::res_mult}
-
-🇻 Variable --> <code>number</code>
-
-#### damage_multiplier {#sol::DamageUnit::damage_multiplier}
-
-🇻 Variable --> <code>number</code>
-
-#### res_pen {#sol::DamageUnit::res_pen}
-
-🇻 Variable --> <code>number</code>
-
-#### amount {#sol::DamageUnit::amount}
-
-🇻 Variable --> <code>number</code>
-
-## DealtDamageInstance {#sol::DealtDamageInstance}
-
-> Represents the final dealt damage
-
-### Bases {#sol::DealtDamageInstance::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::DealtDamageInstance::@ctors}
+### Constructors
+
+#### `DamageUnit.new( DamageType, double, double, double, double )`
+
+### Members
+
+#### type
+
+Variable of type `DamageType`
+
+#### amount
+
+Variable of type `double`
+
+#### res_pen
+
+Variable of type `double`
+
+#### res_mult
+
+Variable of type `double`
+
+#### damage_multiplier
+
+Variable of type `double`
+
+#### __eq
+
+Function `( DamageUnit, DamageUnit ) -> bool`
+
+## DealtDamageInstance
+
+Represents the final dealt damage
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::DealtDamageInstance::@members}
+### Members
 
-#### dealt_dams {#sol::DealtDamageInstance::dealt_dams}
+#### dealt_dams
 
-🇻 Variable --> <code>integer[]</code>
+Variable of type `Array( int, 14 )`
 
-#### bp_hit {#sol::DealtDamageInstance::bp_hit}
+#### bp_hit
 
-🇻 Variable --> <code>[BodyPartTypeId](#sol::BodyPartTypeId)</code>
+Variable of type `BodyPartTypeId`
 
-#### type_damage {#sol::DealtDamageInstance::type_damage}
+#### type_damage
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> integer</code>
+Function `( DealtDamageInstance, DamageType ) -> int`
 
-#### total_damage {#sol::DealtDamageInstance::total_damage}
+#### total_damage
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( DealtDamageInstance ) -> int`
 
-## DiseaseTypeId {#sol::DiseaseTypeId}
+## DiseaseTypeId
 
-### Bases {#sol::DiseaseTypeId::@bases}
-
-No base classes.
-
-### Constructors {#sol::DiseaseTypeId::@ctors}
-
-- DiseaseTypeId.new( )
-- DiseaseTypeId.new( [DiseaseTypeId](#sol::DiseaseTypeId) )
-- DiseaseTypeId.new( string )
-
-### Members {#sol::DiseaseTypeId::@members}
-
-#### NULL_ID {#sol::DiseaseTypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [DiseaseTypeId](#sol::DiseaseTypeId)</code>
-
-#### obj {#sol::DiseaseTypeId::obj}
-
-🇲 Method --> <code>( ) -> DiseaseTypeRaw</code>
-
-#### is_valid {#sol::DiseaseTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::DiseaseTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::DiseaseTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::DiseaseTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## DistributionGrid {#sol::DistributionGrid}
-
-### Bases {#sol::DistributionGrid::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::DistributionGrid::@ctors}
+### Constructors
+
+#### `DiseaseTypeId.new()`
+
+#### `DiseaseTypeId.new( DiseaseTypeId )`
+
+#### `DiseaseTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( DiseaseTypeId ) -> DiseaseTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( DiseaseTypeId ) -> bool`
+
+#### is_valid
+
+Function `( DiseaseTypeId ) -> bool`
+
+#### str
+
+Function `( DiseaseTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> DiseaseTypeId`
+
+#### __tostring
+
+Function `( DiseaseTypeId ) -> string`
+
+#### serialize
+
+Function `( DiseaseTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( DiseaseTypeId, <cppval: 6JsonIn > )`
+
+## DistributionGrid
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::DistributionGrid::@members}
+### Members
 
-#### get_resource {#sol::DistributionGrid::get_resource}
+#### get_resource
 
-🇲 Method --> <code>( boolean ) -> integer</code>
+Boolean argument controls recursive behavior
+Function `( DistributionGrid, bool ) -> int`
 
-> Boolean argument controls recursive behavior
+#### mod_resource
 
-#### mod_resource {#sol::DistributionGrid::mod_resource}
+Boolean argument controls recursive behavior
+Function `( DistributionGrid, int, bool ) -> int`
 
-🇲 Method --> <code>( integer, boolean ) -> integer</code>
+## DistributionGridTracker
 
-> Boolean argument controls recursive behavior
-
-## DistributionGridTracker {#sol::DistributionGridTracker}
-
-### Bases {#sol::DistributionGridTracker::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::DistributionGridTracker::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::DistributionGridTracker::@members}
+### Members
 
-#### get_grid_at_abs_ms {#sol::DistributionGridTracker::get_grid_at_abs_ms}
+#### get_grid_at_abs_ms
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [DistributionGrid](#sol::DistributionGrid)</code>
+Function `( DistributionGridTracker, Tripoint ) -> DistributionGrid`
 
-## EffectTypeId {#sol::EffectTypeId}
+## EffectTypeId
 
-### Bases {#sol::EffectTypeId::@bases}
-
-No base classes.
-
-### Constructors {#sol::EffectTypeId::@ctors}
-
-- EffectTypeId.new( )
-- EffectTypeId.new( [EffectTypeId](#sol::EffectTypeId) )
-- EffectTypeId.new( string )
-
-### Members {#sol::EffectTypeId::@members}
-
-#### NULL_ID {#sol::EffectTypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)</code>
-
-#### obj {#sol::EffectTypeId::obj}
-
-🇲 Method --> <code>( ) -> EffectTypeRaw</code>
-
-#### is_valid {#sol::EffectTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::EffectTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::EffectTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::EffectTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## Energy {#sol::Energy}
-
-### Bases {#sol::Energy::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Energy::@ctors}
+### Constructors
+
+#### `EffectTypeId.new()`
+
+#### `EffectTypeId.new( EffectTypeId )`
+
+#### `EffectTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( EffectTypeId ) -> EffectTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( EffectTypeId ) -> bool`
+
+#### is_valid
+
+Function `( EffectTypeId ) -> bool`
+
+#### str
+
+Function `( EffectTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> EffectTypeId`
+
+#### __tostring
+
+Function `( EffectTypeId ) -> string`
+
+#### serialize
+
+Function `( EffectTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( EffectTypeId, <cppval: 6JsonIn > )`
+
+## Energy
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::Energy::@members}
+### Members
 
-#### from_joule {#sol::Energy::from_joule}
+#### from_joule
 
-🇫 Function --> <code>( integer ) -> [Energy](#sol::Energy)</code>
+Function `( int ) -> Energy`
 
-#### from_kilojoule {#sol::Energy::from_kilojoule}
+#### to_joule
 
-🇫 Function --> <code>( integer ) -> [Energy](#sol::Energy)</code>
+Function `( Energy ) -> int`
 
-#### to_kilojoule {#sol::Energy::to_kilojoule}
+#### from_kilojoule
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> Energy`
 
-#### to_joule {#sol::Energy::to_joule}
+#### to_kilojoule
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Energy ) -> int`
 
-## FactionId {#sol::FactionId}
+#### __eq
 
-### Bases {#sol::FactionId::@bases}
+Function `( Energy, Energy ) -> bool`
 
-No base classes.
+#### __lt
 
-### Constructors {#sol::FactionId::@ctors}
+Function `( Energy, Energy ) -> bool`
 
-- FactionId.new( )
-- FactionId.new( [FactionId](#sol::FactionId) )
-- FactionId.new( string )
+#### __le
 
-### Members {#sol::FactionId::@members}
+Function `( Energy, Energy ) -> bool`
 
-#### NULL_ID {#sol::FactionId::NULL_ID}
+## FactionId
 
-🇫 Function --> <code>( ) -> [FactionId](#sol::FactionId)</code>
-
-#### obj {#sol::FactionId::obj}
-
-🇲 Method --> <code>( ) -> [FactionRaw](#sol::FactionRaw)</code>
-
-#### is_valid {#sol::FactionId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::FactionId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::FactionId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::FactionId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## FactionRaw {#sol::FactionRaw}
-
-### Bases {#sol::FactionRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::FactionRaw::@ctors}
+### Constructors
+
+#### `FactionId.new()`
+
+#### `FactionId.new( FactionId )`
+
+#### `FactionId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( FactionId ) -> FactionRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( FactionId ) -> bool`
+
+#### is_valid
+
+Function `( FactionId ) -> bool`
+
+#### str
+
+Function `( FactionId ) -> string`
+
+#### NULL_ID
+
+Function `() -> FactionId`
+
+#### __tostring
+
+Function `( FactionId ) -> string`
+
+#### serialize
+
+Function `( FactionId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( FactionId, <cppval: 6JsonIn > )`
+
+## FactionRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::FactionRaw::@members}
+### Members
 
-#### str_id {#sol::FactionRaw::str_id}
+#### str_id
 
-🇲 Method --> <code>( ) -> [FactionId](#sol::FactionId)</code>
+Function `( FactionRaw ) -> FactionId`
 
-## FieldTypeId {#sol::FieldTypeId}
+## FieldTypeId
 
-### Bases {#sol::FieldTypeId::@bases}
-
-No base classes.
-
-### Constructors {#sol::FieldTypeId::@ctors}
-
-- FieldTypeId.new( )
-- FieldTypeId.new( [FieldTypeId](#sol::FieldTypeId) )
-- FieldTypeId.new( [FieldTypeIntId](#sol::FieldTypeIntId) )
-- FieldTypeId.new( string )
-
-### Members {#sol::FieldTypeId::@members}
-
-#### NULL_ID {#sol::FieldTypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [FieldTypeId](#sol::FieldTypeId)</code>
-
-#### str {#sol::FieldTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### obj {#sol::FieldTypeId::obj}
-
-🇲 Method --> <code>( ) -> FieldTypeRaw</code>
-
-#### is_null {#sol::FieldTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_valid {#sol::FieldTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::FieldTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-#### int_id {#sol::FieldTypeId::int_id}
-
-🇲 Method --> <code>( ) -> [FieldTypeIntId](#sol::FieldTypeIntId)</code>
-
-## FieldTypeIntId {#sol::FieldTypeIntId}
-
-### Bases {#sol::FieldTypeIntId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::FieldTypeIntId::@ctors}
+### Constructors
 
-- FieldTypeIntId.new( )
-- FieldTypeIntId.new( [FieldTypeIntId](#sol::FieldTypeIntId) )
-- FieldTypeIntId.new( [FieldTypeId](#sol::FieldTypeId) )
+#### `FieldTypeId.new()`
 
-### Members {#sol::FieldTypeIntId::@members}
+#### `FieldTypeId.new( FieldTypeId )`
 
-#### obj {#sol::FieldTypeIntId::obj}
+#### `FieldTypeId.new( FieldTypeIntId )`
 
-🇲 Method --> <code>( ) -> FieldTypeRaw</code>
+#### `FieldTypeId.new( string )`
 
-#### is_valid {#sol::FieldTypeIntId::is_valid}
+### Members
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### obj
 
-#### str_id {#sol::FieldTypeIntId::str_id}
+Function `( FieldTypeId ) -> FieldTypeRaw`
 
-🇲 Method --> <code>( ) -> [FieldTypeId](#sol::FieldTypeId)</code>
+#### int_id
 
-## FurnId {#sol::FurnId}
+Function `( FieldTypeId ) -> FieldTypeIntId`
 
-### Bases {#sol::FurnId::@bases}
+#### implements_int_id
 
-No base classes.
+Function `() -> bool`
 
-### Constructors {#sol::FurnId::@ctors}
+#### is_null
 
-- FurnId.new( )
-- FurnId.new( [FurnId](#sol::FurnId) )
-- FurnId.new( [FurnIntId](#sol::FurnIntId) )
-- FurnId.new( string )
+Function `( FieldTypeId ) -> bool`
 
-### Members {#sol::FurnId::@members}
+#### is_valid
 
-#### NULL_ID {#sol::FurnId::NULL_ID}
+Function `( FieldTypeId ) -> bool`
 
-🇫 Function --> <code>( ) -> [FurnId](#sol::FurnId)</code>
+#### str
 
-#### str {#sol::FurnId::str}
+Function `( FieldTypeId ) -> string`
 
-🇲 Method --> <code>( ) -> string</code>
+#### NULL_ID
 
-#### obj {#sol::FurnId::obj}
+Function `() -> FieldTypeId`
 
-🇲 Method --> <code>( ) -> [FurnRaw](#sol::FurnRaw)</code>
+#### __tostring
 
-#### is_null {#sol::FurnId::is_null}
+Function `( FieldTypeId ) -> string`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### serialize
 
-#### is_valid {#sol::FurnId::is_valid}
+Function `( FieldTypeId, <cppval: 7JsonOut > )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### deserialize
 
-#### implements_int_id {#sol::FurnId::implements_int_id}
+Function `( FieldTypeId, <cppval: 6JsonIn > )`
 
-🇫 Function --> <code>( ) -> boolean</code>
+## FieldTypeIntId
 
-#### int_id {#sol::FurnId::int_id}
-
-🇲 Method --> <code>( ) -> [FurnIntId](#sol::FurnIntId)</code>
-
-## FurnIntId {#sol::FurnIntId}
-
-### Bases {#sol::FurnIntId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::FurnIntId::@ctors}
+### Constructors
 
-- FurnIntId.new( )
-- FurnIntId.new( [FurnIntId](#sol::FurnIntId) )
-- FurnIntId.new( [FurnId](#sol::FurnId) )
+#### `FieldTypeIntId.new()`
 
-### Members {#sol::FurnIntId::@members}
+#### `FieldTypeIntId.new( FieldTypeIntId )`
 
-#### obj {#sol::FurnIntId::obj}
+#### `FieldTypeIntId.new( FieldTypeId )`
 
-🇲 Method --> <code>( ) -> [FurnRaw](#sol::FurnRaw)</code>
+### Members
 
-#### is_valid {#sol::FurnIntId::is_valid}
+#### obj
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( FieldTypeIntId ) -> FieldTypeRaw`
 
-#### str_id {#sol::FurnIntId::str_id}
+#### str_id
 
-🇲 Method --> <code>( ) -> [FurnId](#sol::FurnId)</code>
+Function `( FieldTypeIntId ) -> FieldTypeId`
 
-## FurnRaw {#sol::FurnRaw}
+#### is_valid
 
-### Bases {#sol::FurnRaw::@bases}
+Function `( FieldTypeIntId ) -> bool`
+
+#### __tostring
+
+Function `( FieldTypeIntId ) -> string`
+
+## FurnId
+
+### Bases
 
 No base classes.
 
-### Constructors {#sol::FurnRaw::@ctors}
+### Constructors
+
+#### `FurnId.new()`
+
+#### `FurnId.new( FurnId )`
+
+#### `FurnId.new( FurnIntId )`
+
+#### `FurnId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( FurnId ) -> FurnRaw`
+
+#### int_id
+
+Function `( FurnId ) -> FurnIntId`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( FurnId ) -> bool`
+
+#### is_valid
+
+Function `( FurnId ) -> bool`
+
+#### str
+
+Function `( FurnId ) -> string`
+
+#### NULL_ID
+
+Function `() -> FurnId`
+
+#### __tostring
+
+Function `( FurnId ) -> string`
+
+#### serialize
+
+Function `( FurnId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( FurnId, <cppval: 6JsonIn > )`
+
+## FurnIntId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `FurnIntId.new()`
+
+#### `FurnIntId.new( FurnIntId )`
+
+#### `FurnIntId.new( FurnId )`
+
+### Members
+
+#### obj
+
+Function `( FurnIntId ) -> FurnRaw`
+
+#### str_id
+
+Function `( FurnIntId ) -> FurnId`
+
+#### is_valid
+
+Function `( FurnIntId ) -> bool`
+
+#### __tostring
+
+Function `( FurnIntId ) -> string`
+
+## FurnRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::FurnRaw::@members}
+### Members
 
-#### transforms_into {#sol::FurnRaw::transforms_into}
+#### str_id
 
-🇻 Variable --> <code>[FurnId](#sol::FurnId)</code>
+Function `( FurnRaw ) -> FurnId`
 
-#### open {#sol::FurnRaw::open}
+#### int_id
 
-🇻 Variable --> <code>[FurnId](#sol::FurnId)</code>
+Function `( FurnRaw ) -> FurnIntId`
 
-#### close {#sol::FurnRaw::close}
+#### name
 
-🇻 Variable --> <code>[FurnId](#sol::FurnId)</code>
+Function `( FurnRaw ) -> string`
 
-#### set_movecost {#sol::FurnRaw::set_movecost}
+#### get_flags
 
-🇲 Method --> <code>( integer )</code>
+Function `( FurnRaw ) -> <cppval: St3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4lessIS5_ESaIS5_EE >`
 
-#### set_max_volume {#sol::FurnRaw::set_max_volume}
+#### has_flag
 
-🇲 Method --> <code>( [Volume](#sol::Volume) )</code>
+Function `( FurnRaw, string ) -> bool`
 
-#### get_coverage {#sol::FurnRaw::get_coverage}
+#### set_flag
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( FurnRaw, string )`
 
-#### set_coverage {#sol::FurnRaw::set_coverage}
+#### get_light_emitted
 
-🇲 Method --> <code>( integer )</code>
+Function `( FurnRaw ) -> int`
 
-#### get_max_volume {#sol::FurnRaw::get_max_volume}
+#### set_light_emitted
 
-🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+Function `( FurnRaw, int )`
 
-#### get_movecost {#sol::FurnRaw::get_movecost}
+#### get_movecost
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( FurnRaw ) -> int`
 
-#### get_light_emitted {#sol::FurnRaw::get_light_emitted}
+#### set_movecost
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( FurnRaw, int )`
 
-#### name {#sol::FurnRaw::name}
+#### get_coverage
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( FurnRaw ) -> int`
 
-#### int_id {#sol::FurnRaw::int_id}
+#### set_coverage
 
-🇲 Method --> <code>( ) -> [FurnIntId](#sol::FurnIntId)</code>
+Function `( FurnRaw, int )`
 
-#### set_light_emitted {#sol::FurnRaw::set_light_emitted}
+#### get_max_volume
 
-🇲 Method --> <code>( integer )</code>
+Function `( FurnRaw ) -> Volume`
 
-#### get_flags {#sol::FurnRaw::get_flags}
+#### set_max_volume
 
-🇲 Method --> <code>( ) -> string[]</code>
+Function `( FurnRaw, Volume )`
 
-#### set_flag {#sol::FurnRaw::set_flag}
+#### open
 
-🇲 Method --> <code>( string )</code>
+Variable of type `FurnId`
 
-#### has_flag {#sol::FurnRaw::has_flag}
+#### close
 
-🇲 Method --> <code>( string ) -> boolean</code>
+Variable of type `FurnId`
 
-#### str_id {#sol::FurnRaw::str_id}
+#### transforms_into
 
-🇲 Method --> <code>( ) -> [FurnId](#sol::FurnId)</code>
+Variable of type `FurnId`
 
-## Item {#sol::Item}
+## Item
 
-### Bases {#sol::Item::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Item::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Item::@members}
+### Members
 
-#### charges {#sol::Item::charges}
+#### get_type
 
-🇻 Variable --> <code>integer</code>
+Function `( Item ) -> ItypeId`
 
-#### get_type {#sol::Item::get_type}
+#### get_mtype
 
-🇲 Method --> <code>( ) -> [ItypeId](#sol::ItypeId)</code>
+Almost for a corpse.
+Function `( Item ) -> MtypeId`
 
-#### get_owner {#sol::Item::get_owner}
+#### tname
 
-🇲 Method --> <code>( ) -> [FactionId](#sol::FactionId)</code>
+Translated item name with prefixes
+Function `( Item, int, bool, int ) -> string`
 
-> Gets the faction id that owns this item
+#### display_name
 
-#### get_category_id {#sol::Item::get_category_id}
+Display name with all bells and whistles like ammo and prefixes
+Function `( Item, int ) -> string`
 
-🇲 Method --> <code>( ) -> string</code>
+#### weight
 
-> Gets the category id this item is in
+Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+Function `( Item, Opt( bool ), Opt( bool ) ) -> Mass`
 
-#### get_comestible_fun {#sol::Item::get_comestible_fun}
+#### volume
 
-🇲 Method --> <code>( ) -> integer</code>
+Volume of the item. `bool` is whether it is `integral_volume`.
+Function `( Item, Opt( bool ) ) -> Volume`
 
-#### get_rot {#sol::Item::get_rot}
+#### price
 
-🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+Cents of the item. `bool` is whether it is a post-cataclysm value.
+Function `( Item, bool ) -> double`
 
-> Gets the TimeDuration until this item rots
+#### has_var
 
-#### get_quench {#sol::Item::get_quench}
+Check for variable of any type
+Function `( Item, string ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### erase_var
 
-#### set_owner {#sol::Item::set_owner}
+Erase variable
+Function `( Item, string )`
 
-🇲 Method --> <code>( [FactionId](#sol::FactionId) )</code>
+#### clear_vars
 
-> Sets the ownership of this item to a faction
+Erase all variables
+Function `( Item )`
 
-#### get_owner_name {#sol::Item::get_owner_name}
+#### is_null
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( Item ) -> bool`
 
-#### add_technique {#sol::Item::add_technique}
+#### is_unarmed_weapon
 
-🇲 Method --> <code>( [MartialArtsTechniqueId](#sol::MartialArtsTechniqueId) )</code>
+Function `( Item ) -> bool`
 
-> Adds the technique. It isn't treated original, but additional.
+#### is_sided
 
-#### set_owner {#sol::Item::set_owner}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [Character](#sol::Character) )</code>
+#### is_power_armor
 
-> Sets the ownership of this item to a character
+Function `( Item ) -> bool`
 
-#### get_techniques {#sol::Item::get_techniques}
+#### is_money
 
-🇲 Method --> <code>( ) -> [MartialArtsTechniqueId](#sol::MartialArtsTechniqueId)[]</code>
+Function `( Item ) -> bool`
 
-> Gets all techniques. Including original techniques.
+#### is_gun
 
-#### is_owned_by {#sol::Item::is_owned_by}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [Character](#sol::Character), boolean ) -> boolean</code>
+#### is_firearm
 
-> Checks if this item owned by a character
+Function `( Item ) -> bool`
 
-#### has_technique {#sol::Item::has_technique}
+#### is_silent
 
-🇲 Method --> <code>( [MartialArtsTechniqueId](#sol::MartialArtsTechniqueId) ) -> boolean</code>
+Function `( Item ) -> bool`
 
-> Checks if this item has the technique as an addition. Doesn't check original techniques.
+#### is_gunmod
 
-#### get_kcal {#sol::Item::get_kcal}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### is_bionic
 
-#### is_made_of {#sol::Item::is_made_of}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [MaterialTypeId](#sol::MaterialTypeId) ) -> boolean</code>
+#### is_ammo_belt
 
-#### made_of {#sol::Item::made_of}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> [MaterialTypeId](#sol::MaterialTypeId)[]</code>
+#### is_bandolier
 
-#### is_melee {#sol::Item::is_melee}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [DamageType](#sol::DamageType) ) -> boolean</code>
+#### is_holster
 
-> Is this item an effective melee weapon for the given damage type?
+Function `( Item ) -> bool`
 
-#### is_magazine {#sol::Item::is_magazine}
+#### is_ammo
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> bool`
 
-> Is this a magazine? (batteries are magazines)
+#### is_comestible
 
-#### deactivate {#sol::Item::deactivate}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### is_food
 
-#### is_upgrade {#sol::Item::is_upgrade}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_medication
 
-#### activate {#sol::Item::activate}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### is_brewable
 
-#### remove_technique {#sol::Item::remove_technique}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [MartialArtsTechniqueId](#sol::MartialArtsTechniqueId) )</code>
+#### is_food_container
 
-> Removes the additional technique. Doesn't affect originial techniques.
+Function `( Item ) -> bool`
 
-#### is_stackable {#sol::Item::is_stackable}
+#### is_med_container
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> bool`
 
-#### mod_charges {#sol::Item::mod_charges}
+#### is_corpse
 
-🇲 Method --> <code>( integer )</code>
+Function `( Item ) -> bool`
 
-#### conductive {#sol::Item::conductive}
+#### is_ammo_container
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> bool`
 
-#### has_infinite_charges {#sol::Item::has_infinite_charges}
+#### is_armor
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> bool`
 
-#### energy_remaining {#sol::Item::energy_remaining}
+#### is_book
 
-🇲 Method --> <code>( ) -> [Energy](#sol::Energy)</code>
+Function `( Item ) -> bool`
 
-#### is_active {#sol::Item::is_active}
+#### is_map
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> bool`
 
-#### can_contain {#sol::Item::can_contain}
+#### is_container
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> boolean</code>
+Function `( Item ) -> bool`
 
-> Checks if this item can contain another
+#### is_watertight_container
 
-#### total_capacity {#sol::Item::total_capacity}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+#### is_non_resealable_container
 
-> Gets maximum volume this item can hold (liquids, ammo, etc)
+Function `( Item ) -> bool`
 
-#### unset_flags {#sol::Item::unset_flags}
+#### is_bucket
 
-🇲 Method --> <code>( )</code>
+Function `( Item ) -> bool`
 
-#### convert {#sol::Item::convert}
+#### is_bucket_nonempty
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId) )</code>
+Function `( Item ) -> bool`
 
-> Converts the item as given `ItypeId`.
+#### is_engine
 
-#### set_flag_recursive {#sol::Item::set_flag_recursive}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) )</code>
+#### is_wheel
 
-#### has_flag {#sol::Item::has_flag}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) ) -> boolean</code>
+#### is_fuel
 
-#### has_own_flag {#sol::Item::has_own_flag}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) ) -> boolean</code>
+#### is_toolmod
 
-#### unset_flag {#sol::Item::unset_flag}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) )</code>
+#### is_faulty
 
-#### get_var_str {#sol::Item::get_var_str}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( string, string ) -> string</code>
+#### is_irremovable
 
-> Get variable as string
+Function `( Item ) -> bool`
 
-#### get_var_tri {#sol::Item::get_var_tri}
+#### is_container_empty
 
-🇲 Method --> <code>( string, [Tripoint](#sol::Tripoint) ) -> [Tripoint](#sol::Tripoint)</code>
+Function `( Item ) -> bool`
 
-> Get variable as tripoint
+#### is_salvageable
 
-#### set_var_tri {#sol::Item::set_var_tri}
+Function `( Item, bool ) -> bool`
 
-🇲 Method --> <code>( string, [Tripoint](#sol::Tripoint) )</code>
+#### is_craft
 
-#### get_var_num {#sol::Item::get_var_num}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( string, number ) -> number</code>
+#### is_emissive
 
-> Get variable as float number
+Function `( Item ) -> bool`
 
-#### set_var_num {#sol::Item::set_var_num}
+#### is_deployable
 
-🇲 Method --> <code>( string, number )</code>
+Function `( Item ) -> bool`
 
-#### set_var_str {#sol::Item::set_var_str}
+#### is_tool
 
-🇲 Method --> <code>( string, string )</code>
+Function `( Item ) -> bool`
 
-#### remaining_capacity_for_id {#sol::Item::remaining_capacity_for_id}
+#### is_transformable
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), boolean ) -> integer</code>
+Function `( Item ) -> bool`
 
-> Gets the remaining space available for a type of liquid
+#### is_artifact
 
-#### set_flag {#sol::Item::set_flag}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) )</code>
+#### is_relic
 
-#### has_item_with_id {#sol::Item::has_item_with_id}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId) ) -> boolean</code>
+#### is_seed
 
-> Checks item contents for a given item id
+Function `( Item ) -> bool`
 
-#### ammo_data {#sol::Item::ammo_data}
+#### is_dangerous
 
-🇲 Method --> <code>( ) -> ItypeRaw</code>
+Function `( Item ) -> bool`
 
-#### ammo_required {#sol::Item::ammo_required}
+#### is_tainted
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Item ) -> bool`
 
-#### ammo_remaining {#sol::Item::ammo_remaining}
+#### is_soft
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Item ) -> bool`
 
-> Get remaining ammo, works with batteries & stuff too
+#### is_reloadable
 
-#### current_magazine {#sol::Item::current_magazine}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> [Item](#sol::Item)</code>
+#### is_filthy
 
-> Gets the current magazine
+DEPRECATED: Items are no longer filthy
+Function `() -> bool`
 
-#### ammo_capacity {#sol::Item::ammo_capacity}
+#### is_active
 
-🇲 Method --> <code>( boolean ) -> integer</code>
+Function `( Item ) -> bool`
 
-> Gets the maximum capacity of a magazine
+#### is_upgrade
 
-#### covers {#sol::Item::covers}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> boolean</code>
+#### activate
 
-> Checks if the item covers a bodypart
+Function `( Item )`
 
-#### ammo_current {#sol::Item::ammo_current}
+#### deactivate
 
-🇲 Method --> <code>( ) -> [ItypeId](#sol::ItypeId)</code>
+Function `( Item )`
 
-#### ammo_set {#sol::Item::ammo_set}
+#### is_melee
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), integer )</code>
+Is this item an effective melee weapon for the given damage type?
+Function `( Item, DamageType ) -> bool`
 
-#### add_item_with_id {#sol::Item::add_item_with_id}
+#### is_magazine
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), integer )</code>
+Is this a magazine? (batteries are magazines)
+Function `( Item ) -> bool`
 
-> Adds an item(s) to contents
+#### is_battery
 
-#### ammo_consume {#sol::Item::ammo_consume}
+DEPRECATED: Is this a battery? (spoiler: it isn't)
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( integer, [Tripoint](#sol::Tripoint) ) -> integer</code>
+#### conductive
 
-#### get_reload_time {#sol::Item::get_reload_time}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### is_stackable
 
-#### ammo_unset {#sol::Item::ammo_unset}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( )</code>
+#### charges
 
-#### attack_cost {#sol::Item::attack_cost}
+Variable of type `int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### energy_remaining
 
-#### is_soft {#sol::Item::is_soft}
+Function `( Item ) -> Energy`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### has_infinite_charges
 
-#### is_bionic {#sol::Item::is_bionic}
+Function `( Item ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### mod_charges
 
-#### is_ammo_belt {#sol::Item::is_ammo_belt}
+Function `( Item, int )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### made_of
 
-#### is_gunmod {#sol::Item::is_gunmod}
+Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_made_of
 
-#### is_firearm {#sol::Item::is_firearm}
+Function `( Item, MaterialTypeId ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_kcal
 
-#### is_silent {#sol::Item::is_silent}
+Function `( Item ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_quench
 
-#### is_gun {#sol::Item::is_gun}
+Function `( Item ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_comestible_fun
 
-#### is_bandolier {#sol::Item::is_bandolier}
+Function `( Item ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_rot
 
-#### is_ammo {#sol::Item::is_ammo}
+Gets the TimeDuration until this item rots
+Function `( Item ) -> TimeDuration`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_category_id
 
-#### is_brewable {#sol::Item::is_brewable}
+Gets the category id this item is in
+Function `( Item ) -> string`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_owner
 
-#### is_holster {#sol::Item::is_holster}
+Gets the faction id that owns this item
+Function `( Item ) -> FactionId`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### set_owner
 
-#### is_medication {#sol::Item::is_medication}
+Sets the ownership of this item to a faction
+Function `( Item, FactionId )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### set_owner
 
-#### is_comestible {#sol::Item::is_comestible}
+Sets the ownership of this item to a character
+Function `( Item, Character )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_owner_name
 
-#### is_food {#sol::Item::is_food}
+Function `( Item ) -> string`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_owned_by
 
-#### is_food_container {#sol::Item::is_food_container}
+Checks if this item owned by a character
+Function `( Item, Character, bool ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### has_technique
 
-#### is_money {#sol::Item::is_money}
+Checks if this item has the technique as an addition. Doesn't check original techniques.
+Function `( Item, MartialArtsTechniqueId ) -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_techniques
 
-#### is_sided {#sol::Item::is_sided}
+Gets all techniques. Including original techniques.
+Function `( Item ) -> Set( MartialArtsTechniqueId )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### add_technique
 
-#### weight {#sol::Item::weight}
+Adds the technique. It isn't treated original, but additional.
+Function `( Item, MartialArtsTechniqueId )`
 
-🇲 Method --> <code>( boolean, boolean ) -> [Mass](#sol::Mass)</code>
+#### remove_technique
 
-> Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+Removes the additional technique. Doesn't affect originial techniques.
+Function `( Item, MartialArtsTechniqueId )`
 
-#### volume {#sol::Item::volume}
+#### can_contain
 
-🇲 Method --> <code>( boolean ) -> [Volume](#sol::Volume)</code>
+Checks if this item can contain another
+Function `( Item, Item ) -> bool`
 
-> Volume of the item. `bool` is whether it is `integral_volume`.
+#### remaining_capacity_for_id
 
-#### display_name {#sol::Item::display_name}
+Gets the remaining space available for a type of liquid
+Function `( Item, ItypeId, bool ) -> int`
 
-🇲 Method --> <code>( integer ) -> string</code>
+#### total_capacity
 
-> Display name with all bells and whistles like ammo and prefixes
+Gets maximum volume this item can hold (liquids, ammo, etc)
+Function `( Item ) -> Volume`
 
-#### get_mtype {#sol::Item::get_mtype}
+#### current_magazine
 
-🇲 Method --> <code>( ) -> [MtypeId](#sol::MtypeId)</code>
+Gets the current magazine
+Function `( Item ) -> Item`
 
-> Almost for a corpse.
+#### ammo_capacity
 
-#### tname {#sol::Item::tname}
+Gets the maximum capacity of a magazine
+Function `( Item, bool ) -> int`
 
-🇲 Method --> <code>( integer, boolean, integer ) -> string</code>
+#### ammo_remaining
 
-> Translated item name with prefixes
+Get remaining ammo, works with batteries & stuff too
+Function `( Item ) -> int`
 
-#### is_power_armor {#sol::Item::is_power_armor}
+#### ammo_data
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> ItypeRaw`
 
-#### price {#sol::Item::price}
+#### ammo_required
 
-🇲 Method --> <code>( boolean ) -> number</code>
+Function `( Item ) -> int`
 
-> Cents of the item. `bool` is whether it is a post-cataclysm value.
+#### ammo_current
 
-#### erase_var {#sol::Item::erase_var}
+Function `( Item ) -> ItypeId`
 
-🇲 Method --> <code>( string )</code>
+#### ammo_consume
 
-> Erase variable
+Function `( Item, int, Tripoint ) -> int`
 
-#### is_unarmed_weapon {#sol::Item::is_unarmed_weapon}
+#### ammo_set
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, ItypeId, int )`
 
-#### has_var {#sol::Item::has_var}
+#### ammo_unset
 
-🇲 Method --> <code>( string ) -> boolean</code>
+Function `( Item )`
 
-> Check for variable of any type
+#### get_reload_time
 
-#### is_null {#sol::Item::is_null}
+Function `( Item ) -> int`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### add_item_with_id
 
-#### clear_vars {#sol::Item::clear_vars}
+Adds an item(s) to contents
+Function `( Item, ItypeId, int )`
 
-🇲 Method --> <code>( )</code>
+#### has_item_with_id
 
-> Erase all variables
+Checks item contents for a given item id
+Function `( Item, ItypeId ) -> bool`
 
-#### is_reloadable {#sol::Item::is_reloadable}
+#### covers
 
-🇲 Method --> <code>( ) -> boolean</code>
+Checks if the item covers a bodypart
+Function `( Item, BodyPartTypeIntId ) -> bool`
 
-#### is_med_container {#sol::Item::is_med_container}
+#### set_flag
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, JsonFlagId )`
 
-#### is_ammo_container {#sol::Item::is_ammo_container}
+#### unset_flag
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, JsonFlagId )`
 
-#### is_deployable {#sol::Item::is_deployable}
+#### has_flag
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, JsonFlagId ) -> bool`
 
-#### is_tool {#sol::Item::is_tool}
+#### has_own_flag
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, JsonFlagId ) -> bool`
 
-#### is_emissive {#sol::Item::is_emissive}
+#### set_flag_recursive
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, JsonFlagId )`
 
-#### is_salvageable {#sol::Item::is_salvageable}
+#### unset_flags
 
-🇲 Method --> <code>( boolean ) -> boolean</code>
+Function `( Item )`
 
-#### is_craft {#sol::Item::is_craft}
+#### convert
 
-🇲 Method --> <code>( ) -> boolean</code>
+Converts the item as given `ItypeId`.
+Function `( Item, ItypeId )`
 
-#### is_container_empty {#sol::Item::is_container_empty}
+#### get_var_str
 
-🇲 Method --> <code>( ) -> boolean</code>
+Get variable as string
+Function `( Item, string, string ) -> string`
 
-#### is_transformable {#sol::Item::is_transformable}
+#### get_var_num
 
-🇲 Method --> <code>( ) -> boolean</code>
+Get variable as float number
+Function `( Item, string, double ) -> double`
 
-#### is_relic {#sol::Item::is_relic}
+#### get_var_tri
 
-🇲 Method --> <code>( ) -> boolean</code>
+Get variable as tripoint
+Function `( Item, string, Tripoint ) -> Tripoint`
 
-#### is_tainted {#sol::Item::is_tainted}
+#### set_var_str
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, string, string )`
 
-#### is_artifact {#sol::Item::is_artifact}
+#### set_var_num
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, string, double )`
 
-#### is_dangerous {#sol::Item::is_dangerous}
+#### set_var_tri
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item, string, Tripoint )`
 
-#### is_seed {#sol::Item::is_seed}
+#### attack_cost
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> int`
 
-#### is_corpse {#sol::Item::is_corpse}
+#### stamina_cost
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Item ) -> int`
 
-#### is_irremovable {#sol::Item::is_irremovable}
+## ItemStack
 
-🇲 Method --> <code>( ) -> boolean</code>
+Iterate over this using pairs()
 
-#### is_toolmod {#sol::Item::is_toolmod}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_container {#sol::Item::is_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_watertight_container {#sol::Item::is_watertight_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_map {#sol::Item::is_map}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_armor {#sol::Item::is_armor}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_book {#sol::Item::is_book}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_faulty {#sol::Item::is_faulty}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_non_resealable_container {#sol::Item::is_non_resealable_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_bucket_nonempty {#sol::Item::is_bucket_nonempty}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_fuel {#sol::Item::is_fuel}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_bucket {#sol::Item::is_bucket}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_wheel {#sol::Item::is_wheel}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_engine {#sol::Item::is_engine}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### stamina_cost {#sol::Item::stamina_cost}
-
-🇲 Method --> <code>( ) -> integer</code>
-
-## ItemStack {#sol::ItemStack}
-
-> Iterate over this using pairs()
-
-### Bases {#sol::ItemStack::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::ItemStack::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::ItemStack::@members}
+### Members
 
-## ItypeId {#sol::ItypeId}
+#### __pairs
 
-### Bases {#sol::ItypeId::@bases}
+Function `( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIR23item_stack_lua_it_stateEENS0_10this_stateEE >, <cppval: N3sol4userI23item_stack_lua_it_stateEE >, nil )`
 
-No base classes.
+## ItypeId
 
-### Constructors {#sol::ItypeId::@ctors}
-
-- ItypeId.new( )
-- ItypeId.new( [ItypeId](#sol::ItypeId) )
-- ItypeId.new( string )
-
-### Members {#sol::ItypeId::@members}
-
-#### NULL_ID {#sol::ItypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [ItypeId](#sol::ItypeId)</code>
-
-#### obj {#sol::ItypeId::obj}
-
-🇲 Method --> <code>( ) -> ItypeRaw</code>
-
-#### is_valid {#sol::ItypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::ItypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::ItypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::ItypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## JsonFlagId {#sol::JsonFlagId}
-
-### Bases {#sol::JsonFlagId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::JsonFlagId::@ctors}
+### Constructors
 
-- JsonFlagId.new( )
-- JsonFlagId.new( [JsonFlagId](#sol::JsonFlagId) )
-- JsonFlagId.new( string )
+#### `ItypeId.new()`
 
-### Members {#sol::JsonFlagId::@members}
+#### `ItypeId.new( ItypeId )`
 
-#### NULL_ID {#sol::JsonFlagId::NULL_ID}
+#### `ItypeId.new( string )`
 
-🇫 Function --> <code>( ) -> [JsonFlagId](#sol::JsonFlagId)</code>
+### Members
 
-#### obj {#sol::JsonFlagId::obj}
+#### obj
 
-🇲 Method --> <code>( ) -> JsonFlagRaw</code>
+Function `( ItypeId ) -> ItypeRaw`
 
-#### is_valid {#sol::JsonFlagId::is_valid}
+#### implements_int_id
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `() -> bool`
 
-#### str {#sol::JsonFlagId::str}
+#### is_null
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( ItypeId ) -> bool`
 
-#### is_null {#sol::JsonFlagId::is_null}
+#### is_valid
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( ItypeId ) -> bool`
 
-#### implements_int_id {#sol::JsonFlagId::implements_int_id}
+#### str
 
-🇫 Function --> <code>( ) -> boolean</code>
+Function `( ItypeId ) -> string`
 
-## JsonTraitFlagId {#sol::JsonTraitFlagId}
+#### NULL_ID
 
-### Bases {#sol::JsonTraitFlagId::@bases}
+Function `() -> ItypeId`
 
-No base classes.
+#### __tostring
 
-### Constructors {#sol::JsonTraitFlagId::@ctors}
+Function `( ItypeId ) -> string`
 
-- JsonTraitFlagId.new( )
-- JsonTraitFlagId.new( [JsonTraitFlagId](#sol::JsonTraitFlagId) )
-- JsonTraitFlagId.new( string )
+#### serialize
 
-### Members {#sol::JsonTraitFlagId::@members}
+Function `( ItypeId, <cppval: 7JsonOut > )`
 
-#### NULL_ID {#sol::JsonTraitFlagId::NULL_ID}
+#### deserialize
 
-🇫 Function --> <code>( ) -> [JsonTraitFlagId](#sol::JsonTraitFlagId)</code>
+Function `( ItypeId, <cppval: 6JsonIn > )`
 
-#### obj {#sol::JsonTraitFlagId::obj}
+## JsonFlagId
 
-🇲 Method --> <code>( ) -> JsonTraitFlagRaw</code>
-
-#### is_valid {#sol::JsonTraitFlagId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::JsonTraitFlagId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::JsonTraitFlagId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::JsonTraitFlagId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## Map {#sol::Map}
-
-### Bases {#sol::Map::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Map::@ctors}
+### Constructors
+
+#### `JsonFlagId.new()`
+
+#### `JsonFlagId.new( JsonFlagId )`
+
+#### `JsonFlagId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( JsonFlagId ) -> JsonFlagRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( JsonFlagId ) -> bool`
+
+#### is_valid
+
+Function `( JsonFlagId ) -> bool`
+
+#### str
+
+Function `( JsonFlagId ) -> string`
+
+#### NULL_ID
+
+Function `() -> JsonFlagId`
+
+#### __tostring
+
+Function `( JsonFlagId ) -> string`
+
+#### serialize
+
+Function `( JsonFlagId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( JsonFlagId, <cppval: 6JsonIn > )`
+
+## JsonTraitFlagId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `JsonTraitFlagId.new()`
+
+#### `JsonTraitFlagId.new( JsonTraitFlagId )`
+
+#### `JsonTraitFlagId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( JsonTraitFlagId ) -> JsonTraitFlagRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( JsonTraitFlagId ) -> bool`
+
+#### is_valid
+
+Function `( JsonTraitFlagId ) -> bool`
+
+#### str
+
+Function `( JsonTraitFlagId ) -> string`
+
+#### NULL_ID
+
+Function `() -> JsonTraitFlagId`
+
+#### __tostring
+
+Function `( JsonTraitFlagId ) -> string`
+
+#### serialize
+
+Function `( JsonTraitFlagId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( JsonTraitFlagId, <cppval: 6JsonIn > )`
+
+## Map
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::Map::@members}
+### Members
 
-#### get_abs_ms {#sol::Map::get_abs_ms}
+#### get_abs_ms
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [Tripoint](#sol::Tripoint)</code>
+Convert local ms -> absolute ms
+Function `( Map, Tripoint ) -> Tripoint`
 
-> Convert local ms -> absolute ms
+#### get_local_ms
 
-#### mod_field_int_at {#sol::Map::mod_field_int_at}
+Convert absolute ms -> local ms
+Function `( Map, Tripoint ) -> Tripoint`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer ) -> integer</code>
+#### get_map_size_in_submaps
 
-#### mod_field_age_at {#sol::Map::mod_field_age_at}
+Function `( Map ) -> int`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration) ) -> [TimeDuration](#sol::TimeDuration)</code>
+#### get_map_size
 
-#### get_field_age_at {#sol::Map::get_field_age_at}
+In map squares
+Function `( Map ) -> int`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> [TimeDuration](#sol::TimeDuration)</code>
+#### create_item_at
 
-#### get_field_int_at {#sol::Map::get_field_int_at}
+Creates a new item(s) at a position on the map.
+Function `( Map, Tripoint, ItypeId, int )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> integer</code>
+#### create_corpse_at
 
-#### has_field_at {#sol::Map::has_field_at}
+Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+Function `( Map, Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> boolean</code>
+#### has_items_at
 
-#### set_field_int_at {#sol::Map::set_field_int_at}
+Function `( Map, Tripoint ) -> bool`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, boolean ) -> integer</code>
+#### get_items_at
 
-#### add_field_at {#sol::Map::add_field_at}
+Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, [TimeDuration](#sol::TimeDuration) ) -> boolean</code>
+#### remove_item_at
 
-#### set_trap_at {#sol::Map::set_trap_at}
+Function `( Map, Tripoint, Item )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [TrapIntId](#sol::TrapIntId) )</code>
+#### clear_items_at
 
-> Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+Function `( Map, Tripoint )`
 
-#### set_field_age_at {#sol::Map::set_field_age_at}
+#### get_ter_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration), boolean ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( Map, Tripoint ) -> TerIntId`
 
-#### get_trap_at {#sol::Map::get_trap_at}
+#### set_ter_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TrapIntId](#sol::TrapIntId)</code>
+Function `( Map, Tripoint, TerIntId ) -> bool`
 
-#### remove_field_at {#sol::Map::remove_field_at}
+#### get_furn_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) )</code>
+Function `( Map, Tripoint ) -> FurnIntId`
 
-#### disarm_trap_at {#sol::Map::disarm_trap_at}
+#### set_furn_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
+Function `( Map, Tripoint, FurnIntId )`
 
-> Disarms a trap using your skills and stats, with consequences depending on success or failure.
+#### has_field_at
 
-#### set_furn_at {#sol::Map::set_furn_at}
+Function `( Map, Tripoint, FieldTypeIntId ) -> bool`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FurnIntId](#sol::FurnIntId) )</code>
+#### get_field_int_at
 
-#### set_ter_at {#sol::Map::set_ter_at}
+Function `( Map, Tripoint, FieldTypeIntId ) -> int`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [TerIntId](#sol::TerIntId) ) -> boolean</code>
+#### get_field_age_at
 
-#### get_map_size {#sol::Map::get_map_size}
+Function `( Map, Tripoint, FieldTypeIntId ) -> TimeDuration`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### mod_field_int_at
 
-> In map squares
+Function `( Map, Tripoint, FieldTypeIntId, int ) -> int`
 
-#### create_item_at {#sol::Map::create_item_at}
+#### mod_field_age_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [ItypeId](#sol::ItypeId), integer )</code>
+Function `( Map, Tripoint, FieldTypeIntId, TimeDuration ) -> TimeDuration`
 
-> Creates a new item(s) at a position on the map.
+#### set_field_int_at
 
-#### get_map_size_in_submaps {#sol::Map::get_map_size_in_submaps}
+Function `( Map, Tripoint, FieldTypeIntId, int, bool ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### set_field_age_at
 
-#### get_local_ms {#sol::Map::get_local_ms}
+Function `( Map, Tripoint, FieldTypeIntId, TimeDuration, bool ) -> TimeDuration`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [Tripoint](#sol::Tripoint)</code>
+#### add_field_at
 
-> Convert absolute ms -> local ms
+Function `( Map, Tripoint, FieldTypeIntId, int, TimeDuration ) -> bool`
 
-#### get_furn_at {#sol::Map::get_furn_at}
+#### remove_field_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [FurnIntId](#sol::FurnIntId)</code>
+Function `( Map, Tripoint, FieldTypeIntId )`
 
-#### create_corpse_at {#sol::Map::create_corpse_at}
+#### get_trap_at
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [MtypeId](#sol::MtypeId), [TimePoint](#sol::TimePoint), string, integer )</code>
+Function `( Map, Tripoint ) -> TrapIntId`
 
-> Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+#### set_trap_at
 
-#### get_items_at {#sol::Map::get_items_at}
+Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+Function `( Map, Tripoint, TrapIntId )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> CppVal&lt;std_unique_ptr&lt;map_stack&gt;&gt;</code>
+#### disarm_trap_at
 
-#### get_ter_at {#sol::Map::get_ter_at}
+Disarms a trap using your skills and stats, with consequences depending on success or failure.
+Function `( Map, Tripoint )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TerIntId](#sol::TerIntId)</code>
+#### remove_trap_at
 
-#### has_items_at {#sol::Map::has_items_at}
+Simpler version of `set_trap_at` with `trap_null`.
+Function `( Map, Tripoint )`
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> boolean</code>
+## MapStack
 
-#### clear_items_at {#sol::Map::clear_items_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
-
-#### remove_item_at {#sol::Map::remove_item_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [Item](#sol::Item) )</code>
-
-#### remove_trap_at {#sol::Map::remove_trap_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
-
-> Simpler version of `set_trap_at` with `trap_null`.
-
-## MapStack {#sol::MapStack}
-
-### Bases {#sol::MapStack::@bases}
+### Bases
 
 - `ItemStack`
 
-### Constructors {#sol::MapStack::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::MapStack::@members}
+### Members
 
-#### as_item_stack {#sol::MapStack::as_item_stack}
+#### as_item_stack
 
-🇲 Method --> <code>( ) -> [ItemStack](#sol::ItemStack)</code>
+Function `( MapStack ) -> ItemStack`
 
-## MartialArtsBuffId {#sol::MartialArtsBuffId}
+## MartialArtsBuffId
 
-### Bases {#sol::MartialArtsBuffId::@bases}
-
-No base classes.
-
-### Constructors {#sol::MartialArtsBuffId::@ctors}
-
-- MartialArtsBuffId.new( )
-- MartialArtsBuffId.new( [MartialArtsBuffId](#sol::MartialArtsBuffId) )
-- MartialArtsBuffId.new( string )
-
-### Members {#sol::MartialArtsBuffId::@members}
-
-#### NULL_ID {#sol::MartialArtsBuffId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [MartialArtsBuffId](#sol::MartialArtsBuffId)</code>
-
-#### obj {#sol::MartialArtsBuffId::obj}
-
-🇲 Method --> <code>( ) -> MartialArtsBuffRaw</code>
-
-#### is_valid {#sol::MartialArtsBuffId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::MartialArtsBuffId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::MartialArtsBuffId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::MartialArtsBuffId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## MartialArtsTechniqueId {#sol::MartialArtsTechniqueId}
-
-### Bases {#sol::MartialArtsTechniqueId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MartialArtsTechniqueId::@ctors}
+### Constructors
 
-- MartialArtsTechniqueId.new( )
-- MartialArtsTechniqueId.new( [MartialArtsTechniqueId](#sol::MartialArtsTechniqueId) )
-- MartialArtsTechniqueId.new( string )
+#### `MartialArtsBuffId.new()`
 
-### Members {#sol::MartialArtsTechniqueId::@members}
+#### `MartialArtsBuffId.new( MartialArtsBuffId )`
 
-#### NULL_ID {#sol::MartialArtsTechniqueId::NULL_ID}
+#### `MartialArtsBuffId.new( string )`
 
-🇫 Function --> <code>( ) -> [MartialArtsTechniqueId](#sol::MartialArtsTechniqueId)</code>
+### Members
 
-#### obj {#sol::MartialArtsTechniqueId::obj}
+#### obj
 
-🇲 Method --> <code>( ) -> [MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>
+Function `( MartialArtsBuffId ) -> MartialArtsBuffRaw`
 
-#### is_valid {#sol::MartialArtsTechniqueId::is_valid}
+#### implements_int_id
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `() -> bool`
 
-#### str {#sol::MartialArtsTechniqueId::str}
+#### is_null
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( MartialArtsBuffId ) -> bool`
 
-#### is_null {#sol::MartialArtsTechniqueId::is_null}
+#### is_valid
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( MartialArtsBuffId ) -> bool`
 
-#### implements_int_id {#sol::MartialArtsTechniqueId::implements_int_id}
+#### str
 
-🇫 Function --> <code>( ) -> boolean</code>
+Function `( MartialArtsBuffId ) -> string`
 
-## MartialArtsTechniqueRaw {#sol::MartialArtsTechniqueRaw}
+#### NULL_ID
 
-### Bases {#sol::MartialArtsTechniqueRaw::@bases}
+Function `() -> MartialArtsBuffId`
+
+#### __tostring
+
+Function `( MartialArtsBuffId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
+
+## MartialArtsTechniqueId
+
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MartialArtsTechniqueRaw::@ctors}
+### Constructors
+
+#### `MartialArtsTechniqueId.new()`
+
+#### `MartialArtsTechniqueId.new( MartialArtsTechniqueId )`
+
+#### `MartialArtsTechniqueId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsTechniqueId ) -> MartialArtsTechniqueRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### str
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsTechniqueId`
+
+#### __tostring
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
+
+## MartialArtsTechniqueRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::MartialArtsTechniqueRaw::@members}
+### Members
 
-#### name {#sol::MartialArtsTechniqueRaw::name}
+#### name
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### knockback_follow {#sol::MartialArtsTechniqueRaw::knockback_follow}
+#### get_description
 
-🇫 Function --> <code>( )</code>
+Function `( MartialArtsTechniqueRaw ) -> string`
 
-#### crit_ok {#sol::MartialArtsTechniqueRaw::crit_ok}
+#### avatar_message
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### crit_tec {#sol::MartialArtsTechniqueRaw::crit_tec}
+#### npc_message
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### powerful_knockback {#sol::MartialArtsTechniqueRaw::powerful_knockback}
+#### defensive
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### disarms {#sol::MartialArtsTechniqueRaw::disarms}
+#### side_switch
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### dodge_counter {#sol::MartialArtsTechniqueRaw::dodge_counter}
+#### down_dur
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### take_weapon {#sol::MartialArtsTechniqueRaw::take_weapon}
+#### stun_dur
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### block_counter {#sol::MartialArtsTechniqueRaw::block_counter}
+#### knockback_dist
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### miss_recovery {#sol::MartialArtsTechniqueRaw::miss_recovery}
+#### knockback_spread
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### knockback_spread {#sol::MartialArtsTechniqueRaw::knockback_spread}
+#### powerful_knockback
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### stun_dur {#sol::MartialArtsTechniqueRaw::stun_dur}
+#### crit_tec
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### avatar_message {#sol::MartialArtsTechniqueRaw::avatar_message}
+#### crit_ok
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### get_description {#sol::MartialArtsTechniqueRaw::get_description}
+#### knockback_follow
 
-🇲 Method --> <code>( ) -> string</code>
+Function `()`
 
-#### knockback_dist {#sol::MartialArtsTechniqueRaw::knockback_dist}
+#### disarms
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### npc_message {#sol::MartialArtsTechniqueRaw::npc_message}
+#### take_weapon
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### side_switch {#sol::MartialArtsTechniqueRaw::side_switch}
+#### dodge_counter
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### defensive {#sol::MartialArtsTechniqueRaw::defensive}
+#### block_counter
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### down_dur {#sol::MartialArtsTechniqueRaw::down_dur}
+#### miss_recovery
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-#### grab_break {#sol::MartialArtsTechniqueRaw::grab_break}
+#### grab_break
 
-🇫 Function --> <code>( )</code>
+Function `()`
 
-## Mass {#sol::Mass}
+## Mass
 
-### Bases {#sol::Mass::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Mass::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Mass::@members}
+### Members
 
-#### from_milligram {#sol::Mass::from_milligram}
+#### from_milligram
 
-🇫 Function --> <code>( integer ) -> [Mass](#sol::Mass)</code>
+Function `( int ) -> Mass`
 
-#### from_newton {#sol::Mass::from_newton}
+#### to_milligram
 
-🇫 Function --> <code>( integer ) -> [Mass](#sol::Mass)</code>
+Function `( Mass ) -> int`
 
-#### to_newton {#sol::Mass::to_newton}
+#### from_gram
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> Mass`
 
-#### from_kilogram {#sol::Mass::from_kilogram}
+#### to_gram
 
-🇫 Function --> <code>( integer ) -> [Mass](#sol::Mass)</code>
+Function `( Mass ) -> int`
 
-#### to_kilogram {#sol::Mass::to_kilogram}
+#### from_kilogram
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> Mass`
 
-#### to_milligram {#sol::Mass::to_milligram}
+#### to_kilogram
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Mass ) -> int`
 
-#### to_gram {#sol::Mass::to_gram}
+#### from_newton
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> Mass`
 
-#### from_gram {#sol::Mass::from_gram}
+#### to_newton
 
-🇫 Function --> <code>( integer ) -> [Mass](#sol::Mass)</code>
+Function `( Mass ) -> int`
 
-## MaterialTypeId {#sol::MaterialTypeId}
+#### __eq
 
-### Bases {#sol::MaterialTypeId::@bases}
+Function `( Mass, Mass ) -> bool`
 
-No base classes.
+#### __lt
 
-### Constructors {#sol::MaterialTypeId::@ctors}
+Function `( Mass, Mass ) -> bool`
 
-- MaterialTypeId.new( )
-- MaterialTypeId.new( [MaterialTypeId](#sol::MaterialTypeId) )
-- MaterialTypeId.new( string )
+#### __le
 
-### Members {#sol::MaterialTypeId::@members}
+Function `( Mass, Mass ) -> bool`
 
-#### NULL_ID {#sol::MaterialTypeId::NULL_ID}
+## MaterialTypeId
 
-🇫 Function --> <code>( ) -> [MaterialTypeId](#sol::MaterialTypeId)</code>
-
-#### obj {#sol::MaterialTypeId::obj}
-
-🇲 Method --> <code>( ) -> [MaterialTypeRaw](#sol::MaterialTypeRaw)</code>
-
-#### is_valid {#sol::MaterialTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::MaterialTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::MaterialTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::MaterialTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## MaterialTypeRaw {#sol::MaterialTypeRaw}
-
-### Bases {#sol::MaterialTypeRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MaterialTypeRaw::@ctors}
+### Constructors
+
+#### `MaterialTypeId.new()`
+
+#### `MaterialTypeId.new( MaterialTypeId )`
+
+#### `MaterialTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MaterialTypeId ) -> MaterialTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MaterialTypeId ) -> bool`
+
+#### is_valid
+
+Function `( MaterialTypeId ) -> bool`
+
+#### str
+
+Function `( MaterialTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MaterialTypeId`
+
+#### __tostring
+
+Function `( MaterialTypeId ) -> string`
+
+#### serialize
+
+Function `( MaterialTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MaterialTypeId, <cppval: 6JsonIn > )`
+
+## MaterialTypeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::MaterialTypeRaw::@members}
+### Members
 
-#### str_id {#sol::MaterialTypeRaw::str_id}
+#### str_id
 
-🇲 Method --> <code>( ) -> [MaterialTypeId](#sol::MaterialTypeId)</code>
+Function `( MaterialTypeRaw ) -> MaterialTypeId`
 
-#### name {#sol::MaterialTypeRaw::name}
+#### name
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( MaterialTypeRaw ) -> string`
 
-## Mission {#sol::Mission}
+## Mission
 
-### Bases {#sol::Mission::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Mission::@ctors}
+### Constructors
 
-- Mission.new( )
+#### `Mission.new()`
 
-### Members {#sol::Mission::@members}
+### Members
 
-#### name {#sol::Mission::name}
+#### name
 
-🇲 Method --> <code>( ) -> string</code>
+Returns the mission's name as a string.
+Function `( Mission ) -> string`
 
-> Returns the mission's name as a string.
+#### mission_id
 
-#### fail {#sol::Mission::fail}
+Returns the mission type ID of this mission.
+Function `( Mission ) -> MissionTypeIdRaw`
 
-🇲 Method --> <code>( )</code>
+#### has_deadline
 
-> Fails the mission.
+Returns true if the mission has a deadline.
+Function `( Mission ) -> bool`
 
-#### wrap_up {#sol::Mission::wrap_up}
+#### get_deadline
 
-🇲 Method --> <code>( )</code>
+Returns the mission's deadline as a time_point.
+Function `( Mission ) -> TimePoint`
 
-> Wraps up the mission successfully.
+#### get_description
 
-#### is_assigned {#sol::Mission::is_assigned}
+Returns the mission description.
+Function `( Mission ) -> string`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### has_target
 
-> Returns true if the mission is currently assigned.
+Returns true if the mission has a target.
+Function `( Mission ) -> bool`
 
-#### has_generic_rewards {#sol::Mission::has_generic_rewards}
+#### get_target_point
 
-🇲 Method --> <code>( ) -> boolean</code>
+Returns the target of the mission (pointer to tripoint_abs_omt).
+Function `( Mission ) -> Tripoint`
 
-> Returns true if the mission has generic rewards.
+#### get_type
 
-#### get_likely_rewards {#sol::Mission::get_likely_rewards}
+Returns the mission type of the target (pointer to mission_type).
+Function `( Mission ) -> MissionType`
 
-🇲 Method --> <code>( ) -> (integer, [ItypeId](#sol::ItypeId))[]</code>
+#### has_follow_up
 
-> Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+Returns true if the mission has a follow-up mission.
+Function `( Mission ) -> bool`
 
-#### has_failed {#sol::Mission::has_failed}
+#### get_follow_up
 
-🇲 Method --> <code>( ) -> boolean</code>
+Returns the follow-up mission type ID.
+Function `( Mission ) -> MissionTypeIdRaw`
 
-> Returns true if the mission has failed.
+#### get_value
 
-#### step_complete {#sol::Mission::step_complete}
+Returns the mission's value as an integer.
+Function `( Mission ) -> int`
 
-🇲 Method --> <code>( integer )</code>
+#### get_id
 
-> Marks a mission step as complete, taking an integer step index.
+Returns the mission's unique ID.
+Function `( Mission ) -> int`
 
-#### reserve_random {#sol::Mission::reserve_random}
+#### get_item_id
 
-🇫 Function --> <code>( [MissionOrigin](#sol::MissionOrigin), [Tripoint](#sol::Tripoint), [CharacterId](#sol::CharacterId) ) -> [Mission](#sol::Mission)</code>
+Returns the item ID associated with the mission.
+Function `( Mission ) -> ItypeId`
 
-> Reserves a random mission at the specified origin and position for the given NPC. Returns the new mission.
+#### get_npc_id
 
-#### in_progress {#sol::Mission::in_progress}
+Returns the NPC character ID associated with the mission.
+Function `( Mission ) -> CharacterId`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### get_likely_rewards
 
-> Returns true if the mission is currently in progress.
+Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+Function `( Mission ) -> <cppval: St6vectorISt4pairIi9string_idI5itypeEESaIS4_EE >`
 
-#### reserve_new {#sol::Mission::reserve_new}
+#### has_generic_rewards
 
-🇫 Function --> <code>( [MissionTypeIdRaw](#sol::MissionTypeIdRaw), [CharacterId](#sol::CharacterId) ) -> [Mission](#sol::Mission)</code>
+Returns true if the mission has generic rewards.
+Function `( Mission ) -> bool`
 
-> Reserves a new mission of the given type for the specified NPC. Returns the new mission.
+#### is_assigned
 
-#### assign {#sol::Mission::assign}
+Returns true if the mission is currently assigned.
+Function `( Mission ) -> bool`
 
-🇲 Method --> <code>( [Avatar](#sol::Avatar) )</code>
+#### fail
 
-> Assigns this mission to the given avatar.
+Fails the mission.
+Function `( Mission )`
 
-#### get_item_id {#sol::Mission::get_item_id}
+#### wrap_up
 
-🇲 Method --> <code>( ) -> [ItypeId](#sol::ItypeId)</code>
+Wraps up the mission successfully.
+Function `( Mission )`
 
-> Returns the item ID associated with the mission.
+#### has_failed
 
-#### get_npc_id {#sol::Mission::get_npc_id}
+Returns true if the mission has failed.
+Function `( Mission ) -> bool`
 
-🇲 Method --> <code>( ) -> [CharacterId](#sol::CharacterId)</code>
+#### in_progress
 
-> Returns the NPC character ID associated with the mission.
+Returns true if the mission is currently in progress.
+Function `( Mission ) -> bool`
 
-#### get_id {#sol::Mission::get_id}
+#### step_complete
 
-🇲 Method --> <code>( ) -> integer</code>
+Marks a mission step as complete, taking an integer step index.
+Function `( Mission, int )`
 
-> Returns the mission's unique ID.
+#### is_complete
 
-#### get_deadline {#sol::Mission::get_deadline}
+Returns true if the mission goal has been completed (optionally checked against given NPC ID).
+Function `( Mission, Opt( CharacterId ) ) -> bool`
 
-🇲 Method --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+#### assign
 
-> Returns the mission's deadline as a time_point.
+Assigns this mission to the given avatar.
+Function `( Mission, Avatar )`
 
-#### get_description {#sol::Mission::get_description}
+#### reserve_new
 
-🇲 Method --> <code>( ) -> string</code>
+Reserves a new mission of the given type for the specified NPC. Returns the new mission.
+Function `( MissionTypeIdRaw, CharacterId ) -> Mission`
 
-> Returns the mission description.
+#### reserve_random
 
-#### has_deadline {#sol::Mission::has_deadline}
+Reserves a random mission at the specified origin and position for the given NPC. Returns the new mission.
+Function `( MissionOrigin, Tripoint, CharacterId ) -> Mission`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### serialize
 
-> Returns true if the mission has a deadline.
+Function `( Mission, <cppval: 7JsonOut > )`
 
-#### mission_id {#sol::Mission::mission_id}
+#### deserialize
 
-🇲 Method --> <code>( ) -> [MissionTypeIdRaw](#sol::MissionTypeIdRaw)</code>
+Function `( Mission, <cppval: 6JsonIn > )`
 
-> Returns the mission type ID of this mission.
+## MissionType
 
-#### get_target_point {#sol::Mission::get_target_point}
-
-🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
-
-> Returns the target of the mission (pointer to tripoint_abs_omt).
-
-#### has_target {#sol::Mission::has_target}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-> Returns true if the mission has a target.
-
-#### get_type {#sol::Mission::get_type}
-
-🇲 Method --> <code>( ) -> [MissionType](#sol::MissionType)</code>
-
-> Returns the mission type of the target (pointer to mission_type).
-
-#### get_value {#sol::Mission::get_value}
-
-🇲 Method --> <code>( ) -> integer</code>
-
-> Returns the mission's value as an integer.
-
-#### get_follow_up {#sol::Mission::get_follow_up}
-
-🇲 Method --> <code>( ) -> [MissionTypeIdRaw](#sol::MissionTypeIdRaw)</code>
-
-> Returns the follow-up mission type ID.
-
-#### has_follow_up {#sol::Mission::has_follow_up}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-> Returns true if the mission has a follow-up mission.
-
-## MissionType {#sol::MissionType}
-
-### Bases {#sol::MissionType::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MissionType::@ctors}
+### Constructors
 
-- MissionType.new( )
+#### `MissionType.new()`
 
-### Members {#sol::MissionType::@members}
+### Members
 
-#### description {#sol::MissionType::description}
+#### description
 
-🇻 Variable --> <code>CppVal&lt;translation&gt;</code>
+Returns the mission's description as a string.
+Variable of type `<cppval: 11translation >`
 
-> Returns the mission's description as a string.
+#### goal
 
-#### target_npc_id {#sol::MissionType::target_npc_id}
+Returns the mission's goal text.
+Variable of type `MissionGoal`
 
-🇻 Variable --> <code>[CharacterId](#sol::CharacterId)</code>
+#### difficulty
 
-> Returns the ID of the target NPC for the mission, if any.
+Returns the mission's difficulty as an integer.
+Variable of type `int`
 
-#### item_count {#sol::MissionType::item_count}
+#### value
 
-🇻 Variable --> <code>integer</code>
+Returns the mission's reward value as an integer.
+Variable of type `int`
 
-> Returns the count of items involved in the mission.
+#### deadline_low
 
-#### empty_container {#sol::MissionType::empty_container}
+Returns the minimum allowed deadline for the mission.
+Variable of type `TimeDuration`
 
-🇻 Variable --> <code>[ItypeId](#sol::ItypeId)</code>
+#### deadline_high
 
-> Returns true if the mission requires the container to be empty.
+Returns the maximum allowed deadline for the mission.
+Variable of type `TimeDuration`
 
-#### remove_container {#sol::MissionType::remove_container}
+#### urgent
 
-🇻 Variable --> <code>boolean</code>
+Returns true if the mission is marked as urgent.
+Variable of type `bool`
 
-> Returns true if the mission requires removing a container.
+#### has_generic_rewards
 
-#### monster_type {#sol::MissionType::monster_type}
+Returns true if the mission has generic rewards.
+Variable of type `bool`
 
-🇻 Variable --> <code>[MtypeId](#sol::MtypeId)</code>
+#### likely_rewards
 
-> Returns the monster type associated with the mission, if any.
+Returns a vector of likely rewards (chance, itype_id pairs).
+Variable of type `Vector( <cppval: St4pairIi9string_idI5itypeEE > )`
 
-#### follow_up {#sol::MissionType::follow_up}
+#### origins
 
-🇻 Variable --> <code>[MissionTypeIdRaw](#sol::MissionTypeIdRaw)</code>
+Returns a list of origins from which this mission can be generated.
+Variable of type `Vector( MissionOrigin )`
 
-> Returns any follow-up mission type ID.
+#### item_id
 
-#### monster_kill_goal {#sol::MissionType::monster_kill_goal}
+Returns the ID of the mission's main item target, if applicable.
+Variable of type `ItypeId`
 
-🇻 Variable --> <code>integer</code>
+#### remove_container
 
-> Returns the number of monsters required to kill for this mission.
+Returns true if the mission requires removing a container.
+Variable of type `bool`
 
-#### dialogue {#sol::MissionType::dialogue}
+#### empty_container
 
-🇻 Variable --> <code>table<string, CppVal&lt;translation&gt;></code>
+Returns true if the mission requires the container to be empty.
+Variable of type `ItypeId`
 
-> Returns any associated dialogue for the mission.
+#### item_count
 
-#### origins {#sol::MissionType::origins}
+Returns the count of items involved in the mission.
+Variable of type `int`
 
-🇻 Variable --> <code>[MissionOrigin](#sol::MissionOrigin)[]</code>
+#### target_npc_id
 
-> Returns a list of origins from which this mission can be generated.
+Returns the ID of the target NPC for the mission, if any.
+Variable of type `CharacterId`
 
-#### item_id {#sol::MissionType::item_id}
+#### monster_type
 
-🇻 Variable --> <code>[ItypeId](#sol::ItypeId)</code>
+Returns the monster type associated with the mission, if any.
+Variable of type `MtypeId`
 
-> Returns the ID of the mission's main item target, if applicable.
+#### monster_kill_goal
 
-#### likely_rewards {#sol::MissionType::likely_rewards}
+Returns the number of monsters required to kill for this mission.
+Variable of type `int`
 
-🇻 Variable --> <code>(integer, [ItypeId](#sol::ItypeId))[]</code>
+#### follow_up
 
-> Returns a vector of likely rewards (chance, itype_id pairs).
+Returns any follow-up mission type ID.
+Variable of type `MissionTypeIdRaw`
 
-#### difficulty {#sol::MissionType::difficulty}
+#### dialogue
 
-🇻 Variable --> <code>integer</code>
+Returns any associated dialogue for the mission.
+Variable of type `Map( string, <cppval: 11translation > )`
 
-> Returns the mission's difficulty as an integer.
+#### get_all
 
-#### goal {#sol::MissionType::goal}
+Returns all available missions.
+Function `() -> <cppval: St6vectorI12mission_typeSaIS0_EE >`
 
-🇻 Variable --> <code>[MissionGoal](#sol::MissionGoal)</code>
+#### get_random_mission_id
 
-> Returns the mission's goal text.
+Returns a random mission type ID at the specified origin and overmap tile position.
+Function `( MissionOrigin, Tripoint ) -> MissionTypeIdRaw`
 
-#### deadline_low {#sol::MissionType::deadline_low}
+#### tname
 
-🇻 Variable --> <code>[TimeDuration](#sol::TimeDuration)</code>
+Function `( MissionType ) -> string`
 
-> Returns the minimum allowed deadline for the mission.
+## MissionTypeIdRaw
 
-#### value {#sol::MissionType::value}
-
-🇻 Variable --> <code>integer</code>
-
-> Returns the mission's reward value as an integer.
-
-#### has_generic_rewards {#sol::MissionType::has_generic_rewards}
-
-🇻 Variable --> <code>boolean</code>
-
-> Returns true if the mission has generic rewards.
-
-#### deadline_high {#sol::MissionType::deadline_high}
-
-🇻 Variable --> <code>[TimeDuration](#sol::TimeDuration)</code>
-
-> Returns the maximum allowed deadline for the mission.
-
-#### urgent {#sol::MissionType::urgent}
-
-🇻 Variable --> <code>boolean</code>
-
-> Returns true if the mission is marked as urgent.
-
-#### get_all {#sol::MissionType::get_all}
-
-🇫 Function --> <code>( ) -> [MissionType](#sol::MissionType)[]</code>
-
-> Returns all available missions.
-
-#### get_random_mission_id {#sol::MissionType::get_random_mission_id}
-
-🇫 Function --> <code>( [MissionOrigin](#sol::MissionOrigin), [Tripoint](#sol::Tripoint) ) -> [MissionTypeIdRaw](#sol::MissionTypeIdRaw)</code>
-
-> Returns a random mission type ID at the specified origin and overmap tile position.
-
-#### tname {#sol::MissionType::tname}
-
-🇲 Method --> <code>( ) -> string</code>
-
-## MissionTypeIdRaw {#sol::MissionTypeIdRaw}
-
-### Bases {#sol::MissionTypeIdRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MissionTypeIdRaw::@ctors}
+### Constructors
 
-- MissionTypeIdRaw.new( string )
+#### `MissionTypeIdRaw.new( string )`
 
-### Members {#sol::MissionTypeIdRaw::@members}
+### Members
 
 No members.
 
-## Monster {#sol::Monster}
+## Monster
 
-### Bases {#sol::Monster::@bases}
+### Bases
 
 - `Creature`
 
-### Constructors {#sol::Monster::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Monster::@members}
+### Members
 
-#### friendly {#sol::Monster::friendly}
+#### friendly
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### death_drops {#sol::Monster::death_drops}
+#### anger
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `int`
 
-#### faction {#sol::Monster::faction}
+#### morale
 
-🇻 Variable --> <code>[MonsterFactionIntId](#sol::MonsterFactionIntId)</code>
+Variable of type `int`
 
-#### unique_name {#sol::Monster::unique_name}
+#### faction
 
-🇻 Variable --> <code>string</code>
+Variable of type `MonsterFactionIntId`
 
-#### anger {#sol::Monster::anger}
+#### death_drops
 
-🇻 Variable --> <code>integer</code>
+Variable of type `bool`
 
-#### morale {#sol::Monster::morale}
+#### unique_name
 
-🇻 Variable --> <code>integer</code>
+Variable of type `string`
 
-#### climbs {#sol::Monster::climbs}
+#### get_type
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> MtypeId`
 
-#### swims {#sol::Monster::swims}
+#### can_upgrade
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> bool`
 
-#### flies {#sol::Monster::flies}
+#### hasten_upgrade
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster )`
 
-#### move_target {#sol::Monster::move_target}
+#### get_upgrade_time
 
-🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
+Function `( Monster ) -> int`
 
-#### digs {#sol::Monster::digs}
+#### try_upgrade
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster, bool )`
 
-#### is_wandering {#sol::Monster::is_wandering}
+#### try_reproduce
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster )`
 
-#### attitude {#sol::Monster::attitude}
+#### refill_udders
 
-🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
+Function `( Monster )`
 
-#### move_to {#sol::Monster::move_to}
+#### spawn
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
+Function `( Monster, Tripoint )`
 
-#### make_fungus {#sol::Monster::make_fungus}
+#### name
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster, int ) -> string`
 
-#### wander_to {#sol::Monster::wander_to}
+#### name_with_armor
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
+Function `( Monster ) -> string`
 
-#### set_hp {#sol::Monster::set_hp}
+#### can_see
 
-🇲 Method --> <code>( integer )</code>
+Function `( Monster ) -> bool`
 
-#### can_dig {#sol::Monster::can_dig}
+#### can_hear
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> bool`
 
-#### heal {#sol::Monster::heal}
+#### can_submerge
 
-🇲 Method --> <code>( integer, boolean ) -> integer</code>
+Function `( Monster ) -> bool`
 
-#### can_climb {#sol::Monster::can_climb}
+#### can_drown
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> bool`
 
-#### can_hear {#sol::Monster::can_hear}
+#### can_climb
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> bool`
 
-#### can_submerge {#sol::Monster::can_submerge}
+#### can_dig
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> bool`
 
-#### get_upgrade_time {#sol::Monster::get_upgrade_time}
+#### digs
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Monster ) -> bool`
 
-#### try_upgrade {#sol::Monster::try_upgrade}
+#### flies
 
-🇲 Method --> <code>( boolean )</code>
+Function `( Monster ) -> bool`
 
-#### hasten_upgrade {#sol::Monster::hasten_upgrade}
+#### climbs
 
-🇲 Method --> <code>( )</code>
+Function `( Monster ) -> bool`
 
-#### get_type {#sol::Monster::get_type}
+#### swims
 
-🇲 Method --> <code>( ) -> [MtypeId](#sol::MtypeId)</code>
+Function `( Monster ) -> bool`
 
-#### can_upgrade {#sol::Monster::can_upgrade}
+#### move_target
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> Tripoint`
 
-#### can_drown {#sol::Monster::can_drown}
+#### is_wandering
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster ) -> bool`
 
-#### try_reproduce {#sol::Monster::try_reproduce}
+#### wander_to
 
-🇲 Method --> <code>( )</code>
+Function `( Monster, Tripoint, int )`
 
-#### spawn {#sol::Monster::spawn}
+#### move_to
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
+Function `( Monster, Tripoint, bool, bool, double ) -> bool`
 
-#### make_friendly {#sol::Monster::make_friendly}
+#### attitude
 
-🇲 Method --> <code>( )</code>
+Function `( Monster, Character ) -> MonsterAttitude`
 
-#### refill_udders {#sol::Monster::refill_udders}
+#### heal
 
-🇲 Method --> <code>( )</code>
+Function `( Monster, int, bool ) -> int`
 
-#### can_see {#sol::Monster::can_see}
+#### set_hp
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Monster, int )`
 
-#### name {#sol::Monster::name}
+#### make_fungus
 
-🇲 Method --> <code>( integer ) -> string</code>
+Function `( Monster ) -> bool`
 
-#### name_with_armor {#sol::Monster::name_with_armor}
+#### make_friendly
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( Monster )`
 
-#### make_ally {#sol::Monster::make_ally}
+#### make_ally
 
-🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
+Function `( Monster, Monster )`
 
-## MonsterFactionId {#sol::MonsterFactionId}
+## MonsterFactionId
 
-### Bases {#sol::MonsterFactionId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MonsterFactionId::@ctors}
+### Constructors
 
-- MonsterFactionId.new( )
-- MonsterFactionId.new( [MonsterFactionId](#sol::MonsterFactionId) )
-- MonsterFactionId.new( [MonsterFactionIntId](#sol::MonsterFactionIntId) )
-- MonsterFactionId.new( string )
+#### `MonsterFactionId.new()`
 
-### Members {#sol::MonsterFactionId::@members}
+#### `MonsterFactionId.new( MonsterFactionId )`
 
-#### NULL_ID {#sol::MonsterFactionId::NULL_ID}
+#### `MonsterFactionId.new( MonsterFactionIntId )`
 
-🇫 Function --> <code>( ) -> [MonsterFactionId](#sol::MonsterFactionId)</code>
+#### `MonsterFactionId.new( string )`
 
-#### str {#sol::MonsterFactionId::str}
+### Members
 
-🇲 Method --> <code>( ) -> string</code>
+#### obj
 
-#### obj {#sol::MonsterFactionId::obj}
+Function `( MonsterFactionId ) -> MonsterFactionRaw`
 
-🇲 Method --> <code>( ) -> MonsterFactionRaw</code>
+#### int_id
 
-#### is_null {#sol::MonsterFactionId::is_null}
+Function `( MonsterFactionId ) -> MonsterFactionIntId`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### implements_int_id
 
-#### is_valid {#sol::MonsterFactionId::is_valid}
+Function `() -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_null
 
-#### implements_int_id {#sol::MonsterFactionId::implements_int_id}
+Function `( MonsterFactionId ) -> bool`
 
-🇫 Function --> <code>( ) -> boolean</code>
+#### is_valid
 
-#### int_id {#sol::MonsterFactionId::int_id}
+Function `( MonsterFactionId ) -> bool`
 
-🇲 Method --> <code>( ) -> [MonsterFactionIntId](#sol::MonsterFactionIntId)</code>
+#### str
 
-## MonsterFactionIntId {#sol::MonsterFactionIntId}
+Function `( MonsterFactionId ) -> string`
 
-### Bases {#sol::MonsterFactionIntId::@bases}
+#### NULL_ID
 
-No base classes.
+Function `() -> MonsterFactionId`
 
-### Constructors {#sol::MonsterFactionIntId::@ctors}
+#### __tostring
 
-- MonsterFactionIntId.new( )
-- MonsterFactionIntId.new( [MonsterFactionIntId](#sol::MonsterFactionIntId) )
-- MonsterFactionIntId.new( [MonsterFactionId](#sol::MonsterFactionId) )
+Function `( MonsterFactionId ) -> string`
 
-### Members {#sol::MonsterFactionIntId::@members}
+#### serialize
 
-#### obj {#sol::MonsterFactionIntId::obj}
+Function `( MonsterFactionId, <cppval: 7JsonOut > )`
 
-🇲 Method --> <code>( ) -> MonsterFactionRaw</code>
+#### deserialize
 
-#### is_valid {#sol::MonsterFactionIntId::is_valid}
+Function `( MonsterFactionId, <cppval: 6JsonIn > )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+## MonsterFactionIntId
 
-#### str_id {#sol::MonsterFactionIntId::str_id}
-
-🇲 Method --> <code>( ) -> [MonsterFactionId](#sol::MonsterFactionId)</code>
-
-## MoraleTypeDataId {#sol::MoraleTypeDataId}
-
-### Bases {#sol::MoraleTypeDataId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MoraleTypeDataId::@ctors}
+### Constructors
 
-- MoraleTypeDataId.new( )
-- MoraleTypeDataId.new( [MoraleTypeDataId](#sol::MoraleTypeDataId) )
-- MoraleTypeDataId.new( string )
+#### `MonsterFactionIntId.new()`
 
-### Members {#sol::MoraleTypeDataId::@members}
+#### `MonsterFactionIntId.new( MonsterFactionIntId )`
 
-#### NULL_ID {#sol::MoraleTypeDataId::NULL_ID}
+#### `MonsterFactionIntId.new( MonsterFactionId )`
 
-🇫 Function --> <code>( ) -> [MoraleTypeDataId](#sol::MoraleTypeDataId)</code>
+### Members
 
-#### obj {#sol::MoraleTypeDataId::obj}
+#### obj
 
-🇲 Method --> <code>( ) -> MoraleTypeDataRaw</code>
+Function `( MonsterFactionIntId ) -> MonsterFactionRaw`
 
-#### is_valid {#sol::MoraleTypeDataId::is_valid}
+#### str_id
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( MonsterFactionIntId ) -> MonsterFactionId`
 
-#### str {#sol::MoraleTypeDataId::str}
+#### is_valid
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( MonsterFactionIntId ) -> bool`
 
-#### is_null {#sol::MoraleTypeDataId::is_null}
+#### __tostring
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( MonsterFactionIntId ) -> string`
 
-#### implements_int_id {#sol::MoraleTypeDataId::implements_int_id}
+## MoraleTypeDataId
 
-🇫 Function --> <code>( ) -> boolean</code>
-
-## MtypeId {#sol::MtypeId}
-
-### Bases {#sol::MtypeId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MtypeId::@ctors}
+### Constructors
 
-- MtypeId.new( )
-- MtypeId.new( [MtypeId](#sol::MtypeId) )
-- MtypeId.new( string )
+#### `MoraleTypeDataId.new()`
 
-### Members {#sol::MtypeId::@members}
+#### `MoraleTypeDataId.new( MoraleTypeDataId )`
 
-#### NULL_ID {#sol::MtypeId::NULL_ID}
+#### `MoraleTypeDataId.new( string )`
 
-🇫 Function --> <code>( ) -> [MtypeId](#sol::MtypeId)</code>
+### Members
 
-#### obj {#sol::MtypeId::obj}
+#### obj
 
-🇲 Method --> <code>( ) -> MtypeRaw</code>
+Function `( MoraleTypeDataId ) -> MoraleTypeDataRaw`
 
-#### is_valid {#sol::MtypeId::is_valid}
+#### implements_int_id
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `() -> bool`
 
-#### str {#sol::MtypeId::str}
+#### is_null
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( MoraleTypeDataId ) -> bool`
 
-#### is_null {#sol::MtypeId::is_null}
+#### is_valid
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( MoraleTypeDataId ) -> bool`
 
-#### implements_int_id {#sol::MtypeId::implements_int_id}
+#### str
 
-🇫 Function --> <code>( ) -> boolean</code>
+Function `( MoraleTypeDataId ) -> string`
 
-## MutationBranchId {#sol::MutationBranchId}
+#### NULL_ID
 
-### Bases {#sol::MutationBranchId::@bases}
+Function `() -> MoraleTypeDataId`
 
-No base classes.
+#### __tostring
 
-### Constructors {#sol::MutationBranchId::@ctors}
+Function `( MoraleTypeDataId ) -> string`
 
-- MutationBranchId.new( )
-- MutationBranchId.new( [MutationBranchId](#sol::MutationBranchId) )
-- MutationBranchId.new( string )
+#### serialize
 
-### Members {#sol::MutationBranchId::@members}
+Function `( MoraleTypeDataId, <cppval: 7JsonOut > )`
 
-#### NULL_ID {#sol::MutationBranchId::NULL_ID}
+#### deserialize
 
-🇫 Function --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)</code>
+Function `( MoraleTypeDataId, <cppval: 6JsonIn > )`
 
-#### obj {#sol::MutationBranchId::obj}
+## MtypeId
 
-🇲 Method --> <code>( ) -> [MutationBranchRaw](#sol::MutationBranchRaw)</code>
-
-#### is_valid {#sol::MutationBranchId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::MutationBranchId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::MutationBranchId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::MutationBranchId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## MutationBranchRaw {#sol::MutationBranchRaw}
-
-### Bases {#sol::MutationBranchRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MutationBranchRaw::@ctors}
+### Constructors
+
+#### `MtypeId.new()`
+
+#### `MtypeId.new( MtypeId )`
+
+#### `MtypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MtypeId ) -> MtypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MtypeId ) -> bool`
+
+#### is_valid
+
+Function `( MtypeId ) -> bool`
+
+#### str
+
+Function `( MtypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MtypeId`
+
+#### __tostring
+
+Function `( MtypeId ) -> string`
+
+#### serialize
+
+Function `( MtypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MtypeId, <cppval: 6JsonIn > )`
+
+## MutationBranchId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MutationBranchId.new()`
+
+#### `MutationBranchId.new( MutationBranchId )`
+
+#### `MutationBranchId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MutationBranchId ) -> MutationBranchRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MutationBranchId ) -> bool`
+
+#### is_valid
+
+Function `( MutationBranchId ) -> bool`
+
+#### str
+
+Function `( MutationBranchId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MutationBranchId`
+
+#### __tostring
+
+Function `( MutationBranchId ) -> string`
+
+#### serialize
+
+Function `( MutationBranchId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MutationBranchId, <cppval: 6JsonIn > )`
+
+## MutationBranchRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::MutationBranchRaw::@members}
+### Members
 
-#### id {#sol::MutationBranchRaw::id}
+#### id
 
-🇻 Variable --> <code>[MutationBranchId](#sol::MutationBranchId)</code>
+Variable of type `MutationBranchId`
 
-#### max_stamina_modifier {#sol::MutationBranchRaw::max_stamina_modifier}
+#### valid
 
-🇻 Variable --> <code>number</code>
+Whether this mutation is available through generic mutagen.
+Variable of type `bool`
 
-#### falling_damage_multiplier {#sol::MutationBranchRaw::falling_damage_multiplier}
+#### purifiable
 
-🇻 Variable --> <code>number</code>
+Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
+Variable of type `bool`
 
-#### weight_capacity_modifier {#sol::MutationBranchRaw::weight_capacity_modifier}
+#### threshold
 
-🇻 Variable --> <code>number</code>
+Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
+Variable of type `bool`
 
-#### movecost_swim_modifier {#sol::MutationBranchRaw::movecost_swim_modifier}
+#### profession
 
-🇻 Variable --> <code>number</code>
+Whether this trait is ONLY gained through professional training/experience (and/or quests).
+Variable of type `bool`
 
-#### hearing_modifier {#sol::MutationBranchRaw::hearing_modifier}
+#### debug
 
-🇻 Variable --> <code>number</code>
+Whether or not this mutation is limited to debug use.
+Variable of type `bool`
 
-#### noise_modifier {#sol::MutationBranchRaw::noise_modifier}
+#### player_display
 
-🇻 Variable --> <code>number</code>
+Whether or not this mutation shows up in the status (`@`) menu.
+Variable of type `bool`
 
-#### attackcost_modifier {#sol::MutationBranchRaw::attackcost_modifier}
+#### mixed_effect
 
-🇻 Variable --> <code>number</code>
+Whether this mutation has positive /and/ negative effects.
+Variable of type `bool`
 
-#### movecost_flatground_modifier {#sol::MutationBranchRaw::movecost_flatground_modifier}
+#### starting_trait
 
-🇻 Variable --> <code>number</code>
+Whether this trait can normally be taken during character generation.
+Variable of type `bool`
 
-#### hp_adjustment {#sol::MutationBranchRaw::hp_adjustment}
+#### activated
 
-🇻 Variable --> <code>number</code>
+Whether this mutation can be activated at will.
+Variable of type `bool`
 
-> Flat adjustment to HP.
+#### starts_active
 
-#### movecost_obstacle_modifier {#sol::MutationBranchRaw::movecost_obstacle_modifier}
+Whether a mutation activates when granted.
+Variable of type `bool`
 
-🇻 Variable --> <code>number</code>
+#### allow_soft_gear
 
-#### str_modifier {#sol::MutationBranchRaw::str_modifier}
+Mutation allows soft gear to be worn over otherwise-restricted parts.
+Variable of type `bool`
 
-🇻 Variable --> <code>number</code>
+#### fatigue
 
-> Adjustment to Strength that doesn't affect HP.
+Mutation causes fatigue when used.
+Variable of type `bool`
 
-#### speed_modifier {#sol::MutationBranchRaw::speed_modifier}
+#### hunger
 
-🇻 Variable --> <code>number</code>
+Mutation deducts calories when used.
+Variable of type `bool`
 
-#### dodge_modifier {#sol::MutationBranchRaw::dodge_modifier}
+#### thirst
 
-🇻 Variable --> <code>number</code>
+Mutation dehydrates when used.
+Variable of type `bool`
 
-#### hp_modifier_secondary {#sol::MutationBranchRaw::hp_modifier_secondary}
+#### points
 
-🇻 Variable --> <code>number</code>
+Point cost in character creation(?).
+Variable of type `int`
 
-> Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it.
+#### visibility
 
-#### scent_modifier {#sol::MutationBranchRaw::scent_modifier}
+How visible the mutation is to others.
+Variable of type `int`
 
-🇻 Variable --> <code>number</code>
+#### ugliness
 
-#### healthy_rate {#sol::MutationBranchRaw::healthy_rate}
+How physically unappealing the mutation is. Can be negative.
+Variable of type `int`
 
-🇻 Variable --> <code>number</code>
+#### cost
 
-> How quickly health (not HP) trends toward healthy_mod.
+Variable of type `int`
 
-#### overmap_sight {#sol::MutationBranchRaw::overmap_sight}
+#### cooldown
 
-🇻 Variable --> <code>number</code>
+Costs are incurred every 'cooldown' turns.
+Variable of type `int`
 
-#### stamina_regen_modifier {#sol::MutationBranchRaw::stamina_regen_modifier}
+#### bodytemp_min_btu
 
-🇻 Variable --> <code>number</code>
+Variable of type `int`
 
-#### overmap_multiplier {#sol::MutationBranchRaw::overmap_multiplier}
+#### bodytemp_max_btu
 
-🇻 Variable --> <code>number</code>
+Variable of type `int`
 
-#### skill_rust_multiplier {#sol::MutationBranchRaw::skill_rust_multiplier}
+#### bodytemp_sleep_btu
 
-🇻 Variable --> <code>number</code>
+Variable of type `int`
 
-#### reading_speed_multiplier {#sol::MutationBranchRaw::reading_speed_multiplier}
+#### pain_recovery
 
-🇻 Variable --> <code>number</code>
+Pain recovery per turn from mutation.
+Variable of type `double`
 
-#### bleed_resist {#sol::MutationBranchRaw::bleed_resist}
+#### healing_awake
 
-🇻 Variable --> <code>number</code>
+Healing per turn from mutation.
+Variable of type `double`
 
-#### fatigue_regen_modifier {#sol::MutationBranchRaw::fatigue_regen_modifier}
+#### healing_resting
 
-🇻 Variable --> <code>number</code>
+Healing per turn from mutation, while asleep.
+Variable of type `double`
 
-#### thirst_modifier {#sol::MutationBranchRaw::thirst_modifier}
+#### mending_modifier
 
-🇻 Variable --> <code>number</code>
+Multiplier applied to broken limb regeneration. Normally 0.25; clamped to 0.25..1.0.
+Variable of type `double`
 
-#### stealth_modifier {#sol::MutationBranchRaw::stealth_modifier}
+#### hp_modifier
 
-🇻 Variable --> <code>number</code>
+Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
+Variable of type `double`
 
-#### fatigue_modifier {#sol::MutationBranchRaw::fatigue_modifier}
+#### packmule_modifier
 
-🇻 Variable --> <code>number</code>
+Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
+Variable of type `double`
 
-#### night_vision_range {#sol::MutationBranchRaw::night_vision_range}
+#### crafting_speed_modifier
 
-🇻 Variable --> <code>number</code>
+Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
+Variable of type `double`
 
-#### metabolism_modifier {#sol::MutationBranchRaw::metabolism_modifier}
+#### construction_speed_modifier
 
-🇻 Variable --> <code>number</code>
+Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
+Variable of type `double`
 
-#### temperature_speed_modifier {#sol::MutationBranchRaw::temperature_speed_modifier}
+#### hp_modifier_secondary
 
-🇻 Variable --> <code>number</code>
+Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it.
+Variable of type `double`
 
-#### construction_speed_modifier {#sol::MutationBranchRaw::construction_speed_modifier}
+#### hp_adjustment
 
-🇻 Variable --> <code>number</code>
+Flat adjustment to HP.
+Variable of type `double`
 
-> Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
+#### str_modifier
 
-#### movecost_modifier {#sol::MutationBranchRaw::movecost_modifier}
+Adjustment to Strength that doesn't affect HP.
+Variable of type `double`
 
-🇻 Variable --> <code>number</code>
+#### dodge_modifier
 
-#### packmule_modifier {#sol::MutationBranchRaw::packmule_modifier}
+Variable of type `double`
 
-🇻 Variable --> <code>number</code>
+#### speed_modifier
 
-> Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
+Variable of type `double`
 
-#### crafting_speed_modifier {#sol::MutationBranchRaw::crafting_speed_modifier}
+#### movecost_modifier
 
-🇻 Variable --> <code>number</code>
+Variable of type `double`
 
-> Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
+#### movecost_flatground_modifier
 
-#### starting_trait {#sol::MutationBranchRaw::starting_trait}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### movecost_obstacle_modifier
 
-> Whether this trait can normally be taken during character generation.
+Variable of type `double`
 
-#### starts_active {#sol::MutationBranchRaw::starts_active}
+#### attackcost_modifier
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `double`
 
-> Whether a mutation activates when granted.
+#### falling_damage_multiplier
 
-#### fatigue {#sol::MutationBranchRaw::fatigue}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### max_stamina_modifier
 
-> Mutation causes fatigue when used.
+Variable of type `double`
 
-#### allow_soft_gear {#sol::MutationBranchRaw::allow_soft_gear}
+#### weight_capacity_modifier
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `double`
 
-> Mutation allows soft gear to be worn over otherwise-restricted parts.
+#### hearing_modifier
 
-#### hunger {#sol::MutationBranchRaw::hunger}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### movecost_swim_modifier
 
-> Mutation deducts calories when used.
+Variable of type `double`
 
-#### mixed_effect {#sol::MutationBranchRaw::mixed_effect}
+#### noise_modifier
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `double`
 
-> Whether this mutation has positive /and/ negative effects.
+#### scent_modifier
 
-#### debug {#sol::MutationBranchRaw::debug}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### bleed_resist
 
-> Whether or not this mutation is limited to debug use.
+Variable of type `double`
 
-#### valid {#sol::MutationBranchRaw::valid}
+#### healthy_rate
 
-🇻 Variable --> <code>boolean</code>
+How quickly health (not HP) trends toward healthy_mod.
+Variable of type `double`
 
-> Whether this mutation is available through generic mutagen.
+#### stealth_modifier
 
-#### player_display {#sol::MutationBranchRaw::player_display}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### night_vision_range
 
-> Whether or not this mutation shows up in the status (`@`) menu.
+Variable of type `double`
 
-#### purifiable {#sol::MutationBranchRaw::purifiable}
+#### temperature_speed_modifier
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `double`
 
-> Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
+#### metabolism_modifier
 
-#### profession {#sol::MutationBranchRaw::profession}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### thirst_modifier
 
-> Whether this trait is ONLY gained through professional training/experience (and/or quests).
+Variable of type `double`
 
-#### threshold {#sol::MutationBranchRaw::threshold}
+#### fatigue_modifier
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `double`
 
-> Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
+#### fatigue_regen_modifier
 
-#### thirst {#sol::MutationBranchRaw::thirst}
+Variable of type `double`
 
-🇻 Variable --> <code>boolean</code>
+#### stamina_regen_modifier
 
-> Mutation dehydrates when used.
+Variable of type `double`
 
-#### activated {#sol::MutationBranchRaw::activated}
+#### overmap_sight
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `double`
 
-> Whether this mutation can be activated at will.
+#### overmap_multiplier
 
-#### visibility {#sol::MutationBranchRaw::visibility}
+Variable of type `double`
 
-🇻 Variable --> <code>integer</code>
+#### reading_speed_multiplier
 
-> How visible the mutation is to others.
+Variable of type `double`
 
-#### healing_awake {#sol::MutationBranchRaw::healing_awake}
+#### skill_rust_multiplier
 
-🇻 Variable --> <code>number</code>
+Variable of type `double`
 
-> Healing per turn from mutation.
+#### name
 
-#### pain_recovery {#sol::MutationBranchRaw::pain_recovery}
+Function `( MutationBranchRaw ) -> string`
 
-🇻 Variable --> <code>number</code>
+#### desc
 
-> Pain recovery per turn from mutation.
+Function `( MutationBranchRaw ) -> string`
 
-#### healing_resting {#sol::MutationBranchRaw::healing_resting}
+#### get_all
 
-🇻 Variable --> <code>number</code>
+Returns a (long) list of every mutation in the game.
+Function `() -> <cppval: St6vectorI15mutation_branchSaIS0_EE >`
 
-> Healing per turn from mutation, while asleep.
+#### __tostring
 
-#### points {#sol::MutationBranchRaw::points}
+Function `( MutationBranchRaw ) -> string`
 
-🇻 Variable --> <code>integer</code>
+#### prerequisites
 
-> Point cost in character creation(?).
+Lists the primary mutation(s) needed to gain this mutation.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
 
-#### mending_modifier {#sol::MutationBranchRaw::mending_modifier}
+#### other_prerequisites
 
-🇻 Variable --> <code>number</code>
+Lists the secondary mutation(s) needed to gain this mutation.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
 
-> Multiplier applied to broken limb regeneration. Normally 0.25; clamped to 0.25..1.0.
+#### thresh_requirements
 
-#### bodytemp_sleep_btu {#sol::MutationBranchRaw::bodytemp_sleep_btu}
+Lists the threshold mutation(s) required to gain this mutation.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
 
-🇻 Variable --> <code>integer</code>
+#### mutation_types
 
-#### hp_modifier {#sol::MutationBranchRaw::hp_modifier}
+Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
+Function `( MutationBranchRaw ) -> Set( string )`
 
-🇻 Variable --> <code>number</code>
+#### conflicts_with
 
-> Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
+Lists conflicting mutations.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
 
-#### bodytemp_min_btu {#sol::MutationBranchRaw::bodytemp_min_btu}
+#### replaced_by
 
-🇻 Variable --> <code>integer</code>
+Lists mutations that replace (e.g. evolve from) this one.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
 
-#### bodytemp_max_btu {#sol::MutationBranchRaw::bodytemp_max_btu}
+#### addition_mutations
 
-🇻 Variable --> <code>integer</code>
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
 
-#### cost {#sol::MutationBranchRaw::cost}
+#### categories
 
-🇻 Variable --> <code>integer</code>
+Lists the categories this mutation belongs to.
+Function `( MutationBranchRaw ) -> Vector( MutationCategoryTraitId )`
 
-#### ugliness {#sol::MutationBranchRaw::ugliness}
+## MutationCategoryTraitId
 
-🇻 Variable --> <code>integer</code>
-
-> How physically unappealing the mutation is. Can be negative.
-
-#### cooldown {#sol::MutationBranchRaw::cooldown}
-
-🇻 Variable --> <code>integer</code>
-
-> Costs are incurred every 'cooldown' turns.
-
-#### thresh_requirements {#sol::MutationBranchRaw::thresh_requirements}
-
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
-
-> Lists the threshold mutation(s) required to gain this mutation.
-
-#### replaced_by {#sol::MutationBranchRaw::replaced_by}
-
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
-
-> Lists mutations that replace (e.g. evolve from) this one.
-
-#### mutation_types {#sol::MutationBranchRaw::mutation_types}
-
-🇲 Method --> <code>( ) -> string[]</code>
-
-> Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
-
-#### conflicts_with {#sol::MutationBranchRaw::conflicts_with}
-
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
-
-> Lists conflicting mutations.
-
-#### other_prerequisites {#sol::MutationBranchRaw::other_prerequisites}
-
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
-
-> Lists the secondary mutation(s) needed to gain this mutation.
-
-#### categories {#sol::MutationBranchRaw::categories}
-
-🇲 Method --> <code>( ) -> [MutationCategoryTraitId](#sol::MutationCategoryTraitId)[]</code>
-
-> Lists the categories this mutation belongs to.
-
-#### get_all {#sol::MutationBranchRaw::get_all}
-
-🇫 Function --> <code>( ) -> [MutationBranchRaw](#sol::MutationBranchRaw)[]</code>
-
-> Returns a (long) list of every mutation in the game.
-
-#### addition_mutations {#sol::MutationBranchRaw::addition_mutations}
-
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
-
-#### prerequisites {#sol::MutationBranchRaw::prerequisites}
-
-🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
-
-> Lists the primary mutation(s) needed to gain this mutation.
-
-#### name {#sol::MutationBranchRaw::name}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### desc {#sol::MutationBranchRaw::desc}
-
-🇲 Method --> <code>( ) -> string</code>
-
-## MutationCategoryTraitId {#sol::MutationCategoryTraitId}
-
-### Bases {#sol::MutationCategoryTraitId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::MutationCategoryTraitId::@ctors}
+### Constructors
 
-- MutationCategoryTraitId.new( )
-- MutationCategoryTraitId.new( [MutationCategoryTraitId](#sol::MutationCategoryTraitId) )
-- MutationCategoryTraitId.new( string )
+#### `MutationCategoryTraitId.new()`
 
-### Members {#sol::MutationCategoryTraitId::@members}
+#### `MutationCategoryTraitId.new( MutationCategoryTraitId )`
 
-#### NULL_ID {#sol::MutationCategoryTraitId::NULL_ID}
+#### `MutationCategoryTraitId.new( string )`
 
-🇫 Function --> <code>( ) -> [MutationCategoryTraitId](#sol::MutationCategoryTraitId)</code>
+### Members
 
-#### obj {#sol::MutationCategoryTraitId::obj}
+#### obj
 
-🇲 Method --> <code>( ) -> MutationCategoryTraitRaw</code>
+Function `( MutationCategoryTraitId ) -> MutationCategoryTraitRaw`
 
-#### is_valid {#sol::MutationCategoryTraitId::is_valid}
+#### implements_int_id
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `() -> bool`
 
-#### str {#sol::MutationCategoryTraitId::str}
+#### is_null
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( MutationCategoryTraitId ) -> bool`
 
-#### is_null {#sol::MutationCategoryTraitId::is_null}
+#### is_valid
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( MutationCategoryTraitId ) -> bool`
 
-#### implements_int_id {#sol::MutationCategoryTraitId::implements_int_id}
+#### str
 
-🇫 Function --> <code>( ) -> boolean</code>
+Function `( MutationCategoryTraitId ) -> string`
 
-## Npc {#sol::Npc}
+#### NULL_ID
 
-### Bases {#sol::Npc::@bases}
+Function `() -> MutationCategoryTraitId`
+
+#### __tostring
+
+Function `( MutationCategoryTraitId ) -> string`
+
+#### serialize
+
+Function `( MutationCategoryTraitId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MutationCategoryTraitId, <cppval: 6JsonIn > )`
+
+## Npc
+
+### Bases
 
 - `Player`
 - `Character`
 - `Creature`
 
-### Constructors {#sol::Npc::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Npc::@members}
+### Members
 
-#### current_activity_id {#sol::Npc::current_activity_id}
+#### current_activity_id
 
-🇻 Variable --> <code>[ActivityTypeId](#sol::ActivityTypeId)</code>
+Variable of type `ActivityTypeId`
 
-#### hit_by_player {#sol::Npc::hit_by_player}
+#### personality
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `NpcPersonality`
 
-#### needs {#sol::Npc::needs}
+#### op_of_u
 
-🇻 Variable --> <code>[NpcNeed](#sol::NpcNeed)[]</code>
+Variable of type `NpcOpinion`
 
-#### patience {#sol::Npc::patience}
+#### patience
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### marked_for_death {#sol::Npc::marked_for_death}
+#### marked_for_death
 
-🇻 Variable --> <code>boolean</code>
+Variable of type `bool`
 
-#### op_of_u {#sol::Npc::op_of_u}
+#### hit_by_player
 
-🇻 Variable --> <code>[NpcOpinion](#sol::NpcOpinion)</code>
+Variable of type `bool`
 
-#### personality {#sol::Npc::personality}
+#### needs
 
-🇻 Variable --> <code>[NpcPersonality](#sol::NpcPersonality)</code>
+Variable of type `Vector( NpcNeed )`
 
-#### danger_assessment {#sol::Npc::danger_assessment}
+#### set_faction_id
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Npc, FactionId )`
 
-#### say {#sol::Npc::say}
+#### turned_hostile
 
-🇲 Method --> <code>( string )</code>
+Function `( Npc ) -> bool`
 
-#### current_ally {#sol::Npc::current_ally}
+#### hostile_anger_level
 
-🇲 Method --> <code>( ) -> [Creature](#sol::Creature)</code>
+Function `( Npc ) -> int`
 
-#### get_monster_faction {#sol::Npc::get_monster_faction}
+#### make_angry
 
-🇲 Method --> <code>( ) -> [MonsterFactionIntId](#sol::MonsterFactionIntId)</code>
+Function `( Npc )`
 
-#### follow_distance {#sol::Npc::follow_distance}
+#### is_enemy
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Npc ) -> bool`
 
-#### current_target {#sol::Npc::current_target}
+#### is_following
 
-🇲 Method --> <code>( ) -> [Creature](#sol::Creature)</code>
+Function `( Npc ) -> bool`
 
-#### smash_ability {#sol::Npc::smash_ability}
+#### is_obeying
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Npc, Character ) -> bool`
 
-#### complain_about {#sol::Npc::complain_about}
+#### is_friendly
 
-🇲 Method --> <code>( string, [TimeDuration](#sol::TimeDuration), string, boolean ) -> boolean</code>
+Function `( Npc, Character ) -> bool`
 
-#### evaluate_enemy {#sol::Npc::evaluate_enemy}
+#### is_leader
 
-🇲 Method --> <code>( [Creature](#sol::Creature) ) -> number</code>
+Function `( Npc ) -> bool`
 
-#### complain {#sol::Npc::complain}
+#### is_walking_with
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### has_omt_destination {#sol::Npc::has_omt_destination}
+#### is_ally
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc, Character ) -> bool`
 
-#### get_attitude {#sol::Npc::get_attitude}
+#### is_player_ally
 
-🇲 Method --> <code>( ) -> [NpcAttitude](#sol::NpcAttitude)</code>
+Function `( Npc ) -> bool`
 
-#### warn_about {#sol::Npc::warn_about}
+#### is_stationary
 
-🇲 Method --> <code>( string, [TimeDuration](#sol::TimeDuration), string, integer, [Tripoint](#sol::Tripoint) )</code>
+Function `( Npc, bool ) -> bool`
 
-#### saw_player_recently {#sol::Npc::saw_player_recently}
+#### is_guarding
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### can_open_door {#sol::Npc::can_open_door}
+#### is_patrolling
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### can_move_to {#sol::Npc::can_move_to}
+#### has_player_activity
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### mutiny {#sol::Npc::mutiny}
+#### is_travelling
 
-🇲 Method --> <code>( )</code>
+Function `( Npc ) -> bool`
 
-#### guaranteed_hostile {#sol::Npc::guaranteed_hostile}
+#### is_minion
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### has_player_activity {#sol::Npc::has_player_activity}
+#### guaranteed_hostile
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### is_travelling {#sol::Npc::is_travelling}
+#### mutiny
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc )`
 
-#### is_enemy {#sol::Npc::is_enemy}
+#### get_monster_faction
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> MonsterFactionIntId`
 
-#### is_following {#sol::Npc::is_following}
+#### follow_distance
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> int`
 
-#### is_obeying {#sol::Npc::is_obeying}
+#### current_target
 
-🇲 Method --> <code>( [Character](#sol::Character) ) -> boolean</code>
+Function `( Npc ) -> Creature`
 
-#### make_angry {#sol::Npc::make_angry}
+#### current_ally
 
-🇲 Method --> <code>( )</code>
+Function `( Npc ) -> Creature`
 
-#### turned_hostile {#sol::Npc::turned_hostile}
+#### danger_assessment
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> double`
 
-#### hostile_anger_level {#sol::Npc::hostile_anger_level}
+#### say
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( Npc, string )`
 
-#### set_faction_id {#sol::Npc::set_faction_id}
+#### smash_ability
 
-🇲 Method --> <code>( [FactionId](#sol::FactionId) )</code>
+Function `( Npc ) -> int`
 
-#### is_minion {#sol::Npc::is_minion}
+#### complain_about
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc, string, TimeDuration, string, Opt( bool ) ) -> bool`
 
-#### is_friendly {#sol::Npc::is_friendly}
+#### warn_about
 
-🇲 Method --> <code>( [Character](#sol::Character) ) -> boolean</code>
+Function `( Npc, string, TimeDuration, string, int, Tripoint )`
 
-#### is_walking_with {#sol::Npc::is_walking_with}
+#### complain
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### is_patrolling {#sol::Npc::is_patrolling}
+#### evaluate_enemy
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc, Creature ) -> double`
 
-#### set_attitude {#sol::Npc::set_attitude}
+#### can_open_door
 
-🇲 Method --> <code>( [NpcAttitude](#sol::NpcAttitude) )</code>
+Function `( Npc, Tripoint, bool ) -> bool`
 
-#### is_leader {#sol::Npc::is_leader}
+#### can_move_to
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc, Tripoint, bool ) -> bool`
 
-#### is_guarding {#sol::Npc::is_guarding}
+#### saw_player_recently
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### is_player_ally {#sol::Npc::is_player_ally}
+#### has_omt_destination
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-#### is_stationary {#sol::Npc::is_stationary}
+#### get_attitude
 
-🇲 Method --> <code>( boolean ) -> boolean</code>
+Function `( Npc ) -> NpcAttitude`
 
-#### is_ally {#sol::Npc::is_ally}
+#### set_attitude
 
-🇲 Method --> <code>( [Character](#sol::Character) ) -> boolean</code>
+Function `( Npc, NpcAttitude )`
 
-#### has_activity {#sol::Npc::has_activity}
+#### has_activity
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( Npc ) -> bool`
 
-## NpcOpinion {#sol::NpcOpinion}
+## NpcOpinion
 
-### Bases {#sol::NpcOpinion::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::NpcOpinion::@ctors}
+### Constructors
 
-- NpcOpinion.new( )
-- NpcOpinion.new( int, int, int, int, int )
+#### `NpcOpinion.new()`
 
-### Members {#sol::NpcOpinion::@members}
+#### `NpcOpinion.new( int, int, int, int, int )`
 
-#### trust {#sol::NpcOpinion::trust}
+### Members
 
-🇻 Variable --> <code>integer</code>
+#### trust
 
-#### anger {#sol::NpcOpinion::anger}
+Variable of type `int`
 
-🇻 Variable --> <code>integer</code>
+#### fear
 
-#### value {#sol::NpcOpinion::value}
+Variable of type `int`
 
-🇻 Variable --> <code>integer</code>
+#### value
 
-#### fear {#sol::NpcOpinion::fear}
+Variable of type `int`
 
-🇻 Variable --> <code>integer</code>
+#### anger
 
-#### owed {#sol::NpcOpinion::owed}
+Variable of type `int`
 
-🇻 Variable --> <code>integer</code>
+#### owed
 
-## NpcPersonality {#sol::NpcPersonality}
+Variable of type `int`
 
-### Bases {#sol::NpcPersonality::@bases}
+## NpcPersonality
+
+### Bases
 
 No base classes.
 
-### Constructors {#sol::NpcPersonality::@ctors}
+### Constructors
 
-- NpcPersonality.new( )
+#### `NpcPersonality.new()`
 
-### Members {#sol::NpcPersonality::@members}
+### Members
 
-#### aggression {#sol::NpcPersonality::aggression}
+#### aggression
 
-🇻 Variable --> <code>integer</code>
+Variable of type `char`
 
-#### collector {#sol::NpcPersonality::collector}
+#### bravery
 
-🇻 Variable --> <code>integer</code>
+Variable of type `char`
 
-#### bravery {#sol::NpcPersonality::bravery}
+#### collector
 
-🇻 Variable --> <code>integer</code>
+Variable of type `char`
 
-#### altruism {#sol::NpcPersonality::altruism}
+#### altruism
 
-🇻 Variable --> <code>integer</code>
+Variable of type `char`
 
-## Player {#sol::Player}
+## Player
 
-### Bases {#sol::Player::@bases}
+### Bases
 
 - `Character`
 - `Creature`
 
-### Constructors {#sol::Player::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Player::@members}
+### Members
 
 No members.
 
-## Point {#sol::Point}
+## Point
 
-### Bases {#sol::Point::@bases}
-
-No base classes.
-
-### Constructors {#sol::Point::@ctors}
-
-- Point.new( )
-- Point.new( [Point](#sol::Point) )
-- Point.new( int, int )
-
-### Members {#sol::Point::@members}
-
-#### x {#sol::Point::x}
-
-🇻 Variable --> <code>integer</code>
-
-#### y {#sol::Point::y}
-
-🇻 Variable --> <code>integer</code>
-
-#### abs {#sol::Point::abs}
-
-🇲 Method --> <code>( ) -> [Point](#sol::Point)</code>
-
-#### rotate {#sol::Point::rotate}
-
-🇲 Method --> <code>( integer, [Point](#sol::Point) ) -> [Point](#sol::Point)</code>
-
-## PopupInputStr {#sol::PopupInputStr}
-
-### Bases {#sol::PopupInputStr::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::PopupInputStr::@ctors}
+### Constructors
 
-- PopupInputStr.new( )
+#### `Point.new()`
 
-### Members {#sol::PopupInputStr::@members}
+#### `Point.new( Point )`
 
-#### title {#sol::PopupInputStr::title}
+#### `Point.new( int, int )`
 
-🇲 Method --> <code>( string )</code>
+### Members
 
-> `title` is on the left of input field.
+#### x
 
-#### query_str {#sol::PopupInputStr::query_str}
+Variable of type `int`
 
-🇲 Method --> <code>( ) -> string</code>
+#### y
 
-> Returns your input.
+Variable of type `int`
 
-#### desc {#sol::PopupInputStr::desc}
+#### abs
 
-🇲 Method --> <code>( string )</code>
+Function `( Point ) -> Point`
 
-> `desc` is above input field.
+#### rotate
 
-#### query_int {#sol::PopupInputStr::query_int}
+Function `( Point, int, Point ) -> Point`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### serialize
 
-> Returns your input, but allows numbers only.
+Function `( Point, <cppval: 7JsonOut > )`
 
-## QueryPopup {#sol::QueryPopup}
+#### deserialize
 
-### Bases {#sol::QueryPopup::@bases}
+Function `( Point, <cppval: 6JsonIn > )`
 
-No base classes.
+#### __tostring
 
-### Constructors {#sol::QueryPopup::@ctors}
+Function `( Point ) -> string`
 
-- QueryPopup.new( )
+#### __eq
 
-### Members {#sol::QueryPopup::@members}
+Function `( Point, Point ) -> bool`
 
-#### message {#sol::QueryPopup::message}
+#### __lt
 
-🇲 Method --> <code>( any )</code>
+Function `( Point, Point ) -> bool`
 
-#### query {#sol::QueryPopup::query}
+#### __add
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( Point, Point ) -> Point`
 
-> Returns selected action
+#### __sub
 
-#### query_yn {#sol::QueryPopup::query_yn}
+Function `( Point, Point ) -> Point`
 
-🇲 Method --> <code>( ) -> string</code>
+#### __mul
 
-> Returns `YES` or `NO`. If ESC pressed, returns `NO`.
+Function `( Point, int ) -> Point`
 
-#### allow_any_key {#sol::QueryPopup::allow_any_key}
+#### __div
 
-🇲 Method --> <code>( boolean )</code>
+Function `( Point, int ) -> Point`
 
-> Set whether to allow any key
+#### __idiv
 
-#### message_color {#sol::QueryPopup::message_color}
+Function `( Point, int ) -> Point`
 
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
+#### __unm
 
-#### query_ynq {#sol::QueryPopup::query_ynq}
+Function `( Point ) -> Point`
 
-🇲 Method --> <code>( ) -> string</code>
+## PopupInputStr
 
-> Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
-
-## RecipeId {#sol::RecipeId}
-
-### Bases {#sol::RecipeId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::RecipeId::@ctors}
+### Constructors
 
-- RecipeId.new( )
-- RecipeId.new( [RecipeId](#sol::RecipeId) )
-- RecipeId.new( string )
+#### `PopupInputStr.new()`
 
-### Members {#sol::RecipeId::@members}
+### Members
 
-#### NULL_ID {#sol::RecipeId::NULL_ID}
+#### title
 
-🇫 Function --> <code>( ) -> [RecipeId](#sol::RecipeId)</code>
+`title` is on the left of input field.
+Function `( PopupInputStr, string )`
 
-#### obj {#sol::RecipeId::obj}
+#### desc
 
-🇲 Method --> <code>( ) -> [RecipeRaw](#sol::RecipeRaw)</code>
+`desc` is above input field.
+Function `( PopupInputStr, string )`
 
-#### is_valid {#sol::RecipeId::is_valid}
+#### query_str
 
-🇲 Method --> <code>( ) -> boolean</code>
+Returns your input.
+Function `( PopupInputStr ) -> string`
 
-#### str {#sol::RecipeId::str}
+#### query_int
 
-🇲 Method --> <code>( ) -> string</code>
+Returns your input, but allows numbers only.
+Function `( PopupInputStr ) -> int`
 
-#### is_null {#sol::RecipeId::is_null}
+## QueryPopup
 
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::RecipeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## RecipeRaw {#sol::RecipeRaw}
-
-### Bases {#sol::RecipeRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::RecipeRaw::@ctors}
+### Constructors
+
+#### `QueryPopup.new()`
+
+### Members
+
+#### message
+
+Function `( QueryPopup, ... )`
+
+#### message_color
+
+Function `( QueryPopup, Color )`
+
+#### allow_any_key
+
+Set whether to allow any key
+Function `( QueryPopup, bool )`
+
+#### query
+
+Returns selected action
+Function `( QueryPopup ) -> string`
+
+#### query_yn
+
+Returns `YES` or `NO`. If ESC pressed, returns `NO`.
+Function `( QueryPopup ) -> string`
+
+#### query_ynq
+
+Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
+Function `( QueryPopup ) -> string`
+
+## RecipeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `RecipeId.new()`
+
+#### `RecipeId.new( RecipeId )`
+
+#### `RecipeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( RecipeId ) -> RecipeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( RecipeId ) -> bool`
+
+#### is_valid
+
+Function `( RecipeId ) -> bool`
+
+#### str
+
+Function `( RecipeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> RecipeId`
+
+#### __tostring
+
+Function `( RecipeId ) -> string`
+
+#### serialize
+
+Function `( RecipeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( RecipeId, <cppval: 6JsonIn > )`
+
+## RecipeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::RecipeRaw::@members}
+### Members
 
-#### category {#sol::RecipeRaw::category}
+#### category
 
-🇻 Variable --> <code>string</code>
+Variable of type `string`
 
-#### required_skills {#sol::RecipeRaw::required_skills}
+#### subcategory
 
-🇻 Variable --> <code>table<[SkillId](#sol::SkillId), integer></code>
+Variable of type `string`
 
-#### learn_by_disassembly {#sol::RecipeRaw::learn_by_disassembly}
+#### time
 
-🇻 Variable --> <code>table<[SkillId](#sol::SkillId), integer></code>
+Variable of type `int`
 
-#### difficulty {#sol::RecipeRaw::difficulty}
+#### skill_used
 
-🇻 Variable --> <code>integer</code>
+Variable of type `SkillId`
 
-#### booksets {#sol::RecipeRaw::booksets}
+#### difficulty
 
-🇻 Variable --> <code>table<[ItypeId](#sol::ItypeId), integer></code>
+Variable of type `int`
 
-#### time {#sol::RecipeRaw::time}
+#### required_skills
 
-🇻 Variable --> <code>integer</code>
+Variable of type `Map( SkillId, int )`
 
-#### skill_used {#sol::RecipeRaw::skill_used}
+#### learn_by_disassembly
 
-🇻 Variable --> <code>[SkillId](#sol::SkillId)</code>
+Variable of type `Map( SkillId, int )`
 
-#### subcategory {#sol::RecipeRaw::subcategory}
+#### booksets
 
-🇻 Variable --> <code>string</code>
+Variable of type `Map( ItypeId, int )`
 
-#### has_flag {#sol::RecipeRaw::has_flag}
+#### ident
 
-🇲 Method --> <code>( string ) -> boolean</code>
+Function `( RecipeRaw ) -> RecipeId`
 
-#### get_from_skill_used {#sol::RecipeRaw::get_from_skill_used}
+#### result
 
-🇫 Function --> <code>( [SkillId](#sol::SkillId) ) -> [RecipeRaw](#sol::RecipeRaw)[]</code>
+Function `( RecipeRaw ) -> ItypeId`
 
-#### result_name {#sol::RecipeRaw::result_name}
+#### result_name
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( RecipeRaw ) -> string`
 
-#### result {#sol::RecipeRaw::result}
+#### has_flag
 
-🇲 Method --> <code>( ) -> [ItypeId](#sol::ItypeId)</code>
+Function `( RecipeRaw, string ) -> bool`
 
-#### get_from_flag {#sol::RecipeRaw::get_from_flag}
+#### get_from_skill_used
 
-🇫 Function --> <code>( string ) -> [RecipeRaw](#sol::RecipeRaw)[]</code>
+Function `( SkillId ) -> Vector( RecipeRaw )`
 
-#### ident {#sol::RecipeRaw::ident}
+#### get_from_flag
 
-🇲 Method --> <code>( ) -> [RecipeId](#sol::RecipeId)</code>
+Function `( string ) -> Vector( RecipeRaw )`
 
-#### get_all {#sol::RecipeRaw::get_all}
+#### get_all
 
-🇫 Function --> <code>( ) -> [RecipeRaw](#sol::RecipeRaw)[]</code>
+Function `() -> Vector( RecipeRaw )`
 
-## SkillId {#sol::SkillId}
+## SkillId
 
-### Bases {#sol::SkillId::@bases}
-
-No base classes.
-
-### Constructors {#sol::SkillId::@ctors}
-
-- SkillId.new( )
-- SkillId.new( [SkillId](#sol::SkillId) )
-- SkillId.new( string )
-
-### Members {#sol::SkillId::@members}
-
-#### NULL_ID {#sol::SkillId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [SkillId](#sol::SkillId)</code>
-
-#### obj {#sol::SkillId::obj}
-
-🇲 Method --> <code>( ) -> SkillRaw</code>
-
-#### is_valid {#sol::SkillId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::SkillId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::SkillId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::SkillId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## SkillLevel {#sol::SkillLevel}
-
-### Bases {#sol::SkillLevel::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::SkillLevel::@ctors}
+### Constructors
+
+#### `SkillId.new()`
+
+#### `SkillId.new( SkillId )`
+
+#### `SkillId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( SkillId ) -> SkillRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( SkillId ) -> bool`
+
+#### is_valid
+
+Function `( SkillId ) -> bool`
+
+#### str
+
+Function `( SkillId ) -> string`
+
+#### NULL_ID
+
+Function `() -> SkillId`
+
+#### __tostring
+
+Function `( SkillId ) -> string`
+
+#### serialize
+
+Function `( SkillId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( SkillId, <cppval: 6JsonIn > )`
+
+## SkillLevel
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::SkillLevel::@members}
+### Members
 
-#### is_training {#sol::SkillLevel::is_training}
+#### is_training
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( SkillLevel ) -> bool`
 
-#### train {#sol::SkillLevel::train}
+#### level
 
-🇲 Method --> <code>( integer, boolean )</code>
+Function `( SkillLevel ) -> int`
 
-#### highest_level {#sol::SkillLevel::highest_level}
+#### highest_level
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( SkillLevel ) -> int`
 
-#### level {#sol::SkillLevel::level}
+#### train
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( SkillLevel, int, bool )`
 
-#### can_train {#sol::SkillLevel::can_train}
+#### can_train
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( SkillLevel ) -> bool`
 
-## SkillLevelMap {#sol::SkillLevelMap}
+## SkillLevelMap
 
-### Bases {#sol::SkillLevelMap::@bases}
+### Bases
 
-- `Dict( SkillId, SkillLevel )`
+- `Map( SkillId, SkillLevel )`
 
-### Constructors {#sol::SkillLevelMap::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::SkillLevelMap::@members}
+### Members
 
-#### mod_skill_level {#sol::SkillLevelMap::mod_skill_level}
+#### mod_skill_level
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId), integer )</code>
+Function `( SkillLevelMap, SkillId, int )`
 
-#### get_skill_level {#sol::SkillLevelMap::get_skill_level}
+#### get_skill_level
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId) ) -> integer</code>
+Function `( SkillLevelMap, SkillId ) -> int`
 
-#### get_skill_level_object {#sol::SkillLevelMap::get_skill_level_object}
+#### get_skill_level_object
 
-🇲 Method --> <code>( [SkillId](#sol::SkillId) ) -> [SkillLevel](#sol::SkillLevel)</code>
+Function `( SkillLevelMap, SkillId ) -> SkillLevel`
 
-## SpeciesTypeId {#sol::SpeciesTypeId}
+## SpeciesTypeId
 
-### Bases {#sol::SpeciesTypeId::@bases}
-
-No base classes.
-
-### Constructors {#sol::SpeciesTypeId::@ctors}
-
-- SpeciesTypeId.new( )
-- SpeciesTypeId.new( [SpeciesTypeId](#sol::SpeciesTypeId) )
-- SpeciesTypeId.new( string )
-
-### Members {#sol::SpeciesTypeId::@members}
-
-#### NULL_ID {#sol::SpeciesTypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [SpeciesTypeId](#sol::SpeciesTypeId)</code>
-
-#### obj {#sol::SpeciesTypeId::obj}
-
-🇲 Method --> <code>( ) -> SpeciesTypeRaw</code>
-
-#### is_valid {#sol::SpeciesTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::SpeciesTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::SpeciesTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::SpeciesTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## Spell {#sol::Spell}
-
-> The class used for spells that _a player_ knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
-
-### Bases {#sol::Spell::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Spell::@ctors}
+### Constructors
 
-- Spell.new( [SpellTypeId](#sol::SpellTypeId), int )
+#### `SpeciesTypeId.new()`
 
-### Members {#sol::Spell::@members}
+#### `SpeciesTypeId.new( SpeciesTypeId )`
 
-#### id {#sol::Spell::id}
+#### `SpeciesTypeId.new( string )`
 
-🇻 Variable --> <code>[SpellTypeId](#sol::SpellTypeId)</code>
+### Members
 
-#### get_level {#sol::Spell::get_level}
+#### obj
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( SpeciesTypeId ) -> SpeciesTypeRaw`
 
-#### name {#sol::Spell::name}
+#### implements_int_id
 
-🇲 Method --> <code>( ) -> string</code>
+Function `() -> bool`
 
-#### desc {#sol::Spell::desc}
+#### is_null
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( SpeciesTypeId ) -> bool`
 
-#### cast {#sol::Spell::cast}
+#### is_valid
 
-🇲 Method --> <code>( [Creature](#sol::Creature), [Tripoint](#sol::Tripoint) )</code>
+Function `( SpeciesTypeId ) -> bool`
 
-> Cast this spell, as well as any sub-spells.
+#### str
 
-#### set_level {#sol::Spell::set_level}
+Function `( SpeciesTypeId ) -> string`
 
-🇲 Method --> <code>( integer )</code>
+#### NULL_ID
 
-#### set_exp {#sol::Spell::set_exp}
+Function `() -> SpeciesTypeId`
 
-🇲 Method --> <code>( integer )</code>
+#### __tostring
 
-#### gain_levels {#sol::Spell::gain_levels}
+Function `( SpeciesTypeId ) -> string`
 
-🇲 Method --> <code>( integer )</code>
+#### serialize
 
-#### xp {#sol::Spell::xp}
+Function `( SpeciesTypeId, <cppval: 7JsonOut > )`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### deserialize
 
-#### gain_exp {#sol::Spell::gain_exp}
+Function `( SpeciesTypeId, <cppval: 6JsonIn > )`
 
-🇲 Method --> <code>( integer )</code>
+## Spell
 
-#### cast_single_effect {#sol::Spell::cast_single_effect}
+The class used for spells that _a player_ knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
 
-🇲 Method --> <code>( [Creature](#sol::Creature), [Tripoint](#sol::Tripoint) )</code>
-
-> Cast _only_ this spell's main effects. Generally, cast() should be used instead.
-
-## SpellSimple {#sol::SpellSimple}
-
-> The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything _other than_ a player), this is likely the appropriate type. Otherwise, see the Spell type.
-
-### Bases {#sol::SpellSimple::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::SpellSimple::@ctors}
+### Constructors
 
-- SpellSimple.new( [SpellTypeId](#sol::SpellTypeId), bool )
-- SpellSimple.new( [SpellTypeId](#sol::SpellTypeId), bool, int )
+#### `Spell.new( SpellTypeId, int )`
 
-### Members {#sol::SpellSimple::@members}
+### Members
 
-#### level {#sol::SpellSimple::level}
+#### id
 
-🇻 Variable --> <code>integer</code>
+Variable of type `SpellTypeId`
 
-#### trigger_once_in {#sol::SpellSimple::trigger_once_in}
+#### xp
 
-🇻 Variable --> <code>integer</code>
+Function `( Spell ) -> int`
 
-> Used for enchantments; the spell's _chance_ to trigger every turn.
+#### gain_exp
 
-#### id {#sol::SpellSimple::id}
+Function `( Spell, int )`
 
-🇻 Variable --> <code>[SpellTypeId](#sol::SpellTypeId)</code>
+#### set_exp
 
-#### force_target_source {#sol::SpellSimple::force_target_source}
+Function `( Spell, int )`
 
-🇻 Variable --> <code>boolean</code>
+#### gain_levels
 
-> Whether or not the target point is _locked_ to the source's location.
+Function `( Spell, int )`
 
-#### prompt_cast {#sol::SpellSimple::prompt_cast}
+#### set_level
 
-🇫 Function --> <code>( [SpellTypeId](#sol::SpellTypeId), [Tripoint](#sol::Tripoint), integer ) -> [SpellSimple](#sol::SpellSimple)</code>
+Function `( Spell, int )`
 
-> Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
+#### get_level
 
-#### max_level {#sol::SpellSimple::max_level}
+Function `( Spell ) -> int`
 
-🇲 Method --> <code>( ) -> integer</code>
+#### name
 
-> Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
+Function `( Spell ) -> string`
 
-#### cast {#sol::SpellSimple::cast}
+#### desc
 
-🇲 Method --> <code>( [Creature](#sol::Creature), [Tripoint](#sol::Tripoint), integer )</code>
+Function `( Spell ) -> string`
 
-## SpellTypeId {#sol::SpellTypeId}
+#### cast
 
-### Bases {#sol::SpellTypeId::@bases}
+Cast this spell, as well as any sub-spells.
+Function `( Spell, Creature, Tripoint )`
 
-No base classes.
+#### cast_single_effect
 
-### Constructors {#sol::SpellTypeId::@ctors}
+Cast _only_ this spell's main effects. Generally, cast() should be used instead.
+Function `( Spell, Creature, Tripoint )`
 
-- SpellTypeId.new( )
-- SpellTypeId.new( [SpellTypeId](#sol::SpellTypeId) )
-- SpellTypeId.new( string )
+## SpellSimple
 
-### Members {#sol::SpellTypeId::@members}
+The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything _other than_ a player), this is likely the appropriate type. Otherwise, see the Spell type.
 
-#### NULL_ID {#sol::SpellTypeId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [SpellTypeId](#sol::SpellTypeId)</code>
-
-#### obj {#sol::SpellTypeId::obj}
-
-🇲 Method --> <code>( ) -> [SpellTypeRaw](#sol::SpellTypeRaw)</code>
-
-#### is_valid {#sol::SpellTypeId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### str {#sol::SpellTypeId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### is_null {#sol::SpellTypeId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::SpellTypeId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-## SpellTypeRaw {#sol::SpellTypeRaw}
-
-> The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
-
-### Bases {#sol::SpellTypeRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::SpellTypeRaw::@ctors}
+### Constructors
+
+#### `SpellSimple.new( SpellTypeId, bool )`
+
+#### `SpellSimple.new( SpellTypeId, bool, int )`
+
+### Members
+
+#### __tostring
+
+Function `( SpellSimple ) -> string`
+
+#### id
+
+Variable of type `SpellTypeId`
+
+#### max_level
+
+Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
+Function `( SpellSimple ) -> int`
+
+#### level
+
+Variable of type `int`
+
+#### force_target_source
+
+Whether or not the target point is _locked_ to the source's location.
+Variable of type `bool`
+
+#### trigger_once_in
+
+Used for enchantments; the spell's _chance_ to trigger every turn.
+Variable of type `int`
+
+#### cast
+
+Function `( SpellSimple, Creature, Tripoint, Opt( int ) )`
+
+#### prompt_cast
+
+Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
+Function `( SpellTypeId, Tripoint, Opt( int ) ) -> SpellSimple`
+
+## SpellTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `SpellTypeId.new()`
+
+#### `SpellTypeId.new( SpellTypeId )`
+
+#### `SpellTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( SpellTypeId ) -> SpellTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( SpellTypeId ) -> bool`
+
+#### is_valid
+
+Function `( SpellTypeId ) -> bool`
+
+#### str
+
+Function `( SpellTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> SpellTypeId`
+
+#### __tostring
+
+Function `( SpellTypeId ) -> string`
+
+#### serialize
+
+Function `( SpellTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( SpellTypeId, <cppval: 6JsonIn > )`
+
+## SpellTypeRaw
+
+The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::SpellTypeRaw::@members}
+### Members
 
-#### aoe_increment {#sol::SpellTypeRaw::aoe_increment}
+#### __tostring
 
-🇻 Variable --> <code>number</code>
+Function `( SpellTypeRaw ) -> string`
 
-#### max_dot {#sol::SpellTypeRaw::max_dot}
+#### id
 
-🇻 Variable --> <code>integer</code>
+Variable of type `SpellTypeId`
 
-#### min_duration {#sol::SpellTypeRaw::min_duration}
+#### effect_name
 
-🇻 Variable --> <code>integer</code>
+The name of the primary effect this spell will enact.
+Variable of type `string`
 
-#### dot_increment {#sol::SpellTypeRaw::dot_increment}
+#### effect_str
 
-🇻 Variable --> <code>number</code>
+Specifics about the effect this spell will enact.
+Variable of type `string`
 
-#### max_aoe {#sol::SpellTypeRaw::max_aoe}
+#### field_chance
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### min_dot {#sol::SpellTypeRaw::min_dot}
+#### min_field_intensity
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### final_casting_time {#sol::SpellTypeRaw::final_casting_time}
+#### field_intensity_increment
 
-🇻 Variable --> <code>integer</code>
+Variable of type `double`
 
-#### duration_increment {#sol::SpellTypeRaw::duration_increment}
+#### max_field_intensity
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### base_energy_cost {#sol::SpellTypeRaw::base_energy_cost}
+#### field_intensity_variance
 
-🇻 Variable --> <code>integer</code>
+Variable of type `double`
 
-#### max_level {#sol::SpellTypeRaw::max_level}
+#### min_damage
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### max_duration {#sol::SpellTypeRaw::max_duration}
+#### damage_increment
 
-🇻 Variable --> <code>integer</code>
+Variable of type `double`
 
-#### difficulty {#sol::SpellTypeRaw::difficulty}
+#### max_damage
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### energy_increment {#sol::SpellTypeRaw::energy_increment}
+#### min_range
 
-🇻 Variable --> <code>number</code>
+Variable of type `int`
 
-#### final_energy_cost {#sol::SpellTypeRaw::final_energy_cost}
+#### range_increment
 
-🇻 Variable --> <code>integer</code>
+Variable of type `double`
 
-#### base_casting_time {#sol::SpellTypeRaw::base_casting_time}
+#### max_range
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### min_aoe {#sol::SpellTypeRaw::min_aoe}
+#### min_aoe
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### range_increment {#sol::SpellTypeRaw::range_increment}
+#### aoe_increment
 
-🇻 Variable --> <code>number</code>
+Variable of type `double`
 
-#### field_chance {#sol::SpellTypeRaw::field_chance}
+#### max_aoe
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### min_field_intensity {#sol::SpellTypeRaw::min_field_intensity}
+#### min_dot
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### effect_str {#sol::SpellTypeRaw::effect_str}
+#### dot_increment
 
-🇻 Variable --> <code>string</code>
+Variable of type `double`
 
-> Specifics about the effect this spell will enact.
+#### max_dot
 
-#### id {#sol::SpellTypeRaw::id}
+Variable of type `int`
 
-🇻 Variable --> <code>[SpellTypeId](#sol::SpellTypeId)</code>
+#### min_duration
 
-#### effect_name {#sol::SpellTypeRaw::effect_name}
+Variable of type `int`
 
-🇻 Variable --> <code>string</code>
+#### duration_increment
 
-> The name of the primary effect this spell will enact.
+Variable of type `int`
 
-#### max_range {#sol::SpellTypeRaw::max_range}
+#### max_duration
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### field_intensity_increment {#sol::SpellTypeRaw::field_intensity_increment}
+#### base_energy_cost
 
-🇻 Variable --> <code>number</code>
+Variable of type `int`
 
-#### field_intensity_variance {#sol::SpellTypeRaw::field_intensity_variance}
+#### energy_increment
 
-🇻 Variable --> <code>number</code>
+Variable of type `double`
 
-#### min_range {#sol::SpellTypeRaw::min_range}
+#### final_energy_cost
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### max_field_intensity {#sol::SpellTypeRaw::max_field_intensity}
+#### difficulty
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### max_damage {#sol::SpellTypeRaw::max_damage}
+#### max_level
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### min_damage {#sol::SpellTypeRaw::min_damage}
+#### base_casting_time
 
-🇻 Variable --> <code>integer</code>
+Variable of type `int`
 
-#### damage_increment {#sol::SpellTypeRaw::damage_increment}
+#### casting_time_increment
 
-🇻 Variable --> <code>number</code>
+Variable of type `double`
 
-#### casting_time_increment {#sol::SpellTypeRaw::casting_time_increment}
+#### final_casting_time
 
-🇻 Variable --> <code>number</code>
+Variable of type `int`
 
-#### get_all {#sol::SpellTypeRaw::get_all}
+#### additional_spells
 
-🇫 Function --> <code>( ) -> [SpellTypeRaw](#sol::SpellTypeRaw)[]</code>
+Other spells cast by this spell.
+Function `( SpellTypeRaw ) -> Vector( SpellSimple )`
 
-> Returns a (long) list of every spell in the game.
+#### get_all
 
-#### additional_spells {#sol::SpellTypeRaw::additional_spells}
+Returns a (long) list of every spell in the game.
+Function `() -> <cppval: St6vectorI10spell_typeSaIS0_EE >`
 
-🇲 Method --> <code>( ) -> [SpellSimple](#sol::SpellSimple)[]</code>
+## TerId
 
-> Other spells cast by this spell.
-
-## TerId {#sol::TerId}
-
-### Bases {#sol::TerId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::TerId::@ctors}
+### Constructors
 
-- TerId.new( )
-- TerId.new( [TerId](#sol::TerId) )
-- TerId.new( [TerIntId](#sol::TerIntId) )
-- TerId.new( string )
+#### `TerId.new()`
 
-### Members {#sol::TerId::@members}
+#### `TerId.new( TerId )`
 
-#### NULL_ID {#sol::TerId::NULL_ID}
+#### `TerId.new( TerIntId )`
 
-🇫 Function --> <code>( ) -> [TerId](#sol::TerId)</code>
+#### `TerId.new( string )`
 
-#### str {#sol::TerId::str}
+### Members
 
-🇲 Method --> <code>( ) -> string</code>
+#### obj
 
-#### obj {#sol::TerId::obj}
+Function `( TerId ) -> TerRaw`
 
-🇲 Method --> <code>( ) -> [TerRaw](#sol::TerRaw)</code>
+#### int_id
 
-#### is_null {#sol::TerId::is_null}
+Function `( TerId ) -> TerIntId`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### implements_int_id
 
-#### is_valid {#sol::TerId::is_valid}
+Function `() -> bool`
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### is_null
 
-#### implements_int_id {#sol::TerId::implements_int_id}
+Function `( TerId ) -> bool`
 
-🇫 Function --> <code>( ) -> boolean</code>
+#### is_valid
 
-#### int_id {#sol::TerId::int_id}
+Function `( TerId ) -> bool`
 
-🇲 Method --> <code>( ) -> [TerIntId](#sol::TerIntId)</code>
+#### str
 
-## TerIntId {#sol::TerIntId}
+Function `( TerId ) -> string`
 
-### Bases {#sol::TerIntId::@bases}
+#### NULL_ID
 
-No base classes.
+Function `() -> TerId`
 
-### Constructors {#sol::TerIntId::@ctors}
+#### __tostring
 
-- TerIntId.new( )
-- TerIntId.new( [TerIntId](#sol::TerIntId) )
-- TerIntId.new( [TerId](#sol::TerId) )
+Function `( TerId ) -> string`
 
-### Members {#sol::TerIntId::@members}
+#### serialize
 
-#### obj {#sol::TerIntId::obj}
+Function `( TerId, <cppval: 7JsonOut > )`
 
-🇲 Method --> <code>( ) -> [TerRaw](#sol::TerRaw)</code>
+#### deserialize
 
-#### is_valid {#sol::TerIntId::is_valid}
+Function `( TerId, <cppval: 6JsonIn > )`
 
-🇲 Method --> <code>( ) -> boolean</code>
+## TerIntId
 
-#### str_id {#sol::TerIntId::str_id}
-
-🇲 Method --> <code>( ) -> [TerId](#sol::TerId)</code>
-
-## TerRaw {#sol::TerRaw}
-
-### Bases {#sol::TerRaw::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::TerRaw::@ctors}
+### Constructors
+
+#### `TerIntId.new()`
+
+#### `TerIntId.new( TerIntId )`
+
+#### `TerIntId.new( TerId )`
+
+### Members
+
+#### obj
+
+Function `( TerIntId ) -> TerRaw`
+
+#### str_id
+
+Function `( TerIntId ) -> TerId`
+
+#### is_valid
+
+Function `( TerIntId ) -> bool`
+
+#### __tostring
+
+Function `( TerIntId ) -> string`
+
+## TerRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::TerRaw::@members}
+### Members
 
-#### heat_radiation {#sol::TerRaw::heat_radiation}
+#### str_id
 
-🇻 Variable --> <code>integer</code>
+Function `( TerRaw ) -> TerId`
 
-#### close {#sol::TerRaw::close}
+#### int_id
 
-🇻 Variable --> <code>[TerId](#sol::TerId)</code>
+Function `( TerRaw ) -> TerIntId`
 
-#### trap_id_str {#sol::TerRaw::trap_id_str}
+#### name
 
-🇻 Variable --> <code>string</code>
+Function `( TerRaw ) -> string`
 
-#### open {#sol::TerRaw::open}
+#### get_flags
 
-🇻 Variable --> <code>[TerId](#sol::TerId)</code>
+Function `( TerRaw ) -> <cppval: St3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4lessIS5_ESaIS5_EE >`
 
-#### roof {#sol::TerRaw::roof}
+#### has_flag
 
-🇻 Variable --> <code>[TerId](#sol::TerId)</code>
+Function `( TerRaw, string ) -> bool`
 
-#### transforms_into {#sol::TerRaw::transforms_into}
+#### set_flag
 
-🇻 Variable --> <code>[TerId](#sol::TerId)</code>
+Function `( TerRaw, string )`
 
-#### set_coverage {#sol::TerRaw::set_coverage}
+#### get_light_emitted
 
-🇲 Method --> <code>( integer )</code>
+Function `( TerRaw ) -> int`
 
-#### get_max_volume {#sol::TerRaw::get_max_volume}
+#### set_light_emitted
 
-🇲 Method --> <code>( ) -> [Volume](#sol::Volume)</code>
+Function `( TerRaw, int )`
 
-#### set_max_volume {#sol::TerRaw::set_max_volume}
+#### get_movecost
 
-🇲 Method --> <code>( [Volume](#sol::Volume) )</code>
+Function `( TerRaw ) -> int`
 
-#### get_coverage {#sol::TerRaw::get_coverage}
+#### set_movecost
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( TerRaw, int )`
 
-#### set_movecost {#sol::TerRaw::set_movecost}
+#### get_coverage
 
-🇲 Method --> <code>( integer )</code>
+Function `( TerRaw ) -> int`
 
-#### set_light_emitted {#sol::TerRaw::set_light_emitted}
+#### set_coverage
 
-🇲 Method --> <code>( integer )</code>
+Function `( TerRaw, int )`
 
-#### name {#sol::TerRaw::name}
+#### get_max_volume
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( TerRaw ) -> Volume`
 
-#### int_id {#sol::TerRaw::int_id}
+#### set_max_volume
 
-🇲 Method --> <code>( ) -> [TerIntId](#sol::TerIntId)</code>
+Function `( TerRaw, Volume )`
 
-#### get_movecost {#sol::TerRaw::get_movecost}
+#### open
 
-🇲 Method --> <code>( ) -> integer</code>
+Variable of type `TerId`
 
-#### get_flags {#sol::TerRaw::get_flags}
+#### close
 
-🇲 Method --> <code>( ) -> string[]</code>
+Variable of type `TerId`
 
-#### set_flag {#sol::TerRaw::set_flag}
+#### trap_id_str
 
-🇲 Method --> <code>( string )</code>
+Variable of type `string`
 
-#### has_flag {#sol::TerRaw::has_flag}
+#### transforms_into
 
-🇲 Method --> <code>( string ) -> boolean</code>
+Variable of type `TerId`
 
-#### get_light_emitted {#sol::TerRaw::get_light_emitted}
+#### roof
 
-🇲 Method --> <code>( ) -> integer</code>
+Variable of type `TerId`
 
-#### str_id {#sol::TerRaw::str_id}
+#### heat_radiation
 
-🇲 Method --> <code>( ) -> [TerId](#sol::TerId)</code>
+Variable of type `int`
 
-## TimeDuration {#sol::TimeDuration}
+## TimeDuration
 
-> Represent duration between 2 fixed points in time
+Represent duration between 2 fixed points in time
 
-### Bases {#sol::TimeDuration::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::TimeDuration::@ctors}
+### Constructors
 
-- TimeDuration.new( )
+#### `TimeDuration.new()`
 
-### Members {#sol::TimeDuration::@members}
+### Members
 
-#### from_turns {#sol::TimeDuration::from_turns}
+#### from_turns
 
-🇫 Function --> <code>( integer ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( int ) -> TimeDuration`
 
-#### to_seconds {#sol::TimeDuration::to_seconds}
+#### from_seconds
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> TimeDuration`
 
-#### to_turns {#sol::TimeDuration::to_turns}
+#### from_minutes
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> TimeDuration`
 
-#### to_minutes {#sol::TimeDuration::to_minutes}
+#### from_hours
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> TimeDuration`
 
-#### to_weeks {#sol::TimeDuration::to_weeks}
+#### from_days
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> TimeDuration`
 
-#### to_days {#sol::TimeDuration::to_days}
+#### from_weeks
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> TimeDuration`
 
-#### make_random {#sol::TimeDuration::make_random}
+#### make_random
 
-🇲 Method --> <code>( [TimeDuration](#sol::TimeDuration) ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( TimeDuration, TimeDuration ) -> TimeDuration`
 
-#### to_hours {#sol::TimeDuration::to_hours}
+#### to_turns
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( TimeDuration ) -> int`
 
-#### from_days {#sol::TimeDuration::from_days}
+#### to_seconds
 
-🇫 Function --> <code>( integer ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( TimeDuration ) -> int`
 
-#### from_minutes {#sol::TimeDuration::from_minutes}
+#### to_minutes
 
-🇫 Function --> <code>( integer ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( TimeDuration ) -> int`
 
-#### from_seconds {#sol::TimeDuration::from_seconds}
+#### to_hours
 
-🇫 Function --> <code>( integer ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( TimeDuration ) -> int`
 
-#### from_weeks {#sol::TimeDuration::from_weeks}
+#### to_days
 
-🇫 Function --> <code>( integer ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( TimeDuration ) -> int`
 
-#### from_hours {#sol::TimeDuration::from_hours}
+#### to_weeks
 
-🇫 Function --> <code>( integer ) -> [TimeDuration](#sol::TimeDuration)</code>
+Function `( TimeDuration ) -> int`
 
-## TimePoint {#sol::TimePoint}
+#### serialize
 
-> Library for dealing with time primitives.\
-> Represent fixed point in time
+Function `( TimeDuration, <cppval: 7JsonOut > )`
 
-### Bases {#sol::TimePoint::@bases}
+#### deserialize
+
+Function `( TimeDuration, <cppval: 6JsonIn > )`
+
+#### __tostring
+
+Function `( TimeDuration ) -> string`
+
+#### __add
+
+Function `( TimeDuration, TimeDuration ) -> TimeDuration`
+
+#### __sub
+
+Function `( TimeDuration, TimeDuration ) -> TimeDuration`
+
+#### __mul
+
+Function `( TimeDuration, int ) -> TimeDuration`
+
+#### __div
+
+Function `( TimeDuration, int ) -> TimeDuration`
+
+#### __unm
+
+Function `( TimeDuration ) -> TimeDuration`
+
+## TimePoint
+
+Represent fixed point in time
+
+### Bases
 
 No base classes.
 
-### Constructors {#sol::TimePoint::@ctors}
+### Constructors
 
-- TimePoint.new( )
+#### `TimePoint.new()`
 
-### Members {#sol::TimePoint::@members}
+### Members
 
-#### from_turn {#sol::TimePoint::from_turn}
+#### from_turn
 
-🇫 Function --> <code>( integer ) -> [TimePoint](#sol::TimePoint)</code>
+Function `( int ) -> TimePoint`
 
-#### second_of_minute {#sol::TimePoint::second_of_minute}
+#### to_turn
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( TimePoint ) -> int`
 
-#### minute_of_hour {#sol::TimePoint::minute_of_hour}
+#### is_night
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( TimePoint ) -> bool`
 
-#### to_string_time_of_day {#sol::TimePoint::to_string_time_of_day}
+#### is_day
 
-🇲 Method --> <code>( ) -> string</code>
+Function `( TimePoint ) -> bool`
 
-#### is_dawn {#sol::TimePoint::is_dawn}
+#### is_dusk
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( TimePoint ) -> bool`
 
-#### hour_of_day {#sol::TimePoint::hour_of_day}
+#### is_dawn
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( TimePoint ) -> bool`
 
-#### is_day {#sol::TimePoint::is_day}
+#### second_of_minute
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( TimePoint ) -> int`
 
-#### is_dusk {#sol::TimePoint::is_dusk}
+#### minute_of_hour
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( TimePoint ) -> int`
 
-#### to_turn {#sol::TimePoint::to_turn}
+#### hour_of_day
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( TimePoint ) -> int`
 
-#### is_night {#sol::TimePoint::is_night}
+#### serialize
 
-🇲 Method --> <code>( ) -> boolean</code>
+Function `( TimePoint, <cppval: 7JsonOut > )`
 
-## Tinymap {#sol::Tinymap}
+#### deserialize
 
-### Bases {#sol::Tinymap::@bases}
+Function `( TimePoint, <cppval: 6JsonIn > )`
+
+#### to_string_time_of_day
+
+Function `( TimePoint ) -> string`
+
+#### __tostring
+
+Function `( TimePoint ) -> string`
+
+#### __eq
+
+Function `( TimePoint, TimePoint ) -> bool`
+
+#### __lt
+
+Function `( TimePoint, TimePoint ) -> bool`
+
+#### __add
+
+Function `( TimePoint, TimeDuration ) -> TimePoint`
+
+#### __sub
+
+Function `( TimePoint, TimePoint ) -> TimeDuration`
+Function `( TimePoint, TimeDuration ) -> TimePoint`
+
+## Tinymap
+
+### Bases
 
 - `Map`
 
-### Constructors {#sol::Tinymap::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Tinymap::@members}
+### Members
 
 No members.
 
-## TrapId {#sol::TrapId}
+## TrapId
 
-### Bases {#sol::TrapId::@bases}
-
-No base classes.
-
-### Constructors {#sol::TrapId::@ctors}
-
-- TrapId.new( )
-- TrapId.new( [TrapId](#sol::TrapId) )
-- TrapId.new( [TrapIntId](#sol::TrapIntId) )
-- TrapId.new( string )
-
-### Members {#sol::TrapId::@members}
-
-#### NULL_ID {#sol::TrapId::NULL_ID}
-
-🇫 Function --> <code>( ) -> [TrapId](#sol::TrapId)</code>
-
-#### str {#sol::TrapId::str}
-
-🇲 Method --> <code>( ) -> string</code>
-
-#### obj {#sol::TrapId::obj}
-
-🇲 Method --> <code>( ) -> TrapRaw</code>
-
-#### is_null {#sol::TrapId::is_null}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_valid {#sol::TrapId::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### implements_int_id {#sol::TrapId::implements_int_id}
-
-🇫 Function --> <code>( ) -> boolean</code>
-
-#### int_id {#sol::TrapId::int_id}
-
-🇲 Method --> <code>( ) -> [TrapIntId](#sol::TrapIntId)</code>
-
-## TrapIntId {#sol::TrapIntId}
-
-### Bases {#sol::TrapIntId::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::TrapIntId::@ctors}
+### Constructors
 
-- TrapIntId.new( )
-- TrapIntId.new( [TrapIntId](#sol::TrapIntId) )
-- TrapIntId.new( [TrapId](#sol::TrapId) )
+#### `TrapId.new()`
 
-### Members {#sol::TrapIntId::@members}
+#### `TrapId.new( TrapId )`
 
-#### obj {#sol::TrapIntId::obj}
+#### `TrapId.new( TrapIntId )`
 
-🇲 Method --> <code>( ) -> TrapRaw</code>
+#### `TrapId.new( string )`
 
-#### is_valid {#sol::TrapIntId::is_valid}
+### Members
 
-🇲 Method --> <code>( ) -> boolean</code>
+#### obj
 
-#### str_id {#sol::TrapIntId::str_id}
+Function `( TrapId ) -> TrapRaw`
 
-🇲 Method --> <code>( ) -> [TrapId](#sol::TrapId)</code>
+#### int_id
 
-## Tripoint {#sol::Tripoint}
+Function `( TrapId ) -> TrapIntId`
 
-### Bases {#sol::Tripoint::@bases}
+#### implements_int_id
 
-No base classes.
+Function `() -> bool`
 
-### Constructors {#sol::Tripoint::@ctors}
+#### is_null
 
-- Tripoint.new( )
-- Tripoint.new( [Point](#sol::Point), int )
-- Tripoint.new( [Tripoint](#sol::Tripoint) )
-- Tripoint.new( int, int, int )
+Function `( TrapId ) -> bool`
 
-### Members {#sol::Tripoint::@members}
+#### is_valid
 
-#### x {#sol::Tripoint::x}
+Function `( TrapId ) -> bool`
 
-🇻 Variable --> <code>integer</code>
+#### str
 
-#### z {#sol::Tripoint::z}
+Function `( TrapId ) -> string`
 
-🇻 Variable --> <code>integer</code>
+#### NULL_ID
 
-#### y {#sol::Tripoint::y}
+Function `() -> TrapId`
 
-🇻 Variable --> <code>integer</code>
+#### __tostring
 
-#### xy {#sol::Tripoint::xy}
+Function `( TrapId ) -> string`
 
-🇲 Method --> <code>( ) -> [Point](#sol::Point)</code>
+#### serialize
 
-#### rotate_2d {#sol::Tripoint::rotate_2d}
+Function `( TrapId, <cppval: 7JsonOut > )`
 
-🇲 Method --> <code>( integer, [Point](#sol::Point) ) -> [Tripoint](#sol::Tripoint)</code>
+#### deserialize
 
-#### abs {#sol::Tripoint::abs}
+Function `( TrapId, <cppval: 6JsonIn > )`
 
-🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
+## TrapIntId
 
-## UiList {#sol::UiList}
-
-### Bases {#sol::UiList::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::UiList::@ctors}
+### Constructors
 
-- UiList.new( )
+#### `TrapIntId.new()`
 
-### Members {#sol::UiList::@members}
+#### `TrapIntId.new( TrapIntId )`
 
-#### entries {#sol::UiList::entries}
+#### `TrapIntId.new( TrapId )`
 
-🇻 Variable --> <code>[UiListEntry](#sol::UiListEntry)[]</code>
+### Members
 
-> Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
+#### obj
 
-#### border_color {#sol::UiList::border_color}
+Function `( TrapIntId ) -> TrapRaw`
 
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
+#### str_id
 
-> Changes the color. Default color is `c_magenta`.
+Function `( TrapIntId ) -> TrapId`
 
-#### title {#sol::UiList::title}
+#### is_valid
 
-🇲 Method --> <code>( string )</code>
+Function `( TrapIntId ) -> bool`
 
-> Sets title which is on the top line.
+#### __tostring
 
-#### text_color {#sol::UiList::text_color}
+Function `( TrapIntId ) -> string`
 
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
+## Tripoint
 
-> Changes the color. Default color is `c_light_gray`.
-
-#### hilight_color {#sol::UiList::hilight_color}
-
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
-
-> Changes the color. Default color is `h_white`.
-
-#### title_color {#sol::UiList::title_color}
-
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
-
-> Changes the color. Default color is `c_green`.
-
-#### hotkey_color {#sol::UiList::hotkey_color}
-
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
-
-> Changes the color. Default color is `c_light_green`.
-
-#### add_w_col {#sol::UiList::add_w_col}
-
-🇲 Method --> <code>( integer, string, string, string )</code>
-
-> Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
-
-#### add {#sol::UiList::add}
-
-🇲 Method --> <code>( integer, string )</code>
-
-> Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
-
-#### text {#sol::UiList::text}
-
-🇲 Method --> <code>( string )</code>
-
-> Sets text which is in upper box.
-
-#### add_w_desc {#sol::UiList::add_w_desc}
-
-🇲 Method --> <code>( integer, string, string )</code>
-
-> Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
-
-#### footer {#sol::UiList::footer}
-
-🇲 Method --> <code>( string )</code>
-
-> Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
-
-#### desc_enabled {#sol::UiList::desc_enabled}
-
-🇲 Method --> <code>( boolean )</code>
-
-> Puts a lower box. Footer or entry desc appears on it.
-
-#### query {#sol::UiList::query}
-
-🇲 Method --> <code>( ) -> integer</code>
-
-> Returns retval for selected entry, or a negative number on fail/cancel
-
-## UiListEntry {#sol::UiListEntry}
-
-> This type came from UiList.
-
-### Bases {#sol::UiListEntry::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::UiListEntry::@ctors}
+### Constructors
+
+#### `Tripoint.new()`
+
+#### `Tripoint.new( Point, int )`
+
+#### `Tripoint.new( Tripoint )`
+
+#### `Tripoint.new( int, int, int )`
+
+### Members
+
+#### x
+
+Variable of type `int`
+
+#### y
+
+Variable of type `int`
+
+#### z
+
+Variable of type `int`
+
+#### abs
+
+Function `( Tripoint ) -> Tripoint`
+
+#### xy
+
+Function `( Tripoint ) -> Point`
+
+#### rotate_2d
+
+Function `( Tripoint, int, Point ) -> Tripoint`
+
+#### serialize
+
+Function `( Tripoint, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( Tripoint, <cppval: 6JsonIn > )`
+
+#### __tostring
+
+Function `( Tripoint ) -> string`
+
+#### __eq
+
+Function `( Tripoint, Tripoint ) -> bool`
+
+#### __lt
+
+Function `( Tripoint, Tripoint ) -> bool`
+
+#### __add
+
+Function `( Tripoint, Tripoint ) -> Tripoint`
+Function `( Tripoint, Point ) -> Tripoint`
+
+#### __sub
+
+Function `( Tripoint, Tripoint ) -> Tripoint`
+Function `( Tripoint, Point ) -> Tripoint`
+
+#### __mul
+
+Function `( Tripoint, int ) -> Tripoint`
+
+#### __div
+
+Function `( Tripoint, int ) -> Tripoint`
+
+#### __idiv
+
+Function `( Tripoint, int ) -> Tripoint`
+
+#### __unm
+
+Function `( Tripoint ) -> Tripoint`
+
+## UiList
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `UiList.new()`
+
+### Members
+
+#### title
+
+Sets title which is on the top line.
+Function `( UiList, string )`
+
+#### text
+
+Sets text which is in upper box.
+Function `( UiList, string )`
+
+#### footer
+
+Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
+Function `( UiList, string )`
+
+#### desc_enabled
+
+Puts a lower box. Footer or entry desc appears on it.
+Function `( UiList, bool )`
+
+#### add
+
+Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
+Function `( UiList, int, string )`
+
+#### add_w_desc
+
+Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
+Function `( UiList, int, string, string )`
+
+#### add_w_col
+
+Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
+Function `( UiList, int, string, string, string )`
+
+#### entries
+
+Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
+Variable of type `Vector( UiListEntry )`
+
+#### border_color
+
+Changes the color. Default color is `c_magenta`.
+Function `( UiList, Color )`
+
+#### text_color
+
+Changes the color. Default color is `c_light_gray`.
+Function `( UiList, Color )`
+
+#### title_color
+
+Changes the color. Default color is `c_green`.
+Function `( UiList, Color )`
+
+#### hilight_color
+
+Changes the color. Default color is `h_white`.
+Function `( UiList, Color )`
+
+#### hotkey_color
+
+Changes the color. Default color is `c_light_green`.
+Function `( UiList, Color )`
+
+#### query
+
+Returns retval for selected entry, or a negative number on fail/cancel
+Function `( UiList ) -> int`
+
+## UiListEntry
+
+This type came from UiList.
+
+### Bases
+
+No base classes.
+
+### Constructors
 
 No constructors.
 
-### Members {#sol::UiListEntry::@members}
+### Members
 
-#### enable {#sol::UiListEntry::enable}
+#### enable
 
-🇻 Variable --> <code>boolean</code>
+Entry whether it's enabled or not. Default is `true`.
+Variable of type `bool`
 
-> Entry whether it's enabled or not. Default is `true`.
+#### txt
 
-#### ctxt {#sol::UiListEntry::ctxt}
+Entry text
+Variable of type `string`
 
-🇻 Variable --> <code>string</code>
+#### desc
 
-> Entry text of column.
+Entry description
+Variable of type `string`
 
-#### desc {#sol::UiListEntry::desc}
+#### ctxt
 
-🇻 Variable --> <code>string</code>
+Entry text of column.
+Variable of type `string`
 
-> Entry description
+#### txt_color
 
-#### txt {#sol::UiListEntry::txt}
+Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+Function `( UiListEntry, Color )`
 
-🇻 Variable --> <code>string</code>
+## Volume
 
-> Entry text
-
-#### txt_color {#sol::UiListEntry::txt_color}
-
-🇲 Method --> <code>( [Color](#sol::Color) )</code>
-
-> Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
-
-## Volume {#sol::Volume}
-
-### Bases {#sol::Volume::@bases}
+### Bases
 
 No base classes.
 
-### Constructors {#sol::Volume::@ctors}
+### Constructors
 
 No constructors.
 
-### Members {#sol::Volume::@members}
+### Members
 
-#### from_milliliter {#sol::Volume::from_milliliter}
+#### from_milliliter
 
-🇫 Function --> <code>( integer ) -> [Volume](#sol::Volume)</code>
+Function `( int ) -> Volume`
 
-#### to_milliliter {#sol::Volume::to_milliliter}
+#### from_liter
 
-🇲 Method --> <code>( ) -> integer</code>
+Function `( int ) -> Volume`
 
-#### to_liter {#sol::Volume::to_liter}
+#### to_milliliter
 
-🇲 Method --> <code>( ) -> number</code>
+Function `( Volume ) -> int`
 
-#### from_liter {#sol::Volume::from_liter}
+#### to_liter
 
-🇫 Function --> <code>( integer ) -> [Volume](#sol::Volume)</code>
+Function `( Volume ) -> double`
+
+#### __eq
+
+Function `( Volume, Volume ) -> bool`
+
+#### __lt
+
+Function `( Volume, Volume ) -> bool`
+
+#### __le
+
+Function `( Volume, Volume ) -> bool`
 
 # Enums
 
-## AddictionType {#sol::AddictionType}
+## AddictionType
 
 ### Entries
 
@@ -5984,7 +6414,7 @@ No constructors.
 - `MARLOSS_B` = `12`
 - `MARLOSS_Y` = `13`
 
-## Attitude {#sol::Attitude}
+## Attitude
 
 ### Entries
 
@@ -5993,7 +6423,7 @@ No constructors.
 - `Friendly` = `2`
 - `Any` = `3`
 
-## BodyPart {#sol::BodyPart}
+## BodyPart
 
 ### Entries
 
@@ -6010,7 +6440,7 @@ No constructors.
 - `FOOT_L` = `10`
 - `FOOT_R` = `11`
 
-## CharacterMoveMode {#sol::CharacterMoveMode}
+## CharacterMoveMode
 
 ### Entries
 
@@ -6018,7 +6448,7 @@ No constructors.
 - `run` = `1`
 - `crouch` = `2`
 
-## Color {#sol::Color}
+## Color
 
 ### Entries
 
@@ -6168,7 +6598,7 @@ No constructors.
 - `c_cyan_cyan` = `143`
 - `c_light_cyan_cyan` = `144`
 
-## DamageType {#sol::DamageType}
+## DamageType
 
 ### Entries
 
@@ -6187,7 +6617,7 @@ No constructors.
 - `DT_ELECTRIC` = `12`
 - `DT_BULLET` = `13`
 
-## MissionGoal {#sol::MissionGoal}
+## MissionGoal
 
 ### Entries
 
@@ -6209,7 +6639,7 @@ No constructors.
 - `MGOAL_TALK_TO_NPC` = `15`
 - `MGOAL_CONDITION` = `16`
 
-## MissionOrigin {#sol::MissionOrigin}
+## MissionOrigin
 
 ### Entries
 
@@ -6220,7 +6650,7 @@ No constructors.
 - `ORIGIN_SECONDARY` = `4`
 - `ORIGIN_COMPUTER` = `5`
 
-## MonsterAttitude {#sol::MonsterAttitude}
+## MonsterAttitude
 
 ### Entries
 
@@ -6232,8 +6662,9 @@ No constructors.
 - `MATT_FOLLOW` = `5`
 - `MATT_ATTACK` = `6`
 - `MATT_ZLAVE` = `7`
+- `MATT_UNKNOWN` = `8`
 
-## MonsterFactionAttitude {#sol::MonsterFactionAttitude}
+## MonsterFactionAttitude
 
 ### Entries
 
@@ -6242,7 +6673,7 @@ No constructors.
 - `Friendly` = `2`
 - `Hate` = `3`
 
-## MonsterFlag {#sol::MonsterFlag}
+## MonsterFlag
 
 ### Entries
 
@@ -6374,7 +6805,7 @@ No constructors.
 - `PROJECTILE_RESISTANT_4` = `125`
 - `VOLATILE` = `126`
 
-## MonsterSize {#sol::MonsterSize}
+## MonsterSize
 
 ### Entries
 
@@ -6384,7 +6815,7 @@ No constructors.
 - `LARGE` = `3`
 - `HUGE` = `4`
 
-## MsgType {#sol::MsgType}
+## MsgType
 
 ### Entries
 
@@ -6399,7 +6830,7 @@ No constructors.
 - `critical` = `8`
 - `grazing` = `9`
 
-## NpcAttitude {#sol::NpcAttitude}
+## NpcAttitude
 
 ### Entries
 
@@ -6423,7 +6854,7 @@ No constructors.
 - `NPCATT_FLEE_TEMP` = `17`
 - `NPCATT_RECOVER_GOODS` = `18`
 
-## NpcNeed {#sol::NpcNeed}
+## NpcNeed
 
 ### Entries
 
@@ -6435,7 +6866,7 @@ No constructors.
 - `need_drink` = `5`
 - `need_safety` = `6`
 
-## SfxChannel {#sol::SfxChannel}
+## SfxChannel
 
 ### Entries
 
@@ -6467,349 +6898,331 @@ No constructors.
 
 # Libraries
 
-## const {#sol::const}
+## const
 
 Various game constants
 
 ### Members
 
-#### OM_OMT_SIZE {#sol::nil::OM_OMT_SIZE}
+#### OM_OMT_SIZE
 
-🇨 Constant --> <code>integer</code> = `180`
+Variable of type `int` value: `180`
 
-#### OMT_SM_SIZE {#sol::nil::OMT_SM_SIZE}
+#### OM_SM_SIZE
 
-🇨 Constant --> <code>integer</code> = `2`
+Variable of type `int` value: `360`
 
-#### OMT_MS_SIZE {#sol::nil::OMT_MS_SIZE}
+#### OM_MS_SIZE
 
-🇨 Constant --> <code>integer</code> = `24`
+Variable of type `int` value: `4320`
 
-#### OM_MS_SIZE {#sol::nil::OM_MS_SIZE}
+#### OMT_SM_SIZE
 
-🇨 Constant --> <code>integer</code> = `4320`
+Variable of type `int` value: `2`
 
-#### OM_SM_SIZE {#sol::nil::OM_SM_SIZE}
+#### OMT_MS_SIZE
 
-🇨 Constant --> <code>integer</code> = `360`
+Variable of type `int` value: `24`
 
-#### SM_MS_SIZE {#sol::nil::SM_MS_SIZE}
+#### SM_MS_SIZE
 
-🇨 Constant --> <code>integer</code> = `12`
+Variable of type `int` value: `12`
 
-## coords {#sol::coords}
+## coords
 
 Methods for manipulating coord systems and calculating distance
 
 ### Members
 
-#### ms_to_sm {#sol::nil::ms_to_sm}
+#### ms_to_sm
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint) ) -> ([Tripoint](#sol::Tripoint),[Point](#sol::Point))</code>
+Function `( Tripoint ) -> ( Tripoint, Point )`
 
-#### om_to_ms {#sol::nil::om_to_ms}
+#### ms_to_omt
 
-🇫 Function --> <code>( [Point](#sol::Point), [Tripoint](#sol::Tripoint) ) -> [Tripoint](#sol::Tripoint)</code>
+Function `( Tripoint ) -> ( Tripoint, Point )`
 
-#### rl_dist {#sol::nil::rl_dist}
+#### ms_to_om
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), [Tripoint](#sol::Tripoint) ) -> integer</code>\
-🇫 Function --> <code>( [Point](#sol::Point), [Point](#sol::Point) ) -> integer</code>
+Function `( Tripoint ) -> ( Point, Tripoint )`
 
-#### trig_dist {#sol::nil::trig_dist}
+#### sm_to_ms
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), [Tripoint](#sol::Tripoint) ) -> number</code>\
-🇫 Function --> <code>( [Point](#sol::Point), [Point](#sol::Point) ) -> number</code>
+Function `( Tripoint, Opt( Point ) ) -> Tripoint`
 
-#### omt_to_ms {#sol::nil::omt_to_ms}
+#### omt_to_ms
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), [Point](#sol::Point) ) -> [Tripoint](#sol::Tripoint)</code>
+Function `( Tripoint, Opt( Point ) ) -> Tripoint`
 
-#### ms_to_om {#sol::nil::ms_to_om}
+#### om_to_ms
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint) ) -> ([Point](#sol::Point),[Tripoint](#sol::Tripoint))</code>
+Function `( Point, Opt( Tripoint ) ) -> Tripoint`
 
-#### sm_to_ms {#sol::nil::sm_to_ms}
+#### rl_dist
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), [Point](#sol::Point) ) -> [Tripoint](#sol::Tripoint)</code>
+Function `( Tripoint, Tripoint ) -> int`
+Function `( Point, Point ) -> int`
 
-#### ms_to_omt {#sol::nil::ms_to_omt}
+#### trig_dist
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint) ) -> ([Tripoint](#sol::Tripoint),[Point](#sol::Point))</code>
+Function `( Tripoint, Tripoint ) -> double`
+Function `( Point, Point ) -> double`
 
-#### square_dist {#sol::nil::square_dist}
+#### square_dist
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), [Tripoint](#sol::Tripoint) ) -> integer</code>\
-🇫 Function --> <code>( [Point](#sol::Point), [Point](#sol::Point) ) -> integer</code>
+Function `( Tripoint, Tripoint ) -> int`
+Function `( Point, Point ) -> int`
 
-## gapi {#sol::gapi}
+## gapi
 
 Global game methods
 
 ### Members
 
-#### get_avatar {#sol::nil::get_avatar}
+#### get_avatar
 
-🇫 Function --> <code>( ) -> [Avatar](#sol::Avatar)</code>
+Function `() -> Avatar`
 
-#### get_character_at {#sol::nil::get_character_at}
+#### get_map
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), boolean ) -> [Character](#sol::Character)</code>
+Function `() -> Map`
 
-#### get_npc_at {#sol::nil::get_npc_at}
+#### get_distribution_grid_tracker
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), boolean ) -> [Npc](#sol::Npc)</code>
+Function `() -> DistributionGridTracker`
 
-#### place_monster_around {#sol::nil::place_monster_around}
+#### add_msg
 
-🇫 Function --> <code>( [MtypeId](#sol::MtypeId), [Tripoint](#sol::Tripoint), integer ) -> [Monster](#sol::Monster)</code>
+Function `( MsgType, ... )`
+Function `( ... )`
 
-#### place_monster_at {#sol::nil::place_monster_at}
+#### place_player_overmap_at
 
-🇫 Function --> <code>( [MtypeId](#sol::MtypeId), [Tripoint](#sol::Tripoint) ) -> [Monster](#sol::Monster)</code>
+Teleports player to absolute coordinate in overmap
+Function `( Tripoint )`
 
-#### get_monster_at {#sol::nil::get_monster_at}
+#### place_player_local_at
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), boolean ) -> [Monster](#sol::Monster)</code>
+Teleports player to local coordinates within active map
+Function `( Tripoint )`
 
-#### choose_adjacent {#sol::nil::choose_adjacent}
+#### current_turn
 
-🇫 Function --> <code>( string, boolean ) -> [Tripoint](#sol::Tripoint)</code>
+Function `() -> TimePoint`
 
-#### look_around {#sol::nil::look_around}
+#### turn_zero
 
-🇫 Function --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
+Function `() -> TimePoint`
 
-#### choose_direction {#sol::nil::choose_direction}
+#### before_time_starts
 
-🇫 Function --> <code>( string, boolean ) -> [Tripoint](#sol::Tripoint)</code>
+Function `() -> TimePoint`
 
-#### play_ambient_variant_sound {#sol::nil::play_ambient_variant_sound}
+#### rng
 
-🇫 Function --> <code>( string, string, integer, [SfxChannel](#sol::SfxChannel), integer, number, integer )</code>
+Function `( int, int ) -> int`
 
-#### play_variant_sound {#sol::nil::play_variant_sound}
+#### add_on_every_x_hook
 
-🇫 Function --> <code>( string, string, integer )</code>\
-🇫 Function --> <code>( string, string, integer, [Angle](#sol::Angle), number, number )</code>
+Function `( TimeDuration, function )`
 
-#### add_npc_follower {#sol::nil::add_npc_follower}
+#### create_item
 
-🇫 Function --> <code>( [Npc](#sol::Npc) )</code>
+Function `( ItypeId, int ) -> <cppval: St10unique_ptrI4itemSt14default_deleteIS0_EE >`
 
-#### get_creature_at {#sol::nil::get_creature_at}
+#### get_creature_at
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint), boolean ) -> [Creature](#sol::Creature)</code>
+Function `( Tripoint, Opt( bool ) ) -> Creature`
 
-#### add_on_every_x_hook {#sol::nil::add_on_every_x_hook}
+#### get_monster_at
 
-🇫 Function --> <code>( [TimeDuration](#sol::TimeDuration), function )</code>
+Function `( Tripoint, Opt( bool ) ) -> Monster`
 
-#### add_msg {#sol::nil::add_msg}
+#### place_monster_at
 
-🇫 Function --> <code>( [MsgType](#sol::MsgType), any )</code>\
-🇫 Function --> <code>( any )</code>
+Function `( MtypeId, Tripoint ) -> Monster`
 
-#### place_player_overmap_at {#sol::nil::place_player_overmap_at}
+#### place_monster_around
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint) )</code>
+Function `( MtypeId, Tripoint, int ) -> Monster`
 
-> Teleports player to absolute coordinate in overmap
+#### get_character_at
 
-#### get_distribution_grid_tracker {#sol::nil::get_distribution_grid_tracker}
+Function `( Tripoint, Opt( bool ) ) -> Character`
 
-🇫 Function --> <code>( ) -> [DistributionGridTracker](#sol::DistributionGridTracker)</code>
+#### get_npc_at
 
-#### get_map {#sol::nil::get_map}
+Function `( Tripoint, Opt( bool ) ) -> Npc`
 
-🇫 Function --> <code>( ) -> [Map](#sol::Map)</code>
+#### choose_adjacent
 
-#### create_item {#sol::nil::create_item}
+Function `( string, Opt( bool ) ) -> Opt( Tripoint )`
 
-🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> CppVal&lt;std_unique_ptr&lt;item&gt;&gt;</code>
+#### choose_direction
 
-#### place_player_local_at {#sol::nil::place_player_local_at}
+Function `( string, Opt( bool ) ) -> Opt( Tripoint )`
 
-🇫 Function --> <code>( [Tripoint](#sol::Tripoint) )</code>
+#### look_around
 
-> Teleports player to local coordinates within active map
+Function `() -> Opt( Tripoint )`
 
-#### turn_zero {#sol::nil::turn_zero}
+#### play_variant_sound
 
-🇫 Function --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+Function `( string, string, int )`
+Function `( string, string, int, Angle, double, double )`
 
-#### current_turn {#sol::nil::current_turn}
+#### play_ambient_variant_sound
 
-🇫 Function --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+Function `( string, string, int, SfxChannel, int, double, int )`
 
-#### rng {#sol::nil::rng}
+#### add_npc_follower
 
-🇫 Function --> <code>( integer, integer ) -> integer</code>
+Function `( Npc )`
 
-#### before_time_starts {#sol::nil::before_time_starts}
+#### remove_npc_follower
 
-🇫 Function --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+Function `( Npc )`
 
-#### remove_npc_follower {#sol::nil::remove_npc_follower}
-
-🇫 Function --> <code>( [Npc](#sol::Npc) )</code>
-
-## gdebug {#sol::gdebug}
+## gdebug
 
 Debugging and logging API.
 
 ### Members
 
-#### log_info {#sol::nil::log_info}
+#### log_info
 
-🇫 Function --> <code>( any )</code>
+Function `( ... )`
 
-#### clear_lua_log {#sol::nil::clear_lua_log}
+#### log_warn
 
-🇫 Function --> <code>( )</code>
+Function `( ... )`
 
-#### set_log_capacity {#sol::nil::set_log_capacity}
+#### log_error
 
-🇫 Function --> <code>( integer )</code>
+Function `( ... )`
 
-#### reload_lua_code {#sol::nil::reload_lua_code}
+#### debugmsg
 
-🇫 Function --> <code>( )</code>
+Function `( ... )`
 
-#### debugmsg {#sol::nil::debugmsg}
+#### clear_lua_log
 
-🇫 Function --> <code>( any )</code>
+Function `()`
 
-#### log_warn {#sol::nil::log_warn}
+#### set_log_capacity
 
-🇫 Function --> <code>( any )</code>
+Function `( int )`
 
-#### log_error {#sol::nil::log_error}
+#### reload_lua_code
 
-🇫 Function --> <code>( any )</code>
+Function `()`
 
-#### save_game {#sol::nil::save_game}
+#### save_game
 
-🇫 Function --> <code>( ) -> boolean</code>
+Function `() -> bool`
 
-## hooks {#sol::hooks}
+## hooks
 
 Documentation for hooks
 
 ### Members
 
-#### on_game_save {#sol::nil::on_game_save}
+#### on_game_save
 
-🇫 Function --> <code>( )</code>
+Called when game is about to save
+Function `()`
 
-> Called when game is about to save
+#### on_game_load
 
-#### on_character_reset_stats {#sol::nil::on_character_reset_stats}
+Called right after game has loaded
+Function `()`
 
-🇫 Function --> <code>( )</code>
+#### on_game_started
 
-> Called when character stat gets reset
+Called when the game has first started
+Function `()`
 
-#### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
+#### on_creature_dodged
 
-🇫 Function --> <code>( )</code>
+Called when a character successfully dodges
+Function `()`
 
-> Called after a character has attacked in melee
+#### on_creature_blocked
 
-#### on_char_death {#sol::nil::on_char_death}
+Called when a character successfully blocks
+Function `()`
 
-🇫 Function --> <code>( )</code>
+#### on_creature_performed_technique
 
-> Called when a character is dead
+Called when a character has performed technique
+Function `()`
 
-#### on_mon_death {#sol::nil::on_mon_death}
+#### on_creature_melee_attacked
 
-🇫 Function --> <code>( )</code>
+Called after a character has attacked in melee
+Function `()`
 
-> Called when a monster is dead
+#### on_character_reset_stats
 
-#### on_every_x {#sol::nil::on_every_x}
+Called when character stat gets reset
+Function `()`
 
-🇫 Function --> <code>( )</code>
+#### on_character_death
 
-> Called every in-game period
+Called when a character is dead
+Function `()`
 
-#### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
+#### on_mon_death
 
-🇫 Function --> <code>( )</code>
+Called when a monster is dead
+Function `()`
 
-> Called when a character has performed technique
+#### on_every_x
 
-#### on_creature_dodged {#sol::nil::on_creature_dodged}
+Called every in-game period
+Function `()`
 
-🇫 Function --> <code>( )</code>
+#### on_mapgen_postprocess
 
-> Called when a character successfully dodges
+Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
+Function `( Map, Tripoint, TimePoint )`
 
-#### on_creature_blocked {#sol::nil::on_creature_blocked}
-
-🇫 Function --> <code>( )</code>
-
-> Called when a character successfully blocks
-
-#### on_game_load {#sol::nil::on_game_load}
-
-🇫 Function --> <code>( )</code>
-
-> Called right after game has loaded
-
-#### on_game_started {#sol::nil::on_game_started}
-
-🇫 Function --> <code>( )</code>
-
-> Called when the game has first started
-
-#### on_mapgen_postprocess {#sol::nil::on_mapgen_postprocess}
-
-🇫 Function --> <code>( [Map](#sol::Map), [Tripoint](#sol::Tripoint), [TimePoint](#sol::TimePoint) )</code>
-
-> Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
-
-## locale {#sol::locale}
+## locale
 
 Localization API.
 
 ### Members
 
-#### gettext {#sol::nil::gettext}
+#### gettext
 
-🇫 Function --> <code>( string ) -> string</code>
+Expects english source string, returns translated string.
+Function `( string ) -> string`
 
-> Expects english source string, returns translated string.
+#### vgettext
 
-#### pgettext {#sol::nil::pgettext}
+First is english singular string, second is english plural string. Number is amount to translate for.
+Function `( string, string, <cppval: m > ) -> string`
 
-🇫 Function --> <code>( string, string ) -> string</code>
+#### pgettext
 
-> First is context string. Second is english source string.
+First is context string. Second is english source string.
+Function `( string, string ) -> string`
 
-#### vgettext {#sol::nil::vgettext}
+#### vpgettext
 
-🇫 Function --> <code>( string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
+First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
+Function `( string, string, string, <cppval: m > ) -> string`
 
-> First is english singular string, second is english plural string. Number is amount to translate for.
-
-#### vpgettext {#sol::nil::vpgettext}
-
-🇫 Function --> <code>( string, string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
-
-> First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
-
-## tests_lib {#sol::tests_lib}
+## tests_lib
 
 Library for testing purposes
 
 ### Members
 
-#### my_awesome_lambda_1 {#sol::nil::my_awesome_lambda_1}
+#### my_awesome_lambda_1
 
-🇫 Function --> <code>( ) -> integer</code>
+Function `() -> int`
 
-#### my_awesome_lambda_2 {#sol::nil::my_awesome_lambda_2}
+#### my_awesome_lambda_2
 
-🇫 Function --> <code>( ) -> integer</code>
+Function `() -> int`

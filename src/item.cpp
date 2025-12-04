@@ -3167,9 +3167,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const std::string name = elem.recipe->result_name();
             recipe_list.push_back( "<bold>" + name + "</bold>" );
         } else if( !can_learn ) {
-            recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+            recipe_list.push_back( "<color_brown>" + elem.name.translated() + "</color>" );
         } else {
-            recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+            recipe_list.push_back( "<dark>" + elem.name.translated() + "</dark>" );
         }
     }
 
@@ -7035,11 +7035,15 @@ int item::damage_resist( damage_type dt, bool to_self ) const
 
 bool item::is_two_handed( const Character &guy ) const
 {
-    if( has_flag( flag_ALWAYS_TWOHAND ) ) {
+    // Big weapons are always two-handed if you're Medium or smaller.
+    if( has_flag( flag_ALWAYS_TWOHAND ) && guy.get_size() <= creature_size::medium ) {
         return true;
     }
+    // Large characters get a penalty when trying to wield two-handed weapons, Huge characters treat them like normal.
+    const float str_factor = has_flag( flag_ALWAYS_TWOHAND ) &&
+                             guy.get_size() != creature_size::huge ?  2.0f : 4.0f;
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > guy.str_cur * 4.0f );
+    return ( ( weight() / 113_gram ) > guy.str_cur * str_factor );
 }
 
 const std::vector<material_id> &item::made_of() const

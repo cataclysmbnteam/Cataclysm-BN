@@ -27,6 +27,7 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -417,6 +418,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
+    assign( jo, "weight_modifier", def.weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
@@ -833,6 +835,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     if( !long_descrip.empty() ) {
+        long_descrip = replace_colors( long_descrip );
         const auto wrap_descrip = foldstring( long_descrip, width );
         msg += wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
@@ -1103,6 +1106,10 @@ void vehicle_prototype::load( const JsonObject &jo )
         pt.part = vpart_id( part );
         vproto.parts.push_back( pt );
     };
+
+    if( jo.has_member( "flags" ) ) {
+        vproto.flags = jo.get_tags<flag_id>( "flags" );
+    }
 
     if( jo.has_member( "blueprint" ) ) {
         // currently unused, read to suppress unvisited members warning

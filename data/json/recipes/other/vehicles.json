@@ -1146,7 +1146,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
-    "components": [ [ [ "pipe", 4 ] ] ]
+    "components": [ [ [ "pipe", 4 ], [ "xlframe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2080,5 +2080,93 @@
     "using": [ [ "welding_standard", 25 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ], [ [ "pipe", 6 ] ], [ [ "chain", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wood_propeller_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 5,
+    "time": "2 h",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [
+      [ "textbook_fabrication", 6 ],
+      [ "welding_book", 6 ],
+      [ "book_icef", 4 ],
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ],
+      [ "reference_fabrication1", 6 ]
+    ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "log", 1 ] ],
+      [ [ "wood_structural", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "scrap", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "wing_wood_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 3 ], [ "tailor", 1 ] ],
+    "difficulty": 5,
+    "time": "24 m",
+    "book_learn": [
+      [ "textbook_fabrication", 5 ],
+      [ "welding_book", 5 ],
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ],
+      [ "reference_fabrication1", 5 ]
+    ],
+    "using": [ [ "sewing_standard", 12 ] ],
+    "//": "don't know if leather is a good idea",
+    "components": [
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "sheet", 2 ], [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ], [ "leather_tarp", 2 ] ],
+      [ [ "nail_glue", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lit_wing_wood_item",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "15 m",
+    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [
+      [ [ "wing_wood_item", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "plastic_chunk", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "horn_ship",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 4 ] ], [ [ "scrap", 6 ] ], [ [ "amplifier", 4 ] ], [ [ "e_scrap", 6 ] ] ]
   }
 ]
