@@ -116,11 +116,12 @@
     "//": "Stuff you would find in an average wizard's workshop or other place where someone stores magical goodies.",
     "subtype": "collection",
     "items": [
-      { "group": "tools_common", "prob": 60 },
+      { "group": "tools_common", "prob": 40 },
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
       { "group": "potions_common", "prob": 15 },
       { "group": "magical_reagents", "prob": 20 },
+      { "group": "magic_recipe_basic", "prob": 20 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
@@ -132,7 +133,6 @@
         ],
         "prob": 15
       },
-      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
       [ "toolbox", 10 ]
     ]
   },

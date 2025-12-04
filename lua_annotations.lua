@@ -25,7 +25,7 @@ on_mapgen_postprocess = {}
 
 ---@class OnMonDeathParams
 ---@field mon Monster
----@field killer Character
+---@field killer Character?
 on_mon_death = {}
 --================---- Classes ----================
 
@@ -1845,8 +1845,8 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
+---@field on_character_death fun() @Called when a character is dead
 ---@field on_character_reset_stats fun() @Called when character stat gets reset
----@field on_char_death fun() @Called when a character is dead
 ---@field on_creature_blocked fun() @Called when a character successfully blocks
 ---@field on_creature_dodged fun() @Called when a character successfully dodges
 ---@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
@@ -2131,7 +2131,8 @@ MonsterAttitude = {
 	MATT_IGNORE = 4,
 	MATT_FOLLOW = 5,
 	MATT_ATTACK = 6,
-	MATT_ZLAVE = 7
+	MATT_ZLAVE = 7,
+	MATT_UNKNOWN = 8
 }
 
 ---@enum MonsterFactionAttitude

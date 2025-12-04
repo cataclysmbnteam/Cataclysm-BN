@@ -269,6 +269,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
@@ -680,10 +681,11 @@ bool game::start_game()
         start_loc.prepare_map( omtstart );
 
         // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
-        if( u.starting_vehicle
-            && !place_vehicle_nearby(
-                u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} ) ) {
-            if( query_gen_failed() ) {
+        if( u.starting_vehicle ) {
+            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} );
+            if( veh ) {
+                veh->set_owner( u );
+            } else if( query_gen_failed() ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
                 omtstart = overmap::invalid_tripoint;
@@ -1486,6 +1488,11 @@ bool game::do_turn()
     if( is_game_over() ) {
         return cleanup_at_end();
     }
+    const bool asleep = u.in_sleep_state();
+    const auto vehperf = asleep && !character_funcs::is_driving( u ) &&
+                         get_option<bool>( "SLEEP_SKIP_VEH" );
+    const auto soundperf = asleep && get_option<bool>( "SLEEP_SKIP_SOUND" );
+    const auto monperf = asleep && get_option<bool>( "SLEEP_SKIP_MON" );
     // Actual stuff
     if( new_game ) {
         new_game = false;
@@ -1544,19 +1551,21 @@ bool game::do_turn()
     perhaps_add_random_npc();
     process_voluntary_act_interrupt();
     process_activity();
-    // Process NPC sound events before they move or they hear themselves talking
-    for( npc &guy : all_npcs() ) {
-        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-            sounds::process_sound_markers( &guy );
+    if( !soundperf ) {
+        // Process NPC sound events before they move or they hear themselves talking
+        for( npc &guy : all_npcs() ) {
+            if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                sounds::process_sound_markers( &guy );
+            }
+        }
+        sounds::process_sound_markers( &u );
+
+        if( u.is_deaf() ) {
+            sfx::do_hearing_loss();
         }
     }
 
     // Process sound events into sound markers for display to the player.
-    sounds::process_sound_markers( &u );
-
-    if( u.is_deaf() ) {
-        sfx::do_hearing_loss();
-    }
 
     if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
@@ -1564,12 +1573,14 @@ bool game::do_turn()
                 cleanup_dead();
                 mon_info_update();
                 // Process any new sounds the player caused during their turn.
-                for( npc &guy : all_npcs() ) {
-                    if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-                        sounds::process_sound_markers( &guy );
+                if( !soundperf ) {
+                    for( npc &guy : all_npcs() ) {
+                        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                            sounds::process_sound_markers( &guy );
+                        }
                     }
+                    sounds::process_sound_markers( &u );
                 }
-                sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH && wait_popup ) {
                     wait_popup.reset();
                     ui_manager::redraw();
@@ -1623,9 +1634,11 @@ bool game::do_turn()
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
 
-    m.process_falling();
-    autopilot_vehicles();
-    m.vehmove();
+    if( !vehperf ) {
+        m.process_falling();
+        autopilot_vehicles();
+        m.vehmove();
+    }
     m.process_fields();
     m.process_items();
     m.creature_in_field( u );
@@ -1636,7 +1649,9 @@ bool game::do_turn()
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
-    monmove();
+    if( !monperf ) {
+        monmove();
+    }
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
     }
@@ -6836,6 +6851,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
     if( use_tiles ) {
         ctxt.register_action( "zoom_out" );
         ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "debug_tileset" );
     }
 #if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -7021,6 +7037,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
+            }
+        } else if( action == "debug_tileset" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_tiles_no_vfx();
             }
         } else if( action == "debug_submap_grid" ) {
             g->debug_submap_grid_overlay = !g->debug_submap_grid_overlay;
@@ -7457,11 +7477,15 @@ void game::list_items_monsters()
     }
 
     std::sort( mons.begin(), mons.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        const auto att_lhs = lhs->attitude_to( u );
-        const auto att_rhs = rhs->attitude_to( u );
+        if( !u.has_trait( trait_INATTENTIVE ) ) {
+            const auto att_lhs = lhs->attitude_to( u );
+            const auto att_rhs = rhs->attitude_to( u );
 
-        return att_lhs < att_rhs || ( att_lhs == att_rhs
-                                      && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+            return att_lhs < att_rhs || ( att_lhs == att_rhs
+                                          && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        } else { // Sort just by distance if player has inattentive trait
+            return ( rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        }
     } );
 
     // If the current list is empty, switch to the non-empty list
@@ -8009,11 +8033,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Attitude> mSortCategory;
 
-    for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
-        const auto attitude = monster_list[i]->attitude_to( u );
-        if( attitude != last_attitude ) {
-            mSortCategory[i + mSortCategory.size()] = attitude;
-            last_attitude = attitude;
+    const bool player_knows = !u.has_trait( trait_INATTENTIVE );
+    if( player_knows ) {
+        for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
+            const auto attitude = monster_list[i]->attitude_to( u );
+            if( static_cast<int>( attitude ) != last_attitude ) {
+                mSortCategory[i + mSortCategory.size()] = attitude;
+                last_attitude = static_cast<int>( attitude );
+            }
         }
     }
 
@@ -8064,7 +8091,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                 const auto endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
-                    if( CatSortIter != mSortCategory.cend() ) {
+
+                    if( player_knows && CatSortIter != mSortCategory.cend() ) {
                         const int iCurPos = iStartPos + y;
                         const int iCatPos = CatSortIter->first;
                         if( iCurPos == iCatPos ) {
@@ -8079,7 +8107,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const auto critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( g->u ) ) {
+                    if( critter->sees( g->u ) && player_knows ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;
@@ -8121,7 +8149,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         std::tie( sText, color ) =
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
-                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    if( player_knows ) {
+                        mvwprintz( w_monsters, point( width - 19, y ), color, sText );
+                    }
 
                     if( m != nullptr ) {
                         const auto att = m->get_attitude();
@@ -11681,6 +11711,13 @@ void game::display_transparency()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+    }
+}
+
+void game::display_tiles_no_vfx()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_TILES_NO_VFX );
     }
 }
 
