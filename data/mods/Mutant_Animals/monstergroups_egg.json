@@ -63,48 +63,36 @@
     "name": "GROUP_EGG_PARASITE",
     "type": "monstergroup",
     "default": "mon_dermatik_larva",
-    "monsters": [
-      { "monster": "mon_dermatik_larva", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_dermatik_larva", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_SONGBIRD",
     "type": "monstergroup",
     "default": "mon_songbird",
-    "monsters": [
-      { "monster": "mon_songbird", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_songbird", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_VULTCH",
     "type": "monstergroup",
-    "default":  "mon_bird_mutant_vultch",
-    "monsters": [
-      { "monster":  "mon_bird_mutant_vultch", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "default": "mon_bird_mutant_vultch",
+    "monsters": [ { "monster": "mon_bird_mutant_vultch", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_IRIDESCENT",
     "type": "monstergroup",
     "default": "mon_bird_mutant_iridescent",
-    "monsters": [
-      { "monster": "mon_bird_mutant_iridescent", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_bird_mutant_iridescent", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_GHOUL",
     "type": "monstergroup",
     "default": "mon_bird_mutant_ghoul",
-    "monsters": [
-      { "monster": "mon_bird_mutant_ghoul", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_bird_mutant_ghoul", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_ELEPHANT",
     "type": "monstergroup",
     "default": "mon_bird_mutant_elephant",
-    "monsters": [
-      { "monster": "mon_bird_mutant_elephant", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_bird_mutant_elephant", "freq": 1000, "cost_multiplier": 1 } ]
   }
 ]

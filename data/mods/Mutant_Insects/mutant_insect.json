@@ -199,7 +199,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_ant_acid_queen",
@@ -247,7 +247,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_mega_acid_ant",
@@ -270,7 +270,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
     "harvest": "arachnid_acid",
-    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_ant_acid_larva",
@@ -293,7 +293,9 @@
     "copy-from": "mon_ant_acid_larva",
     "description": "A yellow grub the size of a dog.  It squirms and oozes gelatinous fluids.  This one seems unusually friendly.",
     "upgrades": { "age_grow": 15, "into": "mon_mega_acid_ant" },
-    "extend": { "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_ant",
@@ -310,7 +312,7 @@
     "upgrades": { "half_life": 15, "into": "mon_ant_soldier" },
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
-    "flags": [ "CLIMBS", "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "CLIMBS", "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_ant_queen",
@@ -352,7 +354,7 @@
     "upgrades": { "half_life": 120, "into": "mon_mega_ant" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "ACID", "NORMAL" ],
-    "flags": [ "CLIMBS", "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "CLIMBS", "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_mega_ant",
@@ -372,7 +374,7 @@
     "armor_bullet": 14,
     "attack_effs": [ { "id": "bleed", "chance": 20, "duration": 3 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_ant_larva",
@@ -394,7 +396,9 @@
     "copy-from": "mon_ant_larva",
     "description": "A pulsating sausage of glistening white flesh, the size of a dog.  On one end is a set of squirming mouth parts.  THis one seems rather playful.",
     "upgrades": { "age_grow": 15, "into": "mon_mega_ant" },
-    "extend": { "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_bee",
@@ -414,7 +418,7 @@
     "dodge": 9,
     "harvest": "arachnid_stinger",
     "attack_effs": [ { "id": "poison", "chance": 30, "duration": 20 } ],
-    "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_CLOSE"],
+    "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "SWARMS", "GROUP_MORALE", "PET_WONT_FOLLOW" ]
   },
   {
@@ -436,7 +440,7 @@
     "morale": 50,
     "reproduction": { "baby_egg": "egg_bee", "baby_count": 5, "baby_timer": 1 },
     "harvest": "arachnid_stinger",
-    "attack_effs": [ { "id": "poison", "chance": 30, "duration": 20 } ], 
+    "attack_effs": [ { "id": "poison", "chance": 30, "duration": 20 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "flags": [ "HEARS", "SEES", "SMELLS" ]
   },
@@ -458,7 +462,9 @@
     "type": "MONSTER",
     "copy-from": "mon_small_bee_larva",
     "description": "A pulsating sausage of glistening white flesh, the size of a squirrel.  On one end is a set of squirming mouth parts.  This one seems rather playful.",
-    "extend": { "petfood": { "food": [ "BIRDFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "BIRDFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_tame_small_bee_queen_larva",
@@ -466,7 +472,9 @@
     "copy-from": "mon_small_bee_larva",
     "description": "A pulsating sausage of glistening white flesh, the size of a squirrel.  On one end is a set of squirming mouth parts.  This one seems proud and commanding.",
     "upgrades": { "age_grow": 10, "into": "mon_mega_bee_queen" },
-    "extend": { "petfood": { "food": [ "BIRDFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "BIRDFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_giant_beetle",
@@ -490,7 +498,7 @@
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
     "anger_triggers": [ "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_mega_beetle",
@@ -512,7 +520,7 @@
     "special_attacks": [ [ "EAT_FOOD", 50 ] ],
     "anger_triggers": [ "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE"  ]
+    "flags": [ "HEARS", "SEES", "SMELLS", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_large_beetle_larva",
@@ -533,7 +541,9 @@
     "copy-from": "mon_large_beetle_larva",
     "description": "A worm-like larva the size of a dog. This one seems fairly tame.",
     "upgrades": { "age_grow": 15, "into": "mon_mega_beetle" },
-    "extend": { "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_small_butterfly",
@@ -800,7 +810,7 @@
     "dodge": 9,
     "upgrades": { "age_grow": 10, "into": "mon_large_dragonfly" },
     "vision_day": 30,
-    "fear_triggers": [ "SOUND", "FIRE"],
+    "fear_triggers": [ "SOUND", "FIRE" ],
     "flags": [ "CLIMBS", "HEARS", "STUMBLES", "FLIES", "SEES", "SMELLS", "HIT_AND_RUN", "HARDTOSHOOT" ]
   },
   {
@@ -833,7 +843,7 @@
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 1, "baby_timer": 31 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "vision_day": 30,
-    "fear_triggers": [ "FIRE"],
+    "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "HURT", "PLAYER_WEAK" ],
     "flags": [ "CLIMBS", "HEARS", "STUMBLES", "FLIES", "SEES", "SMELLS", "HIT_AND_RUN", "HARDTOSHOOT" ]
   },
@@ -856,7 +866,7 @@
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 2, "baby_timer": 31 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "vision_day": 30,
-    "fear_triggers": [ "FIRE"],
+    "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "HURT", "PLAYER_WEAK" ],
     "flags": [ "HEARS", "STUMBLES", "FLIES", "SEES", "SMELLS", "HIT_AND_RUN", "PET_MOUNTABLE" ]
   },
@@ -976,7 +986,9 @@
     "copy-from": "mon_small_fly_larva",
     "description": "A pulsating sausage of glistening white flesh, the size of a housecat.  On one end is a set of squirming mouth parts.  This one seems rather playful.",
     "upgrades": { "age_grow": 15, "into": "mon_mega_fly" },
-    "extend": { "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_locust_nymph",
@@ -1049,7 +1061,7 @@
     "color": "red",
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 8,
-    "fear_triggers": [ "HURT"],
+    "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_egg": "egg_mosquito", "baby_count": 1, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "BLEED", "CLIMBS", "HEARS", "STUMBLES", "FLIES", "SEES", "SMELLS", "SWARMS", "HARDTOSHOOT" ]
@@ -1065,7 +1077,7 @@
     "speed": 50,
     "color": "yellow",
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "fear_triggers": [ "HURT"],
+    "fear_triggers": [ "HURT" ],
     "upgrades": { "age_grow": 10, "into": "mon_mosquito_giant" },
     "flags": [ "AQUATIC", "SWIMS", "STUMBLES", "SEES", "FISHABLE" ]
   },
@@ -1136,6 +1148,8 @@
     "copy-from": "mon_large_wasp_larva",
     "description": "A pulsating sausage of glistening white flesh, the size of a dog.  On one end is a set of squirming mouth parts.  This one seems less aggressive.",
     "upgrades": { "age_grow": 15, "into": "mon_mega_wasp" },
-    "extend": { "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   }
 ]

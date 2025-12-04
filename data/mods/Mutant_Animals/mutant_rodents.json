@@ -45,9 +45,7 @@
         "type": "bite",
         "cooldown": 5,
         "accuracy": 5,
-        "damage_max_instance": [
-          { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.2 }
-        ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.2 } ]
       }
     ]
   },
@@ -68,19 +66,14 @@
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "attack_effs": [
-      { "id": "bleed", "chance": 10, "duration": 10 },
-      { "id": "rat_fever", "chance": 1 }
-    ],
+    "attack_effs": [ { "id": "bleed", "chance": 10, "duration": 10 }, { "id": "rat_fever", "chance": 1 } ],
     "special_attacks": [
       [ "EAT_FOOD", 100 ],
       {
         "type": "bite",
         "cooldown": 4,
         "accuracy": 5,
-        "damage_max_instance": [
-          { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.2 }
-        ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.2 } ]
       }
     ],
     "extend": { "flags": [ "GROUP_MORALE" ] }
@@ -115,11 +108,9 @@
         "type": "bite",
         "cooldown": 4,
         "accuracy": 5,
-        "damage_max_instance": [
-          { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.2 }
-        ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.2 } ]
       }
     ],
-    "extend": { "flags": [ "GROUP_MORALE",  "WEBWALK", "CLIMBS" ] }
+    "extend": { "flags": [ "GROUP_MORALE", "WEBWALK", "CLIMBS" ] }
   }
 ]

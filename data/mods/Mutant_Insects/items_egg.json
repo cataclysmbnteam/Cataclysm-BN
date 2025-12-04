@@ -221,7 +221,6 @@
     "rot_spawn": "GROUP_EGG_CELLAR_SPIDER",
     "rot_spawn_chance": 90
   },
-
   {
     "type": "COMESTIBLE",
     "id": "egg_jumping_spider",

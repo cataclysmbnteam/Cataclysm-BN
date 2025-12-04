@@ -57,17 +57,13 @@
     "name": "GROUP_EGG_TAME_BEE",
     "type": "monstergroup",
     "default": "mon_small_bee_larva",
-    "monsters": [
-      { "monster": "mon_tame_small_bee_queen_larva", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_tame_small_bee_queen_larva", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_BUTTERFLY",
     "type": "monstergroup",
     "default": "mon_small_butterfly_larva",
-    "monsters": [
-      { "monster": "mon_small_butterfly_larva", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_small_butterfly_larva", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_BEETLE",
@@ -91,9 +87,7 @@
     "name": "GROUP_EGG_CENTIPEDE",
     "type": "monstergroup",
     "default": "mon_large_centipede",
-    "monsters": [
-      { "monster": "mon_large_centipede", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_large_centipede", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_DRAGONFLY",
@@ -135,9 +129,7 @@
     "name": "GROUP_EGG_MOSQUITO",
     "type": "monstergroup",
     "default": "mon_small_mosquito_larva",
-    "monsters": [
-      { "monster": "mon_small_mosquito_larva", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_small_mosquito_larva", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_WASP",
@@ -161,9 +153,7 @@
     "name": "GROUP_EGG_CELLAR_SPIDER",
     "type": "monstergroup",
     "default": "mon_small_cellar_spider",
-    "monsters": [
-      { "monster": "mon_small_cellar_spider", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_small_cellar_spider", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_JUMPING_SPIDER",
@@ -205,9 +195,7 @@
     "name": "GROUP_EGG_BLACKWIDOW_SPIDER",
     "type": "monstergroup",
     "default": "mon_small_blackwidow_spider",
-    "monsters": [
-      { "monster": "mon_small_blackwidow_spider", "freq": 1000, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_small_blackwidow_spider", "freq": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_WEB_SPIDER",

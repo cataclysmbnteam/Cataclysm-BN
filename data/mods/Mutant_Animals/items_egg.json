@@ -21,30 +21,30 @@
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 21 ] ],
     "rot_spawn_chance": 50
-},
-{
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_songbird",
     "name": { "str": "songbird egg" },
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_SONGBIRD"
-},
-{
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_bird_mutant_vultch",
     "name": { "str": "vultch egg" },
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_VULTCH"
-},
-{
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_bird_mutant_iridescent",
     "name": { "str": "iridescent egg" },
     "color": "pink",
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_IRIDESCENT"
-},
-{
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_bird_mutant_ghoul",
     "name": { "str": "ghoul bird egg" },
@@ -60,8 +60,8 @@
     "stack_size": 5,
     "fun": -50,
     "rot_spawn": "GROUP_EGG_GHOUL"
-},
-{
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_bird_mutant_elephant",
     "volume": "1 L",
@@ -70,5 +70,5 @@
     "name": { "str": "elephant egg" },
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_ELEPHANT"
-}
+  }
 ]

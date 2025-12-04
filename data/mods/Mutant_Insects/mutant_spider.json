@@ -41,7 +41,6 @@
     "species": [ "SPIDER" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK" ]
   },
-
   {
     "id": "mon_spider_cellar_giant_s",
     "alias": "mon_small_cellar_spider",
@@ -75,7 +74,6 @@
     "fear_triggers": [ "SOUND", "HURT" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS" ]
   },
-
   {
     "id": "mon_small_jumping_spider",
     "type": "MONSTER",
@@ -228,7 +226,6 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "CAN_DIG", "WEBWALK", "PET_MOUNTABLE" ]
   },
-
   {
     "id": "mon_spider_web_s",
     "alias": "mon_small_web_spider",
@@ -305,8 +302,6 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "PET_MOUNTABLE" ]
   },
-
-
   {
     "id": "mon_spider_widow_giant_s",
     "alias": "mon_small_blackwidow_spider",
@@ -341,8 +336,6 @@
     "fear_triggers": [ "FIRE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS" ]
   },
-
-
   {
     "id": "mon_small_wolf_spider",
     "type": "MONSTER",
@@ -385,7 +378,7 @@
     "attack_effs": [ { "id": "poison", "chance": 50, "duration": 10 } ],
     "reproduction": { "baby_egg": "egg_wolf_spider", "baby_count": 1, "baby_timer": 10 },
     "upgrades": { "half_life": 30, "into": "mon_giant_wolf_spider" },
-    "anger_triggers": [  "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS" ]
   },
@@ -406,7 +399,7 @@
     "attack_effs": [ { "id": "poison", "chance": 50, "duration": 20 } ],
     "upgrades": { "half_life": 60, "into": "mon_mega_wolf_spider" },
     "reproduction": { "baby_egg": "egg_wolf_spider", "baby_count": 1, "baby_timer": 10 },
-    "anger_triggers": [  "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PET_MOUNTABLE" ]
   },
@@ -423,7 +416,7 @@
     "dodge": 6,
     "attack_effs": [ { "id": "poison", "chance": 50, "duration": 20 } ],
     "reproduction": { "baby_egg": "egg_wolf_spider", "baby_count": 2, "baby_timer": 10 },
-    "anger_triggers": [  "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "PET_MOUNTABLE" ]
   }
 ]

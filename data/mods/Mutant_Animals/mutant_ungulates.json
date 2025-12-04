@@ -25,7 +25,10 @@
     "bodytype": "quadruped",
     "categories": [ "NULL" ],
     "species": [ "MUTANT" ],
-    "delete": { "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }, "upgrades": { "age_grow": 60, "into": "mon_cow" } }
+    "delete": {
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
+      "upgrades": { "age_grow": 60, "into": "mon_cow" }
+    }
   },
   {
     "id": "mon_cow_sick_twisthorn",
@@ -50,7 +53,10 @@
     "volume": "1600000 ml",
     "weight": "1600000 g",
     "color": "brown",
-    "extend": { "flags": [ "NO_BREED" ], "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } },
+    "extend": {
+      "flags": [ "NO_BREED" ],
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    },
     "upgrades": { "half_life": 21, "into_group": "GROUP_COW_MUTANT" }
   },
   {
@@ -97,7 +103,10 @@
     "reproduction": { "baby_monster": "mon_cow_calf_mutant_auroch", "baby_count": 1, "baby_timer": 79 },
     "color": "brown",
     "starting_ammo": { "milk_raw": 60 },
-    "extend": { "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }, "flags": [ "MILKABLE" ] }
+    "extend": {
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
+      "flags": [ "MILKABLE" ]
+    }
   },
   {
     "id": "mon_cow_calf_mutant_auroch",
@@ -174,7 +183,7 @@
     "bodytype": "quadruped",
     "categories": [ "NULL" ],
     "species": [ "MUTANT" ],
-    "delete": { 
+    "delete": {
       "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
       "flags": [ "PET_MOUNTABLE" ],
       "upgrades": { "half_life": 39, "into_group": "GROUP_HORSE_ALL" },
@@ -191,7 +200,10 @@
     "speed": 110,
     "volume": "350000 ml",
     "weight": "350000 g",
-    "extend": { "flags": [ "NO_BREED" ], "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } },
+    "extend": {
+      "flags": [ "NO_BREED" ],
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    },
     "color": "brown",
     "upgrades": { "half_life": 21, "into_group": "GROUP_HORSE_MUTANT" }
   },
@@ -225,15 +237,7 @@
     "reproduction": { "baby_egg": "bone_glue", "baby_count": 20, "baby_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PET_WONT_FOLLOW",
-      "PATH_AVOID_DANGER_1",
-      "WARM"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM" ],
     "upgrades": { "half_life": 21, "into_group": "GROUP_HORSE_MUTANT" }
   },
   {
@@ -244,7 +248,10 @@
     "default_faction": "herbivore",
     "bodytype": "quadruped",
     "categories": [ "NULL" ],
-    "delete": { "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }, "upgrades": { "half_life": 39, "into_group": "GROUP_SHEEP_ALL" } },
+    "delete": {
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
+      "upgrades": { "half_life": 39, "into_group": "GROUP_SHEEP_ALL" }
+    },
     "species": [ "MUTANT" ]
   },
   {
@@ -391,7 +398,10 @@
     "reproduction": { "baby_monster": "mon_ungulate_mutant_foal_sleipnir", "baby_count": 1, "baby_timer": 79 },
     "symbol": "S",
     "color": "cyan",
-    "extend": { "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }, "flags": [ "PET_MOUNTABLE" ] }
+    "extend": {
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
+      "flags": [ "PET_MOUNTABLE" ]
+    }
   },
   {
     "id": "mon_ungulate_mutant_foal_sleipnir",
@@ -402,7 +412,9 @@
     "upgrades": { "age_grow": 39, "into": "mon_ungulate_mutant_sleipnir" },
     "symbol": "s",
     "color": "cyan",
-    "extend": { "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "abstract": "mon_pig_mutant",
@@ -413,7 +425,10 @@
     "bodytype": "pig",
     "categories": [ "NULL" ],
     "species": [ "MUTANT" ],
-    "delete": { "upgrades": { "half_life": 39, "into_group": "GROUP_PIG_ALL" }, "reproduction": { "baby_monster": "mon_pig_piglet", "baby_count": 8, "baby_timer": 39 } }
+    "delete": {
+      "upgrades": { "half_life": 39, "into_group": "GROUP_PIG_ALL" },
+      "reproduction": { "baby_monster": "mon_pig_piglet", "baby_count": 8, "baby_timer": 39 }
+    }
   },
   {
     "abstract": "mon_pig_piglet_mutant",
@@ -504,7 +519,9 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "reproduction": { "baby_monster": "mon_pig_piglet_mutant_quill", "baby_count": 3, "baby_timer": 39 },
-    "extend": { "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } }
+    "extend": {
+      "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    }
   },
   {
     "id": "mon_pig_piglet_mutant_quill",
@@ -513,7 +530,9 @@
     "name": { "str": "quill piglet" },
     "description": "A juvenile mutated pig covered in small bone nubs.",
     "upgrades": { "age_grow": 15, "into": "mon_pig_mutant_quill" },
-    "extend": { "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." } },
+    "extend": {
+      "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
+    },
     "color": "light_gray"
   }
 ]
