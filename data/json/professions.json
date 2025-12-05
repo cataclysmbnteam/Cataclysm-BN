@@ -802,7 +802,7 @@
       { "level": 1, "name": "fabrication" },
       { "level": 1, "name": "tailor" }
     ],
-    "traits": [ "PROF_CHURL", "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH", "SPIRITUAL" ]
+    "traits": [ "PROF_CHURL", "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH", "SPIRITUAL" ],
   },
   {
     "type": "profession",
@@ -838,7 +838,8 @@
       }
     },
     "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "cooking" } ],
-    "traits": [ "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
+    "traits": [ "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ],
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -875,7 +876,8 @@
     "vehicle": "covered_wagon",
     "pets": [ { "name": "mon_cow", "amount": 2 } ],
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" }, { "level": 2, "name": "cooking" } ],
-    "traits": [ "NOMAD", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
+    "traits": [ "NOMAD", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ],
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -919,7 +921,8 @@
       { "level": 2, "name": "fabrication" },
       { "level": 1, "name": "cooking" }
     ],
-    "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
+    "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ],
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -7121,6 +7124,7 @@
         "entries": [ { "item": "longsword", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]
