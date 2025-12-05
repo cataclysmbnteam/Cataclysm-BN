@@ -575,7 +575,7 @@ No constructors.
 
 #### add_item {#sol::Character::add_item}
 
-🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
+🇲 Method --> <code>( Detached<[Item](#sol::Item)> )</code>
 
 > Adds a detached item to the player inventory
 
@@ -681,7 +681,7 @@ No constructors.
 
 #### remove_item {#sol::Character::remove_item}
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> [DetachedItem](#sol::DetachedItem)</code>
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
 
 > Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 
@@ -729,7 +729,7 @@ No constructors.
 
 #### remove_worn {#sol::Character::remove_worn}
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> [DetachedItem](#sol::DetachedItem)</code>
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
 
 > Attempts to remove the worn `Item` from character.
 
@@ -922,7 +922,7 @@ No constructors.
 
 #### wear_detached {#sol::Character::wear_detached}
 
-🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem), boolean ) -> boolean</code>
+🇲 Method --> <code>( Detached<[Item](#sol::Item)>, boolean ) -> boolean</code>
 
 > Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly
 
@@ -1012,7 +1012,7 @@ No constructors.
 
 #### use_charges {#sol::Character::use_charges}
 
-🇲 Method --> <code>( [ItypeId](#sol::ItypeId), integer, bool ) -> [DetachedItem](#sol::DetachedItem)[]</code>
+🇲 Method --> <code>( [ItypeId](#sol::ItypeId), integer, bool ) -> Detached<[Item](#sol::Item)>[]</code>
 
 #### set_stored_kcal {#sol::Character::set_stored_kcal}
 
@@ -2097,26 +2097,6 @@ No constructors.
 #### total_damage {#sol::DealtDamageInstance::total_damage}
 
 🇲 Method --> <code>( ) -> integer</code>
-
-## DetachedItem {#sol::DetachedItem}
-
-### Bases {#sol::DetachedItem::@bases}
-
-No base classes.
-
-### Constructors {#sol::DetachedItem::@ctors}
-
-No constructors.
-
-### Members {#sol::DetachedItem::@members}
-
-#### get {#sol::DetachedItem::get}
-
-🇲 Method --> <code>( ) -> [Item](#sol::Item)</code>
-
-#### is_valid {#sol::DetachedItem::is_valid}
-
-🇲 Method --> <code>( ) -> boolean</code>
 
 ## DiseaseTypeId {#sol::DiseaseTypeId}
 
@@ -4246,7 +4226,7 @@ No constructors.
 
 #### spawn {#sol::Item::spawn}
 
-🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> [DetachedItem](#sol::DetachedItem)</code>
+🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> Detached<[Item](#sol::Item)></code>
 
 > Spawns a new item. Same as gapi.create_item
 
@@ -4436,11 +4416,11 @@ No constructors.
 
 #### insert {#sol::ItemStack::insert}
 
-🇲 Method --> <code>( [DetachedItem](#sol::DetachedItem) )</code>
+🇲 Method --> <code>( Detached<[Item](#sol::Item)> )</code>
 
 #### clear {#sol::ItemStack::clear}
 
-🇲 Method --> <code>( ) -> [DetachedItem](#sol::DetachedItem)[]</code>
+🇲 Method --> <code>( ) -> Detached<[Item](#sol::Item)>[]</code>
 
 #### items {#sol::ItemStack::items}
 
@@ -4450,7 +4430,7 @@ No constructors.
 
 #### remove {#sol::ItemStack::remove}
 
-🇲 Method --> <code>( [Item](#sol::Item) ) -> [DetachedItem](#sol::DetachedItem)</code>
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
 
 ## ItypeId {#sol::ItypeId}
 
@@ -9042,7 +9022,7 @@ Global game methods
 
 #### create_item {#sol::nil::create_item}
 
-🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> [DetachedItem](#sol::DetachedItem)</code>
+🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> Detached<[Item](#sol::Item)></code>
 
 > Spawns a new item. Same as Item::spawn
 

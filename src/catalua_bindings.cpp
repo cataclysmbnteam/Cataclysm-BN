@@ -362,23 +362,13 @@ void cata::detail::reg_locale_api( sol::state &lua )
     luna::userlib lib = luna::begin_lib( lua, "locale" );
 
     DOC( "Expects english source string, returns translated string." );
-    luna::set_fx( lib, "gettext",  []( const std::string & msg ) {
-        return gettext_raw( msg.c_str() );
-    } );
+    luna::set_fx( lib, "gettext", gettext_raw );
     DOC( "First is english singular string, second is english plural string. Number is amount to translate for." );
-    luna::set_fx( lib, "vgettext", []( const std::string & msg, const std::string & msg_pl,
-    const int n ) {
-        return vgettext( msg.c_str(), msg_pl.c_str(), n );
-    } );
+    luna::set_fx( lib, "vgettext", &vgettext );
     DOC( "First is context string. Second is english source string." );
-    luna::set_fx( lib, "pgettext", []( const std::string & ctx, const std::string & msg ) {
-        return pgettext( ctx.c_str(), msg.c_str() );
-    } );
+    luna::set_fx( lib, "pgettext", &pgettext );
     DOC( "First is context string. Second is english singular string. third is english plural. Number is amount to translate for." );
-    luna::set_fx( lib, "vpgettext", []( const std::string & ctx, const std::string & msg,
-    const std::string & msg_pl, const int n ) {
-        return vpgettext( ctx.c_str(), msg.c_str(), msg_pl.c_str(), n );
-    } );
+    luna::set_fx( lib, "vpgettext", &vpgettext );
 
     luna::finalize_lib( lib );
 }
@@ -593,25 +583,6 @@ void cata::detail::reg_testing_library( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
-template<typename T>
-void reg_detached_ptr( sol::state &lua )
-{
-    using Ptr = detached_ptr<T>;
-#define UT_CLASS Ptr
-    {
-        sol::usertype<Ptr> ut = luna::new_usertype<Ptr>( lua, luna::no_bases, luna::no_constructor );
-
-        SET_FX( get );
-        luna::set_fx( ut, "is_valid", []( const Ptr & ptr ) -> bool { return !!ptr; } );
-    }
-#undef UT_CLASS
-}
-
-void cata::detail::reg_ptr_types( sol::state &lua )
-{
-    reg_detached_ptr<item>( lua );
-}
-
 void cata::reg_all_bindings( sol::state &lua )
 {
     using namespace detail;
@@ -645,5 +616,4 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_types( lua );
     reg_time_types( lua );
     reg_testing_library( lua );
-    reg_ptr_types( lua );
 }

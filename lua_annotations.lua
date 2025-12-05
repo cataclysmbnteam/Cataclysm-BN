@@ -186,7 +186,7 @@ function BookRecipe.new() end
 ---@field add_addiction fun(self: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(self: Character, arg2: BionicDataId)
 ---@field addiction_level fun(self: Character, arg2: AddictionType): integer
----@field add_item fun(self: Character, arg2: DetachedItem) @Adds a detached item to the player inventory
+---@field add_item fun(self: Character, arg2: Detached<Item>) @Adds a detached item to the player inventory
 ---@field add_item_with_id fun(self: Character, arg2: ItypeId, arg3: integer): Item @DEPRECATED: use create_item instead
 ---@field add_morale fun(self: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
 ---@field age fun(self: Character): integer
@@ -315,7 +315,7 @@ function BookRecipe.new() end
 ---@field hitall fun(self: Character, arg2: integer, arg3: integer, arg4: Creature): integer
 ---@field hurtall fun(self: Character, arg2: integer, arg3: Creature, arg4: boolean)
 ---@field in_climate_control fun(self: Character): boolean
----@field inv_remove_item fun(self: Character, arg2: Item): DetachedItem @DEPRECATED: use remove_item instead
+---@field inv_remove_item fun(self: Character, arg2: Item): Detached<Item> @DEPRECATED: use remove_item instead
 ---@field irradiate fun(self: Character, arg2: number, arg3: boolean): boolean
 ---@field is_armed fun(self: Character): boolean
 ---@field is_blind fun(self: Character): boolean
@@ -393,9 +393,9 @@ function BookRecipe.new() end
 ---@field rem_morale fun(self: Character, arg2: MoraleTypeDataId)
 ---@field remove_bionic fun(self: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(self: Character, arg2: MutationBranchId)
----@field remove_item fun(self: Character, arg2: Item): DetachedItem @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+---@field remove_item fun(self: Character, arg2: Item): Detached<Item> @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field remove_mutation fun(self: Character, arg2: MutationBranchId, arg3: boolean)
----@field remove_worn fun(self: Character, arg2: Item): DetachedItem @Attempts to remove the worn `Item` from character.
+---@field remove_worn fun(self: Character, arg2: Item): Detached<Item> @Attempts to remove the worn `Item` from character.
 ---@field reset fun(self: Character)
 ---@field reset_encumbrance fun(self: Character)
 ---@field restore_scent fun(self: Character)
@@ -436,14 +436,14 @@ function BookRecipe.new() end
 ---@field uncanny_dodge fun(self: Character): boolean
 ---@field unset_mutation fun(self: Character, arg2: MutationBranchId)
 ---@field unwield fun(self: Character): boolean
----@field use_charges fun(self: Character, arg2: ItypeId, arg3: integer, arg4: bool): DetachedItem[]
+---@field use_charges fun(self: Character, arg2: ItypeId, arg3: integer, arg4: bool): Detached<Item>[]
 ---@field use_charges_if_avail fun(self: Character, arg2: ItypeId, arg3: integer): boolean
 ---@field volume_capacity fun(self: Character): Volume
 ---@field volume_carried fun(self: Character): Volume
 ---@field vomit fun(self: Character)
 ---@field wake_up fun(self: Character)
 ---@field wear fun(self: Character, arg2: Item, arg3: boolean): boolean @Attempts to wear an item in the creature inventory. If boolean parameter is false, item is worn instantly
----@field wear_detached fun(self: Character, arg2: DetachedItem, arg3: boolean): boolean @Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly
+---@field wear_detached fun(self: Character, arg2: Detached<Item>, arg3: boolean): boolean @Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly
 ---@field wearing_something_on fun(self: Character, arg2: BodyPartTypeIntId): boolean
 ---@field weight_carried fun(self: Character): Mass
 ---@field wield fun(self: Character, arg2: Item): boolean
@@ -608,13 +608,6 @@ function DamageUnit.new() end
 DealtDamageInstance = {}
 ---@return DealtDamageInstance
 function DealtDamageInstance.new() end
-
----@class DetachedItem
----@field get fun(self: DetachedItem): Item
----@field is_valid fun(self: DetachedItem): boolean
-DetachedItem = {}
----@return DetachedItem
-function DetachedItem.new() end
 
 ---@class DiseaseTypeId
 ---@field NULL_ID fun(): DiseaseTypeId
@@ -1198,7 +1191,7 @@ function IslotWheel.new() end
 ---@field set_var_num fun(self: Item, arg2: string, arg3: number)
 ---@field set_var_str fun(self: Item, arg2: string, arg3: string)
 ---@field set_var_tri fun(self: Item, arg2: string, arg3: Tripoint)
----@field spawn fun(arg1: ItypeId, arg2: integer): DetachedItem @Spawns a new item. Same as gapi.create_item 
+---@field spawn fun(arg1: ItypeId, arg2: integer): Detached<Item> @Spawns a new item. Same as gapi.create_item 
 ---@field stamina_cost fun(self: Item): integer
 ---@field tname fun(self: Item, arg2: integer, arg3: boolean, arg4: integer): string @Translated item name with prefixes
 ---@field total_capacity fun(self: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
@@ -1213,16 +1206,16 @@ function Item.new() end
 --- Iterate over this using pairs() for reading. Can also be indexed.
 ---@class ItemStack
 ---@field amount_can_fit fun(self: ItemStack, arg2: Item): integer
----@field clear fun(self: ItemStack): DetachedItem[]
+---@field clear fun(self: ItemStack): Detached<Item>[]
 ---@field count fun(self: ItemStack): integer
 ---@field count_limit fun(self: ItemStack): integer
 ---@field free_volume fun(self: ItemStack): Volume
----@field insert fun(self: ItemStack, arg2: DetachedItem)
+---@field insert fun(self: ItemStack, arg2: Detached<Item>)
 ---@field items fun(self: ItemStack): Item[] @Modifying the stack while iterating may cause problems. This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating).
 ---@field max_volume fun(self: ItemStack): Volume
 ---@field move_all_to fun(self: ItemStack, arg2: ItemStack)
 ---@field only_item fun(self: ItemStack): Item
----@field remove fun(self: ItemStack, arg2: Item): DetachedItem
+---@field remove fun(self: ItemStack, arg2: Item): Detached<Item>
 ---@field stacks_with fun(self: ItemStack, arg2: Item): Item
 ---@field stored_volume fun(self: ItemStack): Volume
 ---@field __index fun(self: ItemStack, arg2: integer): Item
@@ -2452,7 +2445,7 @@ coords = {}
 ---@field before_time_starts fun(): TimePoint
 ---@field choose_adjacent fun(arg1: string, arg2: boolean): Tripoint
 ---@field choose_direction fun(arg1: string, arg2: boolean): Tripoint
----@field create_item fun(arg1: ItypeId, arg2: integer): DetachedItem @Spawns a new item. Same as Item::spawn 
+---@field create_item fun(arg1: ItypeId, arg2: integer): Detached<Item> @Spawns a new item. Same as Item::spawn 
 ---@field current_turn fun(): TimePoint
 ---@field get_avatar fun(): Avatar
 ---@field get_character_at fun(arg1: Tripoint, arg2: boolean): Character

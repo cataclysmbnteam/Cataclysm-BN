@@ -36,8 +36,8 @@
 
 #define LUNA_PTR_VAL( Class, Name ) \
     LUNA_VAL( Class, Name ) \
-    LUNA_VAL( detached_ptr<Class>, "Detached" Name ) \
-    LUNA_VAL( std::unique_ptr<Class>, "Unique" Name )
+    LUNA_VAL( detached_ptr<Class>, "Detached<" Name ">" ) \
+    LUNA_VAL( std::unique_ptr<Class>, "Unique<" Name ">" )
 
 namespace luna
 {
