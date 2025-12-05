@@ -92,10 +92,12 @@ using volume = quantity<int, volume_in_milliliter_tag>;
 
 // These definitions help the doc generator
 LUNA_DOC( bool, "bool" );
-LUNA_DOC( int, "int" );
-LUNA_DOC( unsigned int, "int" );
+LUNA_DOC( std::int16_t, "int" );
+LUNA_DOC( std::uint16_t, "int" );
+LUNA_DOC( std::int32_t, "int" );
+LUNA_DOC( std::uint32_t, "int" );
 LUNA_DOC( std::int64_t, "int" );
-LUNA_DOC( size_t, "int" );
+LUNA_DOC( std::uint64_t, "int" );
 LUNA_DOC( float, "double" );
 LUNA_DOC( double, "double" );
 LUNA_DOC( void, "nil" );
