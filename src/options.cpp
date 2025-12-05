@@ -1947,7 +1947,7 @@ void options_manager::add_options_graphics()
 
     add( "BULLETS_AS_LASERS", graphics, translate_marker( "Draw bullets as lines" ),
          translate_marker( "If true, bullets are drawn as lines of images, and the animation lasts only one frame." ),
-         false
+         true
        );
 
     add( "BLINK_SPEED", graphics, translate_marker( "Blinking effects speed" ),

@@ -741,6 +741,8 @@ class cata_tiles
         void void_cone_aoe();
 
         void init_draw_bullet( const tripoint &p, std::string name, int rotation );
+        void init_draw_bullets( const std::vector<tripoint> &ps, const std::vector<std::string> &names,
+                                const std::vector<int> &rotations );
         void draw_bullet_frame();
         void void_bullet();
 
@@ -918,9 +920,9 @@ class cata_tiles
         tripoint cone_aoe_origin;
         one_bucket cone_aoe_layer;
 
-        tripoint bul_pos;
-        std::string bul_id;
-        int bul_rotation = 0;
+        std::vector<tripoint> bul_pos;
+        std::vector<std::string> bul_id;
+        std::vector<int> bul_rotation;
 
         tripoint hit_pos;
         std::string hit_entity_id;
