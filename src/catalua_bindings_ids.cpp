@@ -146,22 +146,20 @@ void cata::detail::reg_game_ids( sol::state &lua )
 
 void cata::detail::reg_types( sol::state &lua )
 {
-#define UT_CLASS faction
     {
         sol::usertype<faction> ut =
-        luna::new_usertype<faction>( lua, luna::no_bases, luna::no_constructor );
+            luna::new_usertype<faction>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "str_id", []( const faction & x ) -> faction_id { return x.id; } );
 
         // Factions are a pain because they _inherit_ from their type, not reference it by id.
         // This causes various weirdness, so let's omit the fields for now.
     }
-#undef UT_CLASS
 
 #define UT_CLASS material_type
     {
         sol::usertype<material_type> ut =
-        luna::new_usertype<material_type>( lua, luna::no_bases, luna::no_constructor );
+            luna::new_usertype<material_type>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "str_id", &material_type::ident );
         SET_FX( name );
@@ -171,7 +169,7 @@ void cata::detail::reg_types( sol::state &lua )
 #define UT_CLASS ter_t
     {
         sol::usertype<ter_t> ut =
-        luna::new_usertype<ter_t>( lua, luna::no_bases, luna::no_constructor );
+            luna::new_usertype<ter_t>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "str_id", []( const ter_t & x ) -> ter_str_id { return x.id; } );
         luna::set_fx( ut, "int_id", []( const ter_t & x ) -> ter_id { return x.id.id(); } );
@@ -200,7 +198,7 @@ void cata::detail::reg_types( sol::state &lua )
 #define UT_CLASS furn_t
     {
         sol::usertype<furn_t> ut =
-        luna::new_usertype<furn_t>( lua, luna::no_bases, luna::no_constructor );
+            luna::new_usertype<furn_t>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "str_id", []( const furn_t &x ) -> furn_str_id { return x.id; } );
         luna::set_fx( ut, "int_id", []( const furn_t &x ) -> furn_id { return x.id.id(); } );
@@ -228,11 +226,11 @@ void cata::detail::reg_types( sol::state &lua )
 
 #define UT_CLASS armor_portion_data
     {
-        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases,
+                                     luna::no_constructor );
 
         SET_MEMB_RO( coverage );
-        luna::set_fx( ut, "get_covered_parts", []( const UT_CLASS & c )
-        {
+        luna::set_fx( ut, "get_covered_parts", []( const UT_CLASS & c ) {
             std::set<bodypart_id> ret{};
             for( const auto &v : c.covers ) {
                 ret.insert( v );
@@ -246,7 +244,8 @@ void cata::detail::reg_types( sol::state &lua )
 
 #define UT_CLASS resistances
     {
-        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases,
+                                     luna::no_constructor );
 
         //SET_FX(combined_with);
         luna::set_fx( ut, "get_all_resist", []( const UT_CLASS & c ) { return c.flat; } );
@@ -258,7 +257,8 @@ void cata::detail::reg_types( sol::state &lua )
 
 #define UT_CLASS vitamin
     {
-        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases,
+                                     luna::no_constructor );
 
         SET_FX( deficiency );
         SET_FX( excess );

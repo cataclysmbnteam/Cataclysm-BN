@@ -342,8 +342,8 @@ struct islot_pet_armor {
 };
 
 /**
-     * What recipes can be learned from this book.
-     */
+ * What recipes can be learned from this book.
+ */
 struct book_recipe {
     /**
      * The recipe that can be learned (never null).
