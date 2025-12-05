@@ -46,18 +46,19 @@ class basic_animation
             delay( static_cast<size_t>( get_option<int>( "ANIMATION_DELAY" ) ) * scale * 1000000L ) {
         }
 
-        void draw() const {
+        void popup() const {
             static_popup popup;
             popup
             .wait_message( "%s", _( "Hang on a bit…" ) )
             .on_top( true );
-
+        }
+        void draw() const {
             g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
             refresh_display();
         }
-
-        void progress() const {
+        void progress( bool draw_popup = true ) const {
+            if( draw_popup ) { popup(); }
             draw();
 
             // NOLINTNEXTLINE(cata-no-long): timespec uses long int
@@ -782,7 +783,7 @@ void draw_line_of( const draw_sprite_line_options &options )
         tilecontext->init_draw_bullets( ps, ids, rots );
     } );
     g->add_draw_callback( bullets_cb );
-    bullet_animation().progress();
+    bullet_animation().progress( false );
     tilecontext->void_bullet();
 }
 void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
