@@ -25,68 +25,68 @@ on_mapgen_postprocess = {}
 
 ---@class OnMonDeathParams
 ---@field mon Monster
----@field killer Character
+---@field killer Character?
 on_mon_death = {}
 --================---- Classes ----================
 
 ---@class ActivityTypeId
 ---@field NULL_ID fun(): ActivityTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: ActivityTypeId): boolean
----@field is_valid fun(arg1: ActivityTypeId): boolean
----@field obj fun(arg1: ActivityTypeId): ActivityTypeRaw
----@field str fun(arg1: ActivityTypeId): string
----@field serialize fun(arg1: ActivityTypeId)
----@field deserialize fun(arg1: ActivityTypeId)
----@field __tostring fun(arg1: ActivityTypeId): string
+---@field is_null fun(self: ActivityTypeId): boolean
+---@field is_valid fun(self: ActivityTypeId): boolean
+---@field obj fun(self: ActivityTypeId): ActivityTypeRaw
+---@field str fun(self: ActivityTypeId): string
+---@field serialize fun(self: ActivityTypeId, arg2: any)
+---@field deserialize fun(self: ActivityTypeId, arg2: any)
+---@field __tostring fun(self: ActivityTypeId): string
 ActivityTypeId = {}
 ---@return ActivityTypeId
----@overload fun(arg1: ActivityTypeId): ActivityTypeId
+---@overload fun(self: ActivityTypeId): ActivityTypeId
 ---@overload fun(arg1: string): ActivityTypeId
 function ActivityTypeId.new() end
 
 ---@class AmmunitionEffectId
 ---@field NULL_ID fun(): AmmunitionEffectId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: AmmunitionEffectId): AmmunitionEffectIntId
----@field is_null fun(arg1: AmmunitionEffectId): boolean
----@field is_valid fun(arg1: AmmunitionEffectId): boolean
----@field obj fun(arg1: AmmunitionEffectId): AmmunitionEffectRaw
----@field str fun(arg1: AmmunitionEffectId): string
----@field serialize fun(arg1: AmmunitionEffectId)
----@field deserialize fun(arg1: AmmunitionEffectId)
----@field __tostring fun(arg1: AmmunitionEffectId): string
+---@field int_id fun(self: AmmunitionEffectId): AmmunitionEffectIntId
+---@field is_null fun(self: AmmunitionEffectId): boolean
+---@field is_valid fun(self: AmmunitionEffectId): boolean
+---@field obj fun(self: AmmunitionEffectId): AmmunitionEffectRaw
+---@field str fun(self: AmmunitionEffectId): string
+---@field serialize fun(self: AmmunitionEffectId, arg2: any)
+---@field deserialize fun(self: AmmunitionEffectId, arg2: any)
+---@field __tostring fun(self: AmmunitionEffectId): string
 AmmunitionEffectId = {}
 ---@return AmmunitionEffectId
----@overload fun(arg1: AmmunitionEffectId): AmmunitionEffectId
+---@overload fun(self: AmmunitionEffectId): AmmunitionEffectId
 ---@overload fun(arg1: AmmunitionEffectIntId): AmmunitionEffectId
 ---@overload fun(arg1: string): AmmunitionEffectId
 function AmmunitionEffectId.new() end
 
 ---@class AmmunitionEffectIntId
----@field is_valid fun(arg1: AmmunitionEffectIntId): boolean
----@field obj fun(arg1: AmmunitionEffectIntId): AmmunitionEffectRaw
----@field str_id fun(arg1: AmmunitionEffectIntId): AmmunitionEffectId
----@field __tostring fun(arg1: AmmunitionEffectIntId): string
+---@field is_valid fun(self: AmmunitionEffectIntId): boolean
+---@field obj fun(self: AmmunitionEffectIntId): AmmunitionEffectRaw
+---@field str_id fun(self: AmmunitionEffectIntId): AmmunitionEffectId
+---@field __tostring fun(self: AmmunitionEffectIntId): string
 AmmunitionEffectIntId = {}
 ---@return AmmunitionEffectIntId
----@overload fun(arg1: AmmunitionEffectIntId): AmmunitionEffectIntId
+---@overload fun(self: AmmunitionEffectIntId): AmmunitionEffectIntId
 ---@overload fun(arg1: AmmunitionEffectId): AmmunitionEffectIntId
 function AmmunitionEffectIntId.new() end
 
 ---@class AmmunitionTypeId
 ---@field NULL_ID fun(): AmmunitionTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: AmmunitionTypeId): boolean
----@field is_valid fun(arg1: AmmunitionTypeId): boolean
----@field obj fun(arg1: AmmunitionTypeId): AmmunitionTypeRaw
----@field str fun(arg1: AmmunitionTypeId): string
----@field serialize fun(arg1: AmmunitionTypeId)
----@field deserialize fun(arg1: AmmunitionTypeId)
----@field __tostring fun(arg1: AmmunitionTypeId): string
+---@field is_null fun(self: AmmunitionTypeId): boolean
+---@field is_valid fun(self: AmmunitionTypeId): boolean
+---@field obj fun(self: AmmunitionTypeId): AmmunitionTypeRaw
+---@field str fun(self: AmmunitionTypeId): string
+---@field serialize fun(self: AmmunitionTypeId, arg2: any)
+---@field deserialize fun(self: AmmunitionTypeId, arg2: any)
+---@field __tostring fun(self: AmmunitionTypeId): string
 AmmunitionTypeId = {}
 ---@return AmmunitionTypeId
----@overload fun(arg1: AmmunitionTypeId): AmmunitionTypeId
+---@overload fun(self: AmmunitionTypeId): AmmunitionTypeId
 ---@overload fun(arg1: string): AmmunitionTypeId
 function AmmunitionTypeId.new() end
 
@@ -94,12 +94,12 @@ function AmmunitionTypeId.new() end
 ---@field from_arcmin fun(arg1: number): Angle
 ---@field from_degrees fun(arg1: number): Angle
 ---@field from_radians fun(arg1: number): Angle
----@field to_arcmin fun(arg1: Angle): number
----@field to_degrees fun(arg1: Angle): number
----@field to_radians fun(arg1: Angle): number
----@field __eq fun(arg1: Angle, arg2: Angle): boolean
----@field __le fun(arg1: Angle, arg2: Angle): boolean
----@field __lt fun(arg1: Angle, arg2: Angle): boolean
+---@field to_arcmin fun(self: Angle): number
+---@field to_degrees fun(self: Angle): number
+---@field to_radians fun(self: Angle): number
+---@field __eq fun(self: Angle, arg2: Angle): boolean
+---@field __le fun(self: Angle, arg2: Angle): boolean
+---@field __lt fun(self: Angle, arg2: Angle): boolean
 Angle = {}
 ---@return Angle
 function Angle.new() end
@@ -108,15 +108,15 @@ function Angle.new() end
 ---@field coverage integer
 ---@field encumber integer
 ---@field max_encumber integer
----@field get_covered_parts fun(arg1: ArmorPortionData): BodyPartTypeIntId[]
+---@field get_covered_parts fun(self: ArmorPortionData): BodyPartTypeIntId[]
 ArmorPortionData = {}
 ---@return ArmorPortionData
 function ArmorPortionData.new() end
 
 ---@class Avatar : Player, Character, Creature
----@field get_active_missions fun(arg1: Avatar): Mission[]
----@field get_completed_missions fun(arg1: Avatar): Mission[]
----@field get_failed_missions fun(arg1: Avatar): Mission[]
+---@field get_active_missions fun(self: Avatar): Mission[]
+---@field get_completed_missions fun(self: Avatar): Mission[]
+---@field get_failed_missions fun(self: Avatar): Mission[]
 Avatar = {}
 ---@return Avatar
 function Avatar.new() end
@@ -124,51 +124,51 @@ function Avatar.new() end
 ---@class BionicDataId
 ---@field NULL_ID fun(): BionicDataId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: BionicDataId): boolean
----@field is_valid fun(arg1: BionicDataId): boolean
----@field obj fun(arg1: BionicDataId): BionicDataRaw
----@field str fun(arg1: BionicDataId): string
----@field serialize fun(arg1: BionicDataId)
----@field deserialize fun(arg1: BionicDataId)
----@field __tostring fun(arg1: BionicDataId): string
+---@field is_null fun(self: BionicDataId): boolean
+---@field is_valid fun(self: BionicDataId): boolean
+---@field obj fun(self: BionicDataId): BionicDataRaw
+---@field str fun(self: BionicDataId): string
+---@field serialize fun(self: BionicDataId, arg2: any)
+---@field deserialize fun(self: BionicDataId, arg2: any)
+---@field __tostring fun(self: BionicDataId): string
 BionicDataId = {}
 ---@return BionicDataId
----@overload fun(arg1: BionicDataId): BionicDataId
+---@overload fun(self: BionicDataId): BionicDataId
 ---@overload fun(arg1: string): BionicDataId
 function BionicDataId.new() end
 
 ---@class BodyPartTypeId
 ---@field NULL_ID fun(): BodyPartTypeId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: BodyPartTypeId): BodyPartTypeIntId
----@field is_null fun(arg1: BodyPartTypeId): boolean
----@field is_valid fun(arg1: BodyPartTypeId): boolean
----@field obj fun(arg1: BodyPartTypeId): BodyPartTypeRaw
----@field str fun(arg1: BodyPartTypeId): string
----@field serialize fun(arg1: BodyPartTypeId)
----@field deserialize fun(arg1: BodyPartTypeId)
----@field __tostring fun(arg1: BodyPartTypeId): string
+---@field int_id fun(self: BodyPartTypeId): BodyPartTypeIntId
+---@field is_null fun(self: BodyPartTypeId): boolean
+---@field is_valid fun(self: BodyPartTypeId): boolean
+---@field obj fun(self: BodyPartTypeId): BodyPartTypeRaw
+---@field str fun(self: BodyPartTypeId): string
+---@field serialize fun(self: BodyPartTypeId, arg2: any)
+---@field deserialize fun(self: BodyPartTypeId, arg2: any)
+---@field __tostring fun(self: BodyPartTypeId): string
 BodyPartTypeId = {}
 ---@return BodyPartTypeId
----@overload fun(arg1: BodyPartTypeId): BodyPartTypeId
+---@overload fun(self: BodyPartTypeId): BodyPartTypeId
 ---@overload fun(arg1: BodyPartTypeIntId): BodyPartTypeId
 ---@overload fun(arg1: string): BodyPartTypeId
 function BodyPartTypeId.new() end
 
 ---@class BodyPartTypeIntId
----@field is_valid fun(arg1: BodyPartTypeIntId): boolean
----@field obj fun(arg1: BodyPartTypeIntId): BodyPartTypeRaw
----@field str_id fun(arg1: BodyPartTypeIntId): BodyPartTypeId
----@field __tostring fun(arg1: BodyPartTypeIntId): string
+---@field is_valid fun(self: BodyPartTypeIntId): boolean
+---@field obj fun(self: BodyPartTypeIntId): BodyPartTypeRaw
+---@field str_id fun(self: BodyPartTypeIntId): BodyPartTypeId
+---@field __tostring fun(self: BodyPartTypeIntId): string
 BodyPartTypeIntId = {}
 ---@return BodyPartTypeIntId
----@overload fun(arg1: BodyPartTypeIntId): BodyPartTypeIntId
+---@overload fun(self: BodyPartTypeIntId): BodyPartTypeIntId
 ---@overload fun(arg1: BodyPartTypeId): BodyPartTypeIntId
 function BodyPartTypeIntId.new() end
 
 ---@class BookRecipe
 ---@field hidden boolean
----@field name string
+---@field name any
 ---@field recipe RecipeRaw
 ---@field skill_level integer
 BookRecipe = {}
@@ -180,405 +180,412 @@ function BookRecipe.new() end
 ---@field focus_pool integer
 ---@field follower_ids CharacterId[]
 ---@field male boolean
----@field mutation_category_level table<MutationCategoryTraitId, int>
+---@field mutation_category_level table<MutationCategoryTraitId, integer>
 ---@field name string
----@field activate_mutation fun(arg1: Character, arg2: MutationBranchId)
----@field add_addiction fun(arg1: Character, arg2: AddictionType, arg3: integer)
----@field add_bionic fun(arg1: Character, arg2: BionicDataId)
----@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
----@field add_item fun(arg1: Character, arg2: DetachedItem) @Adds a detached item to the player inventory
----@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @DEPRECATED: use create_item instead
----@field add_morale fun(arg1: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
----@field age fun(arg1: Character): integer
----@field all_items fun(arg1: Character, arg2: boolean): Item[] @Gets all items
----@field all_items_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: boolean): Item[] @Gets all items with the given flag
----@field assign_activity fun(arg1: Character, arg2: ActivityTypeId, arg3: integer, arg4: integer, arg5: integer, arg6: string)
----@field base_age fun(arg1: Character): integer
----@field base_height fun(arg1: Character): integer
----@field bionic_armor_bonus fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
----@field bionics_weight fun(arg1: Character): Mass
----@field blood_loss fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field blossoms fun(arg1: Character)
----@field bodypart_exposure fun(arg1: Character): table<BodyPartTypeIntId, double>
----@field bodyweight fun(arg1: Character): Mass
----@field cancel_activity fun(arg1: Character)
----@field can_hear fun(arg1: Character, arg2: Tripoint, arg3: integer): boolean
----@field can_mount fun(arg1: Character, arg2: Monster): boolean
----@field can_pick_volume fun(arg1: Character, arg2: Volume): boolean
----@field can_pick_weight fun(arg1: Character, arg2: Mass, arg3: boolean): boolean
----@field can_run fun(arg1: Character): boolean
----@field can_takeoff fun(arg1: Character, arg2: Item): boolean @Checks if a given `Item` can be taken off.
----@field can_unwield fun(arg1: Character, arg2: Item): boolean
----@field can_wear fun(arg1: Character, arg2: Item, arg3: boolean): boolean @Checks if creature can wear a given item. If boolean parameter is true, ignores already worn items
----@field can_wield fun(arg1: Character, arg2: Item): boolean
----@field check_mount_is_spooked fun(arg1: Character): boolean
----@field check_mount_will_move fun(arg1: Character, arg2: Tripoint): boolean
----@field clear_bionics fun(arg1: Character)
----@field clear_morale fun(arg1: Character)
----@field clear_mutations fun(arg1: Character)
----@field clear_skills fun(arg1: Character)
----@field cough fun(arg1: Character, arg2: boolean, arg3: integer)
----@field create_item fun(arg1: Character, arg2: ItypeId, arg3: integer): Item @Creates and an item with the given id and amount to the player inventory
----@field crossed_threshold fun(arg1: Character): boolean
----@field deactivate_mutation fun(arg1: Character, arg2: MutationBranchId)
----@field dismount fun(arg1: Character)
----@field expose_to_disease fun(arg1: Character, arg2: DiseaseTypeId)
----@field fall_asleep fun(arg1: Character) | fun(arg1: Character, arg2: TimeDuration)
----@field forced_dismount fun(arg1: Character)
----@field get_all_skills fun(arg1: Character): SkillLevelMap
----@field get_armor_acid fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field get_base_traits fun(arg1: Character): MutationBranchId[]
----@field get_bionics fun(arg1: Character): BionicDataId[]
----@field get_dependant_worn_items fun(arg1: Character, arg2: Item): Item[]
----@field get_dex fun(arg1: Character): integer
----@field get_dex_base fun(arg1: Character): integer
----@field get_dex_bonus fun(arg1: Character): integer
----@field get_faction_id fun(arg1: Character): FactionId
----@field get_fatigue fun(arg1: Character): integer
----@field get_free_bionics_slots fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field get_healthy fun(arg1: Character): number
----@field get_healthy_mod fun(arg1: Character): number
----@field get_highest_category fun(arg1: Character): MutationCategoryTraitId
----@field get_hostile_creatures fun(arg1: Character, arg2: integer): Creature[]
----@field getID fun(arg1: Character): CharacterId
----@field get_int fun(arg1: Character): integer
----@field get_int_base fun(arg1: Character): integer
----@field get_int_bonus fun(arg1: Character): integer
----@field get_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: boolean): Item @Gets the first occurrence of an item with the given id
----@field get_kcal_percent fun(arg1: Character): number
----@field get_lowest_hp fun(arg1: Character): integer
----@field get_max_power_level fun(arg1: Character): Energy
----@field get_melee_stamina_cost fun(arg1: Character, arg2: Item): integer
----@field get_morale fun(arg1: Character, arg2: MoraleTypeDataId): integer
----@field get_morale_level fun(arg1: Character): integer
----@field get_movement_mode fun(arg1: Character): CharacterMoveMode
----@field get_mutations fun(arg1: Character, arg2: boolean): MutationBranchId[]
----@field get_painkiller fun(arg1: Character): integer
----@field get_part_encumbrance fun(arg1: Character, arg2: BodyPartTypeId): integer
----@field get_part_temp_btu fun(arg1: Character, arg2: BodyPartTypeIntId): integer @Gets the current temperature of a specific body part (in Body Temperature Units).
----@field get_per fun(arg1: Character): integer
----@field get_per_base fun(arg1: Character): integer
----@field get_per_bonus fun(arg1: Character): integer
----@field get_power_level fun(arg1: Character): Energy
----@field get_rad fun(arg1: Character): integer
----@field get_shout_volume fun(arg1: Character): integer
----@field get_skill_level fun(arg1: Character, arg2: SkillId): integer
----@field get_skill_level_object fun(arg1: Character, arg2: SkillId): SkillLevel
----@field get_sleep_deprivation fun(arg1: Character): integer
----@field get_stamina fun(arg1: Character): integer
----@field get_stamina_max fun(arg1: Character): integer
----@field get_stim fun(arg1: Character): integer
----@field get_stored_kcal fun(arg1: Character): integer
----@field get_str fun(arg1: Character): integer
----@field get_str_base fun(arg1: Character): integer
----@field get_str_bonus fun(arg1: Character): integer
----@field get_temp_btu fun(arg1: Character): table<BodyPartTypeIntId, int> @Gets all bodyparts and their associated temperatures (in Body Temperature Units).
----@field get_thirst fun(arg1: Character): integer
----@field get_time_died fun(arg1: Character): TimePoint
----@field get_total_bionics_slots fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field get_used_bionics_slots fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field get_visible_creatures fun(arg1: Character, arg2: integer): Creature[]
----@field get_working_arm_count fun(arg1: Character): integer
----@field get_working_leg_count fun(arg1: Character): integer
----@field get_worn_items fun(arg1: Character): Item[]
----@field global_sm_location fun(arg1: Character): Tripoint
----@field global_square_location fun(arg1: Character): Tripoint
----@field has_active_bionic fun(arg1: Character, arg2: BionicDataId): boolean
----@field has_active_mutation fun(arg1: Character, arg2: MutationBranchId): boolean
----@field has_activity fun(arg1: Character, arg2: ActivityTypeId): boolean
----@field has_addiction fun(arg1: Character, arg2: AddictionType): boolean
----@field has_alarm_clock fun(arg1: Character): boolean
----@field has_any_bionic fun(arg1: Character): boolean
----@field has_base_trait fun(arg1: Character, arg2: MutationBranchId): boolean
----@field has_bionic fun(arg1: Character, arg2: BionicDataId): boolean
----@field has_bionics fun(arg1: Character): boolean
----@field has_child_flag fun(arg1: Character, arg2: MutationBranchId): boolean
----@field has_item_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: boolean): boolean @Checks for an item with the given flag
----@field has_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: boolean): boolean @Checks for an item with the given id
----@field has_mabuff fun(arg1: Character, arg2: MartialArtsBuffId): boolean
----@field has_max_power fun(arg1: Character): boolean
----@field has_morale fun(arg1: Character, arg2: MoraleTypeDataId): boolean
----@field has_morale_to_craft fun(arg1: Character): boolean
----@field has_morale_to_read fun(arg1: Character): boolean
----@field has_opposite_trait fun(arg1: Character, arg2: MutationBranchId): boolean
----@field has_power fun(arg1: Character): boolean
----@field has_trait_flag fun(arg1: Character, arg2: JsonTraitFlagId): boolean
----@field has_two_arms fun(arg1: Character): boolean
----@field has_watch fun(arg1: Character): boolean
----@field heal fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: integer)
----@field healall fun(arg1: Character, arg2: integer)
----@field healing_rate fun(arg1: Character, arg2: number): number
----@field healing_rate_medicine fun(arg1: Character, arg2: number, arg3: BodyPartTypeIntId): number
----@field hearing_ability fun(arg1: Character): number
----@field height fun(arg1: Character): integer
----@field hitall fun(arg1: Character, arg2: integer, arg3: integer, arg4: Creature): integer
----@field hurtall fun(arg1: Character, arg2: integer, arg3: Creature, arg4: boolean)
----@field in_climate_control fun(arg1: Character): boolean
----@field inv_remove_item fun(arg1: Character, arg2: Item): DetachedItem @DEPRECATED: use remove_item instead
----@field irradiate fun(arg1: Character, arg2: number, arg3: boolean): boolean
----@field is_armed fun(arg1: Character): boolean
----@field is_blind fun(arg1: Character): boolean
----@field is_deaf fun(arg1: Character): boolean
----@field is_hauling fun(arg1: Character): boolean
----@field is_invisible fun(arg1: Character): boolean
----@field is_limb_broken fun(arg1: Character, arg2: BodyPartTypeIntId): boolean
----@field is_limb_disabled fun(arg1: Character, arg2: BodyPartTypeIntId): boolean
----@field is_max_power fun(arg1: Character): boolean
----@field is_mounted fun(arg1: Character): boolean
----@field is_quiet fun(arg1: Character): boolean
----@field is_rad_immune fun(arg1: Character): boolean
----@field is_stealthy fun(arg1: Character): boolean
----@field is_throw_immune fun(arg1: Character): boolean
----@field is_weak_to_water fun(arg1: Character): boolean
----@field is_wearing fun(arg1: Character, arg2: Item): boolean
----@field is_wearing_active_optcloak fun(arg1: Character): boolean
----@field is_wearing_active_power_armor fun(arg1: Character): boolean
----@field is_wearing_helmet fun(arg1: Character): boolean
----@field is_wearing_on_bp fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
----@field is_wearing_power_armor fun(arg1: Character, arg2: boolean): boolean
----@field is_wielding fun(arg1: Character, arg2: Item): boolean
----@field is_worn fun(arg1: Character, arg2: Item): boolean
----@field items_with fun(arg1: Character): Item[] @Filters items
----@field item_worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
----@field item_worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
----@field knows_recipe fun(arg1: Character, arg2: RecipeId): boolean
----@field learn_recipe fun(arg1: Character, arg2: RecipeId)
----@field mabuff_armor_bonus fun(arg1: Character, arg2: DamageType): integer
----@field mabuff_arpen_bonus fun(arg1: Character, arg2: DamageType): integer
----@field mabuff_attack_cost_mult fun(arg1: Character): number
----@field mabuff_attack_cost_penalty fun(arg1: Character): integer
----@field mabuff_block_bonus fun(arg1: Character): integer
----@field mabuff_damage_bonus fun(arg1: Character, arg2: DamageType): integer
----@field mabuff_damage_mult fun(arg1: Character, arg2: DamageType): number
----@field mabuff_dodge_bonus fun(arg1: Character): number
----@field mabuff_speed_bonus fun(arg1: Character): integer
----@field mabuff_tohit_bonus fun(arg1: Character): number
----@field max_stored_kcal fun(arg1: Character): integer
----@field metabolic_rate fun(arg1: Character): number
----@field mod_base_age fun(arg1: Character, arg2: integer)
----@field mod_base_height fun(arg1: Character, arg2: integer)
----@field mod_dex_bonus fun(arg1: Character, arg2: integer)
----@field mod_fatigue fun(arg1: Character, arg2: integer)
----@field mod_healthy fun(arg1: Character, arg2: number)
----@field mod_healthy_mod fun(arg1: Character, arg2: number, arg3: number)
----@field mod_int_bonus fun(arg1: Character, arg2: integer)
----@field mod_max_power_level fun(arg1: Character, arg2: Energy)
----@field mod_painkiller fun(arg1: Character, arg2: integer)
----@field mod_per_bonus fun(arg1: Character, arg2: integer)
----@field mod_power_level fun(arg1: Character, arg2: Energy)
----@field mod_rad fun(arg1: Character, arg2: integer)
----@field mod_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
----@field mod_sleep_deprivation fun(arg1: Character, arg2: integer)
----@field mod_speed_bonus fun(arg1: Character, arg2: integer)
----@field mod_stamina fun(arg1: Character, arg2: integer)
----@field mod_stim fun(arg1: Character, arg2: integer)
----@field mod_stored_kcal fun(arg1: Character, arg2: integer)
----@field mod_str_bonus fun(arg1: Character, arg2: integer)
----@field mod_thirst fun(arg1: Character, arg2: integer)
----@field mount_creature fun(arg1: Character, arg2: Monster)
----@field mutate fun(arg1: Character)
----@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
----@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
----@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
----@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
----@field mutation_ok fun(arg1: Character, arg2: MutationBranchId, arg3: boolean, arg4: boolean): boolean
----@field mutation_value fun(arg1: Character, arg2: string): number
----@field practice fun(arg1: Character, arg2: SkillId, arg3: integer, arg4: integer, arg5: boolean)
----@field read_speed fun(arg1: Character, arg2: boolean): integer
----@field rem_addiction fun(arg1: Character, arg2: AddictionType)
----@field rem_morale fun(arg1: Character, arg2: MoraleTypeDataId)
----@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
----@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
----@field remove_item fun(arg1: Character, arg2: Item): DetachedItem @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
----@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
----@field remove_worn fun(arg1: Character, arg2: Item): any @Attempts to remove the worn `Item` from character.
----@field reset fun(arg1: Character)
----@field reset_encumbrance fun(arg1: Character)
----@field restore_scent fun(arg1: Character)
----@field rest_quality fun(arg1: Character): number
----@field rooted fun(arg1: Character)
----@field rust_rate fun(arg1: Character): integer
----@field set_base_age fun(arg1: Character, arg2: integer)
----@field set_base_height fun(arg1: Character, arg2: integer)
----@field set_dex_bonus fun(arg1: Character, arg2: integer)
----@field set_faction_id fun(arg1: Character, arg2: FactionId)
----@field set_fatigue fun(arg1: Character, arg2: integer)
----@field set_healthy fun(arg1: Character, arg2: number)
----@field set_healthy_mod fun(arg1: Character, arg2: number)
----@field setID fun(arg1: Character, arg2: CharacterId, arg3: boolean)
----@field set_int_bonus fun(arg1: Character, arg2: integer)
----@field set_max_power_level fun(arg1: Character, arg2: Energy)
----@field set_movement_mode fun(arg1: Character, arg2: CharacterMoveMode)
----@field set_mutation fun(arg1: Character, arg2: MutationBranchId)
----@field set_painkiller fun(arg1: Character, arg2: integer)
----@field set_part_temp_btu fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: integer) @Sets a specific body part to a given temperature (in Body Temperature Units).
----@field set_per_bonus fun(arg1: Character, arg2: integer)
----@field set_power_level fun(arg1: Character, arg2: Energy)
----@field set_rad fun(arg1: Character, arg2: integer)
----@field set_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
----@field set_sleep_deprivation fun(arg1: Character, arg2: integer)
----@field set_speed_bonus fun(arg1: Character, arg2: integer)
----@field set_stamina fun(arg1: Character, arg2: integer)
----@field set_stim fun(arg1: Character, arg2: integer)
----@field set_stored_kcal fun(arg1: Character, arg2: integer)
----@field set_str_bonus fun(arg1: Character, arg2: integer)
----@field set_temp_btu fun(arg1: Character, arg2: integer) @Sets ALL body parts on a creature to the given temperature (in Body Temperature Units).
----@field set_thirst fun(arg1: Character, arg2: integer)
----@field shout fun(arg1: Character, arg2: string, arg3: boolean)
----@field sight_impaired fun(arg1: Character): boolean
----@field spores fun(arg1: Character)
----@field suffer fun(arg1: Character)
----@field takeoff fun(arg1: Character, arg2: Item): boolean @Attempts to take off the worn `Item` from character.
----@field uncanny_dodge fun(arg1: Character): boolean
----@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
----@field unwield fun(arg1: Character): boolean
----@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer): DetachedItem[]
----@field use_charges_if_avail fun(arg1: Character, arg2: ItypeId, arg3: integer): boolean
----@field volume_capacity fun(arg1: Character): Volume
----@field volume_carried fun(arg1: Character): Volume
----@field vomit fun(arg1: Character)
----@field wake_up fun(arg1: Character)
----@field wear fun(arg1: Character, arg2: Item, arg3: boolean): boolean @Attempts to wear an item in the creature inventory. If boolean parameter is false, item is worn instantly
----@field wear_detached fun(arg1: Character, arg2: DetachedItem, arg3: boolean): boolean @Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly
----@field wearing_something_on fun(arg1: Character, arg2: BodyPartTypeIntId): boolean
----@field weight_carried fun(arg1: Character): Mass
----@field wield fun(arg1: Character, arg2: Item): boolean
----@field worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): boolean
----@field worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
+---@field activate_mutation fun(self: Character, arg2: MutationBranchId)
+---@field add_addiction fun(self: Character, arg2: AddictionType, arg3: integer)
+---@field add_bionic fun(self: Character, arg2: BionicDataId)
+---@field addiction_level fun(self: Character, arg2: AddictionType): integer
+---@field add_item fun(self: Character, arg2: DetachedItem) @Adds a detached item to the player inventory
+---@field add_item_with_id fun(self: Character, arg2: ItypeId, arg3: integer): Item @DEPRECATED: use create_item instead
+---@field add_morale fun(self: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
+---@field age fun(self: Character): integer
+---@field all_items fun(self: Character, arg2: boolean): Item[] @Gets all items
+---@field all_items_with_flag fun(self: Character, arg2: JsonFlagId, arg3: boolean): Item[] @Gets all items with the given flag
+---@field assign_activity fun(self: Character, arg2: ActivityTypeId, arg3: integer, arg4: integer, arg5: integer, arg6: string)
+---@field base_age fun(self: Character): integer
+---@field base_height fun(self: Character): integer
+---@field bionic_armor_bonus fun(self: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
+---@field bionics_weight fun(self: Character): Mass
+---@field blood_loss fun(self: Character, arg2: BodyPartTypeIntId): integer
+---@field blossoms fun(self: Character)
+---@field bodypart_exposure fun(self: Character): table<BodyPartTypeIntId, number>
+---@field bodyweight fun(self: Character): Mass
+---@field cancel_activity fun(self: Character)
+---@field can_hear fun(self: Character, arg2: Tripoint, arg3: integer): boolean
+---@field can_mount fun(self: Character, arg2: Monster): boolean
+---@field can_pick_volume fun(self: Character, arg2: Volume): boolean
+---@field can_pick_weight fun(self: Character, arg2: Mass, arg3: boolean): boolean
+---@field can_run fun(self: Character): boolean
+---@field can_takeoff fun(self: Character, arg2: Item): boolean @Checks if a given `Item` can be taken off.
+---@field can_unwield fun(self: Character, arg2: Item): boolean
+---@field can_wear fun(self: Character, arg2: Item, arg3: boolean): boolean @Checks if creature can wear a given item. If boolean parameter is true, ignores already worn items
+---@field can_wield fun(self: Character, arg2: Item): boolean
+---@field check_mount_is_spooked fun(self: Character): boolean
+---@field check_mount_will_move fun(self: Character, arg2: Tripoint): boolean
+---@field clear_bionics fun(self: Character)
+---@field clear_morale fun(self: Character)
+---@field clear_mutations fun(self: Character)
+---@field clear_skills fun(self: Character)
+---@field cough fun(self: Character, arg2: boolean, arg3: integer)
+---@field create_item fun(self: Character, arg2: ItypeId, arg3: integer): Item @Creates and an item with the given id and amount to the player inventory
+---@field crossed_threshold fun(self: Character): boolean
+---@field deactivate_mutation fun(self: Character, arg2: MutationBranchId)
+---@field dismount fun(self: Character)
+---@field drop_inv fun(self: Character, arg2: integer)
+---@field expose_to_disease fun(self: Character, arg2: DiseaseTypeId)
+---@field fall_asleep fun(self: Character) | fun(self: Character, arg2: TimeDuration)
+---@field forced_dismount fun(self: Character)
+---@field get_all_skills fun(self: Character): SkillLevelMap
+---@field get_armor_acid fun(self: Character, arg2: BodyPartTypeIntId): integer
+---@field get_base_traits fun(self: Character): MutationBranchId[]
+---@field get_bionics fun(self: Character): BionicDataId[]
+---@field get_dependant_worn_items fun(self: Character, arg2: Item): Item[]
+---@field get_dex fun(self: Character): integer
+---@field get_dex_base fun(self: Character): integer
+---@field get_dex_bonus fun(self: Character): integer
+---@field get_faction_id fun(self: Character): FactionId
+---@field get_fatigue fun(self: Character): integer
+---@field get_free_bionics_slots fun(self: Character, arg2: BodyPartTypeIntId): integer
+---@field get_healthy fun(self: Character): number
+---@field get_healthy_mod fun(self: Character): number
+---@field get_highest_category fun(self: Character): MutationCategoryTraitId
+---@field get_hostile_creatures fun(self: Character, arg2: integer): Creature[]
+---@field getID fun(self: Character): CharacterId
+---@field get_int fun(self: Character): integer
+---@field get_int_base fun(self: Character): integer
+---@field get_int_bonus fun(self: Character): integer
+---@field get_item_with_id fun(self: Character, arg2: ItypeId, arg3: boolean): Item @Gets the first occurrence of an item with the given id
+---@field get_kcal_percent fun(self: Character): number
+---@field get_lowest_hp fun(self: Character): integer
+---@field get_max_power_level fun(self: Character): Energy
+---@field get_melee_stamina_cost fun(self: Character, arg2: Item): integer
+---@field get_morale fun(self: Character, arg2: MoraleTypeDataId): integer
+---@field get_morale_level fun(self: Character): integer
+---@field get_movement_mode fun(self: Character): CharacterMoveMode
+---@field get_mutations fun(self: Character, arg2: boolean): MutationBranchId[]
+---@field get_painkiller fun(self: Character): integer
+---@field get_part_encumbrance fun(self: Character, arg2: BodyPartTypeId): integer
+---@field get_part_temp_btu fun(self: Character, arg2: BodyPartTypeIntId): integer @Gets the current temperature of a specific body part (in Body Temperature Units).
+---@field get_per fun(self: Character): integer
+---@field get_per_base fun(self: Character): integer
+---@field get_per_bonus fun(self: Character): integer
+---@field get_power_level fun(self: Character): Energy
+---@field get_rad fun(self: Character): integer
+---@field get_shout_volume fun(self: Character): integer
+---@field get_skill_level fun(self: Character, arg2: SkillId): integer
+---@field get_skill_level_object fun(self: Character, arg2: SkillId): SkillLevel
+---@field get_sleep_deprivation fun(self: Character): integer
+---@field get_stamina fun(self: Character): integer
+---@field get_stamina_max fun(self: Character): integer
+---@field get_stim fun(self: Character): integer
+---@field get_stored_kcal fun(self: Character): integer
+---@field get_str fun(self: Character): integer
+---@field get_str_base fun(self: Character): integer
+---@field get_str_bonus fun(self: Character): integer
+---@field get_temp_btu fun(self: Character): table<BodyPartTypeIntId, integer> @Gets all bodyparts and their associated temperatures (in Body Temperature Units).
+---@field get_thirst fun(self: Character): integer
+---@field get_time_died fun(self: Character): TimePoint
+---@field get_total_bionics_slots fun(self: Character, arg2: BodyPartTypeIntId): integer
+---@field get_used_bionics_slots fun(self: Character, arg2: BodyPartTypeIntId): integer
+---@field get_visible_creatures fun(self: Character, arg2: integer): Creature[]
+---@field get_working_arm_count fun(self: Character): integer
+---@field get_working_leg_count fun(self: Character): integer
+---@field get_worn_items fun(self: Character): Item[]
+---@field global_sm_location fun(self: Character): Tripoint
+---@field global_square_location fun(self: Character): Tripoint
+---@field has_active_bionic fun(self: Character, arg2: BionicDataId): boolean
+---@field has_active_mutation fun(self: Character, arg2: MutationBranchId): boolean
+---@field has_activity fun(self: Character, arg2: ActivityTypeId): boolean
+---@field has_addiction fun(self: Character, arg2: AddictionType): boolean
+---@field has_alarm_clock fun(self: Character): boolean
+---@field has_any_bionic fun(self: Character): boolean
+---@field has_base_trait fun(self: Character, arg2: MutationBranchId): boolean
+---@field has_bionic fun(self: Character, arg2: BionicDataId): boolean
+---@field has_bionics fun(self: Character): boolean
+---@field has_child_flag fun(self: Character, arg2: MutationBranchId): boolean
+---@field has_item_with_flag fun(self: Character, arg2: JsonFlagId, arg3: boolean): boolean @Checks for an item with the given flag
+---@field has_item_with_id fun(self: Character, arg2: ItypeId, arg3: boolean): boolean @Checks for an item with the given id
+---@field has_mabuff fun(self: Character, arg2: MartialArtsBuffId): boolean
+---@field has_max_power fun(self: Character): boolean
+---@field has_morale fun(self: Character, arg2: MoraleTypeDataId): boolean
+---@field has_morale_to_craft fun(self: Character): boolean
+---@field has_morale_to_read fun(self: Character): boolean
+---@field has_opposite_trait fun(self: Character, arg2: MutationBranchId): boolean
+---@field has_power fun(self: Character): boolean
+---@field has_trait_flag fun(self: Character, arg2: JsonTraitFlagId): boolean
+---@field has_two_arms fun(self: Character): boolean
+---@field has_watch fun(self: Character): boolean
+---@field heal fun(self: Character, arg2: BodyPartTypeIntId, arg3: integer)
+---@field healall fun(self: Character, arg2: integer)
+---@field healing_rate fun(self: Character, arg2: number): number
+---@field healing_rate_medicine fun(self: Character, arg2: number, arg3: BodyPartTypeIntId): number
+---@field hearing_ability fun(self: Character): number
+---@field height fun(self: Character): integer
+---@field hitall fun(self: Character, arg2: integer, arg3: integer, arg4: Creature): integer
+---@field hurtall fun(self: Character, arg2: integer, arg3: Creature, arg4: boolean)
+---@field in_climate_control fun(self: Character): boolean
+---@field inv_remove_item fun(self: Character, arg2: Item): DetachedItem @DEPRECATED: use remove_item instead
+---@field irradiate fun(self: Character, arg2: number, arg3: boolean): boolean
+---@field is_armed fun(self: Character): boolean
+---@field is_blind fun(self: Character): boolean
+---@field is_deaf fun(self: Character): boolean
+---@field is_hauling fun(self: Character): boolean
+---@field is_invisible fun(self: Character): boolean
+---@field is_limb_broken fun(self: Character, arg2: BodyPartTypeIntId): boolean
+---@field is_limb_disabled fun(self: Character, arg2: BodyPartTypeIntId): boolean
+---@field is_max_power fun(self: Character): boolean
+---@field is_mounted fun(self: Character): boolean
+---@field is_quiet fun(self: Character): boolean
+---@field is_rad_immune fun(self: Character): boolean
+---@field is_stealthy fun(self: Character): boolean
+---@field is_throw_immune fun(self: Character): boolean
+---@field is_weak_to_water fun(self: Character): boolean
+---@field is_wearing fun(self: Character, arg2: Item): boolean
+---@field is_wearing_active_optcloak fun(self: Character): boolean
+---@field is_wearing_active_power_armor fun(self: Character): boolean
+---@field is_wearing_helmet fun(self: Character): boolean
+---@field is_wearing_on_bp fun(self: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
+---@field is_wearing_power_armor fun(self: Character, arg2: boolean): boolean
+---@field is_wielding fun(self: Character, arg2: Item): boolean
+---@field is_worn fun(self: Character, arg2: Item): boolean
+---@field items_with fun(self: Character, arg2: bool): Item[] @Filters items
+---@field item_worn_with_flag fun(self: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
+---@field item_worn_with_id fun(self: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
+---@field knows_recipe fun(self: Character, arg2: RecipeId): boolean
+---@field learn_recipe fun(self: Character, arg2: RecipeId)
+---@field mabuff_armor_bonus fun(self: Character, arg2: DamageType): integer
+---@field mabuff_arpen_bonus fun(self: Character, arg2: DamageType): integer
+---@field mabuff_attack_cost_mult fun(self: Character): number
+---@field mabuff_attack_cost_penalty fun(self: Character): integer
+---@field mabuff_block_bonus fun(self: Character): integer
+---@field mabuff_damage_bonus fun(self: Character, arg2: DamageType): integer
+---@field mabuff_damage_mult fun(self: Character, arg2: DamageType): number
+---@field mabuff_dodge_bonus fun(self: Character): number
+---@field mabuff_speed_bonus fun(self: Character): integer
+---@field mabuff_tohit_bonus fun(self: Character): number
+---@field max_stored_kcal fun(self: Character): integer
+---@field metabolic_rate fun(self: Character): number
+---@field mod_base_age fun(self: Character, arg2: integer)
+---@field mod_base_height fun(self: Character, arg2: integer)
+---@field mod_dex_bonus fun(self: Character, arg2: integer)
+---@field mod_fatigue fun(self: Character, arg2: integer)
+---@field mod_healthy fun(self: Character, arg2: number)
+---@field mod_healthy_mod fun(self: Character, arg2: number, arg3: number)
+---@field mod_int_bonus fun(self: Character, arg2: integer)
+---@field mod_max_power_level fun(self: Character, arg2: Energy)
+---@field mod_painkiller fun(self: Character, arg2: integer)
+---@field mod_per_bonus fun(self: Character, arg2: integer)
+---@field mod_power_level fun(self: Character, arg2: Energy)
+---@field mod_rad fun(self: Character, arg2: integer)
+---@field mod_skill_level fun(self: Character, arg2: SkillId, arg3: integer)
+---@field mod_sleep_deprivation fun(self: Character, arg2: integer)
+---@field mod_speed_bonus fun(self: Character, arg2: integer)
+---@field mod_stamina fun(self: Character, arg2: integer)
+---@field mod_stim fun(self: Character, arg2: integer)
+---@field mod_stored_kcal fun(self: Character, arg2: integer)
+---@field mod_str_bonus fun(self: Character, arg2: integer)
+---@field mod_thirst fun(self: Character, arg2: integer)
+---@field mount_creature fun(self: Character, arg2: Monster)
+---@field mutate fun(self: Character)
+---@field mutate_category fun(self: Character, arg2: MutationCategoryTraitId)
+---@field mutate_towards fun(self: Character, arg2: MutationBranchId[], arg3: integer): boolean
+---@field mutate_towards fun(self: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(self: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(self: Character, arg2: MutationBranchId): boolean
+---@field mutation_armor fun(self: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
+---@field mutation_effect fun(self: Character, arg2: MutationBranchId)
+---@field mutation_loss_effect fun(self: Character, arg2: MutationBranchId)
+---@field mutation_ok fun(self: Character, arg2: MutationBranchId, arg3: boolean, arg4: boolean): boolean
+---@field mutation_value fun(self: Character, arg2: string): number
+---@field practice fun(self: Character, arg2: SkillId, arg3: integer, arg4: integer, arg5: boolean)
+---@field read_speed fun(self: Character, arg2: boolean): integer
+---@field rem_addiction fun(self: Character, arg2: AddictionType)
+---@field rem_morale fun(self: Character, arg2: MoraleTypeDataId)
+---@field remove_bionic fun(self: Character, arg2: BionicDataId)
+---@field remove_child_flag fun(self: Character, arg2: MutationBranchId)
+---@field remove_item fun(self: Character, arg2: Item): DetachedItem @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+---@field remove_mutation fun(self: Character, arg2: MutationBranchId, arg3: boolean)
+---@field remove_worn fun(self: Character, arg2: Item): DetachedItem @Attempts to remove the worn `Item` from character.
+---@field reset fun(self: Character)
+---@field reset_encumbrance fun(self: Character)
+---@field restore_scent fun(self: Character)
+---@field rest_quality fun(self: Character): number
+---@field rooted fun(self: Character)
+---@field rust_rate fun(self: Character): integer
+---@field set_base_age fun(self: Character, arg2: integer)
+---@field set_base_height fun(self: Character, arg2: integer)
+---@field set_dex_bonus fun(self: Character, arg2: integer)
+---@field set_faction_id fun(self: Character, arg2: FactionId)
+---@field set_fatigue fun(self: Character, arg2: integer)
+---@field set_healthy fun(self: Character, arg2: number)
+---@field set_healthy_mod fun(self: Character, arg2: number)
+---@field setID fun(self: Character, arg2: CharacterId, arg3: boolean)
+---@field set_int_bonus fun(self: Character, arg2: integer)
+---@field set_max_power_level fun(self: Character, arg2: Energy)
+---@field set_movement_mode fun(self: Character, arg2: CharacterMoveMode)
+---@field set_mutation fun(self: Character, arg2: MutationBranchId)
+---@field set_painkiller fun(self: Character, arg2: integer)
+---@field set_part_temp_btu fun(self: Character, arg2: BodyPartTypeIntId, arg3: integer) @Sets a specific body part to a given temperature (in Body Temperature Units).
+---@field set_per_bonus fun(self: Character, arg2: integer)
+---@field set_power_level fun(self: Character, arg2: Energy)
+---@field set_rad fun(self: Character, arg2: integer)
+---@field set_skill_level fun(self: Character, arg2: SkillId, arg3: integer)
+---@field set_sleep_deprivation fun(self: Character, arg2: integer)
+---@field set_speed_bonus fun(self: Character, arg2: integer)
+---@field set_stamina fun(self: Character, arg2: integer)
+---@field set_stim fun(self: Character, arg2: integer)
+---@field set_stored_kcal fun(self: Character, arg2: integer)
+---@field set_str_bonus fun(self: Character, arg2: integer)
+---@field set_temp_btu fun(self: Character, arg2: integer) @Sets ALL body parts on a creature to the given temperature (in Body Temperature Units).
+---@field set_thirst fun(self: Character, arg2: integer)
+---@field shout fun(self: Character, arg2: string, arg3: boolean)
+---@field sight_impaired fun(self: Character): boolean
+---@field spores fun(self: Character)
+---@field suffer fun(self: Character)
+---@field takeoff fun(self: Character, arg2: Item): boolean @Attempts to take off the worn `Item` from character.
+---@field uncanny_dodge fun(self: Character): boolean
+---@field unset_mutation fun(self: Character, arg2: MutationBranchId)
+---@field unwield fun(self: Character): boolean
+---@field use_charges fun(self: Character, arg2: ItypeId, arg3: integer, arg4: bool): DetachedItem[]
+---@field use_charges_if_avail fun(self: Character, arg2: ItypeId, arg3: integer): boolean
+---@field volume_capacity fun(self: Character): Volume
+---@field volume_carried fun(self: Character): Volume
+---@field vomit fun(self: Character)
+---@field wake_up fun(self: Character)
+---@field wear fun(self: Character, arg2: Item, arg3: boolean): boolean @Attempts to wear an item in the creature inventory. If boolean parameter is false, item is worn instantly
+---@field wear_detached fun(self: Character, arg2: DetachedItem, arg3: boolean): boolean @Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly
+---@field wearing_something_on fun(self: Character, arg2: BodyPartTypeIntId): boolean
+---@field weight_carried fun(self: Character): Mass
+---@field wield fun(self: Character, arg2: Item): boolean
+---@field worn_with_flag fun(self: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): boolean
+---@field worn_with_id fun(self: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
 Character = {}
 ---@return Character
 function Character.new() end
 
 ---@class CharacterId
----@field get_value fun(arg1: CharacterId): integer
----@field is_valid fun(arg1: CharacterId): boolean
+---@field get_value fun(self: CharacterId): integer
+---@field is_valid fun(self: CharacterId): boolean
 CharacterId = {}
 ---@return CharacterId
 ---@overload fun(arg1: integer): CharacterId
 function CharacterId.new() end
 
 ---@class Creature
----@field add_effect fun(arg1: Creature, arg2: EffectTypeId, arg3: TimeDuration, arg4: BodyPartTypeId?, arg5: int?) @Effect type, duration, bodypart and intensity
----@field apply_damage fun(arg1: Creature, arg2: Creature, arg3: BodyPartTypeIntId, arg4: integer, arg5: boolean)
----@field as_avatar fun(arg1: Creature): Avatar
----@field as_character fun(arg1: Creature): Character
----@field as_monster fun(arg1: Creature): Monster
----@field as_npc fun(arg1: Creature): Npc
----@field attitude_to fun(arg1: Creature, arg2: Creature): Attitude
----@field clear_effects fun(arg1: Creature)
----@field deal_damage fun(arg1: Creature, arg2: Creature, arg3: BodyPartTypeIntId, arg4: DamageInstance): DealtDamageInstance
----@field digging fun(arg1: Creature): boolean
----@field disp_name fun(arg1: Creature, arg2: boolean, arg3: boolean): string
----@field dodge_roll fun(arg1: Creature): number
----@field get_armor_bash fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_armor_bash_base fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_armor_bash_bonus fun(arg1: Creature): integer
----@field get_armor_bullet fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_armor_bullet_base fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_armor_bullet_bonus fun(arg1: Creature): integer
----@field get_armor_cut fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_armor_cut_base fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_armor_cut_bonus fun(arg1: Creature): integer
----@field get_armor_type fun(arg1: Creature, arg2: DamageType, arg3: BodyPartTypeIntId): integer
----@field get_block_bonus fun(arg1: Creature): integer
----@field get_dodge fun(arg1: Creature): number
----@field get_dodge_base fun(arg1: Creature): number
----@field get_dodge_bonus fun(arg1: Creature): number
----@field get_effect_dur fun(arg1: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId?): TimeDuration
----@field get_effect_int fun(arg1: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId?): integer
----@field get_env_resist fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_grammatical_genders fun(arg1: Creature): string[]
----@field get_hit fun(arg1: Creature): number
----@field get_hit_base fun(arg1: Creature): number
----@field get_hit_bonus fun(arg1: Creature): number
----@field get_hp fun(arg1: Creature, arg2: BodyPartTypeIntId?): integer
----@field get_hp_max fun(arg1: Creature, arg2: BodyPartTypeIntId?): integer
----@field get_melee fun(arg1: Creature): number
----@field get_moves fun(arg1: Creature): integer
----@field get_name fun(arg1: Creature): string
----@field get_num_blocks fun(arg1: Creature): integer
----@field get_num_dodges fun(arg1: Creature): integer
----@field get_pain fun(arg1: Creature): integer
----@field get_part_healed_total fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_part_hp_cur fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_part_hp_max fun(arg1: Creature, arg2: BodyPartTypeIntId): integer
----@field get_perceived_pain fun(arg1: Creature): integer
----@field get_pos_ms fun(arg1: Creature): Tripoint
----@field get_size fun(arg1: Creature): MonsterSize
----@field get_speed fun(arg1: Creature): integer
----@field get_speed_base fun(arg1: Creature): integer
----@field get_speed_bonus fun(arg1: Creature): integer
----@field get_speed_mult fun(arg1: Creature): number
----@field get_value fun(arg1: Creature, arg2: string): string
----@field get_weight fun(arg1: Creature): Mass
----@field get_weight_capacity fun(arg1: Creature): integer
----@field has_effect fun(arg1: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId?): boolean
----@field has_effect_with_flag fun(arg1: Creature, arg2: JsonFlagId, arg3: BodyPartTypeId?): boolean
----@field has_flag fun(arg1: Creature, arg2: MonsterFlag): boolean
----@field has_grab_break_tec fun(arg1: Creature): boolean
----@field has_trait fun(arg1: Creature, arg2: MutationBranchId): boolean
----@field has_weapon fun(arg1: Creature): boolean
----@field hp_percentage fun(arg1: Creature): integer
----@field in_species fun(arg1: Creature, arg2: SpeciesTypeId): boolean
----@field is_avatar fun(arg1: Creature): boolean
----@field is_dead fun(arg1: Creature): boolean
----@field is_elec_immune fun(arg1: Creature): boolean
----@field is_hallucination fun(arg1: Creature): boolean
----@field is_immune_damage fun(arg1: Creature, arg2: DamageType): boolean
----@field is_immune_effect fun(arg1: Creature, arg2: EffectTypeId): boolean
----@field is_monster fun(arg1: Creature): boolean
----@field is_npc fun(arg1: Creature): boolean
----@field is_on_ground fun(arg1: Creature): boolean
----@field is_underwater fun(arg1: Creature): boolean
----@field is_warm fun(arg1: Creature): boolean
----@field knock_back_to fun(arg1: Creature, arg2: Tripoint)
----@field mod_moves fun(arg1: Creature, arg2: integer)
----@field mod_pain fun(arg1: Creature, arg2: integer)
----@field mod_pain_noresist fun(arg1: Creature, arg2: integer)
----@field mod_part_hp_cur fun(arg1: Creature, arg2: BodyPartTypeIntId, arg3: integer)
----@field mod_part_hp_max fun(arg1: Creature, arg2: BodyPartTypeIntId, arg3: integer)
----@field power_rating fun(arg1: Creature): number
----@field ranged_target_size fun(arg1: Creature): number
----@field remove_effect fun(arg1: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId?): boolean
----@field remove_value fun(arg1: Creature, arg2: string)
----@field sees fun(arg1: Creature, arg2: Creature): boolean
----@field set_all_parts_hp_cur fun(arg1: Creature, arg2: integer)
----@field set_all_parts_hp_to_max fun(arg1: Creature)
----@field set_moves fun(arg1: Creature, arg2: integer)
----@field set_pain fun(arg1: Creature, arg2: integer)
----@field set_part_hp_cur fun(arg1: Creature, arg2: BodyPartTypeIntId, arg3: integer)
----@field set_part_hp_max fun(arg1: Creature, arg2: BodyPartTypeIntId, arg3: integer)
----@field set_pos_ms fun(arg1: Creature, arg2: Tripoint)
----@field set_underwater fun(arg1: Creature, arg2: boolean)
----@field set_value fun(arg1: Creature, arg2: string, arg3: string)
----@field sight_range fun(arg1: Creature, arg2: integer): integer
----@field size_melee_penalty fun(arg1: Creature): integer
----@field skin_name fun(arg1: Creature): string
----@field speed_rating fun(arg1: Creature): number
----@field stability_roll fun(arg1: Creature): number
+---@field add_effect fun(self: Creature, arg2: EffectTypeId, arg3: TimeDuration, arg4: BodyPartTypeId, arg5: integer) @Effect type, duration, bodypart and intensity
+---@field apply_damage fun(self: Creature, arg2: Creature, arg3: BodyPartTypeIntId, arg4: integer, arg5: boolean)
+---@field as_avatar fun(self: Creature): Avatar
+---@field as_character fun(self: Creature): Character
+---@field as_monster fun(self: Creature): Monster
+---@field as_npc fun(self: Creature): Npc
+---@field attitude_to fun(self: Creature, arg2: Creature): Attitude
+---@field clear_effects fun(self: Creature)
+---@field deal_damage fun(self: Creature, arg2: Creature, arg3: BodyPartTypeIntId, arg4: DamageInstance): DealtDamageInstance
+---@field digging fun(self: Creature): boolean
+---@field disp_name fun(self: Creature, possessive: boolean, capitalize_first: boolean): string @
+---@field dodge_roll fun(self: Creature): number
+---@field get_armor_bash fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_armor_bash_base fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_armor_bash_bonus fun(self: Creature): integer
+---@field get_armor_bullet fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_armor_bullet_base fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_armor_bullet_bonus fun(self: Creature): integer
+---@field get_armor_cut fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_armor_cut_base fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_armor_cut_bonus fun(self: Creature): integer
+---@field get_armor_type fun(self: Creature, arg2: DamageType, arg3: BodyPartTypeIntId): integer
+---@field get_block_bonus fun(self: Creature): integer
+---@field get_dodge fun(self: Creature): number
+---@field get_dodge_base fun(self: Creature): number
+---@field get_dodge_bonus fun(self: Creature): number
+---@field get_effect_dur fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): TimeDuration
+---@field get_effect_int fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): integer
+---@field get_env_resist fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_grammatical_genders fun(self: Creature): string[]
+---@field get_hit fun(self: Creature): number
+---@field get_hit_base fun(self: Creature): number
+---@field get_hit_bonus fun(self: Creature): number
+---@field get_hp fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_hp_max fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_melee fun(self: Creature): number
+---@field get_moves fun(self: Creature): integer
+---@field get_name fun(self: Creature): string
+---@field get_num_blocks fun(self: Creature): integer
+---@field get_num_dodges fun(self: Creature): integer
+---@field get_pain fun(self: Creature): integer
+---@field get_part_healed_total fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_part_hp_cur fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_part_hp_max fun(self: Creature, arg2: BodyPartTypeIntId): integer
+---@field get_perceived_pain fun(self: Creature): integer
+---@field get_pos_ms fun(self: Creature): Tripoint
+---@field get_size fun(self: Creature): MonsterSize
+---@field get_speed fun(self: Creature): integer
+---@field get_speed_base fun(self: Creature): integer
+---@field get_speed_bonus fun(self: Creature): integer
+---@field get_speed_mult fun(self: Creature): number
+---@field get_value fun(self: Creature, arg2: string): string
+---@field get_weight fun(self: Creature): Mass
+---@field get_weight_capacity fun(self: Creature): integer
+---@field has_effect fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): boolean
+---@field has_effect_with_flag fun(self: Creature, arg2: JsonFlagId, arg3: BodyPartTypeId): boolean
+---@field has_flag fun(self: Creature, arg2: MonsterFlag): boolean
+---@field has_grab_break_tec fun(self: Creature): boolean
+---@field has_trait fun(self: Creature, arg2: MutationBranchId): boolean
+---@field has_weapon fun(self: Creature): boolean
+---@field hp_percentage fun(self: Creature): integer
+---@field in_species fun(self: Creature, arg2: SpeciesTypeId): boolean
+---@field is_avatar fun(self: Creature): boolean
+---@field is_dead fun(self: Creature): boolean
+---@field is_elec_immune fun(self: Creature): boolean
+---@field is_hallucination fun(self: Creature): boolean
+---@field is_immune_damage fun(self: Creature, arg2: DamageType): boolean
+---@field is_immune_effect fun(self: Creature, arg2: EffectTypeId): boolean
+---@field is_monster fun(self: Creature): boolean
+---@field is_npc fun(self: Creature): boolean
+---@field is_on_ground fun(self: Creature): boolean
+---@field is_underwater fun(self: Creature): boolean
+---@field is_warm fun(self: Creature): boolean
+---@field knock_back_to fun(self: Creature, arg2: Tripoint)
+---@field mod_all_parts_hp_cur fun(self: Creature, arg2: integer)
+---@field mod_moves fun(self: Creature, arg2: integer)
+---@field mod_pain fun(self: Creature, arg2: integer)
+---@field mod_pain_noresist fun(self: Creature, arg2: integer)
+---@field mod_part_hp_cur fun(self: Creature, arg2: BodyPartTypeIntId, arg3: integer)
+---@field mod_part_hp_max fun(self: Creature, arg2: BodyPartTypeIntId, arg3: integer)
+---@field power_rating fun(self: Creature): number
+---@field ranged_target_size fun(self: Creature): number
+---@field remove_effect fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): boolean
+---@field remove_value fun(self: Creature, arg2: string)
+---@field sees fun(self: Creature, arg2: Creature): boolean
+---@field set_all_parts_hp_cur fun(self: Creature, arg2: integer)
+---@field set_all_parts_hp_to_max fun(self: Creature)
+---@field set_moves fun(self: Creature, arg2: integer)
+---@field set_pain fun(self: Creature, arg2: integer)
+---@field set_part_hp_cur fun(self: Creature, arg2: BodyPartTypeIntId, arg3: integer)
+---@field set_part_hp_max fun(self: Creature, arg2: BodyPartTypeIntId, arg3: integer)
+---@field set_pos_ms fun(self: Creature, arg2: Tripoint)
+---@field set_underwater fun(self: Creature, arg2: boolean)
+---@field set_value fun(self: Creature, arg2: string, arg3: string)
+---@field sight_range fun(self: Creature, arg2: integer): integer
+---@field size_melee_penalty fun(self: Creature): integer
+---@field skin_name fun(self: Creature): string
+---@field speed_rating fun(self: Creature): number
+---@field stability_roll fun(self: Creature): number
 Creature = {}
 ---@return Creature
 function Creature.new() end
 
+--- Represents a bunch of damage amounts
+--- Constructors are:
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageInstance
 ---@field damage_units DamageUnit[]
----@field add fun(arg1: DamageInstance, arg2: DamageUnit)
----@field add_damage fun(arg1: DamageInstance, arg2: DamageType, arg3: number, arg4: number, arg5: number, arg6: number)
----@field clear fun(arg1: DamageInstance)
----@field empty fun(arg1: DamageInstance): boolean
----@field mult_damage fun(arg1: DamageInstance, arg2: number, arg3: boolean)
----@field total_damage fun(arg1: DamageInstance): number
----@field type_damage fun(arg1: DamageInstance, arg2: DamageType): number
----@field __eq fun(arg1: DamageInstance, arg2: DamageInstance): boolean
+---@field add fun(self: DamageInstance, arg2: DamageUnit)
+---@field add_damage fun(self: DamageInstance, arg2: DamageType, arg3: number, arg4: number, arg5: number, arg6: number)
+---@field clear fun(self: DamageInstance)
+---@field empty fun(self: DamageInstance): boolean
+---@field mult_damage fun(self: DamageInstance, arg2: number, arg3: boolean)
+---@field total_damage fun(self: DamageInstance): number
+---@field type_damage fun(self: DamageInstance, arg2: DamageType): number
+---@field __eq fun(self: DamageInstance, arg2: DamageInstance): boolean
 DamageInstance = {}
 ---@return DamageInstance
 ---@overload fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageInstance
 function DamageInstance.new() end
 
+--- Represents a damage amount
+--- Constructors are:
+--- new()
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageUnit
 ---@field amount number
@@ -586,7 +593,7 @@ function DamageInstance.new() end
 ---@field res_mult number
 ---@field res_pen number
 ---@field type DamageType
----@field __eq fun(arg1: DamageUnit, arg2: DamageUnit): boolean
+---@field __eq fun(self: DamageUnit, arg2: DamageUnit): boolean
 DamageUnit = {}
 ---@return DamageUnit
 ---@overload fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageUnit
@@ -595,16 +602,16 @@ function DamageUnit.new() end
 --- Represents the final dealt damage
 ---@class DealtDamageInstance
 ---@field bp_hit BodyPartTypeId
----@field dealt_dams int[]
----@field total_damage fun(arg1: DealtDamageInstance): integer
----@field type_damage fun(arg1: DealtDamageInstance, arg2: DamageType): integer
+---@field dealt_dams integer[]
+---@field total_damage fun(self: DealtDamageInstance): integer
+---@field type_damage fun(self: DealtDamageInstance, arg2: DamageType): integer
 DealtDamageInstance = {}
 ---@return DealtDamageInstance
 function DealtDamageInstance.new() end
 
 ---@class DetachedItem
----@field get fun(arg1: DetachedItem): Item
----@field is_valid fun(arg1: DetachedItem): boolean
+---@field get fun(self: DetachedItem): Item
+---@field is_valid fun(self: DetachedItem): boolean
 DetachedItem = {}
 ---@return DetachedItem
 function DetachedItem.new() end
@@ -612,28 +619,28 @@ function DetachedItem.new() end
 ---@class DiseaseTypeId
 ---@field NULL_ID fun(): DiseaseTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: DiseaseTypeId): boolean
----@field is_valid fun(arg1: DiseaseTypeId): boolean
----@field obj fun(arg1: DiseaseTypeId): DiseaseTypeRaw
----@field str fun(arg1: DiseaseTypeId): string
----@field serialize fun(arg1: DiseaseTypeId)
----@field deserialize fun(arg1: DiseaseTypeId)
----@field __tostring fun(arg1: DiseaseTypeId): string
+---@field is_null fun(self: DiseaseTypeId): boolean
+---@field is_valid fun(self: DiseaseTypeId): boolean
+---@field obj fun(self: DiseaseTypeId): DiseaseTypeRaw
+---@field str fun(self: DiseaseTypeId): string
+---@field serialize fun(self: DiseaseTypeId, arg2: any)
+---@field deserialize fun(self: DiseaseTypeId, arg2: any)
+---@field __tostring fun(self: DiseaseTypeId): string
 DiseaseTypeId = {}
 ---@return DiseaseTypeId
----@overload fun(arg1: DiseaseTypeId): DiseaseTypeId
+---@overload fun(self: DiseaseTypeId): DiseaseTypeId
 ---@overload fun(arg1: string): DiseaseTypeId
 function DiseaseTypeId.new() end
 
 ---@class DistributionGrid
----@field get_resource fun(arg1: DistributionGrid, arg2: boolean): integer @Boolean argument controls recursive behavior
----@field mod_resource fun(arg1: DistributionGrid, arg2: integer, arg3: boolean): integer @Boolean argument controls recursive behavior
+---@field get_resource fun(self: DistributionGrid, arg2: boolean): integer @Boolean argument controls recursive behavior
+---@field mod_resource fun(self: DistributionGrid, arg2: integer, arg3: boolean): integer @Boolean argument controls recursive behavior
 DistributionGrid = {}
 ---@return DistributionGrid
 function DistributionGrid.new() end
 
 ---@class DistributionGridTracker
----@field get_grid_at_abs_ms fun(arg1: DistributionGridTracker, arg2: Tripoint): DistributionGrid
+---@field get_grid_at_abs_ms fun(self: DistributionGridTracker, arg2: Tripoint): DistributionGrid
 DistributionGridTracker = {}
 ---@return DistributionGridTracker
 function DistributionGridTracker.new() end
@@ -641,27 +648,27 @@ function DistributionGridTracker.new() end
 ---@class EffectTypeId
 ---@field NULL_ID fun(): EffectTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: EffectTypeId): boolean
----@field is_valid fun(arg1: EffectTypeId): boolean
----@field obj fun(arg1: EffectTypeId): EffectTypeRaw
----@field str fun(arg1: EffectTypeId): string
----@field serialize fun(arg1: EffectTypeId)
----@field deserialize fun(arg1: EffectTypeId)
----@field __tostring fun(arg1: EffectTypeId): string
+---@field is_null fun(self: EffectTypeId): boolean
+---@field is_valid fun(self: EffectTypeId): boolean
+---@field obj fun(self: EffectTypeId): EffectTypeRaw
+---@field str fun(self: EffectTypeId): string
+---@field serialize fun(self: EffectTypeId, arg2: any)
+---@field deserialize fun(self: EffectTypeId, arg2: any)
+---@field __tostring fun(self: EffectTypeId): string
 EffectTypeId = {}
 ---@return EffectTypeId
----@overload fun(arg1: EffectTypeId): EffectTypeId
+---@overload fun(self: EffectTypeId): EffectTypeId
 ---@overload fun(arg1: string): EffectTypeId
 function EffectTypeId.new() end
 
 ---@class Energy
 ---@field from_joule fun(arg1: integer): Energy
 ---@field from_kilojoule fun(arg1: integer): Energy
----@field to_joule fun(arg1: Energy): integer
----@field to_kilojoule fun(arg1: Energy): integer
----@field __eq fun(arg1: Energy, arg2: Energy): boolean
----@field __le fun(arg1: Energy, arg2: Energy): boolean
----@field __lt fun(arg1: Energy, arg2: Energy): boolean
+---@field to_joule fun(self: Energy): integer
+---@field to_kilojoule fun(self: Energy): integer
+---@field __eq fun(self: Energy, arg2: Energy): boolean
+---@field __le fun(self: Energy, arg2: Energy): boolean
+---@field __lt fun(self: Energy, arg2: Energy): boolean
 Energy = {}
 ---@return Energy
 function Energy.new() end
@@ -669,21 +676,21 @@ function Energy.new() end
 ---@class FactionId
 ---@field NULL_ID fun(): FactionId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: FactionId): boolean
----@field is_valid fun(arg1: FactionId): boolean
----@field obj fun(arg1: FactionId): FactionRaw
----@field str fun(arg1: FactionId): string
----@field serialize fun(arg1: FactionId)
----@field deserialize fun(arg1: FactionId)
----@field __tostring fun(arg1: FactionId): string
+---@field is_null fun(self: FactionId): boolean
+---@field is_valid fun(self: FactionId): boolean
+---@field obj fun(self: FactionId): FactionRaw
+---@field str fun(self: FactionId): string
+---@field serialize fun(self: FactionId, arg2: any)
+---@field deserialize fun(self: FactionId, arg2: any)
+---@field __tostring fun(self: FactionId): string
 FactionId = {}
 ---@return FactionId
----@overload fun(arg1: FactionId): FactionId
+---@overload fun(self: FactionId): FactionId
 ---@overload fun(arg1: string): FactionId
 function FactionId.new() end
 
 ---@class FactionRaw
----@field str_id fun(arg1: FactionRaw): FactionId
+---@field str_id fun(self: FactionRaw): FactionId
 FactionRaw = {}
 ---@return FactionRaw
 function FactionRaw.new() end
@@ -691,90 +698,90 @@ function FactionRaw.new() end
 ---@class FaultId
 ---@field NULL_ID fun(): FaultId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: FaultId): boolean
----@field is_valid fun(arg1: FaultId): boolean
----@field obj fun(arg1: FaultId): FaultRaw
----@field str fun(arg1: FaultId): string
----@field serialize fun(arg1: FaultId)
----@field deserialize fun(arg1: FaultId)
----@field __tostring fun(arg1: FaultId): string
+---@field is_null fun(self: FaultId): boolean
+---@field is_valid fun(self: FaultId): boolean
+---@field obj fun(self: FaultId): FaultRaw
+---@field str fun(self: FaultId): string
+---@field serialize fun(self: FaultId, arg2: any)
+---@field deserialize fun(self: FaultId, arg2: any)
+---@field __tostring fun(self: FaultId): string
 FaultId = {}
 ---@return FaultId
----@overload fun(arg1: FaultId): FaultId
+---@overload fun(self: FaultId): FaultId
 ---@overload fun(arg1: string): FaultId
 function FaultId.new() end
 
 ---@class FieldEmitId
 ---@field NULL_ID fun(): FieldEmitId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: FieldEmitId): boolean
----@field is_valid fun(arg1: FieldEmitId): boolean
----@field obj fun(arg1: FieldEmitId): FieldEmitRaw
----@field str fun(arg1: FieldEmitId): string
----@field serialize fun(arg1: FieldEmitId)
----@field deserialize fun(arg1: FieldEmitId)
----@field __tostring fun(arg1: FieldEmitId): string
+---@field is_null fun(self: FieldEmitId): boolean
+---@field is_valid fun(self: FieldEmitId): boolean
+---@field obj fun(self: FieldEmitId): FieldEmitRaw
+---@field str fun(self: FieldEmitId): string
+---@field serialize fun(self: FieldEmitId, arg2: any)
+---@field deserialize fun(self: FieldEmitId, arg2: any)
+---@field __tostring fun(self: FieldEmitId): string
 FieldEmitId = {}
 ---@return FieldEmitId
----@overload fun(arg1: FieldEmitId): FieldEmitId
+---@overload fun(self: FieldEmitId): FieldEmitId
 ---@overload fun(arg1: string): FieldEmitId
 function FieldEmitId.new() end
 
 ---@class FieldTypeId
 ---@field NULL_ID fun(): FieldTypeId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: FieldTypeId): FieldTypeIntId
----@field is_null fun(arg1: FieldTypeId): boolean
----@field is_valid fun(arg1: FieldTypeId): boolean
----@field obj fun(arg1: FieldTypeId): FieldTypeRaw
----@field str fun(arg1: FieldTypeId): string
----@field serialize fun(arg1: FieldTypeId)
----@field deserialize fun(arg1: FieldTypeId)
----@field __tostring fun(arg1: FieldTypeId): string
+---@field int_id fun(self: FieldTypeId): FieldTypeIntId
+---@field is_null fun(self: FieldTypeId): boolean
+---@field is_valid fun(self: FieldTypeId): boolean
+---@field obj fun(self: FieldTypeId): FieldTypeRaw
+---@field str fun(self: FieldTypeId): string
+---@field serialize fun(self: FieldTypeId, arg2: any)
+---@field deserialize fun(self: FieldTypeId, arg2: any)
+---@field __tostring fun(self: FieldTypeId): string
 FieldTypeId = {}
 ---@return FieldTypeId
----@overload fun(arg1: FieldTypeId): FieldTypeId
+---@overload fun(self: FieldTypeId): FieldTypeId
 ---@overload fun(arg1: FieldTypeIntId): FieldTypeId
 ---@overload fun(arg1: string): FieldTypeId
 function FieldTypeId.new() end
 
 ---@class FieldTypeIntId
----@field is_valid fun(arg1: FieldTypeIntId): boolean
----@field obj fun(arg1: FieldTypeIntId): FieldTypeRaw
----@field str_id fun(arg1: FieldTypeIntId): FieldTypeId
----@field __tostring fun(arg1: FieldTypeIntId): string
+---@field is_valid fun(self: FieldTypeIntId): boolean
+---@field obj fun(self: FieldTypeIntId): FieldTypeRaw
+---@field str_id fun(self: FieldTypeIntId): FieldTypeId
+---@field __tostring fun(self: FieldTypeIntId): string
 FieldTypeIntId = {}
 ---@return FieldTypeIntId
----@overload fun(arg1: FieldTypeIntId): FieldTypeIntId
+---@overload fun(self: FieldTypeIntId): FieldTypeIntId
 ---@overload fun(arg1: FieldTypeId): FieldTypeIntId
 function FieldTypeIntId.new() end
 
 ---@class FurnId
 ---@field NULL_ID fun(): FurnId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: FurnId): FurnIntId
----@field is_null fun(arg1: FurnId): boolean
----@field is_valid fun(arg1: FurnId): boolean
----@field obj fun(arg1: FurnId): FurnRaw
----@field str fun(arg1: FurnId): string
----@field serialize fun(arg1: FurnId)
----@field deserialize fun(arg1: FurnId)
----@field __tostring fun(arg1: FurnId): string
+---@field int_id fun(self: FurnId): FurnIntId
+---@field is_null fun(self: FurnId): boolean
+---@field is_valid fun(self: FurnId): boolean
+---@field obj fun(self: FurnId): FurnRaw
+---@field str fun(self: FurnId): string
+---@field serialize fun(self: FurnId, arg2: any)
+---@field deserialize fun(self: FurnId, arg2: any)
+---@field __tostring fun(self: FurnId): string
 FurnId = {}
 ---@return FurnId
----@overload fun(arg1: FurnId): FurnId
+---@overload fun(self: FurnId): FurnId
 ---@overload fun(arg1: FurnIntId): FurnId
 ---@overload fun(arg1: string): FurnId
 function FurnId.new() end
 
 ---@class FurnIntId
----@field is_valid fun(arg1: FurnIntId): boolean
----@field obj fun(arg1: FurnIntId): FurnRaw
----@field str_id fun(arg1: FurnIntId): FurnId
----@field __tostring fun(arg1: FurnIntId): string
+---@field is_valid fun(self: FurnIntId): boolean
+---@field obj fun(self: FurnIntId): FurnRaw
+---@field str_id fun(self: FurnIntId): FurnId
+---@field __tostring fun(self: FurnIntId): string
 FurnIntId = {}
 ---@return FurnIntId
----@overload fun(arg1: FurnIntId): FurnIntId
+---@overload fun(self: FurnIntId): FurnIntId
 ---@overload fun(arg1: FurnId): FurnIntId
 function FurnIntId.new() end
 
@@ -782,20 +789,20 @@ function FurnIntId.new() end
 ---@field close FurnId
 ---@field open FurnId
 ---@field transforms_into FurnId
----@field get_coverage fun(arg1: FurnRaw): integer
----@field get_flags fun(arg1: FurnRaw): any
----@field get_light_emitted fun(arg1: FurnRaw): integer
----@field get_max_volume fun(arg1: FurnRaw): Volume
----@field get_movecost fun(arg1: FurnRaw): integer
----@field has_flag fun(arg1: FurnRaw, arg2: string): boolean
----@field int_id fun(arg1: FurnRaw): FurnIntId
----@field name fun(arg1: FurnRaw): string
----@field set_coverage fun(arg1: FurnRaw, arg2: integer)
----@field set_flag fun(arg1: FurnRaw, arg2: string)
----@field set_light_emitted fun(arg1: FurnRaw, arg2: integer)
----@field set_max_volume fun(arg1: FurnRaw, arg2: Volume)
----@field set_movecost fun(arg1: FurnRaw, arg2: integer)
----@field str_id fun(arg1: FurnRaw): FurnId
+---@field get_coverage fun(self: FurnRaw): integer
+---@field get_flags fun(self: FurnRaw): string[]
+---@field get_light_emitted fun(self: FurnRaw): integer
+---@field get_max_volume fun(self: FurnRaw): Volume
+---@field get_movecost fun(self: FurnRaw): integer
+---@field has_flag fun(self: FurnRaw, arg2: string): boolean
+---@field int_id fun(self: FurnRaw): FurnIntId
+---@field name fun(self: FurnRaw): string
+---@field set_coverage fun(self: FurnRaw, arg2: integer)
+---@field set_flag fun(self: FurnRaw, arg2: string)
+---@field set_light_emitted fun(self: FurnRaw, arg2: integer)
+---@field set_max_volume fun(self: FurnRaw, arg2: Volume)
+---@field set_movecost fun(self: FurnRaw, arg2: integer)
+---@field str_id fun(self: FurnRaw): FurnId
 FurnRaw = {}
 ---@return FurnRaw
 function FurnRaw.new() end
@@ -803,14 +810,14 @@ function FurnRaw.new() end
 ---@class IslotAmmo : RangedData
 ---@field ammo_effects AmmunitionEffectId[]
 ---@field ammo_id AmmunitionTypeId @Ammo type, basically the "form" of the ammo that fits into the gun/tool
----@field casing_id any @Type id of casings, if any
+---@field casing_id ItypeId @Type id of casings, if any
 ---@field cookoff boolean @Should this ammo explode in fire?
 ---@field def_charges integer @Default charges
 ---@field dont_recover_one_in integer @Chance to fail to recover the ammo used.
 ---@field drop ItypeId
 ---@field drop_active boolean
 ---@field drop_count integer
----@field force_stat_display any
+---@field force_stat_display boolean
 ---@field loudness integer @Base loudness of ammo (possibly modified by gun/gunmods)
 ---@field recoil integer @Recoil (per shot), roughly equivalent to kinetic energy (in Joules)
 ---@field special_cookoff boolean @Should this ammo apply a special explosion effect when in fire?
@@ -889,7 +896,7 @@ function IslotBrewable.new() end
 ---@field addict_type AddictionType @effects of addiction
 ---@field addict_value integer @addiction potential
 ---@field comest_type string @comestible subtype - eg. FOOD, DRINK, MED
----@field contamination table<DiseaseTypeId, int> @List of diseases carried by this comestible and their associated probability
+---@field contamination table<DiseaseTypeId, integer> @List of diseases carried by this comestible and their associated probability
 ---@field cooks_like ItypeId @Reference to other item that replaces this one as a component in recipe results
 ---@field def_charges integer @Defaults # of charges (drugs, loaf of bread? etc)
 ---@field fatigue_mod integer @fatigue altering effect
@@ -909,9 +916,9 @@ function IslotBrewable.new() end
 ---@field spoils TimeDuration @Time until becomes rotten at standard temperature, or zero if never spoils
 ---@field stimulant_type integer @stimulant effect
 ---@field tool ItypeId @tool needed to consume (e.g. lighter for cigarettes)
----@field get_default_nutr fun(arg1: IslotComestible): integer
----@field get_default_nutrition fun(arg1: IslotComestible): any @Nutrition values to use for this type when they aren't calculated from components
----@field has_calories fun(arg1: IslotComestible): boolean
+---@field get_default_nutr fun(self: IslotComestible): integer
+---@field get_default_nutrition fun(self: IslotComestible): table<VitaminId, integer> @Nutrition values to use for this type when they aren't calculated from components
+---@field has_calories fun(self: IslotComestible): boolean
 IslotComestible = {}
 ---@return IslotComestible
 function IslotComestible.new() end
@@ -962,21 +969,21 @@ function IslotFuel.new() end
 ---@field sight_dispersion integer @Maximum aim achievable using base weapon sights
 ---@field skill_used SkillId @What skill this gun uses
 ---@field ups_charges integer @If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all
----@field get_gunmod_locations fun(arg1: IslotGun): table<string, int> @Location for gun mods. Key is the location (untranslated!), value is the number of mods that the location can have. The value should be > 0
----@field get_modes fun(arg1: IslotGun): string[] @Firing modes are supported by the gun. Always contains at least DEFAULT mode
+---@field get_gunmod_locations fun(self: IslotGun): table<string, integer> @Location for gun mods. Key is the location (untranslated!), value is the number of mods that the location can have. The value should be > 0
+---@field get_modes fun(self: IslotGun): string[] @Firing modes are supported by the gun. Always contains at least DEFAULT mode
 IslotGun = {}
 ---@return IslotGun
 function IslotGun.new() end
 
 ---@class IslotGunmod : RangedData
----@field aim_speed integer @the one with highest aim speed is used.
+---@field aim_speed integer @For sights (see @ref sight_dispersion), this value affects time cost of aiming.<br />Higher is better. In case of multiple usable sights,<br />the one with highest aim speed is used.
 ---@field ammo_effects AmmunitionEffectId[]
 ---@field ammo_to_fire_modifier integer @Increases base gun ammo to fire by this value per shot
 ---@field ammo_to_fire_multiplier number @Increases base gun ammo to fire by this many times per shot
 ---@field consume_chance integer @Percentage value change to the gun's loading time. Higher is less likely
 ---@field consume_divisor integer @Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much.
 ---@field exclusion any @What kind of weapons this gunmod can't be used with
----@field exclusion_category any @What category of weapons this gunmod can't be used with
+---@field exclusion_category any[] @What category of weapons this gunmod can't be used with
 ---@field handling integer @Relative adjustment to base gun handling
 ---@field install_time integer @How many moves does this gunmod take to install?
 ---@field loudness integer @Modifies base loudness as provided by the currently loaded ammo
@@ -986,12 +993,12 @@ function IslotGun.new() end
 ---@field ups_charges_modifier integer @Increases base gun UPS consumption by this value per shot
 ---@field ups_charges_multiplier number @Increases base gun UPS consumption by this many times per shot
 ---@field usable any @What kind of weapons this gunmod can be used with
----@field usable_category any @What category of weapons this gunmod can be used with
+---@field usable_category any[] @What category of weapons this gunmod can be used with
 ---@field weight_multiplier number @Increases gun weight by this many times
----@field get_added_slots fun(arg1: IslotGunmod): table<string, int> @Additional gunmod slots to add to the gun
----@field get_location fun(arg1: IslotGunmod): string @Where is this gunmod installed (e.g. "stock", "rail")?
----@field get_mod_blacklist fun(arg1: IslotGunmod): string[] @Not compatible on weapons that have this mod slot
----@field get_mode_modifiers fun(arg1: IslotGunmod): string[] @Firing modes added to or replacing those of the base gun
+---@field get_added_slots fun(self: IslotGunmod): table<string, integer> @Additional gunmod slots to add to the gun
+---@field get_location fun(self: IslotGunmod): string @Where is this gunmod installed (e.g. "stock", "rail")?
+---@field get_mod_blacklist fun(self: IslotGunmod): string[] @Not compatible on weapons that have this mod slot
+---@field get_mode_modifiers fun(self: IslotGunmod): string[] @Firing modes added to or replacing those of the base gun
 IslotGunmod = {}
 ---@return IslotGunmod
 function IslotGunmod.new() end
@@ -1001,7 +1008,7 @@ function IslotGunmod.new() end
 ---@field capacity integer @Capacity of magazine (in equivalent units to ammo charges)
 ---@field count integer @Default amount of ammo contained by a magazine (often set for ammo belts)
 ---@field default_ammo ItypeId @Default type of ammo contained by a magazine (often set for ammo belts)
----@field linkage any @For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
+---@field linkage ItypeId @For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
 ---@field protects_contents boolean @If false, ammo will cook off if this mag is affected by fire
 ---@field reliability integer @How reliable this magazine on a range of 0 to 10?
 ---@field reload_time integer @How long it takes to load each unit of ammo into the magazine
@@ -1020,7 +1027,7 @@ function IslotMilling.new() end
 ---@field acceptable_ammo AmmunitionTypeId[] @If non-empty restrict mod to items with those base (before modifiers) ammo types
 ---@field ammo_modifier AmmunitionTypeId[] @If set modifies parent ammo to this type
 ---@field capacity_multiplier number @Proportional adjustment of parent item ammo capacity
----@field magazine_adaptor Map(AmmunitionTypeId,Set(ItypeId)) @If non-empty replaces the compatible magazines for the parent item
+---@field magazine_adaptor table<AmmunitionTypeId, ItypeId[]> @If non-empty replaces the compatible magazines for the parent item
 IslotMod = {}
 ---@return IslotMod
 function IslotMod.new() end
@@ -1042,7 +1049,7 @@ function IslotPetArmor.new() end
 ---@field fruit_div integer @Amount of harvested charges of fruits is divided by this number.
 ---@field fruit_id ItypeId @Type id of the fruit item.
 ---@field grow TimeDuration @Time it takes for a seed to grow (based of off a season length of 91 days).
----@field get_plant_name fun(arg1: IslotSeed, arg2: integer): string @Name of the plant.
+---@field get_plant_name fun(self: IslotSeed, arg2: integer): string @Name of the plant.
 IslotSeed = {}
 ---@return IslotSeed
 function IslotSeed.new() end
@@ -1055,9 +1062,9 @@ function IslotSeed.new() end
 ---@field def_charges integer
 ---@field max_charges integer
 ---@field power_draw integer
----@field rand_charges int[]
+---@field rand_charges integer[]
 ---@field revert_msg string
----@field revert_to any
+---@field revert_to ItypeId
 ---@field subtype ItypeId
 ---@field turns_active integer
 ---@field turns_per_charge integer
@@ -1076,151 +1083,151 @@ function IslotWheel.new() end
 
 ---@class Item
 ---@field charges integer
----@field activate fun(arg1: Item)
----@field add_item_with_id fun(arg1: Item, arg2: ItypeId, arg3: integer) @Adds an item(s) to contents
----@field add_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Adds the technique. It isn't treated original, but additional.
----@field ammo_capacity fun(arg1: Item, arg2: boolean): integer @Gets the maximum capacity of a magazine
----@field ammo_consume fun(arg1: Item, arg2: integer, arg3: Tripoint): integer
----@field ammo_current fun(arg1: Item): ItypeId
----@field ammo_data fun(arg1: Item): ItypeRaw
----@field ammo_remaining fun(arg1: Item): integer @Get remaining ammo, works with batteries & stuff too
----@field ammo_required fun(arg1: Item): integer
----@field ammo_set fun(arg1: Item, arg2: ItypeId, arg3: integer)
----@field ammo_unset fun(arg1: Item)
----@field attack_cost fun(arg1: Item): integer
----@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
----@field clear_vars fun(arg1: Item) @Erase all variables
----@field conductive fun(arg1: Item): boolean
----@field convert fun(arg1: Item, arg2: ItypeId) @Converts the item as given `ItypeId`.
----@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
----@field current_magazine fun(arg1: Item): Item @Gets the current magazine
----@field deactivate fun(arg1: Item)
----@field display_name fun(arg1: Item, arg2: integer): string @Display name with all bells and whistles like ammo and prefixes
----@field energy_remaining fun(arg1: Item): Energy
----@field erase_var fun(arg1: Item, arg2: string) @Erase variable
----@field get_category_id fun(arg1: Item): string @Gets the category id this item is in
----@field get_comestible_fun fun(arg1: Item): integer
----@field get_kcal fun(arg1: Item): integer
----@field get_mtype fun(arg1: Item): MonsterTypeId @Almost for a corpse.
----@field get_owner fun(arg1: Item): FactionId @Gets the faction id that owns this item
----@field get_owner_name fun(arg1: Item): string
----@field get_quench fun(arg1: Item): integer
----@field get_reload_time fun(arg1: Item): integer
----@field get_rot fun(arg1: Item): TimeDuration @Gets the TimeDuration until this item rots
----@field get_techniques fun(arg1: Item): MartialArtsTechniqueId[] @Gets all techniques. Including original techniques.
----@field get_type fun(arg1: Item): ItypeId
----@field get_var_num fun(arg1: Item, arg2: string, arg3: number): number @Get variable as float number
----@field get_var_str fun(arg1: Item, arg2: string, arg3: string): string @Get variable as string
----@field get_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint): Tripoint @Get variable as tripoint
----@field has_flag fun(arg1: Item, arg2: JsonFlagId): boolean
----@field has_infinite_charges fun(arg1: Item): boolean
----@field has_item_with_id fun(arg1: Item, arg2: ItypeId): boolean @Checks item contents for a given item id
----@field has_own_flag fun(arg1: Item, arg2: JsonFlagId): boolean
----@field has_technique fun(arg1: Item, arg2: MartialArtsTechniqueId): boolean @Checks if this item has the technique as an addition. Doesn't check original techniques.
----@field has_var fun(arg1: Item, arg2: string): boolean @Check for variable of any type
----@field is_active fun(arg1: Item): boolean
----@field is_ammo fun(arg1: Item): boolean
----@field is_ammo_belt fun(arg1: Item): boolean
----@field is_ammo_container fun(arg1: Item): boolean
----@field is_armor fun(arg1: Item): boolean
----@field is_artifact fun(arg1: Item): boolean
----@field is_bandolier fun(arg1: Item): boolean
----@field is_battery fun(arg1: Item): boolean @DEPRECATED: Is this a battery? (spoiler: it isn't)
----@field is_bionic fun(arg1: Item): boolean
----@field is_book fun(arg1: Item): boolean
----@field is_brewable fun(arg1: Item): boolean
----@field is_bucket fun(arg1: Item): boolean
----@field is_bucket_nonempty fun(arg1: Item): boolean
----@field is_comestible fun(arg1: Item): boolean
----@field is_container fun(arg1: Item): boolean
----@field is_container_empty fun(arg1: Item): boolean
----@field is_corpse fun(arg1: Item): boolean
----@field is_craft fun(arg1: Item): boolean
----@field is_dangerous fun(arg1: Item): boolean
----@field is_deployable fun(arg1: Item): boolean
----@field is_emissive fun(arg1: Item): boolean
----@field is_engine fun(arg1: Item): boolean
----@field is_faulty fun(arg1: Item): boolean
+---@field activate fun(self: Item)
+---@field add_item_with_id fun(self: Item, arg2: ItypeId, arg3: integer) @Adds an item(s) to contents
+---@field add_technique fun(self: Item, arg2: MartialArtsTechniqueId) @Adds the technique. It isn't treated original, but additional.
+---@field ammo_capacity fun(self: Item, arg2: boolean): integer @Gets the maximum capacity of a magazine
+---@field ammo_consume fun(self: Item, arg2: integer, arg3: Tripoint): integer
+---@field ammo_current fun(self: Item): ItypeId
+---@field ammo_data fun(self: Item): ItypeRaw
+---@field ammo_remaining fun(self: Item): integer @Get remaining ammo, works with batteries & stuff too
+---@field ammo_required fun(self: Item): integer
+---@field ammo_set fun(self: Item, arg2: ItypeId, arg3: integer)
+---@field ammo_unset fun(self: Item)
+---@field attack_cost fun(self: Item): integer
+---@field can_contain fun(self: Item, arg2: Item): boolean @Checks if this item can contain another
+---@field clear_vars fun(self: Item) @Erase all variables
+---@field conductive fun(self: Item): boolean
+---@field convert fun(self: Item, arg2: ItypeId) @Converts the item as given `ItypeId`.
+---@field covers fun(self: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
+---@field current_magazine fun(self: Item): Item @Gets the current magazine
+---@field deactivate fun(self: Item)
+---@field display_name fun(self: Item, arg2: integer): string @Display name with all bells and whistles like ammo and prefixes
+---@field energy_remaining fun(self: Item): Energy
+---@field erase_var fun(self: Item, arg2: string) @Erase variable
+---@field get_category_id fun(self: Item): string @Gets the category id this item is in
+---@field get_comestible_fun fun(self: Item): integer
+---@field get_kcal fun(self: Item): integer
+---@field get_mtype fun(self: Item): MonsterTypeId @Almost for a corpse.
+---@field get_owner fun(self: Item): FactionId @Gets the faction id that owns this item
+---@field get_owner_name fun(self: Item): string
+---@field get_quench fun(self: Item): integer
+---@field get_reload_time fun(self: Item): integer
+---@field get_rot fun(self: Item): TimeDuration @Gets the TimeDuration until this item rots
+---@field get_techniques fun(self: Item): MartialArtsTechniqueId[] @Gets all techniques. Including original techniques.
+---@field get_type fun(self: Item): ItypeId
+---@field get_var_num fun(self: Item, arg2: string, arg3: number): number @Get variable as float number
+---@field get_var_str fun(self: Item, arg2: string, arg3: string): string @Get variable as string
+---@field get_var_tri fun(self: Item, arg2: string, arg3: Tripoint): Tripoint @Get variable as tripoint
+---@field has_flag fun(self: Item, arg2: JsonFlagId): boolean
+---@field has_infinite_charges fun(self: Item): boolean
+---@field has_item_with_id fun(self: Item, arg2: ItypeId): boolean @Checks item contents for a given item id
+---@field has_own_flag fun(self: Item, arg2: JsonFlagId): boolean
+---@field has_technique fun(self: Item, arg2: MartialArtsTechniqueId): boolean @Checks if this item has the technique as an addition. Doesn't check original techniques.
+---@field has_var fun(self: Item, arg2: string): boolean @Check for variable of any type
+---@field is_active fun(self: Item): boolean
+---@field is_ammo fun(self: Item): boolean
+---@field is_ammo_belt fun(self: Item): boolean
+---@field is_ammo_container fun(self: Item): boolean
+---@field is_armor fun(self: Item): boolean
+---@field is_artifact fun(self: Item): boolean
+---@field is_bandolier fun(self: Item): boolean
+---@field is_battery fun(self: Item): boolean @DEPRECATED: Is this a battery? (spoiler: it isn't)
+---@field is_bionic fun(self: Item): boolean
+---@field is_book fun(self: Item): boolean
+---@field is_brewable fun(self: Item): boolean
+---@field is_bucket fun(self: Item): boolean
+---@field is_bucket_nonempty fun(self: Item): boolean
+---@field is_comestible fun(self: Item): boolean
+---@field is_container fun(self: Item): boolean
+---@field is_container_empty fun(self: Item): boolean
+---@field is_corpse fun(self: Item): boolean
+---@field is_craft fun(self: Item): boolean
+---@field is_dangerous fun(self: Item): boolean
+---@field is_deployable fun(self: Item): boolean
+---@field is_emissive fun(self: Item): boolean
+---@field is_engine fun(self: Item): boolean
+---@field is_faulty fun(self: Item): boolean
 ---@field is_filthy fun(): boolean @DEPRECATED: Items are no longer filthy
----@field is_firearm fun(arg1: Item): boolean
----@field is_food fun(arg1: Item): boolean
----@field is_food_container fun(arg1: Item): boolean
----@field is_fuel fun(arg1: Item): boolean
----@field is_gun fun(arg1: Item): boolean
----@field is_gunmod fun(arg1: Item): boolean
----@field is_holster fun(arg1: Item): boolean
----@field is_irremovable fun(arg1: Item): boolean
----@field is_made_of fun(arg1: Item, arg2: MaterialTypeId): boolean
----@field is_magazine fun(arg1: Item): boolean @Is this a magazine? (batteries are magazines)
----@field is_map fun(arg1: Item): boolean
----@field is_med_container fun(arg1: Item): boolean
----@field is_medication fun(arg1: Item): boolean
----@field is_melee fun(arg1: Item, arg2: DamageType): boolean @Is this item an effective melee weapon for the given damage type?
----@field is_money fun(arg1: Item): boolean
----@field is_non_resealable_container fun(arg1: Item): boolean
----@field is_null fun(arg1: Item): boolean
----@field is_owned_by fun(arg1: Item, arg2: Character, arg3: boolean): boolean @Checks if this item owned by a character
----@field is_power_armor fun(arg1: Item): boolean
----@field is_relic fun(arg1: Item): boolean
----@field is_reloadable fun(arg1: Item): boolean
----@field is_salvageable fun(arg1: Item, arg2: boolean): boolean
----@field is_seed fun(arg1: Item): boolean
----@field is_sided fun(arg1: Item): boolean
----@field is_silent fun(arg1: Item): boolean
----@field is_soft fun(arg1: Item): boolean
----@field is_stackable fun(arg1: Item): boolean
----@field is_tainted fun(arg1: Item): boolean
----@field is_tool fun(arg1: Item): boolean
----@field is_toolmod fun(arg1: Item): boolean
----@field is_transformable fun(arg1: Item): boolean
----@field is_unarmed_weapon fun(arg1: Item): boolean
----@field is_upgrade fun(arg1: Item): boolean
----@field is_watertight_container fun(arg1: Item): boolean
----@field is_wheel fun(arg1: Item): boolean
----@field made_of fun(arg1: Item): MaterialTypeId[]
----@field mod_charges fun(arg1: Item, arg2: integer)
----@field price fun(arg1: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
----@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
----@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
----@field set_charges fun(arg1: Item, arg2: integer)
----@field set_countdown fun(arg1: Item, arg2: integer)
----@field set_flag fun(arg1: Item, arg2: JsonFlagId)
----@field set_flag_recursive fun(arg1: Item, arg2: JsonFlagId)
----@field set_owner fun(arg1: Item, arg2: Character) @Sets the ownership of this item to a character
----@field set_owner fun(arg1: Item, arg2: FactionId) @Sets the ownership of this item to a faction
----@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
----@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
----@field set_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint)
+---@field is_firearm fun(self: Item): boolean
+---@field is_food fun(self: Item): boolean
+---@field is_food_container fun(self: Item): boolean
+---@field is_fuel fun(self: Item): boolean
+---@field is_gun fun(self: Item): boolean
+---@field is_gunmod fun(self: Item): boolean
+---@field is_holster fun(self: Item): boolean
+---@field is_irremovable fun(self: Item): boolean
+---@field is_made_of fun(self: Item, arg2: MaterialTypeId): boolean
+---@field is_magazine fun(self: Item): boolean @Is this a magazine? (batteries are magazines)
+---@field is_map fun(self: Item): boolean
+---@field is_med_container fun(self: Item): boolean
+---@field is_medication fun(self: Item): boolean
+---@field is_melee fun(self: Item, arg2: DamageType): boolean @Is this item an effective melee weapon for the given damage type?
+---@field is_money fun(self: Item): boolean
+---@field is_non_resealable_container fun(self: Item): boolean
+---@field is_null fun(self: Item): boolean
+---@field is_owned_by fun(self: Item, arg2: Character, arg3: boolean): boolean @Checks if this item owned by a character
+---@field is_power_armor fun(self: Item): boolean
+---@field is_relic fun(self: Item): boolean
+---@field is_reloadable fun(self: Item): boolean
+---@field is_salvageable fun(self: Item, arg2: boolean): boolean
+---@field is_seed fun(self: Item): boolean
+---@field is_sided fun(self: Item): boolean
+---@field is_silent fun(self: Item): boolean
+---@field is_soft fun(self: Item): boolean
+---@field is_stackable fun(self: Item): boolean
+---@field is_tainted fun(self: Item): boolean
+---@field is_tool fun(self: Item): boolean
+---@field is_toolmod fun(self: Item): boolean
+---@field is_transformable fun(self: Item): boolean
+---@field is_unarmed_weapon fun(self: Item): boolean
+---@field is_upgrade fun(self: Item): boolean
+---@field is_watertight_container fun(self: Item): boolean
+---@field is_wheel fun(self: Item): boolean
+---@field made_of fun(self: Item): MaterialTypeId[]
+---@field mod_charges fun(self: Item, arg2: integer)
+---@field price fun(self: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
+---@field remaining_capacity_for_id fun(self: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
+---@field remove_technique fun(self: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
+---@field set_charges fun(self: Item, arg2: integer)
+---@field set_countdown fun(self: Item, arg2: integer)
+---@field set_flag fun(self: Item, arg2: JsonFlagId)
+---@field set_flag_recursive fun(self: Item, arg2: JsonFlagId)
+---@field set_owner fun(self: Item, arg2: Character) @Sets the ownership of this item to a character
+---@field set_owner fun(self: Item, arg2: FactionId) @Sets the ownership of this item to a faction
+---@field set_var_num fun(self: Item, arg2: string, arg3: number)
+---@field set_var_str fun(self: Item, arg2: string, arg3: string)
+---@field set_var_tri fun(self: Item, arg2: string, arg3: Tripoint)
 ---@field spawn fun(arg1: ItypeId, arg2: integer): DetachedItem @Spawns a new item. Same as gapi.create_item 
----@field stamina_cost fun(arg1: Item): integer
----@field tname fun(arg1: Item, arg2: integer, arg3: boolean, arg4: integer): string @Translated item name with prefixes
----@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
----@field unset_flag fun(arg1: Item, arg2: JsonFlagId)
----@field unset_flags fun(arg1: Item)
----@field volume fun(arg1: Item, arg2: bool?): Volume @Volume of the item. `bool` is whether it is `integral_volume`.
----@field weight fun(arg1: Item, arg2: bool?, arg3: bool?): Mass @Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+---@field stamina_cost fun(self: Item): integer
+---@field tname fun(self: Item, arg2: integer, arg3: boolean, arg4: integer): string @Translated item name with prefixes
+---@field total_capacity fun(self: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
+---@field unset_flag fun(self: Item, arg2: JsonFlagId)
+---@field unset_flags fun(self: Item)
+---@field volume fun(self: Item, arg2: boolean): Volume @Volume of the item. `bool` is whether it is `integral_volume`.
+---@field weight fun(self: Item, arg2: boolean, arg3: boolean): Mass @Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
 Item = {}
 ---@return Item
 function Item.new() end
 
 --- Iterate over this using pairs() for reading. Can also be indexed.
 ---@class ItemStack
----@field amount_can_fit fun(arg1: ItemStack, arg2: Item): integer
----@field clear fun(arg1: ItemStack): DetachedItem[]
----@field count fun(arg1: ItemStack): any
----@field count_limit fun(arg1: ItemStack): integer
----@field free_volume fun(arg1: ItemStack): Volume
----@field insert fun(arg1: ItemStack, arg2: DetachedItem)
----@field items fun(arg1: ItemStack): Item[] @Modifying the stack while iterating may cause problems. This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating).
----@field max_volume fun(arg1: ItemStack): Volume
----@field move_all_to fun(arg1: ItemStack, arg2: ItemStack)
----@field only_item fun(arg1: ItemStack): Item
----@field remove fun(arg1: ItemStack, arg2: Item): DetachedItem
----@field stacks_with fun(arg1: ItemStack, arg2: Item): Item
----@field stored_volume fun(arg1: ItemStack): Volume
----@field __index fun(arg1: ItemStack, arg2: integer): Item
----@field __len fun(arg1: ItemStack): any
----@field __pairs fun(arg1: ItemStack): any
+---@field amount_can_fit fun(self: ItemStack, arg2: Item): integer
+---@field clear fun(self: ItemStack): DetachedItem[]
+---@field count fun(self: ItemStack): integer
+---@field count_limit fun(self: ItemStack): integer
+---@field free_volume fun(self: ItemStack): Volume
+---@field insert fun(self: ItemStack, arg2: DetachedItem)
+---@field items fun(self: ItemStack): Item[] @Modifying the stack while iterating may cause problems. This returns a frozen copy of the items in the stack for safe modification of the stack (eg. removing items while iterating).
+---@field max_volume fun(self: ItemStack): Volume
+---@field move_all_to fun(self: ItemStack, arg2: ItemStack)
+---@field only_item fun(self: ItemStack): Item
+---@field remove fun(self: ItemStack, arg2: Item): DetachedItem
+---@field stacks_with fun(self: ItemStack, arg2: Item): Item
+---@field stored_volume fun(self: ItemStack): Volume
+---@field __index fun(self: ItemStack, arg2: integer): Item
+---@field __len fun(self: ItemStack): integer
+---@field __pairs fun(self: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<_item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<_item_stack_lua_it_state>>,nil)
 ItemStack = {}
 ---@return ItemStack
 function ItemStack.new() end
@@ -1228,25 +1235,25 @@ function ItemStack.new() end
 ---@class ItypeId
 ---@field NULL_ID fun(): ItypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: ItypeId): boolean
----@field is_valid fun(arg1: ItypeId): boolean
----@field obj fun(arg1: ItypeId): ItypeRaw
----@field str fun(arg1: ItypeId): string
----@field serialize fun(arg1: ItypeId)
----@field deserialize fun(arg1: ItypeId)
----@field __tostring fun(arg1: ItypeId): string
+---@field is_null fun(self: ItypeId): boolean
+---@field is_valid fun(self: ItypeId): boolean
+---@field obj fun(self: ItypeId): ItypeRaw
+---@field str fun(self: ItypeId): string
+---@field serialize fun(self: ItypeId, arg2: any)
+---@field deserialize fun(self: ItypeId, arg2: any)
+---@field __tostring fun(self: ItypeId): string
 ItypeId = {}
 ---@return ItypeId
----@overload fun(arg1: ItypeId): ItypeId
+---@overload fun(self: ItypeId): ItypeId
 ---@overload fun(arg1: string): ItypeId
 function ItypeId.new() end
 
 --- Slots for various item type properties. Each slot may contain a valid value or nil
 ---@class ItypeRaw
----@field attacks any
+---@field attacks table<string, any>
 ---@field countdown_destroy boolean
 ---@field countdown_interval integer
----@field default_container any
+---@field default_container ItypeId
 ---@field emits FieldEmitId[]
 ---@field explode_in_fire boolean
 ---@field explosion_data any
@@ -1262,11 +1269,11 @@ function ItypeId.new() end
 ---@field min_dex integer
 ---@field min_int integer
 ---@field min_per integer
----@field min_skills table<SkillId, int>
+---@field min_skills table<SkillId, integer>
 ---@field min_str integer
 ---@field phase Phase
 ---@field properties table<string, string>
----@field qualities table<QualityId, int>
+---@field qualities table<QualityId, integer>
 ---@field recipes RecipeId[]
 ---@field repair ItypeId[]
 ---@field repairs_like ItypeId
@@ -1277,49 +1284,49 @@ function ItypeId.new() end
 ---@field volume Volume
 ---@field weapon_category WeaponCategoryId[]
 ---@field weight Mass
----@field can_have_charges fun(arg1: ItypeRaw): boolean
----@field can_use fun(arg1: ItypeRaw, arg2: string): boolean
----@field charge_factor fun(arg1: ItypeRaw): integer
----@field charges_default fun(arg1: ItypeRaw): integer
----@field charges_per_volume fun(arg1: ItypeRaw, arg2: Volume): integer
----@field charges_to_use fun(arg1: ItypeRaw): integer
----@field damage_max fun(arg1: ItypeRaw): integer
----@field damage_min fun(arg1: ItypeRaw): integer
----@field get_countdown_action fun(arg1: ItypeRaw): string
----@field get_description fun(arg1: ItypeRaw, arg2: integer): string
----@field get_drop_action fun(arg1: ItypeRaw): string
----@field get_flags fun(arg1: ItypeRaw): any
----@field get_name fun(arg1: ItypeRaw, arg2: integer): string
----@field get_uses fun(arg1: ItypeRaw): string[]
----@field has_flag fun(arg1: ItypeRaw, arg2: JsonFlagId): boolean
----@field has_use fun(arg1: ItypeRaw): boolean
----@field is_stackable fun(arg1: ItypeRaw): boolean
----@field maximum_charges fun(arg1: ItypeRaw): integer
----@field price fun(arg1: ItypeRaw): integer
----@field price_post fun(arg1: ItypeRaw): integer
----@field slot_ammo fun(arg1: ItypeRaw): IslotAmmo
----@field slot_armor fun(arg1: ItypeRaw): IslotArmor
----@field slot_artifact fun(arg1: ItypeRaw): IslotArtifact
----@field slot_battery fun(arg1: ItypeRaw): IslotBattery
----@field slot_bionic fun(arg1: ItypeRaw): IslotBionic
----@field slot_book fun(arg1: ItypeRaw): IslotBook
----@field slot_brewable fun(arg1: ItypeRaw): IslotBrewable
----@field slot_comestible fun(arg1: ItypeRaw): IslotComestible
----@field slot_container fun(arg1: ItypeRaw): IslotContainer
----@field slot_engine fun(arg1: ItypeRaw): IslotEngine
----@field slot_fuel fun(arg1: ItypeRaw): IslotFuel
----@field slot_gun fun(arg1: ItypeRaw): IslotGun
----@field slot_gunmod fun(arg1: ItypeRaw): IslotGunmod
----@field slot_magazine fun(arg1: ItypeRaw): IslotMagazine
----@field slot_milling fun(arg1: ItypeRaw): IslotMilling
----@field slot_mod fun(arg1: ItypeRaw): IslotMod
----@field slot_pet_armor fun(arg1: ItypeRaw): IslotPetArmor
----@field slot_relic fun(arg1: ItypeRaw): Relic
----@field slot_seed fun(arg1: ItypeRaw): IslotSeed
----@field slot_tool fun(arg1: ItypeRaw): IslotTool
----@field slot_wheel fun(arg1: ItypeRaw): IslotWheel
----@field source_mod fun(arg1: ItypeRaw): ModInfoId[]
----@field type_id fun(arg1: ItypeRaw): ItypeId
+---@field can_have_charges fun(self: ItypeRaw): boolean
+---@field can_use fun(self: ItypeRaw, arg2: string): boolean
+---@field charge_factor fun(self: ItypeRaw): integer
+---@field charges_default fun(self: ItypeRaw): integer
+---@field charges_per_volume fun(self: ItypeRaw, arg2: Volume): integer
+---@field charges_to_use fun(self: ItypeRaw): integer
+---@field damage_max fun(self: ItypeRaw): integer
+---@field damage_min fun(self: ItypeRaw): integer
+---@field get_countdown_action fun(self: ItypeRaw): string
+---@field get_description fun(self: ItypeRaw, arg2: integer): string
+---@field get_drop_action fun(self: ItypeRaw): string
+---@field get_flags fun(self: ItypeRaw): JsonFlagId[]
+---@field get_name fun(self: ItypeRaw, arg2: integer): string
+---@field get_uses fun(self: ItypeRaw): string[]
+---@field has_flag fun(self: ItypeRaw, arg2: JsonFlagId): boolean
+---@field has_use fun(self: ItypeRaw): boolean
+---@field is_stackable fun(self: ItypeRaw): boolean
+---@field maximum_charges fun(self: ItypeRaw): integer
+---@field price fun(self: ItypeRaw): integer
+---@field price_post fun(self: ItypeRaw): integer
+---@field slot_ammo fun(self: ItypeRaw): IslotAmmo
+---@field slot_armor fun(self: ItypeRaw): IslotArmor
+---@field slot_artifact fun(self: ItypeRaw): IslotArtifact
+---@field slot_battery fun(self: ItypeRaw): IslotBattery
+---@field slot_bionic fun(self: ItypeRaw): IslotBionic
+---@field slot_book fun(self: ItypeRaw): IslotBook
+---@field slot_brewable fun(self: ItypeRaw): IslotBrewable
+---@field slot_comestible fun(self: ItypeRaw): IslotComestible
+---@field slot_container fun(self: ItypeRaw): IslotContainer
+---@field slot_engine fun(self: ItypeRaw): IslotEngine
+---@field slot_fuel fun(self: ItypeRaw): IslotFuel
+---@field slot_gun fun(self: ItypeRaw): IslotGun
+---@field slot_gunmod fun(self: ItypeRaw): IslotGunmod
+---@field slot_magazine fun(self: ItypeRaw): IslotMagazine
+---@field slot_milling fun(self: ItypeRaw): IslotMilling
+---@field slot_mod fun(self: ItypeRaw): IslotMod
+---@field slot_pet_armor fun(self: ItypeRaw): IslotPetArmor
+---@field slot_relic fun(self: ItypeRaw): Relic
+---@field slot_seed fun(self: ItypeRaw): IslotSeed
+---@field slot_tool fun(self: ItypeRaw): IslotTool
+---@field slot_wheel fun(self: ItypeRaw): IslotWheel
+---@field source_mod fun(self: ItypeRaw): ModInfoId[]
+---@field type_id fun(self: ItypeRaw): ItypeId
 ItypeRaw = {}
 ---@return ItypeRaw
 function ItypeRaw.new() end
@@ -1327,73 +1334,73 @@ function ItypeRaw.new() end
 ---@class JsonFlagId
 ---@field NULL_ID fun(): JsonFlagId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: JsonFlagId): boolean
----@field is_valid fun(arg1: JsonFlagId): boolean
----@field obj fun(arg1: JsonFlagId): JsonFlagRaw
----@field str fun(arg1: JsonFlagId): string
----@field serialize fun(arg1: JsonFlagId)
----@field deserialize fun(arg1: JsonFlagId)
----@field __tostring fun(arg1: JsonFlagId): string
+---@field is_null fun(self: JsonFlagId): boolean
+---@field is_valid fun(self: JsonFlagId): boolean
+---@field obj fun(self: JsonFlagId): JsonFlagRaw
+---@field str fun(self: JsonFlagId): string
+---@field serialize fun(self: JsonFlagId, arg2: any)
+---@field deserialize fun(self: JsonFlagId, arg2: any)
+---@field __tostring fun(self: JsonFlagId): string
 JsonFlagId = {}
 ---@return JsonFlagId
----@overload fun(arg1: JsonFlagId): JsonFlagId
+---@overload fun(self: JsonFlagId): JsonFlagId
 ---@overload fun(arg1: string): JsonFlagId
 function JsonFlagId.new() end
 
 ---@class JsonTraitFlagId
 ---@field NULL_ID fun(): JsonTraitFlagId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: JsonTraitFlagId): boolean
----@field is_valid fun(arg1: JsonTraitFlagId): boolean
----@field obj fun(arg1: JsonTraitFlagId): JsonTraitFlagRaw
----@field str fun(arg1: JsonTraitFlagId): string
----@field serialize fun(arg1: JsonTraitFlagId)
----@field deserialize fun(arg1: JsonTraitFlagId)
----@field __tostring fun(arg1: JsonTraitFlagId): string
+---@field is_null fun(self: JsonTraitFlagId): boolean
+---@field is_valid fun(self: JsonTraitFlagId): boolean
+---@field obj fun(self: JsonTraitFlagId): JsonTraitFlagRaw
+---@field str fun(self: JsonTraitFlagId): string
+---@field serialize fun(self: JsonTraitFlagId, arg2: any)
+---@field deserialize fun(self: JsonTraitFlagId, arg2: any)
+---@field __tostring fun(self: JsonTraitFlagId): string
 JsonTraitFlagId = {}
 ---@return JsonTraitFlagId
----@overload fun(arg1: JsonTraitFlagId): JsonTraitFlagId
+---@overload fun(self: JsonTraitFlagId): JsonTraitFlagId
 ---@overload fun(arg1: string): JsonTraitFlagId
 function JsonTraitFlagId.new() end
 
 ---@class Map
----@field add_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
----@field clear_items_at fun(arg1: Map, arg2: Tripoint)
----@field create_corpse_at fun(arg1: Map, arg2: Tripoint, arg3: MonsterTypeId?, arg4: TimePoint?, arg5: string?, arg6: int?) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
----@field create_item_at fun(arg1: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer): Item @Creates a new item(s) at a position on the map.
----@field disarm_trap_at fun(arg1: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
----@field get_abs_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
----@field get_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): TimeDuration
----@field get_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): integer
----@field get_furn_at fun(arg1: Map, arg2: Tripoint): FurnIntId
----@field get_items_at fun(arg1: Map, arg2: Tripoint): MapStack
----@field get_items_in_radius fun(arg1: Map, arg2: Tripoint, arg3: integer): MapStack[]
----@field get_local_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert absolute ms -> local ms
----@field get_map_size fun(arg1: Map): integer @In map squares
----@field get_map_size_in_submaps fun(arg1: Map): integer
----@field get_ter_at fun(arg1: Map, arg2: Tripoint): TerIntId
----@field get_trap_at fun(arg1: Map, arg2: Tripoint): TrapIntId
----@field has_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): boolean
----@field has_items_at fun(arg1: Map, arg2: Tripoint): boolean
----@field mod_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
----@field mod_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
----@field remove_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId)
----@field remove_item_at fun(arg1: Map, arg2: Tripoint, arg3: Item)
----@field remove_trap_at fun(arg1: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
----@field set_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration, arg5: boolean): TimeDuration
----@field set_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: boolean): integer
----@field set_furn_at fun(arg1: Map, arg2: Tripoint, arg3: FurnIntId)
----@field set_ter_at fun(arg1: Map, arg2: Tripoint, arg3: TerIntId): boolean
----@field set_trap_at fun(arg1: Map, arg2: Tripoint, arg3: TrapIntId) @Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+---@field add_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
+---@field clear_items_at fun(self: Map, arg2: Tripoint)
+---@field create_corpse_at fun(self: Map, arg2: Tripoint, arg3: MonsterTypeId, arg4: TimePoint, arg5: string, arg6: integer) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+---@field create_item_at fun(self: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer): Item @Creates a new item(s) at a position on the map.
+---@field disarm_trap_at fun(self: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
+---@field get_abs_ms fun(self: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
+---@field get_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): TimeDuration
+---@field get_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): integer
+---@field get_furn_at fun(self: Map, arg2: Tripoint): FurnIntId
+---@field get_items_at fun(self: Map, arg2: Tripoint): MapStack
+---@field get_items_in_radius fun(self: Map, arg2: Tripoint, arg3: integer): MapStack[]
+---@field get_local_ms fun(self: Map, arg2: Tripoint): Tripoint @Convert absolute ms -> local ms
+---@field get_map_size fun(self: Map): integer @In map squares
+---@field get_map_size_in_submaps fun(self: Map): integer
+---@field get_ter_at fun(self: Map, arg2: Tripoint): TerIntId
+---@field get_trap_at fun(self: Map, arg2: Tripoint): TrapIntId
+---@field has_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): boolean
+---@field has_items_at fun(self: Map, arg2: Tripoint): boolean
+---@field mod_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
+---@field mod_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
+---@field remove_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId)
+---@field remove_item_at fun(self: Map, arg2: Tripoint, arg3: Item)
+---@field remove_trap_at fun(self: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
+---@field set_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration, arg5: boolean): TimeDuration
+---@field set_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: boolean): integer
+---@field set_furn_at fun(self: Map, arg2: Tripoint, arg3: FurnIntId)
+---@field set_ter_at fun(self: Map, arg2: Tripoint, arg3: TerIntId): boolean
+---@field set_trap_at fun(self: Map, arg2: Tripoint, arg3: TrapIntId) @Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
 Map = {}
 ---@return Map
 function Map.new() end
 
 ---@class MapStack : ItemStack
----@field as_item_stack fun(arg1: MapStack): ItemStack
+---@field as_item_stack fun(self: MapStack): ItemStack
 ---@field __index fun(arg1: ItemStack, arg2: integer): Item
----@field __len fun(arg1: ItemStack): any
----@field __pairs fun(arg1: ItemStack): any
+---@field __len fun(arg1: ItemStack): integer
+---@field __pairs fun(arg1: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<_item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<_item_stack_lua_it_state>>,nil)
 MapStack = {}
 ---@return MapStack
 function MapStack.new() end
@@ -1401,48 +1408,48 @@ function MapStack.new() end
 ---@class MartialArtsBuffId
 ---@field NULL_ID fun(): MartialArtsBuffId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MartialArtsBuffId): boolean
----@field is_valid fun(arg1: MartialArtsBuffId): boolean
----@field obj fun(arg1: MartialArtsBuffId): MartialArtsBuffRaw
----@field str fun(arg1: MartialArtsBuffId): string
----@field serialize fun(arg1: MartialArtsBuffId)
----@field deserialize fun(arg1: MartialArtsBuffId)
----@field __tostring fun(arg1: MartialArtsBuffId): string
+---@field is_null fun(self: MartialArtsBuffId): boolean
+---@field is_valid fun(self: MartialArtsBuffId): boolean
+---@field obj fun(self: MartialArtsBuffId): MartialArtsBuffRaw
+---@field str fun(self: MartialArtsBuffId): string
+---@field serialize fun(self: MartialArtsBuffId, arg2: any)
+---@field deserialize fun(self: MartialArtsBuffId, arg2: any)
+---@field __tostring fun(self: MartialArtsBuffId): string
 MartialArtsBuffId = {}
 ---@return MartialArtsBuffId
----@overload fun(arg1: MartialArtsBuffId): MartialArtsBuffId
+---@overload fun(self: MartialArtsBuffId): MartialArtsBuffId
 ---@overload fun(arg1: string): MartialArtsBuffId
 function MartialArtsBuffId.new() end
 
 ---@class MartialArtsId
 ---@field NULL_ID fun(): MartialArtsId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MartialArtsId): boolean
----@field is_valid fun(arg1: MartialArtsId): boolean
----@field obj fun(arg1: MartialArtsId): MartialArtsRaw
----@field str fun(arg1: MartialArtsId): string
----@field serialize fun(arg1: MartialArtsId)
----@field deserialize fun(arg1: MartialArtsId)
----@field __tostring fun(arg1: MartialArtsId): string
+---@field is_null fun(self: MartialArtsId): boolean
+---@field is_valid fun(self: MartialArtsId): boolean
+---@field obj fun(self: MartialArtsId): MartialArtsRaw
+---@field str fun(self: MartialArtsId): string
+---@field serialize fun(self: MartialArtsId, arg2: any)
+---@field deserialize fun(self: MartialArtsId, arg2: any)
+---@field __tostring fun(self: MartialArtsId): string
 MartialArtsId = {}
 ---@return MartialArtsId
----@overload fun(arg1: MartialArtsId): MartialArtsId
+---@overload fun(self: MartialArtsId): MartialArtsId
 ---@overload fun(arg1: string): MartialArtsId
 function MartialArtsId.new() end
 
 ---@class MartialArtsTechniqueId
 ---@field NULL_ID fun(): MartialArtsTechniqueId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MartialArtsTechniqueId): boolean
----@field is_valid fun(arg1: MartialArtsTechniqueId): boolean
----@field obj fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueRaw
----@field str fun(arg1: MartialArtsTechniqueId): string
----@field serialize fun(arg1: MartialArtsTechniqueId)
----@field deserialize fun(arg1: MartialArtsTechniqueId)
----@field __tostring fun(arg1: MartialArtsTechniqueId): string
+---@field is_null fun(self: MartialArtsTechniqueId): boolean
+---@field is_valid fun(self: MartialArtsTechniqueId): boolean
+---@field obj fun(self: MartialArtsTechniqueId): MartialArtsTechniqueRaw
+---@field str fun(self: MartialArtsTechniqueId): string
+---@field serialize fun(self: MartialArtsTechniqueId, arg2: any)
+---@field deserialize fun(self: MartialArtsTechniqueId, arg2: any)
+---@field __tostring fun(self: MartialArtsTechniqueId): string
 MartialArtsTechniqueId = {}
 ---@return MartialArtsTechniqueId
----@overload fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueId
+---@overload fun(self: MartialArtsTechniqueId): MartialArtsTechniqueId
 ---@overload fun(arg1: string): MartialArtsTechniqueId
 function MartialArtsTechniqueId.new() end
 
@@ -1466,7 +1473,7 @@ function MartialArtsTechniqueId.new() end
 ---@field side_switch boolean
 ---@field stun_dur integer
 ---@field take_weapon boolean
----@field get_description fun(arg1: MartialArtsTechniqueRaw): string
+---@field get_description fun(self: MartialArtsTechniqueRaw): string
 MartialArtsTechniqueRaw = {}
 ---@return MartialArtsTechniqueRaw
 function MartialArtsTechniqueRaw.new() end
@@ -1476,13 +1483,13 @@ function MartialArtsTechniqueRaw.new() end
 ---@field from_kilogram fun(arg1: integer): Mass
 ---@field from_milligram fun(arg1: integer): Mass
 ---@field from_newton fun(arg1: integer): Mass
----@field to_gram fun(arg1: Mass): integer
----@field to_kilogram fun(arg1: Mass): integer
----@field to_milligram fun(arg1: Mass): integer
----@field to_newton fun(arg1: Mass): integer
----@field __eq fun(arg1: Mass, arg2: Mass): boolean
----@field __le fun(arg1: Mass, arg2: Mass): boolean
----@field __lt fun(arg1: Mass, arg2: Mass): boolean
+---@field to_gram fun(self: Mass): integer
+---@field to_kilogram fun(self: Mass): integer
+---@field to_milligram fun(self: Mass): integer
+---@field to_newton fun(self: Mass): integer
+---@field __eq fun(self: Mass, arg2: Mass): boolean
+---@field __le fun(self: Mass, arg2: Mass): boolean
+---@field __lt fun(self: Mass, arg2: Mass): boolean
 Mass = {}
 ---@return Mass
 function Mass.new() end
@@ -1490,54 +1497,55 @@ function Mass.new() end
 ---@class MaterialTypeId
 ---@field NULL_ID fun(): MaterialTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MaterialTypeId): boolean
----@field is_valid fun(arg1: MaterialTypeId): boolean
----@field obj fun(arg1: MaterialTypeId): MaterialTypeRaw
----@field str fun(arg1: MaterialTypeId): string
----@field serialize fun(arg1: MaterialTypeId)
----@field deserialize fun(arg1: MaterialTypeId)
----@field __tostring fun(arg1: MaterialTypeId): string
+---@field is_null fun(self: MaterialTypeId): boolean
+---@field is_valid fun(self: MaterialTypeId): boolean
+---@field obj fun(self: MaterialTypeId): MaterialTypeRaw
+---@field str fun(self: MaterialTypeId): string
+---@field serialize fun(self: MaterialTypeId, arg2: any)
+---@field deserialize fun(self: MaterialTypeId, arg2: any)
+---@field __tostring fun(self: MaterialTypeId): string
 MaterialTypeId = {}
 ---@return MaterialTypeId
----@overload fun(arg1: MaterialTypeId): MaterialTypeId
+---@overload fun(self: MaterialTypeId): MaterialTypeId
 ---@overload fun(arg1: string): MaterialTypeId
 function MaterialTypeId.new() end
 
 ---@class MaterialTypeRaw
----@field name fun(arg1: MaterialTypeRaw): string
----@field str_id fun(arg1: MaterialTypeRaw): MaterialTypeId
+---@field name fun(self: MaterialTypeRaw): string
+---@field str_id fun(self: MaterialTypeRaw): MaterialTypeId
 MaterialTypeRaw = {}
 ---@return MaterialTypeRaw
 function MaterialTypeRaw.new() end
 
 ---@class Mission
----@field assign fun(arg1: Mission, arg2: Avatar) @Assigns this mission to the given avatar.
----@field fail fun(arg1: Mission) @Fails the mission.
----@field get_deadline fun(arg1: Mission): TimePoint @Returns the mission's deadline as a time_point.
----@field get_description fun(arg1: Mission): string @Returns the mission description.
----@field get_follow_up fun(arg1: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
----@field get_id fun(arg1: Mission): integer @Returns the mission's unique ID.
----@field get_item_id fun(arg1: Mission): ItypeId @Returns the item ID associated with the mission.
----@field get_likely_rewards fun(arg1: Mission): any @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
----@field get_npc_id fun(arg1: Mission): CharacterId @Returns the NPC character ID associated with the mission.
----@field get_target_point fun(arg1: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
----@field get_type fun(arg1: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
----@field get_value fun(arg1: Mission): integer @Returns the mission's value as an integer.
----@field has_deadline fun(arg1: Mission): boolean @Returns true if the mission has a deadline.
----@field has_failed fun(arg1: Mission): boolean @Returns true if the mission has failed.
----@field has_follow_up fun(arg1: Mission): boolean @Returns true if the mission has a follow-up mission.
----@field has_generic_rewards fun(arg1: Mission): boolean @Returns true if the mission has generic rewards.
----@field has_target fun(arg1: Mission): boolean @Returns true if the mission has a target.
----@field in_progress fun(arg1: Mission): boolean @Returns true if the mission is currently in progress.
----@field is_assigned fun(arg1: Mission): boolean @Returns true if the mission is currently assigned.
----@field mission_id fun(arg1: Mission): MissionTypeIdRaw @Returns the mission type ID of this mission.
----@field name fun(arg1: Mission): string @Returns the mission's name as a string.
+---@field assign fun(self: Mission, arg2: Avatar) @Assigns this mission to the given avatar.
+---@field fail fun(self: Mission) @Fails the mission.
+---@field get_deadline fun(self: Mission): TimePoint @Returns the mission's deadline as a time_point.
+---@field get_description fun(self: Mission): string @Returns the mission description.
+---@field get_follow_up fun(self: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
+---@field get_id fun(self: Mission): integer @Returns the mission's unique ID.
+---@field get_item_id fun(self: Mission): ItypeId @Returns the item ID associated with the mission.
+---@field get_likely_rewards fun(self: Mission): (integer, ItypeId)[] @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+---@field get_npc_id fun(self: Mission): CharacterId @Returns the NPC character ID associated with the mission.
+---@field get_target_point fun(self: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
+---@field get_type fun(self: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
+---@field get_value fun(self: Mission): integer @Returns the mission's value as an integer.
+---@field has_deadline fun(self: Mission): boolean @Returns true if the mission has a deadline.
+---@field has_failed fun(self: Mission): boolean @Returns true if the mission has failed.
+---@field has_follow_up fun(self: Mission): boolean @Returns true if the mission has a follow-up mission.
+---@field has_generic_rewards fun(self: Mission): boolean @Returns true if the mission has generic rewards.
+---@field has_target fun(self: Mission): boolean @Returns true if the mission has a target.
+---@field in_progress fun(self: Mission): boolean @Returns true if the mission is currently in progress.
+---@field is_assigned fun(self: Mission): boolean @Returns true if the mission is currently assigned.
+---@field is_complete fun(self: Mission, arg2: CharacterId): boolean @Returns true if the mission goal has been completed (optionally checked against given NPC ID).
+---@field mission_id fun(self: Mission): MissionTypeIdRaw @Returns the mission type ID of this mission.
+---@field name fun(self: Mission): string @Returns the mission's name as a string.
 ---@field reserve_new fun(arg1: MissionTypeIdRaw, arg2: CharacterId): Mission @Reserves a new mission of the given type for the specified NPC. Returns the new mission.
 ---@field reserve_random fun(arg1: MissionOrigin, arg2: Tripoint, arg3: CharacterId): Mission @Reserves a random mission at the specified origin and position for the given NPC. Returns the new mission.
----@field step_complete fun(arg1: Mission, arg2: integer) @Marks a mission step as complete, taking an integer step index.
----@field wrap_up fun(arg1: Mission) @Wraps up the mission successfully.
----@field serialize fun(arg1: Mission)
----@field deserialize fun(arg1: Mission)
+---@field step_complete fun(self: Mission, arg2: integer) @Marks a mission step as complete, taking an integer step index.
+---@field wrap_up fun(self: Mission) @Wraps up the mission successfully.
+---@field serialize fun(self: Mission, arg2: any)
+---@field deserialize fun(self: Mission, arg2: any)
 Mission = {}
 ---@return Mission
 function Mission.new() end
@@ -1546,7 +1554,7 @@ function Mission.new() end
 ---@field deadline_high TimeDuration @Returns the maximum allowed deadline for the mission.
 ---@field deadline_low TimeDuration @Returns the minimum allowed deadline for the mission.
 ---@field description any @Returns the mission's description as a string.
----@field dialogue any @Returns any associated dialogue for the mission.
+---@field dialogue table<string, any> @Returns any associated dialogue for the mission.
 ---@field difficulty integer @Returns the mission's difficulty as an integer.
 ---@field empty_container ItypeId @Returns true if the mission requires the container to be empty.
 ---@field follow_up MissionTypeIdRaw @Returns any follow-up mission type ID.
@@ -1554,7 +1562,7 @@ function Mission.new() end
 ---@field has_generic_rewards boolean @Returns true if the mission has generic rewards.
 ---@field item_count integer @Returns the count of items involved in the mission.
 ---@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
----@field likely_rewards any @Returns a vector of likely rewards (chance, itype_id pairs).
+---@field likely_rewards (integer, ItypeId)[] @Returns a vector of likely rewards (chance, itype_id pairs).
 ---@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
 ---@field monster_type MonsterTypeId @Returns the monster type associated with the mission, if any.
 ---@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
@@ -1562,9 +1570,9 @@ function Mission.new() end
 ---@field target_npc_id CharacterId @Returns the ID of the target NPC for the mission, if any.
 ---@field urgent boolean @Returns true if the mission is marked as urgent.
 ---@field value integer @Returns the mission's reward value as an integer.
----@field get_all fun(): any @Returns all available missions.
+---@field get_all fun(): MissionType[] @Returns all available missions.
 ---@field get_random_mission_id fun(arg1: MissionOrigin, arg2: Tripoint): MissionTypeIdRaw @Returns a random mission type ID at the specified origin and overmap tile position.
----@field tname fun(arg1: MissionType): string
+---@field tname fun(self: MissionType): string
 MissionType = {}
 ---@return MissionType
 function MissionType.new() end
@@ -1578,16 +1586,16 @@ function MissionTypeIdRaw.new() end
 ---@class ModInfoId
 ---@field NULL_ID fun(): ModInfoId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: ModInfoId): boolean
----@field is_valid fun(arg1: ModInfoId): boolean
----@field obj fun(arg1: ModInfoId): ModInfoRaw
----@field str fun(arg1: ModInfoId): string
----@field serialize fun(arg1: ModInfoId)
----@field deserialize fun(arg1: ModInfoId)
----@field __tostring fun(arg1: ModInfoId): string
+---@field is_null fun(self: ModInfoId): boolean
+---@field is_valid fun(self: ModInfoId): boolean
+---@field obj fun(self: ModInfoId): ModInfoRaw
+---@field str fun(self: ModInfoId): string
+---@field serialize fun(self: ModInfoId, arg2: any)
+---@field deserialize fun(self: ModInfoId, arg2: any)
+---@field __tostring fun(self: ModInfoId): string
 ModInfoId = {}
 ---@return ModInfoId
----@overload fun(arg1: ModInfoId): ModInfoId
+---@overload fun(self: ModInfoId): ModInfoId
 ---@overload fun(arg1: string): ModInfoId
 function ModInfoId.new() end
 
@@ -1598,36 +1606,36 @@ function ModInfoId.new() end
 ---@field friendly integer
 ---@field morale integer
 ---@field unique_name string
----@field attitude fun(arg1: Monster, arg2: Character): MonsterAttitude
----@field can_climb fun(arg1: Monster): boolean
----@field can_dig fun(arg1: Monster): boolean
----@field can_drown fun(arg1: Monster): boolean
----@field can_hear fun(arg1: Monster): boolean
----@field can_see fun(arg1: Monster): boolean
----@field can_submerge fun(arg1: Monster): boolean
----@field can_upgrade fun(arg1: Monster): boolean
----@field climbs fun(arg1: Monster): boolean
----@field digs fun(arg1: Monster): boolean
----@field flies fun(arg1: Monster): boolean
----@field get_type fun(arg1: Monster): MonsterTypeId
----@field get_upgrade_time fun(arg1: Monster): integer
----@field hasten_upgrade fun(arg1: Monster)
----@field heal fun(arg1: Monster, arg2: integer, arg3: boolean): integer
----@field is_wandering fun(arg1: Monster): boolean
----@field make_ally fun(arg1: Monster, arg2: Monster)
----@field make_friendly fun(arg1: Monster)
----@field make_fungus fun(arg1: Monster): boolean
----@field move_target fun(arg1: Monster): Tripoint
----@field move_to fun(arg1: Monster, arg2: Tripoint, arg3: boolean, arg4: boolean, arg5: number): boolean
----@field name fun(arg1: Monster, arg2: integer): string
----@field name_with_armor fun(arg1: Monster): string
----@field refill_udders fun(arg1: Monster)
----@field set_hp fun(arg1: Monster, arg2: integer)
----@field spawn fun(arg1: Monster, arg2: Tripoint)
----@field swims fun(arg1: Monster): boolean
----@field try_reproduce fun(arg1: Monster)
----@field try_upgrade fun(arg1: Monster, arg2: boolean)
----@field wander_to fun(arg1: Monster, arg2: Tripoint, arg3: integer)
+---@field attitude fun(self: Monster, arg2: Character): MonsterAttitude
+---@field can_climb fun(self: Monster): boolean
+---@field can_dig fun(self: Monster): boolean
+---@field can_drown fun(self: Monster): boolean
+---@field can_hear fun(self: Monster): boolean
+---@field can_see fun(self: Monster): boolean
+---@field can_submerge fun(self: Monster): boolean
+---@field can_upgrade fun(self: Monster): boolean
+---@field climbs fun(self: Monster): boolean
+---@field digs fun(self: Monster): boolean
+---@field flies fun(self: Monster): boolean
+---@field get_type fun(self: Monster): MonsterTypeId
+---@field get_upgrade_time fun(self: Monster): integer
+---@field hasten_upgrade fun(self: Monster)
+---@field heal fun(self: Monster, arg2: integer, arg3: boolean): integer
+---@field is_wandering fun(self: Monster): boolean
+---@field make_ally fun(self: Monster, arg2: Monster)
+---@field make_friendly fun(self: Monster)
+---@field make_fungus fun(self: Monster): boolean
+---@field move_target fun(self: Monster): Tripoint
+---@field move_to fun(self: Monster, arg2: Tripoint, arg3: boolean, arg4: boolean, arg5: number): boolean
+---@field name fun(self: Monster, arg2: integer): string
+---@field name_with_armor fun(self: Monster): string
+---@field refill_udders fun(self: Monster)
+---@field set_hp fun(self: Monster, arg2: integer)
+---@field spawn fun(self: Monster, arg2: Tripoint)
+---@field swims fun(self: Monster): boolean
+---@field try_reproduce fun(self: Monster)
+---@field try_upgrade fun(self: Monster, arg2: boolean)
+---@field wander_to fun(self: Monster, arg2: Tripoint, arg3: integer)
 Monster = {}
 ---@return Monster
 function Monster.new() end
@@ -1635,93 +1643,93 @@ function Monster.new() end
 ---@class MonsterFactionId
 ---@field NULL_ID fun(): MonsterFactionId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: MonsterFactionId): MonsterFactionIntId
----@field is_null fun(arg1: MonsterFactionId): boolean
----@field is_valid fun(arg1: MonsterFactionId): boolean
----@field obj fun(arg1: MonsterFactionId): MonsterFactionRaw
----@field str fun(arg1: MonsterFactionId): string
----@field serialize fun(arg1: MonsterFactionId)
----@field deserialize fun(arg1: MonsterFactionId)
----@field __tostring fun(arg1: MonsterFactionId): string
+---@field int_id fun(self: MonsterFactionId): MonsterFactionIntId
+---@field is_null fun(self: MonsterFactionId): boolean
+---@field is_valid fun(self: MonsterFactionId): boolean
+---@field obj fun(self: MonsterFactionId): MonsterFactionRaw
+---@field str fun(self: MonsterFactionId): string
+---@field serialize fun(self: MonsterFactionId, arg2: any)
+---@field deserialize fun(self: MonsterFactionId, arg2: any)
+---@field __tostring fun(self: MonsterFactionId): string
 MonsterFactionId = {}
 ---@return MonsterFactionId
----@overload fun(arg1: MonsterFactionId): MonsterFactionId
+---@overload fun(self: MonsterFactionId): MonsterFactionId
 ---@overload fun(arg1: MonsterFactionIntId): MonsterFactionId
 ---@overload fun(arg1: string): MonsterFactionId
 function MonsterFactionId.new() end
 
 ---@class MonsterFactionIntId
----@field is_valid fun(arg1: MonsterFactionIntId): boolean
----@field obj fun(arg1: MonsterFactionIntId): MonsterFactionRaw
----@field str_id fun(arg1: MonsterFactionIntId): MonsterFactionId
----@field __tostring fun(arg1: MonsterFactionIntId): string
+---@field is_valid fun(self: MonsterFactionIntId): boolean
+---@field obj fun(self: MonsterFactionIntId): MonsterFactionRaw
+---@field str_id fun(self: MonsterFactionIntId): MonsterFactionId
+---@field __tostring fun(self: MonsterFactionIntId): string
 MonsterFactionIntId = {}
 ---@return MonsterFactionIntId
----@overload fun(arg1: MonsterFactionIntId): MonsterFactionIntId
+---@overload fun(self: MonsterFactionIntId): MonsterFactionIntId
 ---@overload fun(arg1: MonsterFactionId): MonsterFactionIntId
 function MonsterFactionIntId.new() end
 
 ---@class MonsterGroupId
 ---@field NULL_ID fun(): MonsterGroupId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MonsterGroupId): boolean
----@field is_valid fun(arg1: MonsterGroupId): boolean
----@field obj fun(arg1: MonsterGroupId): MonsterGroupRaw
----@field str fun(arg1: MonsterGroupId): string
----@field serialize fun(arg1: MonsterGroupId)
----@field deserialize fun(arg1: MonsterGroupId)
----@field __tostring fun(arg1: MonsterGroupId): string
+---@field is_null fun(self: MonsterGroupId): boolean
+---@field is_valid fun(self: MonsterGroupId): boolean
+---@field obj fun(self: MonsterGroupId): MonsterGroupRaw
+---@field str fun(self: MonsterGroupId): string
+---@field serialize fun(self: MonsterGroupId, arg2: any)
+---@field deserialize fun(self: MonsterGroupId, arg2: any)
+---@field __tostring fun(self: MonsterGroupId): string
 MonsterGroupId = {}
 ---@return MonsterGroupId
----@overload fun(arg1: MonsterGroupId): MonsterGroupId
+---@overload fun(self: MonsterGroupId): MonsterGroupId
 ---@overload fun(arg1: string): MonsterGroupId
 function MonsterGroupId.new() end
 
 ---@class MonsterTypeId
 ---@field NULL_ID fun(): MonsterTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MonsterTypeId): boolean
----@field is_valid fun(arg1: MonsterTypeId): boolean
----@field obj fun(arg1: MonsterTypeId): MonsterTypeRaw
----@field str fun(arg1: MonsterTypeId): string
----@field serialize fun(arg1: MonsterTypeId)
----@field deserialize fun(arg1: MonsterTypeId)
----@field __tostring fun(arg1: MonsterTypeId): string
+---@field is_null fun(self: MonsterTypeId): boolean
+---@field is_valid fun(self: MonsterTypeId): boolean
+---@field obj fun(self: MonsterTypeId): MonsterTypeRaw
+---@field str fun(self: MonsterTypeId): string
+---@field serialize fun(self: MonsterTypeId, arg2: any)
+---@field deserialize fun(self: MonsterTypeId, arg2: any)
+---@field __tostring fun(self: MonsterTypeId): string
 MonsterTypeId = {}
 ---@return MonsterTypeId
----@overload fun(arg1: MonsterTypeId): MonsterTypeId
+---@overload fun(self: MonsterTypeId): MonsterTypeId
 ---@overload fun(arg1: string): MonsterTypeId
 function MonsterTypeId.new() end
 
 ---@class MoraleTypeDataId
 ---@field NULL_ID fun(): MoraleTypeDataId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MoraleTypeDataId): boolean
----@field is_valid fun(arg1: MoraleTypeDataId): boolean
----@field obj fun(arg1: MoraleTypeDataId): MoraleTypeDataRaw
----@field str fun(arg1: MoraleTypeDataId): string
----@field serialize fun(arg1: MoraleTypeDataId)
----@field deserialize fun(arg1: MoraleTypeDataId)
----@field __tostring fun(arg1: MoraleTypeDataId): string
+---@field is_null fun(self: MoraleTypeDataId): boolean
+---@field is_valid fun(self: MoraleTypeDataId): boolean
+---@field obj fun(self: MoraleTypeDataId): MoraleTypeDataRaw
+---@field str fun(self: MoraleTypeDataId): string
+---@field serialize fun(self: MoraleTypeDataId, arg2: any)
+---@field deserialize fun(self: MoraleTypeDataId, arg2: any)
+---@field __tostring fun(self: MoraleTypeDataId): string
 MoraleTypeDataId = {}
 ---@return MoraleTypeDataId
----@overload fun(arg1: MoraleTypeDataId): MoraleTypeDataId
+---@overload fun(self: MoraleTypeDataId): MoraleTypeDataId
 ---@overload fun(arg1: string): MoraleTypeDataId
 function MoraleTypeDataId.new() end
 
 ---@class MutationBranchId
 ---@field NULL_ID fun(): MutationBranchId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MutationBranchId): boolean
----@field is_valid fun(arg1: MutationBranchId): boolean
----@field obj fun(arg1: MutationBranchId): MutationBranchRaw
----@field str fun(arg1: MutationBranchId): string
----@field serialize fun(arg1: MutationBranchId)
----@field deserialize fun(arg1: MutationBranchId)
----@field __tostring fun(arg1: MutationBranchId): string
+---@field is_null fun(self: MutationBranchId): boolean
+---@field is_valid fun(self: MutationBranchId): boolean
+---@field obj fun(self: MutationBranchId): MutationBranchRaw
+---@field str fun(self: MutationBranchId): string
+---@field serialize fun(self: MutationBranchId, arg2: any)
+---@field deserialize fun(self: MutationBranchId, arg2: any)
+---@field __tostring fun(self: MutationBranchId): string
 MutationBranchId = {}
 ---@return MutationBranchId
----@overload fun(arg1: MutationBranchId): MutationBranchId
+---@overload fun(self: MutationBranchId): MutationBranchId
 ---@overload fun(arg1: string): MutationBranchId
 function MutationBranchId.new() end
 
@@ -1787,18 +1795,18 @@ function MutationBranchId.new() end
 ---@field valid boolean @Whether this mutation is available through generic mutagen.
 ---@field visibility integer @How visible the mutation is to others.
 ---@field weight_capacity_modifier number
----@field addition_mutations fun(arg1: MutationBranchRaw): MutationBranchId[]
----@field categories fun(arg1: MutationBranchRaw): MutationCategoryTraitId[] @Lists the categories this mutation belongs to.
----@field conflicts_with fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists conflicting mutations.
----@field desc fun(arg1: MutationBranchRaw): string
----@field get_all fun(): any @Returns a (long) list of every mutation in the game.
----@field mutation_types fun(arg1: MutationBranchRaw): string[] @Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
----@field name fun(arg1: MutationBranchRaw): string
----@field other_prerequisites fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists the secondary mutation(s) needed to gain this mutation.
----@field prerequisites fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists the primary mutation(s) needed to gain this mutation.
----@field replaced_by fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists mutations that replace (e.g. evolve from) this one.
----@field thresh_requirements fun(arg1: MutationBranchRaw): MutationBranchId[] @Lists the threshold mutation(s) required to gain this mutation.
----@field __tostring fun(arg1: MutationBranchRaw): string
+---@field addition_mutations fun(self: MutationBranchRaw): MutationBranchId[]
+---@field categories fun(self: MutationBranchRaw): MutationCategoryTraitId[] @Lists the categories this mutation belongs to.
+---@field conflicts_with fun(self: MutationBranchRaw): MutationBranchId[] @Lists conflicting mutations.
+---@field desc fun(self: MutationBranchRaw): string
+---@field get_all fun(): MutationBranchRaw[] @Returns a (long) list of every mutation in the game.
+---@field mutation_types fun(self: MutationBranchRaw): string[] @Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
+---@field name fun(self: MutationBranchRaw): string
+---@field other_prerequisites fun(self: MutationBranchRaw): MutationBranchId[] @Lists the secondary mutation(s) needed to gain this mutation.
+---@field prerequisites fun(self: MutationBranchRaw): MutationBranchId[] @Lists the primary mutation(s) needed to gain this mutation.
+---@field replaced_by fun(self: MutationBranchRaw): MutationBranchId[] @Lists mutations that replace (e.g. evolve from) this one.
+---@field thresh_requirements fun(self: MutationBranchRaw): MutationBranchId[] @Lists the threshold mutation(s) required to gain this mutation.
+---@field __tostring fun(self: MutationBranchRaw): string
 MutationBranchRaw = {}
 ---@return MutationBranchRaw
 function MutationBranchRaw.new() end
@@ -1806,16 +1814,16 @@ function MutationBranchRaw.new() end
 ---@class MutationCategoryTraitId
 ---@field NULL_ID fun(): MutationCategoryTraitId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MutationCategoryTraitId): boolean
----@field is_valid fun(arg1: MutationCategoryTraitId): boolean
----@field obj fun(arg1: MutationCategoryTraitId): MutationCategoryTraitRaw
----@field str fun(arg1: MutationCategoryTraitId): string
----@field serialize fun(arg1: MutationCategoryTraitId)
----@field deserialize fun(arg1: MutationCategoryTraitId)
----@field __tostring fun(arg1: MutationCategoryTraitId): string
+---@field is_null fun(self: MutationCategoryTraitId): boolean
+---@field is_valid fun(self: MutationCategoryTraitId): boolean
+---@field obj fun(self: MutationCategoryTraitId): MutationCategoryTraitRaw
+---@field str fun(self: MutationCategoryTraitId): string
+---@field serialize fun(self: MutationCategoryTraitId, arg2: any)
+---@field deserialize fun(self: MutationCategoryTraitId, arg2: any)
+---@field __tostring fun(self: MutationCategoryTraitId): string
 MutationCategoryTraitId = {}
 ---@return MutationCategoryTraitId
----@overload fun(arg1: MutationCategoryTraitId): MutationCategoryTraitId
+---@overload fun(self: MutationCategoryTraitId): MutationCategoryTraitId
 ---@overload fun(arg1: string): MutationCategoryTraitId
 function MutationCategoryTraitId.new() end
 
@@ -1827,44 +1835,44 @@ function MutationCategoryTraitId.new() end
 ---@field op_of_u NpcOpinion
 ---@field patience integer
 ---@field personality NpcPersonality
----@field can_move_to fun(arg1: Npc, arg2: Tripoint, arg3: boolean): boolean
----@field can_open_door fun(arg1: Npc, arg2: Tripoint, arg3: boolean): boolean
----@field complain fun(arg1: Npc): boolean
----@field complain_about fun(arg1: Npc, arg2: string, arg3: TimeDuration, arg4: string, arg5: bool?): boolean
----@field current_ally fun(arg1: Npc): Creature
----@field current_target fun(arg1: Npc): Creature
----@field danger_assessment fun(arg1: Npc): number
----@field evaluate_enemy fun(arg1: Npc, arg2: Creature): number
----@field follow_distance fun(arg1: Npc): integer
----@field get_attitude fun(arg1: Npc): NpcAttitude
----@field get_monster_faction fun(arg1: Npc): MonsterFactionIntId
----@field guaranteed_hostile fun(arg1: Npc): boolean
----@field has_activity fun(arg1: Npc): boolean
----@field has_omt_destination fun(arg1: Npc): boolean
----@field has_player_activity fun(arg1: Npc): boolean
----@field hostile_anger_level fun(arg1: Npc): integer
----@field is_ally fun(arg1: Npc, arg2: Character): boolean
----@field is_enemy fun(arg1: Npc): boolean
----@field is_following fun(arg1: Npc): boolean
----@field is_friendly fun(arg1: Npc, arg2: Character): boolean
----@field is_guarding fun(arg1: Npc): boolean
----@field is_leader fun(arg1: Npc): boolean
----@field is_minion fun(arg1: Npc): boolean
----@field is_obeying fun(arg1: Npc, arg2: Character): boolean
----@field is_patrolling fun(arg1: Npc): boolean
----@field is_player_ally fun(arg1: Npc): boolean
----@field is_stationary fun(arg1: Npc, arg2: boolean): boolean
----@field is_travelling fun(arg1: Npc): boolean
----@field is_walking_with fun(arg1: Npc): boolean
----@field make_angry fun(arg1: Npc)
----@field mutiny fun(arg1: Npc)
----@field saw_player_recently fun(arg1: Npc): boolean
----@field say fun(arg1: Npc, arg2: string)
----@field set_attitude fun(arg1: Npc, arg2: NpcAttitude)
----@field set_faction_id fun(arg1: Npc, arg2: FactionId)
----@field smash_ability fun(arg1: Npc): integer
----@field turned_hostile fun(arg1: Npc): boolean
----@field warn_about fun(arg1: Npc, arg2: string, arg3: TimeDuration, arg4: string, arg5: integer, arg6: Tripoint)
+---@field can_move_to fun(self: Npc, arg2: Tripoint, arg3: boolean): boolean
+---@field can_open_door fun(self: Npc, arg2: Tripoint, arg3: boolean): boolean
+---@field complain fun(self: Npc): boolean
+---@field complain_about fun(self: Npc, arg2: string, arg3: TimeDuration, arg4: string, arg5: boolean): boolean
+---@field current_ally fun(self: Npc): Creature
+---@field current_target fun(self: Npc): Creature
+---@field danger_assessment fun(self: Npc): number
+---@field evaluate_enemy fun(self: Npc, arg2: Creature): number
+---@field follow_distance fun(self: Npc): integer
+---@field get_attitude fun(self: Npc): NpcAttitude
+---@field get_monster_faction fun(self: Npc): MonsterFactionIntId
+---@field guaranteed_hostile fun(self: Npc): boolean
+---@field has_activity fun(self: Npc): boolean
+---@field has_omt_destination fun(self: Npc): boolean
+---@field has_player_activity fun(self: Npc): boolean
+---@field hostile_anger_level fun(self: Npc): integer
+---@field is_ally fun(self: Npc, arg2: Character): boolean
+---@field is_enemy fun(self: Npc): boolean
+---@field is_following fun(self: Npc): boolean
+---@field is_friendly fun(self: Npc, arg2: Character): boolean
+---@field is_guarding fun(self: Npc): boolean
+---@field is_leader fun(self: Npc): boolean
+---@field is_minion fun(self: Npc): boolean
+---@field is_obeying fun(self: Npc, arg2: Character): boolean
+---@field is_patrolling fun(self: Npc): boolean
+---@field is_player_ally fun(self: Npc): boolean
+---@field is_stationary fun(self: Npc, arg2: boolean): boolean
+---@field is_travelling fun(self: Npc): boolean
+---@field is_walking_with fun(self: Npc): boolean
+---@field make_angry fun(self: Npc)
+---@field mutiny fun(self: Npc)
+---@field saw_player_recently fun(self: Npc): boolean
+---@field say fun(self: Npc, arg2: string)
+---@field set_attitude fun(self: Npc, arg2: NpcAttitude)
+---@field set_faction_id fun(self: Npc, arg2: FactionId)
+---@field smash_ability fun(self: Npc): integer
+---@field turned_hostile fun(self: Npc): boolean
+---@field warn_about fun(self: Npc, arg2: string, arg3: TimeDuration, arg4: string, arg5: integer, arg6: Tripoint)
 Npc = {}
 ---@return Npc
 function Npc.new() end
@@ -1897,30 +1905,30 @@ function Player.new() end
 ---@class Point
 ---@field x integer
 ---@field y integer
----@field abs fun(arg1: Point): Point
----@field rotate fun(arg1: Point, arg2: integer, arg3: Point): Point
----@field serialize fun(arg1: Point)
----@field deserialize fun(arg1: Point)
----@field __add fun(arg1: Point, arg2: Point): Point
----@field __div fun(arg1: Point, arg2: integer): Point
----@field __eq fun(arg1: Point, arg2: Point): boolean
----@field __idiv fun(arg1: Point, arg2: integer): Point
----@field __lt fun(arg1: Point, arg2: Point): boolean
----@field __mul fun(arg1: Point, arg2: integer): Point
----@field __sub fun(arg1: Point, arg2: Point): Point
----@field __tostring fun(arg1: Point): string
----@field __unm fun(arg1: Point): Point
+---@field abs fun(self: Point): Point
+---@field rotate fun(self: Point, arg2: integer, arg3: Point): Point
+---@field serialize fun(self: Point, arg2: any)
+---@field deserialize fun(self: Point, arg2: any)
+---@field __add fun(self: Point, arg2: Point): Point
+---@field __div fun(self: Point, arg2: integer): Point
+---@field __eq fun(self: Point, arg2: Point): boolean
+---@field __idiv fun(self: Point, arg2: integer): Point
+---@field __lt fun(self: Point, arg2: Point): boolean
+---@field __mul fun(self: Point, arg2: integer): Point
+---@field __sub fun(self: Point, arg2: Point): Point
+---@field __tostring fun(self: Point): string
+---@field __unm fun(self: Point): Point
 Point = {}
 ---@return Point
----@overload fun(arg1: Point): Point
+---@overload fun(self: Point): Point
 ---@overload fun(arg1: integer, arg2: integer): Point
 function Point.new() end
 
 ---@class PopupInputStr
----@field desc fun(arg1: PopupInputStr, arg2: string) @`desc` is above input field.
----@field query_int fun(arg1: PopupInputStr): integer @Returns your input, but allows numbers only.
----@field query_str fun(arg1: PopupInputStr): string @Returns your input.
----@field title fun(arg1: PopupInputStr, arg2: string) @`title` is on the left of input field.
+---@field desc fun(self: PopupInputStr, arg2: string) @`desc` is above input field.
+---@field query_int fun(self: PopupInputStr): integer @Returns your input, but allows numbers only.
+---@field query_str fun(self: PopupInputStr): string @Returns your input.
+---@field title fun(self: PopupInputStr, arg2: string) @`title` is on the left of input field.
 PopupInputStr = {}
 ---@return PopupInputStr
 function PopupInputStr.new() end
@@ -1928,26 +1936,26 @@ function PopupInputStr.new() end
 ---@class QualityId
 ---@field NULL_ID fun(): QualityId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: QualityId): boolean
----@field is_valid fun(arg1: QualityId): boolean
----@field obj fun(arg1: QualityId): QualityRaw
----@field str fun(arg1: QualityId): string
----@field serialize fun(arg1: QualityId)
----@field deserialize fun(arg1: QualityId)
----@field __tostring fun(arg1: QualityId): string
+---@field is_null fun(self: QualityId): boolean
+---@field is_valid fun(self: QualityId): boolean
+---@field obj fun(self: QualityId): QualityRaw
+---@field str fun(self: QualityId): string
+---@field serialize fun(self: QualityId, arg2: any)
+---@field deserialize fun(self: QualityId, arg2: any)
+---@field __tostring fun(self: QualityId): string
 QualityId = {}
 ---@return QualityId
----@overload fun(arg1: QualityId): QualityId
+---@overload fun(self: QualityId): QualityId
 ---@overload fun(arg1: string): QualityId
 function QualityId.new() end
 
 ---@class QueryPopup
----@field allow_any_key fun(arg1: QueryPopup, arg2: boolean) @Set whether to allow any key
----@field message fun(arg1: QueryPopup, arg2: any)
----@field message_color fun(arg1: QueryPopup, arg2: Color)
----@field query fun(arg1: QueryPopup): string @Returns selected action
----@field query_yn fun(arg1: QueryPopup): string @Returns `YES` or `NO`. If ESC pressed, returns `NO`.
----@field query_ynq fun(arg1: QueryPopup): string @Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
+---@field allow_any_key fun(self: QueryPopup, arg2: boolean) @Set whether to allow any key
+---@field message fun(self: QueryPopup, arg2: any)
+---@field message_color fun(self: QueryPopup, arg2: Color)
+---@field query fun(self: QueryPopup): string @Returns selected action
+---@field query_yn fun(self: QueryPopup): string @Returns `YES` or `NO`. If ESC pressed, returns `NO`.
+---@field query_ynq fun(self: QueryPopup): string @Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
 QueryPopup = {}
 ---@return QueryPopup
 function QueryPopup.new() end
@@ -1966,53 +1974,53 @@ function RangedData.new() end
 ---@class RecipeId
 ---@field NULL_ID fun(): RecipeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: RecipeId): boolean
----@field is_valid fun(arg1: RecipeId): boolean
----@field obj fun(arg1: RecipeId): RecipeRaw
----@field str fun(arg1: RecipeId): string
----@field serialize fun(arg1: RecipeId)
----@field deserialize fun(arg1: RecipeId)
----@field __tostring fun(arg1: RecipeId): string
+---@field is_null fun(self: RecipeId): boolean
+---@field is_valid fun(self: RecipeId): boolean
+---@field obj fun(self: RecipeId): RecipeRaw
+---@field str fun(self: RecipeId): string
+---@field serialize fun(self: RecipeId, arg2: any)
+---@field deserialize fun(self: RecipeId, arg2: any)
+---@field __tostring fun(self: RecipeId): string
 RecipeId = {}
 ---@return RecipeId
----@overload fun(arg1: RecipeId): RecipeId
+---@overload fun(self: RecipeId): RecipeId
 ---@overload fun(arg1: string): RecipeId
 function RecipeId.new() end
 
 ---@class RecipeRaw
----@field booksets table<ItypeId, int>
+---@field booksets table<ItypeId, integer>
 ---@field category string
 ---@field difficulty integer
----@field learn_by_disassembly table<SkillId, int>
----@field required_skills table<SkillId, int>
+---@field learn_by_disassembly table<SkillId, integer>
+---@field required_skills table<SkillId, integer>
 ---@field skill_used SkillId
 ---@field subcategory string
 ---@field time integer
 ---@field get_all fun(): RecipeRaw[]
 ---@field get_from_flag fun(arg1: string): RecipeRaw[]
 ---@field get_from_skill_used fun(arg1: SkillId): RecipeRaw[]
----@field has_flag fun(arg1: RecipeRaw, arg2: string): boolean
----@field ident fun(arg1: RecipeRaw): RecipeId @DEPRECATED: use recipe_id instead
----@field recipe_id fun(arg1: RecipeRaw): RecipeId
----@field result fun(arg1: RecipeRaw): ItypeId
----@field result_name fun(arg1: RecipeRaw): string
+---@field has_flag fun(self: RecipeRaw, arg2: string): boolean
+---@field ident fun(self: RecipeRaw): RecipeId @DEPRECATED: use recipe_id instead
+---@field recipe_id fun(self: RecipeRaw): RecipeId
+---@field result fun(self: RecipeRaw): ItypeId
+---@field result_name fun(self: RecipeRaw): string
 RecipeRaw = {}
 ---@return RecipeRaw
 function RecipeRaw.new() end
 
 ---@class Relic
----@field get_enchantments fun(arg1: Relic): any
----@field get_recharge_scheme fun(arg1: Relic): any
----@field get_spells fun(arg1: Relic): any
----@field name fun(arg1: Relic): string
+---@field get_enchantments fun(self: Relic): any[]
+---@field get_recharge_scheme fun(self: Relic): any[]
+---@field get_spells fun(self: Relic): SpellSimple[]
+---@field name fun(self: Relic): string
 Relic = {}
 ---@return Relic
 function Relic.new() end
 
 ---@class Resistances
----@field get_all_resist fun(arg1: Resistances): table<DamageType, double>
----@field get_effective_resist fun(arg1: Resistances, arg2: DamageUnit): number
----@field get_resist fun(arg1: Resistances, arg2: DamageType): number
+---@field get_all_resist fun(self: Resistances): table<DamageType, number>
+---@field get_effective_resist fun(self: Resistances, arg2: DamageUnit): number
+---@field get_resist fun(self: Resistances, arg2: DamageType): number
 Resistances = {}
 ---@return Resistances
 function Resistances.new() end
@@ -2020,33 +2028,33 @@ function Resistances.new() end
 ---@class SkillId
 ---@field NULL_ID fun(): SkillId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: SkillId): boolean
----@field is_valid fun(arg1: SkillId): boolean
----@field obj fun(arg1: SkillId): SkillRaw
----@field str fun(arg1: SkillId): string
----@field serialize fun(arg1: SkillId)
----@field deserialize fun(arg1: SkillId)
----@field __tostring fun(arg1: SkillId): string
+---@field is_null fun(self: SkillId): boolean
+---@field is_valid fun(self: SkillId): boolean
+---@field obj fun(self: SkillId): SkillRaw
+---@field str fun(self: SkillId): string
+---@field serialize fun(self: SkillId, arg2: any)
+---@field deserialize fun(self: SkillId, arg2: any)
+---@field __tostring fun(self: SkillId): string
 SkillId = {}
 ---@return SkillId
----@overload fun(arg1: SkillId): SkillId
+---@overload fun(self: SkillId): SkillId
 ---@overload fun(arg1: string): SkillId
 function SkillId.new() end
 
 ---@class SkillLevel
----@field can_train fun(arg1: SkillLevel): boolean
----@field highest_level fun(arg1: SkillLevel): integer
----@field is_training fun(arg1: SkillLevel): boolean
----@field level fun(arg1: SkillLevel): integer
----@field train fun(arg1: SkillLevel, arg2: integer, arg3: boolean)
+---@field can_train fun(self: SkillLevel): boolean
+---@field highest_level fun(self: SkillLevel): integer
+---@field is_training fun(self: SkillLevel): boolean
+---@field level fun(self: SkillLevel): integer
+---@field train fun(self: SkillLevel, arg2: integer, arg3: boolean)
 SkillLevel = {}
 ---@return SkillLevel
 function SkillLevel.new() end
 
 ---@class SkillLevelMap : table<SkillId, SkillLevel>
----@field get_skill_level fun(arg1: SkillLevelMap, arg2: SkillId): integer
----@field get_skill_level_object fun(arg1: SkillLevelMap, arg2: SkillId): SkillLevel
----@field mod_skill_level fun(arg1: SkillLevelMap, arg2: SkillId, arg3: integer)
+---@field get_skill_level fun(self: SkillLevelMap, arg2: SkillId): integer
+---@field get_skill_level_object fun(self: SkillLevelMap, arg2: SkillId): SkillLevel
+---@field mod_skill_level fun(self: SkillLevelMap, arg2: SkillId, arg3: integer)
 SkillLevelMap = {}
 ---@return SkillLevelMap
 function SkillLevelMap.new() end
@@ -2054,32 +2062,32 @@ function SkillLevelMap.new() end
 ---@class SpeciesTypeId
 ---@field NULL_ID fun(): SpeciesTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: SpeciesTypeId): boolean
----@field is_valid fun(arg1: SpeciesTypeId): boolean
----@field obj fun(arg1: SpeciesTypeId): SpeciesTypeRaw
----@field str fun(arg1: SpeciesTypeId): string
----@field serialize fun(arg1: SpeciesTypeId)
----@field deserialize fun(arg1: SpeciesTypeId)
----@field __tostring fun(arg1: SpeciesTypeId): string
+---@field is_null fun(self: SpeciesTypeId): boolean
+---@field is_valid fun(self: SpeciesTypeId): boolean
+---@field obj fun(self: SpeciesTypeId): SpeciesTypeRaw
+---@field str fun(self: SpeciesTypeId): string
+---@field serialize fun(self: SpeciesTypeId, arg2: any)
+---@field deserialize fun(self: SpeciesTypeId, arg2: any)
+---@field __tostring fun(self: SpeciesTypeId): string
 SpeciesTypeId = {}
 ---@return SpeciesTypeId
----@overload fun(arg1: SpeciesTypeId): SpeciesTypeId
+---@overload fun(self: SpeciesTypeId): SpeciesTypeId
 ---@overload fun(arg1: string): SpeciesTypeId
 function SpeciesTypeId.new() end
 
 --- The class used for spells that *a player* knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
 ---@class Spell
 ---@field id SpellTypeId
----@field cast fun(arg1: Spell, arg2: Creature, arg3: Tripoint) @Cast this spell, as well as any sub-spells.
----@field cast_single_effect fun(arg1: Spell, arg2: Creature, arg3: Tripoint) @Cast *only* this spell's main effects. Generally, cast() should be used instead.
----@field desc fun(arg1: Spell): string
----@field gain_exp fun(arg1: Spell, arg2: integer)
----@field gain_levels fun(arg1: Spell, arg2: integer)
----@field get_level fun(arg1: Spell): integer
----@field name fun(arg1: Spell): string
----@field set_exp fun(arg1: Spell, arg2: integer)
----@field set_level fun(arg1: Spell, arg2: integer)
----@field xp fun(arg1: Spell): integer
+---@field cast fun(self: Spell, arg2: Creature, arg3: Tripoint) @Cast this spell, as well as any sub-spells.
+---@field cast_single_effect fun(self: Spell, arg2: Creature, arg3: Tripoint) @Cast *only* this spell's main effects. Generally, cast() should be used instead.
+---@field desc fun(self: Spell): string
+---@field gain_exp fun(self: Spell, arg2: integer)
+---@field gain_levels fun(self: Spell, arg2: integer)
+---@field get_level fun(self: Spell): integer
+---@field name fun(self: Spell): string
+---@field set_exp fun(self: Spell, arg2: integer)
+---@field set_level fun(self: Spell, arg2: integer)
+---@field xp fun(self: Spell): integer
 Spell = {}
 ---@return Spell
 ---@overload fun(arg1: SpellTypeId, arg2: integer): Spell
@@ -2091,10 +2099,10 @@ function Spell.new() end
 ---@field id SpellTypeId
 ---@field level integer
 ---@field trigger_once_in integer @Used for enchantments; the spell's *chance* to trigger every turn.
----@field cast fun(arg1: SpellSimple, arg2: Creature, arg3: Tripoint, arg4: int?)
----@field max_level fun(arg1: SpellSimple): integer @Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
----@field prompt_cast fun(arg1: SpellTypeId, arg2: Tripoint, arg3: int?): SpellSimple @Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
----@field __tostring fun(arg1: SpellSimple): string
+---@field cast fun(self: SpellSimple, arg2: Creature, arg3: Tripoint, arg4: integer)
+---@field max_level fun(self: SpellSimple): integer @Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
+---@field prompt_cast fun(arg1: SpellTypeId, arg2: Tripoint, arg3: integer): SpellSimple @Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
+---@field __tostring fun(self: SpellSimple): string
 SpellSimple = {}
 ---@return SpellSimple
 ---@overload fun(arg1: SpellTypeId, arg2: boolean): SpellSimple
@@ -2104,16 +2112,16 @@ function SpellSimple.new() end
 ---@class SpellTypeId
 ---@field NULL_ID fun(): SpellTypeId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: SpellTypeId): boolean
----@field is_valid fun(arg1: SpellTypeId): boolean
----@field obj fun(arg1: SpellTypeId): SpellTypeRaw
----@field str fun(arg1: SpellTypeId): string
----@field serialize fun(arg1: SpellTypeId)
----@field deserialize fun(arg1: SpellTypeId)
----@field __tostring fun(arg1: SpellTypeId): string
+---@field is_null fun(self: SpellTypeId): boolean
+---@field is_valid fun(self: SpellTypeId): boolean
+---@field obj fun(self: SpellTypeId): SpellTypeRaw
+---@field str fun(self: SpellTypeId): string
+---@field serialize fun(self: SpellTypeId, arg2: any)
+---@field deserialize fun(self: SpellTypeId, arg2: any)
+---@field __tostring fun(self: SpellTypeId): string
 SpellTypeId = {}
 ---@return SpellTypeId
----@overload fun(arg1: SpellTypeId): SpellTypeId
+---@overload fun(self: SpellTypeId): SpellTypeId
 ---@overload fun(arg1: string): SpellTypeId
 function SpellTypeId.new() end
 
@@ -2150,9 +2158,9 @@ function SpellTypeId.new() end
 ---@field min_field_intensity integer
 ---@field min_range integer
 ---@field range_increment number
----@field additional_spells fun(arg1: SpellTypeRaw): SpellSimple[] @Other spells cast by this spell.
----@field get_all fun(): any @Returns a (long) list of every spell in the game.
----@field __tostring fun(arg1: SpellTypeRaw): string
+---@field additional_spells fun(self: SpellTypeRaw): SpellSimple[] @Other spells cast by this spell.
+---@field get_all fun(): SpellTypeRaw[] @Returns a (long) list of every spell in the game.
+---@field __tostring fun(self: SpellTypeRaw): string
 SpellTypeRaw = {}
 ---@return SpellTypeRaw
 function SpellTypeRaw.new() end
@@ -2160,29 +2168,29 @@ function SpellTypeRaw.new() end
 ---@class TerId
 ---@field NULL_ID fun(): TerId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: TerId): TerIntId
----@field is_null fun(arg1: TerId): boolean
----@field is_valid fun(arg1: TerId): boolean
----@field obj fun(arg1: TerId): TerRaw
----@field str fun(arg1: TerId): string
----@field serialize fun(arg1: TerId)
----@field deserialize fun(arg1: TerId)
----@field __tostring fun(arg1: TerId): string
+---@field int_id fun(self: TerId): TerIntId
+---@field is_null fun(self: TerId): boolean
+---@field is_valid fun(self: TerId): boolean
+---@field obj fun(self: TerId): TerRaw
+---@field str fun(self: TerId): string
+---@field serialize fun(self: TerId, arg2: any)
+---@field deserialize fun(self: TerId, arg2: any)
+---@field __tostring fun(self: TerId): string
 TerId = {}
 ---@return TerId
----@overload fun(arg1: TerId): TerId
+---@overload fun(self: TerId): TerId
 ---@overload fun(arg1: TerIntId): TerId
 ---@overload fun(arg1: string): TerId
 function TerId.new() end
 
 ---@class TerIntId
----@field is_valid fun(arg1: TerIntId): boolean
----@field obj fun(arg1: TerIntId): TerRaw
----@field str_id fun(arg1: TerIntId): TerId
----@field __tostring fun(arg1: TerIntId): string
+---@field is_valid fun(self: TerIntId): boolean
+---@field obj fun(self: TerIntId): TerRaw
+---@field str_id fun(self: TerIntId): TerId
+---@field __tostring fun(self: TerIntId): string
 TerIntId = {}
 ---@return TerIntId
----@overload fun(arg1: TerIntId): TerIntId
+---@overload fun(self: TerIntId): TerIntId
 ---@overload fun(arg1: TerId): TerIntId
 function TerIntId.new() end
 
@@ -2193,20 +2201,20 @@ function TerIntId.new() end
 ---@field roof TerId
 ---@field transforms_into TerId
 ---@field trap_id_str string
----@field get_coverage fun(arg1: TerRaw): integer
----@field get_flags fun(arg1: TerRaw): any
----@field get_light_emitted fun(arg1: TerRaw): integer
----@field get_max_volume fun(arg1: TerRaw): Volume
----@field get_movecost fun(arg1: TerRaw): integer
----@field has_flag fun(arg1: TerRaw, arg2: string): boolean
----@field int_id fun(arg1: TerRaw): TerIntId
----@field name fun(arg1: TerRaw): string
----@field set_coverage fun(arg1: TerRaw, arg2: integer)
----@field set_flag fun(arg1: TerRaw, arg2: string)
----@field set_light_emitted fun(arg1: TerRaw, arg2: integer)
----@field set_max_volume fun(arg1: TerRaw, arg2: Volume)
----@field set_movecost fun(arg1: TerRaw, arg2: integer)
----@field str_id fun(arg1: TerRaw): TerId
+---@field get_coverage fun(self: TerRaw): integer
+---@field get_flags fun(self: TerRaw): string[]
+---@field get_light_emitted fun(self: TerRaw): integer
+---@field get_max_volume fun(self: TerRaw): Volume
+---@field get_movecost fun(self: TerRaw): integer
+---@field has_flag fun(self: TerRaw, arg2: string): boolean
+---@field int_id fun(self: TerRaw): TerIntId
+---@field name fun(self: TerRaw): string
+---@field set_coverage fun(self: TerRaw, arg2: integer)
+---@field set_flag fun(self: TerRaw, arg2: string)
+---@field set_light_emitted fun(self: TerRaw, arg2: integer)
+---@field set_max_volume fun(self: TerRaw, arg2: Volume)
+---@field set_movecost fun(self: TerRaw, arg2: integer)
+---@field str_id fun(self: TerRaw): TerId
 TerRaw = {}
 ---@return TerRaw
 function TerRaw.new() end
@@ -2219,44 +2227,45 @@ function TerRaw.new() end
 ---@field from_seconds fun(arg1: integer): TimeDuration
 ---@field from_turns fun(arg1: integer): TimeDuration
 ---@field from_weeks fun(arg1: integer): TimeDuration
----@field make_random fun(arg1: TimeDuration, arg2: TimeDuration): TimeDuration
----@field to_days fun(arg1: TimeDuration): integer
----@field to_hours fun(arg1: TimeDuration): integer
----@field to_minutes fun(arg1: TimeDuration): integer
----@field to_seconds fun(arg1: TimeDuration): integer
----@field to_turns fun(arg1: TimeDuration): integer
----@field to_weeks fun(arg1: TimeDuration): integer
----@field serialize fun(arg1: TimeDuration)
----@field deserialize fun(arg1: TimeDuration)
----@field __add fun(arg1: TimeDuration, arg2: TimeDuration): TimeDuration
----@field __div fun(arg1: TimeDuration, arg2: integer): TimeDuration
----@field __mul fun(arg1: TimeDuration, arg2: integer): TimeDuration
----@field __sub fun(arg1: TimeDuration, arg2: TimeDuration): TimeDuration
----@field __tostring fun(arg1: TimeDuration): string
----@field __unm fun(arg1: TimeDuration): TimeDuration
+---@field make_random fun(self: TimeDuration, arg2: TimeDuration): TimeDuration
+---@field to_days fun(self: TimeDuration): integer
+---@field to_hours fun(self: TimeDuration): integer
+---@field to_minutes fun(self: TimeDuration): integer
+---@field to_seconds fun(self: TimeDuration): integer
+---@field to_turns fun(self: TimeDuration): integer
+---@field to_weeks fun(self: TimeDuration): integer
+---@field serialize fun(self: TimeDuration, arg2: any)
+---@field deserialize fun(self: TimeDuration, arg2: any)
+---@field __add fun(self: TimeDuration, arg2: TimeDuration): TimeDuration
+---@field __div fun(self: TimeDuration, arg2: integer): TimeDuration
+---@field __mul fun(self: TimeDuration, arg2: integer): TimeDuration
+---@field __sub fun(self: TimeDuration, arg2: TimeDuration): TimeDuration
+---@field __tostring fun(self: TimeDuration): string
+---@field __unm fun(self: TimeDuration): TimeDuration
 TimeDuration = {}
 ---@return TimeDuration
 function TimeDuration.new() end
 
+--- Library for dealing with time primitives.
 --- Represent fixed point in time
 ---@class TimePoint
 ---@field from_turn fun(arg1: integer): TimePoint
----@field hour_of_day fun(arg1: TimePoint): integer
----@field is_dawn fun(arg1: TimePoint): boolean
----@field is_day fun(arg1: TimePoint): boolean
----@field is_dusk fun(arg1: TimePoint): boolean
----@field is_night fun(arg1: TimePoint): boolean
----@field minute_of_hour fun(arg1: TimePoint): integer
----@field second_of_minute fun(arg1: TimePoint): integer
----@field to_string_time_of_day fun(arg1: TimePoint): string
----@field to_turn fun(arg1: TimePoint): integer
----@field serialize fun(arg1: TimePoint)
----@field deserialize fun(arg1: TimePoint)
----@field __add fun(arg1: TimePoint, arg2: TimeDuration): TimePoint
----@field __eq fun(arg1: TimePoint, arg2: TimePoint): boolean
----@field __lt fun(arg1: TimePoint, arg2: TimePoint): boolean
----@field __sub fun(arg1: TimePoint, arg2: TimePoint): TimeDuration | fun(arg1: TimePoint, arg2: TimeDuration): TimePoint
----@field __tostring fun(arg1: TimePoint): string
+---@field hour_of_day fun(self: TimePoint): integer
+---@field is_dawn fun(self: TimePoint): boolean
+---@field is_day fun(self: TimePoint): boolean
+---@field is_dusk fun(self: TimePoint): boolean
+---@field is_night fun(self: TimePoint): boolean
+---@field minute_of_hour fun(self: TimePoint): integer
+---@field second_of_minute fun(self: TimePoint): integer
+---@field to_string_time_of_day fun(self: TimePoint): string
+---@field to_turn fun(self: TimePoint): integer
+---@field serialize fun(self: TimePoint, arg2: any)
+---@field deserialize fun(self: TimePoint, arg2: any)
+---@field __add fun(self: TimePoint, arg2: TimeDuration): TimePoint
+---@field __eq fun(self: TimePoint, arg2: TimePoint): boolean
+---@field __lt fun(self: TimePoint, arg2: TimePoint): boolean
+---@field __sub fun(self: TimePoint, arg2: TimePoint): TimeDuration | fun(self: TimePoint, arg2: TimeDuration): TimePoint
+---@field __tostring fun(self: TimePoint): string
 TimePoint = {}
 ---@return TimePoint
 function TimePoint.new() end
@@ -2269,29 +2278,29 @@ function Tinymap.new() end
 ---@class TrapId
 ---@field NULL_ID fun(): TrapId
 ---@field implements_int_id fun(): boolean
----@field int_id fun(arg1: TrapId): TrapIntId
----@field is_null fun(arg1: TrapId): boolean
----@field is_valid fun(arg1: TrapId): boolean
----@field obj fun(arg1: TrapId): TrapRaw
----@field str fun(arg1: TrapId): string
----@field serialize fun(arg1: TrapId)
----@field deserialize fun(arg1: TrapId)
----@field __tostring fun(arg1: TrapId): string
+---@field int_id fun(self: TrapId): TrapIntId
+---@field is_null fun(self: TrapId): boolean
+---@field is_valid fun(self: TrapId): boolean
+---@field obj fun(self: TrapId): TrapRaw
+---@field str fun(self: TrapId): string
+---@field serialize fun(self: TrapId, arg2: any)
+---@field deserialize fun(self: TrapId, arg2: any)
+---@field __tostring fun(self: TrapId): string
 TrapId = {}
 ---@return TrapId
----@overload fun(arg1: TrapId): TrapId
+---@overload fun(self: TrapId): TrapId
 ---@overload fun(arg1: TrapIntId): TrapId
 ---@overload fun(arg1: string): TrapId
 function TrapId.new() end
 
 ---@class TrapIntId
----@field is_valid fun(arg1: TrapIntId): boolean
----@field obj fun(arg1: TrapIntId): TrapRaw
----@field str_id fun(arg1: TrapIntId): TrapId
----@field __tostring fun(arg1: TrapIntId): string
+---@field is_valid fun(self: TrapIntId): boolean
+---@field obj fun(self: TrapIntId): TrapRaw
+---@field str_id fun(self: TrapIntId): TrapId
+---@field __tostring fun(self: TrapIntId): string
 TrapIntId = {}
 ---@return TrapIntId
----@overload fun(arg1: TrapIntId): TrapIntId
+---@overload fun(self: TrapIntId): TrapIntId
 ---@overload fun(arg1: TrapId): TrapIntId
 function TrapIntId.new() end
 
@@ -2299,42 +2308,42 @@ function TrapIntId.new() end
 ---@field x integer
 ---@field y integer
 ---@field z integer
----@field abs fun(arg1: Tripoint): Tripoint
----@field rotate_2d fun(arg1: Tripoint, arg2: integer, arg3: Point): Tripoint
----@field xy fun(arg1: Tripoint): Point
----@field serialize fun(arg1: Tripoint)
----@field deserialize fun(arg1: Tripoint)
----@field __add fun(arg1: Tripoint, arg2: Tripoint): Tripoint | fun(arg1: Tripoint, arg2: Point): Tripoint
----@field __div fun(arg1: Tripoint, arg2: integer): Tripoint
----@field __eq fun(arg1: Tripoint, arg2: Tripoint): boolean
----@field __idiv fun(arg1: Tripoint, arg2: integer): Tripoint
----@field __lt fun(arg1: Tripoint, arg2: Tripoint): boolean
----@field __mul fun(arg1: Tripoint, arg2: integer): Tripoint
----@field __sub fun(arg1: Tripoint, arg2: Tripoint): Tripoint | fun(arg1: Tripoint, arg2: Point): Tripoint
----@field __tostring fun(arg1: Tripoint): string
----@field __unm fun(arg1: Tripoint): Tripoint
+---@field abs fun(self: Tripoint): Tripoint
+---@field rotate_2d fun(self: Tripoint, arg2: integer, arg3: Point): Tripoint
+---@field xy fun(self: Tripoint): Point
+---@field serialize fun(self: Tripoint, arg2: any)
+---@field deserialize fun(self: Tripoint, arg2: any)
+---@field __add fun(self: Tripoint, arg2: Tripoint): Tripoint | fun(self: Tripoint, arg2: Point): Tripoint
+---@field __div fun(self: Tripoint, arg2: integer): Tripoint
+---@field __eq fun(self: Tripoint, arg2: Tripoint): boolean
+---@field __idiv fun(self: Tripoint, arg2: integer): Tripoint
+---@field __lt fun(self: Tripoint, arg2: Tripoint): boolean
+---@field __mul fun(self: Tripoint, arg2: integer): Tripoint
+---@field __sub fun(self: Tripoint, arg2: Tripoint): Tripoint | fun(self: Tripoint, arg2: Point): Tripoint
+---@field __tostring fun(self: Tripoint): string
+---@field __unm fun(self: Tripoint): Tripoint
 Tripoint = {}
 ---@return Tripoint
 ---@overload fun(arg1: Point, arg2: integer): Tripoint
----@overload fun(arg1: Tripoint): Tripoint
+---@overload fun(self: Tripoint): Tripoint
 ---@overload fun(arg1: integer, arg2: integer, arg3: integer): Tripoint
 function Tripoint.new() end
 
 ---@class UiList
 ---@field entries UiListEntry[] @Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
----@field add fun(arg1: UiList, arg2: integer, arg3: string) @Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
----@field add_w_col fun(arg1: UiList, arg2: integer, arg3: string, arg4: string, arg5: string) @Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
----@field add_w_desc fun(arg1: UiList, arg2: integer, arg3: string, arg4: string) @Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
----@field border_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_magenta`.
----@field desc_enabled fun(arg1: UiList, arg2: boolean) @Puts a lower box. Footer or entry desc appears on it.
----@field footer fun(arg1: UiList, arg2: string) @Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
----@field hilight_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `h_white`.
----@field hotkey_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_light_green`.
----@field query fun(arg1: UiList): integer @Returns retval for selected entry, or a negative number on fail/cancel
----@field text fun(arg1: UiList, arg2: string) @Sets text which is in upper box.
----@field text_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_light_gray`.
----@field title fun(arg1: UiList, arg2: string) @Sets title which is on the top line.
----@field title_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_green`.
+---@field add fun(self: UiList, arg2: integer, arg3: string) @Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
+---@field add_w_col fun(self: UiList, arg2: integer, arg3: string, arg4: string, arg5: string) @Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
+---@field add_w_desc fun(self: UiList, arg2: integer, arg3: string, arg4: string) @Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
+---@field border_color fun(self: UiList, arg2: Color) @Changes the color. Default color is `c_magenta`.
+---@field desc_enabled fun(self: UiList, arg2: boolean) @Puts a lower box. Footer or entry desc appears on it.
+---@field footer fun(self: UiList, arg2: string) @Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
+---@field hilight_color fun(self: UiList, arg2: Color) @Changes the color. Default color is `h_white`.
+---@field hotkey_color fun(self: UiList, arg2: Color) @Changes the color. Default color is `c_light_green`.
+---@field query fun(self: UiList): integer @Returns retval for selected entry, or a negative number on fail/cancel
+---@field text fun(self: UiList, arg2: string) @Sets text which is in upper box.
+---@field text_color fun(self: UiList, arg2: Color) @Changes the color. Default color is `c_light_gray`.
+---@field title fun(self: UiList, arg2: string) @Sets title which is on the top line.
+---@field title_color fun(self: UiList, arg2: Color) @Changes the color. Default color is `c_green`.
 UiList = {}
 ---@return UiList
 function UiList.new() end
@@ -2345,7 +2354,7 @@ function UiList.new() end
 ---@field desc string @Entry description
 ---@field enable boolean @Entry whether it's enabled or not. Default is `true`.
 ---@field txt string @Entry text
----@field txt_color fun(arg1: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+---@field txt_color fun(self: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 UiListEntry = {}
 ---@return UiListEntry
 function UiListEntry.new() end
@@ -2353,31 +2362,31 @@ function UiListEntry.new() end
 ---@class VitaminId
 ---@field NULL_ID fun(): VitaminId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: VitaminId): boolean
----@field is_valid fun(arg1: VitaminId): boolean
----@field obj fun(arg1: VitaminId): VitaminRaw
----@field str fun(arg1: VitaminId): string
----@field serialize fun(arg1: VitaminId)
----@field deserialize fun(arg1: VitaminId)
----@field __tostring fun(arg1: VitaminId): string
+---@field is_null fun(self: VitaminId): boolean
+---@field is_valid fun(self: VitaminId): boolean
+---@field obj fun(self: VitaminId): VitaminRaw
+---@field str fun(self: VitaminId): string
+---@field serialize fun(self: VitaminId, arg2: any)
+---@field deserialize fun(self: VitaminId, arg2: any)
+---@field __tostring fun(self: VitaminId): string
 VitaminId = {}
 ---@return VitaminId
----@overload fun(arg1: VitaminId): VitaminId
+---@overload fun(self: VitaminId): VitaminId
 ---@overload fun(arg1: string): VitaminId
 function VitaminId.new() end
 
 ---@class VitaminRaw
----@field deficiency fun(arg1: VitaminRaw): EffectTypeId
----@field excess fun(arg1: VitaminRaw): EffectTypeId
----@field has_flag fun(arg1: VitaminRaw, arg2: string): boolean
----@field is_null fun(arg1: VitaminRaw): boolean
----@field max fun(arg1: VitaminRaw): integer
----@field min fun(arg1: VitaminRaw): integer
----@field name fun(arg1: VitaminRaw): string
----@field rate fun(arg1: VitaminRaw): TimeDuration
----@field severity fun(arg1: VitaminRaw, arg2: integer): integer
----@field vitamin_id fun(arg1: VitaminRaw): VitaminId
----@field vitamin_type fun(arg1: VitaminRaw): VitaminType
+---@field deficiency fun(self: VitaminRaw): EffectTypeId
+---@field excess fun(self: VitaminRaw): EffectTypeId
+---@field has_flag fun(self: VitaminRaw, arg2: string): boolean
+---@field is_null fun(self: VitaminRaw): boolean
+---@field max fun(self: VitaminRaw): integer
+---@field min fun(self: VitaminRaw): integer
+---@field name fun(self: VitaminRaw): string
+---@field rate fun(self: VitaminRaw): TimeDuration
+---@field severity fun(self: VitaminRaw, arg2: integer): integer
+---@field vitamin_id fun(self: VitaminRaw): VitaminId
+---@field vitamin_type fun(self: VitaminRaw): VitaminType
 VitaminRaw = {}
 ---@return VitaminRaw
 function VitaminRaw.new() end
@@ -2385,11 +2394,11 @@ function VitaminRaw.new() end
 ---@class Volume
 ---@field from_liter fun(arg1: integer): Volume
 ---@field from_milliliter fun(arg1: integer): Volume
----@field to_liter fun(arg1: Volume): number
----@field to_milliliter fun(arg1: Volume): integer
----@field __eq fun(arg1: Volume, arg2: Volume): boolean
----@field __le fun(arg1: Volume, arg2: Volume): boolean
----@field __lt fun(arg1: Volume, arg2: Volume): boolean
+---@field to_liter fun(self: Volume): number
+---@field to_milliliter fun(self: Volume): integer
+---@field __eq fun(self: Volume, arg2: Volume): boolean
+---@field __le fun(self: Volume, arg2: Volume): boolean
+---@field __lt fun(self: Volume, arg2: Volume): boolean
 Volume = {}
 ---@return Volume
 function Volume.new() end
@@ -2397,16 +2406,16 @@ function Volume.new() end
 ---@class WeaponCategoryId
 ---@field NULL_ID fun(): WeaponCategoryId
 ---@field implements_int_id fun(): boolean
----@field is_null fun(arg1: WeaponCategoryId): boolean
----@field is_valid fun(arg1: WeaponCategoryId): boolean
----@field obj fun(arg1: WeaponCategoryId): WeaponCategoryRaw
----@field str fun(arg1: WeaponCategoryId): string
----@field serialize fun(arg1: WeaponCategoryId)
----@field deserialize fun(arg1: WeaponCategoryId)
----@field __tostring fun(arg1: WeaponCategoryId): string
+---@field is_null fun(self: WeaponCategoryId): boolean
+---@field is_valid fun(self: WeaponCategoryId): boolean
+---@field obj fun(self: WeaponCategoryId): WeaponCategoryRaw
+---@field str fun(self: WeaponCategoryId): string
+---@field serialize fun(self: WeaponCategoryId, arg2: any)
+---@field deserialize fun(self: WeaponCategoryId, arg2: any)
+---@field __tostring fun(self: WeaponCategoryId): string
 WeaponCategoryId = {}
 ---@return WeaponCategoryId
----@overload fun(arg1: WeaponCategoryId): WeaponCategoryId
+---@overload fun(self: WeaponCategoryId): WeaponCategoryId
 ---@overload fun(arg1: string): WeaponCategoryId
 function WeaponCategoryId.new() end
 
@@ -2427,10 +2436,10 @@ const = {}
 ---@field ms_to_om fun(arg1: Tripoint): (Point,Tripoint)
 ---@field ms_to_omt fun(arg1: Tripoint): (Tripoint,Point)
 ---@field ms_to_sm fun(arg1: Tripoint): (Tripoint,Point)
----@field om_to_ms fun(arg1: Point, arg2: Tripoint?): Tripoint
----@field omt_to_ms fun(arg1: Tripoint, arg2: Point?): Tripoint
+---@field om_to_ms fun(arg1: Point, arg2: Tripoint): Tripoint
+---@field omt_to_ms fun(arg1: Tripoint, arg2: Point): Tripoint
 ---@field rl_dist fun(arg1: Tripoint, arg2: Tripoint): integer | fun(arg1: Point, arg2: Point): integer
----@field sm_to_ms fun(arg1: Tripoint, arg2: Point?): Tripoint
+---@field sm_to_ms fun(arg1: Tripoint, arg2: Point): Tripoint
 ---@field square_dist fun(arg1: Tripoint, arg2: Tripoint): integer | fun(arg1: Point, arg2: Point): integer
 ---@field trig_dist fun(arg1: Tripoint, arg2: Tripoint): number | fun(arg1: Point, arg2: Point): number
 coords = {}
@@ -2441,21 +2450,22 @@ coords = {}
 ---@field add_npc_follower fun(arg1: Npc)
 ---@field add_on_every_x_hook fun(arg1: TimeDuration, arg2: function)
 ---@field before_time_starts fun(): TimePoint
----@field choose_adjacent fun(arg1: string, arg2: bool?): Tripoint?
----@field choose_direction fun(arg1: string, arg2: bool?): Tripoint?
+---@field choose_adjacent fun(arg1: string, arg2: boolean): Tripoint
+---@field choose_direction fun(arg1: string, arg2: boolean): Tripoint
 ---@field create_item fun(arg1: ItypeId, arg2: integer): DetachedItem @Spawns a new item. Same as Item::spawn 
 ---@field current_turn fun(): TimePoint
 ---@field get_avatar fun(): Avatar
----@field get_character_at fun(arg1: Tripoint, arg2: bool?): Character
----@field get_creature_at fun(arg1: Tripoint, arg2: bool?): Creature
+---@field get_character_at fun(arg1: Tripoint, arg2: boolean): Character
+---@field get_creature_at fun(arg1: Tripoint, arg2: boolean): Creature
 ---@field get_distribution_grid_tracker fun(): DistributionGridTracker
 ---@field get_map fun(): Map
----@field get_monster_at fun(arg1: Tripoint, arg2: bool?): Monster
----@field get_npc_at fun(arg1: Tripoint, arg2: bool?): Npc
----@field look_around fun(): Tripoint?
+---@field get_monster_at fun(arg1: Tripoint, arg2: boolean): Monster
+---@field get_npc_at fun(arg1: Tripoint, arg2: boolean): Npc
+---@field look_around fun(): Tripoint
 ---@field place_monster_around fun(arg1: MonsterTypeId, arg2: Tripoint, arg3: integer): Monster
 ---@field place_monster_at fun(arg1: MonsterTypeId, arg2: Tripoint): Monster
----@field place_player_overmap_at fun(arg1: Tripoint)
+---@field place_player_local_at fun(arg1: Tripoint) @Teleports player to local coordinates within active map
+---@field place_player_overmap_at fun(arg1: Tripoint) @Teleports player to absolute coordinate in overmap
 ---@field play_ambient_variant_sound fun(arg1: string, arg2: string, arg3: integer, arg4: SfxChannel, arg5: integer, arg6: number, arg7: integer)
 ---@field play_variant_sound fun(arg1: string, arg2: string, arg3: integer) | fun(arg1: string, arg2: string, arg3: integer, arg4: Angle, arg5: number, arg6: number)
 ---@field remove_npc_follower fun(arg1: Npc)
@@ -2477,8 +2487,8 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
+---@field on_character_death fun() @Called when a character is dead
 ---@field on_character_reset_stats fun() @Called when character stat gets reset
----@field on_char_death fun() @Called when a character is dead
 ---@field on_creature_blocked fun() @Called when a character successfully blocks
 ---@field on_creature_dodged fun() @Called when a character successfully dodges
 ---@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
@@ -2866,7 +2876,8 @@ MonsterAttitude = {
 	MATT_IGNORE = 4,
 	MATT_FOLLOW = 5,
 	MATT_ATTACK = 6,
-	MATT_ZLAVE = 7
+	MATT_ZLAVE = 7,
+	MATT_UNKNOWN = 8
 }
 
 ---@enum MonsterFactionAttitude

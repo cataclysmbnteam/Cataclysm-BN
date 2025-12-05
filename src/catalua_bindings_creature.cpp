@@ -54,6 +54,7 @@ void cata::detail::reg_creature( sol::state &lua )
 
         // Methods
         SET_FX_T( get_name, std::string() const );
+        DOC_PARAMS( "possessive", "capitalize_first" );
         SET_FX_T( disp_name, std::string( bool, bool ) const );
         SET_FX_T( skin_name, std::string() const );
         SET_FX_T( get_grammatical_genders, std::vector<std::string>() const );
@@ -236,6 +237,7 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( mod_part_hp_max, void( const bodypart_id &, int ) );
 
         SET_FX_T( set_all_parts_hp_cur, void( int ) );
+        SET_FX_T( mod_all_parts_hp_cur, void( int ) );
         SET_FX_T( set_all_parts_hp_to_max, void() );
 
         SET_FX_T( get_speed_base, int() const );
@@ -874,7 +876,11 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( get_lowest_hp, int() const );
 
+        // Respawn Stuff
+        SET_FX_T( drop_inv, void( const int count ) );
+
         SET_FX( bodypart_exposure );
+
 
         SET_FX( use_charges );
         SET_FX( use_charges_if_avail );

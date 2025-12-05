@@ -356,7 +356,7 @@ struct book_recipe {
     /**
      * The name for the recipe as it appears in the book.
      */
-    std::string name;
+    translation name;
     /**
      * Hidden means it does not show up in the description of the book.
      */
@@ -812,6 +812,12 @@ struct islot_seed {
      */
     std::string required_terrain_flag = "PLANTABLE";
     islot_seed() = default;
+
+    /**
+     * Time it takes to grow from one stage to another. There are 4 plant stages:
+     * seed, seedling, mature and harvest. Non-seed items return 0.
+     */
+    time_duration get_plant_epoch() const;
 };
 
 struct islot_artifact {

@@ -1079,7 +1079,7 @@ void monster::move()
             map &here = g->m;
             // is there an openable door?
             if( can_open_doors &&
-                here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
+                here.can_open_door( this, candidate, !here.is_outside( pos() ) ) ) {
                 next_step = candidate;
                 has_next_step = true;
                 continue;
@@ -1133,7 +1133,7 @@ void monster::move()
     if( has_next_step ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
-            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( this, next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
             move_to( next_step, false, false, get_stagger_adjust( pos(), destination, next_step ) );

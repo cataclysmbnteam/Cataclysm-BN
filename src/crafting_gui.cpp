@@ -538,7 +538,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             if( highlight ) {
                 ui.set_cursor( w_data, print_from );
             }
-            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, max_recipe_name_width ) );
+            trim_and_print( w_data, print_from, max_recipe_name_width, col, tmp_name );
         }
 
         const int batch_size = batch ? line + 1 : 1;

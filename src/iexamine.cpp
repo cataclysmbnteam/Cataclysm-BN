@@ -1627,8 +1627,16 @@ static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp 
     map &here = get_map();
 
     const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-    p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+    std::string target;
+    if( here.has_furn( examp ) ) {
+        target = here.furnname( examp );
+    } else if( here.veh_at( examp ) ) {
+        target = here.veh_at( examp )->vehicle().name;
+    } else {
+        target = here.tername( examp );
+    }
+    p.add_msg_if_player(
+        _( "You attempt to pick lock of %1$s using your %2$s…" ), target, it->tname() );
     const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
     if( can_use.success() ) {
         p.invoke_item( it, "PICK_LOCK", examp );
@@ -1691,7 +1699,15 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         }
     }
 
-    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
+    std::string target;
+    if( here.has_furn( examp ) ) {
+        target = here.furnname( examp );
+    } else if( here.veh_at( examp ) ) {
+        target = here.veh_at( examp )->vehicle().name;
+    } else {
+        target = here.tername( examp );
+    }
+
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
             if( prying_tool ) {
@@ -1722,9 +1738,18 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
+    std::string target;
+    if( here.has_furn( examp ) ) {
+        target = here.furnname( examp );
+    } else if( here.veh_at( examp ) ) {
+        target = here.veh_at( examp )->vehicle().name;
+    } else {
+        target = here.tername( examp );
+    }
+
     if( !pick_lock( p, examp ) ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target );
     }
 }
 
@@ -1896,7 +1921,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    if( here.open_door( examp, true, true ) ) {
+    if( here.can_open_door( &p, examp, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
     } else {
@@ -1910,7 +1935,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
             g->peek( examp );
             p.add_msg_if_player( _( "You peek through the peephole." ) );
         } else if( choice == 1 ) {
-            here.open_door( examp, true, false );
+            here.open_door( &p, examp, true );
             p.add_msg_if_player( _( "You open the door." ) );
         } else {
             p.add_msg_if_player( _( "Never mind." ) );
@@ -2046,7 +2071,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
         harvest->set_flag( flag_HIDDEN_HALLU );
     }
     // Drop items that're exceed available space and things that aren't comestibles
-    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
+    if( !force_drop && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -2224,7 +2249,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         if( roll >= 1 ) {
             got_anything = true;
             for( int i = 0; i < roll; i++ ) {
-                handle_harvest( p, entry.drop, false );
+                handle_harvest( p, entry.drop, entry.no_auto_pickup );
             }
         }
     }
@@ -2417,7 +2442,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
 /**
  *  Choose seed for planting
  */
-int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
+int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries, int min_req )
 {
     uilist smenu;
 
@@ -2429,7 +2454,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 
         std::string format = seed_count > 0 ? "%s (%d)" : "%s";
 
-        smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
+        smenu.addentry( count++, seed_count >= min_req, MENU_AUTOASSIGN, format.c_str(),
                         seed_name, seed_count );
     }
 
@@ -4816,12 +4841,11 @@ void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
     if( p.in_vehicle ) {
-        if( !character_funcs::can_fly( p ) ) {
-            add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
+        if( !character_funcs::can_fly( p ) &&
+            !query_yn( _( "Do you really want to jump off the vehicle?" ) ) ) {
             return;
-        } else {
-            get_map().unboard_vehicle( p.pos() );
         }
+        get_map().unboard_vehicle( p.pos() );
     }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
@@ -4834,7 +4858,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
             where.z--;
             below.z--;
         }
-
         // where now represents the first NON-open-air tile or the last valid move before hitting one
         const int height = p.pos().z - below.z;
 

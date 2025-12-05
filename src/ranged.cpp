@@ -2054,12 +2054,6 @@ item::sound_data item::gun_noise( const bool burst ) const
     return { 0, "" }; // silent weapons
 }
 
-static bool is_driving( const Character &p )
-{
-    const optional_vpart_position vp = get_map().veh_at( p.pos() );
-    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
-}
-
 static double dispersion_from_skill( double skill, double weapon_dispersion )
 {
     if( skill >= MAX_SKILL ) {
@@ -2091,7 +2085,7 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
 
     dispersion.add_range( ( who.encumb( body_part_arm_l ) + who.encumb( body_part_arm_r ) ) / 5.0 );
 
-    if( is_driving( who ) ) {
+    if( character_funcs::is_driving( who ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
         const item *parent = who.has_item( obj ) ? who.find_parent( obj ) : nullptr;
         const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;

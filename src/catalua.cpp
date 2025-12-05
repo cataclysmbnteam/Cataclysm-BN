@@ -48,6 +48,17 @@ auto generate_lua_docs( const std::filesystem::path &script_path,
 {
     sol::state lua = make_lua_state();
     lua.globals()["doc_gen_func"] = lua.create_table();
+    lua.globals()["print"] = [&]( const sol::variadic_args & va ) {
+        for( auto it : va ) {
+            std::string str = lua["tostring"]( it );
+            std::cout << str;
+        }
+        std::cout << std::endl;
+    };
+    lua.globals()["package"]["path"] = string_format(
+                                           "%1$s/?.lua;%1$s/?/init.lua;%2$s/?.lua;%2$s/?/init.lua",
+                                           PATH_INFO::datadir() + "/lua", PATH_INFO::datadir() + "/raw"
+                                       );
 
     try {
         run_lua_script( lua, script_path.string() );

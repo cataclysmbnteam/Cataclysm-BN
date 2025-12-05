@@ -113,6 +113,8 @@ static const bionic_id bio_voice( "bio_voice" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_SHOUT2( "SHOUT2" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -483,7 +485,9 @@ void game::chat()
                         _( "Talk to…" )
                       );
     }
-    nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
+    nmenu.addentry( NPC_CHAT_YELL, true, 'a',
+                    u.has_trait( trait_SHOUT2 ) ? _( "Scream" ) : u.has_trait( trait_SHOUT3 ) ? _( "Howl" ) :
+                    _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
     nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'O', _( "Monologue" ) );
     nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'E', _( "Emote" ) );
@@ -530,6 +534,7 @@ void game::chat()
     std::string yell_msg;
     std::string monologue_msg;
     bool is_order = true;
+    bool is_yell = true;
     nmenu.query();
 
     if( nmenu.ret < 0 ) {
@@ -538,6 +543,8 @@ void game::chat()
 
     switch( nmenu.ret ) {
         case NPC_CHAT_TALK: {
+            is_yell = false;
+
             const int npcselect = npc_select_menu( available, _( "Talk to whom?" ), false );
             if( npcselect < 0 ) {
                 return;
@@ -546,6 +553,8 @@ void game::chat()
             break;
         }
         case NPC_CHAT_EMOTE_OVERLAY: {
+            is_yell = false;
+
             uilist emenu;
             emenu.text = std::string( _( "Emote what status effect?" ) );
 
@@ -600,10 +609,10 @@ void game::chat()
 
             break;
         }
-        case NPC_CHAT_YELL:
+        case NPC_CHAT_YELL: {
             is_order = false;
-            message = _( "loudly." );
             break;
+        }
         case NPC_CHAT_SENTENCE: {
             std::string popupdesc = _( "Enter a sentence to yell" );
             string_input_popup popup;
@@ -618,6 +627,8 @@ void game::chat()
             break;
         }
         case NPC_CHAT_MONOLOGUE: {
+            is_yell = false;
+
             // Build help text
             const auto &help_fmt = _(
                                        "<color_light_gray>You can add a prefix to your monologue to set the tone or emotion."
@@ -731,13 +742,14 @@ void game::chat()
             }
             break;
         }
-        case NPC_CHAT_AWAKE:
+        case NPC_CHAT_AWAKE: {
             for( npc *them : followers ) {
                 talk_function::wake_up( *them );
             }
             yell_msg = _( "Stay awake!" );
             break;
-        case NPC_CHAT_MOUNT:
+        }
+        case NPC_CHAT_MOUNT: {
             for( npc *them : followers ) {
                 if( them->has_effect( effect_riding ) ) {
                     continue;
@@ -746,7 +758,8 @@ void game::chat()
             }
             yell_msg = _( "Mount up!" );
             break;
-        case NPC_CHAT_DISMOUNT:
+        }
+        case NPC_CHAT_DISMOUNT: {
             for( npc *them : followers ) {
                 if( them->has_effect( effect_riding ) ) {
                     them->npc_dismount();
@@ -754,44 +767,53 @@ void game::chat()
             }
             yell_msg = _( "Dismount!" );
             break;
-        case NPC_CHAT_DANGER:
+        }
+        case NPC_CHAT_DANGER: {
             for( npc *them : followers ) {
                 them->rules.set_danger_overrides();
             }
             yell_msg = _( "We're in danger.  Stay awake, stay close, don't go wandering off, "
                           "and don't open any doors." );
             break;
-        case NPC_CHAT_CLEAR_OVERRIDES:
+        }
+        case NPC_CHAT_CLEAR_OVERRIDES: {
             for( npc *p : followers ) {
                 talk_function::clear_overrides( *p );
             }
             yell_msg = _( "As you were." );
             break;
-        case NPC_CHAT_ORDERS:
+        }
+        case NPC_CHAT_ORDERS: {
+            is_yell = false;
             npc_temp_orders_menu( followers );
             break;
-        case NPC_CHAT_ANIMAL_VEHICLE_FOLLOW:
+        }
+        case NPC_CHAT_ANIMAL_VEHICLE_FOLLOW: {
+            is_yell = false;
             assign_veh_to_follow();
             break;
-        case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW:
+        }
+        case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW: {
+            is_yell = false;
             tell_veh_stop_following();
             break;
-        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW:
+        }
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW: {
+            is_yell = false;
             tell_magic_veh_to_follow();
             break;
-        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW:
+        }
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW: {
+            is_yell = false;
             tell_magic_veh_stop_following();
             break;
+        }
         default:
             return;
     }
 
-    if( !yell_msg.empty() ) {
-        message = string_format( "\"%s\"", yell_msg );
-    }
-    if( !message.empty() ) {
-        add_msg( _( "You yell %s" ), message );
-        u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
+    if( is_yell ) {
+        u.shout( yell_msg, is_order );
     }
     if( !monologue_msg.empty() ) {
         // Normalize input for case-insensitive matching
@@ -833,7 +855,6 @@ void game::chat()
             add_msg( _( "%s" ), monologue_msg );
         }
     }
-
 
     u.moves -= 100;
 }

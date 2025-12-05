@@ -73,7 +73,7 @@ The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), 
 - [with MSYS2](docs/en/dev/guides/building/msys.md)
 - [with vcpkg](docs/en/dev/guides/building/vs_vcpkg.md)
 
-Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
+Please read the [official docs](https://docs.cataclysmbn.org/dev/guides/building/cmake/) for
 details.
 
 ## Contributing
@@ -84,7 +84,7 @@ details.
 > project is not part of the project and is released under different software licenses, the files
 > covered by different software licenses have their own license notices.
 
-Please check the [official docs](https://docs.cataclysmbn.org/en/contribute/contributing/) for
+Please check the [official docs](https://docs.cataclysmbn.org/contribute/contributing/) for
 details.
 
 ## Documentation
@@ -92,7 +92,7 @@ details.
 Gameplay and developing documentation is available in the [doc](./docs/) directory
 in markdown format. You can also
 
-- visit the [official docs](https://docs.cataclysmbn.org/en/) site
+- visit the [official docs](https://docs.cataclysmbn.org/) site
 - [build and serve the documentation locally](./docs/en/contribute/docs.md)
 
 ## Community
@@ -124,6 +124,10 @@ you wish to assign to that action.
 #### How can I start a new world?
 
 **World** on the main menu will generate a fresh world for you. Select **Create World**.
+
+#### There is no music (or sound) in the game. How can I add it?
+
+Third-party launchers, such as [Catapult](https://github.com/qrrk/Catapult), allow you to install sound packs (and mods) from the launcher menu. You can also do it manually. To add a sound pack, download and unzip it to `<Game Folder>\data\sound\`, select it from the settings, and then restart the game. The recommended one is [Otopack](https://github.com/RoyalFox2140/Otopack-2-BN).
 
 #### Where should I put 3rd-party mods?
 

@@ -450,7 +450,12 @@ void recipe_dictionary::finalize()
         for( const auto &bk : r.booksets ) {
             const itype *booktype = &*bk.first;
             const int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            book_recipe desc{ &r, req, r.result_name(), false };
+            const auto desc = book_recipe {
+                .recipe = &r,
+                .skill_level = req,
+                .name = translation::to_translation( r.result_name() ),
+                .hidden = false
+            };
             booktype->book->recipes.insert( desc );
         }
 

@@ -2341,6 +2341,31 @@
   },
   {
     "type": "vehicle_part",
+    "id": "horn_ship",
+    "name": { "str": "ship air horn" },
+    "symbol": "*",
+    "color": "light_gray",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 175,
+    "description": "An enormous ship air horn.  Use the vehicle controls and select the honk option to make a deafening noise.",
+    "bonus": 1000,
+    "item": "horn_ship",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "150 s",
+        "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
+      }
+    },
+    "flags": [ "HORN", "SHOCK_RESISTANT" ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "beeper",
     "name": { "str": "back-up beeper" },
     "symbol": "*",
@@ -3153,7 +3178,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 80,
-    "description": "An improvised raincatcher made using a tarpaulin, to collect rainwater into the tank beneath it.",
+    "description": "An improvised raincatcher made using a tarp, to collect rainwater into the tank beneath it.",
     "size": "90 L",
     "item": "tarp_raincatcher",
     "location": "on_roof",
@@ -3370,6 +3395,29 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_metal", 1 ] ] }
     },
     "flags": [ "CARGO_LOCKING", "FOLDABLE", "INTERNAL", "SHOCK_RESISTANT" ],
+    "breaks_into": [ { "item": "clockworks", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "damage_reduction": { "all": 60 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_lock",
+    "name": { "str": "door lock" },
+    "symbol": "+",
+    "color": "dark_gray",
+    "broken_symbol": "+",
+    "broken_color": "light_gray",
+    "durability": 100,
+    "description": "A set of locks.  Attached to a suitable openable part, it will prevent other people from opening it.",
+    "folded_volume": "250 ml",
+    "weight_modifier": 0,
+    "item": "cargo_lock",
+    "location": "door_lock",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_metal", 1 ] ] }
+    },
+    "flags": [ "DOOR_LOCKING", "FOLDABLE", "SHOCK_RESISTANT", "NOREMOVE_SECURITY", "NOREMOVE_CLOSED" ],
     "breaks_into": [ { "item": "clockworks", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "damage_reduction": { "all": 60 }
   },

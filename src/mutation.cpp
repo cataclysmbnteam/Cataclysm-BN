@@ -673,6 +673,12 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
         return false;
     }
 
+    for( trait_id mut : get_mutations() ) {
+        if( mut->prevents.contains( mutation ) ) {
+            return false;
+        }
+    }
+
     for( const bionic &i : get_bionic_collection() ) {
         const bionic_id &bid = i.id;
         for( const trait_id &mid : bid->canceled_mutations ) {
@@ -1668,6 +1674,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
             guy.set_mutation( mutation_thresh );
             g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
+            guy.thresh_category = mutation_category; // Set the mutation category for the character
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

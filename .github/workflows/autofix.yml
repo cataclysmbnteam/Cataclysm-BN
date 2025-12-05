@@ -73,7 +73,7 @@ jobs:
 
             <details><summary>I do not want the automated commit</summary>
 
-            1. [Format your code locally](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style), then commit it.
+            1. [Format your code locally](https://docs.cataclysmbn.org/contribute/contributing/#code-style), then commit it.
             2. Run `git push --force` to force push your branch. This will overwrite the automated commit on remote with your local one.
             3. Continue working.
 
@@ -81,7 +81,7 @@ jobs:
 
             If you don't do this, your following commits will be based on the old commit, and cause **MERGE CONFLICT**.
 
-            [code-style]: https://docs.cataclysmbn.org/en/contribute/contributing/#code-style
+            [code-style]: https://docs.cataclysmbn.org/contribute/contributing/#code-style
 
       - name: lint and test typescript files
         run: |

@@ -34,6 +34,7 @@
 "prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
 "threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
+"prevents": ["ROT1", "ROT2", "ROT3"], // Prevents you from recieving these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
 "leads_to": [], // Mutations that add to this one
 "passive_mods" : { //increases stats with the listed value. Negative means a stat reduction
