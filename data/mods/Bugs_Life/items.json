@@ -1,0 +1,32 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "honeydew",
+    "name": { "str": "honeydew" },
+    "description": "It's a sugar-rich sticky substance, produced by aphids from plant's sap.  Ants and bees love it.",
+    "weight": "22 g",
+    "color": "green",
+    "symbol": "~",
+    "material": [ "honey" ],
+    "quench": 4,
+    "healthy": 0,
+    "calories": 67,
+    "charges": 16,
+    "stim": 0,
+    "fun": 2,
+    "comestible_type": "FOOD",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "volume": "250 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_antlion",
+    "name": { "str": "antlion egg" },
+    "color": "yellow",
+    "symbol": "o",
+    "spoils_in": "5 days",
+    "description": "A large white antlion egg.  There is something hard inside.",
+    "rot_spawn": "GROUP_EGG_ANTLION",
+    "rot_spawn_chance": 50
+  }
+]

@@ -1,0 +1,533 @@
+[
+  {
+    "id": "mon_dog",
+    "type": "MONSTER",
+    "copy-from": "mon_dog",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_bull",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_bull",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_pitbullmix",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_pitbullmix",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_beagle",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_beagle",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_bcollie",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_bcollie",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_boxer",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_boxer",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_chihuahua",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_chihuahua",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_dachshund",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_dachshund",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_gshepherd",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_gshepherd",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_gpyrenees",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_gpyrenees",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_dog_rottweiler",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_rottweiler",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_fox_gray",
+    "type": "MONSTER",
+    "copy-from": "mon_fox_gray",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_fox_red",
+    "type": "MONSTER",
+    "copy-from": "mon_fox_red",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_wolf",
+    "type": "MONSTER",
+    "copy-from": "mon_wolf",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" }
+  },
+  {
+    "id": "mon_coyote_wolf",
+    "type": "MONSTER",
+    "copy-from": "mon_coyote_wolf",
+    "extend": { "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" } },
+    "delete": { "upgrades": { "half_life": 19, "into": "mon_coyote_wolf_zerg" } }
+  },
+  {
+    "id": "mon_coyote",
+    "type": "MONSTER",
+    "copy-from": "mon_coyote",
+    "extend": { "upgrades": { "half_life": 39, "into_group": "GROUP_CANINE_ALL" } },
+    "delete": { "upgrades": { "half_life": 17, "into": "mon_coyote_small" } }
+  },
+  {
+    "id": "mon_frog_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_frog_giant",
+    "upgrades": { "half_life": 39, "into": "mon_frog_devil" }
+  },
+  {
+    "id": "mon_bear",
+    "type": "MONSTER",
+    "copy-from": "mon_bear",
+    "upgrades": { "half_life": 71, "into": "mon_gargoyle" }
+  },
+  {
+    "id": "mon_black_rat",
+    "type": "MONSTER",
+    "copy-from": "mon_black_rat",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_RAT_MUTANT" }
+  },
+  {
+    "id": "mon_sewer_rat",
+    "type": "MONSTER",
+    "copy-from": "mon_black_rat",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_RAT_MUTANT" }
+  },
+  {
+    "id": "mon_rattlesnake",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake",
+    "extend": { "upgrades": { "half_life": 39, "into_group": "GROUP_SNAKE_MUTANT" } },
+    "delete": { "upgrades": { "half_life": 14, "into": "mon_rattlesnake_giant" } }
+  },
+  {
+    "id": "mon_sewer_snake",
+    "type": "MONSTER",
+    "copy-from": "mon_sewer_snake",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_SNAKE_MUTANT" }
+  },
+  {
+    "id": "mon_bobcat",
+    "type": "MONSTER",
+    "copy-from": "mon_bobcat",
+    "upgrades": { "half_life": 21, "into_group": "GROUP_FELINE_ALL" }
+  },
+  {
+    "id": "mon_cougar",
+    "type": "MONSTER",
+    "copy-from": "mon_cougar",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FELINE_ALL" }
+  },
+  {
+    "id": "mon_cat",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "extend": { "upgrades": { "half_life": 39, "into_group": "GROUP_FELINE_ALL" } }
+  },
+  {
+    "id": "mon_hare",
+    "type": "MONSTER",
+    "copy-from": "mon_hare",
+    "upgrades": { "half_life": 120, "into": "mon_jacked_rabbit" }
+  },
+  {
+    "id": "mon_beaver",
+    "type": "MONSTER",
+    "copy-from": "mon_beaver",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_chipmunk",
+    "type": "MONSTER",
+    "copy-from": "mon_chipmunk",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_groundhog",
+    "type": "MONSTER",
+    "copy-from": "mon_groundhog",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_mink",
+    "type": "MONSTER",
+    "copy-from": "mon_mink",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_muskrat",
+    "type": "MONSTER",
+    "copy-from": "mon_muskrat",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_opossum",
+    "type": "MONSTER",
+    "copy-from": "mon_opossum",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_otter",
+    "type": "MONSTER",
+    "copy-from": "mon_otter",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_rabbit",
+    "type": "MONSTER",
+    "copy-from": "mon_rabbit",
+    "upgrades": { "half_life": 21, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_raccoon",
+    "type": "MONSTER",
+    "copy-from": "mon_raccoon",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_squirrel",
+    "type": "MONSTER",
+    "copy-from": "mon_squirrel",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_squirrel_red",
+    "type": "MONSTER",
+    "copy-from": "mon_squirrel_red",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_weasel",
+    "type": "MONSTER",
+    "copy-from": "mon_weasel",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_ANIMAL_MUTANT" }
+  },
+  {
+    "id": "mon_deer",
+    "type": "MONSTER",
+    "copy-from": "mon_deer",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_DEER_ALL" }
+  },
+  {
+    "id": "mon_cow",
+    "type": "MONSTER",
+    "copy-from": "mon_cow",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_COW_ALL" }
+  },
+  {
+    "id": "mon_horse",
+    "type": "MONSTER",
+    "copy-from": "mon_horse",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_HORSE_ALL" }
+  },
+  {
+    "id": "mon_pig",
+    "type": "MONSTER",
+    "copy-from": "mon_pig",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_PIG_ALL" }
+  },
+  {
+    "id": "mon_sheep",
+    "type": "MONSTER",
+    "copy-from": "mon_sheep",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_SHEEP_ALL" }
+  },
+  {
+    "id": "mon_fish_bluegill",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_bluegill",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_bowfin",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_bowfin",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_bullhead",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_eel",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_brook_trout",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_brook_trout",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_brown_trout",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_brown_trout",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_calico_bass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_calico_bass",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_carp",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_carp",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_channel_catfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_channel_catfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_chinook_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_chinook_salmon",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_coho_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_coho_salmon",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_fallfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_fallfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_grass_carp",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_grass_carp",
+    "upgrades": { "half_life": 21, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_green_sunfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_green_sunfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_kokanee_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_kokanee_salmon",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_lake_trout",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_lake_trout",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_lbass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_lbass",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_longear_sunfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_longear_sunfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_muskellunge",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_muskellunge",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_pbass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_pbass",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_perch",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_perch",
+    "upgrades": { "half_life": 21, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_pickerel",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_pickerel",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_pike",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_pike",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_pumpkinseed",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_pumpkinseed",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_rainbow_trout",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_rainbow_trout",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_redbreast",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_redbreast",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_redear_sunfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_redear_sunfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_rock_bass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_rock_bass",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_salmon",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_sbass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_sbass",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_steelhead_trout",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_steelhead_trout",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_sunfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_sunfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_trout",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_trout",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_walleye",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_walleye",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_warmouth",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_warmouth",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_white_bass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_white_bass",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_white_catfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_white_catfish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_white_sucker",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_white_sucker",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_fish_whitefish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_whitefish",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_FISH_ALL" }
+  },
+  {
+    "id": "mon_grouse",
+    "type": "MONSTER",
+    "copy-from": "mon_grouse",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  },
+  {
+    "id": "mon_goose_canadian",
+    "type": "MONSTER",
+    "copy-from": "mon_goose_canadian",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  },
+  {
+    "id": "mon_pheasant",
+    "type": "MONSTER",
+    "copy-from": "mon_pheasant",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  },
+  {
+    "id": "mon_chicken",
+    "type": "MONSTER",
+    "copy-from": "mon_chicken",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  },
+  {
+    "id": "mon_crow",
+    "type": "MONSTER",
+    "copy-from": "mon_crow",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  },
+  {
+    "id": "mon_duck",
+    "type": "MONSTER",
+    "copy-from": "mon_duck",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  },
+  {
+    "id": "mon_turkey",
+    "type": "MONSTER",
+    "copy-from": "mon_turkey",
+    "upgrades": { "half_life": 39, "into_group": "GROUP_BIRD_ALL" }
+  }
+]

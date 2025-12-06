@@ -1,0 +1,333 @@
+[
+  {
+    "name": "GROUP_ANIMAL_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_animal_mutant_runner",
+    "monsters": [
+      { "monster": "mon_animal_mutant_tunneler", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_runner", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_flyer", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_swimmer", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_swallower", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_babler", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_gasser", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_animal_mutant_lurker", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_BIRD_SICK",
+    "type": "monstergroup",
+    "default": "mon_bird_sick_malformed",
+    "monsters": [
+      { "monster": "mon_bird_sick_malformed", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_irradiated", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_plague", "freq": 300, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_BIRD_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_bird_mutant_ghoul",
+    "monsters": [
+      { "monster": "mon_bird_mutant_vultch", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_thing", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_iridescent", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_ghoul", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_elephant", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_CANINE_SICK",
+    "type": "monstergroup",
+    "default": "mon_dog_sick_pus",
+    "monsters": [
+      { "monster": "mon_dog_sick_scab", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_dog_sick_blister", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_dog_sick_pus", "freq": 300, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_CANINE_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_dog_mutant_worm",
+    "monsters": [
+      { "monster": "mon_dog_mutant_worm", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_happy", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_digiri", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_dire", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FELINE_SICK",
+    "type": "monstergroup",
+    "default": "mon_cat_sick_hairless",
+    "monsters": [
+      { "monster": "mon_cat_sick_hairless", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_cat_sick_multilimbed", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FELINE_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_cat_mutant_venom",
+    "monsters": [
+      { "monster": "mon_cat_mutant_venom", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_vampire", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_ink", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_whip", "freq": 250, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FISH_SICK",
+    "type": "monstergroup",
+    "default": "mon_fish_sick_puke",
+    "monsters": [
+      { "monster": "mon_fish_sick_puke", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_fish_sick_finger", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_fish_sick_tumor", "freq": 250, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FISH_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_fish_mutant_angel",
+    "monsters": [
+      { "monster": "mon_fish_mutant_angel", "freq": 199, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_bloat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_ghoul", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_terror", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_accordian", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_whisper", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_butter", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_spit", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_aero_octopod", "freq": 1, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_RAT_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_snake_mutant_jaculus",
+    "monsters": [
+      { "monster": "mon_rat_mutant_plague", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_rat_mutant_piranha", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_rat_mutant_creature", "freq": 300, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_SNAKE_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_snake_mutant_jaculus",
+    "monsters": [
+      { "monster": "mon_snake_mutant_jaculus", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_snake_mutant_bone", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_snake_mutant_frostbite", "freq": 300, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_COW_SICK",
+    "type": "monstergroup",
+    "default": "mon_cow_sick_twisthorn",
+    "monsters": [
+      { "monster": "mon_cow_sick_twisthorn", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_cow_sick_obese", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_COW_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_cow_mutant_auroch",
+    "monsters": [
+      { "monster": "mon_cow_mutant_ironhorn", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_cow_mutant_auroch", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_cow_mutant_moss", "freq": 300, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_DEER_SICK",
+    "type": "monstergroup",
+    "default": "mon_deer_sick_crying",
+    "monsters": [
+      { "monster": "mon_deer_sick_crying", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_deer_sick_burnt", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_HORSE_SICK",
+    "type": "monstergroup",
+    "default": "mon_horse_sick_famine",
+    "monsters": [
+      { "monster": "mon_horse_sick_famine", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_horse_sick_glue", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_SHEEP_SICK",
+    "type": "monstergroup",
+    "default": "mon_sheep_sick_gamma",
+    "monsters": [
+      { "monster": "mon_sheep_sick_naked", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_sheep_sick_gamma", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_UNGULATE_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_ungulate_mutant_glass",
+    "monsters": [
+      { "monster": "mon_ungulate_mutant_glass", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_unicorn", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_screech", "freq": 400, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_PIG_SICK",
+    "type": "monstergroup",
+    "default": "mon_pig_sick_fly",
+    "monsters": [
+      { "monster": "mon_pig_sick_fly", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_pig_sick_tumor", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_PIG_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_pig_mutant_quill",
+    "monsters": [
+      { "monster": "mon_pig_mutant_rhino", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_pig_mutant_quill", "freq": 500, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_CANINE_ALL",
+    "type": "monstergroup",
+    "default": "mon_dog_sick_pus",
+    "monsters": [
+      { "monster": "mon_dog_sick_scab", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_dog_sick_blister", "freq": 175, "cost_multiplier": 1 },
+      { "monster": "mon_dog_sick_pus", "freq": 175, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_worm", "freq": 120, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_happy", "freq": 120, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_digiri", "freq": 120, "cost_multiplier": 1 },
+      { "monster": "mon_dog_mutant_dire", "freq": 40, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_BIRD_ALL",
+    "type": "monstergroup",
+    "default": "mon_bird_sick_malformed",
+    "monsters": [
+      { "monster": "mon_bird_sick_malformed", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_irradiated", "freq": 175, "cost_multiplier": 1 },
+      { "monster": "mon_bird_sick_plague", "freq": 175, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_vultch", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_thing", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_iridescent", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_ghoul", "freq": 120, "cost_multiplier": 1 },
+      { "monster": "mon_bird_mutant_elephant", "freq": 40, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FELINE_ALL",
+    "type": "monstergroup",
+    "default": "mon_cat_sick_hairless",
+    "monsters": [
+      { "monster": "mon_cat_sick_hairless", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_cat_sick_multilimbed", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_venom", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_vampire", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_ink", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_cat_mutant_whip", "freq": 100, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_FISH_ALL",
+    "type": "monstergroup",
+    "default": "mon_fish_sick_puke",
+    "monsters": [
+      { "monster": "mon_fish_sick_puke", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_fish_sick_finger", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_fish_sick_tumor", "freq": 175, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_angel", "freq": 87, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_bloat", "freq": 37, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_ghoul", "freq": 38, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_terror", "freq": 37, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_accordian", "freq": 88, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_whisper", "freq": 37, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_butter", "freq": 38, "cost_multiplier": 1 },
+      { "monster": "mon_fish_mutant_spit", "freq": 37, "cost_multiplier": 1 },
+      { "monster": "mon_aero_octopod", "freq": 1, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_COW_ALL",
+    "type": "monstergroup",
+    "default": "mon_cow_sick_twisthorn",
+    "monsters": [
+      { "monster": "mon_cow_sick_twisthorn", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_cow_sick_obese", "freq": 350, "cost_multiplier": 1 },
+      { "monster": "mon_cow_mutant_ironhorn", "freq": 110, "cost_multiplier": 1 },
+      { "monster": "mon_cow_mutant_auroch", "freq": 180, "cost_multiplier": 1 },
+      { "monster": "mon_cow_mutant_moss", "freq": 110, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_DEER_ALL",
+    "type": "monstergroup",
+    "default": "mon_deer_sick_crying",
+    "monsters": [
+      { "monster": "mon_deer_sick_crying", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_deer_sick_burnt", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_glass", "freq": 125, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_unicorn", "freq": 125, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_screech", "freq": 150, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_HORSE_ALL",
+    "type": "monstergroup",
+    "default": "mon_horse_sick_famine",
+    "monsters": [
+      { "monster": "mon_horse_sick_famine", "freq": 350, "cost_multiplier": 1 },
+      { "monster": "mon_horse_sick_glue", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_glass", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_unicorn", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_screech", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_sleipnir", "freq": 140, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "//": "Only horses will mutate into sleipnirs.",
+    "name": "GROUP_HORSE_MUTANT",
+    "type": "monstergroup",
+    "default": "mon_ungulate_mutant_glass",
+    "monsters": [
+      { "monster": "mon_ungulate_mutant_glass", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_unicorn", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_screech", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_sleipnir", "freq": 400, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_SHEEP_ALL",
+    "type": "monstergroup",
+    "default": "mon_sheep_sick_gamma",
+    "monsters": [
+      { "monster": "mon_sheep_sick_naked", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_sheep_sick_gamma", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_glass", "freq": 125, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_unicorn", "freq": 125, "cost_multiplier": 1 },
+      { "monster": "mon_ungulate_mutant_screech", "freq": 150, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_PIG_ALL",
+    "type": "monstergroup",
+    "default": "mon_pig_sick_fly",
+    "monsters": [
+      { "monster": "mon_pig_sick_fly", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_pig_sick_tumor", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_pig_mutant_rhino", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_pig_mutant_quill", "freq": 200, "cost_multiplier": 1 }
+    ]
+  }
+]

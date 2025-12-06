@@ -1,0 +1,549 @@
+[
+  {
+    "type": "speech",
+    "//": "snippets dont recognize aliases, so used original mon names",
+    "speaker": "mon_bee",
+    "sound": "\"BZZzzzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bee",
+    "sound": "\"BZzzzt. BZZzzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bee",
+    "sound": "\"VRRRrrrrzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bee",
+    "sound": "\"VRrrrzt.  VRRRrrzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bee",
+    "sound": "A loud buzz.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bee",
+    "sound": "The piercing buzzing of a mutant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_bee",
+    "sound": "A loud drone from a giant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "\"Bzzzzzzzzzzzzz.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "\"Bzzzzt. Bzzzzzzzzzt.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "\"Vrrrrrrzzzzzzzzz.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "\"Vrrrrzt.  Vrrrrrzzzzzzt.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "An annoying buzz.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "The buzzing of a mutant insect.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dermatik",
+    "sound": "An irritating drone from a large insect.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "\"Bzzzzzzzzzzzzz.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "\"Bzzzzt. Bzzzzzzzzzt.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "\"Vrrrrrrzzzzzzzzz.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "\"Vrrrrzt.  Vrrrrrzzzzzzt.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "An annoying buzz.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "The buzzing of a mutant insect.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_tame_dragonfly",
+    "sound": "An irritating drone from a large insect.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "\"Bzzzzzzzzzzzzz.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "\"Bzzzzt. Bzzzzzzzzzt.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "\"Vrrrrrrzzzzzzzzz.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "\"Vrrrrzt.  Vrrrrrzzzzzzt.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "An annoying buzz.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "The buzzing of a mutant insect.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_small_dragonfly",
+    "sound": "An irritating drone from a large insect.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "\"BZZzzzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "\"BZzzzt. BZZzzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "\"VRRRrrrrzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "\"VRrrrzt.  VRRRrrzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "A loud buzz.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "The piercing buzzing of a mutant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_large_dragonfly",
+    "sound": "A loud drone from a giant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "\"BZZZZZzzzzzzzz!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "\"BZZZzt! BZZZZZzzzt!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "\"VRRRRRRZZzzzzzzzz!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "\"VRRRZZzzzt!  VRRRRRZZzzzzt!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "A very loud buzz.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "The deafening buzzing of a mutant insect.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_dragonfly_giant",
+    "sound": "A very loud drone from a giant insect.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "\"BZZZZZZZZZZZZZZZZZ!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "\"BZZZZZT! BZZZZZZT!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "\"VRRRRRRZZZZZZZZZZ!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "\"VRRRZZZZT!  VRRRRRZZZZZZT!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "A deafeningly loud buzzzing noise.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "The earsplitting buzz of a mega insect.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_dragonfly",
+    "sound": "The thundering drone of a flying mega insect.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "\"BZZzzzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "\"BZzzzt. BZZzzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "\"VRRRrrrrzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "\"VRrrrzt.  VRRRrrzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "A loud buzz.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "The piercing buzzing of a mutant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fly",
+    "sound": "A loud drone from a giant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "\"BZZZZZzzzzzzzz!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "\"BZZZzt! BZZZZZzzzt!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "\"VRRRRRRZZzzzzzzzz!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "\"VRRRZZzzzt!  VRRRRRZZzzzzt!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "A very loud buzz.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "The deafening buzzing of a mutant insect.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_giant_fly",
+    "sound": "A very loud drone from a giant insect.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "\"BZZZZZZZZZZZZZZZZZ!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "\"BZZZZZT! BZZZZZZT!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "\"VRRRRRRZZZZZZZZZZ!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "\"VRRRZZZZT!  VRRRRRZZZZZZT!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "A deafeningly loud buzzzing noise.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "The earsplitting buzz of a mega insect.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_fly",
+    "sound": "The thundering drone of a flying mega insect.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "\"BZZzzzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "\"BZzzzt. BZZzzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "\"VRRRrrrrzzzzzzzzz.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "\"VRrrrzt.  VRRRrrzzzzzzt.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "A loud buzz.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "The piercing buzzing of a mutant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mosquito_giant",
+    "sound": "A loud drone from a giant insect.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "\"BZZZZZzzzzzzzz!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "\"BZZZzt! BZZZZZzzzt!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "\"VRRRRRRZZzzzzzzzz!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "\"VRRRZZzzzt!  VRRRRRZZzzzzt!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "A very loud buzz.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "The deafening buzzing of a mutant insect.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_wasp",
+    "sound": "A very loud drone from a giant insect.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "\"BZZZZZZZZZZZZZZZZZ!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "\"BZZZZZT! BZZZZZZT!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "\"VRRRRRRZZZZZZZZZZ!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "\"VRRRZZZZT!  VRRRRRZZZZZZT!\"",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "A deafeningly loud buzzzing noise.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "The earsplitting buzz of a mega insect.",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mega_wasp",
+    "sound": "The thundering drone of a flying mega insect.",
+    "volume": 80
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mutant_animals",
+    "name": "Mutant Animals",
+    "authors": [ "Sunshine" ],
+    "description": "Expansion for animals that makes them evolve over time into new mutated versions. Some of them, though, they are weird, become tameable, very friendly, useful mutated versions. Some of them, however, whether they are weird or not, become ferocious, grotesque, dangerous mutants.",
+    "category": "creatures",
+    "dependencies": [ "bn" ]
+  }
+]

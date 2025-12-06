@@ -1,0 +1,70 @@
+[
+  {
+    "id": "mammal_large_fat",
+    "type": "harvest",
+    "message": "This animal is covered in thick layers of blubber.",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.27 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.17 }
+    ]
+  },
+  {
+    "id": "mammal_large_metalbone",
+    "type": "harvest",
+    "message": "This strange animal has metal bones.",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "steel_lump", "type": "bone", "mass_ratio": 0.25 },
+      { "drop": "steel_chunk", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "scrap", "type": "bone", "mass_ratio": 0.25 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "animal_boneplate",
+    "//": "bone plate armor",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.3 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "fishslug",
+    "//": "no bones or organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  }
+]

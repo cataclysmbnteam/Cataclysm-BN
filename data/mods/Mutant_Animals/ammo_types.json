@@ -1,0 +1,14 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "bile_spit",
+    "name": "Bile",
+    "default": "bile_spit"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mucus_spit",
+    "name": "Mucus",
+    "default": "mucus_spit"
+  }
+]

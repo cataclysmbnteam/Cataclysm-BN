@@ -1,0 +1,1583 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mutant_animals\n"
+"POT-Creation-Date: 2021-06-28 16:45+0300\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ./ammo.json ./fake_item.json
+msgid "bile"
+msgid_plural "biles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bile
+#: ./ammo.json
+msgid "Animal bile ejected from some orfice."
+msgstr ""
+
+#: ./ammo.json ./fake_item.json
+msgid "mucus"
+msgid_plural "mucuss"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mucus
+#: ./ammo.json
+msgid "Animal mucus ejected from some orfice."
+msgstr ""
+
+#: ./ammo.json
+msgid "watery plutonium slurry"
+msgid_plural "watery plutonium slurrys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for watery plutonium slurry
+#: ./ammo.json
+msgid ""
+"Highly radioactive slurry.  It is probably best to get far away from this."
+msgstr ""
+
+#: ./ammo_types.json
+msgid "Bile"
+msgstr ""
+
+#: ./ammo_types.json
+msgid "Mucus"
+msgstr ""
+
+#: ./effects.json
+msgid "Rat Fever"
+msgstr ""
+
+#. ~ Description of effect 'Rat Fever'.
+#: ./effects.json
+msgid "You have contracted a viral infection from a rat bite."
+msgstr ""
+
+#. ~ Apply message for effect(s) 'Rat Fever'.
+#: ./effects.json
+msgid "You have contracted a fever."
+msgstr ""
+
+#: ./fake_item.json
+msgid "water"
+msgid_plural "waters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./fake_item.json
+msgid ""
+"This is a pseudo item for monster attacks. If you see this, it's a bug."
+msgstr ""
+
+#: ./fake_item.json
+msgid "semi-auto"
+msgstr ""
+
+#: ./fake_item.json
+msgctxt "gun_type_type"
+msgid "pistol"
+msgstr ""
+
+#: ./fake_item.json
+msgid "ink"
+msgid_plural "inks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./harvest.json
+msgid "This animal is covered in thick layers of blubber."
+msgstr ""
+
+#: ./harvest.json
+msgid "This strange animal has metal bones."
+msgstr ""
+
+#: ./items_egg.json
+msgid "bird egg"
+msgid_plural "bird eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bird egg
+#: ./items_egg.json
+msgid "Nutritious egg laid by a bird."
+msgstr ""
+
+#: ./items_egg.json
+msgid "vultch egg"
+msgid_plural "vultch eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./items_egg.json
+msgid "iridescent egg"
+msgid_plural "iridescent eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./items_egg.json
+msgid "ghoul bird egg"
+msgid_plural "ghoul bird eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for ghoul bird egg
+#: ./items_egg.json
+msgid "Poisonous egg laid by a bird."
+msgstr ""
+
+#: ./items_egg.json
+msgid "elephant egg"
+msgid_plural "elephant eggs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./modinfo.json
+msgid "Mutant Animals"
+msgstr ""
+
+#. ~ Description for Mutant Animals
+#: ./modinfo.json
+msgid "Normal animals evolve over time into weird or dangerous mutants."
+msgstr ""
+
+#: ./monsters.json
+msgid "songbird"
+msgid_plural "songbirds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for songbird
+#: ./monsters.json
+msgid "A tiny bird with a noteable singing voice."
+msgstr ""
+
+#: ./monsters.json
+msgid "gargoyle"
+msgid_plural "gargoyles"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gargoyle
+#: ./monsters.json
+msgid ""
+"A flying mutant beast. It's unclear whether this is a bear that has grown "
+"leathery wings or a bat that has grown to a massive size.  Either way, the "
+"result is ugly and unfriendly."
+msgstr ""
+
+#: ./monsters.json
+msgid "jacked rabbit"
+msgid_plural "jacked rabbits"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for jacked rabbit
+#: ./monsters.json
+msgid ""
+"A wild hare that has grown to the size of a horse. Despite its bulk, this "
+"mutant creature is incredibly fast-moving, capable of outrunning almost "
+"anything alive.  If only you could put a saddle on it..."
+msgstr ""
+
+#: ./monsters.json
+msgid "aerostatic octopod"
+msgid_plural "aerostatic octopods"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for aerostatic octopod
+#: ./monsters.json
+msgid ""
+"A mutant octopus floating on a bladder of lighter-than-air gas.  Due to its "
+"inflated gas sac, it has the volume of a small car, but only has the mass as"
+" a human. A curious creature, it has drifted in from the ocean to explore "
+"dry land."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant animal"
+msgid_plural "mutant animals"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant animal
+#: ./mutant_animals.json
+msgid "Generic animal. Initial stats based off the groundhog."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant tunneler"
+msgid_plural "mutant tunnelers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant tunneler
+#: ./mutant_animals.json
+msgid ""
+"A strange mutated creature about the size of a large cat.  It tunnels "
+"through the earth using spade-like teeth and long claws."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant runner"
+msgid_plural "mutant runners"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant runner
+#: ./mutant_animals.json
+msgid ""
+"An odd mutated creature about the size of a large cat.  A set of long "
+"spindly limbs carry its sleek form across the post apocalyptic landscape."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant flyer"
+msgid_plural "mutant flyers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant flyer
+#: ./mutant_animals.json
+msgid ""
+"A weird mutated creature about the size of a large cat.  It flies with its "
+"arms and legs which have become twon sets of bat-like wings."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant swimmer"
+msgid_plural "mutant swimmers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant swimmer
+#: ./mutant_animals.json
+msgid ""
+"A queer mutated creature about the size of a large cat.  It has adapted to "
+"life both in and out of water, having gills and fins, as well as two stubby "
+"legs."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant lurker"
+msgid_plural "mutant lurkers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant lurker
+#: ./mutant_animals.json
+msgid ""
+"A shy mutated creature about the size of a large cat.  It lopes through the "
+"night on a dozen tentacles terminating in sharp claws."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant swallower"
+msgid_plural "mutant swallowers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant swallower
+#: ./mutant_animals.json
+msgid ""
+"A bizarre mutated creature about the size of a large cat.  It snatches up "
+"prey with its expansive mouth and traps it within a large translucent neck-"
+"sack."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant babler"
+msgid_plural "mutant bablers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant babler
+#: ./mutant_animals.json
+msgid ""
+"An odd mutated creature about the size of a large cat.  It makes weird "
+"mumbling sounds as it prowls through the forests."
+msgstr ""
+
+#: ./mutant_animals.json
+msgid "mutant gasser"
+msgid_plural "mutant gassers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant gasser
+#: ./mutant_animals.json
+msgid ""
+"An odd mutated creature about the size of a large cat.  It emits a toxic gas"
+" from spinal vents to ward off predators."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "mutant songbird"
+msgid_plural "mutant songbirds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant songbird
+#: ./mutant_birds.json
+msgid "A mutant songbird that makes otherworldy music."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "mutant bird"
+msgid_plural "mutant birds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant bird
+#: ./mutant_birds.json
+msgid "A mutating bird."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "deformed bird chick"
+msgid_plural "deformed bird chicks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for deformed bird chick
+#: ./mutant_birds.json
+msgid ""
+"A sickly deformed bird chick.  If it survives it could mutate into something"
+" even stranger."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "malformed avian"
+msgid_plural "malformed avians"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for malformed avian
+#: ./mutant_birds.json
+msgid ""
+"A mutating bird no longer capable of flight due to its twisted and "
+"asymetrical wings."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "irradiated bird"
+msgid_plural "irradiated birds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for irradiated bird
+#: ./mutant_birds.json
+msgid "A mutating bird afflicted with serious radiation burns."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "plague bird"
+msgid_plural "plague birds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for plague bird
+#: ./mutant_birds.json
+msgid "A mutating bird suffering from the symptoms of a flesh eating virus."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "two headed vultch"
+msgid_plural "two headed vultchs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for two headed vultch
+#: ./mutant_birds.json
+msgid ""
+"A mutated bird about the size of an eagle.  It has two featherless heads and"
+" necks growing from its squat body.  The vultch can eject streams of sticky "
+"bile when threatened."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "two headed chick"
+msgid_plural "two headed chicks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for two headed chick
+#: ./mutant_birds.json
+msgid "A sickly deformed bird chick growing a second head."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "wing thing"
+msgid_plural "wing things"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wing thing
+#: ./mutant_birds.json
+msgid ""
+"A mutated bird about the size of an albatross.  This monster is a grotesque "
+"mass of writhing tentacles and blinking eyes.  Only its eight feathered "
+"wings give any clue that it was once a common species of avian."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "iridescent bird"
+msgid_plural "iridescent birds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for iridescent bird
+#: ./mutant_birds.json
+msgid ""
+"A mutated bird about the size of a goose.  A proud creature covered in "
+"glittering feathers far more colorful than any parrot or peacock of the old "
+"world.  Unlike other mutants, this bird is agreeable enough to be tamed."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "ghoul bird"
+msgid_plural "ghoul birds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for ghoul bird
+#: ./mutant_birds.json
+msgid ""
+"A mutated bird about the size of a crow.  Although primarily a scavenger, it"
+" will attack agressively with a razor sharp beak capable of causing infected"
+" bite wounds.  Its ability to digest rotting and tainted flesh makes it well"
+" adapted to the current world."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "elephant bird"
+msgid_plural "elephant birds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for elephant bird
+#: ./mutant_birds.json
+msgid ""
+"A mutated bird about the twice size of an ostrich and with a similar shape."
+"  Its beak has been replaced with a long sinuous trunk that can grab hold of"
+" smaller creatures.  The elephant bird is highly territorial and aggressive."
+msgstr ""
+
+#: ./mutant_birds.json
+msgid "large deformed bird chick"
+msgid_plural "large deformed bird chicks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for large deformed bird chick
+#: ./mutant_birds.json
+msgid ""
+"A deformed bird chick already grown to the size of a turkey. How big will "
+"this thing get?"
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "mutant dog"
+msgid_plural "mutant dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant dog
+#: ./mutant_canines.json
+msgid "A mutating canine."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "mutant whelp"
+msgid_plural "mutant whelps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant whelp
+#: ./mutant_canines.json
+msgid "A deformed and mutating canine whelp."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "scab dog"
+msgid_plural "scab dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for scab dog
+#: ./mutant_canines.json
+msgid ""
+"A mutating canine covered in scabs and bloody lesions.  Although weak from "
+"disease, the animal is deranged and highly aggressive."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "blister dog"
+msgid_plural "blister dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for blister dog
+#: ./mutant_canines.json
+msgid ""
+"A mutating canine covered in giant blisters.  Although weak from disease, "
+"the animal is deranged and highly aggressive."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "pus dog"
+msgid_plural "pus dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pus dog
+#: ./mutant_canines.json
+msgid ""
+"A mutating canine with rancid pus dripping from its patchy fur.  Although "
+"weak from disease, the animal is deranged and highly aggressive."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "deformed whelp"
+msgid_plural "deformed whelps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for deformed whelp
+#: ./mutant_canines.json
+msgid "A mutating puppy with patchy fur and malformed limbs."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "worm dog"
+msgid_plural "worm dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for worm dog
+#: ./mutant_canines.json
+msgid ""
+"A former canine mutated into a hairless monster with a thick tail and long "
+"neck. Multifaceted eyes sprout irregularly atop its elongated skull."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "wormling"
+msgid_plural "wormlings"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wormling
+#: ./mutant_canines.json
+msgid ""
+"The wriggling offspring of a worm dog. Multifaceted eyes sprout irregularly "
+"atop its elongated skull."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "happysmile dog"
+msgid_plural "happysmile dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for happysmile dog
+#: ./mutant_canines.json
+msgid ""
+"A former canine mutated into a skinless monster with an oversized head and "
+"multiple rows of venomous fangs. Its absurdly wide mouth makes it appear to "
+"have a permanent smile."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "happysmile puppy"
+msgid_plural "happysmile puppys"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for happysmile puppy
+#: ./mutant_canines.json
+msgid ""
+"The chittering whelp of a happysmile dog. It has a permanent grin of "
+"venomous fangs."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "digiridog"
+msgid_plural "digiridogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for digiridog
+#: ./mutant_canines.json
+msgid ""
+"A former canine mutated into a weird creature with bone tubes growing from "
+"its head and spine, from which it emits a stream of unearthly moans.  Its "
+"oily blue saliva can prevent blood from clotting."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "digiridog whelp"
+msgid_plural "digiridog whelps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for digiridog whelp
+#: ./mutant_canines.json
+msgid ""
+"The offspring of a digiridog. Its bone tubes are not yet developed and it "
+"looks almost like a real dog."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "direwolf"
+msgid_plural "direwolfs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for direwolf
+#: ./mutant_canines.json
+msgid ""
+"A canine mutated into a wild beast the size of a grizzly bear. It can "
+"recover from disease and wounds with an alarming speed. The wild animal "
+"cannot be controlled, but perhaps a younger version could be tamed."
+msgstr ""
+
+#: ./mutant_canines.json
+msgid "dire whelp"
+msgid_plural "dire whelps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for dire whelp
+#: ./mutant_canines.json
+msgid ""
+"The offspring of a direwolf, already the size of an actual wolf. It seems "
+"almost as intelligent and friendly as a domestic dog."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "cat"
+msgid_plural "cats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cat
+#: ./mutant_felines.json
+msgid "A deformed and mutating cat."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "hairless cat"
+msgid_plural "hairless cats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hairless cat
+#: ./mutant_felines.json
+msgid ""
+"A mutating feline that has lost its coat of fur, making it appear weird and "
+"sickly."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "multilimbed cat"
+msgid_plural "multilimbed cats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for multilimbed cat
+#: ./mutant_felines.json
+msgid ""
+"A mutating feline that has sprouted extra sets of vestigal legs and multiple"
+" tails.  Its movements are slow and clumsy."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "venomous cat"
+msgid_plural "venomous cats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for venomous cat
+#: ./mutant_felines.json
+msgid ""
+"A mutated feline that has acquired snake-like fangs and a powerful venom.  "
+"It often hunts in packs making it more dangerous than its small size "
+"suggests."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "vampire cat"
+msgid_plural "vampire cats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for vampire cat
+#: ./mutant_felines.json
+msgid ""
+"A mutated feline grown to the size of a large dog.  It runs swiftly on six "
+"legs and possesses razor sharp fangs."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "ink cat"
+msgid_plural "ink cats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for ink cat
+#: ./mutant_felines.json
+msgid ""
+"A dark mutated feline that hunts from the shadows.  It can spray a jet of "
+"ink from its mouth to blind predators or prey."
+msgstr ""
+
+#: ./mutant_felines.json
+msgid "whip tongue"
+msgid_plural "whip tongues"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for whip tongue
+#: ./mutant_felines.json
+msgid ""
+"A mutated feline grown to the size of a large dog.  Its fur has been "
+"replaced with hard lizard-like scales and thorny knobs.  The cat has no eyes"
+" but its long tongue continually sways back and forth tasting the air for "
+"signs of prey."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "fish"
+msgid_plural "fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'fish', 'str_pl': 'fish'}
+#: ./mutant_fish.json
+msgid "A mutant fish.  The favorite prey of mutant cats and survivors."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "puke fish"
+msgid_plural "puke fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'puke fish', 'str_pl': 'puke fish'}
+#: ./mutant_fish.json
+msgid ""
+"A disgustingly mutating fish about the size of a large carp.  It exudes a "
+"gooey brown gel and smells like rotting milk."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "finger fish"
+msgid_plural "finger fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'finger fish', 'str_pl': 'finger fish'}
+#: ./mutant_fish.json
+msgid ""
+"A freakishly mutating fish about the size of a large carp.  A cluster of "
+"finger-like limbs have burst from its head."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "tumor fish"
+msgid_plural "tumor fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'tumor fish', 'str_pl': 'tumor fish'}
+#: ./mutant_fish.json
+msgid ""
+"An odious mutating fish about the size of a large carp. It's so covered in "
+"bleeding tumors and fleshy nodules that it can barely swim."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "angelic fish"
+msgid_plural "angelic fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'angelic fish', 'str_pl': 'angelic fish'}
+#: ./mutant_fish.json
+msgid ""
+"A mutant fish about the size of a large carp.  Its internal organs glow with"
+" a pulsing light which readily shines through its translucent skin."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "bloatball fish"
+msgid_plural "bloatball fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'bloatball fish', 'str_pl': 'bloatball fish'}
+#: ./mutant_fish.json
+msgid ""
+"A mutant fish the size and shape of a basketball.  When threatened the fish "
+"will inflate itself to massive size.  If attacked the fish and its attacker "
+"will be caught in a violent explosion."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "ghoul in the water"
+msgid_plural "ghouls in the water"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'ghoul in the water', 'str_pl': 'ghouls in the
+#. water'}
+#: ./mutant_fish.json
+msgid ""
+"A large mutant fish the size of a tigershark.  It resembles a catfish but "
+"instead of barbels it possess a pair of long spindly arms terminating in "
+"disturbingly human hands.  The ghoul grabs prey on the water's edge and "
+"pulls it into the deep."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "jawed terror"
+msgid_plural "jawed terrors"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for jawed terror
+#: ./mutant_fish.json
+msgid ""
+"A large mutant fish the size of a tigershark.  It has a massive set of jaws "
+"lined with razor-sharp teeth."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "accordian fish"
+msgid_plural "accordian fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'accordian fish', 'str_pl': 'accordian fish'}
+#: ./mutant_fish.json
+msgid ""
+"A mutant fish the size of a carp.  It moves by strangely extending and "
+"contracting its body, giving it its odd name."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "whisperwill"
+msgid_plural "whisperwills"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for whisperwill
+#: ./mutant_fish.json
+msgid ""
+"A large mutant fish the size of a tiger shark.  Its body is long and sleek "
+"like that of an eel.  The whisperwill can perfectly mimic any human whose "
+"flesh it has consumed, and will call out for help with the voices of the "
+"dead."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "butter fish"
+msgid_plural "butter fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'butter fish', 'str_pl': 'butter fish'}
+#: ./mutant_fish.json
+msgid ""
+"A mutant fish the size of a carp.  It controls its bouyancy by producing and"
+" releasing a thick oil which might be harvestable."
+msgstr ""
+
+#: ./mutant_fish.json
+msgid "spitter fish"
+msgid_plural "spitter fish"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'spitter fish', 'str_pl': 'spitter fish'}
+#: ./mutant_fish.json
+msgid ""
+"A mutant fish the size of a carp.  It hunts by squirting jets of water at "
+"passing birds and knocking them into the water."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "mutant snake"
+msgid_plural "mutant snakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'mutant snake'}
+#: ./mutant_reptiles.json
+msgid "A mutating snake."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "molting snake"
+msgid_plural "molting snakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'molting snake'}
+#: ./mutant_reptiles.json
+msgid ""
+"A mutating snake shedding its dried epidermis.  Although vulnerable and "
+"weak, this snake still has a venomous bite."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "jaculus"
+msgid_plural "jaculi"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'jaculus', 'str_pl': 'jaculi'}
+#: ./mutant_reptiles.json
+msgid ""
+"A mutated snake grown to the size of a python.  It can launch itself at its "
+"prey by uncoiling its body like a giant spring."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "bone snake"
+msgid_plural "bone snakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'bone snake'}
+#: ./mutant_reptiles.json
+msgid ""
+"A mutated snake grown to the size of python.  Bone plates cover its body and"
+" it bites with a hard beak as well as venomous fangs."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "frostbite snake"
+msgid_plural "frostbite snakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'frostbite snake'}
+#: ./mutant_reptiles.json
+msgid ""
+"A mutated snake armed with a powerful poison.  Its bite causes flesh to "
+"wither and die, similar to a case of frostbite."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "devil frog"
+msgid_plural "devil frogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'devil frog'}
+#: ./mutant_reptiles.json
+msgid ""
+"A mutated bullfrog with jagged teeth and horms.  Its bright red skin is said"
+" to produce hallucinagenic toxins."
+msgstr ""
+
+#: ./mutant_reptiles.json
+msgid "gamma-toad"
+msgid_plural "gamma-toads"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'gamma-toad'}
+#: ./mutant_reptiles.json
+msgid ""
+"A common toad that has mutated into a huge radioactive monstrosity.  It "
+"pulses with heat, energy, and malice."
+msgstr ""
+
+#: ./mutant_rodents.json
+msgid "mutant rat"
+msgid_plural "mutant rats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mutant rat
+#: ./mutant_rodents.json
+msgid "A worm-tailed rodent with long whiskers and beady eyes."
+msgstr ""
+
+#: ./mutant_rodents.json
+msgid "plague rat"
+msgid_plural "plague rats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for plague rat
+#: ./mutant_rodents.json
+msgid "A mutant rat that carries one or more dangerous diseases."
+msgstr ""
+
+#: ./mutant_rodents.json
+msgid "piranha rat"
+msgid_plural "piranha rats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for piranha rat
+#: ./mutant_rodents.json
+msgid ""
+"A mutant rat with a powerful set of sharp teeth.  Not that dangerous on its "
+"own, but deadly in a swarm."
+msgstr ""
+
+#: ./mutant_rodents.json
+msgid "rat creature"
+msgid_plural "rat creatures"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rat creature
+#: ./mutant_rodents.json
+msgid ""
+"A mutant rat that has impossibly crossbred with a spider and grown to the "
+"size of a wolf.  It has venomous mandibles and numerous eyes."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "mutant cow"
+msgid_plural "mutant cows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "mutant cow calf"
+msgid_plural "mutant cow calfs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "twisthorn cow"
+msgid_plural "twisthorn kine"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'twisthorn cow', 'str_pl': 'twisthorn kine'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating cow with mutiple horns bursting from its skull at odd angles.  "
+"Its skin has dried and contracted, causing a network of bloody cracks to "
+"cover the unfortunate animal.  Due to extreme pain, the cow is violent and "
+"agitated."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "blubber cow"
+msgid_plural "blubber kine"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'blubber cow', 'str_pl': 'blubber kine'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating cow so weighed down by fat and blubber that it can barely move.  "
+"It's unlikely this easy meal will survive for long in the post cataclysmic "
+"wastes."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "ironthorn cow"
+msgid_plural "ironhorn kine"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'ironthorn cow', 'str_pl': 'ironhorn kine'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutated cow that has somehow grown a pair of metal horns which it can use "
+"to great effect.  It is a highly aggressive animal."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "ironhorn calf"
+msgid_plural "ironhorn calves"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'ironhorn calf', 'str_pl': 'ironhorn calves'}
+#: ./mutant_ungulates.json
+msgid "A young mutated cow with a pair of metal horns."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "auroch"
+msgid_plural "auroch"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'auroch', 'str_pl': 'auroch'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutated cow that has regressed to a primitive state.  It has increased in "
+"size and grown a shaggy coat of thick fur.  Unlike most mutants, this beast "
+"still has the potential to be tamed."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "auroch calf"
+msgid_plural "auroch calves"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'auroch calf', 'str_pl': 'auroch calves'}
+#: ./mutant_ungulates.json
+msgid "A young mutated cow that has regressed to a primitive state."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "moss bison"
+msgid_plural "moss bison"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'moss bison', 'str_pl': 'moss bison'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutated cow that can photosynthesize sunlight through its moss-like fur.  "
+"This green beast is quite lethargic and is often mistaken for a bush or "
+"hedge."
+msgstr ""
+
+#. ~ Description for {'str': 'auroch calf', 'str_pl': 'auroch calves'}
+#: ./mutant_ungulates.json
+msgid ""
+"A young mutated cow that can photosynthesize sunlight through its moss-like "
+"fur.  This green beast is quite lethargic and is often mistaken for a bush "
+"or hedge."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "mutant deer"
+msgid_plural "mutant deers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "crying hind"
+msgid_plural "crying hinds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'crying hind', 'str_pl': 'crying hinds'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating deer covered in lesions dripping pus and fluid.  The animal "
+"frequently lets out sorrowful cries of pain."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "burnt hart"
+msgid_plural "burnt hart"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'burnt hart', 'str_pl': 'burnt hart'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating deer badly burnt by radiation and heat.  It's hide is blackened "
+"with ash and crusted with dried blood."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "mutant horse"
+msgid_plural "mutant horses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "famine mare"
+msgid_plural "famine mares"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'famine mare'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating horse almost dead from starvation. It's skeleton is visible under"
+" its stretched hide."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "glue horse"
+msgid_plural "glue horses"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'glue horse'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating horse that oozes a sticky substance from pulsing pores.  Driven "
+"mad by this affliction, the horse scratches itself against trees and "
+"buildings, leaving traces of disgusting glue everywhere it goes."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "mutant sheep"
+msgid_plural "mutant sheep"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "naked sheep"
+msgid_plural "naked sheep"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'naked sheep', 'str_pl': 'naked sheep'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating sheep that has lost all of its wool to radiation sickness, making"
+" it look weird and sickly."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "gamma sheep"
+msgid_plural "gamma sheep"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'gamma sheep', 'str_pl': 'gamma sheep'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating sheep swollen with radioactive gas, which it occasionally "
+"releases into its surroundings."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "glass creature"
+msgid_plural "glass creatures"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'glass creature'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutated ungulate whose flesh and bones have become almost completely "
+"transparent.  This natural camoflauge makes it difficult to see at a "
+"distance or at night."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "mutant unicorn"
+msgid_plural "mutant unicorns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'mutant unicorn'}
+#: ./mutant_ungulates.json
+msgid ""
+"A rare mutated ungulate with a single horn growing from its forehead, making"
+" it look somewhat like the mythical animal.  This unicorn, however, is not "
+"so friendly."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "screech creature"
+msgid_plural "screech creatures"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'screech creature'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutated ungulate that has grown an extra pair of legs and a long giraffe-"
+"like neck.  It can defend itself by spitting globs of foul smelling mucus "
+"and letting out ear-shattering screams."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "screeching brat"
+msgid_plural "screeching brats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'screeching brat', 'str_pl': 'screeching brats'}
+#: ./mutant_ungulates.json
+msgid ""
+"A juvenile mutated ungulate that has grown an extra pair of legs and a long "
+"giraffe-like neck.  It can defend itself by spitting globs of foul smelling "
+"mucus and letting out ear-shattering screams."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "mutant pig"
+msgid_plural "mutant pigs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "mutant piglet"
+msgid_plural "mutant piglets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./mutant_ungulates.json
+msgid "fly-blown pig"
+msgid_plural "fly-blown pigs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'fly-blown pig'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating pig infested with fly larva. It can barely see or move due to its"
+" necrotic wounds."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "tumor pig"
+msgid_plural "tumor pigs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'tumor pig'}
+#: ./mutant_ungulates.json
+msgid ""
+"A mutating pig that has inflamed tumors all over its body. It looks to be in"
+" constant pain and distress."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "rhino pig"
+msgid_plural "rhino pigs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'rhino pig'}
+#: ./mutant_ungulates.json
+msgid ""
+"A large mutated pig that has grown a thick protective hide similar to that "
+"of a rhino."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "rhino piglet"
+msgid_plural "rhino piglets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'rhino piglet'}
+#: ./mutant_ungulates.json
+msgid ""
+"A juvenile mutated pig that is growing a thick protective hide similar to "
+"that of a rhino."
+msgstr ""
+
+#: ./mutant_ungulates.json
+msgid "quill pig"
+msgid_plural "quill pigs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for {'str': 'quill pig'}
+#: ./mutant_ungulates.json
+msgid ""
+"A large mutated pig with rows of venomous quills growing from its spine.  "
+"Despite it's fearsome appearance, it is fairly non aggressive."
+msgstr ""
+
+#. ~ Description for {'str': 'rhino piglet'}
+#: ./mutant_ungulates.json
+msgid "A juvenile mutated pig covered in small bone nubs."
+msgstr ""
+
+#: ./speech.json
+msgid "\"tweet tweet tweet.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"chirp chirp chirp.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"cookoo cookoo.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"caw-caw. caw-caw.\""
+msgstr ""
+
+#: ./speech.json
+msgid "whistling and chirping."
+msgstr ""
+
+#: ./speech.json
+msgid "birds singing."
+msgstr ""
+
+#: ./speech.json
+msgid "singing birds."
+msgstr ""
+
+#: ./speech.json
+msgid "a bird song."
+msgstr ""
+
+#: ./speech.json
+msgid "the jargon of forest birds."
+msgstr ""
+
+#: ./speech.json
+msgid "the calls of birds."
+msgstr ""
+
+#: ./speech.json
+msgid "the warning cries of small birds."
+msgstr ""
+
+#: ./speech.json
+msgid "the uplifiting sounds of nature."
+msgstr ""
+
+#: ./speech.json
+msgid "a loud caw-cawing."
+msgstr ""
+
+#: ./speech.json
+msgid "repetitive chirping."
+msgstr ""
+
+#: ./speech.json
+msgid "whistles and trills."
+msgstr ""
+
+#: ./speech.json
+msgid "otherworldly music."
+msgstr ""
+
+#: ./speech.json
+msgid "the strange notes of mutant birds."
+msgstr ""
+
+#: ./speech.json
+msgid "wild discordant birdcalls."
+msgstr ""
+
+#: ./speech.json
+msgid "ethereal piping."
+msgstr ""
+
+#: ./speech.json
+msgid "unfamiliar bird calls."
+msgstr ""
+
+#: ./speech.json
+msgid "the strange sounds of an alien forest."
+msgstr ""
+
+#: ./speech.json
+msgid "the weird cries of mutant birds."
+msgstr ""
+
+#: ./speech.json
+msgid "an unnatural droning sound."
+msgstr ""
+
+#: ./speech.json
+msgid "the music of a new world."
+msgstr ""
+
+#: ./speech.json
+msgid "piercing cries of an unknown bird."
+msgstr ""
+
+#: ./speech.json
+msgid "bird calls, unlike any you've heard before."
+msgstr ""
+
+#: ./speech.json
+msgid "hideous death cries."
+msgstr ""
+
+#: ./speech.json
+msgid "hypnotic birdcalls."
+msgstr ""
+
+#: ./speech.json
+msgid "\"wlo wlo wlo wlooooowlowlo.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"raaaanrzh raaaanrzh raaaanrzh.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"vrooonoo vroonoo vrooooonoo vroonoo.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"bjyoooom bjyoooom bjyoooom.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Hreeeeeeeech!\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Auuuuuuwuuu!\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Raaaaahaaaaa!\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Neeeeeeehuuuuuu!\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"I could use some help over here.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Don't leave me behind.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"We've always been friends, right?\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Come closer.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Let's team up.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Help!  I can't swim!\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Help a guy out, would ya?\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"It's too dark to see.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"Follow me.  I'll show you the way.\""
+msgstr ""
+
+#: ./speech.json
+msgid "\"We should stick together.\""
+msgstr ""
