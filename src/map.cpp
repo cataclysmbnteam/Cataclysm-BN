@@ -1069,7 +1069,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
     if( const std::optional<vpart_reference> vp = veh_at( getlocal(
-            zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
+                zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
         auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
             if( &zone == &( it->second ) ) {
@@ -1165,7 +1165,7 @@ void map::board_vehicle( const tripoint &pos, Character *who )
     }
 
     const std::optional<vpart_reference> vp = veh_at( pos ).part_with_feature( VPFLAG_BOARDABLE,
-        true );
+            true );
     if( !vp ) {
         if( who->grab_point.x == 0 && who->grab_point.y == 0 ) {
             debugmsg( "map::board_vehicle: vehicle not found" );
@@ -1658,7 +1658,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
                                  get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
-                                     get_visibility_variables_cache() ) == VIS_CLEAR ||
+                                         get_visibility_variables_cache() ) == VIS_CLEAR ||
                                  // or if an actual center tile is transparent or next to a memorized tile
                                  ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
         if( may_connect ) {
@@ -1709,7 +1709,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
                                  get_visibility( ch.visibility_cache[pt.x][pt.y],
-                                     get_visibility_variables_cache() ) ==
+                                         get_visibility_variables_cache() ) ==
                                  visibility_type::VIS_CLEAR ||
                                  // or if an actual center tile is transparent or
                                  // next to a memorized tile
@@ -2728,7 +2728,7 @@ bool map::is_water_shallow_current( const tripoint &p ) const
 bool map::is_divable( const tripoint &p ) const
 {
     const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE,
-        true );
+            true );
     if( !vp ) {
         return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
     }
@@ -4700,7 +4700,7 @@ float map::item_category_spawn_rate( const item &itm )
 }
 
 std::vector<detached_ptr<item>> map::spawn_items( const tripoint &p,
-        std::vector<detached_ptr<item>> new_items )
+                             std::vector<detached_ptr<item>> new_items )
 {
     std::vector<detached_ptr<item>> ret;
     if( !inbounds( p ) || has_flag( "DESTROY_ITEM", p ) ) {
@@ -5051,7 +5051,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                                         null_part;
     if( recharge_part_idx >= 0 && recharge_part.enabled &&
         !recharge_part.removed && !recharge_part.is_broken() ) {
-        for( item * &outer : cur_veh.get_items( part ) ) {
+        for( item*&outer : cur_veh.get_items( part ) ) {
             bool out_of_battery = false;
             outer->visit_items( [&cur_veh, &recharge_part, &out_of_battery]( item * it ) {
                 item &n = *it;
@@ -5162,7 +5162,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     // If they are destroyed before processing, they don't get processed.
     std::vector<item *> active_items = current_submap.active_items.get_for_processing();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
-    for( item * &active_item_ref : active_items ) {
+    for( item*&active_item_ref : active_items ) {
         if( !active_item_ref || !active_item_ref->is_loaded() ) {
             // The item was destroyed, so skip it.
             continue;
@@ -5314,7 +5314,7 @@ bool map::has_items( const tripoint &p ) const
 
 template <typename Stack>
 std::vector<detached_ptr<item>> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
-        const std::function<bool( const item & )> &filter )
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 
@@ -5333,7 +5333,7 @@ std::vector<detached_ptr<item>> use_amount_stack( Stack stack, const itype_id &t
 }
 
 std::vector<detached_ptr<item>> map::use_amount_square( const tripoint &p, const itype_id &type,
-        int &quantity, const std::function<bool( const item & )> &filter )
+                             int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
     // Handle infinite map sources.
@@ -5358,8 +5358,8 @@ std::vector<detached_ptr<item>> map::use_amount_square( const tripoint &p, const
 }
 
 std::vector<detached_ptr<item>> map::use_amount( const tripoint &origin, const int range,
-        const itype_id &type,
-        int &quantity, const std::function<bool( const item & )> &filter )
+                             const itype_id &type,
+                             int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
@@ -5376,8 +5376,8 @@ std::vector<detached_ptr<item>> map::use_amount( const tripoint &origin, const i
 
 template <typename Stack>
 std::vector<detached_ptr<item>> use_charges_from_stack( Stack stack, const itype_id &type,
-        int &quantity,
-        const tripoint &pos, const std::function<bool( const item & )> &filter )
+                             int &quantity,
+                             const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
 
     std::vector<detached_ptr<item>> ret;
@@ -5464,8 +5464,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 }
 
 std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const int range,
-        const itype_id &type, int &quantity,
-        const std::function<bool( const item & )> &filter )
+                             const itype_id &type, int &quantity,
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 
@@ -5571,8 +5571,8 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
 
         if( cargo ) {
             std::vector<detached_ptr<item>> tmp =
-                use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p,
-                                        filter );
+                                             use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p,
+                                                     filter );
             ret.insert( ret.end(), std::make_move_iterator( tmp.begin() ),
                         std::make_move_iterator( tmp.end() ) );
             if( quantity <= 0 ) {
@@ -6039,7 +6039,7 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = static_cast<int>( g->light_level( zlev ) );
     visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
-            get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()].max() );
+                get_cache_ref( g->u.posz() ).lm[g->u.posx()][g->u.posy()].max() );
 
     visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
     visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
