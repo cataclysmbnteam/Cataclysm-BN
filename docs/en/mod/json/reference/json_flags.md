@@ -1688,6 +1688,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NEEDS_WINDOW` Can only be installed on a part with `WINDOW` flag.
 - `NO_JACK`
 - `NOINSTALL` Cannot be installed.
+- `NOFIELDS` Prevents fields ( smoke radiation etc ) from affecting anything on the same tile
 - `NOREMOVE_SECURITY` Cannot be uninstalled if the vehicle has a working security system.
 - `NOREMOVE_OPEN` Cannot be uninstalled if there's an open `OPENABLE` part in the same tile.
 - `NOREMOVE_CLOSED` Cannot be uninstalled if there's a closed `OPENABLE` part in the same tile.
