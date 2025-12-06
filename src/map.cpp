@@ -5051,7 +5051,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                                         null_part;
     if( recharge_part_idx >= 0 && recharge_part.enabled &&
         !recharge_part.removed && !recharge_part.is_broken() ) {
-        for( item*&outer : cur_veh.get_items( part ) ) {
+        for( item *&outer : cur_veh.get_items( part ) ) {
             bool out_of_battery = false;
             outer->visit_items( [&cur_veh, &recharge_part, &out_of_battery]( item * it ) {
                 item &n = *it;
@@ -5162,7 +5162,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     // If they are destroyed before processing, they don't get processed.
     std::vector<item *> active_items = current_submap.active_items.get_for_processing();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
-    for( item*&active_item_ref : active_items ) {
+    for( item *&active_item_ref : active_items ) {
         if( !active_item_ref || !active_item_ref->is_loaded() ) {
             // The item was destroyed, so skip it.
             continue;
