@@ -334,7 +334,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
             } else if( !it.ammo_current().is_null() ) {
                 it.ammo_set( it.ammo_current(), qty );
             } else {
-                it.set_countdown( qty );
+                it.set_charges( qty );
             }
             // If we're setting target charges then check for integral mods too.
             if( it.type->gun ) {

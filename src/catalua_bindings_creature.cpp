@@ -607,14 +607,14 @@ void cata::detail::reg_character( sol::state &lua )
 
         luna::set_fx( ut, "can_wield", []( const UT_CLASS & utObj, const item & i ) -> bool {
             const auto result = utObj.can_wield( i );
-            return !result.success() ? result.success() : result.value();
+            return result.success() && result.value();
         } );
 
         SET_FX_T( wield, bool( item & target ) );
 
         luna::set_fx( ut, "can_unwield", []( const UT_CLASS & utObj, const item & i ) -> bool {
             const auto result = utObj.can_unwield( i );
-            return !result.success() ? result.success() : result.value();
+            return result.success() && result.value();
         } );
 
         SET_FX_T( unwield, bool() );
@@ -680,8 +680,20 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_hauling, bool() const );
 
-        DOC( "Adds an item with the given id and amount" );
-        SET_FX_T( add_item_with_id, void( const itype_id & itype, int count ) );
+        DOC( "Adds a detached item to the player inventory" );
+        luna::set_fx( ut, "add_item", []( UT_CLASS & c, detached_ptr<item> &i )
+        {
+            c.i_add( std::move( i ) );
+        } );
+
+        DOC( "Creates and an item with the given id and amount to the player inventory" );
+        luna::set_fx( ut, "create_item", []( UT_CLASS & c, const itype_id & itype, int count )
+        {
+            return &c.add_item_with_id( itype, count );
+        } );
+
+        DOC( "DEPRECATED: use create_item instead" );
+        SET_FX_T( add_item_with_id, item & ( const itype_id & itype, int count ) );
 
         DOC( "Checks for an item with the given id" );
         SET_FX_T( has_item_with_id, bool( const itype_id & itype, bool need_charges ) const );
@@ -699,8 +711,72 @@ void cata::detail::reg_character( sol::state &lua )
         DOC( "Gets all items" );
         SET_FX_T( all_items, std::vector<item *>( bool need_charges ) const );
 
+        DOC( "Filters items" );
+        luna::set_fx( ut, "items_with", &Character::items_with );
+
+        DOC( "DEPRECATED: use remove_item instead" );
+        luna::set_fx( ut, "inv_remove_item", &Character::inv_remove_item );
+
         DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
-        luna::set_fx( ut, "inv_remove_item", []( Character & ch, item * it ) -> void { ch.inv_remove_item( it ); } );
+        luna::set_fx( ut, "remove_item", []( UT_CLASS & c, item & it ) -> detached_ptr<item> {
+            return c.inv_remove_item( &it );
+        } );
+
+        DOC( "Checks if a given `Item` can be taken off." );
+        luna::set_fx( ut, "can_takeoff", []( const UT_CLASS & c, const item & it )
+        {
+            const auto res = c.can_takeoff( it );
+            return res.success() && res.value();
+        } );
+
+        DOC( "Attempts to take off the worn `Item` from character." );
+        luna::set_fx( ut, "takeoff", []( UT_CLASS & c, item & it )
+        {
+            return c.takeoff( it, nullptr );
+        } );
+
+        DOC( "Attempts to remove the worn `Item` from character." );
+        luna::set_fx( ut, "remove_worn", []( UT_CLASS & c, item & it ) -> std::optional<detached_ptr<item>> {
+            std::vector<detached_ptr<item>> res{};
+            if( c.takeoff( it, &res ) )
+                return std::make_optional( std::move( res[0] ) );
+            return std::nullopt;
+        } );
+
+        luna::set_fx( ut, "get_dependant_worn_items", []( const UT_CLASS & c, const item & it )
+        {
+            auto lst = c.get_dependent_worn_items( it );
+            std::vector<item *> res = {};
+            std::ranges::copy( lst, std::back_inserter( res ) );
+            return res;
+        } );
+
+        // Could also use a std::variant<item*, detached_ptr<item>*> for a single method
+        DOC( "Attempts to wear an item not in the creature inventory. If boolean parameter is false, item is worn instantly" );
+        luna::set_fx( ut, "wear_detached", []( UT_CLASS & c, detached_ptr<item> &it, bool interactive )
+        {
+            return !!c.wear_item( std::move( it ), interactive, std::nullopt );
+        } );
+
+        DOC( "Attempts to wear an item in the creature inventory. If boolean parameter is false, item is worn instantly" );
+        luna::set_fx( ut, "wear", []( UT_CLASS & c, item & it, bool interactive )
+        {
+            return c.wear_possessed( it, interactive, std::nullopt );
+        } );
+
+        DOC( "Checks if creature can wear a given item. If boolean parameter is true, ignores already worn items" );
+        luna::set_fx( ut, "can_wear", []( const UT_CLASS & c, const item & it, bool ignore_worn )
+        {
+            auto res = c.can_wear( it, ignore_worn );
+            return res.success() && res.value();
+        } );
+
+        luna::set_fx( ut, "get_worn_items", []( const UT_CLASS & c )
+        {
+            std::vector<item *> res{};
+            std::ranges::copy( c.worn, std::back_inserter( res ) );
+            return res;
+        } );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );
@@ -805,6 +881,9 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX( bodypart_exposure );
 
+
+        SET_FX( use_charges );
+        SET_FX( use_charges_if_avail );
 
     }
 #undef UT_CLASS // #define UT_CLASS Character
