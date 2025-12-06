@@ -971,8 +971,8 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GRANADE", &iuse::granade );
-    add_iuse( "GRANADE_ACT", &iuse::granade_act );
+    add_iuse( "DEBUG_GRENADE", &iuse::debug_grenade );
+    add_iuse( "DEBUG_GRENADE_ACT", &iuse::debug_grenade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_CLEAN", &iuse::gun_clean );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );

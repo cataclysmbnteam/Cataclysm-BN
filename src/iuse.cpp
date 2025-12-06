@@ -243,7 +243,7 @@ static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_off( "geiger_off" );
 static const itype_id itype_geiger_on( "geiger_on" );
-static const itype_id itype_granade_act( "granade_act" );
+static const itype_id itype_debug_grenade_act( "debug_grenade_act" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
@@ -3198,16 +3198,16 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
     return 0;
 }
 
-int iuse::granade( player *p, item *it, bool, const tripoint & )
+int iuse::debug_grenade( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
-    it->convert( itype_granade_act );
+    p->add_msg_if_player( _( "You pull the pin on the %s." ), it->tname() );
+    it->convert( itype_debug_grenade_act );
     it->charges = 5;
     it->activate();
     return it->type->charges_to_use();
 }
 
-int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
+int iuse::debug_grenade_act( player *p, item *it, bool t, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
