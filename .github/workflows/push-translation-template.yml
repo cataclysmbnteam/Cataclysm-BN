@@ -1,6 +1,8 @@
 name: "Push translation template"
 
-concurrency: push_transifex
+concurrency:
+  group: push_transifex
+  cancel-in-progress: true
 
 on:
   workflow_dispatch:

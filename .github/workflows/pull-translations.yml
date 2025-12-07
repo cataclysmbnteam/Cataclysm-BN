@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "0 21 * * *"
 
+concurrency:
+  group: pull_translations
+  cancel-in-progress: true
+
 jobs:
   pull-translations:
     if: github.repository == 'cataclysmbnteam/Cataclysm-BN'
