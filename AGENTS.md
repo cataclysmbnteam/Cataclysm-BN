@@ -32,7 +32,7 @@ See [build docs](./docs/en/dev/guides/building/cmake.md) for details.
 ## Development Workflow
 
 1. **Always** get issue details via GitHub MCP tools
-2. Create branches per issue from `main`: `git switch --create <type>/<issue-number>/<description>`
+2. **CREATE SEPARATE BRANCHES PER ISSUE** from `main`: `git switch --create <type>/<issue-number>/<description>`
    - Types: conventional commits (feat, fix, docs, style, refactor, test, chore) depending on issue type
 3. Make changes following [style guide](./docs/en/dev/explanation/code_style.md)
    - Prefer modern C++ (auto, `trailing return`, `<ranges>`, `std::optional`, smart pointers, etc)
