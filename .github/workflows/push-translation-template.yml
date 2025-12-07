@@ -26,7 +26,9 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
-      - run: |
+      - name: Push translation template
+        run: |
+          # venv context isn't shared across steps
           uv python install --default
           uv venv
           source .venv/bin/activate
