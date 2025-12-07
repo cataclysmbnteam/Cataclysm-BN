@@ -29,6 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv python install --default
+          uv venv
           uv pip install polib "luaparser>=3.3.1"
 
       - name: "Generate translation template"
