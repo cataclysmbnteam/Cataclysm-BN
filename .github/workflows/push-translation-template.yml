@@ -30,7 +30,9 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install dependencies
-        run: uv pip install polib "luaparser>=3.3.1"
+        run: |
+          uv venv
+          uv pip install polib "luaparser>=3.3.1"
 
       - name: "Generate translation template"
         run: lang/update_pot.sh
