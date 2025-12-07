@@ -1,8 +1,5 @@
 name: "Push translation template"
 
-env:
-  UV_SYSTEM_PYTHON: 1
-
 concurrency:
   group: push_transifex
   cancel-in-progress: true
