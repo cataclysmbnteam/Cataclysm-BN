@@ -32,13 +32,13 @@ See [build docs](./docs/en/dev/guides/building/cmake.md) for details.
 ## Development Workflow
 
 1. **Always** get issue details via GitHub MCP tools
-2. Create branch: `git switch --create <type>/<issue-number>/<description>`
-   - Types: conventional commits (feat, fix, docs, style, refactor, test, chore)
+2. Create branches per issue from `main`: `git switch --create <type>/<issue-number>/<description>`
+   - Types: conventional commits (feat, fix, docs, style, refactor, test, chore) depending on issue type
 3. Make changes following [style guide](./docs/en/dev/explanation/code_style.md)
-   - Prefer modern C++ (auto, `<ranges>`, `std::optional`, smart pointers)
+   - Prefer modern C++ (auto, `trailing return`, `<ranges>`, `std::optional`, smart pointers, etc)
 4. Add/update tests in `tests/` (use Catch2: `TEST_CASE`, `REQUIRE`, `CHECK`)
 5. Build and test before committing
-6. Commit with [conventional commits](https://www.conventionalcommits.org/)
+6. Commit with [conventional commits](./docs/en/contribute/changelog_guidelines.md)
    - messages must be terse and straight to the point
    - DO NOT add message body or footer unless absolutely necessary
    - use atomic commits
