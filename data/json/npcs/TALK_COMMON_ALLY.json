@@ -173,6 +173,7 @@
       },
       { "text": "Tell me about giving you orders (NPC TUTORIAL).", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "If I were in your shoes... (Control this NPC)", "topic": "TALK_DONE", "effect": "control_npc" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
