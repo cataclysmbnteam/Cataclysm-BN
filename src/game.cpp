@@ -2562,9 +2562,7 @@ bool game::is_game_over()
             charmenu.addentry( charnum, true, 'q', _( "No, end the game" ) );
             charmenu.query();
             if( charmenu.ret >= 0 && static_cast<size_t>( charmenu.ret ) < followers.size() ) {
-                // Place corpse of current avatar before swapping
                 if( u.in_vehicle ) { m.unboard_vehicle( u.pos() ); }
-                u.place_corpse();
                 uquit = QUIT_NO;
                 get_avatar().control_npc( *followers.at( charmenu.ret ) );
                 return false;

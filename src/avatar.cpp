@@ -154,6 +154,8 @@ void avatar::control_npc( npc &np )
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
     set_save_id( save_id );
+    // Reset the dead state cache since we just swapped character data
+    cached_dead_state.reset();
     // Swappy the thirst and kcal so swapping is not infinite food with no food
     if( get_option<bool>( "NO_NPC_FOOD" ) ) {
         // You're stomachs become one thing :)
