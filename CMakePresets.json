@@ -95,6 +95,7 @@
         "BACKTRACE": "ON",
         "LIBBACKTRACE": "ON",
         "JSON_FORMAT": "ON",
+        "LINKER": "mold",
         "USE_PREFIX_DATA_DIR": "OFF"
       }
     },
@@ -113,6 +114,7 @@
         "BACKTRACE": "ON",
         "LIBBACKTRACE": "ON",
         "JSON_FORMAT": "ON",
+        "LINKER": "mold",
         "USE_PREFIX_DATA_DIR": "OFF"
       }
     },
