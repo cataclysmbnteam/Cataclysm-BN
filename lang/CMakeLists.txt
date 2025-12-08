@@ -43,19 +43,23 @@ else ()
         DEPENDS translations_prepare)
 endif ()
 
+set(MO_FILES)
+
 foreach (LANG ${LANGUAGES})
+    set(MO_OUTPUT ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo)
+
     add_custom_command(
-        TARGET translations_prepare
-        PRE_BUILD
+        OUTPUT ${MO_OUTPUT}
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    add_custom_command(
-        TARGET translations_compile
-        PRE_BUILD
-        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po -o
-                ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po -o ${MO_OUTPUT}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        DEPENDS ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
+    )
+
+    list(APPEND MO_FILES ${MO_OUTPUT})
 endforeach ()
+
+add_custom_target(translations ALL DEPENDS ${MO_FILES})
 
 # Install translations
 if (RELEASE)
