@@ -336,6 +336,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "threshold_tier", threshold_tier, 0 );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );

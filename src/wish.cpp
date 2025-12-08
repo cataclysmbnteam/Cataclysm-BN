@@ -197,6 +197,10 @@ class wish_mutate_callback: public uilist_callback
                         line2++;
                     }
                 }
+                if( mdata.threshold_tier != 0 ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Threshold tier: %d" ), mdata.threshold_tier );
+                }
 
                 if( !mdata.cancels.empty() ) {
                     line2++;

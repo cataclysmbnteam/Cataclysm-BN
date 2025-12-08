@@ -80,6 +80,8 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // The tier of threshold that this mutation belongs to (0 for not being post-thresh)
+        unsigned short threshold_tier = 0;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
