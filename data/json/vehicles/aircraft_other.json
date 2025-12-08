@@ -89,7 +89,7 @@
     "type": "vehicle",
     "name": "Commercial Blimp",
     "blueprint": [
-      "  OOOOOOOOOOOO " ,
+      "  OOOOOOOOOOOO ",
       " OOO->OOOOOOOOO ",
       "OOOO--'''+''OOOO",
       "OOOO-=###_#'OOOO",
@@ -99,9 +99,7 @@
       "  OOOOOOOOOOOO "
     ],
     "blueprint_origin": { "x": 10, "y": 3 },
-    "palette": {
-      "O": [ "airship_balloon_external" ]
-    },
+    "palette": { "O": [ "airship_balloon_external" ] },
     "parts": [
       {
         "x": 0,
