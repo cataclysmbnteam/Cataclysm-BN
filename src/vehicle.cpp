@@ -1176,7 +1176,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
 {
     for( auto &part : parts ) {
         //Skip any parts already mashed up or removed.
-        if( part.is_broken() || part.removed ) {
+        if( part.is_broken() || part.removed || part.has_flag( VPFLAG_NOSMASH ) ) {
             continue;
         }
 
