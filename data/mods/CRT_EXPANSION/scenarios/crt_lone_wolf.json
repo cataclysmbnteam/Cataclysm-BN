@@ -70,8 +70,8 @@
   {
     "type": "profession",
     "id": "crt_lonewolf_t2",
-    "name": "C.R.I.T. Stalker",
-    "description": "You just got out of training to become a Lone Wolf; Now you need to prove yourself, even in the apocalypse, the old guard will faithfully reward you.",
+    "name": "C.R.I.T. Sniper",
+    "description": "You were deep in training to become a Lone Wolf; Now you need to prove yourself, perhaps you could even become one, the old guard would support that.",
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY" ],
     "CBMs": [
       "bio_weight",
