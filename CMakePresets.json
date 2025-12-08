@@ -87,6 +87,7 @@
       "description": "For creating portable distribution packages with tiles and sound.",
       "generator": "Ninja",
       "cacheVariables": {
+        "CATA_CCACHE": "ON",
         "CMAKE_BUILD_TYPE": "Release",
         "CURSES": "OFF",
         "TILES": "ON",
@@ -106,6 +107,7 @@
       "description": "For creating portable distribution packages with curses.",
       "generator": "Ninja",
       "cacheVariables": {
+        "CATA_CCACHE": "ON",
         "CMAKE_BUILD_TYPE": "Release",
         "CURSES": "ON",
         "TILES": "OFF",
@@ -125,6 +127,7 @@
       "description": "Minimal build for running formatting targets (astyle, style-json).",
       "generator": "Ninja",
       "cacheVariables": {
+        "CATA_CCACHE": "ON",
         "CMAKE_BUILD_TYPE": "Debug",
         "CURSES": "OFF",
         "TILES": "OFF",
