@@ -87,7 +87,7 @@
       "description": "For creating portable distribution packages with tiles and sound.",
       "generator": "Ninja",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Release",
         "CURSES": "OFF",
         "TILES": "ON",
         "SOUND": "ON",
@@ -105,7 +105,7 @@
       "description": "For creating portable distribution packages with curses.",
       "generator": "Ninja",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Release",
         "CURSES": "ON",
         "TILES": "OFF",
         "SOUND": "OFF",
