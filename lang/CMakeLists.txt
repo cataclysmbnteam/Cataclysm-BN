@@ -1,3 +1,5 @@
+include(GNUInstallDirs)
+
 message(STATUS "Process LANGUAGES variable --\n")
 
 if (LANGUAGES STREQUAL none)
