@@ -1,13 +1,8 @@
----
-title: New player guide
----
+# New player guide
 
-:::tip
-
-Should you be confused with keybindings at any time, use `?` to check your keybindings in game, or
+> [!TIP]
+> Should you be confused with keybindings at any time, use `?` to check your keybindings in game, or
 use the main menu to display the keybindings menu.
-
-:::
 
 ## Creating your first character
 
