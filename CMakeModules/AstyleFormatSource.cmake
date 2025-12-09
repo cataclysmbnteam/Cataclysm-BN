@@ -19,6 +19,7 @@ if(ASTYLE_EXECUTABLE)
         ${CMAKE_SOURCE_DIR}/tools/clang-tidy-plugin/*.cpp
         ${CMAKE_SOURCE_DIR}/tools/clang-tidy-plugin/*.h
     )
+    list(FILTER ASTYLE_SOURCES EXCLUDE REGEX "/src/(lua|sol)/")
 
     add_custom_target(astyle
         COMMAND ${ASTYLE_EXECUTABLE} --options=${ASTYLE_OPTIONS_FILE} -n ${ASTYLE_SOURCES}
