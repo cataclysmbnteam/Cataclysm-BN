@@ -56,6 +56,7 @@ See [build docs](./docs/en/dev/guides/building/cmake.md) for details.
 **JSON content:** Edit `data/json/`, validate with `build-scripts/lint-json.sh`
 **Game logic:** Modify `src/*.cpp`, run affected tests
 **Localization:** Use `_("text")` for translatable strings
+**Formatting:** See [formatting guide](./docs/en/dev/guides/formatting.md)
 
 ## Code Review (GitHub Copilot)
 
