@@ -9106,25 +9106,29 @@ Documentation for hooks
 
 🇫 Function --> <code>( )</code>
 
-> Called when character stat gets reset
+> Called when character stat gets reset.
+> The hook receives a table with a key: `character`.
 
 #### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
 
 🇫 Function --> <code>( )</code>
 
-> Called after a character has attacked in melee
+> Called after a character or monster has attacked in melee.
+> The hook receives a table with keys: `char` (or `mon`), `target`, and `success` (boolean).
 
 #### on_character_death {#sol::nil::on_character_death}
 
 🇫 Function --> <code>( )</code>
 
-> Called when a character is dead
+> Called when a character is dead.
+> The hook receives a table with keys: `char` and `killer`.
 
 #### on_mon_death {#sol::nil::on_mon_death}
 
 🇫 Function --> <code>( )</code>
 
-> Called when a monster is dead
+> Called when a monster is dead.
+> The hook receives a table with keys: `mon` and `killer`.
 
 #### on_every_x {#sol::nil::on_every_x}
 
@@ -9136,19 +9140,22 @@ Documentation for hooks
 
 🇫 Function --> <code>( )</code>
 
-> Called when a character has performed technique
+> Called when a character has performed a technique.
+> The hook receives a table with keys: `char`, `technique`, `target`, `damage_instance`, and `move_cost` (final cost).
 
 #### on_creature_dodged {#sol::nil::on_creature_dodged}
 
 🇫 Function --> <code>( )</code>
 
-> Called when a character successfully dodges
+> Called when a character or monster successfully dodges.
+> The hook receives a table with keys: `char` (or `mon`), `source`, and `difficulty`.
 
 #### on_creature_blocked {#sol::nil::on_creature_blocked}
 
 🇫 Function --> <code>( )</code>
 
-> Called when a character successfully blocks
+> Called when a character successfully blocks.
+> The hook receives a table with keys: `char`, `source`, `bodypart_id`, `damage_instance`, and `damage_blocked` (float).
 
 #### on_game_load {#sol::nil::on_game_load}
 

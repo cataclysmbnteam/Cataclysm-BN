@@ -447,20 +447,34 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_game_load", []() {} );
     DOC( "Called when the game has first started" );
     luna::set_fx( lib, "on_game_started", []() {} );
-    DOC( "Called when a character or monster successfully dodges\n\nThe name of each arguments is char, source, difficulty. If you want to call this when a monster did, you should input the first argument `Creature`, not `Character`." );
-    luna::set_fx( lib, "on_creature_dodged", []( Character &, Creature *, int & ) {} );
-    DOC( "Called when a character successfully blocks\n\nThe name of each of arguments is char, source, bodypart_id, damage_instance, and damage_blocked. The last is float number." );
-    luna::set_fx( lib, "on_creature_blocked", []( Character &, Creature *, bodypart_id &, damage_instance &, float &) {} );
-    DOC( "Called when a character has performed technique\n\nThe name of each of arguments is char, technique, target, damage_instance, and move_cost.\n\nThe last means the final movecost of the technique." );
-    luna::set_fx( lib, "on_creature_performed_technique", []( Character &, const ma_technique &, Creature &, damage_instance &, int & ) {} );
-    DOC( "Called after a character or monster has attacked in melee\n\nThe name of each of arguments is char, target, and success. If you want to call this after a monster did, you should input the first argument `Creature`, not `Character`." );
-    luna::set_fx( lib, "on_creature_melee_attacked", []( Character &, Creature &, bool & ) {} );
-    DOC( "Called when character stat gets reset" );
+    DOC( "Called when a character or monster successfully dodges.\n\n"
+         "The hook receives a table with keys: `char` (or `mon`), `source`, and `difficulty`."
+       );
+    luna::set_fx( lib, "on_creature_dodged", []() {} );
+    DOC( "Called when a character successfully blocks.\n\n"
+         "The hook receives a table with keys: `char`, `source`, `bodypart_id`, `damage_instance`, and `damage_blocked` (float)." 
+       );
+    luna::set_fx( lib, "on_creature_blocked", []() {} );
+    DOC( "Called when a character has performed a technique.\n\n"
+         "The hook receives a table with keys: `char`, `technique`, `target`, `damage_instance`, and `move_cost` (final cost)."
+       );
+    luna::set_fx( lib, "on_creature_performed_technique", []() {} );
+    DOC( "Called after a character or monster has attacked in melee.\n\n"
+         "The hook receives a table with keys: `char` (or `mon`), `target`, and `success` (boolean)."
+       );
+    luna::set_fx( lib, "on_creature_melee_attacked", []() {} );
+    DOC( "Called when character stat gets reset.\n\n"
+         "The hook receives a table with a key: `character`."
+       );
     luna::set_fx( lib, "on_character_reset_stats", []() {} );
-    DOC( "Called when a character is dead\n\nThe name of each of arguments is char and killer." );
-    luna::set_fx( lib, "on_character_death", []( Character &, Creature * ) {} );
-    DOC( "Called when a monster is dead\n\nThe name of each of arguments is mon and killer." );
-    luna::set_fx( lib, "on_mon_death", []( monster &, Creature * ) {} );
+    DOC( "Called when a character is dead.\n\n"
+         "The hook receives a table with keys: `char` and `killer`."
+       );
+    luna::set_fx( lib, "on_character_death", []() {} );
+    DOC( "Called when a monster is dead.\n\n"
+         "The hook receives a table with keys: `mon` and `killer`."
+       );
+    luna::set_fx( lib, "on_mon_death", []() {} );
     DOC( "Called every in-game period" );
     luna::set_fx( lib, "on_every_x", []() {} );
     DOC( "Called right after mapgen has completed. "
