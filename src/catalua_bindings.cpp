@@ -452,7 +452,7 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
        );
     luna::set_fx( lib, "on_creature_dodged", []() {} );
     DOC( "Called when a character successfully blocks.\n\n"
-         "The hook receives a table with keys: `char`, `source`, `bodypart_id`, `damage_instance`, and `damage_blocked` (float)." 
+         "The hook receives a table with keys: `char`, `source`, `bodypart_id`, `damage_instance`, and `damage_blocked` (float)."
        );
     luna::set_fx( lib, "on_creature_blocked", []() {} );
     DOC( "Called when a character has performed a technique.\n\n"
