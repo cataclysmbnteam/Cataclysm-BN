@@ -318,6 +318,15 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( make_friendly, void() );
 
         SET_FX_T( make_ally, void( const monster & ) );
+
+        luna::set_fx( ut, "add_faction_anger", []( monster & m, const std::string & faction_str, int amount )
+        {
+            m.add_faction_anger( mfaction_id( faction_str ), amount );
+        } );
+
+        luna::set_fx( ut, "get_faction_anger", []( const monster & m, const std::string & faction_str ) -> int {
+            return m.get_faction_anger( mfaction_id( faction_str ) );
+        } );
     }
 #undef UT_CLASS // #define UT_CLASS monster
 }
