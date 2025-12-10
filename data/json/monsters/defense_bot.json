@@ -459,6 +459,7 @@
     "death_function": [ "BROKEN" ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "flags": [
+      "FACTION_MEMORY",
       "SEES",
       "HEARS",
       "GOODHEARING",
@@ -502,7 +503,17 @@
     "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
+    "flags": [
+      "FACTION_MEMORY",
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "BASHES",
+      "NO_BREATHE",
+      "ELECTRONIC",
+      "CLIMBS",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_chickenbot",
@@ -535,6 +546,6 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
+    "flags": [ "FACTION_MEMORY", "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
   }
 ]
