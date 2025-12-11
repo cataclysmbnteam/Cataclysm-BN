@@ -151,11 +151,11 @@ void avatar::control_npc( npc &np )
     swap_character( *shadow_npc, tmp );
     // swap target npc with shadow npc
     swap_npc( *shadow_npc, np, tmp );
+    // Reset np's dead state cache since swap_npc moved character data
+    np.reset_cached_dead_state();
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
     set_save_id( save_id );
-    // Reset the dead state cache since we just swapped character data
-    cached_dead_state.reset();
     // Swappy the thirst and kcal so swapping is not infinite food with no food
     if( get_option<bool>( "NO_NPC_FOOD" ) ) {
         // You're stomachs become one thing :)
@@ -183,9 +183,14 @@ void avatar::control_npc( npc &np )
     np.onswapsetpos( np.pos() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
-    // the previous avatar character is now a follower
-    g->add_npc_follower( np.getID() );
-    np.set_fac( faction_id( "your_followers" ) );
+    // the previous avatar character is now a follower (unless they're dead)
+    if( np.is_dead_state() ) {
+        // The swapped-out character was dead, so kill the NPC properly
+        np.die( nullptr );
+    } else {
+        g->add_npc_follower( np.getID() );
+        np.set_fac( faction_id( "your_followers" ) );
+    }
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
     // center the map on the new avatar character
