@@ -207,7 +207,7 @@ void mutation_category_trait::check_consistency()
         const mutation_category_trait &cat = pr.second;
         if( !(cat.threshold_muts.size() == 1) ) {
             for ( auto mut : cat.threshold_muts ) {
-                if ( !mut.is_valid() ) {
+                if ( !mut.is_valid() && ( mut != trait_id::NULL_ID() ) ) {
                     debugmsg( "Mutation category %s has threshold mutation %s, which does not exist",
                                         cat.id.c_str(), mut.c_str() );
                 }
