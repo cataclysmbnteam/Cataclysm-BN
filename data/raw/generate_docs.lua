@@ -16,7 +16,7 @@ local table_contains = function(tbl, key)
   return false
 end
 
-local linkify_types = function(str_)
+local linkify_types = function(str_, blockquote)
   local dt = catadoc
   local types_table = dt["#types"]
   local enums_table = dt["#enums"]
@@ -32,10 +32,10 @@ local linkify_types = function(str_)
       str = string.gsub(str, ">", "&gt;")
     else
       str = string.gsub(str, "[%a%d]+", function(k)
-        if table_contains(types_table, k) then
-          return ("[%s](#sol::%s)"):format(k, k)
-        elseif table_contains(enums_table, k) then
-          return ("[%s](#sol::%s)"):format(k, k)
+        if table_contains(types_table, k) or table_contains(enums_table, k) then
+          local sub = ("[%s](#sol::%s)"):format(k, k)
+          if blockquote then sub = "<code>" .. sub .. "</code>" end
+          return sub
         end
         return k
       end)
@@ -67,7 +67,7 @@ local fmt_arg_list = function(arg_list, meta)
 end
 
 local fmt_one_constructor =
-  function(typename, ctor) return typename .. ".new(" .. linkify_types(fmt_arg_list(ctor)) .. ")" end
+  function(typename, ctor) return typename .. ".new(" .. linkify_types(fmt_arg_list(ctor), false) .. ")" end
 
 local fmt_constructors = function(typename, ctors)
   if #ctors == 0 then
@@ -85,10 +85,10 @@ local function fmt_one_member_var(typename, member)
   local ret = ""
   local lua_rv = map_cpp_type_to_lua(member.vartype, true)
   if member.hasval then
-    ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(lua_rv))
+    ret = ret .. (" 🇨 Constant --> <code>%s</code>"):format(linkify_types(lua_rv, false))
     ret = ret .. " = `" .. tostring(member.varval) .. "`"
   else
-    ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(lua_rv))
+    ret = ret .. (" 🇻 Variable --> <code>%s</code>"):format(linkify_types(lua_rv, false))
   end
   ret = ret .. "  \n"
   return ret
@@ -110,7 +110,7 @@ local function fmt_one_member_func(typename, member)
 
     local sigFmt = overload.retval ~= "nil" and "(%s) -> %s" or "(%s)"
     local sigStr = sigFmt:format(fmt_arg_list(lua_args, member.comment), lua_rv)
-    sigStr = linkify_types(sigStr)
+    sigStr = linkify_types(sigStr, false)
 
     if is_method then
       ret = ret .. (" 🇲 Method --> <code>%s</code>  \n"):format(sigStr)
@@ -134,7 +134,7 @@ local fmt_one_member = function(typename, member)
   if member.comment then
     local com = string_concat_matches(member.comment, "[^\r\n]+", "\n", function(m)
       if string.match(m, "^@param") then return nil end
-      return "> " .. linkify_types(m)
+      return "> " .. linkify_types(m, true)
     end)
     ret = ret .. com
   end
@@ -260,9 +260,14 @@ and should not be edited directly.
     ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if type_comment then
-      ret = ret .. string_concat_matches(type_comment, "[^\r\n]+", "  \n", function(m)
-        return "> " .. linkify_types(m)
-      end) .. "\n"
+      ret = ret
+        .. string_concat_matches(
+          type_comment,
+          "[^\r\n]+",
+          "  \n",
+          function(m) return "> " .. linkify_types(m, true) end
+        )
+        .. "\n"
     end
 
     local bases = dt_type["#bases"]
