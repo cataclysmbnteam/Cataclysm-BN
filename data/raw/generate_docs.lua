@@ -134,7 +134,7 @@ local fmt_one_member = function(typename, member)
   if member.comment then
     local com = string_concat_matches(member.comment, "[^\r\n]+", "\n", function(m)
       if string.match(m, "^@param") then return nil end
-      return "> " .. m
+      return "> " .. linkify_types(m)
     end)
     ret = ret .. com
   end
@@ -260,7 +260,9 @@ and should not be edited directly.
     ret = ret .. ("## %s {%s}\n"):format(typename, slug_for(typename))
 
     if type_comment then
-      ret = ret .. string_concat_matches(type_comment, "[^\r\n]+", "  \n", function(m) return "> " .. m end) .. "\n"
+      ret = ret .. string_concat_matches(type_comment, "[^\r\n]+", "  \n", function(m)
+        return "> " .. linkify_types(m)
+      end) .. "\n"
     end
 
     local bases = dt_type["#bases"]
