@@ -449,8 +449,9 @@ struct mutation_category_trait {
 
         // Mutation category i.e "BIRD", "CHIMERA"
         mutation_category_id id;
-        // The trait that you gain when you break the threshold for this category
-        trait_id threshold_mut;
+        // The traits that you gain when you break the thresholds for this category
+        // NULL ID is put there so that index = tier instead of tier - 1
+        std::vector<trait_id> threshold_muts = {trait_id::NULL_ID()};
 
         // These are defaults
         int mutagen_hunger  = 10;
@@ -539,6 +540,6 @@ struct mutagen_attempt {
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        mutagen_technique technique );
 
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category, const unsigned short tier );
 
 

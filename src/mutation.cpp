@@ -1634,20 +1634,31 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
     return mutagen_attempt( true, 0 );
 }
 
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category )
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category, const unsigned short tier )
 {
-    // Threshold-check.  You only get to cross once!
-    if( guy.crossed_threshold() ) {
+    // Can't cross the same tier threshold multiple times
+    if( guy.thresh_tier >= tier ) {
+        return;
+    }
+    
+    // No skipping tiers
+    if ( guy.thresh_tier < tier - 1 ) {
+        test_crossing_threshold(guy, m_category, tier - 1);
         return;
     }
 
-    // If there is no threshold for this category, don't check it
-    const trait_id &mutation_thresh = m_category.threshold_mut;
-    if( mutation_thresh.is_empty() ) {
+    // If there is no threshold for this category at this tier, don't check it
+    const std::vector<trait_id> &mutation_thresh = m_category.threshold_muts;
+    if( mutation_thresh.size() < tier + 1 ) {
         return;
     }
 
     mutation_category_id mutation_category = m_category.id;
+    // If you've already passed a threshold, you can't get a different tree's threshold
+    if ( ( guy.thresh_tier > 0 ) && ( guy.thresh_category != mutation_category ) ) {
+        return;
+    }
+
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
         total += guy.mutation_category_level[ iter.first ];
@@ -1672,7 +1683,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         if( x_in_y( breacher, total ) ) {
             guy.add_msg_if_player( m_good,
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
-            guy.set_mutation( mutation_thresh );
+            guy.set_mutation( mutation_thresh[tier] );
             g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             guy.thresh_category = mutation_category; // Set the mutation category for the character
             guy.thresh_tier++; // Increment mutation tier, since this should always be + 1 tier
@@ -1686,9 +1697,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
             }
         }
     } else if( guy.has_trait( trait_NOPAIN ) ) {
-        //~NOPAIN is a post-Threshold trait, so you shouldn't
-        //~legitimately have it and get here!
-        guy.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+        // With additional tiers of threshold, this is now possible to actually hit
+        guy.add_msg_if_player( m_bad, _( "You feel extremely disappointed as nothing happens." ) );
     } else if( breach_power > 100 ) {
         guy.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
         guy.mod_pain_noresist( 8 );

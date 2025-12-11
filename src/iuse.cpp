@@ -984,9 +984,8 @@ static void do_purify( player &p )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == thresh ) && p.crossed_threshold() ) {
+                if( ( cat == thresh ) && p.crossed_threshold() && ( p.thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1041,9 +1040,8 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == thresh ) && p->crossed_threshold() ) {
+                if( ( cat == thresh ) && p->crossed_threshold() && ( p->thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1101,9 +1099,8 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == thresh ) && p->crossed_threshold() ) {
+                if( ( cat == thresh ) && p->crossed_threshold() && ( p->thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }

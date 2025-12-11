@@ -9586,7 +9586,8 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 bool Character::crossed_threshold() const
 {
     // If the thresh category is set, we have to have crossed the threshold
-    if (thresh_category) {
+    // This implicitly also checks thresh_tier >= 1 because they get changed at the same time
+    if ( thresh_category ) {
         return true;
     }
     for( const trait_id &mut : get_mutations() ) {
