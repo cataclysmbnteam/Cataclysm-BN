@@ -452,57 +452,57 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
 
     DOC( "Called when a character or monster successfully dodges.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `char` <code>(Character)</code>  " );
-    DOC( "* `source` <code>(Creature)</code>  " );
-    DOC( "* `difficulty` <code>(integer)</code>  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `source` (Creature)  " );
+    DOC( "* `difficulty` (integer)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_creature_dodged", []( const sol::table & ) {} );
 
     DOC( "Called when a character successfully blocks.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `char` <code>(Character)</code>  " );
-    DOC( "* `source` <code>(Creature)</code>  " );
-    DOC( "* `bodypart_id` <code>(BodyPartId)</code>  " );
-    DOC( "* `damage_instance` <code>(DamageInstance)</code>  " );
-    DOC( "* `damage_blocked` <code>(float)</code>  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `source` (Creature)  " );
+    DOC( "* `bodypart_id` (BodyPartTypeId)  " );
+    DOC( "* `damage_instance` (DamageInstance)  " );
+    DOC( "* `damage_blocked` (float)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_creature_blocked", []( const sol::table & ) {} );
 
     DOC( "Called when a character has performed a technique.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `char` <code>(Character)</code>  " );
-    DOC( "* `technique` <code>(MartialArtsTechniqueRaw)</code>  " );
-    DOC( "* `target` <code>(Creature)</code>  " );
-    DOC( "* `damage_instance` <code>(DamageInstance)</code>  " );
-    DOC( "* `move_cost` <code>(integer)</code>  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `technique` (MartialArtsTechniqueRaw)  " );
+    DOC( "* `target` (Creature)  " );
+    DOC( "* `damage_instance` (DamageInstance)  " );
+    DOC( "* `move_cost` (integer)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_creature_performed_technique", []( const sol::table & ) {} );
 
     DOC( "Called after a character or monster has attacked in melee.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `char` <code>(Character)</code>  " );
-    DOC( "* `target` <code>(Creature)</code>  " );
-    DOC( "* `success` <code>(bool)</code>  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `target` (Creature)  " );
+    DOC( "* `success` (bool)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_creature_melee_attacked", []( const sol::table & ) {} );
 
     DOC( "Called when character stat gets reset.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `character` <code>(Character)</code>  " );
+    DOC( "* `character` (Character)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_reset_stats", []( const sol::table & ) {} );
 
     DOC( "Called when a character is dead.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `char` <code>(Character)</code>  " );
-    DOC( "* `killer` <code>(Creature)</code>  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `killer` (Creature)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_death", []( const sol::table & ) {} );
 
     DOC( "Called when a monster is dead.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `mon` <code>(Monster)</code>  " );
-    DOC( "* `killer` <code>(Creature)</code>  " );
+    DOC( "* `mon` (Monster)  " );
+    DOC( "* `killer` (Creature)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_mon_death", []( const sol::table & ) {} );
 
@@ -511,9 +511,9 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
 
     DOC( "Called right after mapgen has completed.  " );
     DOC( "The hook receives a table with keys:  " );
-    DOC( "* `map` <code>(Map)</code>: The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  " );
-    DOC( "* `omt` <code>(Tripoint)</code>: The absolute overmap pos.  " );
-    DOC( "* `when` <code>(TimePoint)</code>: The current time (for time-based effects).  " );
+    DOC( "* `map` (Map): The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  " );
+    DOC( "* `omt` (Tripoint): The absolute overmap pos.  " );
+    DOC( "* `when` (TimePoint): The current time (for time-based effects).  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_mapgen_postprocess", []( const sol::table & ) {} );
 

@@ -2480,18 +2480,18 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
----@field on_character_death fun(params: table) @Called when a character is dead.  <br />The hook receives a table with keys:  <br />* `char` <code>(Character)</code>  <br />* `killer` <code>(Creature)</code>  
----@field on_character_reset_stats fun(params: table) @Called when character stat gets reset.  <br />The hook receives a table with keys:  <br />* `character` <code>(Character)</code>  
----@field on_creature_blocked fun(params: table) @Called when a character successfully blocks.  <br />The hook receives a table with keys:  <br />* `char` <code>(Character)</code>  <br />* `source` <code>(Creature)</code>  <br />* `bodypart_id` <code>(BodyPartId)</code>  <br />* `damage_instance` <code>(DamageInstance)</code>  <br />* `damage_blocked` <code>(float)</code>  
----@field on_creature_dodged fun(params: table) @Called when a character or monster successfully dodges.  <br />The hook receives a table with keys:  <br />* `char` <code>(Character)</code>  <br />* `source` <code>(Creature)</code>  <br />* `difficulty` <code>(int)</code>  
----@field on_creature_melee_attacked fun(params: table) @Called after a character or monster has attacked in melee.  <br />The hook receives a table with keys:  <br />* `char` <code>(Character)</code>  <br />* `target` <code>(Creature)</code>  <br />* `success` <code>(bool)</code>  
----@field on_creature_performed_technique fun(params: table) @Called when a character has performed a technique.  <br />The hook receives a table with keys:  <br />* `char` <code>(Character)</code>  <br />* `technique` <code>(MartialArtsTechniqueRaw)</code>  <br />* `target` <code>(Creature)</code>  <br />* `damage_instance` <code>(DamageInstance)</code>  <br />* `move_cost` <code>(int)</code>  
+---@field on_character_death fun(params: table) @Called when a character is dead.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `killer` (Creature)  
+---@field on_character_reset_stats fun(params: table) @Called when character stat gets reset.  <br />The hook receives a table with keys:  <br />* `character` (Character)  
+---@field on_creature_blocked fun(params: table) @Called when a character successfully blocks.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `source` (Creature)  <br />* `bodypart_id` (BodyPartTypeId)  <br />* `damage_instance` (DamageInstance)  <br />* `damage_blocked` (float)  
+---@field on_creature_dodged fun(params: table) @Called when a character or monster successfully dodges.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `source` (Creature)  <br />* `difficulty` (integer)  
+---@field on_creature_melee_attacked fun(params: table) @Called after a character or monster has attacked in melee.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `target` (Creature)  <br />* `success` (bool)  
+---@field on_creature_performed_technique fun(params: table) @Called when a character has performed a technique.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `technique` (MartialArtsTechniqueRaw)  <br />* `target` (Creature)  <br />* `damage_instance` (DamageInstance)  <br />* `move_cost` (integer)  
 ---@field on_every_x fun(arg1: table) @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded.
 ---@field on_game_save fun() @Called when game is about to save.
 ---@field on_game_started fun() @Called when the game has first started.
----@field on_mapgen_postprocess fun(params: table) @Called right after mapgen has completed.  <br />The hook receives a table with keys:  <br />* `map` <code>(Map)</code>: The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  <br />* `omt` <code>(Tripoint)</code>: The absolute overmap pos.  <br />* `when` <code>(TimePoint)</code>: The current time (for time-based effects).  
----@field on_mon_death fun(params: table) @Called when a monster is dead.  <br />The hook receives a table with keys:  <br />* `mon` <code>(Monster)</code>  <br />* `killer` <code>(Creature)</code>  
+---@field on_mapgen_postprocess fun(params: table) @Called right after mapgen has completed.  <br />The hook receives a table with keys:  <br />* `map` (Map): The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  <br />* `omt` (Tripoint): The absolute overmap pos.  <br />* `when` (TimePoint): The current time (for time-based effects).  
+---@field on_mon_death fun(params: table) @Called when a monster is dead.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `killer` (Creature)  
 hooks = {}
 
 --- Localization API.

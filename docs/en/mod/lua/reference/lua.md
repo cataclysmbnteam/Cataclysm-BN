@@ -9109,7 +9109,7 @@ Documentation for hooks
 > Called when character stat gets reset.\
 > The hook receives a table with keys:
 >
-> - `character` <code>(<code>[Character](#sol::Character)</code>)</code>
+> - `character` (<code>[Character](#sol::Character)</code>)
 
 #### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
 
@@ -9118,9 +9118,9 @@ Documentation for hooks
 > Called after a character or monster has attacked in melee.\
 > The hook receives a table with keys:
 >
-> - `char` <code>(<code>[Character](#sol::Character)</code>)</code>
-> - `target` <code>(<code>[Creature](#sol::Creature)</code>)</code>
-> - `success` <code>(bool)</code>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `target` (<code>[Creature](#sol::Creature)</code>)
+> - `success` (bool)
 
 #### on_character_death {#sol::nil::on_character_death}
 
@@ -9129,8 +9129,8 @@ Documentation for hooks
 > Called when a character is dead.\
 > The hook receives a table with keys:
 >
-> - `char` <code>(<code>[Character](#sol::Character)</code>)</code>
-> - `killer` <code>(<code>[Creature](#sol::Creature)</code>)</code>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `killer` (<code>[Creature](#sol::Creature)</code>)
 
 #### on_mon_death {#sol::nil::on_mon_death}
 
@@ -9139,8 +9139,8 @@ Documentation for hooks
 > Called when a monster is dead.\
 > The hook receives a table with keys:
 >
-> - `mon` <code>(<code>[Monster](#sol::Monster)</code>)</code>
-> - `killer` <code>(<code>[Creature](#sol::Creature)</code>)</code>
+> - `mon` (<code>[Monster](#sol::Monster)</code>)
+> - `killer` (<code>[Creature](#sol::Creature)</code>)
 
 #### on_every_x {#sol::nil::on_every_x}
 
@@ -9155,11 +9155,11 @@ Documentation for hooks
 > Called when a character has performed a technique.\
 > The hook receives a table with keys:
 >
-> - `char` <code>(<code>[Character](#sol::Character)</code>)</code>
-> - `technique` <code>(<code>[MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>)</code>
-> - `target` <code>(<code>[Creature](#sol::Creature)</code>)</code>
-> - `damage_instance` <code>(<code>[DamageInstance](#sol::DamageInstance)</code>)</code>
-> - `move_cost` <code>(int)</code>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `technique` (<code>[MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>)
+> - `target` (<code>[Creature](#sol::Creature)</code>)
+> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
+> - `move_cost` (integer)
 
 #### on_creature_dodged {#sol::nil::on_creature_dodged}
 
@@ -9168,9 +9168,9 @@ Documentation for hooks
 > Called when a character or monster successfully dodges.\
 > The hook receives a table with keys:
 >
-> - `char` <code>(<code>[Character](#sol::Character)</code>)</code>
-> - `source` <code>(<code>[Creature](#sol::Creature)</code>)</code>
-> - `difficulty` <code>(int)</code>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `source` (<code>[Creature](#sol::Creature)</code>)
+> - `difficulty` (integer)
 
 #### on_creature_blocked {#sol::nil::on_creature_blocked}
 
@@ -9179,11 +9179,11 @@ Documentation for hooks
 > Called when a character successfully blocks.\
 > The hook receives a table with keys:
 >
-> - `char` <code>(<code>[Character](#sol::Character)</code>)</code>
-> - `source` <code>(<code>[Creature](#sol::Creature)</code>)</code>
-> - `bodypart_id` <code>(BodyPartId)</code>
-> - `damage_instance` <code>(<code>[DamageInstance](#sol::DamageInstance)</code>)</code>
-> - `damage_blocked` <code>(float)</code>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `source` (<code>[Creature](#sol::Creature)</code>)
+> - `bodypart_id` (<code>[BodyPartTypeId](#sol::BodyPartTypeId)</code>)
+> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
+> - `damage_blocked` (float)
 
 #### on_game_load {#sol::nil::on_game_load}
 
@@ -9204,9 +9204,9 @@ Documentation for hooks
 > Called right after mapgen has completed.\
 > The hook receives a table with keys:
 >
-> - `map` <code>(<code>[Map](#sol::Map)</code>)</code>: The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).
-> - `omt` <code>(<code>[Tripoint](#sol::Tripoint)</code>)</code>: The absolute overmap pos.
-> - `when` <code>(<code>[TimePoint](#sol::TimePoint)</code>)</code>: The current time (for time-based effects).
+> - `map` (<code>[Map](#sol::Map)</code>): The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).
+> - `omt` (<code>[Tripoint](#sol::Tripoint)</code>): The absolute overmap pos.
+> - `when` (<code>[TimePoint](#sol::TimePoint)</code>): The current time (for time-based effects).
 
 ## locale {#sol::locale}
 
