@@ -348,7 +348,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
-    optional( jo, was_loaded, "threshold_tier", threshold_tier, 0 );
+    unsigned short tier_default;
+    if (jo.has_member("threshreq")) {
+        tier_default = !( jo.get_array("threshreq").empty() ) ? 1 : 0;
+    } else {
+        tier_default = 0;
+    }
+    optional( jo, was_loaded, "threshold_tier", threshold_tier, tier_default);
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
@@ -451,7 +457,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "prereqs", prereqs, trait_reader{} );
     optional( jo, was_loaded, "prereqs2", prereqs2, trait_reader{} );
-    optional( jo, was_loaded, "threshreq", threshreq, trait_reader{} );
     optional( jo, was_loaded, "cancels", cancels, trait_reader{} );
     optional( jo, was_loaded, "prevents", prevents, trait_reader{} );
     optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
@@ -621,7 +626,6 @@ void mutation_branch::check_consistency()
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
-        ::check_consistency( mdata.threshreq, mid, "threshreq" );
         ::check_consistency( mdata.cancels, mid, "cancels" );
         ::check_consistency( mdata.replacements, mid, "replacements" );
         ::check_consistency( mdata.additions, mid, "additions" );

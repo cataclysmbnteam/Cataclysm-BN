@@ -273,7 +273,6 @@ struct mutation_branch {
 
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
-        std::vector<trait_id> threshreq; // Prerequisites; dedicated slot to needing thresholds
         std::set<std::string> types; // Mutation types, you can't have two mutations that share a type
         std::vector<trait_id> cancels; // Mutations that conflict with this one
         std::set<trait_id> prevents; // Mutations that cannot be added with this one

@@ -1219,7 +1219,7 @@ bool Character::mutate_towards( const trait_id &mut )
     bool threshold = mdata.threshold;
     bool profession = mdata.profession;
     bool has_threshreq = false;
-    std::vector<trait_id> threshreq = mdata.threshreq;
+    const unsigned short tierreq = mdata.threshold_tier;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
@@ -1232,14 +1232,14 @@ bool Character::mutate_towards( const trait_id &mut )
         return false;
     }
 
-    for( size_t i = 0; !has_threshreq && i < threshreq.size(); i++ ) {
-        if( has_trait( threshreq[i] ) ) {
+    for( auto cat : mdata.category ) {
+        if( has_trait( cat->threshold_muts[tierreq] ) ) {
             has_threshreq = true;
         }
     }
 
     // No crossing The Threshold by simply not having it
-    if( !has_threshreq && !threshreq.empty() ) {
+    if( ( tierreq != 0 ) && !has_threshreq )  {
         add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
