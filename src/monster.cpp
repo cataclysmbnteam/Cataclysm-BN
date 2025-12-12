@@ -2979,14 +2979,14 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[PATHFINDING_OVERRIDE] = true;
     }
 
-    if ( is_new && id->has_flag( flag_EFFECT_LUA_ON_ADDED ) ) {
+    if ( is_new && it.has_flag( flag_EFFECT_LUA_ON_ADDED ) ) {
         cata::run_hooks( "on_mon_effect_added", [ &, this ]( auto & params ){
             params["mon"] = this;
             params["effect"] = &it;
         } );
     }
 
-    if( id->has_flag( flag_EFFECT_LUA_ON_TICK ) ) {
+    if( it.has_flag( flag_EFFECT_LUA_ON_TICK ) ) {
         cata::run_hooks( "on_mon_effect", [ &, this ]( auto & params ){
             params["mon"] = this;
             params["effect"] = &it;
