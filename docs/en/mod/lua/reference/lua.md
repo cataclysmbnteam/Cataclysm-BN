@@ -3896,23 +3896,23 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
+#### set_counter {#sol::Item::set_counter}
+
+🇲 Method --> <code>( integer )</code>
+
+#### get_counter {#sol::Item::get_counter}
+
+🇲 Method --> <code>( ) -> integer</code>
+
 #### set_charges {#sol::Item::set_charges}
 
 🇲 Method --> <code>( integer )</code>
 
-#### set_countdown {#sol::Item::set_countdown}
-
-🇲 Method --> <code>( integer )</code>
-
-#### deactivate {#sol::Item::deactivate}
+#### activate {#sol::Item::activate}
 
 🇲 Method --> <code>( )</code>
 
-#### is_upgrade {#sol::Item::is_upgrade}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### activate {#sol::Item::activate}
+#### deactivate {#sol::Item::deactivate}
 
 🇲 Method --> <code>( )</code>
 
@@ -3944,7 +3944,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_active {#sol::Item::is_active}
+#### is_upgrade {#sol::Item::is_upgrade}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4100,7 +4100,19 @@ No constructors.
 
 🇲 Method --> <code>( ) -> integer</code>
 
-#### is_soft {#sol::Item::is_soft}
+#### is_active {#sol::Item::is_active}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_reloadable {#sol::Item::is_reloadable}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_bionic {#sol::Item::is_bionic}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_ammo_belt {#sol::Item::is_ammo_belt}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4108,7 +4120,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_bionic {#sol::Item::is_bionic}
+#### is_firearm {#sol::Item::is_firearm}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4120,15 +4132,15 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_firearm {#sol::Item::is_firearm}
+#### is_bandolier {#sol::Item::is_bandolier}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_money {#sol::Item::is_money}
+#### is_ammo {#sol::Item::is_ammo}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_ammo_belt {#sol::Item::is_ammo_belt}
+#### is_brewable {#sol::Item::is_brewable}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4140,7 +4152,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_bandolier {#sol::Item::is_bandolier}
+#### is_comestible {#sol::Item::is_comestible}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4148,23 +4160,15 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_ammo {#sol::Item::is_ammo}
+#### is_food_container {#sol::Item::is_food_container}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_comestible {#sol::Item::is_comestible}
+#### is_money {#sol::Item::is_money}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_brewable {#sol::Item::is_brewable}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_power_armor {#sol::Item::is_power_armor}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_unarmed_weapon {#sol::Item::is_unarmed_weapon}
+#### is_sided {#sol::Item::is_sided}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4198,7 +4202,7 @@ No constructors.
 
 > Translated item name with prefixes
 
-#### is_sided {#sol::Item::is_sided}
+#### is_power_armor {#sol::Item::is_power_armor}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4214,7 +4218,7 @@ No constructors.
 
 > Erase variable
 
-#### is_null {#sol::Item::is_null}
+#### is_unarmed_weapon {#sol::Item::is_unarmed_weapon}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4224,11 +4228,9 @@ No constructors.
 
 > Check for variable of any type
 
-#### spawn {#sol::Item::spawn}
+#### is_null {#sol::Item::is_null}
 
-🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> Detached<[Item](#sol::Item)></code>
-
-> Spawns a new item. Same as gapi.create_item
+🇲 Method --> <code>( ) -> boolean</code>
 
 #### clear_vars {#sol::Item::clear_vars}
 
@@ -4236,15 +4238,25 @@ No constructors.
 
 > Erase all variables
 
-#### is_reloadable {#sol::Item::is_reloadable}
+#### spawn {#sol::Item::spawn}
+
+🇫 Function --> <code>( [ItypeId](#sol::ItypeId), integer ) -> Detached<[Item](#sol::Item)></code>
+
+> Spawns a new item. Same as gapi.create_item
+
+#### is_med_container {#sol::Item::is_med_container}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_food_container {#sol::Item::is_food_container}
+#### is_ammo_container {#sol::Item::is_ammo_container}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_corpse {#sol::Item::is_corpse}
+#### is_deployable {#sol::Item::is_deployable}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_tool {#sol::Item::is_tool}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4252,9 +4264,9 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_deployable {#sol::Item::is_deployable}
+#### is_salvageable {#sol::Item::is_salvageable}
 
-🇲 Method --> <code>( ) -> boolean</code>
+🇲 Method --> <code>( boolean ) -> boolean</code>
 
 #### is_craft {#sol::Item::is_craft}
 
@@ -4264,15 +4276,15 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_salvageable {#sol::Item::is_salvageable}
-
-🇲 Method --> <code>( boolean ) -> boolean</code>
-
-#### is_irremovable {#sol::Item::is_irremovable}
+#### is_transformable {#sol::Item::is_transformable}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_tool {#sol::Item::is_tool}
+#### is_relic {#sol::Item::is_relic}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_soft {#sol::Item::is_soft}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4284,7 +4296,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_transformable {#sol::Item::is_transformable}
+#### is_seed {#sol::Item::is_seed}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4292,43 +4304,11 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_relic {#sol::Item::is_relic}
+#### is_corpse {#sol::Item::is_corpse}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_seed {#sol::Item::is_seed}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_med_container {#sol::Item::is_med_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_faulty {#sol::Item::is_faulty}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_fuel {#sol::Item::is_fuel}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_map {#sol::Item::is_map}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_container {#sol::Item::is_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_book {#sol::Item::is_book}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_ammo_container {#sol::Item::is_ammo_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_armor {#sol::Item::is_armor}
+#### is_irremovable {#sol::Item::is_irremovable}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4336,7 +4316,39 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
+#### is_container {#sol::Item::is_container}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
 #### is_watertight_container {#sol::Item::is_watertight_container}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_map {#sol::Item::is_map}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_armor {#sol::Item::is_armor}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_book {#sol::Item::is_book}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_faulty {#sol::Item::is_faulty}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_non_resealable_container {#sol::Item::is_non_resealable_container}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_bucket_nonempty {#sol::Item::is_bucket_nonempty}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### is_fuel {#sol::Item::is_fuel}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -4348,15 +4360,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### is_non_resealable_container {#sol::Item::is_non_resealable_container}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
 #### is_engine {#sol::Item::is_engine}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### is_bucket_nonempty {#sol::Item::is_bucket_nonempty}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -8594,6 +8598,7 @@ No base classes.
 - `MGOAL_KILL_MONSTER_SPEC` = `14`
 - `MGOAL_TALK_TO_NPC` = `15`
 - `MGOAL_CONDITION` = `16`
+- `MGOAL_KILL_MONSTERS` = `17`
 
 ## MissionOrigin {#sol::MissionOrigin}
 

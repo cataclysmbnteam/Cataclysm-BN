@@ -1100,6 +1100,7 @@ function IslotWheel.new() end
 ---@field erase_var fun(self: Item, arg2: string) @Erase variable
 ---@field get_category_id fun(self: Item): string @Gets the category id this item is in
 ---@field get_comestible_fun fun(self: Item): integer
+---@field get_counter fun(self: Item): integer
 ---@field get_kcal fun(self: Item): integer
 ---@field get_mtype fun(self: Item): MonsterTypeId @Almost for a corpse.
 ---@field get_owner fun(self: Item): FactionId @Gets the faction id that owns this item
@@ -1183,7 +1184,7 @@ function IslotWheel.new() end
 ---@field remaining_capacity_for_id fun(self: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(self: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_charges fun(self: Item, arg2: integer)
----@field set_countdown fun(self: Item, arg2: integer)
+---@field set_counter fun(self: Item, arg2: integer)
 ---@field set_flag fun(self: Item, arg2: JsonFlagId)
 ---@field set_flag_recursive fun(self: Item, arg2: JsonFlagId)
 ---@field set_owner fun(self: Item, arg2: Character) @Sets the ownership of this item to a character
