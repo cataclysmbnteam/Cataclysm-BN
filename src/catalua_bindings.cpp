@@ -441,33 +441,81 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "Documentation for hooks" );
     luna::userlib lib = luna::begin_lib( lua, "hooks" );
 
-    DOC( "Called when game is about to save" );
+    DOC( "Called when game is about to save." );
     luna::set_fx( lib, "on_game_save", []() {} );
-    DOC( "Called right after game has loaded" );
+
+    DOC( "Called right after game has loaded." );
     luna::set_fx( lib, "on_game_load", []() {} );
-    DOC( "Called when the game has first started" );
+
+    DOC( "Called when the game has first started." );
     luna::set_fx( lib, "on_game_started", []() {} );
-    DOC( "Called when a character successfully dodges" );
-    luna::set_fx( lib, "on_creature_dodged", []() {} );
-    DOC( "Called when a character successfully blocks" );
-    luna::set_fx( lib, "on_creature_blocked", []() {} );
-    DOC( "Called when a character has performed technique" );
-    luna::set_fx( lib, "on_creature_performed_technique", []() {} );
-    DOC( "Called after a character has attacked in melee" );
-    luna::set_fx( lib, "on_creature_melee_attacked", []() {} );
-    DOC( "Called when character stat gets reset" );
-    luna::set_fx( lib, "on_character_reset_stats", []() {} );
-    DOC( "Called when a character is dead" );
-    luna::set_fx( lib, "on_character_death", []() {} );
-    DOC( "Called when a monster is dead" );
-    luna::set_fx( lib, "on_mon_death", []() {} );
+
+    DOC( "Called when a character or monster successfully dodges.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `source` (Creature)  " );
+    DOC( "* `difficulty` (integer)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_creature_dodged", []( const sol::table & ) {} );
+
+    DOC( "Called when a character successfully blocks.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `source` (Creature)  " );
+    DOC( "* `bodypart_id` (BodyPartTypeId)  " );
+    DOC( "* `damage_instance` (DamageInstance)  " );
+    DOC( "* `damage_blocked` (float)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_creature_blocked", []( const sol::table & ) {} );
+
+    DOC( "Called when a character has performed a technique.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `technique` (MartialArtsTechniqueRaw)  " );
+    DOC( "* `target` (Creature)  " );
+    DOC( "* `damage_instance` (DamageInstance)  " );
+    DOC( "* `move_cost` (integer)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_creature_performed_technique", []( const sol::table & ) {} );
+
+    DOC( "Called after a character or monster has attacked in melee.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `target` (Creature)  " );
+    DOC( "* `success` (bool)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_creature_melee_attacked", []( const sol::table & ) {} );
+
+    DOC( "Called when character stat gets reset.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `character` (Character)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_reset_stats", []( const sol::table & ) {} );
+
+    DOC( "Called when a character is dead.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `killer` (Creature)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_death", []( const sol::table & ) {} );
+
+    DOC( "Called when a monster is dead.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `mon` (Monster)  " );
+    DOC( "* `killer` (Creature)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_mon_death", []( const sol::table & ) {} );
+
     DOC( "Called every in-game period" );
-    luna::set_fx( lib, "on_every_x", []() {} );
-    DOC( "Called right after mapgen has completed. "
-         "Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), "
-         "tripoint is the absolute omt pos, and time_point is the current time (for time-based effects)."
-       );
-    luna::set_fx( lib, "on_mapgen_postprocess", []( map &, const tripoint &, const time_point & ) {} );
+    luna::set_fx( lib, "on_every_x", []( const sol::table & ) {} );
+
+    DOC( "Called right after mapgen has completed.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `map` (Map): The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  " );
+    DOC( "* `omt` (Tripoint): The absolute overmap pos.  " );
+    DOC( "* `when` (TimePoint): The current time (for time-based effects).  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_mapgen_postprocess", []( const sol::table & ) {} );
 
     luna::finalize_lib( lib );
 }
