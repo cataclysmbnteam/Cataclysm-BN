@@ -154,6 +154,50 @@ void cata::detail::reg_map( sol::state &lua )
             return items;
         } );
 
+        DOC( "Moves an item from one position to another, preserving all item state including contents." );
+        luna::set_fx( ut, "move_item_to", []( map & m, const tripoint & from, item * it,
+        const tripoint & to ) -> void {
+            detached_ptr<item> detached = m.i_rem( from, it );
+            if( detached ) {
+                m.add_item_or_charges( to, std::move( detached ) );
+            }
+        } );
+
+        // Static storage for items that need to survive map changes (e.g., teleportation)
+        static std::vector<detached_ptr<item>> lua_item_storage;
+
+        DOC( "Removes an item from the map and stores it in temporary storage. Returns the storage index, or -1 on failure. Use retrieve_stored_item to get it back after map changes." );
+        luna::set_fx( ut, "store_item", []( map & m, const tripoint & from, item * it ) -> int {
+            detached_ptr<item> detached = m.i_rem( from, it );
+            if( detached ) {
+                lua_item_storage.push_back( std::move( detached ) );
+                return static_cast<int>( lua_item_storage.size() - 1 );
+            }
+            return -1;
+        } );
+
+        DOC( "Places a stored item at a position on the current map. The item is removed from storage." );
+        luna::set_fx( ut, "retrieve_stored_item", []( map & m, int index, const tripoint & to ) -> bool {
+            if( index < 0 || static_cast<size_t>( index ) >= lua_item_storage.size() ) {
+                return false;
+            }
+            if( !lua_item_storage[index] ) {
+                return false;
+            }
+            m.add_item_or_charges( to, std::move( lua_item_storage[index] ) );
+            return true;
+        } );
+
+        DOC( "Clears all items from temporary storage (call after teleport is complete)." );
+        luna::set_fx( ut, "clear_stored_items", []() -> void {
+            lua_item_storage.clear();
+        } );
+
+        DOC( "Returns the number of items currently in temporary storage." );
+        luna::set_fx( ut, "get_stored_item_count", []() -> int {
+            return static_cast<int>( lua_item_storage.size() );
+        } );
+
         luna::set_fx( ut, "get_ter_at", sol::resolve<ter_id( const tripoint & )const>( &map::ter ) );
         luna::set_fx( ut, "set_ter_at",
                       sol::resolve<bool( const tripoint &, const ter_id & )>( &map::ter_set ) );

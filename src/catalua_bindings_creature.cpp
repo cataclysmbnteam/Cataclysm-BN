@@ -19,6 +19,7 @@
 #include "field_type.h"
 #include "flag.h"
 #include "flag_trait.h"
+#include "map.h"
 #include "monfaction.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -889,6 +890,15 @@ void cata::detail::reg_character( sol::state &lua )
 
         // Respawn Stuff
         SET_FX_T( drop_inv, void( const int count ) );
+
+        DOC( "Drops all items (inventory, worn, wielded) at the character's current position." );
+        luna::set_fx( ut, "drop_all_items", []( Character & ch ) -> void {
+            std::vector<detached_ptr<item>> tmp = ch.inv_dump_remove();
+            map &here = get_map();
+            for( auto &itm : tmp ) {
+                here.add_item_or_charges( ch.pos(), std::move( itm ) );
+            }
+        } );
 
         SET_FX( bodypart_exposure );
 
