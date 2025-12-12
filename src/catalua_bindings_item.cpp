@@ -139,7 +139,9 @@ void reg_item( sol::state &lua )
         SET_FX( activate );
         SET_FX( deactivate );
         SET_FX( set_charges );
-        SET_FX( set_countdown );
+
+        SET_FX( set_counter );
+        SET_FX( get_counter );
 
         DOC( "Is this item an effective melee weapon for the given damage type?" );
         luna::set_fx( ut, "is_melee", sol::resolve<bool( damage_type ) const>
