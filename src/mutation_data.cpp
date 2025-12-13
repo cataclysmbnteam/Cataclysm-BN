@@ -90,14 +90,14 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     mutation_category_trait new_category;
     jsobj.read( "id", new_category.id, true );
     new_category.raw_name = jsobj.get_string( "name" );
-    if ( jsobj.has_array( "threshold_muts" ) ) {
-        for ( auto id : jsobj.get_string_array( "threshold_muts" ) ) {
+    if( jsobj.has_array( "threshold_muts" ) ) {
+        for( auto id : jsobj.get_string_array( "threshold_muts" ) ) {
             new_category.threshold_muts.push_back( trait_id( id ) );
         }
     } else {
         new_category.threshold_muts.push_back( trait_id( jsobj.get_string( "threshold_mut" ) ) );
     }
-    
+
 
     new_category.raw_mutagen_message = jsobj.get_string( "mutagen_message" );
     new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
@@ -205,14 +205,14 @@ void mutation_category_trait::check_consistency()
 {
     for( const auto &pr : mutation_category_traits ) {
         const mutation_category_trait &cat = pr.second;
-        if( !(cat.threshold_muts.size() == 1) ) {
-            for ( auto mut : cat.threshold_muts ) {
-                if ( !mut.is_valid() && ( mut != trait_id::NULL_ID() ) ) {
+        if( !( cat.threshold_muts.size() == 1 ) ) {
+            for( auto mut : cat.threshold_muts ) {
+                if( !mut.is_valid() && ( mut != trait_id::NULL_ID() ) ) {
                     debugmsg( "Mutation category %s has threshold mutation %s, which does not exist",
-                                        cat.id.c_str(), mut.c_str() );
+                              cat.id.c_str(), mut.c_str() );
                 }
             }
-            
+
         }
     }
 }
@@ -349,12 +349,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
     unsigned short tier_default;
-    if (jo.has_member("threshreq")) {
-        tier_default = !( jo.get_array("threshreq").empty() ) ? 1 : 0;
+    if( jo.has_member( "threshreq" ) ) {
+        tier_default = !( jo.get_array( "threshreq" ).empty() ) ? 1 : 0;
     } else {
         tier_default = 0;
     }
-    optional( jo, was_loaded, "threshold_tier", threshold_tier, tier_default);
+    optional( jo, was_loaded, "threshold_tier", threshold_tier, tier_default );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );

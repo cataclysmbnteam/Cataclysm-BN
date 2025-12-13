@@ -1634,16 +1634,17 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
     return mutagen_attempt( true, 0 );
 }
 
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category, const unsigned short tier )
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category,
+                              const unsigned short tier )
 {
     // Can't cross the same tier threshold multiple times
     if( guy.thresh_tier >= tier ) {
         return;
     }
-    
+
     // No skipping tiers
-    if ( guy.thresh_tier < tier - 1 ) {
-        test_crossing_threshold(guy, m_category, tier - 1);
+    if( guy.thresh_tier < tier - 1 ) {
+        test_crossing_threshold( guy, m_category, tier - 1 );
         return;
     }
 
@@ -1655,7 +1656,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
 
     mutation_category_id mutation_category = m_category.id;
     // If you've already passed a threshold, you can't get a different tree's threshold
-    if ( ( guy.thresh_tier > 0 ) && ( guy.thresh_category != mutation_category ) ) {
+    if( ( guy.thresh_tier > 0 ) && ( guy.thresh_category != mutation_category ) ) {
         return;
     }
 

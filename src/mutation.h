@@ -539,6 +539,7 @@ struct mutagen_attempt {
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        mutagen_technique technique );
 
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category, const unsigned short tier );
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category,
+                              const unsigned short tier );
 
 

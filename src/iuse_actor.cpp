@@ -4618,7 +4618,7 @@ std::unique_ptr<iuse_actor> mutagen_iv_actor::clone() const
 void mutagen_iv_actor::load( const JsonObject &obj )
 {
     mutation_category = mutation_category_id( obj.get_string( "mutation_category", "ANY" ) );
-    tier = obj.get_int("tier", 1); // fallback of 1 because IV mutagen usually is used for thresholds
+    tier = obj.get_int( "tier", 1 ); // fallback of 1 because IV mutagen usually is used for thresholds
 }
 
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
