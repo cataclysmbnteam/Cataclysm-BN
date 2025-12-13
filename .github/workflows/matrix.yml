@@ -73,11 +73,6 @@ jobs:
       TEST_STAGE: ${{ matrix.test-stage }}
       LANGUAGES: ${{ matrix.languages }}
 
-      CCACHE_LIMIT: ${{ matrix.ccache_limit }}
-      CCACHE_FILECLONE: true
-      CCACHE_HARDLINK: true
-      CCACHE_NOCOMPRESS: true
-
       SKIP: ${{ matrix.always-run != true && ( github.event.pull_request.draft == true || needs.skip-duplicates.outputs.should_skip_code == true || needs.skip-duplicates.outputs.should_skip_data == true ) }}
 
     steps:
@@ -116,28 +111,14 @@ jobs:
         if: ${{ env.SKIP == 'false' }}
         run: bash ./build-scripts/requirements.sh
 
-      - name: Get ccache vars
-        id: get-ccache-vars
+      - name: Setup ccache
         if: ${{ env.SKIP == 'false' }}
-        shell: bash
-        run: |
-          echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
-
-      - name: ccache cache files
-        if: ${{ env.SKIP == 'false' }}
-        uses: actions/cache@v3
-        id: cache
+        uses: hendrikmuhs/ccache-action@v1.2
         with:
-          path: "~/.cache/ccache"
-          # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-          key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-ccache-vars.outputs.datetime }}
-          restore-keys: ccache-main-${{ matrix.ccache_key }}--
-
-      - name: ccache info
-        if: ${{ env.SKIP == 'false' && steps.cache.outputs.cache-hit != 'true' }}
-        run: |
-          echo CCache failed to restore from cache, emmiting stats
-          ccache --show-stats --verbose
+          key: ${{ github.ref_name }}-${{ matrix.ccache_key }}
+          restore-keys: main-${{ matrix.ccache_key }}
+          max-size: ${{ matrix.ccache_limit }}
+          verbose: 2
 
       - uses: ammaraskar/gcc-problem-matcher@master
 
@@ -174,18 +155,6 @@ jobs:
         run: |
           cmake --build build --target style-json-parallel
           tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
-
-      - name: post-build ccache stats and cleanup
-        if: ${{ env.SKIP == 'false' && !failure() }}
-        run: |
-          ccache --show-stats --verbose
-          ccache --max-size ${{ env.CCACHE_LIMIT }}
-          ccache --cleanup
-          ccache --show-stats --verbose
-
-      - name: clear ccache on PRs
-        if: ${{ github.ref_name != 'main' && env.SKIP == 'false' && !failure() }}
-        run: ccache --clear
 
       - name: run tests
         if: ${{ github.ref_name != 'main' && env.SKIP == 'false' }}
