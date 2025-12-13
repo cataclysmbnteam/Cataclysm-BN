@@ -35,6 +35,15 @@
   {
     "type": "help",
     "order": 3,
+    "name": "<d|D>: Interaction",
+    "messages": [
+      "Cataclym allows for a wide range of options with everything around you; if you're ever unsure of what you're able to do, you can press the <press_examine> key to examine things near you and choose what to do with them.  You can also use the <press_construction> key to open the construction menu, allowing you to build or disassemble furniture, plug in electronics, and more.",
+      "You can even do things like pull curtains off of windows to use the curtain rod as a stick for crafting or to bundle the curtain into a makeshift sling!  Practically everything in this game has some use or another; don't be afraid to experiment."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 3,
     "name": "<d|D>: Hunger, thirst, and sleep",
     "messages": [
       "As time passes, you will begin to feel hunger and thirst, and your stomach will remind you of that.  Your character thankfully knows how much food they need, and your hunger meter and caloric needs are the same.  You will also never gain or lose weight from eating or not eating.",
