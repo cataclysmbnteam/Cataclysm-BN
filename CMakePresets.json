@@ -88,6 +88,8 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CATA_CCACHE": "ON",
+        "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
         "CMAKE_BUILD_TYPE": "Release",
         "CURSES": "OFF",
         "TILES": "ON",
@@ -108,6 +110,8 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CATA_CCACHE": "ON",
+        "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
         "CMAKE_BUILD_TYPE": "Release",
         "CURSES": "ON",
         "TILES": "OFF",
@@ -128,6 +132,8 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CATA_CCACHE": "ON",
+        "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
         "CMAKE_BUILD_TYPE": "Debug",
         "CURSES": "OFF",
         "TILES": "OFF",
