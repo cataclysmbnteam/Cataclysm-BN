@@ -1834,13 +1834,6 @@ bool game::handle_action()
                 }
                 break;
             case ACTION_MOVE_DOWN:
-                if( u.is_mounted() ) {
-                    auto mon = u.mounted_creature.get();
-                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
-                        break;
-                    }
-                }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
@@ -1872,13 +1865,6 @@ bool game::handle_action()
                 break;
 
             case ACTION_MOVE_UP:
-                if( u.is_mounted() ) {
-                    auto mon = u.mounted_creature.get();
-                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
-                        break;
-                    }
-                }
                 if( !u.in_vehicle ) {
                     bool moved = false;
                     point xy = u.pos().xy();
