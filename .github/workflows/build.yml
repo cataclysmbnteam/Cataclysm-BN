@@ -226,7 +226,10 @@ jobs:
       # Build with CMake (Linux)
       - name: Configure with CMake (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
-        run: cmake --preset ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }}
+        run: |
+          cmake --preset ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }} \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Build with CMake (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
