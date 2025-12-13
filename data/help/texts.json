@@ -43,8 +43,8 @@
   },
   {
     "type": "help",
-    "order": 3,
-    "name": "<d|D>: Hunger, thirst, and sleep",
+    "order": 4,
+    "name": "<e|E>: Hunger, thirst, and sleep",
     "messages": [
       "As time passes, you will begin to feel hunger and thirst, and your stomach will remind you of that.  Your character thankfully knows how much food they need, and your hunger meter and caloric needs are the same.  You will also never gain or lose weight from eating or not eating.",
       "Overeating or drinking will cause your character to become nauseous, potentially causing them to vomit, though there may be times where you need to eat or drink medicines where losing your lunch can be worth it.",
@@ -56,8 +56,8 @@
   },
   {
     "type": "help",
-    "order": 4,
-    "name": "<e|E>: Pain and stimulants",
+    "order": 5,
+    "name": "<f|F>: Pain and stimulants",
     "messages": [
       "When you take damage from almost any source, you'll start to feel pain.  Pain slows you down and reduces your stats, and finding a way to manage pain is an early imperative.  The most common is drugs: aspirin, codeine, tramadol, oxycodone, and more are all great options.  Be aware that while under the influence of many painkillers, the physiological side effects may slow you or reduce your stats.",
       "Note that most painkillers take a little while to kick in.  If you take some oxycodone and don't notice the effects right away, don't start taking more -  you may overdose and die!",
@@ -69,8 +69,8 @@
   },
   {
     "type": "help",
-    "order": 5,
-    "name": "<f|F>: Healing and medication",
+    "order": 6,
+    "name": "<g|G>: Healing and medication",
     "messages": [
       "When you take damage it will change status of affected body part shown in the sidebar.  Its overall wellness is represented by bars that will deplete the more damage you take, though you can change it to raw numbers in the options menu if you prefer. If your head or torso run out of hit points, you will die.  For other body parts, running out of hit points means broken bones, significant penalties, and a long process of healing after placing affected limb in a splint.",
       "Normal damage heals with time.  You heal more overnight during good sleep, but wounds also heal a bit by day.",
@@ -82,8 +82,8 @@
   },
   {
     "type": "help",
-    "order": 6,
-    "name": "<g|G>: Addiction",
+    "order": 7,
+    "name": "<h|H>: Addiction",
     "messages": [
       "Many drugs (and some consumables) have a potential for addiction.  Each time you consume such there is a chance that you will grow dependent on it, though small doses used only occasionally have only a tiny chance to be addicting, while multiple and regular doses increase that chance.  Effects vary greatly between addictive substances, but all addictions have only two cures: going cold turkey, and specific rare medicines that help treat addiction.  The first may last for days and will leave you very weak, so try to do it in a safe area.",
       "If you are suffering from withdrawal effects, taking more of the addictive substance will cause the effects to cease immediately, but may deepen your dependence."
@@ -91,8 +91,8 @@
   },
   {
     "type": "help",
-    "order": 7,
-    "name": "<h|H>: Morale and learning",
+    "order": 8,
+    "name": "<i|I>: Morale and learning",
     "messages": [
       "Your character has a morale level, which affects you in many ways.  The depressing post-apocalypse world is tough to deal with, and your mood will naturally decrease very slowly.",
       "There are lots of options for increasing morale; reading an entertaining book, eating delicious food, listening to music, and taking recreational drugs are but a few options. Most morale-boosting activities can only improve your mood so much, however, though you can use multiple methods at the same time to counter a particularly bad mood.",
@@ -106,8 +106,8 @@
   },
   {
     "type": "help",
-    "order": 8,
-    "name": "<i|I>: Radioactivity and mutation",
+    "order": 9,
+    "name": "<j|J>: Radioactivity and mutation",
     "messages": [
       "Though it is relatively rare, certain areas of the world may be contaminated with radiation.  It will gradually accumulate in your body, weakening you more and more.  While in radiation-free areas, your radiation level will slowly decrease.  Taking Prussian blue tablets will help speed the process.  Get yourself a measuring device, as radiation is invisible and you may not know it that you are under its influence until it results in radiation sickness.",
       "If you become very irradiated or consume enough mutated meat, you may develop mutations.  Some of the time, these mutations will be negative; however, many are beneficial, and others have both positive and negative effects.  Don't discount a negative mutation however, because they can often evolve into something positive or mixed.  Your mutations may change your play style considerably.  It is possible to find substances that will remove mutations, but these are only rarely found in laboratories that studied them.",
@@ -116,8 +116,8 @@
   },
   {
     "type": "help",
-    "order": 9,
-    "name": "<j|J>: Bionics",
+    "order": 10,
+    "name": "<k|K>: Bionics",
     "messages": [
       "Bionics are biomechanical upgrades to your body.  While many are simply 'built-in' versions of items you would otherwise have to carry, some bionics have unique effects that are otherwise unobtainable.  Some bionics are constantly working, whereas others need to be toggled on and off as needed.",
       "Most bionics require a source of power, and you will need an internal battery to store energy for them.  Your current amount of energy is displayed in the sidebar right below your health.  Replenishing energy can be done in a variety of ways, but all require the installation of a special bionic just for that purpose.  Many power producing bionics will require specific kinds of fuel to work, and can be refueled by eating the fuel with <press_eat>.  Chemicals such as ethanol and gasoline are only consumable if you have the relevant bionic, and they usually won't cause any harm when refueled.",
@@ -129,8 +129,8 @@
   },
   {
     "type": "help",
-    "order": 10,
-    "name": "<k|K>: Crafting",
+    "order": 11,
+    "name": "<l|L>: Crafting",
     "messages": [
       "Many important items can be very hard to find or will cost a great deal of money to trade for.  Fortunately, it is possible to craft a wide variety of goods (as best you can) with the proper tools, materials, and training.",
       "Many recipes require tools.  Different tools have different Tool Qualities, and these Tool Qualities have different levels that can impact what you can make or do with them.  Tools are not used up when crafting, though crafting recipes can drain their power or fuel.  All recipes require one or more ingredients.  These ARE used up in crafting.",
@@ -151,8 +151,8 @@
   },
   {
     "type": "help",
-    "order": 11,
-    "name": "<l|L>: Traps",
+    "order": 12,
+    "name": "<m|M>: Traps",
     "messages": [
       "Before sleeping in a dangerous territory, it may be wise to set traps to ward off unwanted intrusions.  There are a few traps to be found in the world, most notably bubble wrap (which will make a loud noise if stepped on, helping to wake you up) and bear traps (which make noise AND damage, and trap anything that steps on them).  Others need to be crafted; this requires the Traps skill and possibly Mechanics.",
       "To set a trap, simply use the item (press <press_apply>) and choose a direction; the trap will be placed on an adjacent tile.  Some traps may require additional tools, like a shovel, to be set.  Once set, a trap will remain in place until stepped on or disarmed.",
@@ -163,8 +163,8 @@
   },
   {
     "type": "help",
-    "order": 12,
-    "name": "<m|M>: Items overview",
+    "order": 13,
+    "name": "<n|N>: Items overview",
     "messages": [
       "There is a wide variety of items available for your use.  You may find them lying on the ground; if so, simply press <press_pickup> to pick up items on the same square.  Some items are found inside a container, drawn as a { with a blue background. Pressing <press_examine>, then a direction key, will allow you to examine these containers and loot their contents.",
       "Pressing <press_compare> opens a comparison menu, where you can see two items side-by-side with their attributes highlighted to indicate which is superior.  You can also access the item comparison menu by pressing C after <press_listitems> to view nearby items menu is open and an item is selected.",
@@ -179,8 +179,8 @@
   },
   {
     "type": "help",
-    "order": 13,
-    "name": "<n|N>: Combat",
+    "order": 14,
+    "name": "<o|O>: Combat",
     "messages": [
       "Zombies in cities will spawn at the start of the game but may also wander around.  All monsters are represented by letters on your screen; a list of monster names, and their positions relative to you, is displayed on the right side of the screen.  The so called compass will display monsters that you see but are outside the screen.",
       "To attack a monster with a melee weapon, simply move into them.  The time it takes to attack depends on the size and weight of your weapon.  Small, light weapons are the fastest; unarmed attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast.  A successful hit with a bashing weapon may stun the monster temporarily.  A miss may make you stumble and lose movement points.  If a monster hits you, your clothing may absorb some damage, but you will absorb the excess.",
@@ -197,8 +197,8 @@
   },
   {
     "type": "help",
-    "order": 14,
-    "name": "<o|O>: Martial arts styles",
+    "order": 15,
+    "name": "<p|P>: Martial arts styles",
     "messages": [
       "A variety of fighting styles are available, particularly for the unarmed fighter.  You can start with your choice of a single, commonly-taught style by starting with the Martial Arts Training trait.  Many, many more can be found in their own traits or trained from manuals.",
       "To select a fighting style, press <press_pick_style>.  Some styles are relevant only when you are unarmed, others are compatible with or require certain weapons.  If your current weapon is compatible with the chosen style, you will start using the selected style immediately.  Otherwise, it will be locked in as your default style.  To start using it, wield a relevant weapon or empty your hands, by pressing <press_wield>, then the key for the item you are currently wielding.  If you wish to prevent yourself from accidentally wielding weapons taken from the ground, enable \"Keep hands free\" found in the styles menu.",
@@ -209,8 +209,8 @@
   },
   {
     "type": "help",
-    "order": 15,
-    "name": "<p|P>: Survival tips",
+    "order": 16,
+    "name": "<q|Q>: Survival tips",
     "messages": [
       "Survival hierarchy of needs in most cases is as follows: shelter, fire, water, food.  The rest is the process of trying to answer a question what would you do in a survival situation?",
       "The first thing to do, when you are out of immediate danger, is checking your starting location for useful items.  Your initial storage is limited, and a backpack, trenchcoat, or other storage medium will let you carry a lot more. Finding a weapon is important, but not a first priority; frying pans, butcher knives, and more are common in houses; hardware stores may carry others.  Initially keep the guns as a last resort trump card. Ammo is scarce, while zombies are plenty, and unwanted attention may be more you can handle.",
@@ -227,7 +227,7 @@
   },
   {
     "type": "help",
-    "order": 16,
+    "order": 17,
     "name": "<r|R>: Vehicles and Driving",
     "messages": [
       "You control vehicles using the numpad, or vikeys. However, you control their controls, rather than the vehicle directly.",
@@ -259,7 +259,7 @@
   },
   {
     "type": "help",
-    "order": 17,
+    "order": 18,
     "name": "<1>: Electricity",
     "messages": [
       "Many things run on electricity, and the power is off in most places. You'll have to find or make your own power sources to do that.",
@@ -271,7 +271,7 @@
   },
   {
     "type": "help",
-    "order": 18,
+    "order": 19,
     "name": "<2>: List of item types and data",
     "messages": [
       "~       Liquid\n%%       Food\n!       Medication\nThese are all consumed by using <press_eat>.  They provide a certain amount of nutrition, quench your thirst, may be a stimulant or a depressant, and may provide morale. There may also be more subtle effects.",
@@ -286,7 +286,7 @@
   },
   {
     "type": "help",
-    "order": 19,
+    "order": 20,
     "name": "<3>: Description of map symbols",
     "messages": [
       "MAP SYMBOLS:",
@@ -314,7 +314,7 @@
   },
   {
     "type": "help",
-    "order": 20,
+    "order": 21,
     "name": "<4>: Description of gun types",
     "messages": [
       "<color_light_gray>( Handguns</color>\nHandguns are small weapons held in one or both hands.  They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy.  However, their small size makes them appropriate for short-range combat.  They are also relatively quick to reload and use a very wide selection of ammunition.  Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next once their ammo is spent.",
@@ -330,7 +330,7 @@
   },
   {
     "type": "help",
-    "order": 21,
+    "order": 22,
     "name": "<5>: FAQ (contains spoilers!)",
     "messages": [
       "Q: What is Safe Mode, and why does it prevent me from moving?\nA: Safe Mode is a way to guarantee that you won't die by holding a movement key down.  When a monster comes into view, your movement will be ignored until Safe Mode is turned off with the ! key. This ensures that the sudden appearance of a monster won't catch you off guard.",
@@ -350,7 +350,7 @@
   },
   {
     "type": "help",
-    "order": 22,
+    "order": 23,
     "name": "<6>: Resolved game directories",
     "messages": [ "<GAME_DIRECTORIES>" ]
   }
