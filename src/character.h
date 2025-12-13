@@ -1716,6 +1716,8 @@ class Character : public Creature, public location_visitable<Character>
 
         // Threshold category if crossed
         mutation_category_id thresh_category = mutation_category_id::NULL_ID();
+        // Threshold tier reached
+        unsigned short thresh_tier = 0;
 
         location_vector<item> worn;
         // Means player sit inside vehicle on the tile he is now

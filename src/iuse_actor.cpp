@@ -4619,6 +4619,7 @@ std::unique_ptr<iuse_actor> mutagen_iv_actor::clone() const
 void mutagen_iv_actor::load( const JsonObject &obj )
 {
     mutation_category = mutation_category_id( obj.get_string( "mutation_category", "ANY" ) );
+    tier = obj.get_int( "tier", 1 ); // fallback of 1 because IV mutagen usually is used for thresholds
 }
 
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
@@ -4640,7 +4641,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // try to cross the threshold to be able to get post-threshold mutations this iv.
-    test_crossing_threshold( p, m_category );
+    test_crossing_threshold( p, m_category, tier );
 
     // TODO: Remove the "is_player" part, implement NPC screams
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
@@ -4681,7 +4682,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // try crossing again after getting new in-category mutations.
-    test_crossing_threshold( p, m_category );
+    test_crossing_threshold( p, m_category, tier );
 
     return it.type->charges_to_use();
 }
