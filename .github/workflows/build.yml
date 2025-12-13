@@ -254,9 +254,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install gettext
 
+      - name: Setup ccache (android)
+        if: runner.os == 'Linux' && matrix.android != '' && matrix.android != 'none'
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.artifact }}
+          max-size: 500M
+          verbose: 2
+
       - name: Build CBN (android)
         if: runner.os == 'Linux' && matrix.android != '' && matrix.android != 'none'
         working-directory: ./android
+        env:
+          NDK_CCACHE: ccache
         run: |
           echo "${{ secrets.KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore
