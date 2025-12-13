@@ -161,6 +161,23 @@ jobs:
         if: runner.os == 'Windows'
         run: vcpkg integrate install
 
+      - name: Export GitHub Actions cache environment variables
+        if: runner.os == 'Windows'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable("ACTIONS_CACHE_URL", process.env.ACTIONS_CACHE_URL || "")
+            core.exportVariable("ACTIONS_RUNTIME_TOKEN", process.env.ACTIONS_RUNTIME_TOKEN || "")
+
+      - name: Setup sccache (Windows)
+        if: runner.os == 'Windows'
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.artifact }}
+          max-size: 500M
+          verbose: 2
+          variant: sccache
+
       # Linux setup
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
@@ -223,12 +240,26 @@ jobs:
             cataclysmbn-${{ inputs.version-label }}
 
       # Build with CMake (Windows MSVC)
-      - name: Build CBN (windows msvc)
+      - name: Configure CBN (windows msvc)
         if: runner.os == 'Windows'
         env:
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
-          msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
+          cmake --preset windows-tiles-sounds-x64-msvc `
+            -DCMAKE_C_COMPILER_LAUNCHER=sccache `
+            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache `
+            -DRELEASE=ON
+
+      - name: Build CBN (windows msvc)
+        if: runner.os == 'Windows'
+        run: |
+          cmake --build out/build/windows-tiles-sounds-x64-msvc --config Release --parallel
+
+      - name: Prepare distribution (windows msvc)
+        if: runner.os == 'Windows'
+        run: |
+          cp out/build/windows-tiles-sounds-x64-msvc/Release/cataclysm-bn-tiles.exe .
+          cp out/build/windows-tiles-sounds-x64-msvc/Release/json_formatter.exe tools/format/
           .\build-scripts\windist.ps1
           mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.zip
 
