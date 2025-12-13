@@ -29,7 +29,8 @@ static void give_all_mutations( player &p, const mutation_category_trait &catego
 
     // Add the threshold mutations first
     if( include_postthresh && !category.threshold_muts.empty() ) {
-        for (unsigned int i = 1; i < category.threshold_muts.size(); i++) { // starts at 1 because 0 is NULL for aligning tier to index
+        for( unsigned int i = 1; i < category.threshold_muts.size();
+             i++ ) { // starts at 1 because 0 is NULL for aligning tier to index
             p.set_mutation( category.threshold_muts[i] );
         }
     }
