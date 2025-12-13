@@ -546,8 +546,8 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood_horizontal", "seat_wood_light", "hand_paddles", "propeller_wood", "boat_board", "airship_balloon" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "seat_wood_light", "airship_balloon" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "airship_balloon", "wheel_wood" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "airship_balloon", "wheel_wood" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "airship_balloon" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "airship_balloon" ] },
 
       { "x": 3, "y": 0, "parts": [ "airship_balloon_external" ] },
       { "x": -2, "y": 0, "parts": [ "airship_balloon_external" ] },
