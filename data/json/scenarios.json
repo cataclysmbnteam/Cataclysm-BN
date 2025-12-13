@@ -864,7 +864,7 @@
     "id": "airship_pilot_scenario",
     "name": "Airship Pilot",
     "points": 0,
-    "description": "An island that floats in water, not in the sky? What sorcery is this?",
+    "description": "An island that floats in water, not in the sky? What sorcery is this?\nIn case your vehicle spawns way off the shore: esc > debug menu > teleport > teleport - short range",
     "//": "Any vehicle that floats MUST spawn in water it seems",
     "allowed_locs": [
       "sloc_deserted_island"
