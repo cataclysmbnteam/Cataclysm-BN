@@ -167,10 +167,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install gcc-14 libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev mold ccache gettext parallel libsqlite3-dev zlib1g-dev
+            libsdl2-mixer-dev libpulse-dev mold gettext parallel libsqlite3-dev zlib1g-dev
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
           g++ --version
+
+      - name: Setup ccache (Linux)
+        if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.artifact }}
+          max-size: 500M
+          verbose: 2
 
       # macOS setup
       - name: Install runtime dependencies (mac)
