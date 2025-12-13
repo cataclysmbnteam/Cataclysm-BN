@@ -351,7 +351,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     unsigned short tier_default;
     if( jo.has_array( "threshreq" ) ) {
         tier_default = !( jo.get_array( "threshreq" ).empty() ) ? 1 : 0;
-    } else if ( jo.has_string( "threshreq" ) ) {
+    } else if( jo.has_string( "threshreq" ) ) {
         tier_default = !( jo.get_string( "threshreq" ).empty() ) ? 1 : 0;
     } else {
         tier_default = 0;
