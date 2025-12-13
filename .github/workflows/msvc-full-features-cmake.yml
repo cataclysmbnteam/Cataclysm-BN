@@ -98,10 +98,21 @@ jobs:
         run: |
           vcpkg integrate install
 
+      - name: Setup sccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: msvc-cmake-${{ env.CMAKE_PRESET }}
+          max-size: 500M
+          verbose: 2
+          variant: sccache
+
       - uses: ammaraskar/msvc-problem-matcher@master
       - name: Configure
         run: |
-          cmake -DTESTS=ON --preset $env:CMAKE_PRESET
+          cmake -DTESTS=ON `
+            -DCMAKE_C_COMPILER_LAUNCHER=sccache `
+            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache `
+            --preset $env:CMAKE_PRESET
 
       - uses: ammaraskar/msvc-problem-matcher@master
       - name: Build
@@ -121,4 +132,4 @@ jobs:
 
       - name: Run tests
         run: |
-          .\RelWithDebInfo\cata_test-tiles.exe --rng-seed time
+          .\out\build\$env:CMAKE_PRESET\RelWithDebInfo\cata_test-tiles.exe --rng-seed time
