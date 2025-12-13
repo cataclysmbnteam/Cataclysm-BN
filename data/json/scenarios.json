@@ -858,5 +858,23 @@
       "prof_combat_engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "airship_pilot_scenario",
+    "name": "Airship Pilot",
+    "points": 0,
+    "description": "An island that floats in water, not in the sky? What sorcery is this?",
+    "//": "Any vehicle that floats MUST spawn in water it seems",
+    "allowed_locs": [
+      "sloc_deserted_island"
+    ],
+    "professions": [
+      "airship_pilot",
+      "airboat_pilot",
+      "aircanoe_pilot"
+    ],
+    "start_name": "Lake Surface",
+    "flags": [ "LONE_START" ]
   }
 ]
