@@ -1600,6 +1600,7 @@ function ModInfoId.new() end
 ---@field friendly integer
 ---@field morale integer
 ---@field unique_name string
+---@field add_faction_anger fun(self: Monster, arg2: string, arg3: integer)
 ---@field attitude fun(self: Monster, arg2: Character): MonsterAttitude
 ---@field can_climb fun(self: Monster): boolean
 ---@field can_dig fun(self: Monster): boolean
@@ -1611,6 +1612,7 @@ function ModInfoId.new() end
 ---@field climbs fun(self: Monster): boolean
 ---@field digs fun(self: Monster): boolean
 ---@field flies fun(self: Monster): boolean
+---@field get_faction_anger fun(self: Monster, arg2: string): integer
 ---@field get_type fun(self: Monster): MonsterTypeId
 ---@field get_upgrade_time fun(self: Monster): integer
 ---@field hasten_upgrade fun(self: Monster)
@@ -3011,7 +3013,8 @@ MonsterFlag = {
 	PROJECTILE_RESISTANT_2 = 123,
 	PROJECTILE_RESISTANT_3 = 124,
 	PROJECTILE_RESISTANT_4 = 125,
-	VOLATILE = 126
+	VOLATILE = 126,
+	FACTION_MEMORY = 127
 }
 
 ---@enum MonsterSize

@@ -966,6 +966,12 @@ std::string monster::extended_description() const
     if( debug_mode ) {
         ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
         ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
+        if( !faction_anger.empty() ) {
+            ss += string_format( _( "Anger by faction:" ) ) + "\n";
+            for( const auto &[id, anger] : faction_anger ) {
+                ss += string_format( _( "  %1$s: %2$d" ), id.id().str(), anger ) + "\n";
+            }
+        }
         ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
         ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
 
@@ -1340,12 +1346,19 @@ Attitude monster::attitude_to( const Creature &other ) const
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::A_HOSTILE;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
-                   morale < 0 || anger < 10 ) {
-            // Stuff that won't attack is neutral to everything
-            return Attitude::A_NEUTRAL;
         } else {
-            return Attitude::A_HOSTILE;
+            int effective_anger = anger;
+            if( has_flag( MF_FACTION_MEMORY ) ) {
+                effective_anger = get_faction_anger( m->faction );
+            }
+
+            if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
+                morale < 0 || effective_anger < 10 ) {
+                // Stuff that won't attack is neutral to everything
+                return Attitude::A_NEUTRAL;
+            } else {
+                return Attitude::A_HOSTILE;
+            }
         }
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
@@ -1398,7 +1411,7 @@ std::string io::enum_to_string<monster_attitude>( monster_attitude att )
     abort();
 }
 
-monster_attitude monster::attitude( const Character *u ) const
+auto monster::attitude( const Character *u ) const -> monster_attitude
 {
     if( friendly != 0 ) {
         if( has_effect( effect_docile ) ) {
@@ -1427,6 +1440,15 @@ monster_attitude monster::attitude( const Character *u ) const
     int effective_morale = morale;
 
     if( u != nullptr ) {
+        if( has_flag( MF_FACTION_MEMORY ) ) {
+            const monster *u_as_monster = u->as_monster();
+            if( u_as_monster != nullptr ) {
+                effective_anger = get_faction_anger( u_as_monster->faction );
+            } else if( u->is_player() || u->is_npc() ) {
+                effective_anger = get_faction_anger( mfaction_id( "player" ) );
+            }
+        }
+
         // Those are checked quite often, so avoiding string construction is a good idea
         static const string_id<monfaction> faction_bee( "bee" );
         if( faction == faction_bee ) {
@@ -1595,27 +1617,55 @@ void monster::process_triggers()
 // This adjusts anger/morale levels given a single trigger.
 void monster::process_trigger( mon_trigger trig, int amount )
 {
+    process_trigger( trig, amount, mfaction_id() );
+}
+
+void monster::process_trigger( mon_trigger trig,
+                               const std::function < auto() -> int > &amount_func )
+{
+    process_trigger( trig, amount_func, mfaction_id() );
+}
+
+void monster::process_trigger( mon_trigger trig, int amount, mfaction_id target_faction )
+{
     if( type->has_anger_trigger( trig ) ) {
-        anger += amount;
+        if( has_flag( MF_FACTION_MEMORY ) && target_faction.is_valid() ) {
+            add_faction_anger( target_faction, amount );
+        } else {
+            anger += amount;
+        }
     }
     if( type->has_fear_trigger( trig ) ) {
         morale -= amount;
     }
     if( type->has_placate_trigger( trig ) ) {
-        anger -= amount;
+        if( has_flag( MF_FACTION_MEMORY ) && target_faction.is_valid() ) {
+            add_faction_anger( target_faction, -amount );
+        } else {
+            anger -= amount;
+        }
     }
 }
 
-void monster::process_trigger( mon_trigger trig, const std::function<int()> &amount_func )
+void monster::process_trigger( mon_trigger trig, const std::function < auto() -> int > &amount_func,
+                               mfaction_id target_faction )
 {
     if( type->has_anger_trigger( trig ) ) {
-        anger += amount_func();
+        if( has_flag( MF_FACTION_MEMORY ) && target_faction.is_valid() ) {
+            add_faction_anger( target_faction, amount_func() );
+        } else {
+            anger += amount_func();
+        }
     }
     if( type->has_fear_trigger( trig ) ) {
         morale -= amount_func();
     }
     if( type->has_placate_trigger( trig ) ) {
-        anger -= amount_func();
+        if( has_flag( MF_FACTION_MEMORY ) && target_faction.is_valid() ) {
+            add_faction_anger( target_faction, -amount_func() );
+        } else {
+            anger -= amount_func();
+        }
     }
 }
 
@@ -2065,8 +2115,18 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
             source_projectile->add_monster_kill( type->id );
         }
     } else if( dam > 0 ) {
-        process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
-        // Get angry at characters if hurt by one
+        mfaction_id attacker_faction;
+        if( source != nullptr ) {
+            const monster *source_monster = source->as_monster();
+            if( source_monster != nullptr ) {
+                attacker_faction = source_monster->faction;
+            } else if( source->is_player() || source->is_npc() ) {
+                attacker_faction = mfaction_id( "player" );
+            }
+        }
+
+        process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ), attacker_faction );
+
         if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             trigger_character_aggro( "hurt" );
         }
@@ -2075,12 +2135,12 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
 void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
                             const bool bypass_med )
 {
-    return apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
+    apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
 }
 void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
                             const bool bypass_med )
 {
-    return apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
+    apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
 }
 
 void monster::die_in_explosion( Creature *source )
@@ -2823,7 +2883,7 @@ void monster::die( Creature *nkiller )
     if( anger_adjust != 0 || morale_adjust != 0 ) {
         int light = g->light_level( posz() );
         for( monster &critter : g->all_monsters() ) {
-            if( !critter.type->same_species( *type ) ) {
+            if( critter.faction != this->faction ) {
                 continue;
             }
 
@@ -3307,6 +3367,17 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
         type->sp_defense( *this, source, proj );
     }
 
+    // Determine attacker's faction
+    mfaction_id attacker_faction;
+    if( source != nullptr ) {
+        const monster *source_monster = source->as_monster();
+        if( source_monster != nullptr ) {
+            attacker_faction = source_monster->faction;
+        } else if( source->is_player() || source->is_npc() ) {
+            attacker_faction = mfaction_id( "player" );
+        }
+    }
+
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0;
     int morale_adjust = 0;
@@ -3327,13 +3398,18 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     if( anger_adjust != 0 || morale_adjust != 0 ) {
         int light = g->light_level( posz() );
         for( monster &critter : g->all_monsters() ) {
-            if( !critter.type->same_species( *type ) ) {
+            if( critter.faction != this->faction ) {
                 continue;
             }
 
             if( g->m.sees( critter.pos(), pos(), light ) ) {
                 critter.morale += morale_adjust;
-                critter.anger += anger_adjust;
+
+                if( critter.has_flag( MF_FACTION_MEMORY ) && attacker_faction.is_valid() ) {
+                    critter.add_faction_anger( attacker_faction, anger_adjust );
+                } else {
+                    critter.anger += anger_adjust;
+                }
             }
         }
     }
@@ -3626,4 +3702,27 @@ detached_ptr<item> monster::remove_corpse_component( item &it )
 std::vector<detached_ptr<item>> monster::remove_corpse_components()
 {
     return corpse_components.clear();
+}
+
+void monster::add_faction_anger( mfaction_id target_faction, int amount )
+{
+    if( !has_flag( MF_FACTION_MEMORY ) ) {
+        anger += amount;
+        return;
+    }
+
+    // Don't get angry at own faction (prevents friendly fire loops)
+    if( target_faction == this->faction ) { return; }
+
+    faction_anger[target_faction] += amount;
+}
+
+auto monster::get_faction_anger( mfaction_id target_faction ) const -> int
+{
+    if( !has_flag( MF_FACTION_MEMORY ) ) {
+        return anger;
+    }
+
+    auto it = faction_anger.find( target_faction );
+    return ( it != faction_anger.end() ) ? it->second : 0;
 }
