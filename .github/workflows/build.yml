@@ -193,10 +193,18 @@ jobs:
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel llvm@20 astyle sqlite3 zlib cmake ninja
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext parallel llvm@20 astyle sqlite3 zlib cmake ninja
           python3 -m venv ./venv
           source ./venv/bin/activate
           pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist polib luaparser
+
+      - name: Setup ccache (mac)
+        if: runner.os == 'macOS'
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.artifact }}
+          max-size: 500M
+          verbose: 2
 
       # Build with CMake (Linux)
       - name: Configure with CMake (Linux)
@@ -229,7 +237,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles && '1' || '0' }} SOUND=${{ matrix.sound && '1' || '0' }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm@20)/bin/clang++ dmgdist
+          make -j3 CCACHE=1 TILES=${{ matrix.tiles && '1' || '0' }} SOUND=${{ matrix.sound && '1' || '0' }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm@20)/bin/clang++ dmgdist
           mv CataclysmBN-*.dmg cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.dmg
 
       # Android builds
