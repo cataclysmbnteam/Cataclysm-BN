@@ -728,10 +728,11 @@ class item : public location_visitable<item>, public game_object<item>
         void set_charges( int value );
 
         /**
-         * Sets time until countdown_action will trigger, maybe re-set for continuous activation.
-         * A negative value will set the timer to the item's default countdown_interval
+         * Sets a generic counter to be used with item flags
+         * Also used by countdown activation and crafting progress
          **/
-        void set_countdown( int value );
+        void set_counter( int value );
+        int get_counter() const;
 
         /**
          * Consumes specified charges (or fewer) from this and any contained items
@@ -2431,7 +2432,7 @@ class item : public location_visitable<item>, public game_object<item>
         int frequency = 0;         // Radio frequency
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
-        int item_counter = 0;      // generic counter to be used with item flags
+
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
 
@@ -2441,6 +2442,8 @@ class item : public location_visitable<item>, public game_object<item>
         bool encumbrance_update_ = false;
 
     private:
+        // generic counter to be used with item flags
+        int item_counter = 0;
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if

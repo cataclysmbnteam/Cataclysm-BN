@@ -5103,7 +5103,7 @@ int iuse::towel_common( player *p, item *it, bool t )
 
         towelUsed = true;
         if( it ) {
-            it->item_counter = to_turns<int>( 30_minutes );
+            it->set_counter( to_turns<int>( 30_minutes ) );
         }
 
         // default message

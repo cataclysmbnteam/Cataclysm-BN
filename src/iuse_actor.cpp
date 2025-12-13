@@ -362,8 +362,8 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     p.inv_update_invlet_cache_with_item( it );
     // Update luminosity as object is "added"
     get_map().update_lum( it, true );
-    it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;
-    ( active || it.item_counter ) ? it.activate() : it.deactivate();
+    ( active || countdown ) ? it.activate() : it.deactivate();
+    it.set_counter( countdown > 0 ? countdown : it.type->countdown_interval );
     // Check for gaining or losing night vision, eye encumbrance effects, clairvoyance from transforming relics, etc.
     p.recalc_sight_limits();
 
@@ -519,8 +519,8 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
         p.add_msg_if_player( m_neutral, _( message ), it.tname() );
     }
 
-    it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
     it.activate();
+    it.set_counter( interval > 0 ? interval : it.type->countdown_interval );
     return 0;
 }
 
@@ -929,8 +929,9 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         cig = item::spawn( lit_item, calendar::turn );
         time_duration converted_time = time_duration::from_minutes( smoking_duration );
 
-        cig->item_counter = to_turns<int>( converted_time );
         cig->activate();
+        cig->set_counter( to_turns<int>( converted_time ) );
+
         p.i_add( std::move( cig ) );
     }
 
@@ -6187,7 +6188,7 @@ auto iuse_flowerpot_plant::on_use_harvest( player &p, item &i, const tripoint & 
 
 auto iuse_flowerpot_plant::on_tick( player &, item &i, const tripoint & ) const -> int
 {
-    if( i.item_counter != 0 ) {
+    if( i.get_counter() != 0 ) {
         return 0;
     }
 
@@ -6200,7 +6201,7 @@ void iuse_flowerpot_plant::update( item &i ) const
     const auto info = get_info( i );
     if( !info.seed_id.is_valid() ) {
         clear_growing_plant( i );
-        i.item_counter = 0;
+        i.set_counter( 0 );
         i.convert( stages[0] );
         i.erase_var( "item_label" );
         i.deactivate();
@@ -6211,16 +6212,16 @@ void iuse_flowerpot_plant::update( item &i ) const
     i.set_var( "item_label", string_format( "%s (%s)", stages[0]->nname( 1 ), info.plant_name() ) );
     switch( info.stage() ) {
         case 0:
-            i.item_counter = 0;
             i.deactivate();
+            i.set_counter( 0 );
             break;
         case 4:
-            i.item_counter = 0;
             i.deactivate();
+            i.set_counter( 0 );
             break;
         default:
-            i.item_counter = to_turns<int>( std::min( info.remaining_time(), 1_hours ) );
             i.activate();
+            i.set_counter( to_turns<int>( std::min( info.remaining_time(), 1_hours ) ) );
             break;
     }
 }
