@@ -7137,19 +7137,8 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "cowboy_hat",
-          "bandana",
-          "jacket_leather",
-          "dress_shirt",
-          "pants_cargo",
-          "boots_larmor",
-          "gloves_leather",
-          "socks"
-        ],
-        "entries": [
-          { "item": "arming_sword", "container-item": "scabbard" }
-        ]
+        "items": [ "cowboy_hat", "bandana", "jacket_leather", "dress_shirt", "pants_cargo", "boots_larmor", "gloves_leather", "socks" ],
+        "entries": [ { "item": "arming_sword", "container-item": "scabbard" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
