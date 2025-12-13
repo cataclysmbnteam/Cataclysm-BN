@@ -407,6 +407,18 @@ if (BACKTRACE)
             set(NCPU 1)
         endif()
 
+        # Set up ccache for libbacktrace if available
+        if (CCACHE_FOUND AND CATA_CCACHE AND CMAKE_C_COMPILER_LAUNCHER)
+            # Join compiler launcher and compiler into a single string for configure
+            set(LIBBACKTRACE_CC_LIST "${CMAKE_C_COMPILER_LAUNCHER}" "${CMAKE_C_COMPILER}")
+            set(LIBBACKTRACE_CXX_LIST "${CMAKE_CXX_COMPILER_LAUNCHER}" "${CMAKE_CXX_COMPILER}")
+            list(JOIN LIBBACKTRACE_CC_LIST " " LIBBACKTRACE_CC)
+            list(JOIN LIBBACKTRACE_CXX_LIST " " LIBBACKTRACE_CXX)
+        else()
+            set(LIBBACKTRACE_CC "${CMAKE_C_COMPILER}")
+            set(LIBBACKTRACE_CXX "${CMAKE_CXX_COMPILER}")
+        endif()
+
         ExternalProject_Add(
             libbacktrace_external
             GIT_REPOSITORY ${LIBBACKTRACE_GIT_REPO}
@@ -416,7 +428,11 @@ if (BACKTRACE)
             SOURCE_DIR "${CMAKE_BINARY_DIR}/libbacktrace/src"
             BINARY_DIR "${CMAKE_BINARY_DIR}/libbacktrace/build"
 
-            CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${LIBBACKTRACE_INSTALL_DIR}
+            CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env
+                CC=${LIBBACKTRACE_CC}
+                CXX=${LIBBACKTRACE_CXX}
+                <SOURCE_DIR>/configure
+                --prefix=${LIBBACKTRACE_INSTALL_DIR}
 
             BUILD_COMMAND make -j${NCPU}
 
