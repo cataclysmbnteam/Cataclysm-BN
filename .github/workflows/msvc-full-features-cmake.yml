@@ -61,10 +61,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
-        with:
-          vs-version: 17.13
+      - name: Setup MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Remove Strawberry Perl from PATH
         run: |
@@ -126,8 +124,8 @@ jobs:
         uses: lukka/run-cmake@v10
         with:
           configurePreset: ${{ env.CMAKE_PRESET }}
+          configurePresetAdditionalArgs: "['-DCMAKE_BUILD_TYPE=RelWithDebInfo']"
           buildPreset: windows-msvc-build
-          buildPresetAdditionalArgs: "['--config', 'RelWithDebInfo']"
 
       - name: Dump logs if build failed
         if: failure()
@@ -138,8 +136,8 @@ jobs:
 
       - name: Compile .mo files for localization
         run: |
-          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
+          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile
 
       - name: Run tests
         run: |
-          .\out\build\$env:CMAKE_PRESET\RelWithDebInfo\cata_test-tiles.exe --rng-seed time
+          .\out\build\$env:CMAKE_PRESET\cata_test-tiles.exe --rng-seed 1

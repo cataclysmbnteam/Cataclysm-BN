@@ -142,11 +142,9 @@ jobs:
         shell: msys2 {0}
         run: lang/compile_mo.sh all
 
-      - name: Install MSBuild (windows msvc)
+      - name: Setup MSVC environment (windows msvc)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v2
-        with:
-          vs-version: 17.13
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install stable CMake
         if: runner.os == 'Windows'
@@ -255,14 +253,13 @@ jobs:
         with:
           configurePreset: windows-tiles-sounds-x64-msvc
           buildPreset: windows-msvc-build
-          configurePresetAdditionalArgs: "['-DRELEASE=ON']"
-          buildPresetAdditionalArgs: "['--config', 'Release']"
+          configurePresetAdditionalArgs: "['-DRELEASE=ON', '-DCMAKE_BUILD_TYPE=Release']"
 
       - name: Prepare distribution (windows msvc)
         if: runner.os == 'Windows'
         run: |
-          cp out/build/windows-tiles-sounds-x64-msvc/Release/cataclysm-bn-tiles.exe .
-          cp out/build/windows-tiles-sounds-x64-msvc/Release/json_formatter.exe tools/format/
+          cp out/build/windows-tiles-sounds-x64-msvc/cataclysm-bn-tiles.exe .
+          cp out/build/windows-tiles-sounds-x64-msvc/json_formatter.exe tools/format/
           .\build-scripts\windist.ps1
           mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.zip
 
