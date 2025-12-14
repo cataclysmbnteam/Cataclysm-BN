@@ -202,9 +202,14 @@ jobs:
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.artifact }}
+          key: ${{ matrix.artifact }}-${{ github.ref_name }}
+          restore-keys: |
+            ${{ matrix.artifact }}-${{ github.ref_name }}
+            ${{ matrix.artifact }}-main
+            ${{ matrix.artifact }}-
           max-size: 500M
           verbose: 2
+          save: ${{ github.event_name != 'pull_request' }}
 
       # macOS setup
       - name: Install runtime dependencies (mac)
@@ -228,9 +233,14 @@ jobs:
         if: runner.os == 'macOS'
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.artifact }}
+          key: ${{ matrix.artifact }}-${{ github.ref_name }}
+          restore-keys: |
+            ${{ matrix.artifact }}-${{ github.ref_name }}
+            ${{ matrix.artifact }}-main
+            ${{ matrix.artifact }}-
           max-size: 500M
           verbose: 2
+          save: ${{ github.event_name != 'pull_request' }}
 
       # Build with CMake (Linux)
       - name: Configure with CMake (Linux)
@@ -295,9 +305,14 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != '' && matrix.android != 'none'
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.artifact }}
+          key: ${{ matrix.artifact }}-${{ github.ref_name }}
+          restore-keys: |
+            ${{ matrix.artifact }}-${{ github.ref_name }}
+            ${{ matrix.artifact }}-main
+            ${{ matrix.artifact }}-
           max-size: 500M
           verbose: 2
+          save: ${{ github.event_name != 'pull_request' }}
 
       - name: Build CBN (android)
         if: runner.os == 'Linux' && matrix.android != '' && matrix.android != 'none'
