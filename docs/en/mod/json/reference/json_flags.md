@@ -1439,6 +1439,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   spawn a fellow NPC on game start.
 - `SCEN_ONLY` Profession can be chosen only as part of the appropriate scenario.
 - `VEH_GROUNDED` Profession vehicle is forced to be on the ground even if it can float
+
 #### Season Flags
 
 - `AUT_START` ... start in autumn.
