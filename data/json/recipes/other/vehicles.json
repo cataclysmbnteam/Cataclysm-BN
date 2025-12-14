@@ -1335,13 +1335,14 @@
     "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "pipe", -1 ] ] ],
     "components": [ [ [ "steel_lump", 6 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
   {
@@ -1353,13 +1354,14 @@
     "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "pipe", -1 ] ] ],
     "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
   {
@@ -1371,13 +1373,14 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "pipe", -1 ] ] ],
     "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
@@ -1389,13 +1392,14 @@
     "difficulty": 6,
     "time": "1 h 30m",
     "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "pipe", -1 ] ] ],
     "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
@@ -1407,13 +1411,14 @@
     "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "pipe", -1 ] ] ],
     "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
@@ -1425,13 +1430,14 @@
     "difficulty": 7,
     "time": "1 h 30m",
     "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "pipe", -1 ] ] ],
     "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
