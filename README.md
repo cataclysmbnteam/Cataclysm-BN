@@ -48,6 +48,10 @@ Here are the commands for some of the most popular distro families:
 
 The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), which can handle both BN and DDA (it defaults to DDA, so be sure to change it in the top menu!)
 
+### Third Party Mods
+
+Bright Nights uses a [mod registry](https://mods.cataclysmbn.org/) for easier discovery of mods not shipped with the main game.
+
 ### Source Code
 
 [![Source Code][source-badge]][source] [![Zip Archive][clone-badge]][clone]
