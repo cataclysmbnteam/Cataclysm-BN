@@ -7123,5 +7123,49 @@
       },
       "female": [ "chestwrap" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "airship_pilot",
+    "name": "Airship Pilot",
+    "description": "You once led a crew of skyfarers, traveling the skies for fame, bricks and sand. Now you are on your own, and the ground is swarming with zombies.  At least this world has ground...",
+    "skills": [
+      { "level": 4, "name": "driving" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 2, "name": "speech" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "cutting" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "cowboy_hat", "bandana", "jacket_leather", "dress_shirt", "pants_cargo", "boots_larmor", "gloves_leather", "socks" ],
+        "entries": [ { "item": "arming_sword", "container-item": "scabbard" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "vehicle": "airship",
+    "points": 7,
+    "flags": [ "SCEN_ONLY", "VEH_GROUNDED" ]
+  },
+  {
+    "type": "profession",
+    "id": "airboat_pilot",
+    "name": "Airboat Pilot",
+    "description": "You once led a crew of skyfarers, traveling the skies for fame, bricks and sand. Now you are on your own, and the ground is swarming with zombies.  At least this world has ground...",
+    "copy-from": "airship_pilot",
+    "vehicle": "airboat",
+    "points": 6,
+    "flags": [ "SCEN_ONLY", "VEH_GROUNDED" ]
+  },
+  {
+    "type": "profession",
+    "id": "aircanoe_pilot",
+    "name": "Aircanoe Pilot",
+    "description": "You once led a crew of skyfarers, traveling the skies for fame, bricks and sand. Now you are on your own, and the ground is swarming with zombies.  At least this world has ground...",
+    "copy-from": "airship_pilot",
+    "vehicle": "aircanoe",
+    "points": 5,
+    "flags": [ "SCEN_ONLY", "VEH_GROUNDED" ]
   }
 ]

@@ -745,7 +745,10 @@
       "medic_pilot",
       "gyro_pilot",
       "bird_pilot",
-      "mili_pilot_blackhawk"
+      "mili_pilot_blackhawk",
+      "airship_pilot",
+      "airboat_pilot",
+      "aircanoe_pilot"
     ],
     "flags": [ "LONE_START" ]
   },
