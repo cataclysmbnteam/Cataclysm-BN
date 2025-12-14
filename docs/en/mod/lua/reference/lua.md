@@ -9289,7 +9289,7 @@ Documentation for hooks
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when character is on the effect which has `LUA_ON_TICK` flag.\
+> Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.\
 > The hook receives a table with keys:
 >
 > - `character` (<code>[Character](#sol::Character)</code>)
@@ -9299,7 +9299,7 @@ Documentation for hooks
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when character gets the effect which has `LUA_ON_ADDED` flag.\
+> Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
 > The hook receives a table with keys:
 >
 > - `char` (<code>[Character](#sol::Character)</code>)
@@ -9309,7 +9309,7 @@ Documentation for hooks
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when monster gets the effect which has `LUA_ON_ADDED` flag.\
+> Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
 > The hook receives a table with keys:
 >
 > - `mon` (<code>[Monster](#sol::Monster)</code>)
@@ -9329,7 +9329,7 @@ Documentation for hooks
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when character is on the effect which has `LUA_ON_TICK` flag.\
+> Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.\
 > The hook receives a table with keys:
 >
 > - `mon` (<code>[Monster](#sol::Monster)</code>)

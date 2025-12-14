@@ -2528,8 +2528,8 @@ gdebug = {}
 --- Documentation for hooks
 ---@class hooks
 ---@field on_character_death fun(params: table) @Called when a character is dead.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `killer` (Creature)  
----@field on_character_effect fun(params: table) @Called when character is on the effect which has `LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `character` (Character)  <br />* `effect` (Effect)  
----@field on_character_effect_added fun(params: table) @Called when character gets the effect which has `LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `effect` (Effect)  
+---@field on_character_effect fun(params: table) @Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `character` (Character)  <br />* `effect` (Effect)  
+---@field on_character_effect_added fun(params: table) @Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `effect` (Effect)  
 ---@field on_character_reset_stats fun(params: table) @Called when character stat gets reset.  <br />The hook receives a table with keys:  <br />* `character` (Character)  
 ---@field on_creature_blocked fun(params: table) @Called when a character successfully blocks.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `source` (Creature)  <br />* `bodypart_id` (BodyPartTypeId)  <br />* `damage_instance` (DamageInstance)  <br />* `damage_blocked` (float)  
 ---@field on_creature_dodged fun(params: table) @Called when a character or monster successfully dodges.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `source` (Creature)  <br />* `difficulty` (integer)  
@@ -2541,8 +2541,8 @@ gdebug = {}
 ---@field on_game_started fun() @Called when the game has first started.
 ---@field on_mapgen_postprocess fun(params: table) @Called right after mapgen has completed.  <br />The hook receives a table with keys:  <br />* `map` (Map): The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  <br />* `omt` (Tripoint): The absolute overmap pos.  <br />* `when` (TimePoint): The current time (for time-based effects).  
 ---@field on_mon_death fun(params: table) @Called when a monster is dead.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `killer` (Creature)  
----@field on_mon_effect fun(params: table) @Called when character is on the effect which has `LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
----@field on_mon_effect_added fun(params: table) @Called when monster gets the effect which has `LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
+---@field on_mon_effect fun(params: table) @Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
+---@field on_mon_effect_added fun(params: table) @Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
 hooks = {}
 
 --- Localization API.

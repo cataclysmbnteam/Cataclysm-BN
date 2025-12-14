@@ -492,14 +492,14 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_reset_stats", []( const sol::table & ) {} );
 
-    DOC( "Called when character gets the effect which has `LUA_ON_ADDED` flag.  " );
+    DOC( "Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `char` (Character)  " );
     DOC( "* `effect` (Effect)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_effect_added", []( const sol::table & ) {} );
 
-    DOC( "Called when character is on the effect which has `LUA_ON_TICK` flag.  " );
+    DOC( "Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `character` (Character)  " );
     DOC( "* `effect` (Effect)  " );
@@ -513,14 +513,14 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_death", []( const sol::table & ) {} );
 
-    DOC( "Called when monster gets the effect which has `LUA_ON_ADDED` flag.  " );
+    DOC( "Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `mon` (Monster)  " );
     DOC( "* `effect` (Effect)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_mon_effect_added", []( const sol::table & ) {} );
 
-    DOC( "Called when character is on the effect which has `LUA_ON_TICK` flag.  " );
+    DOC( "Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `mon` (Monster)  " );
     DOC( "* `effect` (Effect)  " );
