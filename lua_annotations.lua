@@ -488,7 +488,7 @@ function CharacterId.new() end
 ---@field get_dodge fun(self: Creature): number
 ---@field get_dodge_base fun(self: Creature): number
 ---@field get_dodge_bonus fun(self: Creature): number
----@field get_effect fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): any
+---@field get_effect fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): Effect
 ---@field get_effect_dur fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): TimeDuration
 ---@field get_effect_int fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): integer
 ---@field get_env_resist fun(self: Creature, arg2: BodyPartTypeIntId): integer
@@ -638,6 +638,51 @@ function DistributionGrid.new() end
 DistributionGridTracker = {}
 ---@return DistributionGridTracker
 function DistributionGridTracker.new() end
+
+---@class Effect
+---@field activated fun(self: Effect, arg2: TimePoint, arg3: string, arg4: integer, arg5: boolean, arg6: number): boolean
+---@field decay fun(self: Effect, arg2: TimePoint, arg3: boolean): boolean
+---@field disp_desc fun(self: Effect, arg2: boolean): string
+---@field disp_name fun(self: Effect): string
+---@field disp_short_desc fun(self: Effect, arg2: boolean): string
+---@field get_addict_mod fun(self: Effect, arg2: string, arg3: integer): number
+---@field get_amount fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_avg_mod fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_blocks_effects fun(self: Effect): EffectTypeId[]
+---@field get_bp fun(self: Effect): BodyPartTypeId
+---@field get_dur_add_perc fun(self: Effect): integer
+---@field get_duration fun(self: Effect): TimeDuration
+---@field get_harmful_cough fun(self: Effect): boolean
+---@field get_id fun(self: Effect): EffectTypeId
+---@field get_int_add_val fun(self: Effect): integer
+---@field get_int_dur_factor fun(self: Effect): TimeDuration
+---@field get_intensity fun(self: Effect): integer
+---@field get_max_duration fun(self: Effect): TimeDuration
+---@field get_max_intensity fun(self: Effect): integer
+---@field get_max_val fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_min_val fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_mod fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_percentage fun(self: Effect, arg2: string, arg3: integer, arg4: boolean): number
+---@field get_removes_effects fun(self: Effect): EffectTypeId[]
+---@field get_resist_effects fun(self: Effect): EffectTypeId[]
+---@field get_resist_traits fun(self: Effect): MutationBranchId[]
+---@field get_sizing fun(self: Effect, arg2: string): boolean
+---@field get_start_time fun(self: Effect): TimePoint
+---@field get_type fun(self: Effect): EffectTypeRaw
+---@field has_flag fun(self: Effect, arg2: JsonFlagId): boolean
+---@field is_permanent fun(self: Effect): boolean
+---@field mod_duration fun(self: Effect, arg2: TimeDuration, arg3: boolean)
+---@field mod_intensity fun(self: Effect, arg2: integer, arg3: boolean): integer
+---@field mult_duration fun(self: Effect, arg2: number, arg3: boolean)
+---@field set_duration fun(self: Effect, arg2: TimeDuration, arg3: boolean)
+---@field set_intensity fun(self: Effect, arg2: integer, arg3: boolean): integer
+---@field set_permanent fun(self: Effect)
+---@field use_part_descs fun(self: Effect): boolean
+---@field serialize fun(self: Effect, arg2: any)
+---@field deserialize fun(self: Effect, arg2: any)
+Effect = {}
+---@return Effect
+function Effect.new() end
 
 ---@class EffectTypeId
 ---@field NULL_ID fun(): EffectTypeId

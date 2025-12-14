@@ -1906,7 +1906,7 @@ No constructors.
 
 #### get_effect {#sol::Creature::get_effect}
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> CppVal&lt;effect&gt;</code>
+🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> [Effect](#sol::Effect)</code>
 
 #### has_effect {#sol::Creature::has_effect}
 
@@ -1916,7 +1916,7 @@ No constructors.
 
 🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [TimeDuration](#sol::TimeDuration), [BodyPartTypeId](#sol::BodyPartTypeId), integer )</code>
 
-> Effect type, duration, bodypart and intensity
+> <code>[Effect](#sol::Effect)</code> type, duration, bodypart and intensity
 
 #### clear_effects {#sol::Creature::clear_effects}
 
@@ -2179,6 +2179,170 @@ No constructors.
 #### get_grid_at_abs_ms {#sol::DistributionGridTracker::get_grid_at_abs_ms}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [DistributionGrid](#sol::DistributionGrid)</code>
+
+## Effect {#sol::Effect}
+
+### Bases {#sol::Effect::@bases}
+
+No base classes.
+
+### Constructors {#sol::Effect::@ctors}
+
+No constructors.
+
+### Members {#sol::Effect::@members}
+
+#### get_id {#sol::Effect::get_id}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)</code>
+
+#### get_max_val {#sol::Effect::get_max_val}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_sizing {#sol::Effect::get_sizing}
+
+🇲 Method --> <code>( string ) -> boolean</code>
+
+#### get_percentage {#sol::Effect::get_percentage}
+
+🇲 Method --> <code>( string, integer, boolean ) -> number</code>
+
+#### get_min_val {#sol::Effect::get_min_val}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_avg_mod {#sol::Effect::get_avg_mod}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_amount {#sol::Effect::get_amount}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_mod {#sol::Effect::get_mod}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_blocks_effects {#sol::Effect::get_blocks_effects}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)[]</code>
+
+#### activated {#sol::Effect::activated}
+
+🇲 Method --> <code>( [TimePoint](#sol::TimePoint), string, integer, boolean, number ) -> boolean</code>
+
+#### get_addict_mod {#sol::Effect::get_addict_mod}
+
+🇲 Method --> <code>( string, integer ) -> number</code>
+
+#### is_permanent {#sol::Effect::is_permanent}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### set_permanent {#sol::Effect::set_permanent}
+
+🇲 Method --> <code>( )</code>
+
+#### has_flag {#sol::Effect::has_flag}
+
+🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) ) -> boolean</code>
+
+#### get_int_add_val {#sol::Effect::get_int_add_val}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_dur_add_perc {#sol::Effect::get_dur_add_perc}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_int_dur_factor {#sol::Effect::get_int_dur_factor}
+
+🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### get_harmful_cough {#sol::Effect::get_harmful_cough}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### get_removes_effects {#sol::Effect::get_removes_effects}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)[]</code>
+
+#### get_resist_effects {#sol::Effect::get_resist_effects}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)[]</code>
+
+#### get_resist_traits {#sol::Effect::get_resist_traits}
+
+🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
+
+#### get_type {#sol::Effect::get_type}
+
+🇲 Method --> <code>( ) -> EffectTypeRaw</code>
+
+#### decay {#sol::Effect::decay}
+
+🇲 Method --> <code>( [TimePoint](#sol::TimePoint), boolean ) -> boolean</code>
+
+#### get_duration {#sol::Effect::get_duration}
+
+🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### use_part_descs {#sol::Effect::use_part_descs}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### disp_desc {#sol::Effect::disp_desc}
+
+🇲 Method --> <code>( boolean ) -> string</code>
+
+#### disp_short_desc {#sol::Effect::disp_short_desc}
+
+🇲 Method --> <code>( boolean ) -> string</code>
+
+#### disp_name {#sol::Effect::disp_name}
+
+🇲 Method --> <code>( ) -> string</code>
+
+#### get_max_duration {#sol::Effect::get_max_duration}
+
+🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### set_duration {#sol::Effect::set_duration}
+
+🇲 Method --> <code>( [TimeDuration](#sol::TimeDuration), boolean )</code>
+
+#### mod_duration {#sol::Effect::mod_duration}
+
+🇲 Method --> <code>( [TimeDuration](#sol::TimeDuration), boolean )</code>
+
+#### set_intensity {#sol::Effect::set_intensity}
+
+🇲 Method --> <code>( integer, boolean ) -> integer</code>
+
+#### mod_intensity {#sol::Effect::mod_intensity}
+
+🇲 Method --> <code>( integer, boolean ) -> integer</code>
+
+#### get_max_intensity {#sol::Effect::get_max_intensity}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_intensity {#sol::Effect::get_intensity}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_bp {#sol::Effect::get_bp}
+
+🇲 Method --> <code>( ) -> [BodyPartTypeId](#sol::BodyPartTypeId)</code>
+
+#### get_start_time {#sol::Effect::get_start_time}
+
+🇲 Method --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+
+#### mult_duration {#sol::Effect::mult_duration}
+
+🇲 Method --> <code>( number, boolean )</code>
 
 ## EffectTypeId {#sol::EffectTypeId}
 
@@ -9129,7 +9293,7 @@ Documentation for hooks
 > The hook receives a table with keys:
 >
 > - `character` (<code>[Character](#sol::Character)</code>)
-> - `effect` (Effect)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_character_effect_added {#sol::nil::on_character_effect_added}
 
@@ -9139,7 +9303,7 @@ Documentation for hooks
 > The hook receives a table with keys:
 >
 > - `char` (<code>[Character](#sol::Character)</code>)
-> - `effect` (Effect)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_mon_effect_added {#sol::nil::on_mon_effect_added}
 
@@ -9149,7 +9313,7 @@ Documentation for hooks
 > The hook receives a table with keys:
 >
 > - `mon` (<code>[Monster](#sol::Monster)</code>)
-> - `effect` (Effect)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_mon_death {#sol::nil::on_mon_death}
 
@@ -9169,7 +9333,7 @@ Documentation for hooks
 > The hook receives a table with keys:
 >
 > - `mon` (<code>[Monster](#sol::Monster)</code>)
-> - `effect` (Effect)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_every_x {#sol::nil::on_every_x}
 

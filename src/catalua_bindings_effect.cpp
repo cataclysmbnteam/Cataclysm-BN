@@ -55,5 +55,8 @@ void cata::detail::reg_effect( sol::state &lua )
         SET_FX( get_int_add_val );
         SET_FX( is_permanent );
         SET_FX( set_permanent );
+
+        reg_serde_functions( ut );
     }
+#undef UT_CLASS
 }
