@@ -745,7 +745,10 @@
       "medic_pilot",
       "gyro_pilot",
       "bird_pilot",
-      "mili_pilot_blackhawk"
+      "mili_pilot_blackhawk",
+      "airship_pilot",
+      "airboat_pilot",
+      "aircanoe_pilot"
     ],
     "flags": [ "LONE_START" ]
   },
@@ -858,17 +861,5 @@
       "prof_combat_engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
-    "id": "airship_pilot_scenario",
-    "name": "Airship Pilot",
-    "points": 0,
-    "description": "An island that floats in water, not in the sky? What sorcery is this?\nIn case your vehicle spawns way off the shore: esc > debug menu > teleport > teleport - short range",
-    "//": "Any vehicle that floats MUST spawn in water it seems",
-    "allowed_locs": [ "sloc_deserted_island" ],
-    "professions": [ "airship_pilot", "airboat_pilot", "aircanoe_pilot" ],
-    "start_name": "Lake Surface",
-    "flags": [ "LONE_START" ]
   }
 ]
