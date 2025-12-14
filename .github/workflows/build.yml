@@ -232,13 +232,12 @@ jobs:
           save: ${{ github.event_name != 'pull_request' }}
 
       # Build with CMake (Linux)
-      - name: Configure with CMake (Linux)
+      - name: Configure and Build with CMake (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
-        run: cmake --preset ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }}
-
-      - name: Build with CMake (Linux)
-        if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
-        run: cmake --build --preset ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }} --parallel $(nproc)
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }}
+          buildPreset: ${{ matrix.tiles && 'dist-tiles' || 'dist-curses' }}
 
       - name: Create distribution package (Linux)
         if: runner.os == 'Linux' && (matrix.android == '' || matrix.android == 'none')
@@ -248,17 +247,16 @@ jobs:
             cataclysmbn-${{ inputs.version-label }}
 
       # Build with CMake (Windows MSVC)
-      - name: Configure CBN (windows msvc)
+      - name: Configure and Build CBN (windows msvc)
         if: runner.os == 'Windows'
+        uses: lukka/run-cmake@v10
         env:
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
-        run: |
-          cmake --preset windows-tiles-sounds-x64-msvc -DRELEASE=ON
-
-      - name: Build CBN (windows msvc)
-        if: runner.os == 'Windows'
-        run: |
-          cmake --build out/build/windows-tiles-sounds-x64-msvc --config Release --parallel
+        with:
+          configurePreset: windows-tiles-sounds-x64-msvc
+          buildPreset: windows-msvc-build
+          configurePresetAdditionalArgs: "['-DRELEASE=ON']"
+          buildPresetAdditionalArgs: "['--config', 'Release']"
 
       - name: Prepare distribution (windows msvc)
         if: runner.os == 'Windows'

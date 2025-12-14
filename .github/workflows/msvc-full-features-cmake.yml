@@ -122,15 +122,12 @@ jobs:
           variant: sccache
           save: ${{ github.event_name != 'pull_request' }}
 
-      - uses: ammaraskar/msvc-problem-matcher@master
-      - name: Configure
-        run: |
-          cmake -DTESTS=ON --preset $env:CMAKE_PRESET
-
-      - uses: ammaraskar/msvc-problem-matcher@master
-      - name: Build
-        run: |
-          cmake --build out/build/$env:CMAKE_PRESET --config RelWithDebInfo
+      - name: Configure and Build
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ${{ env.CMAKE_PRESET }}
+          buildPreset: windows-msvc-build
+          buildPresetAdditionalArgs: "['--config', 'RelWithDebInfo']"
 
       - name: Dump logs if build failed
         if: failure()

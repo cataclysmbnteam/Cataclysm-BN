@@ -147,9 +147,61 @@
         "TESTS": "OFF",
         "JSON_FORMAT": "ON"
       }
+    },
+    {
+      "name": "ci-curses",
+      "binaryDir": "${sourceDir}/build",
+      "displayName": "CI Build (Curses)",
+      "description": "CI build configuration for curses with GCC.",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-14",
+        "CMAKE_CXX_COMPILER": "g++-14",
+        "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "TILES": "OFF",
+        "CURSES": "ON",
+        "SOUND": "OFF",
+        "LOCALIZE": "OFF",
+        "BACKTRACE": "ON",
+        "LIBBACKTRACE": "ON",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "JSON_FORMAT": "ON",
+        "TESTS": "ON"
+      }
+    },
+    {
+      "name": "ci-tiles",
+      "binaryDir": "${sourceDir}/build",
+      "displayName": "CI Build (Tiles, Sound)",
+      "description": "CI build configuration for tiles and sound with GCC.",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-14",
+        "CMAKE_CXX_COMPILER": "g++-14",
+        "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "TILES": "ON",
+        "CURSES": "OFF",
+        "SOUND": "ON",
+        "LOCALIZE": "ON",
+        "LANGUAGES": "all",
+        "BACKTRACE": "ON",
+        "LIBBACKTRACE": "OFF",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "JSON_FORMAT": "OFF",
+        "TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
+    {
+      "name": "windows-msvc-build",
+      "configurePreset": "windows-tiles-sounds-x64-msvc",
+      "description": "Build for Windows with tiles and sounds using MSVC."
+    },
     {
       "name": "linux-slim",
       "configurePreset": "linux-slim",
@@ -177,6 +229,16 @@
       "configurePreset": "lint",
       "targets": ["json_formatter"],
       "description": "Build formatting tools only."
+    },
+    {
+      "name": "ci-curses",
+      "configurePreset": "ci-curses",
+      "description": "CI build for curses."
+    },
+    {
+      "name": "ci-tiles",
+      "configurePreset": "ci-tiles",
+      "description": "CI build for tiles and sound."
     }
   ]
 }
