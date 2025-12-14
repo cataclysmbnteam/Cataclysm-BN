@@ -152,6 +152,7 @@ LUNA_DOC( sol::lua_nil_t, "nil" );
 LUNA_DOC( sol::variadic_args, "..." );
 LUNA_DOC( sol::this_state, "<this_state>" );
 LUNA_DOC( sol::protected_function, "function" );
+LUNA_DOC( sol::table, "table" );
 
 
 // These definitions are for the bindings generator

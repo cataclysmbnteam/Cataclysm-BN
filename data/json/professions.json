@@ -785,7 +785,7 @@
     "name": "Churl",
     "starting_cash": 0,
     "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous Cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
-    "points": 1,
+    "points": -7,
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "small_relic", "gloves_wraps", "tunic_rag" ],
@@ -919,7 +919,8 @@
       { "level": 2, "name": "fabrication" },
       { "level": 1, "name": "cooking" }
     ],
-    "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
+    "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ],
+    "flags": [ "VEH_GROUNDED" ]
   },
   {
     "type": "profession",

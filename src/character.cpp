@@ -471,6 +471,9 @@ void Character::swap_character( Character &other, Character &tmp )
     tmp = std::move( other );
     other = std::move( *this );
     *this = std::move( tmp );
+    // Reset the dead state cache for both characters since HP values were swapped
+    reset_cached_dead_state();
+    other.reset_cached_dead_state();
 }
 
 void Character::move_operator_common( Character &&source ) noexcept
@@ -667,6 +670,11 @@ auto Character::is_dead_state() const -> bool
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
     return cached_dead_state.value();
+}
+
+void Character::reset_cached_dead_state()
+{
+    cached_dead_state.reset();
 }
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )

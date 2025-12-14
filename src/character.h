@@ -299,6 +299,8 @@ class Character : public Creature, public location_visitable<Character>
 
         /** Returns true if the character should be dead */
         auto is_dead_state() const -> bool override;
+        /** Invalidates the cached dead state, forcing recomputation on next is_dead_state() call */
+        void reset_cached_dead_state();
 
     protected:
         mutable std::optional<bool> cached_dead_state;
