@@ -161,7 +161,7 @@ jobs:
         if: runner.os == 'Windows'
         run: vcpkg integrate install
 
-      - name: Export GitHub Actions cache environment variables
+      - name: Export GitHub Actions cache environment variables (Windows)
         if: runner.os == 'Windows'
         uses: actions/github-script@v7
         with:
@@ -169,14 +169,23 @@ jobs:
             core.exportVariable("ACTIONS_CACHE_URL", process.env.ACTIONS_CACHE_URL || "")
             core.exportVariable("ACTIONS_RUNTIME_TOKEN", process.env.ACTIONS_RUNTIME_TOKEN || "")
 
+      - name: Enable sccache GitHub Actions cache (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
+
       - name: Setup sccache (Windows)
         if: runner.os == 'Windows'
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.artifact }}
+          key: windows-${{ matrix.artifact }}
+          restore-keys: |
+            windows-${{ matrix.artifact }}
+            windows-
           max-size: 500M
           verbose: 2
           variant: sccache
+          save: ${{ github.event_name != 'pull_request' }}
 
       # Linux setup
       - name: Install dependencies (Linux)
@@ -245,10 +254,7 @@ jobs:
         env:
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
-          cmake --preset windows-tiles-sounds-x64-msvc `
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache `
-            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache `
-            -DRELEASE=ON
+          cmake --preset windows-tiles-sounds-x64-msvc -DRELEASE=ON
 
       - name: Build CBN (windows msvc)
         if: runner.os == 'Windows'

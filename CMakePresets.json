@@ -19,6 +19,7 @@
         "DYNAMIC_LINKING": "False",
         "CMAKE_CONFIGURATION_TYPES": "Debug;RelWithDebInfo;Release",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_MSVC_DEBUG_INFORMATION_FORMAT": "Embedded",
         "CMAKE_C_COMPILER_LAUNCHER": "sccache",
         "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
         "CURSES": "False",
