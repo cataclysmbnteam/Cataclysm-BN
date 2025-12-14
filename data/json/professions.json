@@ -7165,6 +7165,6 @@
     "copy-from": "airship_pilot",
     "vehicle": "aircanoe",
     "points": 5,
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "VEH_GROUNDED" ]
   }
 ]
