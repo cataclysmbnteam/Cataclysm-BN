@@ -7145,7 +7145,7 @@
     },
     "vehicle": "airship",
     "points": 7,
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "VEH_GROUNDED" ]
   },
   {
     "type": "profession",
