@@ -919,7 +919,8 @@
       { "level": 2, "name": "fabrication" },
       { "level": 1, "name": "cooking" }
     ],
-    "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ]
+    "traits": [ "OUTDOORSMAN", "ANTIJUNK", "STRONGSTOMACH", "UNSTYLISH" ],
+    "flags": [ "VEH_GROUNDED" ]
   },
   {
     "type": "profession",
