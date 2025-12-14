@@ -7155,7 +7155,7 @@
     "copy-from": "airship_pilot",
     "vehicle": "airboat",
     "points": 6,
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "VEH_GROUNDED" ]
   },
   {
     "type": "profession",
