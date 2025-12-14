@@ -244,7 +244,6 @@ jobs:
           tar -czvf cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.tar.gz \
             cataclysmbn-${{ inputs.version-label }}
 
-      # Build with CMake (Windows MSVC)
       - name: Configure and Build CBN (windows msvc)
         if: runner.os == 'Windows'
         uses: lukka/run-cmake@v10
@@ -253,15 +252,13 @@ jobs:
         with:
           configurePreset: windows-tiles-sounds-x64-msvc
           buildPreset: windows-msvc-build
-          configurePresetAdditionalArgs: "['-DRELEASE=ON', '-DCMAKE_BUILD_TYPE=Release']"
+          configurePresetAdditionalArgs: "['-DRELEASE=ON', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_C_COMPILER_LAUNCHER=C:/Users/runneradmin/.cargo/bin/sccache.exe', '-DCMAKE_CXX_COMPILER_LAUNCHER=C:/Users/runneradmin/.cargo/bin/sccache.exe']"
 
-      - name: Prepare distribution (windows msvc)
+      - name: Create distribution package (windows msvc)
         if: runner.os == 'Windows'
         run: |
-          cp out/build/windows-tiles-sounds-x64-msvc/cataclysm-bn-tiles.exe .
-          cp out/build/windows-tiles-sounds-x64-msvc/json_formatter.exe tools/format/
-          .\build-scripts\windist.ps1
-          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.zip
+          cmake --install out/build/windows-tiles-sounds-x64-msvc --prefix cataclysmbn-${{ inputs.version-label }}
+          Compress-Archive -Force -Path cataclysmbn-${{ inputs.version-label }}/* -DestinationPath cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.zip
 
       # Build with Make (macOS) - TODO: migrate to CMake once dmgdist target is implemented
       - name: Build CBN (osx)
