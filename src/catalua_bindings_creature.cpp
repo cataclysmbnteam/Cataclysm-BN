@@ -122,6 +122,17 @@ void cata::detail::reg_creature( sol::state &lua )
             }
         } );
 
+        luna::set_fx( ut, "get_effect", []( Creature & cr, const efftype_id & eff,
+        sol::optional<const bodypart_str_id &> bpid ) -> effect & {
+            if( bpid.has_value() )
+            {
+                return cr.get_effect( eff, *bpid );
+            } else
+            {
+                return cr.get_effect( eff );
+            }
+        } );
+
         luna::set_fx( ut, "has_effect_with_flag", []( const Creature & cr,
         const flag_id & flag, sol::optional<const bodypart_str_id &> bpid ) -> bool {
             const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
