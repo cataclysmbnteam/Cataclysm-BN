@@ -11,7 +11,17 @@
       [ "O-++-O>" ]
     ],
     "parts": [
-      { "x": -3, "y": 1, "parts": [ "hdframe_horizontal", "plating_steel", "turret_mount", "m249", "hddoor_opaque" ] },
+      {
+        "x": -3,
+        "y": 1,
+        "parts": [
+          "hdframe_horizontal",
+          "plating_steel",
+          "turret_mount",
+          { "part": "m249", "ammo": 60, "ammo_types": [ "556" ], "ammo_qty": [ 10, 100 ] },
+          "hddoor_opaque"
+        ]
+      },
       {
         "x": 2,
         "y": 2,
@@ -21,7 +31,15 @@
       {
         "x": 0,
         "y": 2,
-        "parts": [ "hdframe_vertical_2", "seat", "seatbelt", "hdroof", { "part": "tank", "fuel": "diesel" }, "turret_mount", "m249" ]
+        "parts": [
+          "hdframe_vertical_2",
+          "seat",
+          "seatbelt",
+          "hdroof",
+          { "part": "tank", "fuel": "diesel" },
+          "turret_mount",
+          { "part": "m249", "ammo": 80, "ammo_types": [ "556" ], "ammo_qty": [ 10, 100 ] }
+        ]
       },
       { "x": 1, "y": 3, "parts": [ "hdframe_vertical", "reinforced_windshield" ] },
       {
