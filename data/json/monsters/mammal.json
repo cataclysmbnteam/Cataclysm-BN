@@ -1946,7 +1946,17 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "MOUNTABLE_STAIRS", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "MOUNTABLE_STAIRS",
+      "PATH_AVOID_DANGER_1",
+      "WARM"
+    ]
   },
   {
     "id": "mon_lemming",
