@@ -252,7 +252,7 @@ jobs:
         with:
           configurePreset: windows-tiles-sounds-x64-msvc
           buildPreset: windows-msvc-build
-          configurePresetAdditionalArgs: "['-DRELEASE=ON', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_C_COMPILER_LAUNCHER=C:/Users/runneradmin/.cargo/bin/sccache.exe', '-DCMAKE_CXX_COMPILER_LAUNCHER=C:/Users/runneradmin/.cargo/bin/sccache.exe']"
+          configurePresetAdditionalArgs: "['-DRELEASE=ON', '-DCMAKE_BUILD_TYPE=Release']"
 
       - name: Create distribution package (windows msvc)
         if: runner.os == 'Windows'
