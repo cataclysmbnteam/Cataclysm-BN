@@ -117,6 +117,12 @@ jobs:
           verbose: 2
           save: ${{ github.event_name != 'pull_request' }}
 
+      - name: Configure ccache for MSVC
+        run: |
+          echo "CCACHE_BASEDIR=${{ github.workspace }}" >> $env:GITHUB_ENV
+          echo "CCACHE_SLOPPINESS=include_file_ctime,include_file_mtime,time_macros,pch_defines" >> $env:GITHUB_ENV
+          echo "CCACHE_NOHASHDIR=1" >> $env:GITHUB_ENV
+
       - name: Configure and Build
         uses: lukka/run-cmake@v10
         with:
@@ -134,6 +140,10 @@ jobs:
       - name: Compile .mo files for localization
         run: |
           cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
+
+      - name: ccache stats
+        run: |
+          ccache -s -vv
 
       - name: Run tests
         run: |
