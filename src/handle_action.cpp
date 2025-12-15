@@ -1834,6 +1834,18 @@ bool game::handle_action()
                 }
                 break;
             case ACTION_MOVE_DOWN:
+                if( u.is_mounted() ) {
+                    const monster *mon = u.mounted_creature.get();
+
+                    const bool can_use_stairs =
+                        !mon->has_flag( MF_MOUNTABLE_STAIRS ) ||
+                        mon->has_flag( MF_FLIES );
+
+                    if( !can_use_stairs ) {
+                        add_msg( m_info, _( "Your mount can't go downstairs while riding." ) );
+                        break;
+                    }
+                }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
@@ -1865,6 +1877,18 @@ bool game::handle_action()
                 break;
 
             case ACTION_MOVE_UP:
+                if( u.is_mounted() ) {
+                    const monster *mon = u.mounted_creature.get();
+
+                    const bool can_use_stairs =
+                        !mon->has_flag( MF_MOUNTABLE_STAIRS ) ||
+                        mon->has_flag( MF_FLIES );
+
+                    if( !can_use_stairs ) {
+                        add_msg( m_info, _( "Your mount can't go upstairs while riding." ) );
+                        break;
+                    }
+                }
                 if( !u.in_vehicle ) {
                     bool moved = false;
                     point xy = u.pos().xy();

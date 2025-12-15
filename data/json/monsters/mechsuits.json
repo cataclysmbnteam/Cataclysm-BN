@@ -43,6 +43,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MOUNTABLE_STAIRS",
       "MECH_DEFENSIVE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2"
@@ -92,6 +93,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MOUNTABLE_STAIRS",
       "MECH_DEFENSIVE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
@@ -142,6 +144,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MOUNTABLE_STAIRS",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES"
