@@ -61,7 +61,10 @@ if (LINKER)
     add_link_options("-fuse-ld=${LINKER}")
 endif ()
 
-if (NOT CMAKE_BUILD_TYPE)
+# For multi-config generators (e.g. Visual Studio), CMAKE_BUILD_TYPE is not used;
+# the configuration is selected at build time via --config flag.
+get_property(_is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if (NOT CMAKE_BUILD_TYPE AND NOT _is_multi_config)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
 

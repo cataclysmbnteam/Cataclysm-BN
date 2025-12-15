@@ -257,7 +257,7 @@ jobs:
       - name: Create distribution package (windows msvc)
         if: runner.os == 'Windows'
         run: |
-          cmake --install out/build/windows-tiles-sounds-x64-msvc --prefix cataclysmbn-${{ inputs.version-label }}
+          cmake --install out/build/windows-tiles-sounds-x64-msvc --prefix cataclysmbn-${{ inputs.version-label }} --config Release
           Compress-Archive -Force -Path cataclysmbn-${{ inputs.version-label }}/* -DestinationPath cbn-${{ matrix.artifact }}-${{ inputs.version-label }}.zip
 
       # Build with Make (macOS) - TODO: migrate to CMake once dmgdist target is implemented
