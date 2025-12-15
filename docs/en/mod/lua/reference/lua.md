@@ -1640,15 +1640,19 @@ No constructors.
 
 🇲 Method --> <code>( [BodyPartTypeIntId](#sol::BodyPartTypeIntId) ) -> integer</code>
 
-#### get_perceived_pain {#sol::Creature::get_perceived_pain}
-
-🇲 Method --> <code>( ) -> integer</code>
-
 #### get_pain {#sol::Creature::get_pain}
 
 🇲 Method --> <code>( ) -> integer</code>
 
+#### get_perceived_pain {#sol::Creature::get_perceived_pain}
+
+🇲 Method --> <code>( ) -> integer</code>
+
 #### set_pain {#sol::Creature::set_pain}
+
+🇲 Method --> <code>( integer )</code>
+
+#### mod_pain_noresist {#sol::Creature::mod_pain_noresist}
 
 🇲 Method --> <code>( integer )</code>
 
@@ -1676,7 +1680,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> integer</code>
 
-#### mod_pain_noresist {#sol::Creature::mod_pain_noresist}
+#### mod_pain {#sol::Creature::mod_pain}
 
 🇲 Method --> <code>( integer )</code>
 
@@ -1780,13 +1784,13 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### mod_pain {#sol::Creature::mod_pain}
+#### has_trait {#sol::Creature::has_trait}
 
-🇲 Method --> <code>( integer )</code>
+🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
 
-#### get_weight {#sol::Creature::get_weight}
+#### get_value {#sol::Creature::get_value}
 
-🇲 Method --> <code>( ) -> [Mass](#sol::Mass)</code>
+🇲 Method --> <code>( string ) -> string</code>
 
 #### sight_range {#sol::Creature::sight_range}
 
@@ -1876,9 +1880,9 @@ No constructors.
 
 🇲 Method --> <code>( ) -> [Monster](#sol::Monster)</code>
 
-#### has_trait {#sol::Creature::has_trait}
+#### get_weight {#sol::Creature::get_weight}
 
-🇲 Method --> <code>( [MutationBranchId](#sol::MutationBranchId) ) -> boolean</code>
+🇲 Method --> <code>( ) -> [Mass](#sol::Mass)</code>
 
 #### digging {#sol::Creature::digging}
 
@@ -1888,47 +1892,47 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### get_effect_int {#sol::Creature::get_effect_int}
-
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> integer</code>
-
-#### add_effect {#sol::Creature::add_effect}
-
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [TimeDuration](#sol::TimeDuration), [BodyPartTypeId](#sol::BodyPartTypeId), integer )</code>
-
-> Effect type, duration, bodypart and intensity
-
 #### get_effect_dur {#sol::Creature::get_effect_dur}
 
 🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### get_effect_int {#sol::Creature::get_effect_int}
+
+🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> integer</code>
 
 #### has_effect_with_flag {#sol::Creature::has_effect_with_flag}
 
 🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
 
+#### get_effect {#sol::Creature::get_effect}
+
+🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> [Effect](#sol::Effect)</code>
+
 #### has_effect {#sol::Creature::has_effect}
 
 🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
 
-#### remove_effect {#sol::Creature::remove_effect}
+#### add_effect {#sol::Creature::add_effect}
 
-🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
+🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [TimeDuration](#sol::TimeDuration), [BodyPartTypeId](#sol::BodyPartTypeId), integer )</code>
 
-#### set_value {#sol::Creature::set_value}
-
-🇲 Method --> <code>( string, string )</code>
+> <code>[Effect](#sol::Effect)</code> type, duration, bodypart and intensity
 
 #### clear_effects {#sol::Creature::clear_effects}
 
 🇲 Method --> <code>( )</code>
 
-#### get_value {#sol::Creature::get_value}
+#### remove_effect {#sol::Creature::remove_effect}
 
-🇲 Method --> <code>( string ) -> string</code>
+🇲 Method --> <code>( [EffectTypeId](#sol::EffectTypeId), [BodyPartTypeId](#sol::BodyPartTypeId) ) -> boolean</code>
 
 #### remove_value {#sol::Creature::remove_value}
 
 🇲 Method --> <code>( string )</code>
+
+#### set_value {#sol::Creature::set_value}
+
+🇲 Method --> <code>( string, string )</code>
 
 #### is_on_ground {#sol::Creature::is_on_ground}
 
@@ -2175,6 +2179,170 @@ No constructors.
 #### get_grid_at_abs_ms {#sol::DistributionGridTracker::get_grid_at_abs_ms}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [DistributionGrid](#sol::DistributionGrid)</code>
+
+## Effect {#sol::Effect}
+
+### Bases {#sol::Effect::@bases}
+
+No base classes.
+
+### Constructors {#sol::Effect::@ctors}
+
+No constructors.
+
+### Members {#sol::Effect::@members}
+
+#### get_id {#sol::Effect::get_id}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)</code>
+
+#### get_max_val {#sol::Effect::get_max_val}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_sizing {#sol::Effect::get_sizing}
+
+🇲 Method --> <code>( string ) -> boolean</code>
+
+#### get_percentage {#sol::Effect::get_percentage}
+
+🇲 Method --> <code>( string, integer, boolean ) -> number</code>
+
+#### get_min_val {#sol::Effect::get_min_val}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_avg_mod {#sol::Effect::get_avg_mod}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_amount {#sol::Effect::get_amount}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_mod {#sol::Effect::get_mod}
+
+🇲 Method --> <code>( string, boolean ) -> integer</code>
+
+#### get_blocks_effects {#sol::Effect::get_blocks_effects}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)[]</code>
+
+#### activated {#sol::Effect::activated}
+
+🇲 Method --> <code>( [TimePoint](#sol::TimePoint), string, integer, boolean, number ) -> boolean</code>
+
+#### get_addict_mod {#sol::Effect::get_addict_mod}
+
+🇲 Method --> <code>( string, integer ) -> number</code>
+
+#### is_permanent {#sol::Effect::is_permanent}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### set_permanent {#sol::Effect::set_permanent}
+
+🇲 Method --> <code>( )</code>
+
+#### has_flag {#sol::Effect::has_flag}
+
+🇲 Method --> <code>( [JsonFlagId](#sol::JsonFlagId) ) -> boolean</code>
+
+#### get_int_add_val {#sol::Effect::get_int_add_val}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_dur_add_perc {#sol::Effect::get_dur_add_perc}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_int_dur_factor {#sol::Effect::get_int_dur_factor}
+
+🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### get_harmful_cough {#sol::Effect::get_harmful_cough}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### get_removes_effects {#sol::Effect::get_removes_effects}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)[]</code>
+
+#### get_resist_effects {#sol::Effect::get_resist_effects}
+
+🇲 Method --> <code>( ) -> [EffectTypeId](#sol::EffectTypeId)[]</code>
+
+#### get_resist_traits {#sol::Effect::get_resist_traits}
+
+🇲 Method --> <code>( ) -> [MutationBranchId](#sol::MutationBranchId)[]</code>
+
+#### get_type {#sol::Effect::get_type}
+
+🇲 Method --> <code>( ) -> EffectTypeRaw</code>
+
+#### decay {#sol::Effect::decay}
+
+🇲 Method --> <code>( [TimePoint](#sol::TimePoint), boolean ) -> boolean</code>
+
+#### get_duration {#sol::Effect::get_duration}
+
+🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### use_part_descs {#sol::Effect::use_part_descs}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### disp_desc {#sol::Effect::disp_desc}
+
+🇲 Method --> <code>( boolean ) -> string</code>
+
+#### disp_short_desc {#sol::Effect::disp_short_desc}
+
+🇲 Method --> <code>( boolean ) -> string</code>
+
+#### disp_name {#sol::Effect::disp_name}
+
+🇲 Method --> <code>( ) -> string</code>
+
+#### get_max_duration {#sol::Effect::get_max_duration}
+
+🇲 Method --> <code>( ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### set_duration {#sol::Effect::set_duration}
+
+🇲 Method --> <code>( [TimeDuration](#sol::TimeDuration), boolean )</code>
+
+#### mod_duration {#sol::Effect::mod_duration}
+
+🇲 Method --> <code>( [TimeDuration](#sol::TimeDuration), boolean )</code>
+
+#### set_intensity {#sol::Effect::set_intensity}
+
+🇲 Method --> <code>( integer, boolean ) -> integer</code>
+
+#### mod_intensity {#sol::Effect::mod_intensity}
+
+🇲 Method --> <code>( integer, boolean ) -> integer</code>
+
+#### get_max_intensity {#sol::Effect::get_max_intensity}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_intensity {#sol::Effect::get_intensity}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+#### get_bp {#sol::Effect::get_bp}
+
+🇲 Method --> <code>( ) -> [BodyPartTypeId](#sol::BodyPartTypeId)</code>
+
+#### get_start_time {#sol::Effect::get_start_time}
+
+🇲 Method --> <code>( ) -> [TimePoint](#sol::TimePoint)</code>
+
+#### mult_duration {#sol::Effect::mult_duration}
+
+🇲 Method --> <code>( number, boolean )</code>
 
 ## EffectTypeId {#sol::EffectTypeId}
 
@@ -9107,26 +9275,6 @@ Documentation for hooks
 
 > Called when game is about to save.
 
-#### on_character_reset_stats {#sol::nil::on_character_reset_stats}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when character stat gets reset.\
-> The hook receives a table with keys:
->
-> - `character` (<code>[Character](#sol::Character)</code>)
-
-#### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called after a character or monster has attacked in melee.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `target` (<code>[Creature](#sol::Creature)</code>)
-> - `success` (bool)
-
 #### on_character_death {#sol::nil::on_character_death}
 
 🇫 Function --> <code>( params: table )</code>
@@ -9136,6 +9284,36 @@ Documentation for hooks
 >
 > - `char` (<code>[Character](#sol::Character)</code>)
 > - `killer` (<code>[Creature](#sol::Creature)</code>)
+
+#### on_character_effect {#sol::nil::on_character_effect}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.\
+> The hook receives a table with keys:
+>
+> - `character` (<code>[Character](#sol::Character)</code>)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
+
+#### on_character_effect_added {#sol::nil::on_character_effect_added}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
+
+#### on_mon_effect_added {#sol::nil::on_mon_effect_added}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
+> The hook receives a table with keys:
+>
+> - `mon` (<code>[Monster](#sol::Monster)</code>)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_mon_death {#sol::nil::on_mon_death}
 
@@ -9147,11 +9325,30 @@ Documentation for hooks
 > - `mon` (<code>[Monster](#sol::Monster)</code>)
 > - `killer` (<code>[Creature](#sol::Creature)</code>)
 
+#### on_mon_effect {#sol::nil::on_mon_effect}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.\
+> The hook receives a table with keys:
+>
+> - `mon` (<code>[Monster](#sol::Monster)</code>)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
+
 #### on_every_x {#sol::nil::on_every_x}
 
 🇫 Function --> <code>( table )</code>
 
 > Called every in-game period
+
+#### on_character_reset_stats {#sol::nil::on_character_reset_stats}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character stat gets reset.\
+> The hook receives a table with keys:
+>
+> - `character` (<code>[Character](#sol::Character)</code>)
 
 #### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
 
@@ -9166,16 +9363,28 @@ Documentation for hooks
 > - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
 > - `move_cost` (integer)
 
-#### on_creature_dodged {#sol::nil::on_creature_dodged}
+#### on_game_load {#sol::nil::on_game_load}
+
+🇫 Function --> <code>( )</code>
+
+> Called right after game has loaded.
+
+#### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when a character or monster successfully dodges.\
+> Called after a character or monster has attacked in melee.\
 > The hook receives a table with keys:
 >
 > - `char` (<code>[Character](#sol::Character)</code>)
-> - `source` (<code>[Creature](#sol::Creature)</code>)
-> - `difficulty` (integer)
+> - `target` (<code>[Creature](#sol::Creature)</code>)
+> - `success` (bool)
+
+#### on_game_started {#sol::nil::on_game_started}
+
+🇫 Function --> <code>( )</code>
+
+> Called when the game has first started.
 
 #### on_creature_blocked {#sol::nil::on_creature_blocked}
 
@@ -9190,17 +9399,16 @@ Documentation for hooks
 > - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
 > - `damage_blocked` (float)
 
-#### on_game_load {#sol::nil::on_game_load}
+#### on_creature_dodged {#sol::nil::on_creature_dodged}
 
-🇫 Function --> <code>( )</code>
+🇫 Function --> <code>( params: table )</code>
 
-> Called right after game has loaded.
-
-#### on_game_started {#sol::nil::on_game_started}
-
-🇫 Function --> <code>( )</code>
-
-> Called when the game has first started.
+> Called when a character or monster successfully dodges.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `source` (<code>[Creature](#sol::Creature)</code>)
+> - `difficulty` (integer)
 
 #### on_mapgen_postprocess {#sol::nil::on_mapgen_postprocess}
 

@@ -22,6 +22,7 @@ void reg_creature( sol::state &lua );
 void reg_damage_instance( sol::state &lua );
 void reg_debug_api( sol::state &lua );
 void reg_distribution_grid( sol::state &lua );
+void reg_effect( sol::state &lua );
 void reg_enums( sol::state &lua );
 void reg_game_api( sol::state &lua );
 void reg_game_ids( sol::state &lua );
