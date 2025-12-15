@@ -198,7 +198,7 @@
     {
       "name": "windows-msvc-build",
       "configurePreset": "windows-tiles-sounds-x64-msvc",
-      "targets": ["cataclysm-bn-tiles", "json_formatter", "translations"],
+      "targets": ["cataclysm-bn-tiles", "cata_test-tiles", "json_formatter", "translations"],
       "description": "Build for Windows with tiles and sounds using MSVC."
     },
     {
@@ -232,11 +232,13 @@
     {
       "name": "ci-curses",
       "configurePreset": "ci-curses",
+      "targets": ["cataclysm-bn", "cata_test"],
       "description": "CI build for curses."
     },
     {
       "name": "ci-tiles",
       "configurePreset": "ci-tiles",
+      "targets": ["cataclysm-bn-tiles", "cata_test-tiles"],
       "description": "CI build for tiles and sound."
     }
   ]
