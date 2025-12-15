@@ -114,8 +114,6 @@ jobs:
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
-    env:
-      SCCACHE_GHA_ENABLED: ${{ matrix.os == 'windows-latest' && 'true' || '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -142,9 +140,11 @@ jobs:
         shell: msys2 {0}
         run: lang/compile_mo.sh all
 
-      - name: Setup MSVC environment (windows msvc)
+      - name: Install MSBuild (windows msvc)
         if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Install stable CMake
         if: runner.os == 'Windows'
@@ -161,9 +161,9 @@ jobs:
         if: runner.os == 'Windows'
         run: vcpkg integrate install
 
-      - name: Setup sccache (Windows)
+      - name: Setup ccache (Windows)
         if: runner.os == 'Windows'
-        uses: hendrikmuhs/ccache-action@v1.2.20
+        uses: hendrikmuhs/ccache-action@v1.2
         with:
           key: windows-${{ matrix.artifact }}
           restore-keys: |
@@ -171,7 +171,6 @@ jobs:
             windows-
           max-size: 500M
           verbose: 2
-          variant: sccache
           save: ${{ github.event_name != 'pull_request' }}
 
       # Linux setup
@@ -252,7 +251,8 @@ jobs:
         with:
           configurePreset: windows-tiles-sounds-x64-msvc
           buildPreset: windows-msvc-build
-          configurePresetAdditionalArgs: "['-DRELEASE=ON', '-DCMAKE_BUILD_TYPE=Release']"
+          configurePresetAdditionalArgs: "['-DRELEASE=ON']"
+          buildPresetAdditionalArgs: "['--config', 'Release']"
 
       - name: Create distribution package (windows msvc)
         if: runner.os == 'Windows'

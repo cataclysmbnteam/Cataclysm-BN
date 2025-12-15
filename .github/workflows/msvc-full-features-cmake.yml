@@ -61,8 +61,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup MSVC environment
-        uses: ilammy/msvc-dev-cmd@v1
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Remove Strawberry Perl from PATH
         run: |
@@ -103,11 +105,7 @@ jobs:
             core.exportVariable("ACTIONS_CACHE_URL", process.env.ACTIONS_CACHE_URL || "")
             core.exportVariable("ACTIONS_RUNTIME_TOKEN", process.env.ACTIONS_RUNTIME_TOKEN || "")
 
-      - name: Enable sccache GitHub Actions cache
-        shell: bash
-        run: echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
-
-      - name: Setup sccache
+      - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
           key: msvc-cmake-${{ env.CMAKE_PRESET }}-${{ github.ref_name }}
@@ -117,15 +115,14 @@ jobs:
             msvc-cmake-${{ env.CMAKE_PRESET }}-
           max-size: 500M
           verbose: 2
-          variant: sccache
           save: ${{ github.event_name != 'pull_request' }}
 
       - name: Configure and Build
         uses: lukka/run-cmake@v10
         with:
           configurePreset: ${{ env.CMAKE_PRESET }}
-          configurePresetAdditionalArgs: "['-DCMAKE_BUILD_TYPE=RelWithDebInfo']"
           buildPreset: windows-msvc-build
+          buildPresetAdditionalArgs: "['--config', 'RelWithDebInfo']"
 
       - name: Dump logs if build failed
         if: failure()
@@ -136,8 +133,8 @@ jobs:
 
       - name: Compile .mo files for localization
         run: |
-          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile
+          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
 
       - name: Run tests
         run: |
-          .\out\build\$env:CMAKE_PRESET\cata_test-tiles.exe --rng-seed 1
+          .\out\build\$env:CMAKE_PRESET\RelWithDebInfo\cata_test-tiles.exe --rng-seed 1
