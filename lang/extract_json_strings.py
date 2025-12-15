@@ -1206,7 +1206,7 @@ def assert_num_args(node, args, n):
 
 def get_string_literal(node, args, pos):
     if isinstance(args[pos], astnodes.String):
-        return args[pos].s
+        return args[pos].s.decode('utf-8')
     else:
         raise Exception(f"argument to translation call should be string. Error source:   {ast.to_lua_source(node)}")
 
