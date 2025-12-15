@@ -1167,6 +1167,9 @@ void npc::execute_action( npc_action action )
         }
         case npc_follow_player:
             update_path( player_character.pos() );
+            move_mode = rules.has_flag( ally_rule::move_own_pace ) ?
+                        ( ( static_cast<int>( path.size() ) > follow_distance() * 4 ) ? CMM_RUN : CMM_WALK ) :
+                        player_character.get_movement_mode();
             if( static_cast<int>( path.size() ) <= follow_distance() &&
                 player_character.posz() == posz() ) { // We're close enough to u.
                 move_pause();
@@ -1180,6 +1183,9 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_follow_embarked: {
+            move_mode = rules.has_flag( ally_rule::move_own_pace ) ?
+                        ( ( static_cast<int>( path.size() ) > follow_distance() * 4 ) ? CMM_RUN : CMM_WALK ) :
+                        player_character.get_movement_mode();
             const optional_vpart_position vp = here.veh_at( player_character.pos() );
 
             if( !vp ) {
