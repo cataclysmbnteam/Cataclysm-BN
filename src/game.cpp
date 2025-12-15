@@ -683,7 +683,8 @@ bool game::start_game()
 
         // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
         if( u.starting_vehicle ) {
-            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} );
+            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {},
+                                             u.prof->has_flag( "VEH_GROUNDED" ) );
             if( veh ) {
                 veh->set_owner( u );
             } else if( query_gen_failed() ) {
@@ -889,12 +890,13 @@ bool game::start_game()
 
 vehicle *game::place_vehicle_nearby(
     const vproto_id &id, const point_abs_omt &origin, int min_distance,
-    int max_distance, const std::vector<std::string> &omt_search_types )
+    int max_distance, const std::vector<std::string> &omt_search_types,
+    bool notwater )
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.can_float() && veh.has_part( VPFLAG_FLOATS ) ) {
+        if( !notwater && veh.can_float() && veh.has_part( VPFLAG_FLOATS ) ) {
             search_types.emplace_back( "river_shore" );
             search_types.emplace_back( "lake_shore" );
             search_types.emplace_back( "lake_surface" );

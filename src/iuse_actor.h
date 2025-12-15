@@ -1160,6 +1160,7 @@ class mutagen_iv_actor : public iuse_actor
 {
     public:
         mutation_category_id mutation_category;
+        unsigned short tier;
 
         mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
 
