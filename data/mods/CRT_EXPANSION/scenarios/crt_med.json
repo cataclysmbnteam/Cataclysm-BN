@@ -13,6 +13,7 @@
       { "level": 2, "name": "speech" },
       { "level": 6, "name": "survival" }
     ],
+    "vehicle": "crt_medblimp",
     "items": {
       "both": {
         "ammo": 100,
