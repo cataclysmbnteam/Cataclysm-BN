@@ -1881,11 +1881,11 @@ bool game::handle_action()
                     const monster *mon = u.mounted_creature.get();
 
                     const bool can_use_stairs =
-                        !mon->has_flag( MF_MOUNTABLE_STAIRS ) ||
+                        mon->has_flag( MF_MOUNTABLE_STAIRS ) ||
                         mon->has_flag( MF_FLIES );
 
                     if( !can_use_stairs ) {
-                        add_msg( m_info, _( "Your mount can't go upstairs while riding." ) );
+                        add_msg( m_info, _( "Your mount can't go upstairs or climb while riding." ) );
                         break;
                     }
                 }
