@@ -1946,17 +1946,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PET_WONT_FOLLOW",
-      "PET_MOUNTABLE",
-      "MOUNTABLE_STAIRS",
-      "PATH_AVOID_DANGER_1",
-      "WARM"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_lemming",
@@ -2244,7 +2234,21 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "FLIES",
+      "PET_MOUNTABLE",
+      "MOUNTABLE_OBSTACLES",
+      "MOUNTABLE_CLIMBS_DOWN",
+      "MOUNTABLE_STAIRS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "KEENNOSE",
+      "BLEED"
+    ]
   },
   {
     "id": "mon_rabbit",
