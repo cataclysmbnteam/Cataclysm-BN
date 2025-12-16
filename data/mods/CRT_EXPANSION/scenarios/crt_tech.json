@@ -53,7 +53,7 @@
       { "level": 1, "name": "gun" },
       { "level": 1, "name": "pistol" },
       { "level": 4, "name": "fabrication" },
-      { "level": 4, "name": "mechanics" },
+      { "level": 4, "name": "mechanics" }
     ],
     "items": {
       "both": {
@@ -81,6 +81,5 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
-  },
+  }
 ]
-

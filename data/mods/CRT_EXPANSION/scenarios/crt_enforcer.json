@@ -5,15 +5,7 @@
     "name": "C.R.I.T. Bionic Enforcer",
     "description": "STR 10 recommended.  You were a granted the authority of a U.S Marshal. While hired as a guard, with some others joking that you were nothing more than a mall cop with a fancy badge, you eventually got promoted. From mearly a guard to a highly augmented melee fighter. You were sent in to retake a city, but with most of the others failing, mission parameters have expanded quite a bit.",
     "traits": [ "MARTIAL_CRT", "PROF_FED", "PROF_MILITARY", "LARGE_OK" ],
-    "CBMs": [
-      "bio_razors",
-      "bio_sunglasses",
-      "bio_ears",
-      "bio_speed",
-      "bio_str_enhancer",
-      "bio_heat_absorb",
-      "bio_weight"
-    ],
+    "CBMs": [ "bio_razors", "bio_sunglasses", "bio_ears", "bio_speed", "bio_str_enhancer", "bio_heat_absorb", "bio_weight" ],
     "points": 15,
     "skills": [
       { "level": 4, "name": "bashing" },
@@ -40,10 +32,7 @@
           "badge_marshal",
           "lighter"
         ],
-        "entries": [
-          { "item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_crt", "container-item": "sheath" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "crt_canteen" }, { "item": "knife_crt", "container-item": "sheath" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -82,10 +71,7 @@
           "badge_marshal",
           "lighter"
         ],
-        "entries": [
-          { "item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_crt", "container-item": "sheath" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "crt_canteen" }, { "item": "knife_crt", "container-item": "sheath" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -122,10 +108,7 @@
           "crt_nstick",
           "lighter"
         ],
-        "entries": [
-          { "item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_crt", "container-item": "sheath" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "crt_canteen" }, { "item": "knife_crt", "container-item": "sheath" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]

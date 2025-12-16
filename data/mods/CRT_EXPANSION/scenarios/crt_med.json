@@ -39,9 +39,8 @@
         ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ],
-      
-    },
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
   },
   {
     "type": "profession",
@@ -80,9 +79,8 @@
         ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ],
-      
-    },
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
   },
   {
     "type": "profession",
@@ -126,5 +124,5 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
-  },
+  }
 ]
