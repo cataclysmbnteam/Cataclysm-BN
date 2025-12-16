@@ -19,6 +19,8 @@
 #include "projectile.h"
 #include "state_helpers.h"
 #include "type_id.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
                                       int proj_range )
@@ -378,4 +380,57 @@ TEST_CASE( "hostile_npc_adjacent_ally_fire_prevention", "[projectile][ballistics
 
     // The projectile should not stop at the ally's position
     CHECK( attack.end_point != ally_pos );
+}
+
+TEST_CASE( "friendly_monster_iff_respects_adjacent_player", "[projectile][monster][iff]" )
+{
+    clear_all_state();
+    map &here = get_map();
+
+    // Set up test area: friendly monster at (0,0), player adjacent at (1,0), hostile at (2,0)
+    // This tests that IFF checks still apply when player is adjacent to friendly monster
+    const auto monster_pos = tripoint_zero;
+    const auto player_pos = tripoint_east;
+    const auto hostile_pos = tripoint( 2, 0, 0 );
+
+    // Clear the area
+    for( int x = 0; x <= 3; ++x ) {
+        auto pt = tripoint( x, 0, 0 );
+        REQUIRE( here.inbounds( pt ) );
+        here.ter_set( pt, ter_id( "t_dirt" ) );
+        here.furn_set( pt, furn_id( "f_null" ) );
+    }
+
+    // Create friendly monster
+    monster &friendly_mon = spawn_test_monster( "mon_zombie", monster_pos );
+    friendly_mon.friendly = 1;
+    REQUIRE( g->critter_at( monster_pos ) == &friendly_mon );
+    REQUIRE( friendly_mon.friendly != 0 );
+
+    // Set up player at adjacent position
+    auto &player = get_avatar();
+    player.setpos( player_pos );
+    player.set_body();
+    REQUIRE( g->critter_at( player_pos ) == &player );
+
+    // Verify monster is friendly to player
+    REQUIRE( friendly_mon.attitude_to( player ) == Attitude::A_FRIENDLY );
+
+    // Create hostile monster directly behind player (in line of fire)
+    monster &hostile = spawn_test_monster( "mon_zombie_tough", hostile_pos );
+    hostile.friendly = 0;
+    REQUIRE( g->critter_at( hostile_pos ) == &hostile );
+
+    // Attempt to find a hostile target - with player adjacent and in line of fire
+    int boo_hoo = 0;
+    Creature *target = friendly_mon.auto_find_hostile_target( 10, boo_hoo );
+
+    // The key test: IFF should be active even when player is adjacent
+    // Since player is directly in line of fire, IFF should prevent targeting the hostile
+    // and increment boo_hoo to indicate friendly fire risk
+    if( target == &hostile ) {
+        // If the hostile was selected as target despite player being in line of fire,
+        // boo_hoo should have been incremented (IFF warning)
+        CHECK( boo_hoo > 0 );
+    }
 }

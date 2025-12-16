@@ -420,8 +420,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     int pldist = rl_dist( pos(), g->u.pos() );
     map &here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
-    // Skip IFF checks if player is adjacent - ballistics code now protects them
-    if( pldist < iff_dist && pldist > 1 && sees( g->u ) ) {
+    if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
         angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
