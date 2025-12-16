@@ -483,13 +483,13 @@ mod.open_rpg_menu = function(who, item, pos)
     info_text = info_text
       .. string.format(
         "  %s %s  %s %s  %s %s  %s %s\n",
-        color_text("STR:", "light_gray"),
+        color_text(gettext("STR:"), "light_gray"),
         color_good(str_val),
-        color_text("DEX:", "light_gray"),
+        color_text(gettext("DEX:"), "light_gray"),
         color_good(dex_val),
-        color_text("INT:", "light_gray"),
+        color_text(gettext("INT:"), "light_gray"),
         color_good(int_val),
-        color_text("PER:", "light_gray"),
+        color_text(gettext("PER:"), "light_gray"),
         color_good(per_val)
       )
     if stat_points > 0 then
@@ -507,34 +507,34 @@ mod.open_rpg_menu = function(who, item, pos)
     end
 
     local all_skills = {
-      { name = "Dodge", skill = "dodge" },
-      { name = "Melee", skill = "melee" },
-      { name = "Unarmed", skill = "unarmed" },
-      { name = "Bashing", skill = "bashing" },
-      { name = "Cutting", skill = "cutting" },
-      { name = "Piercing", skill = "stabbing" },
-      { name = "Archery", skill = "archery" },
-      { name = "Marksmanship", skill = "gun" },
-      { name = "Handguns", skill = "pistol" },
-      { name = "Rifles", skill = "rifle" },
-      { name = "Shotguns", skill = "shotgun" },
-      { name = "SMGs", skill = "smg" },
-      { name = "Launchers", skill = "launcher" },
-      { name = "Throwing", skill = "throw" },
-      { name = "Cooking", skill = "cooking" },
-      { name = "Tailoring", skill = "tailor" },
-      { name = "Mechanics", skill = "mechanics" },
-      { name = "Electronics", skill = "electronics" },
-      { name = "Fabrication", skill = "fabrication" },
-      { name = "First Aid", skill = "firstaid" },
-      { name = "Computers", skill = "computer" },
-      { name = "Survival", skill = "survival" },
-      { name = "Trapping", skill = "traps" },
-      { name = "Athletics", skill = "swimming" },
-      { name = "Driving", skill = "driving" },
-      { name = "Bartering", skill = "barter" },
-      { name = "Speech", skill = "speech" },
-      { name = "Spellcraft", skill = "spellcraft" },
+      { name = gettext("Dodge"), skill = "dodge" },
+      { name = gettext("Melee"), skill = "melee" },
+      { name = gettext("Unarmed"), skill = "unarmed" },
+      { name = gettext("Bashing"), skill = "bashing" },
+      { name = gettext("Cutting"), skill = "cutting" },
+      { name = gettext("Piercing"), skill = "stabbing" },
+      { name = gettext("Archery"), skill = "archery" },
+      { name = gettext("Marksmanship"), skill = "gun" },
+      { name = gettext("Handguns"), skill = "pistol" },
+      { name = gettext("Rifles"), skill = "rifle" },
+      { name = gettext("Shotguns"), skill = "shotgun" },
+      { name = gettext("SMGs"), skill = "smg" },
+      { name = gettext("Launchers"), skill = "launcher" },
+      { name = gettext("Throwing"), skill = "throw" },
+      { name = gettext("Cooking"), skill = "cooking" },
+      { name = gettext("Tailoring"), skill = "tailor" },
+      { name = gettext("Mechanics"), skill = "mechanics" },
+      { name = gettext("Electronics"), skill = "electronics" },
+      { name = gettext("Fabrication"), skill = "fabrication" },
+      { name = gettext("First Aid"), skill = "firstaid" },
+      { name = gettext("Computers"), skill = "computer" },
+      { name = gettext("Survival"), skill = "survival" },
+      { name = gettext("Trapping"), skill = "traps" },
+      { name = gettext("Athletics"), skill = "swimming" },
+      { name = gettext("Driving"), skill = "driving" },
+      { name = gettext("Bartering"), skill = "barter" },
+      { name = gettext("Speech"), skill = "speech" },
+      { name = gettext("Spellcraft"), skill = "spellcraft" },
     }
 
     info_text = info_text .. color_highlight(gettext("Skills:")) .. "\n"
@@ -1057,7 +1057,7 @@ mod.show_about_screen = function(player)
   ui:title(gettext("=== [System] Database Entry ==="))
 
   local help_text = ""
-  help_text = help_text .. color_info("[System]") .. " Protocol IB-73758-R\n"
+  help_text = help_text .. color_info(gettext("[System]")) .. " " .. gettext("Protocol IB-73758-R") .. "\n"
   help_text = help_text
     .. color_text(
       "─────────────────────────────────────────",
@@ -1065,29 +1065,38 @@ mod.show_about_screen = function(player)
     )
     .. "\n\n"
 
-  help_text = help_text .. "Welcome to the " .. color_info("[System]") .. "! You, among\n"
-  help_text = help_text .. "all inhabitants of world IB-73758-R, have\n"
-  help_text = help_text .. "been blessed with a chance at greatness\n"
-  help_text = help_text .. "for your great deeds doing " .. color_warning("[REASON NOT FOUND]") .. ".\n"
-  help_text = help_text .. "Admire below the power made available:\n\n"
+  help_text = help_text
+    .. string.format(
+      gettext(
+        "Welcome to the %s! You, among all inhabitants of world IB-73758-R, have been blessed with a chance at greatness for your great deeds doing %s."
+      ),
+      color_info(gettext("[System]")),
+      color_warning(gettext("[REASON NOT FOUND]"))
+    )
+    .. "\n"
+  help_text = help_text .. gettext("Admire below the power made available:") .. "\n\n"
 
-  help_text = help_text .. color_highlight("PROGRESSION") .. "\n"
-  help_text = help_text .. "• Level 10: Prestige Class unlocks\n"
-  help_text = help_text .. string.format("• +1 stat point per %d levels\n", LEVELS_PER_STAT_POINT)
-  help_text = help_text .. string.format("• +1 trait slot per %d levels\n\n", LEVELS_PER_TRAIT_SLOT)
+  help_text = help_text .. color_highlight(gettext("PROGRESSION")) .. "\n"
+  help_text = help_text .. string.format(gettext("• Level 10: Prestige Class unlocks")) .. "\n"
+  help_text = help_text .. string.format(gettext("• +1 stat point per %d levels"), LEVELS_PER_STAT_POINT) .. "\n"
+  help_text = help_text .. string.format(gettext("• +1 trait slot per %d levels"), LEVELS_PER_TRAIT_SLOT) .. "\n\n"
 
-  help_text = help_text .. color_highlight("BALANCE") .. "\n"
-  help_text = help_text .. "~25 point value (much less early, more late)\n"
-  help_text = help_text .. color_warning("⚠") .. " Not meant to be used with Stats through Kills\n\n"
+  help_text = help_text .. color_highlight(gettext("BALANCE")) .. "\n"
+  help_text = help_text .. gettext("~25 point value (much less early, more late)") .. "\n"
+  help_text = help_text
+    .. color_warning("⚠")
+    .. " "
+    .. gettext("Not meant to be used with Stats through Kills")
+    .. "\n\n"
 
-  help_text = help_text .. color_highlight("PRESTIGE PATHS") .. "\n"
-  help_text = help_text .. "Warrior → Berserker / Guardian\n"
-  help_text = help_text .. "Mage → Mystic / Scholar\n"
-  help_text = help_text .. "Rogue → Acrobat / Assassin\n"
-  help_text = help_text .. "Scout → Ranger / Craftsman\n"
+  help_text = help_text .. color_highlight(gettext("PRESTIGE PATHS")) .. "\n"
+  help_text = help_text .. gettext("Warrior") .. " → " .. gettext("Berserker") .. " / " .. gettext("Guardian") .. "\n"
+  help_text = help_text .. gettext("Mage") .. " → " .. gettext("Mystic") .. " / " .. gettext("Scholar") .. "\n"
+  help_text = help_text .. gettext("Rogue") .. " → " .. gettext("Acrobat") .. " / " .. gettext("Assassin") .. "\n"
+  help_text = help_text .. gettext("Scout") .. " → " .. gettext("Ranger") .. " / " .. gettext("Craftsman") .. "\n"
 
   ui:text(help_text)
-  ui:add(1, color_text("← Back", "light_gray"))
+  ui:add(1, color_text(gettext("← Back"), "light_gray"))
 
   ui:query()
 end
