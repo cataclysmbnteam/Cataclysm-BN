@@ -147,4 +147,4 @@ jobs:
 
       - name: Run tests
         run: |
-          .\out\build\$env:CMAKE_PRESET\tests\RelWithDebInfo\cata_test-tiles.exe --rng-seed 1
+          & "out/build/$env:CMAKE_PRESET/tests/RelWithDebInfo/cata_test-tiles.exe" --rng-seed 1
