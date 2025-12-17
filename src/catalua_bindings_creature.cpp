@@ -329,6 +329,17 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( make_friendly, void() );
 
         SET_FX_T( make_ally, void( const monster & ) );
+
+        SET_FX_T( get_items, const std::vector<item *> &() const );
+        luna::set_fx( ut, "add_item", []( monster & m, item * it ) {
+            if( it == nullptr ) return;
+            detached_ptr<item> ptr = item::spawn( *it );
+            m.add_item( std::move( ptr ) );
+        } );
+        SET_FX_T( remove_item, detached_ptr<item>( item * ) );
+        SET_FX_T( clear_items, std::vector<detached_ptr<item>>() );
+        SET_FX_T( drop_items, void( const tripoint & ) );
+        SET_FX_N_T( drop_items, "drop_items_here", void() );
     }
 #undef UT_CLASS // #define UT_CLASS monster
 }
