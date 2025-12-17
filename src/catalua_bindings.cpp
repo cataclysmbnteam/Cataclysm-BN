@@ -513,6 +513,25 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_death", []( const sol::table & ) {} );
 
+    DOC( "Called when shot(s) is fired from a gun.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `shooter` (Character)  " );
+    DOC( "* `target_pos` (Tripoint)  " );
+    DOC( "* `shots` (int)  " );
+    DOC( "* `gun` (item)  " );
+    DOC( "* `ammo` (item)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_shoot", []( const sol::table & ) {} );
+
+    DOC( "Called when an item is thrown.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `thrower` (Character)  " );
+    DOC( "* `target_pos` (Tripoint)  " );
+    DOC( "* `throw_from_pos` (Tripoint)  " );
+    DOC( "* `item` (item)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_throw", []( const sol::table & ) {} );
+
     DOC( "Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `mon` (Monster)  " );

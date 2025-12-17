@@ -2543,6 +2543,8 @@ gdebug = {}
 ---@field on_mon_death fun(params: table) @Called when a monster is dead.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `killer` (Creature)  
 ---@field on_mon_effect fun(params: table) @Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
 ---@field on_mon_effect_added fun(params: table) @Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
+---@field on_shoot fun(params: table) @Called when shot(s) is fired from a gun.  <br />The hook receives a table with keys:  <br />* `shooter` (Character)  <br />* `target_pos` (Tripoint)  <br />* `shots` (int)  <br />* `gun` (item)  <br />* `ammo` (item)  
+---@field on_throw fun(params: table) @Called when an item is thrown.  <br />The hook receives a table with keys:  <br />* `thrower` (Character)  <br />* `target_pos` (Tripoint)  <br />* `throw_from_pos` (Tripoint)  <br />* `item` (item)  
 hooks = {}
 
 --- Localization API.
