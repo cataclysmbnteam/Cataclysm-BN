@@ -1061,13 +1061,13 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
     int practice_units = aoe_attack ? curshot : hits;
     who.as_player()->practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
-    cata::run_hooks("on_shoot", [ & ]( auto & params ) {
+    cata::run_hooks( "on_shoot", [ & ]( auto & params ) {
         params["shooter"] = &who;
         params["target_pos"] = &target;
         params["shots"] = curshot;
         params["gun"] = &gun;
         params["ammo"] = ammo;
-    });
+    } );
     return curshot;
 }
 
@@ -1457,12 +1457,12 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     who.last_target_pos = std::nullopt;
     who.recoil = MAX_RECOIL;
 
-    cata::run_hooks("on_throw", [ & ]( auto & params ) {
+    cata::run_hooks( "on_throw", [ & ]( auto & params ) {
         params["thrower"] = &who;
         params["target_pos"] = &target;
         params["throw_from_pos"] = &throw_from;
         params["item"] = &thrown;
-    });
+    } );
     return dealt_attack;
 }
 
