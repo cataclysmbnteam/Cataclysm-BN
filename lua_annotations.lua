@@ -1646,6 +1646,7 @@ function ModInfoId.new() end
 ---@field friendly integer
 ---@field morale integer
 ---@field unique_name string
+---@field add_item fun(self: Monster, arg2: Item)
 ---@field attitude fun(self: Monster, arg2: Character): MonsterAttitude
 ---@field can_climb fun(self: Monster): boolean
 ---@field can_dig fun(self: Monster): boolean
@@ -1654,9 +1655,13 @@ function ModInfoId.new() end
 ---@field can_see fun(self: Monster): boolean
 ---@field can_submerge fun(self: Monster): boolean
 ---@field can_upgrade fun(self: Monster): boolean
+---@field clear_items fun(self: Monster): Detached<Item>[]
 ---@field climbs fun(self: Monster): boolean
 ---@field digs fun(self: Monster): boolean
+---@field drop_items fun(self: Monster, arg2: Tripoint)
+---@field drop_items_here fun(self: Monster)
 ---@field flies fun(self: Monster): boolean
+---@field get_items fun(self: Monster): Item[]
 ---@field get_type fun(self: Monster): MonsterTypeId
 ---@field get_upgrade_time fun(self: Monster): integer
 ---@field hasten_upgrade fun(self: Monster)
@@ -1670,6 +1675,7 @@ function ModInfoId.new() end
 ---@field name fun(self: Monster, arg2: integer): string
 ---@field name_with_armor fun(self: Monster): string
 ---@field refill_udders fun(self: Monster)
+---@field remove_item fun(self: Monster, arg2: Item): Detached<Item>
 ---@field set_hp fun(self: Monster, arg2: integer)
 ---@field spawn fun(self: Monster, arg2: Tripoint)
 ---@field swims fun(self: Monster): boolean

@@ -5882,35 +5882,39 @@ No constructors.
 
 🇻 Variable --> <code>integer</code>
 
-#### death_drops {#sol::Monster::death_drops}
+#### unique_name {#sol::Monster::unique_name}
 
-🇻 Variable --> <code>boolean</code>
+🇻 Variable --> <code>string</code>
 
 #### faction {#sol::Monster::faction}
 
 🇻 Variable --> <code>[MonsterFactionIntId](#sol::MonsterFactionIntId)</code>
 
-#### unique_name {#sol::Monster::unique_name}
+#### death_drops {#sol::Monster::death_drops}
 
-🇻 Variable --> <code>string</code>
-
-#### anger {#sol::Monster::anger}
-
-🇻 Variable --> <code>integer</code>
+🇻 Variable --> <code>boolean</code>
 
 #### morale {#sol::Monster::morale}
 
 🇻 Variable --> <code>integer</code>
 
-#### climbs {#sol::Monster::climbs}
+#### anger {#sol::Monster::anger}
 
-🇲 Method --> <code>( ) -> boolean</code>
+🇻 Variable --> <code>integer</code>
+
+#### move_to {#sol::Monster::move_to}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
+
+#### attitude {#sol::Monster::attitude}
+
+🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
+
+#### wander_to {#sol::Monster::wander_to}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
 
 #### swims {#sol::Monster::swims}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### flies {#sol::Monster::flies}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -5918,35 +5922,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
 
-#### digs {#sol::Monster::digs}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
 #### is_wandering {#sol::Monster::is_wandering}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### attitude {#sol::Monster::attitude}
-
-🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
-
-#### move_to {#sol::Monster::move_to}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
-
-#### make_fungus {#sol::Monster::make_fungus}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### wander_to {#sol::Monster::wander_to}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
-
-#### set_hp {#sol::Monster::set_hp}
-
-🇲 Method --> <code>( integer )</code>
-
-#### can_dig {#sol::Monster::can_dig}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -5954,25 +5930,73 @@ No constructors.
 
 🇲 Method --> <code>( integer, boolean ) -> integer</code>
 
+#### set_hp {#sol::Monster::set_hp}
+
+🇲 Method --> <code>( integer )</code>
+
+#### make_friendly {#sol::Monster::make_friendly}
+
+🇲 Method --> <code>( )</code>
+
+#### climbs {#sol::Monster::climbs}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### remove_item {#sol::Monster::remove_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
+
+#### clear_items {#sol::Monster::clear_items}
+
+🇲 Method --> <code>( ) -> Detached<[Item](#sol::Item)>[]</code>
+
+#### make_fungus {#sol::Monster::make_fungus}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### add_item {#sol::Monster::add_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) )</code>
+
+#### make_ally {#sol::Monster::make_ally}
+
+🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
+
+#### get_items {#sol::Monster::get_items}
+
+🇲 Method --> <code>( ) -> [Item](#sol::Item)[]</code>
+
+#### flies {#sol::Monster::flies}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
 #### can_climb {#sol::Monster::can_climb}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### can_hear {#sol::Monster::can_hear}
+#### can_dig {#sol::Monster::can_dig}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### can_submerge {#sol::Monster::can_submerge}
+#### try_upgrade {#sol::Monster::try_upgrade}
 
-🇲 Method --> <code>( ) -> boolean</code>
+🇲 Method --> <code>( boolean )</code>
+
+#### try_reproduce {#sol::Monster::try_reproduce}
+
+🇲 Method --> <code>( )</code>
+
+#### refill_udders {#sol::Monster::refill_udders}
+
+🇲 Method --> <code>( )</code>
 
 #### get_upgrade_time {#sol::Monster::get_upgrade_time}
 
 🇲 Method --> <code>( ) -> integer</code>
 
-#### try_upgrade {#sol::Monster::try_upgrade}
+#### can_upgrade {#sol::Monster::can_upgrade}
 
-🇲 Method --> <code>( boolean )</code>
+🇲 Method --> <code>( ) -> boolean</code>
 
 #### hasten_upgrade {#sol::Monster::hasten_upgrade}
 
@@ -5982,45 +6006,45 @@ No constructors.
 
 🇲 Method --> <code>( ) -> [MonsterTypeId](#sol::MonsterTypeId)</code>
 
-#### can_upgrade {#sol::Monster::can_upgrade}
+#### digs {#sol::Monster::digs}
 
 🇲 Method --> <code>( ) -> boolean</code>
-
-#### can_drown {#sol::Monster::can_drown}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### try_reproduce {#sol::Monster::try_reproduce}
-
-🇲 Method --> <code>( )</code>
 
 #### spawn {#sol::Monster::spawn}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
 
-#### make_friendly {#sol::Monster::make_friendly}
+#### name_with_armor {#sol::Monster::name_with_armor}
 
-🇲 Method --> <code>( )</code>
+🇲 Method --> <code>( ) -> string</code>
 
-#### refill_udders {#sol::Monster::refill_udders}
-
-🇲 Method --> <code>( )</code>
-
-#### can_see {#sol::Monster::can_see}
+#### can_drown {#sol::Monster::can_drown}
 
 🇲 Method --> <code>( ) -> boolean</code>
+
+#### drop_items {#sol::Monster::drop_items}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
 
 #### name {#sol::Monster::name}
 
 🇲 Method --> <code>( integer ) -> string</code>
 
-#### name_with_armor {#sol::Monster::name_with_armor}
+#### can_submerge {#sol::Monster::can_submerge}
 
-🇲 Method --> <code>( ) -> string</code>
+🇲 Method --> <code>( ) -> boolean</code>
 
-#### make_ally {#sol::Monster::make_ally}
+#### can_see {#sol::Monster::can_see}
 
-🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### can_hear {#sol::Monster::can_hear}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### drop_items_here {#sol::Monster::drop_items_here}
+
+🇲 Method --> <code>( )</code>
 
 ## MonsterFactionId {#sol::MonsterFactionId}
 
