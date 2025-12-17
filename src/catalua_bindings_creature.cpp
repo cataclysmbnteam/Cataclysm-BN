@@ -331,8 +331,9 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( make_ally, void( const monster & ) );
 
         SET_FX_T( get_items, const std::vector<item *> &() const );
-        luna::set_fx( ut, "add_item", []( monster & m, item * it ) {
-            if( it == nullptr ) return;
+        luna::set_fx( ut, "add_item", []( monster & m, item * it )
+        {
+            if( it == nullptr ) { return; }
             detached_ptr<item> ptr = item::spawn( *it );
             m.add_item( std::move( ptr ) );
         } );
