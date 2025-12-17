@@ -9286,7 +9286,7 @@ Documentation for hooks
 > - `target_pos` (<code>[Tripoint](#sol::Tripoint)</code>)
 > - `shots` (int)
 > - `gun` (item)
-> - `ammo` (item)
+> - `ammo` (item): For `RELOAD_AND_SHOOT` guns like a bow. On the others, it returns `nil` value.
 
 #### on_character_death {#sol::nil::on_character_death}
 

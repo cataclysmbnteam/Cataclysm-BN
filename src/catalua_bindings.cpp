@@ -519,7 +519,7 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `target_pos` (Tripoint)  " );
     DOC( "* `shots` (int)  " );
     DOC( "* `gun` (item)  " );
-    DOC( "* `ammo` (item)  " );
+    DOC( "* `ammo` (item): For `RELOAD_AND_SHOOT` guns like a bow. On the others, it returns `nil` value.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_shoot", []( const sol::table & ) {} );
 
