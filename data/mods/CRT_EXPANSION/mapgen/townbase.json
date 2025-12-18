@@ -223,7 +223,7 @@
         { "vehicle": "mil_helicopters", "x": 15, "y": 16, "chance": 100, "rotation": 180, "status": -1 },
         { "vehicle": "mil_helicopters", "x": 34, "y": 16, "chance": 100, "rotation": 180, "status": -1 },
         { "vehicle": "mil_helicopters", "x": 15, "y": 35, "chance": 100, "rotation": 0, "status": -1 },
-        { "vehicle": "crt_medblimp", "x": 34, "y": 35, "chance": 100, "rotation": 0, "status": -1 },
+        { "vehicle": "crt_medblimp", "x": 34, "y": 35, "chance": 100, "rotation": 0, "status": -1 }
       ]
     }
   },

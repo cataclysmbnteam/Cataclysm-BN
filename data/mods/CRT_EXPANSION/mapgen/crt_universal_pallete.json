@@ -45,9 +45,8 @@
       "S": "t_gas_pump",
       "P": "t_sidewalk"
     },
-
     "furniture": {
-      ":": "f_sign", 
+      ":": "f_sign",
       "W": "f_workbench",
       "3": "f_drill_press",
       "4": "f_hydraulic_press",
@@ -55,7 +54,7 @@
       "R": "f_reloading_station",
       "e": "f_grid_plut_generator",
       "v": "f_solar_unit",
-      "1": "f_small_satelitte_dish", 
+      "1": "f_small_satelitte_dish",
       "2": "f_dumpster",
       "k": "f_cupboard",
       "l": "f_locker",
@@ -63,14 +62,9 @@
       "D": "f_dresser",
       "u": "f_utility_shelf",
       "H": "f_displaycase",
-      
       "q": [ "f_crate_o", "f_crate_c" ],
-      
       "p": "f_cardboard_box",
-      
       "x": "f_safe_l",
-
-      
       "~": "f_shower",
       "U": "f_toilet",
       "i": "f_sink",
@@ -95,9 +89,6 @@
       "r": "f_rack",
       "^": "f_indoor_plant"
     },
-
-    "vendingmachines": { "V": {} }
+    "vendingmachines": { "V": {  } }
   }
 ]
-
-
