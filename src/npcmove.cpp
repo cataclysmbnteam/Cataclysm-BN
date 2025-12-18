@@ -2205,6 +2205,10 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         // TODO: Extract common functions with turret target selection
         units::angle safe_angle_ally = safe_angle;
         int ally_dist = rl_dist( pos(), ally.pos() );
+        // Skip adjacent allies - ballistics code now protects them
+        if( ally_dist <= 1 ) {
+            continue;
+        }
         if( ally_dist < 3 ) {
             safe_angle_ally += ( 3 - ally_dist ) * 30_degrees;
         }
