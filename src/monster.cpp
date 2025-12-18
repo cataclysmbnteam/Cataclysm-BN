@@ -3582,7 +3582,7 @@ void monster::on_load()
             regen = 0.25f / to_turns<int>( 1_hours );
         }
     }
-    if ( has_effect( effect_well_fed ) ) {
+    if( has_effect( effect_well_fed ) ) {
         regen *= 2.0f;
     }
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
