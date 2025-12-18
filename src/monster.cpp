@@ -558,9 +558,16 @@ void monster::reproduce()
     }
 
     // Well-fed animals produce more offspring (30% increase)
+    // Use probabilistic rounding: fractional part becomes probability of +1
+    // e.g., 2.6 babies → 60% chance of 3, 40% chance of 2
     int max_babies = type->baby_count;
     if( has_effect( effect_well_fed ) ) {
-        max_babies = static_cast<int>( std::ceil( max_babies * 1.3 ) );
+        const float exact_babies = max_babies * 1.3f;
+        max_babies = static_cast<int>( exact_babies );
+        const int fractional_percent = static_cast<int>( ( exact_babies - max_babies ) * 100 );
+        if( x_in_y( fractional_percent, 100 ) ) {
+            max_babies++;
+        }
     }
 
     const int spawn_cnt = rng( 1, max_babies );
