@@ -1548,16 +1548,16 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         // This effect increases reproduction rate, milk production, and growth speed
         // Duration: 24 hours (one full day cycle)
         const time_duration well_fed_duration = 24_hours;
-        
+
         if( mon.has_effect( effect_well_fed ) ) {
             // Refresh duration if already well-fed
             mon.add_effect( effect_well_fed, well_fed_duration );
         } else {
             // Apply new well-fed effect
             mon.add_effect( effect_well_fed, well_fed_duration );
-            p->add_msg_if_player( m_good, 
-                _( "The %s looks healthier and more productive." ), 
-                mon.get_name() );
+            p->add_msg_if_player( m_good,
+                                  _( "The %s looks healthier and more productive." ),
+                                  mon.get_name() );
         }
 
         p->consume_charges( *it, 1 );

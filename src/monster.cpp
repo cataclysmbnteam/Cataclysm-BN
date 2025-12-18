@@ -387,12 +387,12 @@ void monster::hasten_upgrade()
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     int reduction = rng( 1, scaled_half_life );
-    
+
     // Well-fed animals mature 30% faster
     if( has_effect( effect_well_fed ) ) {
         reduction = static_cast<int>( reduction * 1.3 );
     }
-    
+
     upgrade_time -= reduction;
     if( upgrade_time < 0 ) {
         upgrade_time = 0;
@@ -460,14 +460,14 @@ void monster::try_upgrade( bool pin_time )
     // upgrades they'd get if we were simulating whole world.
     while( true ) {
         int effective_upgrade_time = upgrade_time;
-        
+
         // Well-fed animals mature 30% faster (check remaining time)
         if( has_effect( effect_well_fed ) ) {
             const int original_grow_time = next_upgrade_time();
             const int accelerated_grow_time = static_cast<int>( original_grow_time * 0.7 );
             effective_upgrade_time = ( upgrade_time - original_grow_time ) + accelerated_grow_time;
         }
-        
+
         if( effective_upgrade_time > current_day ) {
             // not yet
             return;
@@ -612,7 +612,7 @@ void monster::refill_udders()
             current_milk = ammo.find( itype_milk_raw );
         }
     }
-    
+
     // If no milk found, use the first starting_ammo type (e.g., gasoline for hell goats)
     if( current_milk == ammo.end() ) {
         current_milk = ammo.find( type->starting_ammo.begin()->first );
@@ -621,7 +621,7 @@ void monster::refill_udders()
             return;
         }
     }
-    
+
     if( current_milk->second == type->starting_ammo.begin()->second ) {
         // already full up
         return;
@@ -629,12 +629,12 @@ void monster::refill_udders()
     if( calendar::turn - udder_timer > 1_days ) {
         // no point granularizing this really, you milk once a day.
         int milk_amount = type->starting_ammo.begin()->second;
-        
+
         // Well-fed animals produce 30% more milk per day
         if( has_effect( effect_well_fed ) ) {
             milk_amount = static_cast<int>( std::ceil( milk_amount * 1.3 ) );
         }
-        
+
         ammo.begin()->second = milk_amount;
         udder_timer = calendar::turn;
     }
