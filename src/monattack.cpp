@@ -320,6 +320,7 @@ static std::unique_ptr<npc> make_fake_npc( monster *z, int str, int dex, int int
     tmp->per_cur = per;
     if( z->friendly != 0 ) {
         tmp->set_attitude( NPCATT_FOLLOW );
+        tmp->set_fac( faction_id( "your_followers" ) );
     } else {
         tmp->set_attitude( NPCATT_KILL );
     }

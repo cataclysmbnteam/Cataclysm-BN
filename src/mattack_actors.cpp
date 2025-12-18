@@ -681,7 +681,12 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
-    tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
+    if( z.friendly ) {
+        tmp.set_attitude( NPCATT_FOLLOW );
+        tmp.set_fac( faction_id( "your_followers" ) );
+    } else {
+        tmp.set_attitude( NPCATT_KILL );
+    }
     tmp.recoil = inital_recoil; // set inital recoil
     if( no_crits ) {
         tmp.toggle_trait( trait_NORANGEDCRIT );
