@@ -874,6 +874,32 @@ void vehicle::use_controls( const tripoint &pos )
 
     }
 
+    if( has_part( "DROPPER" ) ) {
+        std::vector<vehicle_part *> droppers;
+        for( auto &p : parts ) {
+            if( p.has_flag( "DROPPER" ) ) {
+                droppers.push_back( &p );
+            }
+        }
+        if( !droppers.empty() ) {
+
+    if( has_part( "DROPPER" ) ) {
+        std::vector<vehicle_part *> droppers;
+        for( auto &p : parts ) {
+            if( p.has_flag( "DROPPER" ) ) {
+                droppers.push_back( &p );
+            }
+        }
+        if( !droppers.empty() ) {
+            if( !turrets.empty() ) {
+                options.emplace_back( _( "Activate all item droppers" ), keybind( "TURRET_ALL_OVERRIDE" ) );
+                actions.emplace_back( [&] { item_dropper_drop_mult(); refresh(); } );
+
+                options.emplace_back( _( "Activate one item dropper" ), keybind( "TURRET_SINGLE_FIRE" ) );
+                actions.emplace_back( [&] { item_dropper_drop_single(); refresh(); } );
+            }        
+        }
+    }
     uilist menu;
     menu.text = _( "Vehicle controls" );
     menu.entries = options;
