@@ -204,12 +204,12 @@ on_mon_effect = {}
 
 ---@class OnMonDeathParams
 ---@field mon Monster
----@field killer Creature
+---@field killer Creature?
 on_mon_death = {}
 
 ---@class OnCharacterDeathParams
 ---@field character Character
----@field killer Creature
+---@field killer Creature?
 on_character_death = {}
 
 ---@class OnShootParams
@@ -217,7 +217,7 @@ on_character_death = {}
 ---@field target_pos Tripoint
 ---@field shots integer
 ---@field gun Item
----@field ammo Item
+---@field ammo Item?
 on_shoot = {}
 
 ---@class OnThrowParams
@@ -229,13 +229,13 @@ on_throw = {}
 
 ---@class OnCreatureDodgedParams
 ---@field char Character || Creature
----@field source Creature
+---@field source Creature?
 ---@field difficulty integer
 on_creature_dodged = {}
 
 ---@class OnCreatureBlockedParams
 ---@field char Character
----@field source Creature
+---@field source Creature?
 ---@field bodypart_id BodyPartTypeId
 ---@field damage_instance DamageInstance
 ---@field damage_blocked number
