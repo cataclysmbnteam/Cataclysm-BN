@@ -528,7 +528,7 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `thrower` (Character)  " );
     DOC( "* `target_pos` (Tripoint)  " );
     DOC( "* `throw_from_pos` (Tripoint)  " );
-    DOC( "* `item` (item)  " );
+    DOC( "* `thrown` (item)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_throw", []( const sol::table & ) {} );
 

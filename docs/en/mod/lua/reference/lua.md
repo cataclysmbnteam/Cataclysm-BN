@@ -9318,7 +9318,7 @@ Documentation for hooks
 > - `thrower` (<code>[Character](#sol::Character)</code>)
 > - `target_pos` (<code>[Tripoint](#sol::Tripoint)</code>)
 > - `throw_from_pos` (<code>[Tripoint](#sol::Tripoint)</code>)
-> - `item` (item)
+> - `thrown` (item)
 
 #### on_mon_effect {#sol::nil::on_mon_effect}
 

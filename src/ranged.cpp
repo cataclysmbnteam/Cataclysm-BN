@@ -1461,7 +1461,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         params["thrower"] = &who;
         params["target_pos"] = &target;
         params["throw_from_pos"] = &throw_from;
-        params["item"] = &thrown;
+        params["thrown"] = &thrown;
     } );
     return dealt_attack;
 }
