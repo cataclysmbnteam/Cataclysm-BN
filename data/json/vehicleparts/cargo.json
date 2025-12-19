@@ -234,7 +234,7 @@
     },
     "durability": 120,
     "damage_reduction": { "all": 34 },
-    "extend": { "flags": [ "SHOCK_RESISTANT" ] }
+    "extend": { "flags": [ "SHOCK_RESISTANT", "DROPPER" ] }
   },
   {
     "copy-from": "box_abstract",
