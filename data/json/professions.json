@@ -651,24 +651,10 @@
     "name": "Bionic-Assisted Survivor",
     "description": "Besides a few basic bionics, some would say that there's nothing notable about you.  But you've survived, and that's more than most could say right now.",
     "points": 1,
-    "CBMs": [
-      "bio_batteries",
-      "bio_power_storage",
-      "bio_lighter"
-    ],
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_lighter" ],
     "items": {
       "both": {
-        "items": [
-          "jeans",
-          "longshirt",
-          "socks",
-          "sneakers",
-          "mbag",
-          "pockknife",
-          "water_clean",
-          "smart_phone",
-          "wristwatch"
-        ]
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "pockknife", "water_clean", "smart_phone", "wristwatch" ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2194,15 +2180,9 @@
     "name": "Bionic-Assisted Smoker",
     "description": "To spare yourself the effort of keeping a lighter on hand, you decided to install bionics. You're on the last pack however, and with Cataclysm going on, you may have difficulties in acquiring more.",
     "points": 0,
-    "CBMs": [
-      "bio_batteries",
-      "bio_power_storage",
-      "bio_lighter"
-    ],
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_lighter" ],
     "items": {
-      "both": {
-        "items": [ "pants", "dress_shirt", "socks", "smart_phone", "dress_shoes", "knit_scarf", "cig", "wristwatch" ],
-      },
+      "both": { "items": [ "pants", "dress_shirt", "socks", "smart_phone", "dress_shoes", "knit_scarf", "cig", "wristwatch" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2227,11 +2207,7 @@
     "name": "Bionic-Assisted Crackhead",
     "description": "Cocaine.  It is, indeed, a helluva drug.  Some odd-looking doctors offered you a deal at some point, with no obvious downsides.  How could anyone refuse?",
     "points": 0,
-    "CBMs": [
-      "bio_batteries",
-      "bio_power_storage",
-      "bio_lighter"
-    ],
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_lighter" ],
     "items": {
       "both": [ "crackpipe", "crack", "crack", "tank_top" ],
       "male": [ "pants", "flip_flops" ],
@@ -2272,11 +2248,7 @@
     "description": "To at least pretend that your noteworthy alcohol consumption has some higher purpose, you accepted the offer to install ethanol burner and some bionics.  You probably won't be able to show gratitude to your benefactors, besides giving a toast to them...  Seems you're going to need more drinks anyway.",
     "points": 0,
     "starting_cash": 0,
-    "CBMs": [
-      "bio_ethanol",
-      "bio_power_storage",
-      "bio_lighter"
-    ],
+    "CBMs": [ "bio_ethanol", "bio_power_storage", "bio_lighter" ],
     "items": {
       "both": [
         "pants",
@@ -2331,24 +2303,11 @@
     "description": "You lived off what others threw away. You even managed to get a few working bionics this way. With the old world shattered, your skills should prove useful to help you survive.",
     "points": 2,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "mechanics" } ],
-    "CBMs": [
-      "bio_batteries",
-      "bio_power_storage",
-      "bio_lighter"
-    ],
+    "CBMs": [ "bio_batteries", "bio_power_storage", "bio_lighter" ],
     "vehicle": "shopping_cart",
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "gloves_light_fingerless",
-          "smart_phone",
-          "fanny",
-          "backpack",
-          "sneakers",
-          "water_clean",
-          "pockknife"
-        ],
+        "items": [ "pants", "gloves_light_fingerless", "smart_phone", "fanny", "backpack", "sneakers", "water_clean", "pockknife" ],
         "entries": [ { "group": "cannedfood", "count": 3 } ]
       },
       "male": [ "boxer_shorts" ],
