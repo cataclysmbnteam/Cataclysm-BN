@@ -101,10 +101,18 @@ mod.test_item_teleport = function(who, item, pos)
 
   local dx, dy = 0, 0
   local dir_name = ""
-  if choice == 1 then dy = -1; dir_name = "NORTH"
-  elseif choice == 2 then dx = 1; dir_name = "EAST"
-  elseif choice == 3 then dy = 1; dir_name = "SOUTH"
-  elseif choice == 4 then dx = -1; dir_name = "WEST"
+  if choice == 1 then
+    dy = -1
+    dir_name = "NORTH"
+  elseif choice == 2 then
+    dx = 1
+    dir_name = "EAST"
+  elseif choice == 3 then
+    dy = 1
+    dir_name = "SOUTH"
+  elseif choice == 4 then
+    dx = -1
+    dir_name = "WEST"
   end
 
   local target_pos = Tripoint.new(pos.x + dx, pos.y + dy, pos.z)
@@ -206,11 +214,11 @@ mod.test_overmap_search = function(who, item, pos)
   -- Test find_all() with exclude_types - find buildings but not houses
   gapi.add_msg("--- find_all() with exclusions ---")
   local building_params = OmtFindParams.new()
-  building_params:add_type("s_", OtMatchType.PREFIX)  -- shops
+  building_params:add_type("s_", OtMatchType.PREFIX) -- shops
   building_params:add_exclude_type("house", OtMatchType.PREFIX)
   building_params:set_search_range(0, 50)
   building_params.max_results = 5
-  building_params.existing_only = true  -- only search generated overmaps
+  building_params.existing_only = true -- only search generated overmaps
 
   local shops = overmapbuffer.find_all(omt_pos, building_params)
   gapi.add_msg("Found " .. #shops .. " shop(s) within 50 tiles")
@@ -241,7 +249,7 @@ mod.test_overmap_search = function(who, item, pos)
   local underground_params = OmtFindParams.new()
   underground_params:add_type("subway", OtMatchType.PREFIX)
   underground_params:set_search_range(0, 50)
-  underground_params:set_search_layers(-3, -1)  -- underground only
+  underground_params:set_search_layers(-3, -1) -- underground only
   underground_params.max_results = 3
 
   local subways = overmapbuffer.find_all(omt_pos, underground_params)
@@ -249,4 +257,3 @@ mod.test_overmap_search = function(who, item, pos)
 
   return 1
 end
-

@@ -20,13 +20,13 @@ void cata::detail::reg_overmap( sol::state &lua )
 #define UT_CLASS omt_find_params
     {
         sol::usertype<UT_CLASS> ut =
-        luna::new_usertype<UT_CLASS>(
-            lua,
-            luna::no_bases,
-            luna::constructors <
-            omt_find_params()
-            > ()
-        );
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::constructors <
+                omt_find_params()
+                > ()
+            );
 
         DOC( "Vector of (terrain_type, match_type) pairs to search for." );
         SET_MEMB( types );
@@ -82,7 +82,8 @@ void cata::detail::reg_overmap( sol::state &lua )
         auto results = overmap_buffer.find_all( tripoint_abs_omt( origin ), params );
         std::vector<tripoint> lua_results;
         lua_results.reserve( results.size() );
-        for( const auto &r : results ) {
+        for( const auto &r : results )
+        {
             lua_results.push_back( r.raw() );
         }
         return lua_results;
@@ -93,7 +94,8 @@ void cata::detail::reg_overmap( sol::state &lua )
     []( const tripoint & origin, omt_find_params params ) -> sol::optional<tripoint> {
         params.force_sync = true;
         tripoint_abs_omt result = overmap_buffer.find_closest( tripoint_abs_omt( origin ), params );
-        if( result == tripoint_abs_omt( tripoint_min ) ) {
+        if( result == tripoint_abs_omt( tripoint_min ) )
+        {
             return sol::nullopt;
         }
         return result.raw();
@@ -104,7 +106,8 @@ void cata::detail::reg_overmap( sol::state &lua )
     []( const tripoint & origin, omt_find_params params ) -> sol::optional<tripoint> {
         params.force_sync = true;
         tripoint_abs_omt result = overmap_buffer.find_random( tripoint_abs_omt( origin ), params );
-        if( result == tripoint_abs_omt( tripoint_min ) ) {
+        if( result == tripoint_abs_omt( tripoint_min ) )
+        {
             return sol::nullopt;
         }
         return result.raw();

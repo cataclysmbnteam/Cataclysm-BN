@@ -158,7 +158,8 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, "move_item_to", []( map & m, const tripoint & from, item * it,
         const tripoint & to ) -> void {
             detached_ptr<item> detached = m.i_rem( from, it );
-            if( detached ) {
+            if( detached )
+            {
                 m.add_item_or_charges( to, std::move( detached ) );
             }
         } );
@@ -169,7 +170,8 @@ void cata::detail::reg_map( sol::state &lua )
         DOC( "Removes an item from the map and stores it in temporary storage. Returns the storage index, or -1 on failure. Use retrieve_stored_item to get it back after map changes." );
         luna::set_fx( ut, "store_item", []( map & m, const tripoint & from, item * it ) -> int {
             detached_ptr<item> detached = m.i_rem( from, it );
-            if( detached ) {
+            if( detached )
+            {
                 lua_item_storage.push_back( std::move( detached ) );
                 return static_cast<int>( lua_item_storage.size() - 1 );
             }
@@ -178,10 +180,12 @@ void cata::detail::reg_map( sol::state &lua )
 
         DOC( "Places a stored item at a position on the current map. The item is removed from storage." );
         luna::set_fx( ut, "retrieve_stored_item", []( map & m, int index, const tripoint & to ) -> bool {
-            if( index < 0 || static_cast<size_t>( index ) >= lua_item_storage.size() ) {
+            if( index < 0 || static_cast<size_t>( index ) >= lua_item_storage.size() )
+            {
                 return false;
             }
-            if( !lua_item_storage[index] ) {
+            if( !lua_item_storage[index] )
+            {
                 return false;
             }
             m.add_item_or_charges( to, std::move( lua_item_storage[index] ) );

@@ -895,7 +895,8 @@ void cata::detail::reg_character( sol::state &lua )
         luna::set_fx( ut, "drop_all_items", []( Character & ch ) -> void {
             std::vector<detached_ptr<item>> tmp = ch.inv_dump_remove();
             map &here = get_map();
-            for( auto &itm : tmp ) {
+            for( auto &itm : tmp )
+            {
                 here.add_item_or_charges( ch.pos(), std::move( itm ) );
             }
         } );
