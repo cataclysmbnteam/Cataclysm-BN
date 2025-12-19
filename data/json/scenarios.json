@@ -379,7 +379,8 @@
       "military_saboteur"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
-    "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+    "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ],
+    "bionics": [ "bio_surgical_razor" ]
   },
   {
     "type": "scenario",

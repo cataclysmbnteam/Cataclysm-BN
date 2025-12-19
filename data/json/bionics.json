@@ -47,7 +47,9 @@
     "name": { "str": "Squeaky Ankles" },
     "description": "In a cruel twist of fate, a poorly executed CBM surgery has given you a pair of useless bionics which make squeaking noises when you walk.",
     "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_armor_arms",
@@ -114,6 +116,8 @@
     "fuel_efficiency": 1,
     "fuel_capacity": 2000,
     "time": 1,
+    "starting_bionic": true,
+    "points": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -296,6 +300,8 @@
     "name": { "str": "Bionic-Induced Deformity" },
     "description": "A combination of poor surgical installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face.  People who mind that you look like a dime-store Frankenstein will react poorly to your appearance.",
     "occupied_bodyparts": [ [ "head", 4 ], [ "mouth", 1 ] ],
+    "starting_bionic": true,
+    "points": -1,
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -321,7 +327,9 @@
     "name": { "str": "Acidic Discharge" },
     "description": "A malfunctioning bionic which occasionally discharges acid into your muscles, causing sharp pain and minor damage.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -2
   },
   {
     "id": "bio_dis_shock",
@@ -330,7 +338,9 @@
     "description": "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage.",
     "occupied_bodyparts": [ [ "torso", 6 ] ],
     "flags": [ "BIONIC_FAULTY" ],
-    "trigger_cost": "10 kJ"
+    "trigger_cost": "10 kJ",
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_drain",
@@ -338,7 +348,9 @@
     "name": { "str": "Electrical Drain" },
     "description": "A malfunctioning bionic.  It doesn't perform any useful function, but will occasionally draw power from your batteries.",
     "occupied_bodyparts": [ [ "torso", 2 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_earplugs",
@@ -356,7 +368,9 @@
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "INITIALLY_ACTIVATE" ],
     "canceled_mutations": [ "BADHEARING", "DEAF" ],
-    "included_bionics": [ "bio_earplugs" ]
+    "included_bionics": [ "bio_earplugs" ],
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "type": "bionic",
@@ -465,6 +479,8 @@
     "act_cost": "8 J",
     "react_cost": "8 J",
     "time": 1,
+    "starting_bionic": true,
+    "points": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -475,6 +491,8 @@
     "act_cost": "1 J",
     "react_cost": "1 J",
     "time": 1,
+    "starting_bionic": true,
+    "points": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -483,7 +501,9 @@
     "name": { "str": "Glowy Thing" },
     "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
     "flags": [ "BIONIC_FAULTY" ],
-    "trigger_cost": "1 kJ"
+    "trigger_cost": "1 kJ",
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_geiger",
@@ -602,7 +622,9 @@
     "name": { "str": "Itchy Metal Thing" },
     "description": "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_laser",
@@ -620,7 +642,9 @@
     "name": { "str": "Leaky Bionic" },
     "description": "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream.  Needless to say, this is not good for your health.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_leukocyte",
@@ -640,7 +664,9 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": "1 kJ"
+    "act_cost": "1 kJ",
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_lockpick",
@@ -730,7 +756,9 @@
     "name": { "str": "Noisemaker" },
     "description": "A malfunctioning bionic.  It will occasionally emit a loud burst of noise.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_nostril",
@@ -739,7 +767,9 @@
     "description": "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by ten.",
     "occupied_bodyparts": [ [ "head", 2 ], [ "mouth", 1 ] ],
     "encumbrance": [ [ "mouth", 10 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_ods",
@@ -769,7 +799,9 @@
     "description": "Due to a badly misplaced dielectric stylette, you are now suffering from mild optic neuropathy.  Increases eye encumbrance by ten.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "encumbrance": [ [ "eyes", 10 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_power_armor_interface",
@@ -795,7 +827,9 @@
     "name": { "str": "Power Storage" },
     "capacity": "100 kJ",
     "description": "A Compact Bionics Module that increases your power capacity by 100 kJ.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
-    "flags": [ "BIONIC_NPC_USABLE", "MULTIINSTALL", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "MULTIINSTALL", "BIONIC_SHOCKPROOF" ],
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_power_storage_mkII",
@@ -803,7 +837,9 @@
     "name": { "str": "Power Storage Mk. II" },
     "capacity": "250 kJ",
     "description": "A Compact Bionics Module that increases your power capacity by 250 kJ.",
-    "flags": [ "BIONIC_NPC_USABLE", "MULTIINSTALL", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "MULTIINSTALL", "BIONIC_SHOCKPROOF" ],
+    "starting_bionic": true,
+    "points": 2
   },
   {
     "id": "bio_power_weakness",
@@ -811,7 +847,9 @@
     "name": { "str": "Power Overload" },
     "description": "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_probability_travel",
@@ -873,7 +911,9 @@
     "description": "You possess razor-sharp claws underneath your fingernails that do a fair amount of unarmed slashing damage whenever your fingertips are uncovered, and which you can use with some precision to cut and butcher..",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "fake_item": "fake_razor",
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_recycler",
@@ -919,7 +959,9 @@
     "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ],
-    "trigger_cost": "25 kJ"
+    "trigger_cost": "25 kJ",
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_synaptic_regen",
@@ -954,7 +996,9 @@
     "name": { "str": "Endocrine Enervator" },
     "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue.  You will find yourself tiring a bit faster than before.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_spasm",
@@ -962,7 +1006,9 @@
     "name": { "str": "Motor Control Overstimulator" },
     "description": "One piezoelectric solenoid surgically installed backwards, two crossed wires, and four burned-out capacitors later you started falling on your face and writhing around at the least convenient times.  This incorrectly-configured bionic periodically stuns you for a short duration.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_speed",
@@ -997,7 +1043,9 @@
       [ "foot_l", 10 ],
       [ "foot_r", 10 ]
     ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -2
   },
   {
     "id": "bio_str_enhancer",
@@ -1015,7 +1063,8 @@
     "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts and can also be used as a high-quality butchering tool.",
     "occupied_bodyparts": [ [ "arm_r", 1 ], [ "arm_l", 1 ] ],
     "fake_item": "bio_scalpel",
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "points": 2
   },
   {
     "id": "bio_sunglasses",
@@ -1025,7 +1074,9 @@
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "fake_item": "fake_goggles"
+    "fake_item": "fake_goggles",
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_targeting",
@@ -1050,7 +1101,9 @@
     "description": "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by ten, while failing to improve your ability to hold objects whatsoever.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "encumbrance": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_time_freeze",
@@ -1117,7 +1170,9 @@
     "name": { "str": "Visual Disruptor" },
     "description": "A malfunctioning bionic which causes occasional visual distortion and pixelation.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": -1
   },
   {
     "id": "bio_uncanny_dodge",
@@ -1159,7 +1214,9 @@
     "name": { "str": "Voice Remodulator" },
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_water_extractor",
@@ -1240,7 +1297,9 @@
     "type": "bionic",
     "name": { "str": "Intravenous Needletip" },
     "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
-    "occupied_bodyparts": [ [ "hand_l", 1 ] ]
+    "occupied_bodyparts": [ [ "hand_l", 1 ] ],
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_weight",
@@ -1266,7 +1325,9 @@
     "name": { "str": "Taste Modifier" },
     "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  The active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
     "occupied_bodyparts": [ [ "head", 1 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "starting_bionic": true,
+    "points": 1
   },
   {
     "id": "bio_soporific",

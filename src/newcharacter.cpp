@@ -119,7 +119,7 @@ enum {
 };
 
 enum {
-    NEWCHAR_TAB_MAX = 6 // The ID of the rightmost tab
+    NEWCHAR_TAB_MAX = 7 // The ID of the rightmost tab
 };
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
@@ -134,6 +134,7 @@ enum struct tab_direction {
 tab_direction set_points( avatar &u, points_left &points );
 tab_direction set_stats( avatar &u, points_left &points );
 tab_direction set_traits( avatar &u, points_left &points );
+tab_direction set_bionics( avatar &u, points_left &points );
 tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
 tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
 tab_direction set_skills( avatar &u, points_left &points );
@@ -525,9 +526,12 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_traits( *this, points );
                 break;
             case 5:
-                result = set_skills( *this, points );
+                result = set_bionics( *this, points );
                 break;
             case 6:
+                result = set_skills( *this, points );
+                break;
+            case 7:
                 result = set_description( *this, allow_reroll, points );
                 break;
         }
@@ -684,6 +688,7 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "PROFESSION" ),
         _( "STATS" ),
         _( "TRAITS" ),
+        _( "BIONICS" ),
         _( "SKILLS" ),
         _( "DESCRIPTION" ),
     };
@@ -1080,6 +1085,18 @@ tab_direction set_traits( avatar &u, points_left &points )
     };
     std::vector<trait_entry> vStartingTraits[3];
 
+    for( auto &bio_iter : bionic_data::get_all() ) {
+        if( bio_iter.points > 0 ) {
+            if( u.has_bionic( bio_iter.id ) ) {
+                num_good += bio_iter.points;
+            }
+        } else if( bio_iter.points < 0 ) {
+            if( u.has_bionic( bio_iter.id ) ) {
+                num_bad += bio_iter.points;
+            }
+        }
+    }
+
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
         if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
@@ -1465,7 +1482,7 @@ tab_direction set_traits( avatar &u, points_left &points )
 
 tab_direction set_bionics( avatar &u, points_left &points )
 {
-    const int max_traits_points = get_option<int>( "MAX_TRAITS_POINTS" );
+    const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
@@ -1477,52 +1494,62 @@ tab_direction set_bionics( avatar &u, points_left &points )
         bool conflicts;
         bool forbidden;
     };
-    std::vector<trait_entry> vStartingTraits[3];
+    std::vector<bionic_entry> vStartingBionics[3];
 
-    for( auto &traits_iter : bionic_data::get_all() ) {
-        // Don't list blacklisted traits
-        if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
-            continue;
+    for( auto &traits_iter : mutation_branch::get_all() ) {
+        if( traits_iter.points > 0 ) {
+            if( u.has_trait( traits_iter.id ) ) {
+                num_good += traits_iter.points;
+            }
+        } else if( traits_iter.points < 0 ) {
+            if( u.has_trait( traits_iter.id ) ) {
+                num_bad += traits_iter.points;
+            }
         }
+    }
+
+    for( auto &bio_iter : bionic_data::get_all() ) {
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<bionic_id> profbionics = u.prof->CBMs();
         const bool is_profbionic = std::find( profbionics.begin(), profbionics.end(),
-                                             bio_iter.id ) != profbionics.end();
+                                              bio_iter.id ) != profbionics.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+        if( bio_iter.starting_bionic || g->scen->bionicquery( bio_iter.id ) || is_profbionic ) {
             size_t page;
-            if( traits_iter.points > 0 ) {
+            if( bio_iter.points > 0 ) {
                 page = 0;
-                if( u.has_trait( traits_iter.id ) ) {
-                    num_good += traits_iter.points;
+                if( u.has_bionic( bio_iter.id ) ) {
+                    num_good += bio_iter.points;
                 }
-            } else if( traits_iter.points < 0 ) {
+            } else if( bio_iter.points < 0 ) {
                 page = 1;
-                if( u.has_trait( traits_iter.id ) ) {
-                    num_bad += traits_iter.points;
+                if( u.has_bionic( bio_iter.id ) ) {
+                    num_bad += bio_iter.points;
                 }
             } else {
                 page = 2;
             }
-            vStartingTraits[page].push_back( { traits_iter.id, false, false, g->scen->is_forbidden_trait( traits_iter.id ) } );
+            vStartingBionics[page].push_back( { bio_iter.id, false, false, g->scen->is_forbidden_bionic( bio_iter.id ) } );
         }
     }
     //If the third page is empty, only use the first two.
-    const int used_pages = vStartingTraits[2].empty() ? 2 : 3;
+    const int used_pages = vStartingBionics[2].empty() ? 2 : 3;
 
-    for( auto &vStartingTrait : vStartingTraits ) {
-        std::sort( vStartingTrait.begin(), vStartingTrait.end(), []( const trait_entry & a,
-        const trait_entry & b ) {
-            return trait_display_nocolor_sort( a.id, b.id );
+    for( auto &vStartingBionic : vStartingBionics ) {
+        std::sort( vStartingBionic.begin(), vStartingBionic.end(), []( const bionic_entry & a,
+        const bionic_entry & b ) {
+            return localized_compare( a.id->name.translated(), b.id->name.translated() );
         } );
     }
 
     const auto recalc_display_cache = [&]() {
+        auto cbms = u.prof->CBMs();
         for( int page = 0; page < used_pages; page++ ) {
-            for( trait_entry &entry : vStartingTraits[page] ) {
-                entry.conflicts = newcharacter::has_conflicting_trait( u, entry.id );
-                entry.avatar_has = u.has_trait( entry.id );
+            for( bionic_entry &entry : vStartingBionics[page] ) {
+                entry.conflicts = newcharacter::bionic_has_conflict( u, entry.id );
+                entry.avatar_has = u.has_bionic( entry.id ) ||
+                                   std::find( cbms.begin(), cbms.end(), entry.id ) != cbms.end();
             }
         }
     };
@@ -1531,9 +1558,9 @@ tab_direction set_bionics( avatar &u, points_left &points )
     int iCurWorkingPage = 0;
     int iStartPos[3] = { 0, 0, 0 };
     int iCurrentLine[3] = { 0, 0, 0 };
-    size_t traits_size[3];
+    size_t bionics_size[3];
     for( int i = 0; i < 3; i++ ) {
-        traits_size[i] = vStartingTraits[i].size();
+        bionics_size[i] = vStartingBionics[i].size();
     }
 
     size_t iContentHeight;
@@ -1580,7 +1607,7 @@ tab_direction set_bionics( avatar &u, points_left &points )
 
         for( int i = 0; i < 3; i++ ) {
             // Shift start position to avoid iterating beyond end
-            int total = static_cast<int>( traits_size[i] );
+            int total = static_cast<int>( bionics_size[i] );
             int heigth = static_cast<int>( iContentHeight );
             iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
         }
@@ -1610,7 +1637,7 @@ tab_direction set_bionics( avatar &u, points_left &points )
         werase( w );
         werase( w_description );
 
-        draw_character_tabs( w, _( "TRAITS" ) );
+        draw_character_tabs( w, _( "BIONICS" ) );
 
         draw_points( w, points );
         int full_string_length = 0;
@@ -1654,26 +1681,26 @@ tab_direction set_bionics( avatar &u, points_left &points )
 
             int &start = iStartPos[iCurrentPage];
             int current = iCurrentLine[iCurrentPage];
-            calcStartPos( start, current, iContentHeight, traits_size[iCurrentPage] );
-            int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
+            calcStartPos( start, current, iContentHeight, bionics_size[iCurrentPage] );
+            int end = start + static_cast<int>( std::min( bionics_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
-                const trait_entry &entry = vStartingTraits[iCurrentPage][i];
-                const mutation_branch &mdata = entry.id.obj();
+                const bionic_entry &entry = vStartingBionics[iCurrentPage][i];
+                const bionic_data &bio = entry.id.obj();
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
-                    int points = mdata.points;
+                    int points = bio.points;
                     bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
                     mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
                                vgettext( "%s %s %d point", "%s %s %d points", points ),
-                               mdata.name(),
+                               bio.name,
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
                     fold_and_print( w_description, point_zero,
                                     TERMX - 2, col_tr,
-                                    mdata.desc() );
+                                    bio.description.translated() );
                 }
 
                 nc_color col;
@@ -1700,10 +1727,10 @@ tab_direction set_bionics( avatar &u, points_left &points )
 
                 int cur_y = 5 + i - start;
                 int cur_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, point( cur_x, cur_y ), col, utf8_truncate( mdata.name(), page_width - 2 ) );
+                mvwprintz( w, point( cur_x, cur_y ), col, utf8_truncate( bio.name.translated(), page_width - 2 ) );
             }
 
-            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
+            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, bionics_size[iCurrentPage],
                             point( page_width * iCurrentPage, 5 ) );
         }
         // Draws main window, traits description window and character preview window
@@ -1743,7 +1770,7 @@ tab_direction set_bionics( avatar &u, points_left &points )
             }
         } else if( action == "UP" ) {
             if( iCurrentLine[iCurWorkingPage] == 0 ) {
-                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+                iCurrentLine[iCurWorkingPage] = bionics_size[iCurWorkingPage] - 1;
             } else {
                 iCurrentLine[iCurWorkingPage]--;
             }
@@ -1764,81 +1791,92 @@ tab_direction set_bionics( avatar &u, points_left &points )
             return tab_direction::NONE;
         } else if( action == "DOWN" ) {
             iCurrentLine[iCurWorkingPage]++;
-            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= bionics_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
         } else if( action == "RANDOMIZE" ) {
-            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
+            iCurrentLine[iCurWorkingPage] = rng( 0, bionics_size[iCurWorkingPage] - 1 );
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
-            const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]].id;
-            const mutation_branch &mdata = cur_trait.obj();
+            const bionic_id cur_bionic = vStartingBionics[iCurWorkingPage][iCurrentLine[iCurWorkingPage]].id;
+            const bionic_data &bio = cur_bionic.obj();
 
+            std::vector<trait_id> conflicting_traits;
             // Look through the profession bionics, and see if any of them conflict with this trait
-            std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
-            const bool has_trait = u.has_trait( cur_trait );
+            for( trait_id id : bio.canceled_mutations ) {
+                conflicting_traits.push_back( id );
+            }
+            const bool has_bionic = u.has_bionic( cur_bionic );
 
-            if( has_trait ) {
+            if( has_bionic ) {
 
                 inc_type = -1;
 
-                if( g->scen->is_locked_trait( cur_trait ) ) {
+                if( g->scen->is_locked_bionic( cur_bionic ) ) {
                     inc_type = 0;
-                    popup( _( "Your scenario of %s prevents you from removing this trait." ),
+                    popup( _( "Your scenario of %s prevents you from removing this bionic." ),
                            g->scen->gender_appropriate_name( u.male ) );
-                } else if( u.prof->is_locked_trait( cur_trait ) ) {
+                } else if( u.prof->is_locked_bionic( cur_bionic ) ) {
                     inc_type = 0;
-                    popup( _( "Your profession of %s prevents you from removing this trait." ),
+                    popup( _( "Your profession of %s prevents you from removing this bionic." ),
                            u.prof->gender_appropriate_name( u.male ) );
                 }
-            } else if( newcharacter::has_conflicting_trait( u, cur_trait ) ) {
-                popup( _( "You already picked a conflicting trait!" ) );
-            } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
-                popup( _( "The scenario you picked prevents you from taking this trait!" ) );
-            } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
-                popup( _( "Your profession of %s prevents you from taking this trait." ),
+            } else if( g->scen->is_forbidden_bionic( cur_bionic ) ) {
+                popup( _( "The scenario you picked prevents you from taking this bionic!" ) );
+            } else if( u.prof->is_forbidden_bionic( cur_bionic ) ) {
+                popup( _( "Your profession of %s prevents you from taking this bionic." ),
                        u.prof->gender_appropriate_name( u.male ) );
-            } else if( !cbms_blocking_trait.empty() ) {
+            } else if( !conflicting_traits.empty() ) {
                 // Grab a list of the names of the bionics that block this trait
                 // So that the player know what is preventing them from taking it
                 std::vector<std::string> conflict_names;
-                conflict_names.reserve( cbms_blocking_trait.size() );
-                for( const bionic_id &conflict : cbms_blocking_trait ) {
-                    conflict_names.emplace_back( conflict->name.translated() );
+                conflict_names.reserve( conflicting_traits.size() );
+                for( const trait_id &conflict : conflicting_traits ) {
+                    conflict_names.emplace_back( conflict.obj().name() );
                 }
-                popup( _( "The following bionics prevent you from taking this trait: %s." ),
+                popup( _( "The following traits prevent you from taking this bionic: %s." ),
                        enumerate_as_string( conflict_names ) );
-            } else if( iCurWorkingPage == 0 && num_good + mdata.points >
+            } else if( iCurWorkingPage == 0 && num_good + bio.points >
                        max_trait_points && !points.is_freeform() ) {
                 popup( vgettext( "Sorry, but you can only take %d point of advantages.",
                                  "Sorry, but you can only take %d points of advantages.", max_trait_points ),
                        max_trait_points );
 
-            } else if( iCurWorkingPage != 0 && num_bad + mdata.points <
+            } else if( iCurWorkingPage != 0 && num_bad + bio.points <
                        -max_trait_points && !points.is_freeform() ) {
                 popup( vgettext( "Sorry, but you can only take %d point of disadvantages.",
                                  "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
                        max_trait_points );
 
+            } else if( !u.bionic_installation_issues( cur_bionic ).empty() ) {
+                const auto &issues = u.bionic_installation_issues( cur_bionic );
+                std::string detailed_info;
+                for( auto &elem : issues ) {
+                    //~ <Body part name>: <number of slots> more slot(s) needed.
+                    detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
+                                                    body_part_name_as_heading( elem.first->token, 1 ),
+                                                    elem.second );
+                }
+                popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
             } else {
                 inc_type = 1;
             }
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
-                u.toggle_trait( cur_trait );
+                u.toggle_bionic( cur_bionic );
 #if defined(TILES)
                 // If character had trait - it's now removed. Trait could blocked some clothes, need to retoggle
-                if( has_trait && character_preview.clothes_showing() ) {
+                if( has_bionic && character_preview.clothes_showing() ) {
                     character_preview.toggle_clothes();
                     character_preview.toggle_clothes();
                 }
 #endif
-                points.trait_points -= mdata.points * inc_type;
+                points.trait_points -= bio.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
-                    num_good += mdata.points * inc_type;
+                    num_good += bio.points * inc_type;
                 } else {
-                    num_bad += mdata.points * inc_type;
+                    num_bad += bio.points * inc_type;
                 }
             }
 
@@ -1883,6 +1921,7 @@ struct {
         }
     }
 } profession_sorter;
+
 
 /** Handle the profession tab of the character generation menu */
 tab_direction set_profession( avatar &u, points_left &points,
@@ -3082,6 +3121,29 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                 current_trait->get_display_color(), current_trait->name() );
             }
         }
+
+        int cont = current_traits.size() + 2;
+        mvwprintz( w_traits, point( 0, cont ), COL_HEADER, _( "Bionics: " ) );
+        std::vector<bionic_id> current_bionics;
+        for( auto id : you.prof->CBMs() ) {
+            current_bionics.push_back( id );
+        }
+        for( auto bio : you.get_bionic_collection() ) {
+            current_bionics.push_back( bio.id );
+        }
+        std::sort( current_bionics.begin(), current_bionics.end(), []( const bionic_id & a,
+        const bionic_id & b ) {
+            return localized_compare( a->name.translated(), b->name.translated() );
+        } );
+        if( current_bionics.empty() ) {
+            wprintz( w_traits, c_light_red, _( "None!" ) );
+        } else {
+            for( size_t i = 0; i < current_bionics.size(); i++ ) {
+                const auto current_bionic = current_bionics[i];
+                trim_and_print( w_traits, point( 0, cont + i + 1 ), getmaxx( w_traits ) - 1,
+                                c_white, current_bionic->name.translated() );
+            }
+        }
         wnoutrefresh( w_traits );
 
         mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
@@ -3781,6 +3843,29 @@ bool has_conflicting_trait( const Character &ch, const trait_id &t )
            has_lower_trait( ch, t ) ||
            has_higher_trait( ch, t ) ||
            has_same_type_trait( ch, t ) ;
+}
+
+bool bionic_has_conflict( const Character &ch, const bionic_id &b )
+{
+    bool has_conflict_mut = false;
+    for( const trait_id &mid : b->canceled_mutations ) {
+        if( ch.has_trait( mid ) ) {
+            has_conflict_mut = true;
+        }
+    }
+    bool lacks_needed_bio = false;
+    if( !b->required_bionics.empty() ) {
+        for( const bionic_id &req_bid : b->required_bionics ) {
+            if( !ch.has_bionic( req_bid ) ) {
+                lacks_needed_bio = true;
+                break;
+            }
+        }
+    }
+
+    return !ch.bionic_installation_issues( b ).empty() ||
+           has_conflict_mut ||
+           lacks_needed_bio;
 }
 
 bool has_lower_trait( const Character &ch, const trait_id &t )
