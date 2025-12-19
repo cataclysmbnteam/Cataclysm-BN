@@ -1545,7 +1545,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         mon.make_pet();
 
         // Apply well_fed effect to improve monster productivity
-        // This effect increases reproduction rate, milk production, and growth speed
+        // This effect increases reproduction rate, milk production, growth speed, and HP recovery
         // Duration: 24 hours (one full day cycle)
         const time_duration well_fed_duration = 24_hours;
 
