@@ -1166,22 +1166,19 @@ auto weather_manager::get_temperature( const tripoint &location ) const -> units
         base_temp = temperatures::annual_average;
     } else {
         // Underground: gradual transition to annual average
-        // z=-1: 50%, z=-2: 25%, z<=-3: 0%
-        double influence_factor;
-        if( location.z == -1 ) {
-            influence_factor = 0.5;
-        } else if( location.z == -2 ) {
-            influence_factor = 0.25;
-        } else { // z <= -3
-            influence_factor = 0.0;
+        if( location.z <= -3 ) {
+            // Deep underground: always annual average (0% surface influence)
+            base_temp = temperatures::annual_average;
+        } else {
+            // z=-1: 50%, z=-2: 25%
+            const double influence_factor = location.z == -1 ? 0.5 : 0.25;
+            
+            const double annual_avg_c = units::to_celsius( temperatures::annual_average );
+            const double current_temp_c = units::to_celsius( temperature );
+            const double temp_diff_c = current_temp_c - annual_avg_c;
+            const double base_temp_c = annual_avg_c + temp_diff_c * influence_factor;
+            base_temp = units::from_celsius( base_temp_c );
         }
-        
-        // annual_average + (current_temp - annual_average) * influence_factor
-        const double annual_avg_c = units::to_celsius( temperatures::annual_average );
-        const double current_temp_c = units::to_celsius( temperature );
-        const double temp_diff_c = current_temp_c - annual_avg_c;
-        const double base_temp_c = annual_avg_c + temp_diff_c * influence_factor;
-        base_temp = units::from_celsius( base_temp_c );
     }
     
     const int base_f = units::to_fahrenheit( base_temp );
@@ -1207,15 +1204,13 @@ units::temperature
     }
     
     // Underground: gradual transition to annual average
-    // z=-1: 50%, z=-2: 25%, z<=-3: 0%
-    double influence_factor;
-    if( location.z() == -1 ) {
-        influence_factor = 0.5;
-    } else if( location.z() == -2 ) {
-        influence_factor = 0.25;
-    } else { // z <= -3
-        influence_factor = 0.0;
+    if( location.z() <= -3 ) {
+        // Deep underground: always annual average (0% surface influence)
+        return temperatures::annual_average;
     }
+    
+    // z=-1: 50%, z=-2: 25%
+    const double influence_factor = location.z() == -1 ? 0.5 : 0.25;
     
     const double annual_avg_c = units::to_celsius( temperatures::annual_average );
     const double current_temp_c = units::to_celsius( w.temperature );
