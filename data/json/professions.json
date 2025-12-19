@@ -647,6 +647,35 @@
   },
   {
     "type": "profession",
+    "id": "bionic_assisted_unemployed",
+    "name": "Bionic-Assisted Survivor",
+    "description": "Besides a few basic bionics, some would say that there's nothing notable about you.  But you've survived, and that's more than most could say right now.",
+    "points": 1,
+    "CBMs": [
+      "bio_batteries",
+      "bio_power_storage",
+      "bio_lighter"
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "jeans",
+          "longshirt",
+          "socks",
+          "sneakers",
+          "mbag",
+          "pockknife",
+          "water_clean",
+          "smart_phone",
+          "wristwatch"
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "lonesome_drifter",
     "name": "Lonesome Drifter",
     "description": "You thought you were just another resident of Massachusetts, until the undead came calling. Armed with blinkies, a shotgun, and a set of survival rules, you know the best way to survive is to keep moving, shoot straight, and never forget your seatbelt.  You've heard the Cataclysm hasn't reached the west, so that's where you're heading.",
@@ -2161,12 +2190,50 @@
   },
   {
     "type": "profession",
+    "id": "bionic_assisted_smoker",
+    "name": "Bionic-Assisted Smoker",
+    "description": "To spare yourself the effort of keeping a lighter on hand, you decided to install bionics. You're on the last pack however, and with Cataclysm going on, you may have difficulties in acquiring more.",
+    "points": 0,
+    "CBMs": [
+      "bio_batteries",
+      "bio_power_storage",
+      "bio_lighter"
+    ],
+    "items": {
+      "both": {
+        "items": [ "pants", "dress_shirt", "socks", "smart_phone", "dress_shoes", "knit_scarf", "cig", "wristwatch" ],
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+  },
+  {
+    "type": "profession",
     "id": "crackhead",
     "name": "Crackhead",
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.",
     "points": -1,
     "items": {
       "both": [ "crackpipe", "crack", "crack", "ref_lighter", "tank_top" ],
+      "male": [ "pants", "flip_flops" ],
+      "female": [ "skirt", "heels" ]
+    },
+    "addictions": [ { "intensity": 20, "type": "crack" } ]
+  },
+  {
+    "type": "profession",
+    "id": "bionic_assisted_crackhead",
+    "name": "Bionic-Assisted Crackhead",
+    "description": "Cocaine.  It is, indeed, a helluva drug.  Some odd-looking doctors offered you a deal at some point, with no obvious downsides.  How could anyone refuse?",
+    "points": 0,
+    "CBMs": [
+      "bio_batteries",
+      "bio_power_storage",
+      "bio_lighter"
+    ],
+    "items": {
+      "both": [ "crackpipe", "crack", "crack", "tank_top" ],
       "male": [ "pants", "flip_flops" ],
       "female": [ "skirt", "heels" ]
     },
@@ -2200,6 +2267,36 @@
   },
   {
     "type": "profession",
+    "id": "bionic_assisted_homeless",
+    "name": "Bionic-Assisted Hobo",
+    "description": "To at least pretend that your noteworthy alcohol consumption has some higher purpose, you accepted the offer to install ethanol burner and some bionics.  You probably won't be able to show gratitude to your benefactors, besides giving a toast to them...  Seems you're going to need more drinks anyway.",
+    "points": 0,
+    "starting_cash": 0,
+    "CBMs": [
+      "bio_ethanol",
+      "bio_power_storage",
+      "bio_lighter"
+    ],
+    "items": {
+      "both": [
+        "pants",
+        "gloves_light_fingerless",
+        "knit_scarf",
+        "whiskey",
+        "gin",
+        "bum_wine",
+        "ragpouch",
+        "bindle",
+        "can_beans",
+        "pockknife"
+      ],
+      "male": [ "undershirt" ],
+      "female": [ "camisole" ]
+    },
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
+  },
+  {
+    "type": "profession",
     "id": "dumpster_diver",
     "name": "Dumpster Diver",
     "//": "basically a luxury hobo",
@@ -2219,6 +2316,38 @@
           "water_clean",
           "pockknife",
           "ref_lighter"
+        ],
+        "entries": [ { "group": "cannedfood", "count": 3 } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_assisted_dumpster_diver",
+    "name": "Bionic-Assisted Dumpster Diver",
+    "//": "basically a luxury hobo",
+    "description": "You lived off what others threw away. You even managed to get a few working bionics this way. With the old world shattered, your skills should prove useful to help you survive.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "mechanics" } ],
+    "CBMs": [
+      "bio_batteries",
+      "bio_power_storage",
+      "bio_lighter"
+    ],
+    "vehicle": "shopping_cart",
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "gloves_light_fingerless",
+          "smart_phone",
+          "fanny",
+          "backpack",
+          "sneakers",
+          "water_clean",
+          "pockknife"
         ],
         "entries": [ { "group": "cannedfood", "count": 3 } ]
       },
