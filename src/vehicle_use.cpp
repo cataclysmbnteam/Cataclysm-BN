@@ -4,6 +4,7 @@
 #include "units_temperature.h"
 
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <cmath>
 #include <cstdlib>
