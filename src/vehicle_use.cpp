@@ -882,11 +882,17 @@ void vehicle::use_controls( const tripoint &pos )
             }
         }
         if( !droppers.empty() ) {
-            options.emplace_back( _( "Activate all item droppers" ), keybind( "TURRET_ALL_OVERRIDE" ) );
+            options.emplace_back( _( "Activate all item droppers (Drop Everything)" ),
+                                  keybind( "TURRET_ALL_OVERRIDE" ) );
             actions.emplace_back( [&] { item_dropper_drop_all(); refresh(); } );
 
-            options.emplace_back( _( "Activate one item dropper" ), keybind( "TURRET_SINGLE_FIRE" ) );
-            actions.emplace_back( [&] { item_dropper_drop_single(); refresh(); } );
+            options.emplace_back( _( "Activate one item dropper (Drop Everything)" ),
+                                  keybind( "TURRET_SINGLE_FIRE" ) );
+            actions.emplace_back( [&] { item_dropper_drop_single( false ); refresh(); } );
+
+            options.emplace_back( _( "Activate one item dropper (Drop One Thing)" ),
+                                  keybind( "TURRET_SINGLE_FIRE" ) );
+            actions.emplace_back( [&] { item_dropper_drop_single( true ); refresh(); } );
         }
     }
     uilist menu;

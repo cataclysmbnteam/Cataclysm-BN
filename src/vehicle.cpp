@@ -7931,26 +7931,51 @@ bool vehicle::has_item_stored( vehicle_part *part )
     return false;
 }
 
-void vehicle::item_dropper_drop( std::vector<vehicle_part *> droppers )
+void vehicle::item_dropper_drop( std::vector<vehicle_part *> droppers, bool single )
 {
-    for( vehicle_part *d : droppers ) {
-        vehicle_part *part = get_cargo_part( d );
+    if( single ) {
+        vehicle_part *part = get_cargo_part( droppers[0] );
+        std::vector<std::string> option_names;
+        std::vector<item *> options;
+        for( item *it : part->items ) {
+            option_names.push_back( it->display_name() );
+            options.push_back( it );
+        }
+        const int idx = uilist( _( "Drop which item?" ), option_names );
+        if( idx < 0 ) {
+            return;
+        }
         map &here = get_map();
-        if( part ) {
-            tripoint pos = global_part_pos3( index_of_part( part ) );
-            while( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pos ) ) {
-                pos.z -= 1;
-            }
-            std::cout << pos;
-            std::cout << "\n";
-            for( detached_ptr<item> &it : part->items.clear() ) {
-                g->m.add_item_or_charges( pos, std::move( it ) );
+        tripoint pos = global_part_pos3( index_of_part( part ) );
+        while( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pos ) ) {
+            pos.z -= 1;
+        }
+        item *dropper = options[idx];
+        if( dropper->get_use( "transform" ) ) {
+            g->u.invoke_item( dropper, "transform" );
+        }
+        g->m.add_item_or_charges( pos, part->remove_item( *dropper ) );
+    } else {
+        for( vehicle_part *d : droppers ) {
+            vehicle_part *part = get_cargo_part( d );
+            map &here = get_map();
+            if( part ) {
+                tripoint pos = global_part_pos3( index_of_part( part ) );
+                while( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pos ) ) {
+                    pos.z -= 1;
+                }
+                for( detached_ptr<item> &it : part->items.clear() ) {
+                    if( it->get_use( "transform" ) ) {
+                        g->u.invoke_item( &*it, "transform" );
+                    }
+                    g->m.add_item_or_charges( pos, std::move( it ) );
+                }
             }
         }
     }
 }
 
-void vehicle::item_dropper_drop_single()
+void vehicle::item_dropper_drop_single( bool single )
 {
     std::vector<std::string> option_names;
     std::vector<vehicle_part *> options;
@@ -7977,10 +8002,10 @@ void vehicle::item_dropper_drop_single()
 
     std::vector<vehicle_part *> droppers;
     droppers.push_back( dropper );
-    item_dropper_drop( droppers );
+    item_dropper_drop( droppers, single );
 }
 
-void vehicle::item_dropper_drop_all()
+void vehicle::item_dropper_drop_all( )
 {
     std::vector<vehicle_part *> ret;
 
@@ -7992,5 +8017,5 @@ void vehicle::item_dropper_drop_all()
         }
     }
 
-    item_dropper_drop( ret );
+    item_dropper_drop( ret, false );
 }

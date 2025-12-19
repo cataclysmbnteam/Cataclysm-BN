@@ -1402,11 +1402,11 @@ class vehicle
 
         bool has_item_stored( vehicle_part *part );
 
-        void item_dropper_drop( std::vector<vehicle_part *> droppers );
+        void item_dropper_drop( std::vector<vehicle_part *> droppers, bool single );
 
         void item_dropper_drop_all();
 
-        void item_dropper_drop_single();
+        void item_dropper_drop_single( bool single );
     private:
         /*
          * Find all turrets that are ready to fire.
