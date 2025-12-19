@@ -1,7 +1,8 @@
 [
   {
     "type": "EXTERNAL_OPTION",
-    "id": "UNDERGROUND_TEMPERATURE_INFLUENCED_BY_SURFACE",
+    "name": "UNDERGROUND_TEMPERATURE_INFLUENCED_BY_SURFACE",
+    "stype": "bool",
     "value": true
   }
 ]
