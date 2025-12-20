@@ -279,4 +279,3 @@ Bionics that cannot be taken due to your profession
 (optional, list of bionic_ids)
 
 Bionics that can be taken regardless of weather they are a starting bionic
-

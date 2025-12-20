@@ -1108,7 +1108,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
                                              traits_iter.id ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) ||
+            u.prof->is_allowed_trait( traits_iter.id ) || is_proftrait ) {
             size_t page;
             if( traits_iter.points > 0 ) {
                 page = 0;
