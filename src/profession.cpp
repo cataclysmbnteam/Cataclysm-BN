@@ -249,6 +249,8 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_bionics", _forbidden_bionics, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "allowed_traits", _allowed_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "allowed_bionics", _allowed_bionics, auto_flags_reader<bionic_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
@@ -334,6 +336,12 @@ void profession::check_definition() const
     }
 
     for( auto &t : _forbidden_bionics ) {
+        if( !t.is_valid() ) {
+            debugmsg( "bionic %s for profession %s does not exist", t.c_str(), id.c_str() );
+        }
+    }
+
+    for( auto &t : _allowed_bionics ) {
         if( !t.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
@@ -536,14 +544,19 @@ std::set<trait_id> profession::get_forbidden_traits() const
     return _forbidden_traits;
 }
 
+std::set<trait_id> profession::get_allowed_traits() const
+{
+    return _allowed_traits;
+}
+
 std::vector<bionic_id> profession::get_locked_bionics() const
 {
     return _starting_CBMs;
 }
 
-std::set<bionic_id> profession::get_forbidden_bionics() const
+std::set<bionic_id> profession::get_allowed_bionics() const
 {
-    return _forbidden_bionics;
+    return _allowed_bionics;
 }
 
 profession::StartingSkillList profession::skills() const
@@ -571,6 +584,11 @@ bool profession::is_forbidden_trait( const trait_id &trait ) const
     return _forbidden_traits.contains( trait );
 }
 
+bool profession::is_allowed_trait( const trait_id &trait ) const
+{
+    return _allowed_traits.contains( trait );
+}
+
 bool profession::is_locked_bionic( const bionic_id &bionic ) const
 {
     return std::ranges::find( _starting_CBMs, bionic ) !=
@@ -580,6 +598,11 @@ bool profession::is_locked_bionic( const bionic_id &bionic ) const
 bool profession::is_forbidden_bionic( const bionic_id &bionic ) const
 {
     return _forbidden_bionics.contains( bionic );
+}
+
+bool profession::is_allowed_bionic( const bionic_id &bionic ) const
+{
+    return _allowed_bionics.contains( bionic );
 }
 
 std::map<spell_id, int> profession::spells() const

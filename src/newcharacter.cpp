@@ -1515,7 +1515,8 @@ tab_direction set_bionics( avatar &u, points_left &points )
         const bool is_profbionic = std::find( profbionics.begin(), profbionics.end(),
                                               bio_iter.id ) != profbionics.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( bio_iter.starting_bionic || g->scen->bionicquery( bio_iter.id ) || is_profbionic ) {
+        if( bio_iter.starting_bionic || g->scen->bionicquery( bio_iter.id ) ||
+            u.prof->is_allowed_bionic( bio_iter.id ) || is_profbionic ) {
             size_t page;
             if( bio_iter.points > 0 ) {
                 page = 0;
