@@ -165,10 +165,11 @@ jobs:
         if: runner.os == 'Windows'
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: windows-${{ matrix.artifact }}
+          key: windows-${{ matrix.artifact }}-${{ github.ref_name }}
           restore-keys: |
-            windows-${{ matrix.artifact }}
-            windows-
+            windows-${{ matrix.artifact }}-${{ github.ref_name }}
+            windows-${{ matrix.artifact }}-main
+            windows-${{ matrix.artifact }}-
           max-size: 500M
           verbose: 2
           save: ${{ github.event_name != 'pull_request' }}
