@@ -7964,7 +7964,9 @@ void vehicle::item_dropper_drop( std::vector<vehicle_part *> droppers, bool sing
                 while( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pos ) ) {
                     pos.z -= 1;
                 }
-                for( item *it : part->items ) {
+                // DANGER: DO NOT PUT THIS IN THE FOR LOOP
+                const std::vector<item *> items = part->get_items();
+                for( item *it : items ) {
                     if( it->get_use( "transform" ) ) {
                         g->u.invoke_item( it, "transform" );
                     }
