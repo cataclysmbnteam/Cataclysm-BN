@@ -884,15 +884,15 @@ void vehicle::use_controls( const tripoint &pos )
         }
         if( !droppers.empty() ) {
             options.emplace_back( _( "Activate all item droppers (Drop Everything)" ),
-                                  keybind( "TURRET_ALL_OVERRIDE" ) );
+                                  keybind( "DROPPER_ALL" ) );
             actions.emplace_back( [&] { item_dropper_drop_all(); refresh(); } );
 
             options.emplace_back( _( "Activate one item dropper (Drop Everything)" ),
-                                  keybind( "TURRET_SINGLE_FIRE" ) );
+                                  keybind( "DROPPER_SINGLE_ALL" ) );
             actions.emplace_back( [&] { item_dropper_drop_single( false ); refresh(); } );
 
             options.emplace_back( _( "Activate one item dropper (Drop One Thing)" ),
-                                  keybind( "TURRET_SINGLE_FIRE" ) );
+                                  keybind( "DROPPER_SINGLE" ) );
             actions.emplace_back( [&] { item_dropper_drop_single( true ); refresh(); } );
         }
     }
