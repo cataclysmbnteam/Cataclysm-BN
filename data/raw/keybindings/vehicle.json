@@ -292,5 +292,5 @@
     "category": "VEHICLE",
     "name": "Bomber single tile & bomb",
     "bindings": [ { "input_method": "keyboard", "key": "?" } ]
-  },
+  }
 ]
