@@ -127,6 +127,7 @@ jobs:
         with:
           configurePreset: ${{ matrix.preset }}
           buildPreset: ${{ matrix.preset }}
+          buildPresetAdditionalArgs: "['-j', '2']"
 
       - name: run JSON formatting check (test-stage only)
         if: ${{ env.SKIP == 'false' && env.TEST_STAGE == '1' }}
