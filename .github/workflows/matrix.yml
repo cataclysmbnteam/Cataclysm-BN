@@ -37,7 +37,7 @@ jobs:
     needs: skip-duplicates
     strategy:
       fail-fast: ${{ github.ref_name == 'main' }}
-      max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
+      max-parallel: ${{ github.ref_name == 'main' && 20 || 2 }}
       matrix:
         include:
           - title: GCC, Ubuntu, Curses, CMake
