@@ -2960,8 +2960,8 @@ void monster::drop_items_on_death()
     if( spawn_rate < 1 ) {
         // Temporary vector, to remember which items will be dropped
         std::vector<detached_ptr<item>> remaining;
-        for( detached_ptr<item> &it : items ) {
-            if( rng_float( 0, 1 ) < spawn_rate ) {
+        for( auto &it : items ) {
+            if( it->has_flag( flag_MISSION_ITEM ) || rng_float( 0, 1 ) < spawn_rate ) {
                 remaining.push_back( std::move( it ) );
             }
         }
