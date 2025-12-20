@@ -426,6 +426,22 @@ void Character::clear_cosmetic_traits( std::string mutation_type, trait_id new_t
     }
 }
 
+namespace
+{
+
+void set_cosmetic_trait( Character &c, std::string mutation_type, const trait_id &trait )
+{
+    if( trait.is_valid() ) {
+        c.clear_cosmetic_traits( mutation_type, trait );
+
+        if( !c.has_trait( trait ) ) {
+            c.toggle_trait( trait );
+        }
+    }
+}
+
+} // namespace
+
 void avatar::randomize_cosmetics()
 {
     randomize_cosmetic_trait( type_hair_style );
@@ -454,8 +470,13 @@ bool avatar::create( character_type type, const std::string &tempname )
     int tab = 0;
     points_left points = points_left();
 
+    static auto male_default_hair = trait_id( "hair_black_medium" );
+    static auto female_default_hair = trait_id( "hair_blond_long" );
+
     switch( type ) {
         case character_type::CUSTOM:
+            // don't make them bald!
+            set_cosmetic_trait( *this, type_hair_style, male ? male_default_hair : female_default_hair );
             break;
         case character_type::RANDOM:
             //random scenario, default name if exist
