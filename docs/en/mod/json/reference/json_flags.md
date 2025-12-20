@@ -1640,6 +1640,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `DIFFICULTY_REMOVE`
 - `DOME_LIGHT`
 - `DOOR_MOTOR` Can only be installed on a part with `OPENABLE` flag.
+- `DROPPER` Allows cargo to be dropped out of the adjacent cargo space
 - `E_ALTERNATOR` Is an engine that can power an alternator.
 - `E_COLD_START` Is an engine that starts much slower in cold weather.
 - `E_COMBUSTION` Is an engine that burns its fuel and can backfire or explode when damaged.
