@@ -21,6 +21,7 @@
 #include <memory>
 #include <numeric>
 #include <queue>
+#include <ranges>
 #include <set>
 #include <sstream>
 #include <string>
@@ -682,7 +683,8 @@ bool game::start_game()
 
         // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
         if( u.starting_vehicle ) {
-            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {} );
+            auto veh = place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30, std::vector<std::string> {},
+                                             u.prof->has_flag( "VEH_GROUNDED" ) );
             if( veh ) {
                 veh->set_owner( u );
             } else if( query_gen_failed() ) {
@@ -888,12 +890,13 @@ bool game::start_game()
 
 vehicle *game::place_vehicle_nearby(
     const vproto_id &id, const point_abs_omt &origin, int min_distance,
-    int max_distance, const std::vector<std::string> &omt_search_types )
+    int max_distance, const std::vector<std::string> &omt_search_types,
+    bool notwater )
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.can_float() && veh.has_part( VPFLAG_FLOATS ) ) {
+        if( !notwater && veh.can_float() && veh.has_part( VPFLAG_FLOATS ) ) {
             search_types.emplace_back( "river_shore" );
             search_types.emplace_back( "lake_shore" );
             search_types.emplace_back( "lake_surface" );
@@ -2544,6 +2547,28 @@ bool game::is_game_over()
                 _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to try again." ) ) ) {
             g->quickload();
             return false;
+        }
+
+        auto followers = get_follower_list()
+        | std::views::transform( [&]( const auto & elem ) { return overmap_buffer.find_npc( elem ); } )
+        | std::views::filter( []( const auto & follower ) { return follower && !follower->is_dead_state(); } )
+        | std::ranges::to<std::vector>();
+
+        if( !followers.empty() ) {
+            uilist charmenu;
+            charmenu.text = _( "Continue as one of your followers?" );
+            int charnum = 0;
+            for( const auto &follower : followers ) {
+                charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
+            }
+            charmenu.addentry( charnum, true, 'q', _( "No, end the game" ) );
+            charmenu.query();
+            if( charmenu.ret >= 0 && static_cast<size_t>( charmenu.ret ) < followers.size() ) {
+                if( u.in_vehicle ) { m.unboard_vehicle( u.pos() ); }
+                uquit = QUIT_NO;
+                get_avatar().control_npc( *followers.at( charmenu.ret ) );
+                return false;
+            }
         }
 
         Messages::deactivate();

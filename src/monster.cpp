@@ -108,6 +108,7 @@ static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_well_fed( "well_fed" );
 
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
@@ -385,7 +386,14 @@ void monster::hasten_upgrade()
     }
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    upgrade_time -= rng( 1, scaled_half_life );
+    int reduction = rng( 1, scaled_half_life );
+
+    // Well-fed animals mature 30% faster
+    if( has_effect( effect_well_fed ) ) {
+        reduction = static_cast<int>( reduction * 1.3 );
+    }
+
+    upgrade_time -= reduction;
     if( upgrade_time < 0 ) {
         upgrade_time = 0;
     }
@@ -451,7 +459,16 @@ void monster::try_upgrade( bool pin_time )
     // This is so that late into game new monsters can 'catch up' with all that half-life
     // upgrades they'd get if we were simulating whole world.
     while( true ) {
-        if( upgrade_time > current_day ) {
+        int effective_upgrade_time = upgrade_time;
+
+        // Well-fed animals mature 30% faster (check remaining time)
+        if( has_effect( effect_well_fed ) ) {
+            const int original_grow_time = next_upgrade_time();
+            const int accelerated_grow_time = static_cast<int>( original_grow_time * 0.7 );
+            effective_upgrade_time = ( upgrade_time - original_grow_time ) + accelerated_grow_time;
+        }
+
+        if( effective_upgrade_time > current_day ) {
             // not yet
             return;
         }
@@ -540,7 +557,20 @@ void monster::reproduce()
         return;
     }
 
-    const int spawn_cnt = rng( 1, type->baby_count );
+    // Well-fed animals produce more offspring (30% increase)
+    // Use probabilistic rounding: fractional part becomes probability of +1
+    // e.g., 2.6 babies → 60% chance of 3, 40% chance of 2
+    int max_babies = type->baby_count;
+    if( has_effect( effect_well_fed ) ) {
+        const float exact_babies = max_babies * 1.3f;
+        max_babies = static_cast<int>( exact_babies );
+        const int fractional_percent = static_cast<int>( ( exact_babies - max_babies ) * 100 );
+        if( x_in_y( fractional_percent, 100 ) ) {
+            max_babies++;
+        }
+    }
+
+    const int spawn_cnt = rng( 1, max_babies );
     const auto birth = baby_timer && ( *baby_timer <= calendar::turn ) ? *baby_timer : calendar::turn;
 
     // wildlife creatures that are pets of the player will spawn pet offspring
@@ -579,16 +609,33 @@ void monster::refill_udders()
             ammo[itype_milk_raw] = current_milk->second;
             // Erase old key-value from map
             ammo.erase( current_milk );
+            current_milk = ammo.find( itype_milk_raw );
         }
     }
-    // if we got here, we got milk.
+
+    // If no milk found, use the first starting_ammo type (e.g., gasoline for hell goats)
+    if( current_milk == ammo.end() ) {
+        current_milk = ammo.find( type->starting_ammo.begin()->first );
+        if( current_milk == ammo.end() ) {
+            // This shouldn't happen since we initialized ammo above, but be safe
+            return;
+        }
+    }
+
     if( current_milk->second == type->starting_ammo.begin()->second ) {
         // already full up
         return;
     }
     if( calendar::turn - udder_timer > 1_days ) {
         // no point granularizing this really, you milk once a day.
-        ammo.begin()->second = type->starting_ammo.begin()->second;
+        int milk_amount = type->starting_ammo.begin()->second;
+
+        // Well-fed animals produce 30% more milk per day
+        if( has_effect( effect_well_fed ) ) {
+            milk_amount = static_cast<int>( std::ceil( milk_amount * 1.3 ) );
+        }
+
+        ammo.begin()->second = milk_amount;
         udder_timer = calendar::turn;
     }
 }
@@ -2978,6 +3025,20 @@ void monster::process_one_effect( effect &it, bool is_new )
     } else if( id == effect_command_buff ) {
         effect_cache[PATHFINDING_OVERRIDE] = true;
     }
+
+    if( is_new && it.has_flag( flag_EFFECT_LUA_ON_ADDED ) ) {
+        cata::run_hooks( "on_mon_effect_added", [ &, this ]( auto & params ) {
+            params["mon"] = this;
+            params["effect"] = &it;
+        } );
+    }
+
+    if( it.has_flag( flag_EFFECT_LUA_ON_TICK ) ) {
+        cata::run_hooks( "on_mon_effect", [ &, this ]( auto & params ) {
+            params["mon"] = this;
+            params["effect"] = &it;
+        } );
+    }
 }
 
 void monster::process_effects_internal()
@@ -3520,6 +3581,9 @@ void monster::on_load()
             // Most living stuff here
             regen = 0.25f / to_turns<int>( 1_hours );
         }
+    }
+    if( has_effect( effect_well_fed ) ) {
+        regen *= 2.0f;
     }
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );

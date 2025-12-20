@@ -3,6 +3,7 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <chrono>
 #include <csignal>

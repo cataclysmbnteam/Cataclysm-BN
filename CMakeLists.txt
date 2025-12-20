@@ -61,7 +61,10 @@ if (LINKER)
     add_link_options("-fuse-ld=${LINKER}")
 endif ()
 
-if (NOT CMAKE_BUILD_TYPE)
+# For multi-config generators (e.g. Visual Studio), CMAKE_BUILD_TYPE is not used;
+# the configuration is selected at build time via --config flag.
+get_property(_is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if (NOT CMAKE_BUILD_TYPE AND NOT _is_multi_config)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
@@ -249,7 +252,11 @@ if (NOT MSVC)
     if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
-    set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char -fno-builtin-std-forward_like -g1")
+    set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char -fno-builtin-std-forward_like -fno-finite-math-only")
+    # Add debug symbols for non-release builds or when backtrace is enabled
+    if (BACKTRACE OR NOT RELEASE)
+        set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -g1")
+    endif()
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} ${CATA_OTHER_FLAGS}")
@@ -403,6 +410,18 @@ if (BACKTRACE)
             set(NCPU 1)
         endif()
 
+        # Set up ccache for libbacktrace if available
+        if (CCACHE_FOUND AND CATA_CCACHE AND CMAKE_C_COMPILER_LAUNCHER)
+            # Join compiler launcher and compiler into a single string for configure
+            set(LIBBACKTRACE_CC_LIST "${CMAKE_C_COMPILER_LAUNCHER}" "${CMAKE_C_COMPILER}")
+            set(LIBBACKTRACE_CXX_LIST "${CMAKE_CXX_COMPILER_LAUNCHER}" "${CMAKE_CXX_COMPILER}")
+            list(JOIN LIBBACKTRACE_CC_LIST " " LIBBACKTRACE_CC)
+            list(JOIN LIBBACKTRACE_CXX_LIST " " LIBBACKTRACE_CXX)
+        else()
+            set(LIBBACKTRACE_CC "${CMAKE_C_COMPILER}")
+            set(LIBBACKTRACE_CXX "${CMAKE_CXX_COMPILER}")
+        endif()
+
         ExternalProject_Add(
             libbacktrace_external
             GIT_REPOSITORY ${LIBBACKTRACE_GIT_REPO}
@@ -412,7 +431,11 @@ if (BACKTRACE)
             SOURCE_DIR "${CMAKE_BINARY_DIR}/libbacktrace/src"
             BINARY_DIR "${CMAKE_BINARY_DIR}/libbacktrace/build"
 
-            CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${LIBBACKTRACE_INSTALL_DIR}
+            CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env
+                CC=${LIBBACKTRACE_CC}
+                CXX=${LIBBACKTRACE_CXX}
+                <SOURCE_DIR>/configure
+                --prefix=${LIBBACKTRACE_INSTALL_DIR}
 
             BUILD_COMMAND make -j${NCPU}
 
@@ -484,15 +507,30 @@ if (CATA_CLANG_TIDY_PLUGIN)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 
-install(DIRECTORY doc TYPE DOC)
-
 if (RELEASE)
-    install(FILES
-        ${CMAKE_SOURCE_DIR}/README.md
-        ${CMAKE_SOURCE_DIR}/LICENSE.txt
-        ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
-        ${CMAKE_SOURCE_DIR}/VERSION.txt
-        TYPE DOC)
+    if (USE_PREFIX_DATA_DIR)
+        install(DIRECTORY doc TYPE DOC)
+        install(DIRECTORY data TYPE DATA
+            PATTERN "json/external_tileset/README.md" EXCLUDE
+            PATTERN "json/mapgen/lab/README.md" EXCLUDE)
+        install(FILES
+            ${CMAKE_SOURCE_DIR}/README.md
+            ${CMAKE_SOURCE_DIR}/LICENSE.txt
+            ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+            ${CMAKE_SOURCE_DIR}/VERSION.txt
+            TYPE DOC)
+    else()
+        install(DIRECTORY doc DESTINATION .)
+        install(DIRECTORY data DESTINATION .
+            PATTERN "json/external_tileset/README.md" EXCLUDE
+            PATTERN "json/mapgen/lab/README.md" EXCLUDE)
+        install(FILES
+            ${CMAKE_SOURCE_DIR}/README.md
+            ${CMAKE_SOURCE_DIR}/LICENSE.txt
+            ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+            ${CMAKE_SOURCE_DIR}/VERSION.txt
+            DESTINATION .)
+    endif()
     if (TILES)
         if (USE_PREFIX_DATA_DIR)
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
@@ -501,6 +539,11 @@ if (RELEASE)
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
                 DESTINATION .)
         endif()
+    endif()
+    # Install cataclysm-launcher for portable Linux builds
+    if (NOT USE_PREFIX_DATA_DIR AND UNIX AND NOT APPLE)
+        install(PROGRAMS ${CMAKE_SOURCE_DIR}/cataclysm-launcher
+            DESTINATION .)
     endif()
 endif()
 

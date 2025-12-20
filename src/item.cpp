@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <cassert>
 #include <cctype>
@@ -610,7 +611,9 @@ void item::activate()
         return; // no-op
     }
 
-    set_countdown( -1 );
+    if( type->countdown_interval > 0 ) {
+        set_counter( type->countdown_interval );
+    }
 
     active = true;
 
@@ -9326,14 +9329,14 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
     return detached_ptr<item>();
 }
 
-void item::set_countdown( int value )
+void item::set_counter( const int value )
 {
-    if( value < 0 ) {
-        item_counter = type->countdown_interval;
-        return;
-    }
-
     item_counter = value;
+}
+
+int item::get_counter() const
+{
+    return item_counter;
 }
 
 void item::set_charges( int value )
@@ -9922,7 +9925,7 @@ detached_ptr<item> item::process_fake_mill( detached_ptr<item> &&self, player * 
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
-        self->item_counter = 0;
+        self->set_counter( 0 );
         return detached_ptr<item>(); //destroy fake mill
     }
     if( self->age() >= 6_hours || self->item_counter == 0 ) {
@@ -9943,7 +9946,7 @@ detached_ptr<item> item::process_fake_smoke( detached_ptr<item> &&self, player *
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
-        self->item_counter = 0;
+        self->set_counter( 0 );
         return detached_ptr<item>(); //destroy fake smoke
     }
 

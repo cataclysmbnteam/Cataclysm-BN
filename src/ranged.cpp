@@ -1,6 +1,7 @@
 #include "ranged.h"
 
 #include <algorithm>
+#include <numeric>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>

@@ -37,6 +37,7 @@ class character_id;
 class Creature;
 class distribution_grid;
 class distribution_grid_tracker;
+class effect;
 class effect_type;
 class item;
 class item_stack;
@@ -152,6 +153,7 @@ LUNA_DOC( sol::lua_nil_t, "nil" );
 LUNA_DOC( sol::variadic_args, "..." );
 LUNA_DOC( sol::this_state, "<this_state>" );
 LUNA_DOC( sol::protected_function, "function" );
+LUNA_DOC( sol::table, "table" );
 
 
 // These definitions are for the bindings generator
@@ -198,6 +200,7 @@ LUNA_VAL( book_recipe, "BookRecipe" );
 LUNA_VAL( common_ranged_data, "RangedData" );
 LUNA_VAL( resistances, "Resistances" );
 LUNA_VAL( armor_portion_data, "ArmorPortionData" );
+LUNA_VAL( effect, "Effect" );
 
 
 // Ids for in-game objects

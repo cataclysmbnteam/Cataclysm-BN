@@ -162,6 +162,7 @@ static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_well_fed( "well_fed" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -984,9 +985,8 @@ static void do_purify( player &p )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == thresh ) && p.crossed_threshold() ) {
+                if( ( cat == thresh ) && p.crossed_threshold() && ( p.thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1041,9 +1041,9 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == thresh ) && p->crossed_threshold() ) {
+                if( ( cat == thresh ) && p->crossed_threshold() &&
+                    ( p->thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1101,9 +1101,9 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == thresh ) && p->crossed_threshold() ) {
+                if( ( cat == thresh ) && p->crossed_threshold() &&
+                    ( p->thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1543,6 +1543,23 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         }
 
         mon.make_pet();
+
+        // Apply well_fed effect to improve monster productivity
+        // This effect increases reproduction rate, milk production, growth speed, and HP recovery
+        // Duration: 24 hours (one full day cycle)
+        const time_duration well_fed_duration = 24_hours;
+
+        if( mon.has_effect( effect_well_fed ) ) {
+            // Refresh duration if already well-fed
+            mon.add_effect( effect_well_fed, well_fed_duration );
+        } else {
+            // Apply new well-fed effect
+            mon.add_effect( effect_well_fed, well_fed_duration );
+            p->add_msg_if_player( m_good,
+                                  _( "The %s looks healthier and more productive." ),
+                                  mon.get_name() );
+        }
+
         p->consume_charges( *it, 1 );
         return 0;
     }
@@ -5103,7 +5120,7 @@ int iuse::towel_common( player *p, item *it, bool t )
 
         towelUsed = true;
         if( it ) {
-            it->item_counter = to_turns<int>( 30_minutes );
+            it->set_counter( to_turns<int>( 30_minutes ) );
         }
 
         // default message

@@ -238,6 +238,7 @@
     "id": "spear_stone",
     "type": "GENERIC",
     "category": "weapons",
+    "weapon_category": [ "SPEARS" ],
     "name": { "str": "stone spear" },
     "description": "A stout wooden pole with a sharp stone spearhead.",
     "weight": "1398 g",

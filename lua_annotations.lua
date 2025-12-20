@@ -185,10 +185,10 @@ function BookRecipe.new() end
 ---@field activate_mutation fun(self: Character, arg2: MutationBranchId)
 ---@field add_addiction fun(self: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(self: Character, arg2: BionicDataId)
----@field addiction_level fun(self: Character, arg2: AddictionType): integer
 ---@field add_item fun(self: Character, arg2: Detached<Item>) @Adds a detached item to the player inventory
 ---@field add_item_with_id fun(self: Character, arg2: ItypeId, arg3: integer): Item @DEPRECATED: use create_item instead
 ---@field add_morale fun(self: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
+---@field addiction_level fun(self: Character, arg2: AddictionType): integer
 ---@field age fun(self: Character): integer
 ---@field all_items fun(self: Character, arg2: boolean): Item[] @Gets all items
 ---@field all_items_with_flag fun(self: Character, arg2: JsonFlagId, arg3: boolean): Item[] @Gets all items with the given flag
@@ -201,7 +201,6 @@ function BookRecipe.new() end
 ---@field blossoms fun(self: Character)
 ---@field bodypart_exposure fun(self: Character): table<BodyPartTypeIntId, number>
 ---@field bodyweight fun(self: Character): Mass
----@field cancel_activity fun(self: Character)
 ---@field can_hear fun(self: Character, arg2: Tripoint, arg3: integer): boolean
 ---@field can_mount fun(self: Character, arg2: Monster): boolean
 ---@field can_pick_volume fun(self: Character, arg2: Volume): boolean
@@ -211,6 +210,7 @@ function BookRecipe.new() end
 ---@field can_unwield fun(self: Character, arg2: Item): boolean
 ---@field can_wear fun(self: Character, arg2: Item, arg3: boolean): boolean @Checks if creature can wear a given item. If boolean parameter is true, ignores already worn items
 ---@field can_wield fun(self: Character, arg2: Item): boolean
+---@field cancel_activity fun(self: Character)
 ---@field check_mount_is_spooked fun(self: Character): boolean
 ---@field check_mount_will_move fun(self: Character, arg2: Tripoint): boolean
 ---@field clear_bionics fun(self: Character)
@@ -226,6 +226,7 @@ function BookRecipe.new() end
 ---@field expose_to_disease fun(self: Character, arg2: DiseaseTypeId)
 ---@field fall_asleep fun(self: Character) | fun(self: Character, arg2: TimeDuration)
 ---@field forced_dismount fun(self: Character)
+---@field getID fun(self: Character): CharacterId
 ---@field get_all_skills fun(self: Character): SkillLevelMap
 ---@field get_armor_acid fun(self: Character, arg2: BodyPartTypeIntId): integer
 ---@field get_base_traits fun(self: Character): MutationBranchId[]
@@ -241,7 +242,6 @@ function BookRecipe.new() end
 ---@field get_healthy_mod fun(self: Character): number
 ---@field get_highest_category fun(self: Character): MutationCategoryTraitId
 ---@field get_hostile_creatures fun(self: Character, arg2: integer): Creature[]
----@field getID fun(self: Character): CharacterId
 ---@field get_int fun(self: Character): integer
 ---@field get_int_base fun(self: Character): integer
 ---@field get_int_bonus fun(self: Character): integer
@@ -339,9 +339,9 @@ function BookRecipe.new() end
 ---@field is_wearing_power_armor fun(self: Character, arg2: boolean): boolean
 ---@field is_wielding fun(self: Character, arg2: Item): boolean
 ---@field is_worn fun(self: Character, arg2: Item): boolean
----@field items_with fun(self: Character, arg2: bool): Item[] @Filters items
 ---@field item_worn_with_flag fun(self: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
 ---@field item_worn_with_id fun(self: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
+---@field items_with fun(self: Character, arg2: bool): Item[] @Filters items
 ---@field knows_recipe fun(self: Character, arg2: RecipeId): boolean
 ---@field learn_recipe fun(self: Character, arg2: RecipeId)
 ---@field mabuff_armor_bonus fun(self: Character, arg2: DamageType): integer
@@ -379,9 +379,9 @@ function BookRecipe.new() end
 ---@field mount_creature fun(self: Character, arg2: Monster)
 ---@field mutate fun(self: Character)
 ---@field mutate_category fun(self: Character, arg2: MutationCategoryTraitId)
+---@field mutate_towards fun(self: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(self: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutate_towards fun(self: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(self: Character, arg2: MutationBranchId): boolean
----@field mutate_towards fun(self: Character, arg2: MutationBranchId): boolean
 ---@field mutation_armor fun(self: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(self: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(self: Character, arg2: MutationBranchId)
@@ -398,10 +398,11 @@ function BookRecipe.new() end
 ---@field remove_worn fun(self: Character, arg2: Item): Detached<Item> @Attempts to remove the worn `Item` from character.
 ---@field reset fun(self: Character)
 ---@field reset_encumbrance fun(self: Character)
----@field restore_scent fun(self: Character)
 ---@field rest_quality fun(self: Character): number
+---@field restore_scent fun(self: Character)
 ---@field rooted fun(self: Character)
 ---@field rust_rate fun(self: Character): integer
+---@field setID fun(self: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_base_age fun(self: Character, arg2: integer)
 ---@field set_base_height fun(self: Character, arg2: integer)
 ---@field set_dex_bonus fun(self: Character, arg2: integer)
@@ -409,7 +410,6 @@ function BookRecipe.new() end
 ---@field set_fatigue fun(self: Character, arg2: integer)
 ---@field set_healthy fun(self: Character, arg2: number)
 ---@field set_healthy_mod fun(self: Character, arg2: number)
----@field setID fun(self: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_int_bonus fun(self: Character, arg2: integer)
 ---@field set_max_power_level fun(self: Character, arg2: Energy)
 ---@field set_movement_mode fun(self: Character, arg2: CharacterMoveMode)
@@ -488,6 +488,7 @@ function CharacterId.new() end
 ---@field get_dodge fun(self: Creature): number
 ---@field get_dodge_base fun(self: Creature): number
 ---@field get_dodge_bonus fun(self: Creature): number
+---@field get_effect fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): Effect
 ---@field get_effect_dur fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): TimeDuration
 ---@field get_effect_int fun(self: Creature, arg2: EffectTypeId, arg3: BodyPartTypeId): integer
 ---@field get_env_resist fun(self: Creature, arg2: BodyPartTypeIntId): integer
@@ -637,6 +638,51 @@ function DistributionGrid.new() end
 DistributionGridTracker = {}
 ---@return DistributionGridTracker
 function DistributionGridTracker.new() end
+
+---@class Effect
+---@field activated fun(self: Effect, arg2: TimePoint, arg3: string, arg4: integer, arg5: boolean, arg6: number): boolean
+---@field decay fun(self: Effect, arg2: TimePoint, arg3: boolean): boolean
+---@field disp_desc fun(self: Effect, arg2: boolean): string
+---@field disp_name fun(self: Effect): string
+---@field disp_short_desc fun(self: Effect, arg2: boolean): string
+---@field get_addict_mod fun(self: Effect, arg2: string, arg3: integer): number
+---@field get_amount fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_avg_mod fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_blocks_effects fun(self: Effect): EffectTypeId[]
+---@field get_bp fun(self: Effect): BodyPartTypeId
+---@field get_dur_add_perc fun(self: Effect): integer
+---@field get_duration fun(self: Effect): TimeDuration
+---@field get_harmful_cough fun(self: Effect): boolean
+---@field get_id fun(self: Effect): EffectTypeId
+---@field get_int_add_val fun(self: Effect): integer
+---@field get_int_dur_factor fun(self: Effect): TimeDuration
+---@field get_intensity fun(self: Effect): integer
+---@field get_max_duration fun(self: Effect): TimeDuration
+---@field get_max_intensity fun(self: Effect): integer
+---@field get_max_val fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_min_val fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_mod fun(self: Effect, arg2: string, arg3: boolean): integer
+---@field get_percentage fun(self: Effect, arg2: string, arg3: integer, arg4: boolean): number
+---@field get_removes_effects fun(self: Effect): EffectTypeId[]
+---@field get_resist_effects fun(self: Effect): EffectTypeId[]
+---@field get_resist_traits fun(self: Effect): MutationBranchId[]
+---@field get_sizing fun(self: Effect, arg2: string): boolean
+---@field get_start_time fun(self: Effect): TimePoint
+---@field get_type fun(self: Effect): EffectTypeRaw
+---@field has_flag fun(self: Effect, arg2: JsonFlagId): boolean
+---@field is_permanent fun(self: Effect): boolean
+---@field mod_duration fun(self: Effect, arg2: TimeDuration, arg3: boolean)
+---@field mod_intensity fun(self: Effect, arg2: integer, arg3: boolean): integer
+---@field mult_duration fun(self: Effect, arg2: number, arg3: boolean)
+---@field set_duration fun(self: Effect, arg2: TimeDuration, arg3: boolean)
+---@field set_intensity fun(self: Effect, arg2: integer, arg3: boolean): integer
+---@field set_permanent fun(self: Effect)
+---@field use_part_descs fun(self: Effect): boolean
+---@field serialize fun(self: Effect, arg2: any)
+---@field deserialize fun(self: Effect, arg2: any)
+Effect = {}
+---@return Effect
+function Effect.new() end
 
 ---@class EffectTypeId
 ---@field NULL_ID fun(): EffectTypeId
@@ -1051,8 +1097,8 @@ function IslotSeed.new() end
 ---@field ammo_id AmmunitionTypeId[]
 ---@field charge_factor integer
 ---@field charges_per_use integer
----@field default_ammo ItypeId
 ---@field def_charges integer
+---@field default_ammo ItypeId
 ---@field max_charges integer
 ---@field power_draw integer
 ---@field rand_charges integer[]
@@ -1100,6 +1146,7 @@ function IslotWheel.new() end
 ---@field erase_var fun(self: Item, arg2: string) @Erase variable
 ---@field get_category_id fun(self: Item): string @Gets the category id this item is in
 ---@field get_comestible_fun fun(self: Item): integer
+---@field get_counter fun(self: Item): integer
 ---@field get_kcal fun(self: Item): integer
 ---@field get_mtype fun(self: Item): MonsterTypeId @Almost for a corpse.
 ---@field get_owner fun(self: Item): FactionId @Gets the faction id that owns this item
@@ -1183,7 +1230,7 @@ function IslotWheel.new() end
 ---@field remaining_capacity_for_id fun(self: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(self: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_charges fun(self: Item, arg2: integer)
----@field set_countdown fun(self: Item, arg2: integer)
+---@field set_counter fun(self: Item, arg2: integer)
 ---@field set_flag fun(self: Item, arg2: JsonFlagId)
 ---@field set_flag_recursive fun(self: Item, arg2: JsonFlagId)
 ---@field set_owner fun(self: Item, arg2: Character) @Sets the ownership of this item to a character
@@ -2416,11 +2463,11 @@ function WeaponCategoryId.new() end
 
 --- Various game constants
 ---@class const
+---@field OMT_MS_SIZE integer # value: 24
+---@field OMT_SM_SIZE integer # value: 2
 ---@field OM_MS_SIZE integer # value: 4320
 ---@field OM_OMT_SIZE integer # value: 180
 ---@field OM_SM_SIZE integer # value: 360
----@field OMT_MS_SIZE integer # value: 24
----@field OMT_SM_SIZE integer # value: 2
 ---@field SM_MS_SIZE integer # value: 12
 const = {}
 
@@ -2480,18 +2527,22 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
----@field on_character_death fun() @Called when a character is dead
----@field on_character_reset_stats fun() @Called when character stat gets reset
----@field on_creature_blocked fun() @Called when a character successfully blocks
----@field on_creature_dodged fun() @Called when a character successfully dodges
----@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
----@field on_creature_performed_technique fun() @Called when a character has performed technique
----@field on_every_x fun() @Called every in-game period
----@field on_game_load fun() @Called right after game has loaded
----@field on_game_save fun() @Called when game is about to save
----@field on_game_started fun() @Called when the game has first started
----@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
----@field on_mon_death fun() @Called when a monster is dead
+---@field on_character_death fun(params: table) @Called when a character is dead.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `killer` (Creature)  
+---@field on_character_effect fun(params: table) @Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `character` (Character)  <br />* `effect` (Effect)  
+---@field on_character_effect_added fun(params: table) @Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `effect` (Effect)  
+---@field on_character_reset_stats fun(params: table) @Called when character stat gets reset.  <br />The hook receives a table with keys:  <br />* `character` (Character)  
+---@field on_creature_blocked fun(params: table) @Called when a character successfully blocks.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `source` (Creature)  <br />* `bodypart_id` (BodyPartTypeId)  <br />* `damage_instance` (DamageInstance)  <br />* `damage_blocked` (float)  
+---@field on_creature_dodged fun(params: table) @Called when a character or monster successfully dodges.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `source` (Creature)  <br />* `difficulty` (integer)  
+---@field on_creature_melee_attacked fun(params: table) @Called after a character or monster has attacked in melee.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `target` (Creature)  <br />* `success` (bool)  
+---@field on_creature_performed_technique fun(params: table) @Called when a character has performed a technique.  <br />The hook receives a table with keys:  <br />* `char` (Character)  <br />* `technique` (MartialArtsTechniqueRaw)  <br />* `target` (Creature)  <br />* `damage_instance` (DamageInstance)  <br />* `move_cost` (integer)  
+---@field on_every_x fun(arg1: table) @Called every in-game period
+---@field on_game_load fun() @Called right after game has loaded.
+---@field on_game_save fun() @Called when game is about to save.
+---@field on_game_started fun() @Called when the game has first started.
+---@field on_mapgen_postprocess fun(params: table) @Called right after mapgen has completed.  <br />The hook receives a table with keys:  <br />* `map` (Map): The tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt).  <br />* `omt` (Tripoint): The absolute overmap pos.  <br />* `when` (TimePoint): The current time (for time-based effects).  
+---@field on_mon_death fun(params: table) @Called when a monster is dead.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `killer` (Creature)  
+---@field on_mon_effect fun(params: table) @Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
+---@field on_mon_effect_added fun(params: table) @Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
 hooks = {}
 
 --- Localization API.
@@ -2847,7 +2898,8 @@ MissionGoal = {
 	MGOAL_COMPUTER_TOGGLE = 13,
 	MGOAL_KILL_MONSTER_SPEC = 14,
 	MGOAL_TALK_TO_NPC = 15,
-	MGOAL_CONDITION = 16
+	MGOAL_CONDITION = 16,
+	MGOAL_KILL_MONSTERS = 17
 }
 
 ---@enum MissionOrigin

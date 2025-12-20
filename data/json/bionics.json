@@ -120,7 +120,7 @@
     "id": "bio_blade",
     "type": "bionic",
     "name": { "str": "Monomolecular Blade" },
-    "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
+    "description": "A deadly 30cm-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "arm_r", 5 ], [ "hand_r", 2 ] ],
     "act_cost": "50 J",
     "fake_item": "bio_blade_weapon",
