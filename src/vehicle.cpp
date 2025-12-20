@@ -7964,11 +7964,11 @@ void vehicle::item_dropper_drop( std::vector<vehicle_part *> droppers, bool sing
                 while( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pos ) ) {
                     pos.z -= 1;
                 }
-                for( detached_ptr<item> &it : part->items.clear() ) {
+                for( item *it : part->items ) {
                     if( it->get_use( "transform" ) ) {
-                        g->u.invoke_item( &*it, "transform" );
+                        g->u.invoke_item( it, "transform" );
                     }
-                    g->m.add_item_or_charges( pos, std::move( it ) );
+                    g->m.add_item_or_charges( pos, part->remove_item( *it ) );
                 }
             }
         }
