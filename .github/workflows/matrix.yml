@@ -60,7 +60,7 @@ jobs:
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
-      ZSTD_CLEVEL: 17
+      ZSTD_CLEVEL: 3
       TILES: ${{ matrix.tiles }}
       TEST_STAGE: ${{ matrix.test-stage }}
       SKIP: ${{ matrix.always-run != true && ( github.event.pull_request.draft == true || needs.skip-duplicates.outputs.should_skip_code == true || needs.skip-duplicates.outputs.should_skip_data == true ) }}
