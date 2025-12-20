@@ -5064,6 +5064,10 @@ No constructors.
 
 > Convert local ms -> absolute ms
 
+#### has_field_at {#sol::Map::has_field_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> boolean</code>
+
 #### get_field_int_at {#sol::Map::get_field_int_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> integer</code>
@@ -5071,18 +5075,6 @@ No constructors.
 #### get_field_age_at {#sol::Map::get_field_age_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> [TimeDuration](#sol::TimeDuration)</code>
-
-#### mod_field_int_at {#sol::Map::mod_field_int_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer ) -> integer</code>
-
-#### has_field_at {#sol::Map::has_field_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> boolean</code>
-
-#### get_furn_at {#sol::Map::get_furn_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [FurnIntId](#sol::FurnIntId)</code>
 
 #### set_furn_at {#sol::Map::set_furn_at}
 
@@ -5092,19 +5084,23 @@ No constructors.
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [TerIntId](#sol::TerIntId) ) -> boolean</code>
 
-#### mod_field_age_at {#sol::Map::mod_field_age_at}
+#### get_furn_at {#sol::Map::get_furn_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration) ) -> [TimeDuration](#sol::TimeDuration)</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [FurnIntId](#sol::FurnIntId)</code>
 
-#### set_field_age_at {#sol::Map::set_field_age_at}
+#### get_ter_at {#sol::Map::get_ter_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration), boolean ) -> [TimeDuration](#sol::TimeDuration)</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TerIntId](#sol::TerIntId)</code>
 
-#### set_trap_at {#sol::Map::set_trap_at}
+#### get_storage_namespaces {#sol::Map::get_storage_namespaces}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [TrapIntId](#sol::TrapIntId) )</code>
+🇲 Method --> <code>( ) -> table</code>
 
-> Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+> Returns a list of all namespace names that have stored items.
+
+#### mod_field_int_at {#sol::Map::mod_field_int_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer ) -> integer</code>
 
 #### set_field_int_at {#sol::Map::set_field_int_at}
 
@@ -5114,13 +5110,27 @@ No constructors.
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TrapIntId](#sol::TrapIntId)</code>
 
-#### add_field_at {#sol::Map::add_field_at}
+#### set_trap_at {#sol::Map::set_trap_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, [TimeDuration](#sol::TimeDuration) ) -> boolean</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [TrapIntId](#sol::TrapIntId) )</code>
+
+> Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+
+#### mod_field_age_at {#sol::Map::mod_field_age_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration) ) -> [TimeDuration](#sol::TimeDuration)</code>
 
 #### remove_field_at {#sol::Map::remove_field_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) )</code>
+
+#### set_field_age_at {#sol::Map::set_field_age_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration), boolean ) -> [TimeDuration](#sol::TimeDuration)</code>
+
+#### add_field_at {#sol::Map::add_field_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, [TimeDuration](#sol::TimeDuration) ) -> boolean</code>
 
 #### disarm_trap_at {#sol::Map::disarm_trap_at}
 
@@ -5128,15 +5138,17 @@ No constructors.
 
 > Disarms a trap using your skills and stats, with consequences depending on success or failure.
 
-#### get_ter_at {#sol::Map::get_ter_at}
+#### get_stored_item_count {#sol::Map::get_stored_item_count}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TerIntId](#sol::TerIntId)</code>
+🇲 Method --> <code>( string ) -> integer</code>
+
+> Returns the number of items in a namespace. Optional namespace parameter (defaults to 'default').
 
 #### clear_stored_items {#sol::Map::clear_stored_items}
 
-🇫 Function --> <code>( )</code>
+🇲 Method --> <code>( string )</code>
 
-> Clears all items from temporary storage (call after teleport is complete).
+> Clears all items from a specific namespace. Optional namespace parameter (defaults to 'default').
 
 #### create_item_at {#sol::Map::create_item_at}
 
@@ -5170,11 +5182,11 @@ No constructors.
 
 🇲 Method --> <code>( ) -> integer</code>
 
-#### get_stored_item_count {#sol::Map::get_stored_item_count}
+#### clear_all_stored_items {#sol::Map::clear_all_stored_items}
 
-🇫 Function --> <code>( ) -> integer</code>
+🇲 Method --> <code>( )</code>
 
-> Returns the number of items currently in temporary storage.
+> Clears all items from ALL namespaces.
 
 #### remove_item_at {#sol::Map::remove_item_at}
 
@@ -5186,9 +5198,15 @@ No constructors.
 
 #### retrieve_stored_item {#sol::Map::retrieve_stored_item}
 
-🇲 Method --> <code>( integer, [Tripoint](#sol::Tripoint) ) -> boolean</code>
+🇲 Method --> <code>( integer, [Tripoint](#sol::Tripoint), string ) -> boolean</code>
 
-> Places a stored item at a position on the current map. The item is removed from storage.
+> Retrieves a stored item by its storage_key and places it at a position. The item is removed from storage. Optional namespace parameter (defaults to 'default').
+
+#### list_stored_items {#sol::Map::list_stored_items}
+
+🇲 Method --> <code>( string ) -> table</code>
+
+> Returns a table of item snapshots for all items in a namespace. Each entry has: storage_key (for retrieval), type_id (itype_id string), name (display name), count (charges). Optional namespace parameter (defaults to 'default').
 
 #### clear_items_at {#sol::Map::clear_items_at}
 
@@ -5196,9 +5214,9 @@ No constructors.
 
 #### store_item {#sol::Map::store_item}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [Item](#sol::Item) ) -> integer</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [Item](#sol::Item), string ) -> integer</code>
 
-> Removes an item from the map and stores it in temporary storage. Returns the storage index, or -1 on failure. Use retrieve_stored_item to get it back after map changes.
+> Removes an item from the map and stores it in a namespace. Returns a storage_key (like a coat check ticket), or -1 on failure. Optional namespace parameter (defaults to 'default'). Use retrieve_stored_item with the key to get it back. IMPORTANT: To avoid conflicts with other mods, always prefix your namespace with your mod name, e.g. 'mymod.bank' or 'mymod.bag_of_holding'.
 
 #### get_items_in_radius {#sol::Map::get_items_in_radius}
 

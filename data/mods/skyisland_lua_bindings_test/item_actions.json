@@ -6,6 +6,11 @@
   },
   {
     "type": "item_action",
+    "id": "test_namespaced_storage",
+    "name": { "str": "Test namespaced storage" }
+  },
+  {
+    "type": "item_action",
     "id": "test_item_teleport",
     "name": { "str": "Test item teleport" }
   },
