@@ -1155,8 +1155,33 @@ auto weather_manager::get_temperature( const tripoint &location ) const -> units
     }
 
     const int added_f = g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod;
-    const int base_f = units::to_fahrenheit(
-                           location.z < 0 ? temperatures::annual_average : temperature );
+
+    // Calculate base temperature with underground influence
+    units::temperature base_temp;
+    if( location.z >= 0 ) {
+        // Surface: full influence from current weather
+        base_temp = temperature;
+    } else if( !get_option<bool>( "UNDERGROUND_TEMPERATURE_INFLUENCED_BY_SURFACE" ) ) {
+        // Default behavior: underground is always annual average
+        base_temp = temperatures::annual_average;
+    } else {
+        // Underground: gradual transition to annual average
+        if( location.z <= -3 ) {
+            // Deep underground: always annual average (0% surface influence)
+            base_temp = temperatures::annual_average;
+        } else {
+            // z=-1: 50%, z=-2: 25%
+            const double influence_factor = location.z == -1 ? 0.5 : 0.25;
+
+            const double annual_avg_c = units::to_celsius( temperatures::annual_average );
+            const double current_temp_c = units::to_celsius( temperature );
+            const double temp_diff_c = current_temp_c - annual_avg_c;
+            const double base_temp_c = annual_avg_c + temp_diff_c * influence_factor;
+            base_temp = units::from_celsius( base_temp_c );
+        }
+    }
+
+    const int base_f = units::to_fahrenheit( base_temp );
 
     // Hack: adding temperatures between temperatures makes no sense
     return units::from_celsius( std::round( units::fahrenheit_to_celsius( base_f + added_f ) ) );
@@ -1165,13 +1190,34 @@ auto weather_manager::get_temperature( const tripoint &location ) const -> units
 auto weather_manager::get_temperature( const tripoint_abs_omt &location ) const ->
 units::temperature
 {
-    if( location.z() < 0 ) {
+    if( location.z() < 0 && !get_option<bool>( "UNDERGROUND_TEMPERATURE_INFLUENCED_BY_SURFACE" ) ) {
+        // Default behavior: underground is always annual average
         return temperatures::annual_average;
     }
 
     tripoint abs_ms = project_to<coords::ms>( location ).raw();
     w_point w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
-    return w.temperature;
+
+    if( location.z() >= 0 ) {
+        // Surface: full influence from current weather
+        return w.temperature;
+    }
+
+    // Underground: gradual transition to annual average
+    if( location.z() <= -3 ) {
+        // Deep underground: always annual average (0% surface influence)
+        return temperatures::annual_average;
+    }
+
+    // z=-1: 50%, z=-2: 25%
+    const double influence_factor = location.z() == -1 ? 0.5 : 0.25;
+
+    const double annual_avg_c = units::to_celsius( temperatures::annual_average );
+    const double current_temp_c = units::to_celsius( w.temperature );
+    const double temp_diff_c = current_temp_c - annual_avg_c;
+    const double base_temp_c = annual_avg_c + temp_diff_c * influence_factor;
+
+    return units::from_celsius( base_temp_c );
 }
 
 auto weather_manager::get_water_temperature( const tripoint & ) const -> units::temperature
