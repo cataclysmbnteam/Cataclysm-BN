@@ -1395,6 +1395,11 @@ tab_direction set_traits( avatar &u, points_left &points )
 
             // Look through the profession bionics, and see if any of them conflict with this trait
             std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+            std::vector<bionic_id> cbms_blocking_trait2 = bionics_cancelling_trait( u.get_bionics(),
+                    cur_trait );
+            for( auto cbm : cbms_blocking_trait2 ) {
+                cbms_blocking_trait.push_back( cbm );
+            }
             const bool has_trait = u.has_trait( cur_trait );
 
             if( has_trait ) {
@@ -1806,7 +1811,9 @@ tab_direction set_bionics( avatar &u, points_left &points )
             std::vector<trait_id> conflicting_traits;
             // Look through the profession bionics, and see if any of them conflict with this trait
             for( trait_id id : bio.canceled_mutations ) {
-                conflicting_traits.push_back( id );
+                if( u.has_trait( id ) ) {
+                    conflicting_traits.push_back( id );
+                }
             }
             const bool has_bionic = u.has_bionic( cur_bionic );
             if( g->scen->forbids_bionics() ) {
