@@ -141,7 +141,8 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void { m.i_rem( p, it ); } );
 
         DOC( "Removes an item from the map and returns it as a detached_ptr. The item is now owned by Lua - store it in a table to keep it alive, or let it be GC'd to destroy it. Use add_item to place it back on a map." );
-        luna::set_fx( ut, "detach_item_at", []( map & m, const tripoint & p, item * it ) -> detached_ptr<item> {
+        luna::set_fx( ut, "detach_item_at", []( map & m, const tripoint & p,
+        item * it ) -> detached_ptr<item> {
             return m.i_rem( p, it );
         } );
 

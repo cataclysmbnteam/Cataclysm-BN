@@ -94,7 +94,6 @@ mod.test_namespaced_storage = function(who, item, pos)
     else
       gapi.add_msg("ERROR: Failed to detach item!")
     end
-
   elseif choice == 2 then
     -- Deposit to bag of holding
     if #items_at_pos == 0 then
@@ -111,7 +110,6 @@ mod.test_namespaced_storage = function(who, item, pos)
     else
       gapi.add_msg("ERROR: Failed to detach item!")
     end
-
   elseif choice == 3 then
     -- View bank contents
     local bank = mod.storage.bank
@@ -125,7 +123,6 @@ mod.test_namespaced_storage = function(who, item, pos)
         gapi.add_msg(string.format("[%d] %s%s", key, it:tname(1, true, 0), count_str))
       end
     end
-
   elseif choice == 4 then
     -- View bag of holding contents
     local bag = mod.storage.bag_of_holding
@@ -139,7 +136,6 @@ mod.test_namespaced_storage = function(who, item, pos)
       end
       gapi.add_msg(string.format("Total items: %d", count_items(bag)))
     end
-
   elseif choice == 5 then
     -- Withdraw from bank
     local key, detached = first_item(mod.storage.bank)
@@ -156,7 +152,6 @@ mod.test_namespaced_storage = function(who, item, pos)
     map:add_item(target_pos, detached)
     gapi.add_msg("Withdrew: " .. item_name)
     gapi.add_msg("Bank now has " .. count_items(mod.storage.bank) .. " item(s)")
-
   elseif choice == 6 then
     -- Withdraw from bag of holding
     local key, detached = first_item(mod.storage.bag_of_holding)
@@ -170,14 +165,12 @@ mod.test_namespaced_storage = function(who, item, pos)
     map:add_item(target_pos, detached)
     gapi.add_msg("Retrieved: " .. item_name)
     gapi.add_msg("Bag now has " .. count_items(mod.storage.bag_of_holding) .. " item(s)")
-
   elseif choice == 7 then
     -- Show storage stats
     gapi.add_msg("=== Storage Stats ===")
     gapi.add_msg("Bank: " .. count_items(mod.storage.bank) .. " item(s)")
     gapi.add_msg("Bag of Holding: " .. count_items(mod.storage.bag_of_holding) .. " item(s)")
     gapi.add_msg("Next key: " .. mod.storage.next_key)
-
   elseif choice == 8 then
     -- Clear all storage (items will be GC'd and properly destroyed)
     local confirm_ui = UiList.new()
@@ -245,7 +238,6 @@ mod.test_item_storage = function(who, item, pos)
       end
     end
     gapi.add_msg("Now holding " .. count_items(mod.storage.held_items) .. " item(s). Teleport and reattach!")
-
   elseif choice == 2 then
     -- Reattach held items
     if held_count == 0 then
@@ -261,7 +253,6 @@ mod.test_item_storage = function(who, item, pos)
       gapi.add_msg("Placed: " .. name)
     end
     gapi.add_msg("All items placed at your feet!")
-
   elseif choice == 3 then
     -- View held items
     if held_count == 0 then
@@ -272,7 +263,6 @@ mod.test_item_storage = function(who, item, pos)
         gapi.add_msg(string.format("[%d] %s", key, it:tname(1, true, 0)))
       end
     end
-
   elseif choice == 4 then
     -- Drop (destroy) held items
     mod.storage.held_items = {}
@@ -315,10 +305,18 @@ mod.test_item_teleport = function(who, item, pos)
 
   local dx, dy = 0, 0
   local dir_name = ""
-  if choice == 1 then dy = -1; dir_name = "NORTH"
-  elseif choice == 2 then dx = 1; dir_name = "EAST"
-  elseif choice == 3 then dy = 1; dir_name = "SOUTH"
-  elseif choice == 4 then dx = -1; dir_name = "WEST"
+  if choice == 1 then
+    dy = -1
+    dir_name = "NORTH"
+  elseif choice == 2 then
+    dx = 1
+    dir_name = "EAST"
+  elseif choice == 3 then
+    dy = 1
+    dir_name = "SOUTH"
+  elseif choice == 4 then
+    dx = -1
+    dir_name = "WEST"
   end
 
   local target_pos = Tripoint.new(pos.x + dx, pos.y + dy, pos.z)
