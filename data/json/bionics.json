@@ -625,8 +625,7 @@
     "react_cost": "10 kJ",
     "time": 1,
     "required_bionics": [ "bio_weight" ],
-    "points": 4,
-    "starting_bionic": true
+    "points": 4
   },
   {
     "id": "bio_infolink",
