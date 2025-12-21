@@ -1406,11 +1406,11 @@ function JsonTraitFlagId.new() end
 
 ---@class Map
 ---@field add_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
----@field clear_all_stored_items fun(self: Map) @Clears all items from ALL namespaces.
+---@field add_item fun(self: Map, arg2: Tripoint, arg3: Detached<Item>): Detached<Item> @Places a detached item onto the map. Returns nil on success (item now owned by map), or returns the item back if placement failed.
 ---@field clear_items_at fun(self: Map, arg2: Tripoint)
----@field clear_stored_items fun(self: Map, arg2: string) @Clears all items from a specific namespace. Optional namespace parameter (defaults to 'default').
 ---@field create_corpse_at fun(self: Map, arg2: Tripoint, arg3: MonsterTypeId, arg4: TimePoint, arg5: string, arg6: integer) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 ---@field create_item_at fun(self: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer): Item @Creates a new item(s) at a position on the map.
+---@field detach_item_at fun(self: Map, arg2: Tripoint, arg3: Item): Detached<Item> @Removes an item from the map and returns it as a detached_ptr. The item is now owned by Lua - store it in a table to keep it alive, or let it be GC'd to destroy it. Use add_item to place it back on a map.
 ---@field disarm_trap_at fun(self: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
 ---@field get_abs_ms fun(self: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
 ---@field get_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): TimeDuration
@@ -1421,26 +1421,21 @@ function JsonTraitFlagId.new() end
 ---@field get_local_ms fun(self: Map, arg2: Tripoint): Tripoint @Convert absolute ms -> local ms
 ---@field get_map_size fun(self: Map): integer @In map squares
 ---@field get_map_size_in_submaps fun(self: Map): integer
----@field get_storage_namespaces fun(self: Map): table @Returns a list of all namespace names that have stored items.
----@field get_stored_item_count fun(self: Map, arg2: string): integer @Returns the number of items in a namespace. Optional namespace parameter (defaults to 'default').
 ---@field get_ter_at fun(self: Map, arg2: Tripoint): TerIntId
 ---@field get_trap_at fun(self: Map, arg2: Tripoint): TrapIntId
 ---@field has_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): boolean
 ---@field has_items_at fun(self: Map, arg2: Tripoint): boolean
----@field list_stored_items fun(self: Map, arg2: string): table @Returns a table of item snapshots for all items in a namespace. Each entry has: storage_key (for retrieval), type_id (itype_id string), name (display name), count (charges). Optional namespace parameter (defaults to 'default').
 ---@field mod_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
 ---@field mod_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
 ---@field move_item_to fun(self: Map, arg2: Tripoint, arg3: Item, arg4: Tripoint) @Moves an item from one position to another, preserving all item state including contents.
 ---@field remove_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId)
 ---@field remove_item_at fun(self: Map, arg2: Tripoint, arg3: Item)
 ---@field remove_trap_at fun(self: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
----@field retrieve_stored_item fun(self: Map, arg2: integer, arg3: Tripoint, arg4: string): boolean @Retrieves a stored item by its storage_key and places it at a position. The item is removed from storage. Optional namespace parameter (defaults to 'default').
 ---@field set_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration, arg5: boolean): TimeDuration
 ---@field set_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: boolean): integer
 ---@field set_furn_at fun(self: Map, arg2: Tripoint, arg3: FurnIntId)
 ---@field set_ter_at fun(self: Map, arg2: Tripoint, arg3: TerIntId): boolean
 ---@field set_trap_at fun(self: Map, arg2: Tripoint, arg3: TrapIntId) @Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
----@field store_item fun(self: Map, arg2: Tripoint, arg3: Item, arg4: string): integer @Removes an item from the map and stores it in a namespace. Returns a storage_key (like a coat check ticket), or -1 on failure. Optional namespace parameter (defaults to 'default'). Use retrieve_stored_item with the key to get it back.
 Map = {}
 ---@return Map
 function Map.new() end

@@ -139,6 +139,17 @@ void cata::detail::reg_map( sol::state &lua )
 
         luna::set_fx( ut, "has_items_at", &map::has_items );
         luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void { m.i_rem( p, it ); } );
+
+        DOC( "Removes an item from the map and returns it as a detached_ptr. The item is now owned by Lua - store it in a table to keep it alive, or let it be GC'd to destroy it. Use add_item to place it back on a map." );
+        luna::set_fx( ut, "detach_item_at", []( map & m, const tripoint & p, item * it ) -> detached_ptr<item> {
+            return m.i_rem( p, it );
+        } );
+
+        DOC( "Places a detached item onto the map. Returns nil on success (item now owned by map), or returns the item back if placement failed." );
+        luna::set_fx( ut, "add_item", []( map & m, const tripoint & p,
+        detached_ptr<item> &it ) -> detached_ptr<item> {
+            return m.add_item_or_charges( p, std::move( it ) );
+        } );
         luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void { m.i_clear( p ); } );
 
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) {
@@ -162,116 +173,6 @@ void cata::detail::reg_map( sol::state &lua )
             {
                 m.add_item_or_charges( to, std::move( detached ) );
             }
-        } );
-
-        // Static storage for items that need to survive map changes (e.g., teleportation)
-        // Uses namespaces to allow different systems to have separate storage
-        // Inner map uses monotonic keys so retrieval truly removes entries
-        static std::map<std::string, std::map<int, detached_ptr<item>>> lua_item_storage;
-        static int lua_item_storage_next_key = 0;
-
-        DOC( "Removes an item from the map and stores it in a namespace. Returns a storage_key (like a coat check ticket), or -1 on failure. Optional namespace parameter (defaults to 'default'). Use retrieve_stored_item with the key to get it back. IMPORTANT: To avoid conflicts with other mods, always prefix your namespace with your mod name, e.g. 'mymod.bank' or 'mymod.bag_of_holding'." );
-        luna::set_fx( ut, "store_item", []( map & m, const tripoint & from, item * it,
-        sol::optional<std::string> ns ) -> int {
-            std::string storage_ns = ns.value_or( "default" );
-            detached_ptr<item> detached = m.i_rem( from, it );
-            if( detached )
-            {
-                int key = lua_item_storage_next_key++;
-                lua_item_storage[storage_ns][key] = std::move( detached );
-                return key;
-            }
-            return -1;
-        } );
-
-        DOC( "Retrieves a stored item by its storage_key and places it at a position. The item is removed from storage. Optional namespace parameter (defaults to 'default')." );
-        luna::set_fx( ut, "retrieve_stored_item", []( map & m, int storage_key, const tripoint & to,
-        sol::optional<std::string> ns ) -> bool {
-            std::string storage_ns = ns.value_or( "default" );
-            auto ns_it = lua_item_storage.find( storage_ns );
-            if( ns_it == lua_item_storage.end() )
-            {
-                return false;
-            }
-            std::map<int, detached_ptr<item>> &storage = ns_it->second;
-            auto item_it = storage.find( storage_key );
-            if( item_it == storage.end() || !item_it->second )
-            {
-                return false;
-            }
-            m.add_item_or_charges( to, std::move( item_it->second ) );
-            storage.erase( item_it );
-            return true;
-        } );
-
-        DOC( "Returns a table of item snapshots for all items in a namespace. Each entry has: storage_key (for retrieval), type_id (itype_id string), name (display name), count (charges). Optional namespace parameter (defaults to 'default')." );
-        luna::set_fx( ut, "list_stored_items", []( map &, sol::this_state L,
-        sol::optional<std::string> ns ) -> sol::table {
-            sol::state_view lua( L );
-            sol::table result = lua.create_table();
-            std::string storage_ns = ns.value_or( "default" );
-
-            auto ns_it = lua_item_storage.find( storage_ns );
-            if( ns_it == lua_item_storage.end() )
-            {
-                return result;
-            }
-
-            const std::map<int, detached_ptr<item>> &storage = ns_it->second;
-            int table_idx = 1;
-            for( const auto &pair : storage )
-            {
-                if( pair.second )
-                {
-                    const item &it = *pair.second;
-                    sol::table entry = lua.create_table();
-                    entry["storage_key"] = pair.first;
-                    entry["type_id"] = it.typeId().str();
-                    entry["name"] = it.tname( 1, true );
-                    entry["count"] = it.charges;
-                    result[table_idx++] = entry;
-                }
-            }
-            return result;
-        } );
-
-        DOC( "Clears all items from a specific namespace. Optional namespace parameter (defaults to 'default')." );
-        luna::set_fx( ut, "clear_stored_items", []( map &,
-        sol::optional<std::string> ns ) -> void {
-            std::string storage_ns = ns.value_or( "default" );
-            lua_item_storage[storage_ns].clear();
-        } );
-
-        DOC( "Clears all items from ALL namespaces." );
-        luna::set_fx( ut, "clear_all_stored_items", []( map & ) -> void {
-            lua_item_storage.clear();
-        } );
-
-        DOC( "Returns the number of items in a namespace. Optional namespace parameter (defaults to 'default')." );
-        luna::set_fx( ut, "get_stored_item_count", []( map &,
-        sol::optional<std::string> ns ) -> int {
-            std::string storage_ns = ns.value_or( "default" );
-            auto ns_it = lua_item_storage.find( storage_ns );
-            if( ns_it == lua_item_storage.end() )
-            {
-                return 0;
-            }
-            return static_cast<int>( ns_it->second.size() );
-        } );
-
-        DOC( "Returns a list of all namespace names that have stored items." );
-        luna::set_fx( ut, "get_storage_namespaces", []( map &, sol::this_state L ) -> sol::table {
-            sol::state_view lua( L );
-            sol::table result = lua.create_table();
-            int idx = 1;
-            for( const auto &pair : lua_item_storage )
-            {
-                if( !pair.second.empty() )
-                {
-                    result[idx++] = pair.first;
-                }
-            }
-            return result;
         } );
 
         luna::set_fx( ut, "get_ter_at", sol::resolve<ter_id( const tripoint & )const>( &map::ter ) );
