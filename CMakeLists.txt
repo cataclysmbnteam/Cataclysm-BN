@@ -61,7 +61,10 @@ if (LINKER)
     add_link_options("-fuse-ld=${LINKER}")
 endif ()
 
-if (NOT CMAKE_BUILD_TYPE)
+# For multi-config generators (e.g. Visual Studio), CMAKE_BUILD_TYPE is not used;
+# the configuration is selected at build time via --config flag.
+get_property(_is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if (NOT CMAKE_BUILD_TYPE AND NOT _is_multi_config)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
@@ -407,6 +410,18 @@ if (BACKTRACE)
             set(NCPU 1)
         endif()
 
+        # Set up ccache for libbacktrace if available
+        if (CCACHE_FOUND AND CATA_CCACHE AND CMAKE_C_COMPILER_LAUNCHER)
+            # Join compiler launcher and compiler into a single string for configure
+            set(LIBBACKTRACE_CC_LIST "${CMAKE_C_COMPILER_LAUNCHER}" "${CMAKE_C_COMPILER}")
+            set(LIBBACKTRACE_CXX_LIST "${CMAKE_CXX_COMPILER_LAUNCHER}" "${CMAKE_CXX_COMPILER}")
+            list(JOIN LIBBACKTRACE_CC_LIST " " LIBBACKTRACE_CC)
+            list(JOIN LIBBACKTRACE_CXX_LIST " " LIBBACKTRACE_CXX)
+        else()
+            set(LIBBACKTRACE_CC "${CMAKE_C_COMPILER}")
+            set(LIBBACKTRACE_CXX "${CMAKE_CXX_COMPILER}")
+        endif()
+
         ExternalProject_Add(
             libbacktrace_external
             GIT_REPOSITORY ${LIBBACKTRACE_GIT_REPO}
@@ -416,7 +431,11 @@ if (BACKTRACE)
             SOURCE_DIR "${CMAKE_BINARY_DIR}/libbacktrace/src"
             BINARY_DIR "${CMAKE_BINARY_DIR}/libbacktrace/build"
 
-            CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${LIBBACKTRACE_INSTALL_DIR}
+            CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env
+                CC=${LIBBACKTRACE_CC}
+                CXX=${LIBBACKTRACE_CXX}
+                <SOURCE_DIR>/configure
+                --prefix=${LIBBACKTRACE_INSTALL_DIR}
 
             BUILD_COMMAND make -j${NCPU}
 
@@ -491,6 +510,9 @@ endif()
 if (RELEASE)
     if (USE_PREFIX_DATA_DIR)
         install(DIRECTORY doc TYPE DOC)
+        install(DIRECTORY data TYPE DATA
+            PATTERN "json/external_tileset/README.md" EXCLUDE
+            PATTERN "json/mapgen/lab/README.md" EXCLUDE)
         install(FILES
             ${CMAKE_SOURCE_DIR}/README.md
             ${CMAKE_SOURCE_DIR}/LICENSE.txt
@@ -499,6 +521,9 @@ if (RELEASE)
             TYPE DOC)
     else()
         install(DIRECTORY doc DESTINATION .)
+        install(DIRECTORY data DESTINATION .
+            PATTERN "json/external_tileset/README.md" EXCLUDE
+            PATTERN "json/mapgen/lab/README.md" EXCLUDE)
         install(FILES
             ${CMAKE_SOURCE_DIR}/README.md
             ${CMAKE_SOURCE_DIR}/LICENSE.txt

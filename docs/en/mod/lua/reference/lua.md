@@ -5882,35 +5882,39 @@ No constructors.
 
 🇻 Variable --> <code>integer</code>
 
-#### death_drops {#sol::Monster::death_drops}
+#### unique_name {#sol::Monster::unique_name}
 
-🇻 Variable --> <code>boolean</code>
+🇻 Variable --> <code>string</code>
 
 #### faction {#sol::Monster::faction}
 
 🇻 Variable --> <code>[MonsterFactionIntId](#sol::MonsterFactionIntId)</code>
 
-#### unique_name {#sol::Monster::unique_name}
+#### death_drops {#sol::Monster::death_drops}
 
-🇻 Variable --> <code>string</code>
-
-#### anger {#sol::Monster::anger}
-
-🇻 Variable --> <code>integer</code>
+🇻 Variable --> <code>boolean</code>
 
 #### morale {#sol::Monster::morale}
 
 🇻 Variable --> <code>integer</code>
 
-#### climbs {#sol::Monster::climbs}
+#### anger {#sol::Monster::anger}
 
-🇲 Method --> <code>( ) -> boolean</code>
+🇻 Variable --> <code>integer</code>
+
+#### move_to {#sol::Monster::move_to}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
+
+#### attitude {#sol::Monster::attitude}
+
+🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
+
+#### wander_to {#sol::Monster::wander_to}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
 
 #### swims {#sol::Monster::swims}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### flies {#sol::Monster::flies}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -5918,35 +5922,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> [Tripoint](#sol::Tripoint)</code>
 
-#### digs {#sol::Monster::digs}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
 #### is_wandering {#sol::Monster::is_wandering}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### attitude {#sol::Monster::attitude}
-
-🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
-
-#### move_to {#sol::Monster::move_to}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
-
-#### make_fungus {#sol::Monster::make_fungus}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### wander_to {#sol::Monster::wander_to}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
-
-#### set_hp {#sol::Monster::set_hp}
-
-🇲 Method --> <code>( integer )</code>
-
-#### can_dig {#sol::Monster::can_dig}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -5954,25 +5930,73 @@ No constructors.
 
 🇲 Method --> <code>( integer, boolean ) -> integer</code>
 
+#### set_hp {#sol::Monster::set_hp}
+
+🇲 Method --> <code>( integer )</code>
+
+#### make_friendly {#sol::Monster::make_friendly}
+
+🇲 Method --> <code>( )</code>
+
+#### climbs {#sol::Monster::climbs}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### remove_item {#sol::Monster::remove_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
+
+#### clear_items {#sol::Monster::clear_items}
+
+🇲 Method --> <code>( ) -> Detached<[Item](#sol::Item)>[]</code>
+
+#### make_fungus {#sol::Monster::make_fungus}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### add_item {#sol::Monster::add_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) )</code>
+
+#### make_ally {#sol::Monster::make_ally}
+
+🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
+
+#### get_items {#sol::Monster::get_items}
+
+🇲 Method --> <code>( ) -> [Item](#sol::Item)[]</code>
+
+#### flies {#sol::Monster::flies}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
 #### can_climb {#sol::Monster::can_climb}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### can_hear {#sol::Monster::can_hear}
+#### can_dig {#sol::Monster::can_dig}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### can_submerge {#sol::Monster::can_submerge}
+#### try_upgrade {#sol::Monster::try_upgrade}
 
-🇲 Method --> <code>( ) -> boolean</code>
+🇲 Method --> <code>( boolean )</code>
+
+#### try_reproduce {#sol::Monster::try_reproduce}
+
+🇲 Method --> <code>( )</code>
+
+#### refill_udders {#sol::Monster::refill_udders}
+
+🇲 Method --> <code>( )</code>
 
 #### get_upgrade_time {#sol::Monster::get_upgrade_time}
 
 🇲 Method --> <code>( ) -> integer</code>
 
-#### try_upgrade {#sol::Monster::try_upgrade}
+#### can_upgrade {#sol::Monster::can_upgrade}
 
-🇲 Method --> <code>( boolean )</code>
+🇲 Method --> <code>( ) -> boolean</code>
 
 #### hasten_upgrade {#sol::Monster::hasten_upgrade}
 
@@ -5982,45 +6006,45 @@ No constructors.
 
 🇲 Method --> <code>( ) -> [MonsterTypeId](#sol::MonsterTypeId)</code>
 
-#### can_upgrade {#sol::Monster::can_upgrade}
+#### digs {#sol::Monster::digs}
 
 🇲 Method --> <code>( ) -> boolean</code>
-
-#### can_drown {#sol::Monster::can_drown}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### try_reproduce {#sol::Monster::try_reproduce}
-
-🇲 Method --> <code>( )</code>
 
 #### spawn {#sol::Monster::spawn}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
 
-#### make_friendly {#sol::Monster::make_friendly}
+#### name_with_armor {#sol::Monster::name_with_armor}
 
-🇲 Method --> <code>( )</code>
+🇲 Method --> <code>( ) -> string</code>
 
-#### refill_udders {#sol::Monster::refill_udders}
-
-🇲 Method --> <code>( )</code>
-
-#### can_see {#sol::Monster::can_see}
+#### can_drown {#sol::Monster::can_drown}
 
 🇲 Method --> <code>( ) -> boolean</code>
+
+#### drop_items {#sol::Monster::drop_items}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
 
 #### name {#sol::Monster::name}
 
 🇲 Method --> <code>( integer ) -> string</code>
 
-#### name_with_armor {#sol::Monster::name_with_armor}
+#### can_submerge {#sol::Monster::can_submerge}
 
-🇲 Method --> <code>( ) -> string</code>
+🇲 Method --> <code>( ) -> boolean</code>
 
-#### make_ally {#sol::Monster::make_ally}
+#### can_see {#sol::Monster::can_see}
 
-🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### can_hear {#sol::Monster::can_hear}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### drop_items_here {#sol::Monster::drop_items_here}
+
+🇲 Method --> <code>( )</code>
 
 ## MonsterFactionId {#sol::MonsterFactionId}
 
@@ -9275,6 +9299,19 @@ Documentation for hooks
 
 > Called when game is about to save.
 
+#### on_shoot {#sol::nil::on_shoot}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when shot(s) is fired from a gun.\
+> The hook receives a table with keys:
+>
+> - `shooter` (<code>[Character](#sol::Character)</code>)
+> - `target_pos` (<code>[Tripoint](#sol::Tripoint)</code>)
+> - `shots` (int)
+> - `gun` (item)
+> - `ammo` (item): For `RELOAD_AND_SHOOT` guns like a bow. On the others, it returns `nil` value.
+
 #### on_character_death {#sol::nil::on_character_death}
 
 🇫 Function --> <code>( params: table )</code>
@@ -9295,14 +9332,26 @@ Documentation for hooks
 > - `character` (<code>[Character](#sol::Character)</code>)
 > - `effect` (<code>[Effect](#sol::Effect)</code>)
 
-#### on_character_effect_added {#sol::nil::on_character_effect_added}
+#### on_throw {#sol::nil::on_throw}
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
+> Called when an item is thrown.\
 > The hook receives a table with keys:
 >
-> - `char` (<code>[Character](#sol::Character)</code>)
+> - `thrower` (<code>[Character](#sol::Character)</code>)
+> - `target_pos` (<code>[Tripoint](#sol::Tripoint)</code>)
+> - `throw_from_pos` (<code>[Tripoint](#sol::Tripoint)</code>)
+> - `thrown` (item)
+
+#### on_mon_effect {#sol::nil::on_mon_effect}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.\
+> The hook receives a table with keys:
+>
+> - `mon` (<code>[Monster](#sol::Monster)</code>)
 > - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_mon_effect_added {#sol::nil::on_mon_effect_added}
@@ -9325,49 +9374,21 @@ Documentation for hooks
 > - `mon` (<code>[Monster](#sol::Monster)</code>)
 > - `killer` (<code>[Creature](#sol::Creature)</code>)
 
-#### on_mon_effect {#sol::nil::on_mon_effect}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when character is on the effect which has `EFFECT_LUA_ON_TICK` flag.\
-> The hook receives a table with keys:
->
-> - `mon` (<code>[Monster](#sol::Monster)</code>)
-> - `effect` (<code>[Effect](#sol::Effect)</code>)
-
 #### on_every_x {#sol::nil::on_every_x}
 
 🇫 Function --> <code>( table )</code>
 
 > Called every in-game period
 
-#### on_character_reset_stats {#sol::nil::on_character_reset_stats}
+#### on_character_effect_added {#sol::nil::on_character_effect_added}
 
 🇫 Function --> <code>( params: table )</code>
 
-> Called when character stat gets reset.\
-> The hook receives a table with keys:
->
-> - `character` (<code>[Character](#sol::Character)</code>)
-
-#### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when a character has performed a technique.\
+> Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
 > The hook receives a table with keys:
 >
 > - `char` (<code>[Character](#sol::Character)</code>)
-> - `technique` (<code>[MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>)
-> - `target` (<code>[Creature](#sol::Creature)</code>)
-> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
-> - `move_cost` (integer)
-
-#### on_game_load {#sol::nil::on_game_load}
-
-🇫 Function --> <code>( )</code>
-
-> Called right after game has loaded.
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
 
 #### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
 
@@ -9386,6 +9407,45 @@ Documentation for hooks
 
 > Called when the game has first started.
 
+#### on_game_load {#sol::nil::on_game_load}
+
+🇫 Function --> <code>( )</code>
+
+> Called right after game has loaded.
+
+#### on_character_reset_stats {#sol::nil::on_character_reset_stats}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character stat gets reset.\
+> The hook receives a table with keys:
+>
+> - `character` (<code>[Character](#sol::Character)</code>)
+
+#### on_creature_dodged {#sol::nil::on_creature_dodged}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when a character or monster successfully dodges.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `source` (<code>[Creature](#sol::Creature)</code>)
+> - `difficulty` (integer)
+
+#### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when a character has performed a technique.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `technique` (<code>[MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>)
+> - `target` (<code>[Creature](#sol::Creature)</code>)
+> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
+> - `move_cost` (integer)
+
 #### on_creature_blocked {#sol::nil::on_creature_blocked}
 
 🇫 Function --> <code>( params: table )</code>
@@ -9398,17 +9458,6 @@ Documentation for hooks
 > - `bodypart_id` (<code>[BodyPartTypeId](#sol::BodyPartTypeId)</code>)
 > - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
 > - `damage_blocked` (float)
-
-#### on_creature_dodged {#sol::nil::on_creature_dodged}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when a character or monster successfully dodges.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `source` (<code>[Creature](#sol::Creature)</code>)
-> - `difficulty` (integer)
 
 #### on_mapgen_postprocess {#sol::nil::on_mapgen_postprocess}
 

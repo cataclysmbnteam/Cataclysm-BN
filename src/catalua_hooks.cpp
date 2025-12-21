@@ -16,12 +16,13 @@ constexpr auto hook_names = std::array
     "on_mon_effect",
     "on_mon_death",
     "on_character_death",
+    "on_shoot",
+    "on_throw",
     "on_creature_dodged",
     "on_creature_blocked",
     "on_creature_performed_technique",
     "on_creature_melee_attacked",
-    "on_mapgen_postprocess",
-    "on_character_death"
+    "on_mapgen_postprocess"
 };
 
 void define_hooks( lua_state &state )

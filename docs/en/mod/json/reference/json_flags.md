@@ -740,6 +740,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `LEAK_DAM` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 - `NEEDS_UNFOLD` ... Has an additional time penalty upon wielding. For melee weapons and guns this
   is offset by the relevant skill. Stacks with "SLOW_WIELD".
+- `MISSION_ITEM` ... will always spawn as loot regardless item spawn rate settings.
 - `NO_PACKED` ... This item is not protected against contamination and won't stay sterile. Only
   applies to CBMs.
 - `NO_REPAIR` ... Prevents repairing of this item even if otherwise suitable tools exist.
@@ -1639,6 +1640,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `DIFFICULTY_REMOVE`
 - `DOME_LIGHT`
 - `DOOR_MOTOR` Can only be installed on a part with `OPENABLE` flag.
+- `DROPPER` Allows cargo to be dropped out of the adjacent cargo space
 - `E_ALTERNATOR` Is an engine that can power an alternator.
 - `E_COLD_START` Is an engine that starts much slower in cold weather.
 - `E_COMBUSTION` Is an engine that burns its fuel and can backfire or explode when damaged.
