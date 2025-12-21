@@ -166,7 +166,8 @@
         "LIBBACKTRACE": "ON",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "JSON_FORMAT": "ON",
-        "TESTS": "ON"
+        "TESTS": "ON",
+        "LINKER": "mold"
       }
     },
     {
@@ -190,7 +191,8 @@
         "LIBBACKTRACE": "OFF",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "JSON_FORMAT": "OFF",
-        "TESTS": "ON"
+        "TESTS": "ON",
+        "LINKER": "mold"
       }
     }
   ],
