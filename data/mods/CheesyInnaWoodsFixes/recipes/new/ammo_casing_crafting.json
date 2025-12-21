@@ -17,6 +17,19 @@
     "components": [ [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ], [ [ "copper", 70 ] ], [ [ "zinc_metal", 400 ] ] ]
   },
   {
+    "result": "brass_metal",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "0 s",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "result_mult": 1,
+    "components": [ [ [ "cartridgebrass", 1 ] ] ]
+  },
+  {
     "result": "223_casing",
     "type": "recipe",
     "category": "CC_OTHER",
