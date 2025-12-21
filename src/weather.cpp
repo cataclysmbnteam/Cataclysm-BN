@@ -1133,13 +1133,29 @@ void weather_manager::update_weather()
                             tripoint_abs_ms( g->u.global_square_location() ),
                             calendar::turn, calendar::config, g->get_seed() ) ;
 
-    if( weather_id != old_weather ) {
+    // Only call on_weather_changed if old_weather was a valid weather type (not initial state)
+    if( weather_id != old_weather && old_weather != weather_type_id::NULL_ID() ) {
             cata::run_hooks( "on_weather_changed", [&, this]( auto & params ) {
             params["weather_id"] = weather_id.str();
             params["old_weather_id"] = old_weather.str();
-            params["temperature"] = temperature;
+            params["temperature"] = units::to_celsius( temperature );
+            params["temperature_f"] = units::to_fahrenheit( temperature );
             params["windspeed"] = windspeed;
             params["winddirection"] = winddirection; // 360 degrees
+            params["humidity"] = w.humidity;
+            params["pressure"] = w.pressure;
+            params["is_sheltered"] = !is_player_outside();
+        });
+    }
+
+    // Only call on_weather_updated if old_weather was valid (not initial state)
+    if( old_weather != weather_type_id::NULL_ID() ) {
+        cata::run_hooks( "on_weather_updated", [&, this]( auto & params ) {
+            params["weather_id"] = weather_id.str();
+            params["temperature"] = units::to_celsius( temperature );
+            params["temperature_f"] = units::to_fahrenheit( temperature );
+            params["windspeed"] = windspeed;
+            params["winddirection"] = winddirection;
             params["humidity"] = w.humidity;
             params["pressure"] = w.pressure;
             params["is_sheltered"] = !is_player_outside();
