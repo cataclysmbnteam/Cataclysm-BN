@@ -256,6 +256,10 @@ if (NOT MSVC)
     # Add debug symbols for non-release builds or when backtrace is enabled
     if (BACKTRACE OR NOT RELEASE)
         set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -g1")
+        # Use debug prefix map for ccache compatibility with git worktrees
+        # see https://ccache.dev/manual/latest.html#_compiling_in_different_directories
+        file(RELATIVE_PATH REL_SRC_PATH "${CMAKE_BINARY_DIR}" "${CMAKE_SOURCE_DIR}")
+        set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -ffile-prefix-map=${REL_SRC_PATH}=.")
     endif()
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
@@ -487,10 +491,20 @@ endif ()
 
 find_program(CCACHE_FOUND ccache)
 if (CCACHE_FOUND AND CATA_CCACHE)
-    set(CMAKE_C_COMPILER_LAUNCHER ccache)
-    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
-    set(CMAKE_C_LINKER_LAUNCHER ccache)
-    set(CMAKE_CXX_LINKER_LAUNCHER ccache)
+    # Configure ccache for git worktrees
+    # Set base_dir to make paths relative, enabling cache sharing across worktrees
+    # see https://ccache.dev/manual/latest.html#_configuration_options
+    set(CATA_CCACHE_CMD
+        "${CMAKE_COMMAND}" -E env
+        "CCACHE_BASEDIR=${CMAKE_SOURCE_DIR}"
+        "CCACHE_NOHASHDIR=true"
+        "${CCACHE_FOUND}"
+    )
+
+    set(CMAKE_C_COMPILER_LAUNCHER   ${CATA_CCACHE_CMD})
+    set(CMAKE_CXX_COMPILER_LAUNCHER ${CATA_CCACHE_CMD})
+    set(CMAKE_C_LINKER_LAUNCHER     ${CATA_CCACHE_CMD})
+    set(CMAKE_CXX_LINKER_LAUNCHER   ${CATA_CCACHE_CMD})
 endif ()
 
 add_subdirectory(src)
