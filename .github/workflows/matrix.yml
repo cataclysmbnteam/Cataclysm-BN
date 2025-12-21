@@ -37,7 +37,7 @@ jobs:
     needs: skip-duplicates
     strategy:
       fail-fast: ${{ github.ref_name == 'main' }}
-      max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
+      max-parallel: ${{ github.ref_name == 'main' && 20 || 2 }}
       matrix:
         include:
           - title: GCC, Ubuntu, Curses, CMake
@@ -60,7 +60,7 @@ jobs:
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
-      ZSTD_CLEVEL: 17
+      ZSTD_CLEVEL: 3
       TILES: ${{ matrix.tiles }}
       TEST_STAGE: ${{ matrix.test-stage }}
       SKIP: ${{ matrix.always-run != true && ( github.event.pull_request.draft == true || needs.skip-duplicates.outputs.should_skip_code == true || needs.skip-duplicates.outputs.should_skip_data == true ) }}
@@ -76,7 +76,7 @@ jobs:
         if: ${{ env.SKIP == 'false' }}
         run: |
           sudo apt-get update
-          sudo apt-get install gcc-14 libncursesw5-dev ccache gettext parallel libsqlite3-dev zlib1g-dev ninja-build
+          sudo apt-get install gcc-14 libncursesw5-dev mold gettext parallel libsqlite3-dev zlib1g-dev ninja-build
           sudo locale-gen en_US.UTF-8 fr_FR.UTF-8 ru_RU.UTF-8
 
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
@@ -105,10 +105,14 @@ jobs:
         if: ${{ env.SKIP == 'false' }}
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ github.ref_name }}-${{ matrix.ccache_key }}
-          restore-keys: main-${{ matrix.ccache_key }}
+          key: ${{ matrix.ccache_key }}-${{ github.ref_name }}
+          restore-keys: |
+            ${{ matrix.ccache_key }}-${{ github.ref_name }}
+            ${{ matrix.ccache_key }}-main
+            ${{ matrix.ccache_key }}-
           max-size: ${{ matrix.ccache_limit }}
           verbose: 2
+          save: ${{ github.event_name != 'pull_request' }}
 
       - uses: ammaraskar/gcc-problem-matcher@master
 
@@ -123,6 +127,7 @@ jobs:
         with:
           configurePreset: ${{ matrix.preset }}
           buildPreset: ${{ matrix.preset }}
+          buildPresetAdditionalArgs: "['-j', '2']"
 
       - name: run JSON formatting check (test-stage only)
         if: ${{ env.SKIP == 'false' && env.TEST_STAGE == '1' }}

@@ -85,9 +85,14 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.artifact }}
+          key: ${{ matrix.artifact }}-${{ github.ref_name }}
+          restore-keys: |
+            ${{ matrix.artifact }}-${{ github.ref_name }}
+            ${{ matrix.artifact }}-main
+            ${{ matrix.artifact }}-
           max-size: 500M
           verbose: 2
+          save: ${{ github.event_name != 'pull_request' }}
 
       - name: Check Clang OK
         run: |

@@ -52,9 +52,14 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: android-pr
+          key: android-pr-${{ github.ref_name }}
+          restore-keys: |
+            android-pr-${{ github.ref_name }}
+            android-pr-main
+            android-pr-
           max-size: 500M
           verbose: 2
+          save: ${{ github.event_name != 'pull_request' }}
 
       - name: Build
         working-directory: ./android
