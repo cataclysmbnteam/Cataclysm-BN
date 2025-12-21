@@ -251,6 +251,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "forbidden_bionics", _forbidden_bionics, auto_flags_reader<bionic_id> {} );
     optional( jo, was_loaded, "allowed_traits", _allowed_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "allowed_bionics", _allowed_bionics, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "forbids_bionics", _forbids_bionics );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
@@ -559,6 +560,10 @@ std::set<bionic_id> profession::get_allowed_bionics() const
     return _allowed_bionics;
 }
 
+bool profession::forbids_bionics() const
+{
+    return _forbids_bionics;
+}
 profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;

@@ -1216,7 +1216,7 @@
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
     "starting_bionic": true,
-    "points": 1
+    "points": -1
   },
   {
     "id": "bio_water_extractor",

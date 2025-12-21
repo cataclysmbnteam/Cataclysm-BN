@@ -69,6 +69,7 @@ class profession
         std::set<bionic_id> _forbidden_bionics;
         std::set<trait_id> _allowed_traits;
         std::set<bionic_id> _allowed_bionics;
+        bool _forbids_bionics;
         std::vector<mtype_id> _starting_pets;
         std::vector<npc_class_id> _starting_npcs;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
@@ -136,6 +137,7 @@ class profession
         bool is_locked_bionic( const bionic_id &bionic ) const;
         bool is_forbidden_bionic( const bionic_id &bionic ) const;
         bool is_allowed_bionic( const bionic_id &bionic ) const;
+        bool forbids_bionics() const;
         std::vector<bionic_id> get_locked_bionics() const;
         std::set<bionic_id> get_forbidden_bionics() const;
         std::set<bionic_id> get_allowed_bionics() const;

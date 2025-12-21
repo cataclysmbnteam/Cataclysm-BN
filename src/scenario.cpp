@@ -87,6 +87,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "bionics", _allowed_bionics, auto_flags_reader<bionic_id> {} );
     optional( jo, was_loaded, "forced_bionics", _forced_bionics, auto_flags_reader<bionic_id> {} );
     optional( jo, was_loaded, "forbidden_bionics", _forbidden_bionics, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "forbids_bionics", _forbids_bionics );
     optional( jo, was_loaded, "allowed_locs", _allowed_locs, auto_flags_reader<start_location_id> {} );
     if( _allowed_locs.empty() ) {
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
@@ -470,6 +471,11 @@ bool scenario::is_forbidden_trait( const trait_id &trait ) const
 bool scenario::is_forbidden_bionic( const bionic_id &bionic ) const
 {
     return _forbidden_bionics.contains( bionic );
+}
+
+bool scenario::forbids_bionics() const
+{
+    return _forbids_bionics;
 }
 
 bool scenario::has_flag( const std::string &flag ) const

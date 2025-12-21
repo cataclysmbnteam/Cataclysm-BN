@@ -236,6 +236,7 @@
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "professions": [ "churl", "prospector", "knight", "frontiersman", "dogsledder" ],
+    "forbids_bionics": true,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {

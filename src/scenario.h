@@ -42,6 +42,7 @@ class scenario
         std::set<bionic_id> _allowed_bionics;
         std::set<bionic_id> _forced_bionics;
         std::set<bionic_id> _forbidden_bionics;
+        bool _forbids_bionics;
         std::vector<start_location_id> _allowed_locs;
         int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
@@ -96,6 +97,7 @@ class scenario
         std::set<bionic_id> get_locked_bionics() const;
         bool is_locked_bionic( const bionic_id &bionic ) const;
         bool is_forbidden_bionic( const bionic_id &bionic ) const;
+        bool forbids_bionics() const;
 
         bool allowed_start( const start_location_id &loc ) const;
         signed int point_cost() const;

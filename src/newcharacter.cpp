@@ -1809,24 +1809,22 @@ tab_direction set_bionics( avatar &u, points_left &points )
                 conflicting_traits.push_back( id );
             }
             const bool has_bionic = u.has_bionic( cur_bionic );
-
-            if( has_bionic ) {
-
-                inc_type = -1;
-
-                if( g->scen->is_locked_bionic( cur_bionic ) ) {
-                    inc_type = 0;
-                    popup( _( "Your scenario of %s prevents you from removing this bionic." ),
-                           g->scen->gender_appropriate_name( u.male ) );
-                } else if( u.prof->is_locked_bionic( cur_bionic ) ) {
-                    inc_type = 0;
-                    popup( _( "Your profession of %s prevents you from removing this bionic." ),
-                           u.prof->gender_appropriate_name( u.male ) );
-                }
+            if( g->scen->forbids_bionics() ) {
+                popup( _( "The scenario you picked prevents you from taking any bionics!" ) );
+            } else if( u.prof->forbids_bionics() ) {
+                popup( _( "The profession you picked prevents you from taking any bionics!" ) );
             } else if( g->scen->is_forbidden_bionic( cur_bionic ) ) {
                 popup( _( "The scenario you picked prevents you from taking this bionic!" ) );
             } else if( u.prof->is_forbidden_bionic( cur_bionic ) ) {
                 popup( _( "Your profession of %s prevents you from taking this bionic." ),
+                       u.prof->gender_appropriate_name( u.male ) );
+            } else if( g->scen->is_locked_bionic( cur_bionic ) ) {
+                inc_type = 0;
+                popup( _( "Your scenario of %s prevents you from removing this bionic." ),
+                       g->scen->gender_appropriate_name( u.male ) );
+            } else if( u.prof->is_locked_bionic( cur_bionic ) ) {
+                inc_type = 0;
+                popup( _( "Your profession of %s prevents you from removing this bionic." ),
                        u.prof->gender_appropriate_name( u.male ) );
             } else if( !conflicting_traits.empty() ) {
                 // Grab a list of the names of the bionics that block this trait
@@ -1861,7 +1859,7 @@ tab_direction set_bionics( avatar &u, points_left &points )
                 }
                 popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
             } else {
-                inc_type = 1;
+                inc_type = has_bionic ? -1 : 1;
             }
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
@@ -1875,6 +1873,7 @@ tab_direction set_bionics( avatar &u, points_left &points )
                 }
 #endif
                 points.trait_points -= bio.points * inc_type;
+
                 if( iCurWorkingPage == 0 ) {
                     num_good += bio.points * inc_type;
                 } else {

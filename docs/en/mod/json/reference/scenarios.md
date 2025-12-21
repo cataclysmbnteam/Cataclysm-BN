@@ -133,6 +133,12 @@ the character creation. bionics in "forced_bionics" are automatically added to c
 Mods can modify this via "add:bionics" / "add:forced_bionics" / "add:forbidden_bionics" and
 "remove:bionics" / "remove:forced_bionics" / "remove:forbidden_bionics".
 
+## `forbids_bionics`
+
+(optional, bool)
+
+Prohibits players from adding bionics through the bionics chargen tab
+
 ## `allowed_locs`
 
 (optional, array of strings)
