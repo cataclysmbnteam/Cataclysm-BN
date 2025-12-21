@@ -1836,6 +1836,14 @@ tab_direction set_bionics( avatar &u, points_left &points )
                     conflicting_traits.push_back( id );
                 }
             }
+            std::vector<bionic_id> missing_bionics;
+            if( !bio.required_bionics.empty() ) {
+                for( const bionic_id &req_bid : bio.required_bionics ) {
+                    if( !u.has_bionic( req_bid ) ) {
+                        missing_bionics.push_back( req_bid );
+                    }
+                }
+            }
             const bool has_bionic = u.has_bionic( cur_bionic );
             if( g->scen->forbids_bionics() ) {
                 popup( _( "The scenario you picked prevents you from taking any bionics!" ) );
@@ -1886,6 +1894,16 @@ tab_direction set_bionics( avatar &u, points_left &points )
                                                     elem.second );
                 }
                 popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
+            } else if( !missing_bionics.empty() ) {
+                // Grab a list of the names of the bionics that block this trait
+                // So that the player know what is preventing them from taking it
+                std::vector<std::string> conflict_names;
+                conflict_names.reserve( missing_bionics.size() );
+                for( const bionic_id &conflict : missing_bionics ) {
+                    conflict_names.emplace_back( conflict->name.translated() );
+                }
+                popup( _( "The lack of the following bionics are prevent you from taking this bionic: %s." ),
+                       enumerate_as_string( conflict_names ) );
             } else {
                 inc_type = has_bionic ? -1 : 1;
             }
