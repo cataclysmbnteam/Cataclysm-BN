@@ -9406,14 +9406,6 @@ Documentation for hooks
 🇫 Function --> <code>( )</code>
 
 > Called when the game has first started.
-> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
-> - `move_cost` (integer)
-
-#### on_game_started {#sol::nil::on_game_started}
-
-🇫 Function --> <code>( )</code>
-
-> Called when the game has first started.
 
 #### on_game_load {#sol::nil::on_game_load}
 
@@ -9430,18 +9422,10 @@ Documentation for hooks
 >
 > - `character` (<code>[Character](#sol::Character)</code>)
 
-#### on_creature_dodged {#sol::nil::on_creature_dodged}
 #### on_weather_changed {#sol::nil::on_weather_changed}
 
 🇫 Function --> <code>( params: table )</code>
-🇫 Function --> <code>( params: table )</code>
 
-> Called when a character or monster successfully dodges.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `source` (<code>[Creature](#sol::Creature)</code>)
-> - `difficulty` (integer)
 > Called when the weather has changed.\
 > The hook receives a table with keys:
 >
@@ -9452,19 +9436,6 @@ Documentation for hooks
 > - `winddirection` (integer): Wind direction in degrees
 > - `humidity` (float): Humidity percentage
 > - `pressure` (float): Atmospheric pressure
-
-#### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when a character has performed a technique.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `technique` (<code>[MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>)
-> - `target` (<code>[Creature](#sol::Creature)</code>)
-> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
-> - `move_cost` (integer)
 
 #### on_creature_blocked {#sol::nil::on_creature_blocked}
 
@@ -9478,6 +9449,30 @@ Documentation for hooks
 > - `bodypart_id` (<code>[BodyPartTypeId](#sol::BodyPartTypeId)</code>)
 > - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
 > - `damage_blocked` (float)
+
+#### on_creature_dodged {#sol::nil::on_creature_dodged}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when a character or monster successfully dodges.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `source` (<code>[Creature](#sol::Creature)</code>)
+> - `difficulty` (integer)
+
+#### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when a character has performed a technique.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `technique` (<code>[MartialArtsTechniqueRaw](#sol::MartialArtsTechniqueRaw)</code>)
+> - `target` (<code>[Creature](#sol::Creature)</code>)
+> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
+> - `move_cost` (integer)
 
 #### on_mapgen_postprocess {#sol::nil::on_mapgen_postprocess}
 
