@@ -9406,6 +9406,14 @@ Documentation for hooks
 🇫 Function --> <code>( )</code>
 
 > Called when the game has first started.
+> - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
+> - `move_cost` (integer)
+
+#### on_game_started {#sol::nil::on_game_started}
+
+🇫 Function --> <code>( )</code>
+
+> Called when the game has first started.
 
 #### on_game_load {#sol::nil::on_game_load}
 
@@ -9423,7 +9431,9 @@ Documentation for hooks
 > - `character` (<code>[Character](#sol::Character)</code>)
 
 #### on_creature_dodged {#sol::nil::on_creature_dodged}
+#### on_weather_changed {#sol::nil::on_weather_changed}
 
+🇫 Function --> <code>( params: table )</code>
 🇫 Function --> <code>( params: table )</code>
 
 > Called when a character or monster successfully dodges.\
@@ -9432,6 +9442,16 @@ Documentation for hooks
 > - `char` (<code>[Character](#sol::Character)</code>)
 > - `source` (<code>[Creature](#sol::Creature)</code>)
 > - `difficulty` (integer)
+> Called when the weather has changed.\
+> The hook receives a table with keys:
+>
+> - `weather_id` (string): Current weather ID
+> - `old_weather_id` (string): Previous weather ID
+> - `temperature` (Temperature): Current temperature
+> - `windspeed` (float): Wind speed
+> - `winddirection` (integer): Wind direction in degrees
+> - `humidity` (float): Humidity percentage
+> - `pressure` (float): Atmospheric pressure
 
 #### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
 

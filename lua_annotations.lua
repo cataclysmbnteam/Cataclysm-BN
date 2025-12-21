@@ -2620,6 +2620,7 @@ gdebug = {}
 ---@field on_mon_effect_added fun(params: table) @Called when monster gets the effect which has `EFFECT_LUA_ON_ADDED` flag.  <br />The hook receives a table with keys:  <br />* `mon` (Monster)  <br />* `effect` (Effect)  
 ---@field on_shoot fun(params: table) @Called when shot(s) is fired from a gun.  <br />The hook receives a table with keys:  <br />* `shooter` (Character)  <br />* `target_pos` (Tripoint)  <br />* `shots` (int)  <br />* `gun` (item)  <br />* `ammo` (item): For `RELOAD_AND_SHOOT` guns like a bow. On the others, it returns `nil` value.  
 ---@field on_throw fun(params: table) @Called when an item is thrown.  <br />The hook receives a table with keys:  <br />* `thrower` (Character)  <br />* `target_pos` (Tripoint)  <br />* `throw_from_pos` (Tripoint)  <br />* `thrown` (item)  
+---@field on_weather_changed fun(params: table) @Called when the weather has changed.  <br />The hook receives a table with keys:  <br />* `weather_id` (string): Current weather ID  <br />* `old_weather_id` (string): Previous weather ID  <br />* `temperature` (Temperature): Current temperature  <br />* `windspeed` (float): Wind speed  <br />* `winddirection` (integer): Wind direction in degrees  <br />* `humidity` (float): Humidity percentage  <br />* `pressure` (float): Atmospheric pressure  
 hooks = {}
 
 --- Localization API.

@@ -12,6 +12,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catalua_hooks.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
@@ -1131,6 +1132,19 @@ void weather_manager::update_weather()
     water_temperature = weather_gen.get_water_temperature(
                             tripoint_abs_ms( g->u.global_square_location() ),
                             calendar::turn, calendar::config, g->get_seed() ) ;
+
+    if( weather_id != old_weather ) {
+            cata::run_hooks( "on_weather_changed", [&, this]( auto & params ) {
+            params["weather_id"] = weather_id.str();
+            params["old_weather_id"] = old_weather.str();
+            params["temperature"] = temperature;
+            params["windspeed"] = windspeed;
+            params["winddirection"] = winddirection; // 360 degrees
+            params["humidity"] = w.humidity;
+            params["pressure"] = w.pressure;
+            params["is_sheltered"] = !is_player_outside();
+        });
+    }
 }
 
 void weather_manager::set_nextweather( time_point t )
