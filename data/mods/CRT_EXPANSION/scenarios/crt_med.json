@@ -40,7 +40,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "allowed_bionics": [ "bio_surgical_razor" ]
   },
   {
     "type": "profession",
@@ -80,7 +81,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "allowed_bionics": [ "bio_surgical_razor" ]
   },
   {
     "type": "profession",
