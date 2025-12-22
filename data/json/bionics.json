@@ -178,6 +178,7 @@
     "occupied_bodyparts": [ [ "torso", 5 ] ],
     "act_cost": "100 J",
     "points": 1
+    "starting_bionic": true
   },
   {
     "id": "bio_blood_filter",
