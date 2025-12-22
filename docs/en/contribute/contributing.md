@@ -1,11 +1,5 @@
 # Contributing
 
-> [!TIP]
->
-> #### Opening new issue
->
-> Check [how to open a issue](./issues).
-
 # Want to help?
 
 Help is appreciated, especially with:
