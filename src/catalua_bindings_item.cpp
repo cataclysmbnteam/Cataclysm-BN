@@ -326,7 +326,6 @@ void reg_item( sol::state &lua )
             return self.durability_indicator( include_intact.value_or( false ) );
         } );
 
-        // ...existing code...
     }
 #undef UT_CLASS
 }
