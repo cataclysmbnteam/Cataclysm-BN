@@ -11,7 +11,7 @@ import "./plugins/prism.ts"
 
 const site = lume()
 
-const languages = ["en", "ko", "ru", "de"]
+const languages = ["en", "ko", "jp", "ru", "de"]
 
 site
   .ignore("README.md")
