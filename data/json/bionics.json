@@ -177,7 +177,7 @@
     "description": "Small sensors have been surgically implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
     "act_cost": "100 J",
-    "points": 1
+    "points": 1,
     "starting_bionic": true
   },
   {
