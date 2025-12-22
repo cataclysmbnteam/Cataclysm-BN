@@ -100,6 +100,9 @@ class char_preview_adapter : public cata_tiles
             for( const bionic_id &bio : av.prof->CBMs() ) {
                 t_av.add_bionic( bio );
             }
+            for( const bionic &bio : *av.my_bionics ) {
+                t_av.add_bionic( bio.id );
+            }
             for( const bionic &bio : *t_av.my_bionics ) {
                 std::string overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
                 int order = get_overlay_order_of_mutation( overlay_id );
