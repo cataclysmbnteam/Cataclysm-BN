@@ -2234,17 +2234,7 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "PET_MOUNTABLE",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_rabbit",
