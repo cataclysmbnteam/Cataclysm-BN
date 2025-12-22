@@ -8927,7 +8927,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         return false;
     } else {
         auto crit = u.mounted_creature.get();
-        if( crit->has_flag( MF_MOUNTABLE_CLIMBS_DOWN ) ) {
+        if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
             return true; // mount can climb down ledges
         }
     }

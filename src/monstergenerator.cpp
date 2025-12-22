@@ -198,7 +198,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_VOLATILE: return "VOLATILE";
         case MF_MOUNTABLE_STAIRS: return "MOUNTABLE_STAIRS";
         case MF_MOUNTABLE_OBSTACLES: return "MOUNTABLE_OBSTACLES";
-        case MF_MOUNTABLE_CLIMBS_DOWN: return "MOUNTABLE_CLIMBS_DOWN";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
