@@ -4208,6 +4208,7 @@ No constructors.
 
 #### get_damage_level {#sol::Item::get_damage_level}
 
+🇲 Method --> <code>( ) -> integer</code>\
 🇲 Method --> <code>( integer ) -> integer</code>
 
 > Get item damage as a level from 0 to max. Used for UI display and damage thresholds.

@@ -292,9 +292,14 @@ void reg_item( sol::state &lua )
         luna::set_fx( ut, "get_damage", &item::damage );
 
         DOC( "Get item damage as a level from 0 to max. Used for UI display and damage thresholds." );
-        luna::set_fx( ut, "get_damage_level", []( const item & self, int max ) -> int {
-            return self.damage_level( max );
-        } );
+        luna::set_fx( ut, "get_damage_level", sol::overload(
+            []( const item & self ) -> int {
+                return self.damage_level( 4 );
+            },
+            []( const item & self, int max ) -> int {
+                return self.damage_level( max );
+            }
+        ) );
 
         DOC( "Get minimum possible damage value (can be negative for reinforced items). Default is -1000, configurable via 'damage_states' in JSON." );
         luna::set_fx( ut, "get_min_damage", &item::min_damage );

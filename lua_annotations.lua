@@ -1217,7 +1217,7 @@ function IslotWheel.new() end
 ---@field get_comestible_fun fun(self: Item): integer
 ---@field get_counter fun(self: Item): integer
 ---@field get_damage fun(self: Item): integer @Get current item damage value (durability). Higher values mean more damaged. Default range is -1000 (min) to 4000 (max), configurable via 'damage_states' in JSON.
----@field get_damage_level fun(self: Item, arg2: integer): integer @Get item damage as a level from 0 to max. Used for UI display and damage thresholds.
+---@field get_damage_level fun(self: Item): integer | fun(self: Item, arg2: integer): integer @Get item damage as a level from 0 to max. Used for UI display and damage thresholds.
 ---@field get_kcal fun(self: Item): integer
 ---@field get_max_damage fun(self: Item): integer @Get maximum possible damage value before item is destroyed. Default is 4000, configurable via 'damage_states' in JSON.
 ---@field get_min_damage fun(self: Item): integer @Get minimum possible damage value (can be negative for reinforced items). Default is -1000, configurable via 'damage_states' in JSON.
