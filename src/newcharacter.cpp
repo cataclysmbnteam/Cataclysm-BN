@@ -1836,8 +1836,56 @@ tab_direction set_bionics( avatar &u, points_left &points )
                     conflicting_traits.push_back( id );
                 }
             }
+            std::vector<bionic_id> missing_bionics;
+            if( !bio.required_bionics.empty() ) {
+                for( const bionic_id &req_bid : bio.required_bionics ) {
+                    if( !u.has_bionic( req_bid ) ) {
+                        missing_bionics.push_back( req_bid );
+                    }
+                }
+            }
+            bionic_id has_downgrade = bionic_id::NULL_ID();
+            if( cur_bionic->upgraded_bionic != bionic_id::NULL_ID() ) {
+                bionic_id downgrade = cur_bionic->upgraded_bionic;
+                if( u.has_bionic( downgrade ) ) {
+                    has_downgrade = downgrade;
+                }
+                if( has_downgrade == bionic_id::NULL_ID() ) {
+                    while( downgrade->upgraded_bionic != bionic_id::NULL_ID() ) {
+                        downgrade = cur_bionic->upgraded_bionic;
+                        if( u.has_bionic( downgrade ) ) {
+                            has_downgrade = downgrade;
+                            break;
+                        }
+                    }
+                }
+            }
+            bionic_id has_upgrade = bionic_id::NULL_ID();
+            for( bionic_id bio : cur_bionic->available_upgrades ) {
+                if( u.has_bionic( bio ) ) {
+                    has_upgrade = bio;
+                    break;
+                }
+            }
             const bool has_bionic = u.has_bionic( cur_bionic );
-            if( g->scen->forbids_bionics() ) {
+            if( has_bionic ) {
+                std::vector<std::string> dependent_bionics;
+                for( const bionic &i : u.get_bionic_collection() ) {
+                    const bionic_id &bid = i.id;
+                    // look at required bionics for every installed bionic
+                    for( const bionic_id &req_bid : bid->required_bionics ) {
+                        if( req_bid == cur_bionic ) {
+                            dependent_bionics.push_back( bid->name.translated() );
+                        }
+                    }
+                }
+                if( !dependent_bionics.empty() ) {
+                    popup( _( "These bionics are dependent on the bionic you are trying to uninstall %s." ),
+                           enumerate_as_string( dependent_bionics ) );
+                } else {
+                    inc_type = - 1;
+                }
+            } else if( g->scen->forbids_bionics() ) {
                 popup( _( "The scenario you picked prevents you from taking any bionics!" ) );
             } else if( u.prof->forbids_bionics() ) {
                 popup( _( "The profession you picked prevents you from taking any bionics!" ) );
@@ -1886,8 +1934,22 @@ tab_direction set_bionics( avatar &u, points_left &points )
                                                     elem.second );
                 }
                 popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
+            } else if( !missing_bionics.empty() ) {
+                // Grab a list of the names of the bionics that block this trait
+                // So that the player know what is preventing them from taking it
+                std::vector<std::string> conflict_names;
+                conflict_names.reserve( missing_bionics.size() );
+                for( const bionic_id &conflict : missing_bionics ) {
+                    conflict_names.emplace_back( conflict->name.translated() );
+                }
+                popup( _( "The lack of the following bionics are prevent you from taking this bionic: %s." ),
+                       enumerate_as_string( conflict_names ) );
+            } else if( has_downgrade != bionic_id::NULL_ID() ) {
+                popup( _( "You already have the downgraded version of the bionic: %s" ), has_downgrade->name );
+            } else if( has_upgrade != bionic_id::NULL_ID() ) {
+                popup( _( "You already have the upgraded version of the bionic: %s" ), has_upgrade->name );
             } else {
-                inc_type = has_bionic ? -1 : 1;
+                inc_type = 1;
             }
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
@@ -3892,9 +3954,25 @@ bool bionic_has_conflict( const Character &ch, const bionic_id &b )
         }
     }
 
+    bool upgrade_issues = false;
+    if( !b->available_upgrades.empty() ) {
+        for( const bionic_id &up_bid : b->available_upgrades ) {
+            if( ch.has_bionic( up_bid ) ) {
+                upgrade_issues = true;
+            }
+        }
+    }
+
+    if( b->upgraded_bionic != bionic_id::NULL_ID() ) {
+        if( ch.has_bionic( b->upgraded_bionic ) ) {
+            upgrade_issues = true;
+        }
+    }
+
     return !ch.bionic_installation_issues( b ).empty() ||
            has_conflict_mut ||
-           lacks_needed_bio;
+           lacks_needed_bio ||
+           upgrade_issues;
 }
 
 bool has_lower_trait( const Character &ch, const trait_id &t )
