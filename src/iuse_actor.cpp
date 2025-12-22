@@ -2696,10 +2696,9 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
         // [2] this value overrides the mana cost if set to 0
         // Have to check whether the player actually has enough energy or not
-        if ( p.magic->has_enough_energy( p, casting ) ) {
+        if( p.magic->has_enough_energy( p, casting ) ) {
             cast_spell->values.emplace_back( 1 );
-        }
-        else {
+        } else {
             p.add_msg_if_player( m_info, _( "You lack the energy to cast %s." ), casting.name() );
             return 0;
         }
