@@ -100,7 +100,7 @@ feat(port): game store
 
 Lua APIへの変更、例えば：
 
-- [新しいバインディングの追加](../mod/lua/guides/binding.md)
+- [新しいバインディングの追加](./../mod/lua/guides/binding.md)
 - luaドキュメント/API生成の改善
 - [ハードコードされたC++機能をluaに移行](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6901)
 
