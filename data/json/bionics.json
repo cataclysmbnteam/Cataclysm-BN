@@ -334,7 +334,7 @@
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "leg_l", 8 ], [ "leg_r", 8 ] ],
     "stat_bonus": [ [ "DEX", 2 ] ],
-    "points": 2,
+    "points": 1,
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -441,7 +441,7 @@
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "stat_bonus": [ [ "PER", 2 ] ],
     "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ],
-    "points": 2,
+    "points": 1,
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -452,7 +452,7 @@
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ],
     "can_uninstall": false,
-    "points": 2,
+    "points": 1,
     "no_uninstall_reason": "The telescopic lenses are part of the patient's eyes now, remove them and the patient would become blind"
   },
   {
@@ -491,7 +491,7 @@
     "type": "bionic",
     "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
-    "points": 2,
+    "points": 1,
     "occupied_bodyparts": [ [ "hand_r", 2 ] ]
   },
   {
@@ -546,7 +546,7 @@
     "description": "Small radiation sensors have been surgically implanted throughout your body, allowing you to analyze your level of absorbed radiation.  They will also alert you whenever exposed to environmental radiation.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
     "act_cost": "100 J",
-    "points": 2
+    "points": 1
   },
   {
     "id": "bio_gills",
@@ -587,7 +587,7 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
-    "points": 2,
+    "points": 3,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "COMBAT_NPC_USE" ],
     "trigger_cost": "3 kJ"
   },
@@ -657,7 +657,7 @@
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "occupied_bodyparts": [ [ "head", 7 ] ],
     "stat_bonus": [ [ "INT", 2 ] ],
-    "points": 2,
+    "points": 1,
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -678,7 +678,7 @@
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "10 kJ",
     "fake_item": "bio_laser_gun",
-    "points": 2,
+    "points": 3,
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -764,7 +764,7 @@
     "fuel_options": [ "metabolism" ],
     "fuel_efficiency": 0.25,
     "time": 1,
-    "points": 1,
+    "points": 2,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1095,7 +1095,7 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
-    "points": 3,
+    "points": 2,
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1124,7 +1124,7 @@
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "leg_l", 8 ], [ "leg_r", 8 ] ],
     "stat_bonus": [ [ "STR", 2 ] ],
-    "points": 2,
+    "points": 1,
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
