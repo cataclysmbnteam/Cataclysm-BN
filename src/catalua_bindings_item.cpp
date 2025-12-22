@@ -292,7 +292,7 @@ void reg_item( sol::state &lua )
         luna::set_fx( ut, "get_damage", &item::damage );
 
         DOC( "Get item damage as a level from 0 to max. Used for UI display and damage thresholds." );
-        luna::set_fx( ut, "get_damage_level", []( const item &self, int max ) -> int {
+        luna::set_fx( ut, "get_damage_level", []( const item & self, int max ) -> int {
             return self.damage_level( max );
         } );
 
