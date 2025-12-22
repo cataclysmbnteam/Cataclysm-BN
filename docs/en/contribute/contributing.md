@@ -1,6 +1,6 @@
 # Contributing
 
-# Want to help?
+## Want to help?
 
 Help is appreciated, especially with:
 
