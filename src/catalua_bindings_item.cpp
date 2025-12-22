@@ -314,18 +314,6 @@ void reg_item( sol::state &lua )
                           static_cast<bool( item::* )( int, damage_type )>( &item::mod_damage )
                       ) );
 
-        DOC( "Get color representing damage state for UI display" );
-        luna::set_fx( ut, "get_damage_color", &item::damage_color );
-
-        DOC( "Get symbol representing damage state (e.g. '||', '|.', '..')" );
-        luna::set_fx( ut, "get_damage_symbol", &item::damage_symbol );
-
-        DOC( "Get durability indicator string with color tags" );
-        luna::set_fx( ut, "get_durability_indicator",
-        []( const item &self, sol::optional<bool> include_intact ) {
-            return self.durability_indicator( include_intact.value_or( false ) );
-        } );
-
     }
 #undef UT_CLASS
 }
