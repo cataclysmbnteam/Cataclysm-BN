@@ -1844,14 +1844,6 @@ tab_direction set_bionics( avatar &u, points_left &points )
                     }
                 }
             }
-            std::vector<bionic_id> up_bionics;
-            if( !bio.required_bionics.empty() ) {
-                for( const bionic_id &req_bid : bio.required_bionics ) {
-                    if( !u.has_bionic( req_bid ) ) {
-                        missing_bionics.push_back( req_bid );
-                    }
-                }
-            }
             bionic_id has_downgrade = bionic_id::NULL_ID();
             if( cur_bionic->upgraded_bionic != bionic_id::NULL_ID() ) {
                 bionic_id downgrade = cur_bionic->upgraded_bionic;
