@@ -29,8 +29,8 @@ override flag inheritance, but will not delete flags that are part of the item t
 
 These are handled through `ammo_types.json`. You can tag a weapon with these to have it chamber
 existing ammo, or make your own ammo there. The first column in this list is the tag's "id", the
-internal identifier DDA uses to track the tag, and the second is a brief description of the ammo
-tagged. Use the id to search for ammo listings, as ids are constant throughout DDA's code. Happy
+internal identifier BN uses to track the tag, and the second is a brief description of the ammo
+tagged. Use the id to search for ammo listings, as ids are constant throughout BN's code. Happy
 chambering! :-)
 
 - `120mm` 120mm HEAT
