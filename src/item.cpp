@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <cassert>
 #include <cctype>
@@ -611,7 +612,7 @@ void item::activate()
     }
 
     if( type->countdown_interval > 0 ) {
-        item_counter = type->countdown_interval;
+        set_counter( type->countdown_interval );
     }
 
     active = true;
@@ -3154,7 +3155,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> recipe_list;
-    for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
+    for( const book_recipe &elem : book.recipes ) {
         const bool knows_it = you.knows_recipe( elem.recipe );
         const bool can_learn = you.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
         // If the player knows it, they recognize it even if it's not clearly stated.
@@ -3167,9 +3168,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const std::string name = elem.recipe->result_name();
             recipe_list.push_back( "<bold>" + name + "</bold>" );
         } else if( !can_learn ) {
-            recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+            recipe_list.push_back( "<color_brown>" + elem.name.translated() + "</color>" );
         } else {
-            recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+            recipe_list.push_back( "<dark>" + elem.name.translated() + "</dark>" );
         }
     }
 
@@ -7454,9 +7455,9 @@ float item::fuel_energy() const
     return is_fuel() ? type->fuel->energy : 0.0f;
 }
 
-std::string item::fuel_pump_terrain() const
+ter_id item::fuel_pump_terrain() const
 {
-    return is_fuel() ? type->fuel->pump_terrain : "t_null";
+    return is_fuel() ? type->fuel->pump_terrain : t_null;
 }
 
 bool item::has_explosion_data() const
@@ -7745,7 +7746,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const C
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
-        for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
+        for( const book_recipe &elem : type->book->recipes ) {
             if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
@@ -9328,17 +9329,27 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
     return detached_ptr<item>();
 }
 
-void item::set_countdown( int num_turns )
+void item::set_counter( const int value )
 {
-    if( num_turns < 0 ) {
-        debugmsg( "Tried to set a negative countdown value %d.", num_turns );
+    item_counter = value;
+}
+
+int item::get_counter() const
+{
+    return item_counter;
+}
+
+void item::set_charges( int value )
+{
+    if( value < 0 ) {
+        debugmsg( "Tried to set a negative charges value %d.", value );
         return;
     }
     if( !ammo_types().empty() ) {
-        debugmsg( "Tried to set countdown on an item with ammo." );
+        debugmsg( "Tried to set charges on an item with ammo." );
         return;
     }
-    charges = num_turns;
+    charges = value;
 }
 
 detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id &what, int &qty,
@@ -9914,7 +9925,7 @@ detached_ptr<item> item::process_fake_mill( detached_ptr<item> &&self, player * 
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
-        self->item_counter = 0;
+        self->set_counter( 0 );
         return detached_ptr<item>(); //destroy fake mill
     }
     if( self->age() >= 6_hours || self->item_counter == 0 ) {
@@ -9935,7 +9946,7 @@ detached_ptr<item> item::process_fake_smoke( detached_ptr<item> &&self, player *
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
-        self->item_counter = 0;
+        self->set_counter( 0 );
         return detached_ptr<item>(); //destroy fake smoke
     }
 

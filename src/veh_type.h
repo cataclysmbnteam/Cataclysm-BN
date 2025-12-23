@@ -75,6 +75,8 @@ enum vpart_bitflags : int {
     VPFLAG_WING,
     VPFLAG_PROPELLER,
     VPFLAG_EXTENDABLE,
+    VPFLAG_NOFIELDS,
+    VPFLAG_DROPPER,
 
     NUM_VPFLAGS
 };

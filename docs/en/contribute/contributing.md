@@ -1,12 +1,6 @@
 # Contributing
 
-> [!TIP]
->
-> #### Opening new issue
->
-> Check [how to open a issue](./issues).
-
-# Want to help?
+## Want to help?
 
 Help is appreciated, especially with:
 
@@ -423,7 +417,7 @@ you should see something like this:
 ```
 
 With these commands, you should be able to recreate the proper conditions to test your changes. The
-[DDA wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php) may have useful informations regarding
+[BN wiki](https://cbn-guide.pages.dev/) may have useful informations regarding
 debug menu.
 
 ## Frequently Asked Questions

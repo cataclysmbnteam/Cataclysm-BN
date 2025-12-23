@@ -449,9 +449,14 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = &*bk.first;
-            int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
-            const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
+            const int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
+            const auto desc = book_recipe {
+                .recipe = &r,
+                .skill_level = req,
+                .name = translation::to_translation( r.result_name() ),
+                .hidden = false
+            };
+            booktype->book->recipes.insert( desc );
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe

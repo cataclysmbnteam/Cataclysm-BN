@@ -162,6 +162,7 @@ static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_well_fed( "well_fed" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -243,7 +244,7 @@ static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_off( "geiger_off" );
 static const itype_id itype_geiger_on( "geiger_on" );
-static const itype_id itype_granade_act( "granade_act" );
+static const itype_id itype_debug_grenade_act( "debug_grenade_act" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
@@ -975,14 +976,17 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
 static void do_purify( player &p )
 {
     std::vector<trait_id> valid; // Which flags the player has
+    // We should use the actual thresh category if present, but old characters might not have it
+    // So if they don't have it then we default to old behavior of highest category
+    mutation_category_id thresh = p.thresh_category != mutation_category_id::NULL_ID() ?
+                                  p.thresh_category : p.get_highest_category();
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == p.get_highest_category() ) && p.crossed_threshold() ) {
+                if( ( cat == thresh ) && p.crossed_threshold() && ( p.thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1027,16 +1031,19 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     if( !checks.allowed ) {
         return checks.charges_used;
     }
-
+    // We should use the actual thresh category if present, but old characters might not have it
+    // So if they don't have it then we default to old behavior of highest category
+    mutation_category_id thresh = p->thresh_category != mutation_category_id::NULL_ID() ?
+                                  p->thresh_category : p->get_highest_category();
     std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == p->get_highest_category() ) && p->crossed_threshold() ) {
+                if( ( cat == thresh ) && p->crossed_threshold() &&
+                    ( p->thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1081,6 +1088,10 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
         return checks.charges_used;
     }
 
+    // We should use the actual thresh category if present, but old characters might not have it
+    // So if they don't have it then we default to old behavior of highest category
+    mutation_category_id thresh = p->thresh_category != mutation_category_id::NULL_ID() ?
+                                  p->thresh_category : p->get_highest_category();
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -1090,9 +1101,9 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
             //Looks for active mutation
             bool threshlocked = false;
             for( auto cat : traits_iter.category ) {
-                if( ( cat == p->get_highest_category() ) && p->crossed_threshold() ) {
+                if( ( cat == thresh ) && p->crossed_threshold() &&
+                    ( p->thresh_tier > traits_iter.threshold_tier ) ) {
                     // We shouldn't be able to get rid of mutations that we have a threshold from
-                    // Mostly applies to pre-thresh in vanilla because most post-thresh aren't purifiable anyway
                     threshlocked = true;
                     break;
                 }
@@ -1532,6 +1543,23 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         }
 
         mon.make_pet();
+
+        // Apply well_fed effect to improve monster productivity
+        // This effect increases reproduction rate, milk production, growth speed, and HP recovery
+        // Duration: 24 hours (one full day cycle)
+        const time_duration well_fed_duration = 24_hours;
+
+        if( mon.has_effect( effect_well_fed ) ) {
+            // Refresh duration if already well-fed
+            mon.add_effect( effect_well_fed, well_fed_duration );
+        } else {
+            // Apply new well-fed effect
+            mon.add_effect( effect_well_fed, well_fed_duration );
+            p->add_msg_if_player( m_good,
+                                  _( "The %s looks healthier and more productive." ),
+                                  mon.get_name() );
+        }
+
         p->consume_charges( *it, 1 );
         return 0;
     }
@@ -3187,16 +3215,16 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
     return 0;
 }
 
-int iuse::granade( player *p, item *it, bool, const tripoint & )
+int iuse::debug_grenade( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
-    it->convert( itype_granade_act );
+    p->add_msg_if_player( _( "You pull the pin on the %s." ), it->tname() );
+    it->convert( itype_debug_grenade_act );
     it->charges = 5;
     it->activate();
     return it->type->charges_to_use();
 }
 
-int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
+int iuse::debug_grenade_act( player *p, item *it, bool t, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
@@ -5092,7 +5120,7 @@ int iuse::towel_common( player *p, item *it, bool t )
 
         towelUsed = true;
         if( it ) {
-            it->item_counter = to_turns<int>( 30_minutes );
+            it->set_counter( to_turns<int>( 30_minutes ) );
         }
 
         // default message
