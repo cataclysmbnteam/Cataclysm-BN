@@ -43,15 +43,15 @@ msgstr "잠자기"
 헤더는 보통 다음과 같이 생겼습니다:
 
 ```po
-# Korean translations for Cataclysm-DDA package.
-# Copyright (C) 2023 Cataclysm-DDA contributors.
-# This file is distributed under the same license as the Cataclysm-DDA package.
+# Korean translations for Cataclysm-BN package.
+# Copyright (C) 2023 Cataclysm-BN contributors.
+# This file is distributed under the same license as the Cataclysm-BN package.
 # Translator Name <EMAIL@ADDRESS>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
-"Report-Msgid-Bugs-To: http://github.com/CleverRaven/Cataclysm-DDA\n"
+"Report-Msgid-Bugs-To: http://github.com/CleverRaven/Cataclysm-BN\n"
 "POT-Creation-Date: 2023-01-01 13:44+0900\n"
 "PO-Revision-Date: 2023-01-02 14:02+0900\n"
 "Last-Translator: 홍길동 <gildong@example.com>\n"
