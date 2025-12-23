@@ -9376,6 +9376,16 @@ Documentation for hooks
 > - `character` (<code>[Character](#sol::Character)</code>)
 > - `effect` (<code>[Effect](#sol::Effect)</code>)
 
+#### on_character_effect_added {#sol::nil::on_character_effect_added}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `effect` (<code>[Effect](#sol::Effect)</code>)
+
 #### on_throw {#sol::nil::on_throw}
 
 🇫 Function --> <code>( params: table )</code>
@@ -9424,39 +9434,6 @@ Documentation for hooks
 
 > Called every in-game period
 
-#### on_character_effect_added {#sol::nil::on_character_effect_added}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when character gets the effect which has `EFFECT_LUA_ON_ADDED` flag.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `effect` (<code>[Effect](#sol::Effect)</code>)
-
-#### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called after a character or monster has attacked in melee.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `target` (<code>[Creature](#sol::Creature)</code>)
-> - `success` (bool)
-
-#### on_game_started {#sol::nil::on_game_started}
-
-🇫 Function --> <code>( )</code>
-
-> Called when the game has first started.
-
-#### on_game_load {#sol::nil::on_game_load}
-
-🇫 Function --> <code>( )</code>
-
-> Called right after game has loaded.
-
 #### on_character_reset_stats {#sol::nil::on_character_reset_stats}
 
 🇫 Function --> <code>( params: table )</code>
@@ -9465,17 +9442,6 @@ Documentation for hooks
 > The hook receives a table with keys:
 >
 > - `character` (<code>[Character](#sol::Character)</code>)
-
-#### on_creature_dodged {#sol::nil::on_creature_dodged}
-
-🇫 Function --> <code>( params: table )</code>
-
-> Called when a character or monster successfully dodges.\
-> The hook receives a table with keys:
->
-> - `char` (<code>[Character](#sol::Character)</code>)
-> - `source` (<code>[Creature](#sol::Creature)</code>)
-> - `difficulty` (integer)
 
 #### on_creature_performed_technique {#sol::nil::on_creature_performed_technique}
 
@@ -9489,6 +9455,73 @@ Documentation for hooks
 > - `target` (<code>[Creature](#sol::Creature)</code>)
 > - `damage_instance` (<code>[DamageInstance](#sol::DamageInstance)</code>)
 > - `move_cost` (integer)
+
+#### on_game_started {#sol::nil::on_game_started}
+
+🇫 Function --> <code>( )</code>
+
+> Called when the game has first started.
+
+#### on_game_load {#sol::nil::on_game_load}
+
+🇫 Function --> <code>( )</code>
+
+> Called right after game has loaded.
+
+#### on_creature_melee_attacked {#sol::nil::on_creature_melee_attacked}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called after a character or monster has attacked in melee.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `target` (<code>[Creature](#sol::Creature)</code>)
+> - `success` (bool)
+
+#### on_weather_changed {#sol::nil::on_weather_changed}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when the weather has changed.\
+> The hook receives a table with keys:
+>
+> - `weather_id` (string): Current weather ID
+> - `old_weather_id` (string): Previous weather ID
+> - `temperature` (float): Current temperature in Celsius
+> - `temperature_f` (float): Current temperature in Fahrenheit
+> - `windspeed` (float): Wind speed
+> - `winddirection` (integer): Wind direction in degrees
+> - `humidity` (float): Humidity percentage
+> - `pressure` (float): Atmospheric pressure
+> - `is_sheltered` (boolean): Whether player is sheltered
+
+#### on_creature_dodged {#sol::nil::on_creature_dodged}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called when a character or monster successfully dodges.\
+> The hook receives a table with keys:
+>
+> - `char` (<code>[Character](#sol::Character)</code>)
+> - `source` (<code>[Creature](#sol::Creature)</code>)
+> - `difficulty` (integer)
+
+#### on_weather_updated {#sol::nil::on_weather_updated}
+
+🇫 Function --> <code>( params: table )</code>
+
+> Called every 5 minutes when weather data is updated.\
+> The hook receives a table with keys:
+>
+> - `weather_id` (string): Current weather ID
+> - `temperature` (float): Current temperature in Celsius
+> - `temperature_f` (float): Current temperature in Fahrenheit
+> - `windspeed` (float): Wind speed
+> - `winddirection` (integer): Wind direction in degrees
+> - `humidity` (float): Humidity percentage
+> - `pressure` (float): Atmospheric pressure
+> - `is_sheltered` (boolean): Whether player is sheltered
 
 #### on_creature_blocked {#sol::nil::on_creature_blocked}
 

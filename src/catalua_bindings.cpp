@@ -450,6 +450,33 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "Called when the game has first started." );
     luna::set_fx( lib, "on_game_started", []() {} );
 
+    DOC( "Called when the weather has changed.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `weather_id` (string): Current weather ID  " );
+    DOC( "* `old_weather_id` (string): Previous weather ID  " );
+    DOC( "* `temperature` (float): Current temperature in Celsius  " );
+    DOC( "* `temperature_f` (float): Current temperature in Fahrenheit  " );
+    DOC( "* `windspeed` (float): Wind speed  " );
+    DOC( "* `winddirection` (integer): Wind direction in degrees  " );
+    DOC( "* `humidity` (float): Humidity percentage  " );
+    DOC( "* `pressure` (float): Atmospheric pressure  " );
+    DOC( "* `is_sheltered` (boolean): Whether player is sheltered  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_weather_changed", []( const sol::table & ) {} );
+
+    DOC( "Called every 5 minutes when weather data is updated.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `weather_id` (string): Current weather ID  " );
+    DOC( "* `temperature` (float): Current temperature in Celsius  " );
+    DOC( "* `temperature_f` (float): Current temperature in Fahrenheit  " );
+    DOC( "* `windspeed` (float): Wind speed  " );
+    DOC( "* `winddirection` (integer): Wind direction in degrees  " );
+    DOC( "* `humidity` (float): Humidity percentage  " );
+    DOC( "* `pressure` (float): Atmospheric pressure  " );
+    DOC( "* `is_sheltered` (boolean): Whether player is sheltered  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_weather_updated", []( const sol::table & ) {} );
+
     DOC( "Called when a character or monster successfully dodges.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `char` (Character)  " );

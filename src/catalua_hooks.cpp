@@ -9,6 +9,8 @@ constexpr auto hook_names = std::array
     "on_game_load",
     "on_game_save",
     "on_game_started",
+    "on_weather_changed",
+    "on_weather_updated",
     "on_character_reset_stats",
     "on_character_effect_added",
     "on_character_effect",
