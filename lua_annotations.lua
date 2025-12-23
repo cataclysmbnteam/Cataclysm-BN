@@ -1216,11 +1216,16 @@ function IslotWheel.new() end
 ---@field get_category_id fun(self: Item): string @Gets the category id this item is in
 ---@field get_comestible_fun fun(self: Item): integer
 ---@field get_counter fun(self: Item): integer
+---@field get_damage fun(self: Item): integer @Get current item damage value (durability). Higher values mean more damaged. Default range is -1000 (min) to 4000 (max), configurable via 'damage_states' in JSON.
+---@field get_damage_level fun(self: Item): integer | fun(self: Item, arg2: integer): integer @Get item damage as a level from 0 to max. Used for UI display and damage thresholds.
 ---@field get_kcal fun(self: Item): integer
+---@field get_max_damage fun(self: Item): integer @Get maximum possible damage value before item is destroyed. Default is 4000, configurable via 'damage_states' in JSON.
+---@field get_min_damage fun(self: Item): integer @Get minimum possible damage value (can be negative for reinforced items). Default is -1000, configurable via 'damage_states' in JSON.
 ---@field get_mtype fun(self: Item): MonsterTypeId @Almost for a corpse.
 ---@field get_owner fun(self: Item): FactionId @Gets the faction id that owns this item
 ---@field get_owner_name fun(self: Item): string
 ---@field get_quench fun(self: Item): integer
+---@field get_relative_health fun(self: Item): number @Get relative health as ratio 0.0-1.0, where 1.0 is undamaged and 0.0 is destroyed
 ---@field get_reload_time fun(self: Item): integer
 ---@field get_rot fun(self: Item): TimeDuration @Gets the TimeDuration until this item rots
 ---@field get_techniques fun(self: Item): MartialArtsTechniqueId[] @Gets all techniques. Including original techniques.
@@ -1295,11 +1300,13 @@ function IslotWheel.new() end
 ---@field is_wheel fun(self: Item): boolean
 ---@field made_of fun(self: Item): MaterialTypeId[]
 ---@field mod_charges fun(self: Item, arg2: integer)
+---@field mod_damage fun(self: Item, arg2: integer): boolean | fun(self: Item, arg2: integer, arg3: DamageType): boolean @Modify item damage by given amount. Returns true if item should be destroyed.
 ---@field price fun(self: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(self: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(self: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_charges fun(self: Item, arg2: integer)
 ---@field set_counter fun(self: Item, arg2: integer)
+---@field set_damage fun(self: Item, arg2: integer) @Set item damage to specified value. Clamped between min_damage and max_damage.
 ---@field set_flag fun(self: Item, arg2: JsonFlagId)
 ---@field set_flag_recursive fun(self: Item, arg2: JsonFlagId)
 ---@field set_owner fun(self: Item, arg2: Character) @Sets the ownership of this item to a character
