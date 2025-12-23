@@ -26,7 +26,14 @@ option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
-option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
+# On Windows, default to current directory for backwards compatibility
+# On other platforms, use home directory
+if(WIN32)
+    set(USE_HOME_DIR_DEFAULT OFF)
+else()
+    set(USE_HOME_DIR_DEFAULT ON)
+endif()
+option(USE_HOME_DIR "Use user's home directory for save and config files." ${USE_HOME_DIR_DEFAULT})
 cmake_dependent_option(USE_PREFIX_DATA_DIR
     "Use UNIX system directories for game data in release build." ON
     "UNIX" OFF
