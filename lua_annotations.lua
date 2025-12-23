@@ -291,11 +291,11 @@ function BookRecipe.new() end
 ---@field crossed_threshold fun(self: Character): boolean
 ---@field deactivate_mutation fun(self: Character, arg2: MutationBranchId)
 ---@field dismount fun(self: Character)
+---@field drop_all_items fun(self: Character) @Drops all items (inventory, worn, wielded) at the character's current position.
 ---@field drop_inv fun(self: Character, arg2: integer)
 ---@field expose_to_disease fun(self: Character, arg2: DiseaseTypeId)
 ---@field fall_asleep fun(self: Character) | fun(self: Character, arg2: TimeDuration)
 ---@field forced_dismount fun(self: Character)
----@field getID fun(self: Character): CharacterId
 ---@field get_all_skills fun(self: Character): SkillLevelMap
 ---@field get_armor_acid fun(self: Character, arg2: BodyPartTypeIntId): integer
 ---@field get_base_traits fun(self: Character): MutationBranchId[]
@@ -351,6 +351,7 @@ function BookRecipe.new() end
 ---@field get_working_arm_count fun(self: Character): integer
 ---@field get_working_leg_count fun(self: Character): integer
 ---@field get_worn_items fun(self: Character): Item[]
+---@field getID fun(self: Character): CharacterId
 ---@field global_sm_location fun(self: Character): Tripoint
 ---@field global_square_location fun(self: Character): Tripoint
 ---@field has_active_bionic fun(self: Character, arg2: BionicDataId): boolean
@@ -471,7 +472,6 @@ function BookRecipe.new() end
 ---@field restore_scent fun(self: Character)
 ---@field rooted fun(self: Character)
 ---@field rust_rate fun(self: Character): integer
----@field setID fun(self: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_base_age fun(self: Character, arg2: integer)
 ---@field set_base_height fun(self: Character, arg2: integer)
 ---@field set_dex_bonus fun(self: Character, arg2: integer)
@@ -497,6 +497,7 @@ function BookRecipe.new() end
 ---@field set_str_bonus fun(self: Character, arg2: integer)
 ---@field set_temp_btu fun(self: Character, arg2: integer) @Sets ALL body parts on a creature to the given temperature (in Body Temperature Units).
 ---@field set_thirst fun(self: Character, arg2: integer)
+---@field setID fun(self: Character, arg2: CharacterId, arg3: boolean)
 ---@field shout fun(self: Character, arg2: string, arg3: boolean)
 ---@field sight_impaired fun(self: Character): boolean
 ---@field spores fun(self: Character)
@@ -1330,7 +1331,7 @@ function Item.new() end
 ---@class ItemStack
 ---@field amount_can_fit fun(self: ItemStack, arg2: Item): integer
 ---@field clear fun(self: ItemStack): Detached<Item>[]
----@field count fun(self: ItemStack): integer
+---@field count fun(self: ItemStack): any
 ---@field count_limit fun(self: ItemStack): integer
 ---@field free_volume fun(self: ItemStack): Volume
 ---@field insert fun(self: ItemStack, arg2: Detached<Item>)
@@ -1342,7 +1343,7 @@ function Item.new() end
 ---@field stacks_with fun(self: ItemStack, arg2: Item): Item
 ---@field stored_volume fun(self: ItemStack): Volume
 ---@field __index fun(self: ItemStack, arg2: integer): Item
----@field __len fun(self: ItemStack): integer
+---@field __len fun(self: ItemStack): any
 ---@field __pairs fun(self: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<_item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<_item_stack_lua_it_state>>,nil)
 ItemStack = {}
 ---@return ItemStack
@@ -1481,9 +1482,11 @@ function JsonTraitFlagId.new() end
 
 ---@class Map
 ---@field add_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
+---@field add_item fun(self: Map, arg2: Tripoint, arg3: Detached<Item>): Detached<Item> @Places a detached item onto the map. Returns nil on success (item now owned by map), or returns the item back if placement failed.
 ---@field clear_items_at fun(self: Map, arg2: Tripoint)
 ---@field create_corpse_at fun(self: Map, arg2: Tripoint, arg3: MonsterTypeId, arg4: TimePoint, arg5: string, arg6: integer) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 ---@field create_item_at fun(self: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer): Item @Creates a new item(s) at a position on the map.
+---@field detach_item_at fun(self: Map, arg2: Tripoint, arg3: Item): Detached<Item> @Removes an item from the map and returns it as a detached_ptr. The item is now owned by Lua - store it in a table to keep it alive, or let it be GC'd to destroy it. Use add_item to place it back on a map.
 ---@field disarm_trap_at fun(self: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
 ---@field get_abs_ms fun(self: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
 ---@field get_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): TimeDuration
@@ -1500,6 +1503,7 @@ function JsonTraitFlagId.new() end
 ---@field has_items_at fun(self: Map, arg2: Tripoint): boolean
 ---@field mod_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
 ---@field mod_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
+---@field move_item_to fun(self: Map, arg2: Tripoint, arg3: Item, arg4: Tripoint) @Moves an item from one position to another, preserving all item state including contents.
 ---@field remove_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId)
 ---@field remove_item_at fun(self: Map, arg2: Tripoint, arg3: Item)
 ---@field remove_trap_at fun(self: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
@@ -1515,7 +1519,7 @@ function Map.new() end
 ---@class MapStack : ItemStack
 ---@field as_item_stack fun(self: MapStack): ItemStack
 ---@field __index fun(arg1: ItemStack, arg2: integer): Item
----@field __len fun(arg1: ItemStack): integer
+---@field __len fun(arg1: ItemStack): any
 ---@field __pairs fun(arg1: ItemStack): (CppVal<std_tuple<sol_basic_object<sol_basic_reference<false>>,sol_basic_object<sol_basic_reference<false>>>(*)(sol_user<_item_stack_lua_it_state>,sol_this_state)>,CppVal<sol_user<_item_stack_lua_it_state>>,nil)
 MapStack = {}
 ---@return MapStack
@@ -2018,6 +2022,50 @@ function NpcOpinion.new() end
 NpcPersonality = {}
 ---@return NpcPersonality
 function NpcPersonality.new() end
+
+---@class OmtFindParams
+---@field exclude_types (string, OtMatchType)[] @Vector of (terrain_type, match_type) pairs to exclude from search.
+---@field existing_only boolean @If true, restricts search to existing overmaps only.
+---@field explored boolean @If set, filters by terrain explored status (true = explored only, false = unexplored only).
+---@field max_results integer @If set, limits the number of results returned.
+---@field seen boolean @If set, filters by terrain seen status (true = seen only, false = unseen only).
+---@field types (string, OtMatchType)[] @Vector of (terrain_type, match_type) pairs to search for.
+---@field add_exclude_type fun(self: OmtFindParams, arg2: string, arg3: OtMatchType) @Helper method to add a terrain type to exclude from search.
+---@field add_type fun(self: OmtFindParams, arg2: string, arg3: OtMatchType) @Helper method to add a terrain type to search for.
+---@field set_search_layers fun(self: OmtFindParams, arg2: integer, arg3: integer) @Set the search layer range (z-levels).
+---@field set_search_range fun(self: OmtFindParams, arg2: integer, arg3: integer) @Set the search range in overmap tiles (min, max).
+OmtFindParams = {}
+---@return OmtFindParams
+function OmtFindParams.new() end
+
+---@class OterId
+---@field NULL_ID fun(): OterId
+---@field implements_int_id fun(): boolean
+---@field int_id fun(self: OterId): OterIntId
+---@field is_null fun(self: OterId): boolean
+---@field is_valid fun(self: OterId): boolean
+---@field obj fun(self: OterId): OterRaw
+---@field str fun(self: OterId): string
+---@field serialize fun(self: OterId, arg2: any)
+---@field deserialize fun(self: OterId, arg2: any)
+---@field __tostring fun(self: OterId): string
+OterId = {}
+---@return OterId
+---@overload fun(self: OterId): OterId
+---@overload fun(arg1: OterIntId): OterId
+---@overload fun(arg1: string): OterId
+function OterId.new() end
+
+---@class OterIntId
+---@field is_valid fun(self: OterIntId): boolean
+---@field obj fun(self: OterIntId): OterRaw
+---@field str_id fun(self: OterIntId): OterId
+---@field __tostring fun(self: OterIntId): string
+OterIntId = {}
+---@return OterIntId
+---@overload fun(self: OterIntId): OterIntId
+---@overload fun(arg1: OterId): OterIntId
+function OterIntId.new() end
 
 ---@class Player : Character, Creature
 Player = {}
@@ -2545,11 +2593,11 @@ function WeaponCategoryId.new() end
 
 --- Various game constants
 ---@class const
----@field OMT_MS_SIZE integer # value: 24
----@field OMT_SM_SIZE integer # value: 2
 ---@field OM_MS_SIZE integer # value: 4320
 ---@field OM_OMT_SIZE integer # value: 180
 ---@field OM_SM_SIZE integer # value: 360
+---@field OMT_MS_SIZE integer # value: 24
+---@field OMT_SM_SIZE integer # value: 2
 ---@field SM_MS_SIZE integer # value: 12
 const = {}
 
@@ -2635,9 +2683,21 @@ hooks = {}
 ---@class locale
 ---@field gettext fun(arg1: string): string @Expects english source string, returns translated string.
 ---@field pgettext fun(arg1: string, arg2: string): string @First is context string. Second is english source string.
----@field vgettext fun(arg1: string, arg2: string, arg3: integer): string @First is english singular string, second is english plural string. Number is amount to translate for.
----@field vpgettext fun(arg1: string, arg2: string, arg3: string, arg4: integer): string @First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
+---@field vgettext fun(arg1: string, arg2: string, arg3: any): string @First is english singular string, second is english plural string. Number is amount to translate for.
+---@field vpgettext fun(arg1: string, arg2: string, arg3: string, arg4: any): string @First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
 locale = {}
+
+--- Global overmap buffer interface for finding and inspecting overmap terrain.
+---@class overmapbuffer
+---@field check_ot fun(arg1: string, arg2: OtMatchType, arg3: Tripoint): boolean @Check if the terrain at the given position matches the type and match mode. Returns boolean.
+---@field find_all fun(arg1: Tripoint, arg2: OmtFindParams): Tripoint[] @Find all overmap terrain tiles matching the given parameters. Returns a vector of tripoints.
+---@field find_closest fun(arg1: Tripoint, arg2: OmtFindParams): Tripoint @Find the closest overmap terrain tile matching the given parameters. Returns a tripoint or nil if not found.
+---@field find_random fun(arg1: Tripoint, arg2: OmtFindParams): Tripoint @Find a random overmap terrain tile matching the given parameters. Returns a tripoint or nil if not found.
+---@field is_explored fun(arg1: Tripoint): boolean @Check if the terrain at the given position has been explored by the player. Returns boolean.
+---@field seen fun(arg1: Tripoint): boolean @Check if the terrain at the given position has been seen by the player. Returns boolean.
+---@field set_seen fun(arg1: Tripoint, arg2: boolean) @Set the seen status of terrain at the given position.
+---@field ter fun(arg1: Tripoint): OterIntId @Get the overmap terrain type at the given position. Returns an oter_id.
+overmapbuffer = {}
 
 --- Library for testing purposes
 ---@class tests_lib
@@ -3205,6 +3265,14 @@ NpcNeed = {
 	need_food = 4,
 	need_drink = 5,
 	need_safety = 6
+}
+
+---@enum OtMatchType
+OtMatchType = {
+	EXACT = 0,
+	TYPE = 1,
+	PREFIX = 2,
+	CONTAINS = 3
 }
 
 ---@enum SfxChannel
