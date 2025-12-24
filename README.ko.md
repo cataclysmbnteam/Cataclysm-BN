@@ -3,7 +3,7 @@
 <header align="center">
   <a><img src="docs/en/contribute/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
 
-[![en][icon-en]][en] [![ko][icon-ko]][ko]
+[![en][icon-en]][en] [![ko][icon-ko]][ko] [![ja][icon-ja]][ja]
 
 </header>
 
@@ -11,6 +11,8 @@
 [icon-en]: https://img.shields.io/badge/lang-en-red?style=flat-square
 [ko]: ./README.ko.md
 [icon-ko]: https://img.shields.io/badge/lang-ko-orange?style=flat-square
+[ja]: ./README.ja.md
+[icon-ja]: https://img.shields.io/badge/lang-ja-green?style=flat-square
 
 카타클리즘: 밝은 밤은 포스트 아포칼립스 세계에서 벌어지는 공상과학 로그라이크입니다.
 
