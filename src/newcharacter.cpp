@@ -3426,7 +3426,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         werase( w_misc );
         int misc_point = 1;
-        mvwprintz( w_misc, point_zero, c_light_gray, _( "Vehicle: " ) );
+        mvwprintz( w_misc, point_zero, c_white, _( "Vehicle: " ) );
         const vproto_id scen_veh = g->scen->vehicle();
         const vproto_id prof_veh = you.prof->vehicle();
         if( !scen_veh && !prof_veh ) {
@@ -3443,7 +3443,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             misc_point++;
         }
         std::vector<npc_class_id> npcs = you.prof->npcs();
-        mvwprintz( w_misc, point( 0, misc_point ), c_light_gray, _( "Companions: " ) );
+        mvwprintz( w_misc, point( 0, misc_point ), c_white, _( "Companions: " ) );
         misc_point ++;
         if( !npcs.empty() ) {
             for( const npc_class_id &id : npcs ) {
@@ -3458,7 +3458,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             wprintz( w_misc, c_light_red, _( "None!" ) );
         }
 
-        mvwprintz( w_misc, point( 0, misc_point ), c_light_gray, _( "Cash: " ) );
+        mvwprintz( w_misc, point( 0, misc_point ), c_white, _( "Cash: " ) );
 
         if( !you.prof->starting_cash() ) {
             wprintz( w_misc, c_white, _( "Random!" ) );
@@ -3467,7 +3467,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         misc_point++;
 
-        mvwprintz( w_misc, point( 0, misc_point ), c_light_gray, _( "Pets: " ) );
+        mvwprintz( w_misc, point( 0, misc_point ), c_white, _( "Pets: " ) );
         misc_point++;
         if( you.prof->pets().empty() ) {
             wprintz( w_misc, c_light_red, _( "None!" ) );
@@ -3482,7 +3482,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             }
         }
 
-        mvwprintz( w_misc, point( 0, misc_point ), c_light_gray, _( "Addictions: " ) );
+        mvwprintz( w_misc, point( 0, misc_point ), c_white, _( "Addictions: " ) );
         misc_point++;
         if( you.prof->addictions().empty() ) {
             wprintz( w_misc, c_light_red, _( "None!" ) );
@@ -3502,7 +3502,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         int item_point = 1;
 
-        mvwprintz( w_gear, point( 0, 0 ), c_light_gray, _( "Items: " ) );
+        mvwprintz( w_gear, point( 0, 0 ), c_white, _( "Items: " ) );
 
         if( prof_items.empty() ) {
             wprintz( w_gear, c_light_red, _( "None!" ) );
