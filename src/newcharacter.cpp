@@ -2030,6 +2030,12 @@ tab_direction set_profession( avatar &u, points_left &points,
     catacurses::window w_sorting;
     catacurses::window w_genderswap;
     catacurses::window w_items;
+#if defined(TILES)
+    character_preview_window character_preview;
+    character_preview.init( &u );
+    const bool use_character_preview = get_option<bool>( "USE_CHARACTER_PREVIEW" ) &&
+                                       get_option<bool>( "USE_TILES" );
+#endif
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 10;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
@@ -2037,6 +2043,25 @@ tab_direction set_profession( avatar &u, points_left &points,
         w_sorting = catacurses::newwin( 1, 55, point( TERMX / 2, 5 ) );
         w_genderswap = catacurses::newwin( 1, 55, point( TERMX / 2, 6 ) );
         w_items = catacurses::newwin( iContentHeight - 2, 55, point( TERMX / 2, 7 ) );
+#if defined(TILES)
+        const int int_page_width = 55;
+
+        if( use_character_preview ) {
+            constexpr int preview_nlines_min = 7;
+            constexpr int preview_ncols_min = 10;
+            const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
+            const int preview_ncols = std::max( ( TERMX - int_page_width - 4 ) / 3 - 5,
+                                                preview_ncols_min );
+            constexpr auto orientation = character_preview_window::Orientation{
+                character_preview_window::TOP_RIGHT,
+                character_preview_window::Margin{0, 2, 5, 0}
+            };
+            character_preview.prepare(
+                preview_nlines, preview_ncols,
+                &orientation, int_page_width + 5
+            );
+        }
+#endif
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2257,7 +2282,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             if( sorted_profs[cur_id]->vehicle() ) {
                 buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
                 vproto_id veh_id = sorted_profs[cur_id]->vehicle();
-                buffer += veh_id->name;
+                buffer += veh_id->name + "\n";
             }
             // Profession spells
             if( !sorted_profs[cur_id]->spells().empty() ) {
@@ -2313,6 +2338,26 @@ tab_direction set_profession( avatar &u, points_left &points,
         wnoutrefresh( w_items );
         wnoutrefresh( w_genderswap );
         wnoutrefresh( w_sorting );
+#if defined(TILES)
+        // Draws character preview. Use a temporary avatar with the highlighted
+        // profession so the preview reflects the selection rather than the
+        // currently assigned profession.
+        if( use_character_preview ) {
+            if( cur_id_is_valid ) {
+                // Temporarily assign the highlighted profession to `u` so the
+                // preview code that inspects `av.prof` shows the correct bionics
+                // and profession-related overlays. Restore after display.
+                auto old_prof = u.prof;
+                u.prof = sorted_profs[cur_id];
+                character_preview.init( &u );
+                character_preview.display();
+                u.prof = old_prof;
+                character_preview.init( &u );
+            } else {
+                character_preview.display();
+            }
+        }
+#endif
     } );
 
     do {
@@ -2357,12 +2402,23 @@ tab_direction set_profession( avatar &u, points_left &points,
                 cur_id = 0;
             }
             desc_offset = 0;
+            // Update preview immediately when moving selection
+#if defined(TILES)
+            if( use_character_preview ) {
+                ui_manager::redraw();
+            }
+#endif
         } else if( action == "UP" ) {
             cur_id--;
             if( cur_id < 0 ) {
                 cur_id = profs_length - 1;
             }
             desc_offset = 0;
+#if defined(TILES)
+            if( use_character_preview ) {
+                ui_manager::redraw();
+            }
+#endif
         } else if( action == "LEFT" ) {
             if( desc_offset > 0 ) {
                 desc_offset--;
