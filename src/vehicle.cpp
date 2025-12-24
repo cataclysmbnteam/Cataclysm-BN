@@ -7915,7 +7915,7 @@ int vehicle::get_part_id_hack( int id )
 // The mythical invokation to summon the cargo part on the same tile
 vehicle_part *vehicle::get_cargo_part( vehicle_part *part )
 {
-    vehicle_part *vp;
+    vehicle_part *vp = nullptr;
     int vpr = part_with_feature( part->mount, "CARGO", false );
     if( vpr != -1 ) {
         vp = &parts[ vpr ];
