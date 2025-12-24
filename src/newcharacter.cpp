@@ -3104,22 +3104,23 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_gender = catacurses::newwin( 2, 33, point( 46, 5 ) );
         w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
         w_location = catacurses::newwin( 2, 60, point( 100, 5 ) );
-        w_scenario = catacurses::newwin( 1, TERMX - 161, point( 160, 5 ) );
-        w_profession = catacurses::newwin( 1, TERMX - 161, point( 160, 6 ) );
+        w_scenario = catacurses::newwin( 1, std::max( 1, TERMX - 161 ), point( 160, 5 ) );
+        w_profession = catacurses::newwin( 1, std::max( 1, TERMX - 161 ), point( 160, 6 ) );
 
         // Row 2
         w_age = catacurses::newwin( 1, 12, point( 80, 6 ) );
 
         // Big Row
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
-        w_skills = catacurses::newwin( TERMY - 17, 25, point( 2, 16 ) );
-        w_traits = catacurses::newwin( TERMY - 10, 30, point( 28, 9 ) );
-        w_bionics = catacurses::newwin( TERMY - 10, 30, point( 59, 9 ) );
-        w_misc = catacurses::newwin( TERMY - 10, 30, point( 90, 9 ) );
-        w_gear = catacurses::newwin( TERMY - 10, TERMX - 122, point( 121, 9 ) );
+        w_skills = catacurses::newwin( std::max( 1, TERMY - 17 ), 25, point( 2, 16 ) );
+        w_traits = catacurses::newwin( std::max( 1, TERMY - 10 ), 30, point( 28, 9 ) );
+        w_bionics = catacurses::newwin( std::max( 1, TERMY - 10 ), 30, point( 59, 9 ) );
+        w_misc = catacurses::newwin( std::max( 1, TERMY - 10 ), 30, point( 90, 9 ) );
+        w_gear = catacurses::newwin( std::max( 1, TERMY - 10 ), std::max( 1, TERMX - 122 ), point( 121,
+                                     9 ) );
 
         // Very bottom Row
-        w_guide = catacurses::newwin( 6, TERMX - 3, point( 2, TERMY - 7 ) );
+        w_guide = catacurses::newwin( 6, std::max( 1, TERMX - 3 ), point( 2, TERMY - 7 ) );
 
 #if defined(TILES)
         const int int_page_width = 38;
