@@ -4634,7 +4634,7 @@ No constructors.
 
 #### count {#sol::ItemStack::count}
 
-🇲 Method --> <code>( ) -> CppVal&lt;unsignedlong&gt;</code>
+🇲 Method --> <code>( ) -> integer</code>
 
 #### insert {#sol::ItemStack::insert}
 
@@ -5970,21 +5970,17 @@ No constructors.
 
 🇻 Variable --> <code>integer</code>
 
-#### move_to {#sol::Monster::move_to}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
-
 #### attitude {#sol::Monster::attitude}
 
 🇲 Method --> <code>( [Character](#sol::Character) ) -> [MonsterAttitude](#sol::MonsterAttitude)</code>
 
-#### wander_to {#sol::Monster::wander_to}
+#### heal {#sol::Monster::heal}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
+🇲 Method --> <code>( integer, boolean ) -> integer</code>
 
-#### swims {#sol::Monster::swims}
+#### move_to {#sol::Monster::move_to}
 
-🇲 Method --> <code>( ) -> boolean</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), boolean, boolean, number ) -> boolean</code>
 
 #### move_target {#sol::Monster::move_target}
 
@@ -5994,55 +5990,63 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### heal {#sol::Monster::heal}
+#### wander_to {#sol::Monster::wander_to}
 
-🇲 Method --> <code>( integer, boolean ) -> integer</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer )</code>
 
 #### set_hp {#sol::Monster::set_hp}
 
 🇲 Method --> <code>( integer )</code>
 
-#### make_friendly {#sol::Monster::make_friendly}
-
-🇲 Method --> <code>( )</code>
-
-#### climbs {#sol::Monster::climbs}
-
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### remove_item {#sol::Monster::remove_item}
-
-🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
-
-#### clear_items {#sol::Monster::clear_items}
-
-🇲 Method --> <code>( ) -> Detached<[Item](#sol::Item)>[]</code>
-
 #### make_fungus {#sol::Monster::make_fungus}
 
 🇲 Method --> <code>( ) -> boolean</code>
-
-#### add_item {#sol::Monster::add_item}
-
-🇲 Method --> <code>( [Item](#sol::Item) )</code>
-
-#### make_ally {#sol::Monster::make_ally}
-
-🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
 
 #### get_items {#sol::Monster::get_items}
 
 🇲 Method --> <code>( ) -> [Item](#sol::Item)[]</code>
 
-#### flies {#sol::Monster::flies}
+#### make_ally {#sol::Monster::make_ally}
+
+🇲 Method --> <code>( [Monster](#sol::Monster) )</code>
+
+#### drop_items {#sol::Monster::drop_items}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
+
+#### drop_items_here {#sol::Monster::drop_items_here}
+
+🇲 Method --> <code>( )</code>
+
+#### make_friendly {#sol::Monster::make_friendly}
+
+🇲 Method --> <code>( )</code>
+
+#### clear_items {#sol::Monster::clear_items}
+
+🇲 Method --> <code>( ) -> Detached<[Item](#sol::Item)>[]</code>
+
+#### add_item {#sol::Monster::add_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) )</code>
+
+#### remove_item {#sol::Monster::remove_item}
+
+🇲 Method --> <code>( [Item](#sol::Item) ) -> Detached<[Item](#sol::Item)></code>
+
+#### swims {#sol::Monster::swims}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### can_climb {#sol::Monster::can_climb}
+#### climbs {#sol::Monster::climbs}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
 #### can_dig {#sol::Monster::can_dig}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### digs {#sol::Monster::digs}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -6074,7 +6078,7 @@ No constructors.
 
 🇲 Method --> <code>( ) -> [MonsterTypeId](#sol::MonsterTypeId)</code>
 
-#### digs {#sol::Monster::digs}
+#### flies {#sol::Monster::flies}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
@@ -6086,17 +6090,25 @@ No constructors.
 
 🇲 Method --> <code>( ) -> string</code>
 
-#### can_drown {#sol::Monster::can_drown}
+#### can_climb {#sol::Monster::can_climb}
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### drop_items {#sol::Monster::drop_items}
+#### add_faction_anger {#sol::Monster::add_faction_anger}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
+🇲 Method --> <code>( string, integer )</code>
 
 #### name {#sol::Monster::name}
 
 🇲 Method --> <code>( integer ) -> string</code>
+
+#### can_drown {#sol::Monster::can_drown}
+
+🇲 Method --> <code>( ) -> boolean</code>
+
+#### can_hear {#sol::Monster::can_hear}
+
+🇲 Method --> <code>( ) -> boolean</code>
 
 #### can_submerge {#sol::Monster::can_submerge}
 
@@ -6106,13 +6118,9 @@ No constructors.
 
 🇲 Method --> <code>( ) -> boolean</code>
 
-#### can_hear {#sol::Monster::can_hear}
+#### get_faction_anger {#sol::Monster::get_faction_anger}
 
-🇲 Method --> <code>( ) -> boolean</code>
-
-#### drop_items_here {#sol::Monster::drop_items_here}
-
-🇲 Method --> <code>( )</code>
+🇲 Method --> <code>( string ) -> integer</code>
 
 ## MonsterFactionId {#sol::MonsterFactionId}
 
@@ -9166,6 +9174,9 @@ No base classes.
 - `PROJECTILE_RESISTANT_3` = `124`
 - `PROJECTILE_RESISTANT_4` = `125`
 - `VOLATILE` = `126`
+- `MOUNTABLE_STAIRS` = `127`
+- `MOUNTABLE_OBSTACLES` = `128`
+- `FACTION_MEMORY` = `129`
 
 ## MonsterSize {#sol::MonsterSize}
 
@@ -9741,13 +9752,13 @@ Localization API.
 
 #### vgettext {#sol::nil::vgettext}
 
-🇫 Function --> <code>( string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
+🇫 Function --> <code>( string, string, integer ) -> string</code>
 
 > First is english singular string, second is english plural string. Number is amount to translate for.
 
 #### vpgettext {#sol::nil::vpgettext}
 
-🇫 Function --> <code>( string, string, string, CppVal&lt;unsignedlong&gt; ) -> string</code>
+🇫 Function --> <code>( string, string, string, integer ) -> string</code>
 
 > First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
 

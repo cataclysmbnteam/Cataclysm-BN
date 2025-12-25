@@ -1138,6 +1138,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `VERMIN` Obsolete flag for inconsequential monsters, now prevents loading.
 - `VOLATILE` Hitting this with fire damage always ignites it and has a high chance to deal massive damage,
   bullet and electric damage also have a chance to deal increased damage and set this monster on fire.
+- `FACTION_MEMORY` Calculate anger against factions separately, so that anger against one faction (e.g zombie)
+  doesn't spill into another (e.g player). In other words, truly neutral towards players until attacked. Use case: making extremely dangerous monsters spawned in streets to prevent crushing newbie players into pulp.
 - `WARM` Warm blooded.
 - `WEBWALK` Doesn't destroy webs.
 - `WOOL` May produce wool when butchered.
