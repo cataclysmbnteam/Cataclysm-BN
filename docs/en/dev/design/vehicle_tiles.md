@@ -34,6 +34,7 @@ void veh_interact::display_veh()
 ```
 
 Key members in `veh_interact`:
+
 - `catacurses::window w_disp` - The vehicle display window
 - `point dd` - Current cursor offset (negative of cursor position)
 - `int cpart` - Currently selected part index
@@ -60,6 +61,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
 ```
 
 Key parameters:
+
 - **Tile ID**: `"vp_" + vpart_id.str()` (e.g., `"vp_frame"`, `"vp_engine_v8"`)
 - **Category**: `C_VEHICLE_PART`
 - **Subtile**: 0 (normal), `open_` (open door), `broken` (damaged)
@@ -88,6 +90,7 @@ public:
 ```
 
 Key patterns:
+
 1. **Adapter class**: Static cast to access protected `draw_from_id_string`
 2. **Zoom control**: `tilecontext->set_draw_scale( zoom )`
 3. **Pixel positioning**: Convert terminal units to pixels via `termx_to_pixel_value()`
@@ -155,6 +158,7 @@ Add new option in `add_options_graphics()`:
 ```
 
 This option:
+
 - Only appears when compiled with TILES support
 - Hidden in curses-only builds (`COPT_CURSES_HIDE`)
 - Defaults to `true` (use tiles when available)
@@ -164,6 +168,7 @@ This option:
 **File**: `src/veh_interact.h`
 
 Add members:
+
 ```cpp
 #if defined(TILES)
     std::unique_ptr<vehicle_preview_window> tile_preview;
@@ -171,6 +176,7 @@ Add members:
 ```
 
 Add methods:
+
 ```cpp
 #if defined(TILES)
     void display_veh_tiles();  // New tile-based rendering
@@ -260,16 +266,19 @@ void vehicle_preview_window::display( const vehicle &veh, point cursor_offset,
 ## File Changes Summary
 
 ### New Files
+
 - `src/vehicle_preview.h` - Tile preview adapter class
 - `src/vehicle_preview.cpp` - Tile preview implementation
 
 ### Modified Files
+
 - `src/veh_interact.h` - Add tile preview member
 - `src/veh_interact.cpp` - Integrate tile display
 - `src/options.cpp` - Add `VEHICLE_EDIT_TILES` option
 - `src/Makefile` / `CMakeLists.txt` - Add new source files
 
 ### Options
+
 - `VEHICLE_EDIT_TILES` (Graphics) - Toggle graphical vehicle display (default: true)
 
 ---
@@ -291,11 +300,13 @@ All tile-related code must be wrapped in `#if defined(TILES)`:
 ### Coordinate Systems
 
 The vehicle screen uses multiple coordinate systems:
+
 1. **Mount coordinates**: Vehicle-local (origin at vehicle center)
 2. **Screen coordinates**: Terminal units (cols/rows)
 3. **Pixel coordinates**: SDL pixels (for tile rendering)
 
 Conversion:
+
 ```cpp
 // Mount -> Screen (with cursor offset and rotation)
 point screen = ( mount + cursor_offset ).rotate( 3 ) + window_center;

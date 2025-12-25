@@ -73,7 +73,7 @@ class veh_preview_adapter : public cata_tiles
             draw_from_id_string(
                 tile,
                 tripoint( pixel_pos, 0 ),
-                highlight ? SDL_Color{ 255, 255, 0, 255 } : std::optional<SDL_Color>{},
+                highlight ? SDL_Color{ 255, 255, 0, 255 } : std::optional<SDL_Color> {},
                 std::nullopt,
                 lit_level::BRIGHT,
                 false,  // apply_visual_effects
