@@ -213,7 +213,8 @@ void vehicle_preview_window::display( const vehicle &veh, point cursor_offset, i
         const bool is_highlighted = ( part_idx == highlight_part ) ||
                                     ( mount == -cursor_offset ); // Cursor position
 
-        draw_vpart_at_pixel( vp_id, pixel_pos, part_mod, veh.face.dir(), is_highlighted );
+        // Always display parts facing north (270 degrees, since 0 = east)
+        draw_vpart_at_pixel( vp_id, pixel_pos, part_mod, 270_degrees, is_highlighted );
     }
 
     // Draw cursor at center (current cursor position)
