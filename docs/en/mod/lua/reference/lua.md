@@ -5152,6 +5152,10 @@ No constructors.
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer ) -> integer</code>
 
+#### mod_field_age_at {#sol::Map::mod_field_age_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration) ) -> [TimeDuration](#sol::TimeDuration)</code>
+
 #### get_field_int_at {#sol::Map::get_field_int_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> integer</code>
@@ -5168,13 +5172,13 @@ No constructors.
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [FurnIntId](#sol::FurnIntId)</code>
 
-#### mod_field_age_at {#sol::Map::mod_field_age_at}
+#### set_field_int_at {#sol::Map::set_field_int_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration) ) -> [TimeDuration](#sol::TimeDuration)</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, boolean ) -> integer</code>
 
-#### set_field_age_at {#sol::Map::set_field_age_at}
+#### add_field_at {#sol::Map::add_field_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration), boolean ) -> [TimeDuration](#sol::TimeDuration)</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, [TimeDuration](#sol::TimeDuration) ) -> boolean</code>
 
 #### set_trap_at {#sol::Map::set_trap_at}
 
@@ -5182,21 +5186,21 @@ No constructors.
 
 > Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
 
-#### set_field_int_at {#sol::Map::set_field_int_at}
+#### set_field_age_at {#sol::Map::set_field_age_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, boolean ) -> integer</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), [TimeDuration](#sol::TimeDuration), boolean ) -> [TimeDuration](#sol::TimeDuration)</code>
 
 #### get_trap_at {#sol::Map::get_trap_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TrapIntId](#sol::TrapIntId)</code>
 
-#### add_field_at {#sol::Map::add_field_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId), integer, [TimeDuration](#sol::TimeDuration) ) -> boolean</code>
-
 #### remove_field_at {#sol::Map::remove_field_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) )</code>
+
+#### get_field_name_at {#sol::Map::get_field_name_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [FieldTypeIntId](#sol::FieldTypeIntId) ) -> string</code>
 
 #### disarm_trap_at {#sol::Map::disarm_trap_at}
 
@@ -5226,6 +5230,10 @@ No constructors.
 
 > Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `<code>[TimePoint](#sol::TimePoint)</code>` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 
+#### has_items_at {#sol::Map::has_items_at}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> boolean</code>
+
 #### get_map_size {#sol::Map::get_map_size}
 
 🇲 Method --> <code>( ) -> integer</code>
@@ -5246,9 +5254,21 @@ No constructors.
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [TerIntId](#sol::TerIntId)</code>
 
-#### has_items_at {#sol::Map::has_items_at}
+#### remove_item_at {#sol::Map::remove_item_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> boolean</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [Item](#sol::Item) )</code>
+
+#### add_item {#sol::Map::add_item}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), Detached<[Item](#sol::Item)> ) -> Detached<[Item](#sol::Item)></code>
+
+> Places a detached item onto the map. Returns nil on success (item now owned by map), or returns the item back if placement failed.
+
+#### points_in_radius {#sol::Map::points_in_radius}
+
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer, integer? ) -> [Tripoint](#sol::Tripoint)[]</code>
+
+> Returns all points within a radius from the center point. `radiusz` defaults to 0.
 
 #### detach_item_at {#sol::Map::detach_item_at}
 
@@ -5260,23 +5280,13 @@ No constructors.
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint), integer ) -> [MapStack](#sol::MapStack)[]</code>
 
-#### remove_item_at {#sol::Map::remove_item_at}
+#### clear_items_at {#sol::Map::clear_items_at}
 
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), [Item](#sol::Item) )</code>
+🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
 
 #### get_items_at {#sol::Map::get_items_at}
 
 🇲 Method --> <code>( [Tripoint](#sol::Tripoint) ) -> [MapStack](#sol::MapStack)</code>
-
-#### add_item {#sol::Map::add_item}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint), Detached<[Item](#sol::Item)> ) -> Detached<[Item](#sol::Item)></code>
-
-> Places a detached item onto the map. Returns nil on success (item now owned by map), or returns the item back if placement failed.
-
-#### clear_items_at {#sol::Map::clear_items_at}
-
-🇲 Method --> <code>( [Tripoint](#sol::Tripoint) )</code>
 
 #### remove_trap_at {#sol::Map::remove_trap_at}
 

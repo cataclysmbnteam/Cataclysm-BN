@@ -1507,6 +1507,7 @@ function JsonTraitFlagId.new() end
 ---@field get_abs_ms fun(self: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
 ---@field get_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): TimeDuration
 ---@field get_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): integer
+---@field get_field_name_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId): string
 ---@field get_furn_at fun(self: Map, arg2: Tripoint): FurnIntId
 ---@field get_items_at fun(self: Map, arg2: Tripoint): MapStack
 ---@field get_items_in_radius fun(self: Map, arg2: Tripoint, arg3: integer): MapStack[]
@@ -1520,6 +1521,7 @@ function JsonTraitFlagId.new() end
 ---@field mod_field_age_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
 ---@field mod_field_int_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
 ---@field move_item_to fun(self: Map, arg2: Tripoint, arg3: Item, arg4: Tripoint) @Moves an item from one position to another, preserving all item state including contents.
+---@field points_in_radius fun(self: Map, arg2: Tripoint, arg3: integer, arg4: integer?): Tripoint[] @Returns all points within a radius from the center point. `radiusz` defaults to 0.
 ---@field remove_field_at fun(self: Map, arg2: Tripoint, arg3: FieldTypeIntId)
 ---@field remove_item_at fun(self: Map, arg2: Tripoint, arg3: Item)
 ---@field remove_trap_at fun(self: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
