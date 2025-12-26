@@ -96,6 +96,13 @@ on_creature_melee_attacked = {}
 ---@field when TimePoint
 on_mapgen_postprocess = {}
 
+---@class OnExplodeParams
+---@field pos Tripoint
+---@field damage integer
+---@field radius integer
+---@field fire boolean
+on_explosion_start = {}
+
 --================---- Classes ----================
 
 ---@class ActivityTypeId
@@ -782,6 +789,15 @@ Energy = {}
 ---@return Energy
 function Energy.new() end
 
+---@class ExplosionData
+---@field damage integer @Damage dealt by the explosion
+---@field fire boolean @Whether the explosion creates fire
+---@field radius number @Radius of the explosion
+---@field safe_range fun(self: ExplosionData): integer @Returns the safe range of the explosion
+ExplosionData = {}
+---@return ExplosionData
+function ExplosionData.new() end
+
 ---@class FactionId
 ---@field NULL_ID fun(): FactionId
 ---@field implements_int_id fun(): boolean
@@ -1373,7 +1389,7 @@ function ItypeId.new() end
 ---@field default_container ItypeId?
 ---@field emits FieldEmitId[]
 ---@field explode_in_fire boolean
----@field explosion_data any
+---@field explosion_data ExplosionData
 ---@field faults FaultId[]
 ---@field integral_volume Volume
 ---@field integral_weight Mass

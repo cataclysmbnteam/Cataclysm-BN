@@ -2416,6 +2416,42 @@ No constructors.
 
 🇲 Method --> <code>( ) -> integer</code>
 
+## ExplosionData {#sol::ExplosionData}
+
+### Bases {#sol::ExplosionData::@bases}
+
+No base classes.
+
+### Constructors {#sol::ExplosionData::@ctors}
+
+No constructors.
+
+### Members {#sol::ExplosionData::@members}
+
+#### damage {#sol::ExplosionData::damage}
+
+🇻 Variable --> <code>integer</code>
+
+> Damage dealt by the explosion
+
+#### fire {#sol::ExplosionData::fire}
+
+🇻 Variable --> <code>boolean</code>
+
+> Whether the explosion creates fire
+
+#### radius {#sol::ExplosionData::radius}
+
+🇻 Variable --> <code>number</code>
+
+> Radius of the explosion
+
+#### safe_range {#sol::ExplosionData::safe_range}
+
+🇲 Method --> <code>( ) -> integer</code>
+
+> Returns the safe range of the explosion
+
 ## FactionId {#sol::FactionId}
 
 ### Bases {#sol::FactionId::@bases}
@@ -4756,7 +4792,7 @@ No constructors.
 
 #### explosion_data {#sol::ItypeRaw::explosion_data}
 
-🇻 Variable --> <code>CppVal&lt;explosion_data&gt;</code>
+🇻 Variable --> <code>[ExplosionData](#sol::ExplosionData)</code>
 
 #### integral_volume {#sol::ItypeRaw::integral_volume}
 
