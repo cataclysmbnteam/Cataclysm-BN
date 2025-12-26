@@ -5354,11 +5354,15 @@ void cloning_syringe_iuse::load( const JsonObject &obj )
 
 int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 {
+    const auto is_empty_usb = []( const item & drive ) {
+        return drive.contents.empty();
+    };
+
     if( !it.units_sufficient( p, charges_to_use ) ) {
         add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
         return 0;
     }
-    if( !p.has_amount( itype_usb_drive, 1 ) ) {
+    if( !p.has_amount( itype_usb_drive, 1, true, is_empty_usb ) ) {
         add_msg( m_bad, "You need an empty USB drive to store genetic data." );
         return 0;
     }
@@ -5455,7 +5459,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     }
 
     // Create new genome drive
-    p.use_amount( itype_usb_drive, 1 );
+    p.use_amount( itype_usb_drive, 1, is_empty_usb );
     detached_ptr<item> drive = item::spawn( itype_genome_drive, calendar::turn );
     int size = static_cast<int>( m->get_size() ) + 1;
 
@@ -5487,6 +5491,10 @@ void dna_editor_iuse::load( const JsonObject &obj )
 
 int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
+    const auto is_empty_usb = []( const item & drive ) {
+        return drive.contents.empty();
+    };
+
     if( !it.units_sufficient( p, charges_to_use ) ) {
         add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
         return 0;
@@ -5520,7 +5528,7 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
     menu.addentry( 0, true, 'e', "Examine sample" );
     menu.addentry( 1, p.has_charges( itype_mutagen, 1 ) &&
                    p.has_charges( itype_biomaterial, 1 ), 'i', "Research upgrade" );
-    menu.addentry( 2, p.has_charges( itype_usb_drive, 1 ), 'c', "Clone drive" );
+    menu.addentry( 2, p.has_amount( itype_usb_drive, 1, true, is_empty_usb ), 'c', "Clone drive" );
     menu.addentry( 3, p.has_charges( itype_biomaterial, 1 ), 'p', "Produce DNA" );
     menu.query();
     if( menu.ret < 0 ) {
@@ -5613,7 +5621,7 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
         selected_drive->set_var( "specimen_name", newmon.name() );
     } else if( menu.ret == 2 ) {
         add_msg( "You clone a copy of the drive onto another USB." );
-        p.use_amount( itype_usb_drive, 1 );
+        p.use_amount( itype_usb_drive, 1, is_empty_usb );
         detached_ptr<item> drive_copy = item::spawn( itype_genome_drive, calendar::turn );
 
         drive_copy->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
