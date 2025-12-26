@@ -1921,8 +1921,8 @@ class jmapgen_item_group : public jmapgen_piece
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void check( const std::string &context, const mapgen_parameters & ) const override {
-            if( !group_id.is_valid() ) {
-                debugmsg( "Invalid item_group_id \"%s\" in %s", group_id.str(), context );
+            if( !group_id.is_valid() && !itype_id( group_id.str() ).is_valid() ) {
+                debugmsg( "Invalid item_group_id / itype_id \"%s\" in %s", group_id.str(), context );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
@@ -1985,6 +1985,7 @@ class jmapgen_loot : public jmapgen_piece
  * "monster": id of the monster group.
  * "chance": see @ref map::place_spawns
  * "density": see @ref map::place_spawns
+ * "target": if true, monsters are tagged with the mission id for MGOAL_KILL_MONSTERS
  */
 class jmapgen_monster_group : public jmapgen_piece
 {
@@ -1992,10 +1993,12 @@ class jmapgen_monster_group : public jmapgen_piece
         mapgen_value<mongroup_id> id;
         float density;
         jmapgen_int chance;
+        bool target;
         jmapgen_monster_group( const JsonObject &jsi ) :
             id( jsi.get_member( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
-            , chance( jsi, "chance", 1, 1 ) {
+            , chance( jsi, "chance", 1, 1 )
+            , target( jsi.get_bool( "target", false ) ) {
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2003,9 +2006,14 @@ class jmapgen_monster_group : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
+            int mission_id = -1;
+            if( dat.mission() && target ) {
+                mission_id = dat.mission()->get_id();
+            }
             dat.m.place_spawns( chosen_id, chance.get(), point( x.val, y.val ),
                                 point( x.valmax, y.valmax ),
-                                density == -1.0f ? dat.monster_density() : density );
+                                density == -1.0f ? dat.monster_density() : density,
+                                false, false, "NONE", mission_id );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters
@@ -2036,6 +2044,7 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
+        bool use_pack_size;
         jmapgen_monster( const JsonObject &jsi ) :
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
@@ -2043,7 +2052,8 @@ class jmapgen_monster : public jmapgen_piece
                                          !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
-            , target( jsi.get_bool( "target", false ) ) {
+            , target( jsi.get_bool( "target", false ) )
+            , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
@@ -2099,7 +2109,7 @@ class jmapgen_monster : public jmapgen_piece
             mongroup_id chosen_group = m_id.get( dat );
             if( !chosen_group.is_null() ) {
                 MonsterGroupResult spawn_details =
-                    MonsterGroupManager::GetResultFromGroup( chosen_group );
+                    MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, use_pack_size );
                 dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
                 friendly, -1, mission_id, name );
@@ -2130,13 +2140,18 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<units::angle> rotation;
         int fuel;
         int status;
-        jmapgen_vehicle( const JsonObject &jsi ) :
-            type( jsi.get_member( "vehicle" ) )
+        std::optional<bool> locked;
+
+        jmapgen_vehicle( const JsonObject &jsi )
+            : type( jsi.get_member( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
-            //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
-            // return a single int as a list, we have to manually check this in the constructor below
+              //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
+              // return a single int as a list, we have to manually check this in the constructor below
             , fuel( jsi.get_int( "fuel", -1 ) )
             , status( jsi.get_int( "status", -1 ) ) {
+            if( jsi.has_bool( "locked" ) ) {
+                locked = jsi.get_bool( "locked" );
+            }
             if( jsi.has_array( "rotation" ) ) {
                 for( const JsonValue &elt : jsi.get_array( "rotation" ) ) {
                     rotation.push_back( units::from_degrees( elt.get_int() ) );
@@ -2154,8 +2169,12 @@ class jmapgen_vehicle : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
-                               fuel, status );
+            const std::optional<bool> has_keys = locked.has_value()
+                                                 ? std::make_optional( !locked.value() )
+                                                 : std::nullopt;
+            dat.m.add_vehicle(
+                chosen_id, point( x.get(), y.get() ),
+                random_entry( rotation ), fuel, status, true, locked, has_keys );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -6171,7 +6190,7 @@ void map::place_gas_pump( const point &p, int charges, const itype_id &fuel_type
 {
     detached_ptr<item> fuel = item::spawn( fuel_type, calendar::start_of_cataclysm );
     fuel->charges = charges;
-    ter_set( p, ter_id( fuel->fuel_pump_terrain() ) );
+    ter_set( p, fuel->fuel_pump_terrain() );
     add_item( p, std::move( fuel ) );
 }
 
@@ -6247,18 +6266,23 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
 {
     // TODO: implement for 3D
     std::vector<item *> res;
-
+    itype_id it;
+    bool is_type = false;
     if( chance > 100 || chance <= 0 ) {
         debugmsg( "map::place_items() called with an invalid chance (%d)", chance );
         return res;
     }
     if( !item_group::group_is_defined( loc ) ) {
-        // TODO: fix point types
-        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
-        const oter_id &oid = overmap_buffer.ter( omt );
-        debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
-                  loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
-        return res;
+        it = itype_id( loc.str() );
+        if( !it.is_valid() ) {
+            // TODO: fix point types
+            const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
+            const oter_id &oid = overmap_buffer.ter( omt );
+            debugmsg( "place_items: invalid item group / item '%s', om_terrain = '%s' (%s)",
+                      loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
+            return res;
+        }
+        is_type = true;
     }
 
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
@@ -6283,6 +6307,13 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         } while( is_valid_terrain( p ) && tries < 20 );
 
         if( tries < 20 ) {
+            if( is_type ) {
+                detached_ptr<item> placed = add_item_or_charges( p, item::spawn( it ) );
+                if( placed ) {
+                    res.push_back( std::move( &*placed ) );
+                }
+                return res;
+            }
             std::vector<detached_ptr<item>> initial = item_group::items_from( loc, turn );
 
             for( detached_ptr<item> &itm : initial ) {
@@ -6403,27 +6434,36 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p,
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+vehicle *map::add_vehicle( const std::variant<vgroup_id, vproto_id> &type_,
+                           const std::variant<tripoint, point> &p_,
+                           const units::angle dir, const int veh_fuel,
+                           const int veh_status, const bool merge_wrecks,
+                           std::optional<bool> locked,
+                           std::optional<bool> has_keys )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
-}
+    constexpr auto pos_selector = []<typename T>( const T & v, int z ) -> tripoint {
+        if constexpr( std::is_same_v<T, point> )
+        {
+            return tripoint( v, z );
+        } else
+        {
+            return v;
+        }
+    };
 
-vehicle *map::add_vehicle( const vgroup_id &type, point p, units::angle dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
-{
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
-}
+    constexpr auto type_selector = []<typename T>( const T & v ) -> vproto_id {
+        if constexpr( std::is_same_v<T, vgroup_id> )
+        {
+            return v.obj().pick();
+        } else
+        {
+            return v;
+        }
+    };
 
-vehicle *map::add_vehicle( const vproto_id &type, point p, units::angle dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
-{
-    return add_vehicle( type, tripoint( p, abs_sub.z ), dir, veh_fuel, veh_status, merge_wrecks );
-}
+    const auto type = std::visit( type_selector, type_ );
+    const auto p = std::visit( pos_selector, p_, std::variant<int>( abs_sub.z ) );
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
-{
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
         return nullptr;
@@ -6435,7 +6475,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     }
 
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
+    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status, locked, has_keys );
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
@@ -6476,7 +6516,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh->all_standalone_parts();
 
     //Check for boat type vehicles that should be placeable in deep water
     //WARNING: CURSED CODE
@@ -6514,7 +6554,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + other_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + other_veh->all_standalone_parts().size() > 200 ) {
                 return nullptr;
             }
 

@@ -3687,5 +3687,11 @@
     "category": "NEW_CHAR_STATS",
     "name": "Select random stat",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWAPTONPC",
+    "name": "Swap To NPC",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
   }
 ]

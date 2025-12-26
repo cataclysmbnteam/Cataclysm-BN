@@ -39,7 +39,10 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "add_msg", sol::overload(
     add_msg_lua, []( sol::variadic_args va ) { add_msg_lua( game_message_type::m_neutral, va ); }
                   ) );
+    DOC( "Teleports player to absolute coordinate in overmap" );
     luna::set_fx( lib, "place_player_overmap_at", []( const tripoint & p ) -> void { g->place_player_overmap( tripoint_abs_omt( p ) ); } );
+    DOC( "Teleports player to local coordinates within active map" );
+    luna::set_fx( lib, "place_player_local_at", []( const tripoint & p ) -> void { g->place_player( p ); } );
     luna::set_fx( lib, "current_turn", []() -> time_point { return calendar::turn; } );
     luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
     luna::set_fx( lib, "before_time_starts", []() -> time_point { return calendar::before_time_starts; } );
@@ -59,7 +62,10 @@ void cata::detail::reg_game_api( sol::state &lua )
         hooks.push_back( on_every_x_hooks{ interval, vec } );
     } );
 
-    luna::set_fx( lib, "create_item", []( const itype_id & itype, int count ) -> std::unique_ptr<item> { return std::make_unique<item>( itype, calendar::turn, count ); } );
+    DOC( "Spawns a new item. Same as Item::spawn " );
+    luna::set_fx( lib, "create_item", []( const itype_id & itype, int count ) -> detached_ptr<item> {
+        return item::spawn( itype, calendar::turn, count );
+    } );
 
     luna::set_fx( lib, "get_creature_at",
                   []( const tripoint & p, sol::optional<bool> allow_hallucination ) -> Creature * { return g->critter_at<Creature>( p, allow_hallucination.value_or( false ) ); } );

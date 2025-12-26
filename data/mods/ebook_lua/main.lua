@@ -191,7 +191,7 @@ mod.ebook_scan = function(user, device)
               if count2 >= dev_limit then break end
             end
             gapi.add_msg(MsgType.good, string.format(locale.gettext("You scanned %d book(s)."), dev_limit))
-            return dev_limit
+            return dev_limit * 10
           else --selected NO
             return -1
           end
@@ -200,7 +200,7 @@ mod.ebook_scan = function(user, device)
             mod.insert_lib2(device, t_str)
           end
           gapi.add_msg(MsgType.good, string.format(locale.gettext("You scanned %d book(s)."), num_found))
-          return num_found
+          return num_found * 10
         end
       else --selected Cancel or pressed ESC
         return -1
@@ -450,7 +450,7 @@ mod.mc_io = function(reader, device)
             ui.query_any_key(string.format(locale.gettext("%s has nothing new books."), that_mc:tname(1, false, 0)))
           else
             ui.query_any_key(
-              string.format(locale.gettext("%d books downloaded from %s."), dl_count, that_mc:tname(1, false, 0))
+              string.format(locale.gettext("%1$d books downloaded from %2$s."), dl_count, that_mc:tname(1, false, 0))
             )
           end
         elseif ans_mc_menu == 2 then --Upload
@@ -468,7 +468,7 @@ mod.mc_io = function(reader, device)
           else
             ui.query_any_key(
               string.format(
-                locale.gettext("%d books uploaded on %s.\nNaming the card is recommended."),
+                locale.gettext("%1$d books uploaded on %2$s.\nNaming the card is recommended."),
                 ul_count,
                 that_mc:tname(1, false, 0)
               )

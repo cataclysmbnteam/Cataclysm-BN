@@ -103,6 +103,8 @@ const flag_id flag_EFFECT_HEAT_IMMUNE( "EFFECT_HEAT_IMMUNE" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
 const flag_id flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
 const flag_id flag_EFFECT_LIGHT_IMMUNE( "EFFECT_LIGHT_IMMUNE" );
+const flag_id flag_EFFECT_LUA_ON_ADDED( "EFFECT_LUA_ON_ADDED" );
+const flag_id flag_EFFECT_LUA_ON_TICK( "EFFECT_LUA_ON_TICK" );
 const flag_id flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
 const flag_id flag_EFFECT_PSI_IMMUNE( "EFFECT_PSI_IMMUNE" );
 const flag_id flag_EFFECT_STAB_IMMUNE( "EFFECT_STAB_IMMUNE" );
@@ -370,6 +372,9 @@ const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_WEATHER_FORECAST( "WEATHER_FORECAST" );
 const flag_id flag_WINDMETER( "WINDMETER" );
+const flag_id flag_INITIALLY_ACTIVATE( "INITIALLY_ACTIVATE" );
+const flag_id flag_MULTIINSTALL( "MULTIINSTALL" );
+const flag_id flag_BIONIC_TOOLS( "BIONIC_TOOLS" );
 
 namespace
 {

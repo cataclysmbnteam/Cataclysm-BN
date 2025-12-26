@@ -209,6 +209,18 @@
         "need_charges_msg": "The wrist computer's charge is too low.",
         "type": "transform"
       },
+      {
+        "//": "40 xp/hr.  Tier 1, 0-3 skill, higher-tier EXP since requires power.",
+        "type": "train_skill",
+        "training_msg": "You update software and check logs, improving your understanding slightly.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 3,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      },
+      "WEATHER_TOOL",
       "CAMERA",
       {
         "type": "music_player",
@@ -318,6 +330,7 @@
         "type": "transform"
       },
       "CAMERA",
+      "WEATHER_TOOL",
       {
         "type": "music_player",
         "target": "wrist_comp_control_music",
@@ -561,6 +574,18 @@
     "use_action": [
       "EINKTABLETPC",
       "PORTABLE_GAME",
+      "ROBOTCONTROL",
+      {
+        "//": "40 xp/hr.  Tier 1, 0-3 skill, higher-tier EXP since requires power.",
+        "type": "train_skill",
+        "training_msg": "You update software and check logs, improving your understanding slightly.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 3,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      },
       {
         "target": "laptop_screen_lit",
         "msg": "You light up the screen.",
@@ -735,6 +760,17 @@
         "type": "transform",
         "menu_text": "Activate Flashlight"
       },
+      {
+        "//": "40 xp/hr.  Tier 1, 0-3 skill, higher-tier EXP since requires power.",
+        "type": "train_skill",
+        "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 3,
+        "training_skill_xp_chance": 90,
+        "training_skill_interval": 12
+      },
       "CAMERA",
       {
         "type": "music_player",
@@ -796,7 +832,20 @@
         "type": "transform",
         "menu_text": "Activate Flashlight"
       },
+      {
+        "//": "40 xp/hr.  Tier 1, 0-3 skill, higher-tier EXP since requires power.",
+        "type": "train_skill",
+        "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      },
       "CAMERA",
+      "PORTABLE_GAME",
       {
         "type": "music_player",
         "target": "afs_atomic_smartphone_music",

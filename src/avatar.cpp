@@ -13,7 +13,10 @@
 #include <utility>
 
 #include "action.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catalua.h"
+#include "catalua_hooks.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -35,9 +38,11 @@
 #include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
+#include "init.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "locations.h"
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
@@ -82,6 +87,9 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hot_speed( "hot_speed" );
 
 static const itype_id itype_guidebook( "guidebook" );
 
@@ -131,6 +139,10 @@ void avatar::control_npc( npc &np )
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
         return;
     }
+    // Cancel activities before swap to prevent issues with stale references
+    // Avatar's activity would transfer to NPC and reference invalid items/state
+    cancel_activity();
+    np.cancel_activity();
     if( !shadow_npc ) {
         shadow_npc = std::make_unique<npc>();
         shadow_npc->op_of_u.trust = 10;
@@ -143,15 +155,46 @@ void avatar::control_npc( npc &np )
     swap_character( *shadow_npc, tmp );
     // swap target npc with shadow npc
     swap_npc( *shadow_npc, np, tmp );
+    // Reset np's dead state cache since swap_npc moved character data
+    np.reset_cached_dead_state();
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
     set_save_id( save_id );
+    // Swappy the thirst and kcal so swapping is not infinite food with no food
+    if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+        // You're stomachs become one thing :)
+        stomach = np.stomach;
+        set_thirst( np.get_thirst( ) );
+        set_stored_kcal( np.get_stored_kcal() );
+        // NPCs can't whine about a lack of food or water after you leave their body
+        np.set_stored_kcal( np.max_stored_kcal() - 100 );
+        np.set_thirst( 0 );
+    }
+    for( auto &pr : np.get_body() ) {
+        pr.second.set_location( new wield_item_location( &np ) );
+    }
+    for( auto &pr : get_body() ) {
+        pr.second.set_location( new wield_item_location( this ) );
+    }
+
+    for( auto &pr : get_body() ) {
+        const bodypart_id &bp = pr.first;
+        np.remove_effect( effect_cold, bp.id() );
+        np.remove_effect( effect_hot, bp.id() );
+        np.remove_effect( effect_hot_speed, bp.id() );
+    }
+
     np.onswapsetpos( np.pos() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
-    // the previous avatar character is now a follower
-    g->add_npc_follower( np.getID() );
-    np.set_fac( faction_id( "your_followers" ) );
+    // the previous avatar character is now a follower (unless they're dead)
+    if( np.is_dead_state() ) {
+        // The swapped-out character was dead, so kill the NPC properly
+        np.die( nullptr );
+    } else {
+        g->add_npc_follower( np.getID() );
+        np.set_fac( faction_id( "your_followers" ) );
+    }
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
     // center the map on the new avatar character
@@ -773,7 +816,7 @@ static void skim_book_msg( const item &book, avatar &u )
         if( elem.is_hidden() && !u.knows_recipe( elem.recipe ) ) {
             continue;
         }
-        recipe_list.push_back( elem.name );
+        recipe_list.push_back( elem.name.translated() );
     }
     if( !recipe_list.empty() ) {
         std::string recipe_line =
@@ -1069,6 +1112,21 @@ void avatar::vomit()
 bool avatar::is_hallucination() const
 {
     return false;
+}
+
+bool avatar::is_dead_state() const
+{
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
+
+    if( Character::is_dead_state() ) {
+        auto &state = *DynamicDataLoader::get_instance().lua;;
+        run_hooks( state, "on_character_death" );
+        cached_dead_state.reset();
+    }
+
+    return Character::is_dead_state();
 }
 
 void avatar::disp_morale()

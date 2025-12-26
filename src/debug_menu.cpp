@@ -3,6 +3,7 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <chrono>
 #include <csignal>
@@ -117,6 +118,9 @@ extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_j
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "cata_tiles.h"
+#include "dynamic_atlas.h"
+#include "sdltiles.h"
 #endif
 
 namespace debug_menu
@@ -194,6 +198,8 @@ enum debug_menu_index {
     DEBUG_RESET_IGNORED_MESSAGES,
     DEBUG_RELOAD_TILES,
     DEBUG_SWAP_CHAR,
+    DEBUG_DUMP_TILES,
+    DEBUG_DISPLAY_TILESET_NO_VFX
 };
 
 class mission_debug
@@ -256,6 +262,10 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SWAP_CHAR, true, 'x', _( "Control NPC follower" ) ) },
 #if defined(TILES)
             { uilist_entry( DEBUG_RELOAD_TILES, true, 'D', _( "Reload tileset and show missing tiles" ) ) },
+#endif
+#if defined(TILES) && defined(DYNAMIC_ATLAS)
+            { uilist_entry( DEBUG_DUMP_TILES, true, 'F', _( "Dump dynamic tile atlas" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_TILESET_NO_VFX, true, 'j', _( "Toggle tileset visual effects" ) ) },
 #endif
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -1689,8 +1699,12 @@ void debug()
                         if( query_int( dir, -90, _( "Vehicle direction (in degrees): " ) ) ) {
                             vehicle *veh = m.add_vehicle( selected_opt, dest,
                                                           normalize( units::from_degrees( dir ) ),
-                                                          100, veh_cond_menu.ret - 1 );
+                                                          100, veh_cond_menu.ret - 1,
+                                                          true,
+                                                          false,
+                                                          true );
                             if( veh != nullptr ) {
+                                veh->set_owner( u );
                                 m.board_vehicle( dest, &u );
                             }
                         }
@@ -2156,7 +2170,7 @@ void debug()
 
         case DEBUG_BUG_REPORT: {
             constexpr const char *const bug_report_url =
-                "https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new"
+                "https://github.com/cataclysmbn/Cataclysm-BN/issues/new"
                 "?labels=bug"
                 "&template=bug_report.yml"
                 "&versions-and-configuration=";
@@ -2248,13 +2262,27 @@ void debug()
         case DEBUG_RESET_IGNORED_MESSAGES:
             debug_reset_ignored_messages();
             break;
-        case DEBUG_RELOAD_TILES:
+        case DEBUG_RELOAD_TILES: {
             std::ostringstream ss;
             g->reload_tileset( [&ss]( const std::string & str ) {
                 ss << str << '\n';
             } );
             add_msg( ss.str() );
             break;
+        }
+        case DEBUG_DUMP_TILES: {
+#if defined(TILES) && defined(DYNAMIC_ATLAS)
+            tilecontext->current_tileset()->texture_atlas()->readback_load();
+            tilecontext->current_tileset()->texture_atlas()->readback_dump( PATH_INFO::config_dir() );
+            tilecontext->current_tileset()->texture_atlas()->readback_clear();
+#endif
+            break;
+        }
+        case DEBUG_DISPLAY_TILESET_NO_VFX: {
+            g->display_toggle_overlay( ACTION_DISPLAY_TILES_NO_VFX );
+            break;
+        }
+
     }
     m.invalidate_map_cache( g->get_levz() );
 }

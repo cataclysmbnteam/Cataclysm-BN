@@ -971,8 +971,8 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GRANADE", &iuse::granade );
-    add_iuse( "GRANADE_ACT", &iuse::granade_act );
+    add_iuse( "DEBUG_GRENADE", &iuse::debug_grenade );
+    add_iuse( "DEBUG_GRENADE_ACT", &iuse::debug_grenade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_CLEAN", &iuse::gun_clean );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
@@ -1116,9 +1116,12 @@ void Item_factory::init()
     add_actor( std::make_unique<sew_advanced_actor>() );
     add_actor( std::make_unique<multicooker_iuse>() );
     add_actor( std::make_unique<sex_toy_actor>() );
+    add_actor( std::make_unique<train_skill_actor>() );
     add_actor( std::make_unique<iuse_music_player>() );
     add_actor( std::make_unique<iuse_prospect_pick>() );
     add_actor( std::make_unique<iuse_reveal_contents>() );
+    add_actor( std::make_unique<iuse_flowerpot_plant>() );
+    add_actor( std::make_unique<iuse_flowerpot_collect>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -1357,8 +1360,8 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
-            if( type->gun->barrel_length < 0_ml ) {
-                msg += "gun barrel length cannot be negative\n";
+            if( type->gun->barrel_volume < 0_ml ) {
+                msg += "gun barrel volume cannot be negative\n";
             }
 
             if( !type->gun->skill_used ) {
@@ -1828,7 +1831,7 @@ void Item_factory::load( islot_fuel &slot, const JsonObject &jo, const std::stri
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
     if( jo.has_member( "pump_terrain" ) ) {
-        slot.pump_terrain = jo.get_string( "pump_terrain" );
+        slot.pump_terrain = ter_id( jo.get_string( "pump_terrain" ) );
     }
     if( jo.has_member( "explosion_data" ) ) {
         slot.has_explode_data = true;
@@ -1882,7 +1885,9 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
+    // Depreciated alias, use barrel_volume instead.
+    assign( jo, "barrel_length", slot.barrel_volume, strict, 0_ml );
+    assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );

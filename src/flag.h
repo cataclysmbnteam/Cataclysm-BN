@@ -104,6 +104,8 @@ extern const flag_id flag_EFFECT_HEAT_IMMUNE;
 extern const flag_id flag_EFFECT_IMPEDING;
 extern const flag_id flag_EFFECT_INVISIBLE;
 extern const flag_id flag_EFFECT_LIGHT_IMMUNE;
+extern const flag_id flag_EFFECT_LUA_ON_ADDED;
+extern const flag_id flag_EFFECT_LUA_ON_TICK;
 extern const flag_id flag_EFFECT_NIGHT_VISION;
 extern const flag_id flag_EFFECT_PSI_IMMUNE;
 extern const flag_id flag_EFFECT_STAB_IMMUNE;
@@ -372,7 +374,9 @@ extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
 extern const flag_id flag_WEATHER_FORECAST;
 extern const flag_id flag_WINDMETER;
-
+extern const flag_id flag_INITIALLY_ACTIVATE;
+extern const flag_id flag_MULTIINSTALL;
+extern const flag_id flag_BIONIC_TOOLS;
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json
  * Currently used by:

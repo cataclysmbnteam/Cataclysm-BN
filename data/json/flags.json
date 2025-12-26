@@ -517,6 +517,12 @@
     "//": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
   },
   {
+    "id": "NO_COOKING_BUFF",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "//": "prevents cooking from increasing calories of this food based on cooking skill"
+  },
+  {
     "id": "PLANTABLE_SEED",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -845,12 +851,6 @@
     "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
   },
   {
-    "id": "SLEEP_AID",
-    "type": "json_flag",
-    "context": [ "GENERIC" ],
-    "info": "This item provides comfort during sleep."
-  },
-  {
     "id": "REVIVE_SPECIAL",
     "type": "json_flag",
     "context": [ "GENERIC" ]
@@ -992,6 +992,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>."
+  },
+  {
+    "id": "carbon_fiber_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been permeated with carbon fiber to <good>increase protection</good> with some <bad>increase to encumbrance</bad>."
   },
   {
     "id": "leather_padded",
@@ -2394,5 +2400,83 @@
     "type": "json_flag",
     "info": "You have marked this article to not display a sprite when worn.",
     "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "INITIALLY_ACTIVATE",
+    "type": "json_flag",
+    "//": "Used on bionics, sets them to be active once installed",
+    "context": [  ]
+  },
+  {
+    "id": "BIONIC_TOOLS",
+    "type": "json_flag",
+    "//": "Used on bionics and fake bionic items, invalidates crafting inventory on activate or makes them usable with bionic power",
+    "context": [  ]
+  },
+  {
+    "id": "MULTIINSTALL",
+    "type": "json_flag",
+    "//": "Lets you install multiple copies of this bionic",
+    "context": [  ]
+  },
+  {
+    "id": "TINT_NO_FG",
+    "type": "json_flag",
+    "//": "Do not apply tint to background",
+    "context": [  ]
+  },
+  {
+    "id": "TINT_NO_BG",
+    "type": "json_flag",
+    "//": "Do not apply tint to foreground",
+    "context": [  ]
+  },
+  {
+    "id": "TINT_NONE",
+    "type": "json_flag",
+    "//": "Do not apply tint",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE_UNLOCKED",
+    "type": "json_flag",
+    "//": "Marks a vehicle to always spawn unlocked, but possibly requiring hotwiring",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE_LOCKED",
+    "type": "json_flag",
+    "//": "Marks a vehicle to always spawn locked, and possibly requiring hotwiring",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE_NO_LOCKS",
+    "type": "json_flag",
+    "//": "Marks a vehicle to not get locks installed automatically",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE_HOTWIRE",
+    "type": "json_flag",
+    "//": "Marks a vehicle to always requiring hotwiring controls",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE_NO_HOTWIRE",
+    "type": "json_flag",
+    "//": "Marks a vehicle to never require hotwiring controls (e.g bycicles)",
+    "context": [  ]
+  },
+  {
+    "id": "EFFECT_LUA_ON_ADDED",
+    "type": "json_flag",
+    "//": "",
+    "context": [  ]
+  },
+  {
+    "id": "EFFECT_LUA_ON_TICK",
+    "type": "json_flag",
+    "//": "",
+    "context": [  ]
   }
 ]

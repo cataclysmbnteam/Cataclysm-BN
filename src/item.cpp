@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include <algorithm>
+#include <numeric>
 #include <array>
 #include <cassert>
 #include <cctype>
@@ -611,7 +612,7 @@ void item::activate()
     }
 
     if( type->countdown_interval > 0 ) {
-        item_counter = type->countdown_interval;
+        set_counter( type->countdown_interval );
     }
 
     active = true;
@@ -1956,10 +1957,10 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     if( max_nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.emplace_back( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                               "", iteminfo::no_newline, min_nutr.kcal );
+                               "", iteminfo::no_newline, you.compute_effective_nutrients( *food_item ).kcal );
             if( max_nutr.kcal != min_nutr.kcal ) {
                 info.emplace_back( "FOOD", _( "-" ),
-                                   "", iteminfo::no_newline, max_nutr.kcal );
+                                   "", iteminfo::no_newline, you.compute_effective_nutrients( *food_item ).kcal );
             }
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
@@ -3154,7 +3155,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> recipe_list;
-    for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
+    for( const book_recipe &elem : book.recipes ) {
         const bool knows_it = you.knows_recipe( elem.recipe );
         const bool can_learn = you.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
         // If the player knows it, they recognize it even if it's not clearly stated.
@@ -3167,9 +3168,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const std::string name = elem.recipe->result_name();
             recipe_list.push_back( "<bold>" + name + "</bold>" );
         } else if( !can_learn ) {
-            recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+            recipe_list.push_back( "<color_brown>" + elem.name.translated() + "</color>" );
         } else {
-            recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+            recipe_list.push_back( "<dark>" + elem.name.translated() + "</dark>" );
         }
     }
 
@@ -4435,7 +4436,7 @@ nc_color item::color_in_inventory( const player &p ) const
     } else if( has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
-        if( !p.has_bionic( type->bionic->id ) ) {
+        if( !p.has_bionic( type->bionic->id ) || type->bionic->id->has_flag( flag_MULTIINSTALL ) ) {
             ret = p.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         } else if( !has_fault( fault_bionic_nonsterile ) ) {
             ret = c_dark_gray;
@@ -5075,15 +5076,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( already_used_by_player( you ) ) {
         tagtext += _( " (used)" );
     }
-    if( is_active() && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
-        tagtext += _( " (lit)" );
-    } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
+    if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( is_active() && !is_food() && !is_corpse() &&
-               ! typeId().str().ends_with( "_on" ) ) {
-        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
-        // in their name, also food is active while it rots.
-        tagtext += _( " (active)" );
     }
     if( has_flag( flag_SPAWN_FRIENDLY ) ) {
         tagtext += _( " (friendly)" );
@@ -5384,7 +5378,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
-        const units::volume b = type->gun->barrel_length;
+        const units::volume b = type->gun->barrel_volume;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
@@ -5523,7 +5517,7 @@ units::volume item::volume( bool integral ) const
         }
 
         if( gunmod_find( itype_barrel_small ) ) {
-            ret -= type->gun->barrel_length;
+            ret -= type->gun->barrel_volume;
         }
     }
 
@@ -6174,7 +6168,7 @@ namespace
  * further acceleration at 40C.
  *
  * Original formula:
- * @see https://github.com/cataclysmbnteam/Cataclysm-BN/blob/033901af4b52ad0bfcfd6abfe06bca4e403d44b1/src/item.cpp#L5612-L5640
+ * @see https://github.com/cataclysmbn/Cataclysm-BN/blob/033901af4b52ad0bfcfd6abfe06bca4e403d44b1/src/item.cpp#L5612-L5640
  */
 constexpr auto rot_chart = std::array<int, 44>
 {
@@ -7051,11 +7045,15 @@ int item::damage_resist( damage_type dt, bool to_self ) const
 
 bool item::is_two_handed( const Character &guy ) const
 {
-    if( has_flag( flag_ALWAYS_TWOHAND ) ) {
+    // Big weapons are always two-handed if you're Medium or smaller.
+    if( has_flag( flag_ALWAYS_TWOHAND ) && guy.get_size() <= creature_size::medium ) {
         return true;
     }
+    // Large characters get a penalty when trying to wield two-handed weapons, Huge characters treat them like normal.
+    const float str_factor = has_flag( flag_ALWAYS_TWOHAND ) &&
+                             guy.get_size() != creature_size::huge ?  2.0f : 4.0f;
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > guy.str_cur * 4.0f );
+    return ( ( weight() / 113_gram ) > guy.str_cur * str_factor );
 }
 
 const std::vector<material_id> &item::made_of() const
@@ -7466,9 +7464,9 @@ float item::fuel_energy() const
     return is_fuel() ? type->fuel->energy : 0.0f;
 }
 
-std::string item::fuel_pump_terrain() const
+ter_id item::fuel_pump_terrain() const
 {
-    return is_fuel() ? type->fuel->pump_terrain : "t_null";
+    return is_fuel() ? type->fuel->pump_terrain : t_null;
 }
 
 bool item::has_explosion_data() const
@@ -7482,6 +7480,14 @@ struct fuel_explosion item::get_explosion_data()
     return has_explosion_data() ? type->fuel->explosion_data : null_data;
 }
 
+float item::get_kcal_mult() const
+{
+    return get_var( "kcal_mult", 1.0 );
+}
+void item::set_kcal_mult( float val )
+{
+    set_var( "kcal_mult", val );
+}
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -7749,7 +7755,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const C
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
-        for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
+        for( const book_recipe &elem : type->book->recipes ) {
             if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
@@ -9332,17 +9338,27 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
     return detached_ptr<item>();
 }
 
-void item::set_countdown( int num_turns )
+void item::set_counter( const int value )
 {
-    if( num_turns < 0 ) {
-        debugmsg( "Tried to set a negative countdown value %d.", num_turns );
+    item_counter = value;
+}
+
+int item::get_counter() const
+{
+    return item_counter;
+}
+
+void item::set_charges( int value )
+{
+    if( value < 0 ) {
+        debugmsg( "Tried to set a negative charges value %d.", value );
         return;
     }
     if( !ammo_types().empty() ) {
-        debugmsg( "Tried to set countdown on an item with ammo." );
+        debugmsg( "Tried to set charges on an item with ammo." );
         return;
     }
-    charges = num_turns;
+    charges = value;
 }
 
 detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id &what, int &qty,
@@ -9918,7 +9934,7 @@ detached_ptr<item> item::process_fake_mill( detached_ptr<item> &&self, player * 
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
-        self->item_counter = 0;
+        self->set_counter( 0 );
         return detached_ptr<item>(); //destroy fake mill
     }
     if( self->age() >= 6_hours || self->item_counter == 0 ) {
@@ -9959,7 +9975,7 @@ detached_ptr<item> item::process_fake_smoke( detached_ptr<item> &&self, player *
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
-        self->item_counter = 0;
+        self->set_counter( 0 );
         return detached_ptr<item>(); //destroy fake smoke
     }
 
@@ -10408,7 +10424,22 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
 
     // Process tick even if it's to be destroyed/reverted later, more for grenades
     // It technically gives an extra turn of action, but before the rework items functioned at 0 charges for a bit anyway.
-    self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
+    // Calls all use functions if active
+    if( ( self->get_use( "REMOTEVEH" ) || self->get_use( "RADIOCONTROL" ) ) && self->is_active() ) {
+        const use_function *method = nullptr;
+        if( g->remoteveh() != nullptr && self->get_use( "REMOTEVEH" ) ) {
+            method = &self->type->use_methods.find( "REMOTEVEH" )->second;
+        } else if( !g->u.get_value( "remote_controlling" ).empty() && self->get_use( "RADIOCONTROL" ) ) {
+            method = &self->type->use_methods.find( "RADIOCONTROL" )->second;
+        }
+        if( method != nullptr ) {
+            method->call( carrier != nullptr ? *carrier : you, *self, true, pos );
+        } else {
+            self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
+        }
+    } else {
+        self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
+    }
 
     if( revert_destroy ) {
         // If no revert is defined, destroy it (candles and the like).
@@ -10672,18 +10703,7 @@ time_duration item::get_plant_epoch() const
     if( !type->seed ) {
         return 0_turns;
     }
-    const int scaling = get_option<int>( "GROWTH_SCALING" );
-    // incorporate growth time scaling option
-    if( scaling == 0 ) {
-        // If scaling factor is not set, scale growth time based on
-        // current season length relative to the default of 14 days
-        return type->seed->grow * calendar::season_ratio() / 3;
-    }
-    // Otherwise apply the explicitly set scaling value
-    // Also note that seed->grow is the time it takes from seeding to harvest, this is
-    // divided by 3 to get the time it takes from one plant state to the next.
-    // TODO: move this into the islot_seed
-    return type->seed->grow * scaling / 300.0;
+    return type->seed->get_plant_epoch();
 }
 
 std::string item::get_plant_name() const

@@ -38,6 +38,7 @@
     "sym": "#",
     "color": "blue",
     "see_cost": 1,
+    "spawns": { "group": "GROUP_RIVER", "population": [ 1, 3 ], "chance": 15 },
     "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
   },
   {

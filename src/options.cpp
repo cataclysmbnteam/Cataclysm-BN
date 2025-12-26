@@ -1551,8 +1551,12 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "HEALTH_STYLE", interface, translate_marker( "Health Display Style" ),
-         translate_marker( "Switch health-related display styling such as HP and hunger" ),
-    {{ "number", translate_marker( "Numerical" )}, {"bar", translate_marker( "Bar" )}},
+    translate_marker( "Switch health-related display styling such as HP and hunger" ), {
+        {"number", translate_marker( "Numerical" ) },
+        {"bar", translate_marker( "Bar" ) },
+        {"bar_alt", translate_marker( "Bar (Alt)" ) },
+        {"bar_ascii", translate_marker( "Bar (Old)" ) },
+    },
     "bar" );
 
     add_empty_line();
@@ -1564,7 +1568,7 @@ void options_manager::add_options_interface()
 
     add( "HHG_URL", interface, translate_marker( "Hitchhiker's Guide URL" ),
          translate_marker( "The URL opened by pressing the open HHG keybind." ),
-         "https://next.cbn-guide.pages.dev", 60
+         "https://cbn-guide.pages.dev", 60
        );
 
     add_empty_line();
@@ -1933,9 +1937,17 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "SKIP_EXPLOSION_ANIMATION_AFTER", graphics,
+         translate_marker( "Maximum rendered explosions per turn" ),
+         translate_marker( "Skip rendering explosions after this many count per turn to prevent softlocks from chain reactions. Set to 0 to disable." ),
+         0, 100, 10
+       );
+
+    get_option( "SKIP_EXPLOSION_ANIMATION_AFTER" ).setPrerequisite( "ANIMATIONS" );
+
     add( "BULLETS_AS_LASERS", graphics, translate_marker( "Draw bullets as lines" ),
          translate_marker( "If true, bullets are drawn as lines of images, and the animation lasts only one frame." ),
-         false
+         true
        );
 
     add( "BLINK_SPEED", graphics, translate_marker( "Blinking effects speed" ),
@@ -2221,6 +2233,22 @@ void options_manager::add_options_debug()
         this->add_empty_line( debug );
     };
 
+    add_option_group( debug, Group( "rem_act_perf", to_translation( "Performance" ),
+                                    to_translation( "Configure performance settings that can detract from the game." ) ),
+    [&]( auto & page_id ) {
+        add( "SLEEP_SKIP_VEH", page_id, translate_marker( "Sleep Boost: Skip Vehicle Movement" ),
+             translate_marker( "Turns off vehicle movement and autodrive while sleeping" ),
+             true );
+        add( "SLEEP_SKIP_SOUND", page_id, translate_marker( "Sleep Boost: Skip Sound Processing On Sleep" ),
+             translate_marker( "Sounds are not processed while sleeping" ),
+             false );
+        add( "SLEEP_SKIP_MON", page_id, translate_marker( "Sleep Boost: Skip Monster Movement" ),
+             translate_marker( "Monsters do not move while sleeping" ),
+             false );
+    } );
+
+    add_empty_line();
+
     add( "STRICT_JSON_CHECKS", debug, translate_marker( "Strict JSON checks" ),
          translate_marker( "If true, will show additional warnings for JSON data correctness." ),
          true
@@ -2415,6 +2443,10 @@ void options_manager::add_options_world_default()
          0.0, 10.0, 1, 0.1
        );
 
+    add( "VEHICLE_LOCKS", world_default, translate_marker( "Vehicle door locks" ),
+         translate_marker( "Determines if new vehicles can spawn with locked doors." ), true
+       );
+
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1
@@ -2446,6 +2478,21 @@ void options_manager::add_options_world_default()
          translate_marker( "A scaling factor that determines restock rate of merchants." ),
          0.01, 10.0, 1.0, 0.01
        );
+
+    add_empty_line();
+
+    add_option_group( world_default, Group( "skill_buff_category",
+                                            to_translation( "Enabled Skill Buffs" ),
+                                            to_translation( "Enable or disable major skill buffs" ) ),
+    [&]( const std::string & page_id ) {
+        add( "cooking_kcal_buff", page_id, "Cooking Calories Buff",
+             "Include the scaling calories from cooking buff?",
+             true );
+        add( "althletics_encumbrance_buff", page_id, "Althletics Encumbrance Buff",
+             "Include the reduce all encumbrance per level of althletics buff?",
+             true );
+    }
+                    );
 
     add_empty_line();
 
@@ -3029,12 +3076,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
+        const auto tilesName = get_option<std::string>( "TILES" );
+        const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
         try {
             tilecontext->reinit();
             std::vector<mod_id> dummy;
 
             tilecontext->load_tileset(
-                get_option<std::string>( "TILES" ),
+                tilesName,
                 ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
                 /*force=*/force_tile_change,
@@ -3051,27 +3100,31 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
             use_tiles_overmap = false;
         }
-        try {
-            overmap_tilecontext->reinit();
-            std::vector<mod_id> dummy;
+        if( tilesName == omTilesName ) {
+            overmap_tilecontext = tilecontext;
+        } else {
+            try {
+                repoint_overmap_tilecontext();
+                std::vector<mod_id> dummy;
 
-            overmap_tilecontext->load_tileset(
-                get_option<std::string>( "OVERMAP_TILES" ),
-                ingame ? world_generator->active_world->info->active_mod_order : dummy,
-                /*precheck=*/false,
-                /*force=*/force_tile_change,
-                /*pump_events=*/true
-            );
-            //game_ui::init_ui is called when zoom is changed
-            g->reset_zoom();
-            g->mark_main_ui_adaptor_resize();
-            overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
-                DebugLog( DL::Info, DC::Main ) << str;
-            } );
-        } catch( const std::exception &err ) {
-            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
-            use_tiles = false;
-            use_tiles_overmap = false;
+                overmap_tilecontext->load_tileset(
+                    omTilesName,
+                    ingame ? world_generator->active_world->info->active_mod_order : dummy,
+                    /*precheck=*/false,
+                    /*force=*/force_tile_change,
+                    /*pump_events=*/true
+                );
+                //game_ui::init_ui is called when zoom is changed
+                g->reset_zoom();
+                g->mark_main_ui_adaptor_resize();
+                overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
+                } );
+            } catch( const std::exception &err ) {
+                popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+                use_tiles = false;
+                use_tiles_overmap = false;
+            }
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();

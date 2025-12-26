@@ -129,7 +129,7 @@ std::vector<detached_ptr<item>> get_harvest_items( const itype &type, int plant_
 
 // Planting functions
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
-int query_seed( const std::vector<seed_tuple> &seed_entries );
+int query_seed( const std::vector<seed_tuple> &seed_entries, int min_req = 1 );
 void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 void harvest_plant( player &p, const tripoint &examp, bool from_activity = false );
 void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );

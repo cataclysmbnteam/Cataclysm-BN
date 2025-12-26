@@ -34,7 +34,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// TODO (https://github.com/cataclysmbn/Cataclysm-BN/issues/1612):
 // Remove that include after implementing repair_activity_actor.
 #include "distribution_grid.h"
 #include "enums.h"
@@ -173,6 +173,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_TRAIN_SKILL( "ACT_TRAIN_SKILL" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -257,6 +258,7 @@ activity_handlers::do_turn_functions = {
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
+    { ACT_TRAIN_SKILL, train_skill_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
@@ -349,6 +351,7 @@ activity_handlers::finish_functions = {
     { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
+    { ACT_TRAIN_SKILL, train_skill_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
@@ -2160,7 +2163,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        p->get_skill_level_object( sk ).train( 100, true );
+        p->get_skill_level_object( sk ).train( 100 * ( old_skill_level + 1 ), true );
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
@@ -2285,6 +2288,8 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     // well with roots.  Sorry.  :-(
 }
 
+
+
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
 {
     act->set_to_null();
@@ -2365,7 +2370,7 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// TODO (https://github.com/cataclysmbn/Cataclysm-BN/issues/1612):
 // Remove that repair code after repair_activity_actor.
 
 enum repeat_type : int {
@@ -2475,10 +2480,6 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
 
             for( const itype &item_type : item_type_list ) {
                 if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
-                    if( !item_type.has_flag( flag_USES_GRID_POWER ) ) {
-                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
-                        return fake_item;
-                    }
                     const tripoint_abs_ms abspos( m.getabs( position ) );
                     const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
                     fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
@@ -2572,7 +2573,7 @@ void patch_activity_for_furniture( player_activity &activity,
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
     // because we want to encapsulate hack here.
-    if( activity.id() != ACT_REPAIR_ITEM ) {
+    if( activity.id() != ACT_REPAIR_ITEM && activity.id() != ACT_TRAIN_SKILL ) {
         return;
     }
 
@@ -2591,6 +2592,80 @@ void patch_activity_for_furniture( player_activity &activity,
 
 } // namespace repair_activity_hack
 } // namespace activity_handlers
+
+void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
+{
+    namespace hack = activity_handlers::repair_activity_hack;
+
+    std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
+    const tripoint hack_pos = hack_type ? hack::get_position( * act ) : tripoint{};
+    int hack_original_charges = 0;
+    item *main_tool = nullptr;
+    if( hack_type ) {
+        main_tool = hack::get_fake_tool( hack_type.value(), *act );
+        if( main_tool != nullptr ) {
+            hack_original_charges = main_tool ? main_tool->charges : 0;
+        }
+    } else {
+        main_tool = &*act->tools.front();
+    }
+    if( main_tool == nullptr ) {
+        debugmsg( "train skill tools array and hack values are empty. this would have caused invalid safe reference error" );
+        act->moves_left = 0;
+        return;
+    }
+    item &skill_training_item = *main_tool;
+    int training_skill_interval = atoi( p->get_value( "training_iuse_skill_interval" ).c_str() );
+
+    if( calendar::once_every( 1_minutes * training_skill_interval ) ) {
+        // pull metadata. this is probably the easiest way to get this data from the JSON definition
+        std::string training_skill = p->get_value( "training_iuse_skill" );
+        int training_skill_xp = atoi( p->get_value( "training_iuse_skill_xp" ).c_str() );
+        int training_skill_max_level = atoi( p->get_value( "training_iuse_skill_xp_max_level" ).c_str() );
+        int training_skill_xp_chance = atoi( p->get_value( "training_iuse_skill_xp_chance" ).c_str() );
+        int training_skill_fatigue = atoi( p->get_value( "training_iuse_skill_fatigue" ).c_str() );
+
+        p->mod_fatigue( training_skill_fatigue );
+        if( skill_training_item.ammo_remaining() > 0 ) {
+            skill_training_item.ammo_consume( 1, p->pos() );
+            if( hack_type.has_value() ) {
+                hack::discharge_real_power_source(
+                    hack_type.value(),
+                    hack_pos,
+                    skill_training_item,
+                    hack_original_charges
+                );
+            }
+        } else if( skill_training_item.ammo_required() > 0 ) {
+            act->moves_left = 0;
+            add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            return;
+        }
+        if( p->get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You can no longer learn anything from this." ) );
+            return;
+        }
+        if( rng( 1, 100 ) < training_skill_xp_chance ) {
+            p->practice( skill_id( training_skill ), training_skill_xp,
+                         training_skill_max_level );
+        }
+    }
+
+    // needs rest
+    if( p->get_fatigue() >= fatigue_levels::dead_tired ) {
+        if( hack_type.has_value() ) {
+            hack::discharge_real_power_source(
+                hack_type.value(),
+                hack_pos,
+                skill_training_item,
+                hack_original_charges
+            );
+        }
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too tired to continue." ) );
+    }
+}
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
@@ -3690,7 +3765,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
-    const int old_counter = craft->item_counter;
+    const int old_counter = craft->get_counter();
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
@@ -3703,37 +3778,37 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                                   ? p->get_moves() * base_total_moves / cur_total_moves
                                   : 0;
     // Current progress in moves
-    const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
-                                    delta_progress;
+    const double current_progress = old_counter * base_total_moves / 10'000'000.0 + delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
+    const auto new_counter_f = current_progress / base_total_moves * 10'000'000.0;
+    // This is to ensure we don't over count skill steps
+    const auto new_counter = std::min( static_cast<int>( std::round( new_counter_f ) ), 10'000'000 );
+    craft->set_counter( new_counter );
+
     p->set_moves( 0 );
 
-    // This is to ensure we don't over count skill steps
-    craft->item_counter = std::min( craft->item_counter, 10'000'000 );
-
     // Skill and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
+    int five_percent_steps = craft->get_counter() / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         p->craft_skill_gain( *craft, five_percent_steps );
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-    if( craft->item_counter >= 10'000'000 ) {
+    if( craft->get_counter() >= 10'000'000 ) {
         --five_percent_steps;
     }
 
     if( five_percent_steps > 0 ) {
         if( !p->craft_consume_tools( *craft, five_percent_steps, false ) ) {
             // So we don't skip over any tool comsuption
-            craft->item_counter -= craft->item_counter % 500000 + 1;
+            craft->set_counter( craft->get_counter() - ( craft->get_counter() % 500'000 + 1 ) );
             p->cancel_activity();
             return;
         }
     }
 
     // if item_counter has reached 100% or more
-    if( craft->item_counter >= 10'000'000 ) {
+    if( craft->get_counter() >= 10'000'000 ) {
         //TODO!: CHEEKY check
         item *craft_copy = craft;
         p->cancel_activity();
@@ -3744,7 +3819,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                 p->last_craft->execute( bench_pos );
             }
         }
-    } else if( craft->item_counter >= craft->get_next_failure_point() ) {
+    } else if( craft->get_counter() >= craft->get_next_failure_point() ) {
         bool destroy = craft->handle_craft_failure( *p );
         // If the craft needs to be destroyed, do it and stop crafting.
         if( destroy ) {
@@ -3760,6 +3835,12 @@ void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
     p->add_morale( MORALE_FEELING_GOOD, 10, 40 );
+    act->set_to_null();
+}
+
+void activity_handlers::train_skill_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( m_good, _( "You feel like you've learned a little bit." ) );
     act->set_to_null();
 }
 
@@ -4463,7 +4544,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic->mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->mod_stamina( -cost );
+                p->mod_stamina( -cost, spell_being_cast.has_flag( spell_flag::PHYSICAL ) );
                 break;
             case bionic_energy:
                 p->mod_power_level( -units::from_kilojoule( cost ) );

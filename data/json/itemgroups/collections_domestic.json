@@ -892,7 +892,7 @@
       { "item": "atomic_lamp", "prob": 2 },
       { "item": "cell_phone", "prob": 1 },
       { "item": "smart_phone", "prob": 30 },
-      { "item": "wrist_comp_budget", "prob": 25 },
+      { "item": "wrist_comp_budget", "prob": 20 },
       { "item": "afs_atomic_smartphone", "prob": 1 },
       { "item": "eink_tablet_pc", "prob": 2 },
       { "item": "smart_lamp", "prob": 2 },
