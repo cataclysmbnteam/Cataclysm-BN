@@ -1,7 +1,10 @@
 #pragma once
 
+#include <optional>
+
 #include "cursesdef.h"
 #include "point.h"
+#include "sdl_wrappers.h"
 #include "type_id.h"
 #include "units_angle.h"
 
@@ -15,6 +18,9 @@ class vehicle;
  */
 struct vehicle_preview_window {
     public:
+        vehicle_preview_window() = default;
+        ~vehicle_preview_window();
+
         /**
          * Prepare the preview window for display.
          * @param win The catacurses window that defines the display area
@@ -69,10 +75,16 @@ struct vehicle_preview_window {
          * @param pixel_pos Position in pixels (SDL coordinates)
          * @param part_mod 0=normal, 1=open, 2=broken
          * @param veh_facing Vehicle facing direction
-         * @param highlight Whether to highlight this part
+         * @param bg_color Background color tint (for painting)
+         * @param fg_color Foreground color tint (for painting)
          */
         void draw_vpart_at_pixel( const vpart_id &vp_id, point pixel_pos,
-                                  int part_mod, units::angle veh_facing, bool highlight );
+                                  int part_mod, units::angle veh_facing,
+                                  std::optional<SDL_Color> bg_color = std::nullopt,
+                                  std::optional<SDL_Color> fg_color = std::nullopt );
+
+        /** Draw a highlight overlay at the given pixel position */
+        void draw_highlight_at_pixel( point pixel_pos );
 
         /** Draw a cursor at the given pixel position */
         void draw_cursor_at_pixel( point pixel_pos );
