@@ -1,11 +1,11 @@
-# Lua scripting cookbook
+# Lua スクリプティングクックブック
 
-Here are some snippets to help you get familiar with Lua APIs and learn how to use them.
-To test these examples, paste the code into the in-game Lua console by pressing the `` ` `` (backtick) key.
+Lua API に慣れて、使い方を学ぶのに役立つコードスニペットです。
+これらのサンプルをテストするには、バッククォート(\`\`)キーを押してゲーム内Luaコンソールにコードを貼り付けてください。
 
-## Items
+## アイテム
 
-### Getting list of all wielded and worn items in your inventory
+### インベントリ内の全ての装備および着用アイテムのリストを取得する
 
 ```lua
 local you = gapi.get_avatar()
@@ -14,38 +14,38 @@ local items = you:all_items(false)
 for _, item in pairs(items) do
   local status = ""
   if you:is_wielding(item) then
-    status = "wielded: "
+    status = "装備中: "
   elseif you:is_wearing(item) then
-    status = "worn: "
+    status = "着用中: "
   end
   print(status .. item:tname(1, false, 0))
 end
 ```
 
 <details>
-<summary>Example output</summary>
+<summary>出力例</summary>
 
 ```
-wielded: smartphone
-worn: bra
-worn: panties
-worn: pair of socks
-worn: jeans
-worn: long-sleeved shirt
-worn: pair of sneakers
-worn: messenger bag
-worn: wrist watch
-pocket knife
-matchbook
-clean water (plastic bottle)
-clean water
+装備中: スマートフォン
+着用中: ブラジャー
+着用中: パンティー
+着用中: ソックス
+着用中: ジーンズ
+着用中: 長袖シャツ
+着用中: スニーカー
+着用中: メッセンジャーバッグ
+着用中: 腕時計
+ポケットナイフ
+マッチ本
+きれいな水（プラスチック製ボトル）
+きれいな水
 ```
 
 </details>
 
-## Monsters
+## モンスター
 
-### Spawning a dog near the player
+### プレイヤーの近くに犬をスポーンする
 
 ```lua
 local avatar = gapi.get_avatar()
@@ -53,17 +53,17 @@ local coords = avatar:get_pos_ms()
 local dog_mtype = MtypeId.new("mon_dog_bcollie")
 local doggy = gapi.place_monster_around(dog_mtype, coords, 5)
 if doggy == nil then
-    gdebug.log_info("Could not spawn doggy :(")
+    gdebug.log_info("犬をスポーンできませんでした :(")
 else
-    gdebug.log_info(string.format("Spawned Doggy at %s", doggy:get_pos_ms()))
+    gdebug.log_info(string.format("犬を %s にスポーンしました", doggy:get_pos_ms()))
 end
 ```
 
-## Combat
+## 戦闘
 
-### Printing details about a combat technique when it is used
+### 格闘技が使用された時に詳細情報を表示する
 
-First, define the function.
+まずは関数を定義します。
 
 ```lua
 on_creature_performed_technique = function(params)
@@ -74,7 +74,7 @@ on_creature_performed_technique = function(params)
   local move_cost = params.move_cost
   gdebug.log_info(
           string.format(
-                  "%s performed %s on %s (DI: %s , MC: %s)",
+                  "%s が %s を %s に対して使用しました (DI: %s , MC: %s)",
                   char:get_name(),
                   technique.name,
                   target:get_name(),
@@ -85,24 +85,24 @@ on_creature_performed_technique = function(params)
 end
 ```
 
-Then connect the hook to the function ONLY ONCE.
+その後、フックを関数に一度だけ接続します。
 
 ```lua
 table.insert(game.hooks.on_creature_performed_technique, function(...) return on_creature_performed_technique(...) end)
 ```
 
 <details>
-<summary>Example output</summary>
+<summary>出力例</summary>
 
 ```
-Ramiro Waters performed Power Hit on zombie (DI: 27.96 , MC: 58)
+Ramiro Waters が Power Hit を zombie に対して使用しました (DI: 27.96 , MC: 58)
 ```
 
 </details>
 
-## Item Durability
+## アイテムの耐久性
 
-### Checking and modifying item damage
+### アイテムのダメージをチェックして修正する
 
 ```lua
 local you = gapi.get_avatar()
@@ -113,21 +113,21 @@ wielding:mod_damage(2000)
 print(wielding:get_damage_level(4))
 ```
 
-## Monsters
+## モンスター
 
-### Adding items to a monster's inventory
+### モンスターのインベントリにアイテムを追加する
 
 ```lua
-local target_monster = -- [[ your monster reference ]]
+local target_monster = -- [[ あなたのモンスター参照 ]]
 local scraps = gapi.create_item(ItypeId.new("scrap"), 3)
 target_monster:as_monster():add_item(scraps)
 ```
 
-## Weather Hooks
+## 天気フック
 
-### Reacting to weather changes
+### 天気の変化に反応する
 
-First, set up the hook in your preload.lua:
+まず、preload.lua でフックをセットアップします:
 
 ```lua
 local mod = game.mod_runtime[game.current_mod]
@@ -135,25 +135,25 @@ table.insert(game.hooks.on_weather_changed, function(...) mod.weather_changed_al
 table.insert(game.hooks.on_weather_updated, function(...) mod.weather_report(...) end)
 ```
 
-Then define the handlers in your main.lua:
+次に、main.lua でハンドラーを定義します:
 
 ```lua
 local mod = game.mod_runtime[game.current_mod]
 
--- Called when weather changes (e.g., clear -> rain)
+-- 天気が変わる時に呼び出される(例: 晴れ -> 雨)
 mod.weather_changed_alert = function(params)
     local msg = string.format(
-        "Weather changed from %s to %s!",
+        "天気が %s から %s に変わりました!",
         params.old_weather_id,
         params.weather_id
     )
     gdebug.log_info(msg)
 end
 
--- Called every 5 minutes with current weather data
+-- 5分ごとに現在の天気データと共に呼び出される
 mod.weather_report = function(params)
     local msg = string.format(
-        "Current Weather: %s, Temperature: %.1f°C, Wind: %d, Humidity: %d%%",
+        "現在の天気: %s, 温度: %.1f°C, 風: %d, 湿度: %d%%",
         params.weather_id,
         params.temperature,
         params.windspeed,
@@ -163,11 +163,11 @@ mod.weather_report = function(params)
 end
 ```
 
-## Combat Ranged
+## 遠距離戦闘
 
-### Reacting to shots fired and thrown items
+### 発砲と投げたアイテムに反応する
 
-First, set up the hooks in your preload.lua:
+まず、preload.lua でフックをセットアップします:
 
 ```lua
 local mod = game.mod_runtime[game.current_mod]
@@ -175,7 +175,7 @@ table.insert(game.hooks.on_shoot, function(...) return mod.on_shoot_fun(...) end
 table.insert(game.hooks.on_throw, function(...) return mod.on_throw_fun(...) end)
 ```
 
-Then define the handlers in your main.lua:
+次に、main.lua でハンドラーを定義します:
 
 ```lua
 local mod = game.mod_runtime[game.current_mod]
@@ -192,7 +192,7 @@ mod.on_shoot_fun = function(params)
         ammo = ammo_item:get_type()
     end
     local shoot_noise = ammo:obj():slot_ammo().loudness
-    gdebug.log_info(string.format("Gun sound: %d.", shoot_noise))
+    gdebug.log_info(string.format("銃音: %d.", shoot_noise))
 end
 
 mod.on_throw_fun = function(params)
@@ -201,47 +201,47 @@ mod.on_throw_fun = function(params)
     ---@type Item
     local thrown = params.item
     if thrown:is_gun() then
-        gdebug.log_info("Hey! Guns are not for throwing!")
+        gdebug.log_info("おい！銃は投げるものではないぞ!")
     end
 end
 ```
 
-## Overmap Queries
+## オーバーマップクエリ
 
-### Finding and manipulating items on the overmap
+### オーバーマップ上のアイテムを検索して操作する
 
 ```lua
--- Find all items on the overmap at a specific location
+-- 特定の場所のオーバーマップ上の全てのアイテムを検索
 local om_pos = OmPos.new(0, 0, 0)
 local items = gapi.overmap_find_items_around(om_pos, 0)
 
--- Get an item from the map and keep it in Lua even if the map unloads
+-- マップからアイテムを取得して、マップがアンロードされても Lua に保持
 local map_pos = MapPos.new(100, 100, 0)
 local item = gapi.get_map():find_item_at(map_pos)
 if item then
     local detached = gapi.create_detached_item(item)
-    -- Later, you can reattach it to a location
+    -- 後で位置に再度アタッチできます
     local reattached = gapi.reattach_item(detached, map_pos)
 end
 
--- Teleport items within the same map
+-- 同じマップ内でアイテムを移動
 local source_pos = MapPos.new(100, 100, 0)
 local dest_pos = MapPos.new(110, 110, 0)
 gapi.get_map():move_item_at(source_pos, dest_pos)
 ```
 
-## Death Hooks
+## 死亡フック
 
-### Tracking when monsters die
+### モンスターの死亡をトラッキング
 
 ```lua
--- In preload.lua
+-- preload.lua 内
 local mod = game.mod_runtime[game.current_mod]
 table.insert(game.hooks.on_mon_death, function(...) return mod.on_mon_death(...) end)
 ```
 
 ```lua
--- In main.lua
+-- main.lua 内
 local mod = game.mod_runtime[game.current_mod]
 
 mod.on_mon_death = function(params)
@@ -250,21 +250,21 @@ mod.on_mon_death = function(params)
     ---@type Character|nil
     local killer = params.killer
 
-    local killer_name = killer and killer:get_name() or "Unknown"
-    gdebug.log_info(string.format("%s was killed by %s", monster:get_name(), killer_name))
+    local killer_name = killer and killer:get_name() or "不明"
+    gdebug.log_info(string.format("%s は %s に殺されました", monster:get_name(), killer_name))
 end
 ```
 
-### Tracking character deaths
+### キャラクターの死亡をトラッキング
 
 ```lua
--- In preload.lua
+-- preload.lua 内
 local mod = game.mod_runtime[game.current_mod]
 table.insert(game.hooks.on_char_death, function(...) return mod.on_char_death(...) end)
 ```
 
 ```lua
--- In main.lua
+-- main.lua 内
 local mod = game.mod_runtime[game.current_mod]
 
 mod.on_char_death = function(params)
@@ -274,14 +274,14 @@ mod.on_char_death = function(params)
     local killer = params.killer
 
     if char == gapi.get_avatar() then
-        gdebug.log_info("You have died!")
+        gdebug.log_info("あなたは死にました！")
     end
 end
 ```
 
-## Character Combat Stats
+## キャラクターのコンバットスタッツ
 
-### Getting attack and stamina costs
+### 攻撃とスタミナのコストを取得する
 
 ```lua
 local you = gapi.get_avatar()
@@ -290,59 +290,59 @@ local items = you:all_items(false)
 for _, item in pairs(items) do
     print(
         item:tname(1, false, 0) 
-        .. " { attack cost: " .. item:attack_cost() 
-        .. ", stamina cost: " .. item:stamina_cost()
-        .. ", melee stamina cost: " .. you:get_melee_stamina_cost(item)
+        .. " { 攻撃コスト: " .. item:attack_cost() 
+        .. ", スタミナコスト: " .. item:stamina_cost()
+        .. ", 近接スタミナコスト: " .. you:get_melee_stamina_cost(item)
         .. " }"
     )
 end
 
--- Check for special abilities
-print("Uncanny dodge: " .. (you:uncanny_dodge() and "yes" or "no"))
+-- 特殊能力をチェック
+print("Uncanny dodge: " .. (you:uncanny_dodge() and "はい" or "いいえ"))
 ```
 
-## Dynamic Item Actions
+## ダイナミックアイテムアクション
 
-### Creating custom item use functions in Lua
+### Lua でカスタムアイテム使用関数を作成する
 
 ```lua
--- Define an item's use behavior with tick and can_use functions
+-- tick と can_use 関数でアイテムの使用動作を定義
 game.iuse_functions["my_custom_item"] = {
     use = function(params)
         local user = params.user
         local item = params.item
-        gdebug.log_info("Using: " .. item:tname(1))
-        return 0  -- Return time cost in moves
+        gdebug.log_info("使用中: " .. item:tname(1))
+        return 0  -- 移動単位での時間コストを返す
     end,
 
     can_use = function(params)
         local user = params.user
         local item = params.item
-        -- Return true to allow use, false to prevent
+        -- 使用を許可する場合は true、禁止する場合は false を返す
         return true
     end,
 
     tick = function(params)
         local user = params.user
         local item = params.item
-        -- Called periodically while item is active
+        -- アイテムがアクティブ状態の間、定期的に呼び出される
         if item:get_countdown() == 0 then
-            gdebug.log_info("Item countdown finished!")
+            gdebug.log_info("アイテムのカウントダウンが完了しました!")
         end
     end
 }
 
--- Set a countdown on an item to trigger periodic ticks
+-- 周期的なティックをトリガーするためにアイテムにカウントダウンを設定
 local item = gapi.create_item(ItypeId.new("some_item"), 1)
-item:set_countdown(100)  -- Ticks for 100 turns
+item:set_countdown(100)  -- 100ターンティック
 ```
 
-## More Combat Hooks
+## より多くのコンバットフック
 
-### Reacting to dodge, block, and technique events
+### 回避、ブロック、および技のイベントに反応する
 
 ```lua
--- In preload.lua
+-- preload.lua 内
 local mod = game.mod_runtime[game.current_mod]
 table.insert(game.hooks.on_creature_dodged, function(...) return mod.on_creature_dodged(...) end)
 table.insert(game.hooks.on_creature_blocked, function(...) return mod.on_creature_blocked(...) end)
@@ -351,7 +351,7 @@ table.insert(game.hooks.on_creature_melee_attacked, function(...) return mod.on_
 ```
 
 ```lua
--- In main.lua
+-- main.lua 内
 local mod = game.mod_runtime[game.current_mod]
 
 mod.on_creature_dodged = function(params)
@@ -360,7 +360,7 @@ mod.on_creature_dodged = function(params)
     ---@type Creature
     local source = params.source
     local difficulty = params.difficulty
-    gdebug.log_info(string.format("%s dodged %s (DC: %d)", char:get_name(), source:get_name(), difficulty))
+    gdebug.log_info(string.format("%s は %s を回避しました (DC: %d)", char:get_name(), source:get_name(), difficulty))
 end
 
 mod.on_creature_blocked = function(params)
@@ -371,7 +371,7 @@ mod.on_creature_blocked = function(params)
     local bodypart_id = params.bodypart_id
     local damage_blocked = params.damage_blocked
     gdebug.log_info(string.format(
-        "%s blocked %s on %s (blocked: %.1f damage)",
+        "%s は %s を %s でブロックしました (ブロック: %.1f ダメージ)",
         char:get_name(),
         source:get_name(),
         bodypart_id,
@@ -385,39 +385,39 @@ mod.on_creature_melee_attacked = function(params)
     ---@type Creature
     local target = params.target
     if params.success then
-        gdebug.log_info(string.format("%s hit %s", char:get_name(), target:get_name()))
+        gdebug.log_info(string.format("%s は %s にヒットしました", char:get_name(), target:get_name()))
     else
-        gdebug.log_info(string.format("%s missed %s", char:get_name(), target:get_name()))
+        gdebug.log_info(string.format("%s は %s をミスしました", char:get_name(), target:get_name()))
     end
 end
 ```
 
-## Item Type Information
+## アイテムタイプ情報
 
-### Querying item type properties via ItypeId
+### ItypeId 経由のアイテムタイププロパティのクエリ
 
 ```lua
 local item_type = ItypeId.new("9mm")
 
--- Get the item type object (ItypeRaw)
+-- アイテムタイプオブジェクト(ItypeRaw)を取得
 local itype_raw = item_type:obj()
 
--- Access item type specific data (e.g., for ammo)
+-- アイテムタイプ固有のデータにアクセス(例: 弾薬)
 if itype_raw:slot_ammo() then
     local ammo_data = itype_raw:slot_ammo()
-    print("Ammo damage: " .. ammo_data.damage)
-    print("Ammo range: " .. ammo_data.range)
+    print("弾薬ダメージ: " .. ammo_data.damage)
+    print("弾薬射程: " .. ammo_data.range)
 end
 
--- For containers
+-- コンテナの場合
 if itype_raw:slot_container() then
     local container_data = itype_raw:slot_container()
-    print("Capacity: " .. container_data.capacity)
+    print("容量: " .. container_data.capacity)
 end
 
--- For tools
+-- ツールの場合
 if itype_raw:slot_tool() then
     local tool_data = itype_raw:slot_tool()
-    print("Tool quality: " .. tool_data.quality)
+    print("ツール品質: " .. tool_data.quality)
 end
 ```
