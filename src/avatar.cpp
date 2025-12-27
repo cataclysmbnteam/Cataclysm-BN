@@ -1165,18 +1165,19 @@ int avatar::kill_xp() const
     return g->get_kill_tracker().kill_xp();
 }
 
-static int xp_cutoffs (unsigned int level) {
+static int xp_cutoffs( unsigned int level )
+{
     int coeff = get_option<int>( "AVATAR_LEVEL_XP_COEFF" );
     // In nicer terms, this is a quadratic
-    return ( pow( level, 2) * coeff );
-} 
+    return ( pow( level, 2 ) * coeff );
+}
 
 int avatar::free_upgrade_points() const
 {
     const int xp = kill_xp();
     int lvl = 0;
     bool found_level = false;
-    while (!found_level) {
+    while( !found_level ) {
         if( xp >= xp_cutoffs( lvl + 1 ) ) {
             lvl++;
         } else {
@@ -1191,9 +1192,9 @@ int avatar::kill_xp_for_next_point() const
     const int xp_gained = kill_xp();
     int level = 0;
     bool found_higher = false;
-    while ( !found_higher ) {
+    while( !found_higher ) {
         level++;
-        if ( xp_gained < xp_cutoffs( level ) ) {
+        if( xp_gained < xp_cutoffs( level ) ) {
             found_higher = true;
         }
     }
