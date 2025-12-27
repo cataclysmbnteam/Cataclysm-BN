@@ -5758,7 +5758,7 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
                 }
             }
 
-            result->item_counter = turns_to_clone * ( selected_syringe->get_var( "specimen_size", 1 ) + 1 );
+            result->set_counter( turns_to_clone * ( selected_syringe->get_var( "specimen_size", 1 ) + 1 ) );
             result->activate();
             here.add_item( examp, std::move( result ) );
 
@@ -6314,7 +6314,7 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
         }
 
         const std::string prompt = string_format( _( "Cancel incubation (%s left)" ),
-                                   to_string( time_duration::from_turns( ( *items_here.begin() )->item_counter ) ) );
+                                   to_string( time_duration::from_turns( ( *items_here.begin() )->get_counter() ) ) );
 
         uilist menu;
         menu.text = "What to do with the active cloning vat?";
