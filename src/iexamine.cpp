@@ -4829,6 +4829,10 @@ auto examine_hunting_trap( player &p, const tripoint_bub_ms &examp, const trap &
     } );
     if( caught ) {
         add_msg( m_good, _( "A %1$s has been caught in the %2$s." ), caught->obj().nname(), tr.name() );
+        if( !here.tr_at( examp ).hunting ) {
+            // The catch sprang the trap, so there is nothing left to bait or disarm.
+            return;
+        }
     }
     auto *const bait = trap_hunting::find_bait( here, examp );
     const auto takes_down = tr.get_difficulty() == 0 && tr.get_avoidance() == 0;

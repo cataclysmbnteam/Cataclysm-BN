@@ -254,6 +254,30 @@ auto bait_fresh_until( const item &bait, const time_point &from ) -> std::option
     return from + time_duration::from_turns( std::lround( shelf_turns * remaining ) );
 }
 
+struct spring_trap_options {
+    mapbuffer &buffer;
+    tripoint_abs_ms pos;
+    const trap &sprung;
+    time_point when;
+    mapbuffer_lookup_options lookup;
+};
+
+/// Prey set off a trap that does not survive triggering: remove it and leave what it was built
+/// from, as a disarm would.
+auto spring_trap( const spring_trap_options &opts ) -> void
+{
+    for( const auto &[type, quantity, charges] : opts.sprung.get_drops() ) {
+        for( auto i = 0; i < quantity; i++ ) {
+            auto drop = item::spawn( type, opts.when );
+            if( drop->count_by_charges() ) {
+                drop->charges = charges;
+            }
+            opts.buffer.add_item( opts.pos, std::move( drop ), opts.lookup );
+        }
+    }
+    opts.buffer.set_trap( opts.pos, tr_null, opts.lookup );
+}
+
 } // namespace
 
 IMPLEMENT_STRING_ID( hunting_habitat, habitat_factory )
@@ -572,6 +596,16 @@ auto resolve( const resolve_options &opts ) -> std::optional<mtype_id>
 
     opts.buffer.erase_item( opts.pos, { .it = bait_it, .lookup = lookup } );
     opts.buffer.add_item( opts.pos, item::make_corpse( caught->prey, caught->caught_at ), lookup );
+    const auto &sprung = trap_here->obj();
+    if( sprung.remove_trap_when_triggered() ) {
+        spring_trap( {
+            .buffer = opts.buffer,
+            .pos = opts.pos,
+            .sprung = sprung,
+            .when = caught->caught_at,
+            .lookup = lookup,
+        } );
+    }
     return caught->prey;
 }
 

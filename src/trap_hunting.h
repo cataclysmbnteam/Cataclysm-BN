@@ -143,7 +143,8 @@ struct resolve_options {
 };
 
 /// Roll for a catch since the bait at @p opts.pos was last checked.
-/// On a catch the bait is eaten and the prey's corpse is left on the trap.
+/// On a catch the bait is eaten and the prey's corpse is left on the trap. Traps that are removed
+/// when triggered are removed and leave their drops.
 auto resolve( const resolve_options &opts ) -> std::optional<mtype_id>;
 
 /// Resolve every baited hunting trap in the simulated area of @p buffer.

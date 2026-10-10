@@ -35,19 +35,29 @@ auto surround_with_forest(overmapbuffer& omb, const tripoint_abs_omt& center)
     return overrides;
 }
 
-auto set_baited_snare(map& here, const tripoint_bub_ms& pos, const itype_id& bait_type) -> void {
-    here.ter_set(pos, ter_id("t_grass"));
-    here.trap_set(pos, trap_str_id("tr_hunting_snare"));
-    auto bait = item::spawn(bait_type);
+struct baited_trap_options {
+    tripoint_bub_ms pos;
+    trap_str_id trap;
+    itype_id bait;
+};
+
+auto set_baited_trap(map& here, const baited_trap_options& opts) -> void {
+    here.ter_set(opts.pos, ter_id("t_grass"));
+    here.trap_set(opts.pos, opts.trap);
+    auto bait = item::spawn(opts.bait);
     trap_hunting::mark_as_bait(
         *bait,
         {
-            .pos = map_local_to_abs(here, pos),
+            .pos = map_local_to_abs(here, opts.pos),
             .placed_at = calendar::turn,
             .trapper_skill = 0,
             .cover = 1.0,
         });
-    here.add_item(pos, std::move(bait));
+    here.add_item(opts.pos, std::move(bait));
+}
+
+auto set_baited_snare(map& here, const tripoint_bub_ms& pos, const itype_id& bait_type) -> void {
+    set_baited_trap(here, {.pos = pos, .trap = trap_str_id("tr_hunting_snare"), .bait = bait_type});
 }
 
 auto resolve_at(map& here, const tripoint_bub_ms& pos) -> std::optional<mtype_id> {
@@ -168,6 +178,35 @@ TEST_CASE("baited hunting trap catches prey while left alone", "[trap][hunting]"
     REQUIRE(corpse != nullptr);
     CHECK(corpse->birthday() >= placed_at);
     CHECK(corpse->birthday() <= calendar::turn);
+    // Snares survive being triggered, so the catch leaves them set.
+    CHECK(here.tr_at(pos).id == trap_str_id("tr_hunting_snare"));
+
+    for (const auto& entry : overrides) { omb.ter_set(entry.pos, entry.original); }
+}
+
+TEST_CASE("bear trap springs when it catches prey", "[trap][hunting]") {
+    clear_all_state();
+    auto& here = get_map();
+    const auto pos = tripoint_bub_ms(30, 30, 0);
+    auto& omb = get_overmapbuffer(here.get_bound_dimension());
+    const auto overrides =
+        surround_with_forest(omb, project_to<coords::omt>(map_local_to_abs(here, pos)));
+
+    set_baited_trap(
+        here, {.pos = pos, .trap = trap_str_id("tr_beartrap"), .bait = itype_id("birdfood")});
+    // Few forest animals are both big enough for a bear trap and lured by seeds.
+    calendar::turn += 3 * 365_days;
+
+    const auto caught = resolve_at(here, pos);
+    REQUIRE(caught);
+    CHECK(caught->obj().size >= creature_size::small);
+    CHECK(here.tr_at(pos).is_null());
+
+    auto dropped_traps = 0;
+    for (const auto* const it : here.i_at(pos)) {
+        if (it->typeId() == itype_id("beartrap")) { dropped_traps++; }
+    }
+    CHECK(dropped_traps == 1);
 
     for (const auto& entry : overrides) { omb.ter_set(entry.pos, entry.original); }
 }

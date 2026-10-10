@@ -41,7 +41,8 @@ title: Traps
 
 A trap with a `hunting` object can be baited by examining it. While bait is set, wildlife may wander
 into the trap even when the map around it is not loaded. On a catch, the bait is eaten and the
-prey's corpse is left on the trap, aged from the moment it was caught.
+prey's corpse is left on the trap, aged from the moment it was caught. A trap with
+`remove_on_trigger` is sprung by the catch: it is removed and leaves its `drops`, as if disarmed.
 
 | Field        | Default   | Description                                           |
 | ------------ | --------- | ----------------------------------------------------- |

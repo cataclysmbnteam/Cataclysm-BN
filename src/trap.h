@@ -177,6 +177,10 @@ struct trap {
         bool remove_trap_when_triggered() const {
             return remove_on_trigger;
         }
+        /// Items ( type, quantity, charges ) returned when the trap is disarmed.
+        auto get_drops() const -> const std::vector<std::tuple<itype_id, int, int>> & { // *NOPAD*
+            return components;
+        }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint_bub_ms &pos, const Character &p ) const;
