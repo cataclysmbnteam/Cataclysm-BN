@@ -1035,5 +1035,11 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "ranch_camp_51_z1",
+    "object": { "fill_ter": "t_open_air" }
   }
 ]
