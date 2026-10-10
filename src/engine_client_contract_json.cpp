@@ -287,6 +287,7 @@ auto interaction_json( const boundary_state &state ) -> json
                 {"over_weight", t.over_weight}, {"over_volume", t.over_volume}
             };
         }
+        if( !pane.blocked_areas.empty() ) { value["blocked_areas"] = pane.blocked_areas; }
         compat["panes"].push_back( std::move( value ) );
     }
     result["compat"] = std::move( compat );

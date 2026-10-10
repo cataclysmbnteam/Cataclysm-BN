@@ -146,6 +146,7 @@ auto schema_for( const interaction_snapshot &snapshot,
             hash.add( pane.totals->weight_max + pane.totals->volume_max + pane.totals->weight_unit +
                       pane.totals->volume_unit );
         }
+        std::ranges::for_each( pane.blocked_areas, [&hash]( const auto & area ) { hash.add( area ); } );
     }
     auto ordinal = std::size_t{0};
     for( const auto &choice : snapshot.choices ) {

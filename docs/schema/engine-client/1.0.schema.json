@@ -1063,6 +1063,13 @@
             "over_volume"
           ],
           "additionalProperties": false
+        },
+        "blocked_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Registered actions of the areas the pane cannot put items in; the native screen draws them red."
         }
       },
       "required": [

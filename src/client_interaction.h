@@ -89,6 +89,8 @@ struct interaction_pane {
     std::optional<interaction_totals> totals;
     /// How the pane's rows are ordered, as the native title names it; empty when not sortable.
     std::string sort;
+    /// Registered actions of the areas this pane cannot put items in, which the native screen draws red.
+    std::vector<std::string> blocked_areas;
 };
 
 struct interaction_field {
