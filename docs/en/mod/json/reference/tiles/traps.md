@@ -36,6 +36,7 @@ title: Traps
   "hunting": { "min_size": "TINY", "max_size": "SMALL", "efficiency": 1.0 } // Lets players set bait on this trap to catch wildlife over time, see below
 },
 ```
+
 #### action
 
 The following actions are available as defined in trapfunc.cpp:
@@ -98,7 +99,6 @@ The following actions are available as defined in trapfunc.cpp:
 - `snake` - Similar to `shadow` trap effect, summons shadow snakes nearby. Main difference is NPCs
   and monsters are capable of setting it off.
 
-  
 #### hunting
 
 A trap with a `hunting` object can be baited by examining it. While bait is set, wildlife may wander
