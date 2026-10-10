@@ -16,14 +16,10 @@ class item;
 class map;
 class mapbuffer;
 class overmap_land_use_code;
-class hunting_habitat;
-class hunting_bait;
 struct mtype;
 enum class mapbuffer_lookup_mode : int;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-using hunting_habitat_id = string_id<hunting_habitat>;
-using hunting_bait_id = string_id<hunting_bait>;
 
 /// Prey pool and base catch rate for overmap tiles with given land use codes.
 class hunting_habitat

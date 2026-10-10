@@ -32,8 +32,8 @@ generic_factory<hunting_bait> bait_factory( "hunting_bait" );
 } // namespace
 
 // Specializations must precede the helpers below, which instantiate obj().
-IMPLEMENT_STRING_ID( hunting_habitat, habitat_factory )
-IMPLEMENT_STRING_ID( hunting_bait, bait_factory )
+IMPLEMENT_STRING_AND_INT_IDS( hunting_habitat, habitat_factory )
+IMPLEMENT_STRING_AND_INT_IDS( hunting_bait, bait_factory )
 
 namespace
 {
