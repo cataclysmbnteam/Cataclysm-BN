@@ -2965,8 +2965,10 @@ auto game::run_activity_skip_batch_turns( const int skipped_turns ) -> void
             } );
         } );
     }
-    {
-        // do_turn returns early during skipped windows, so its periodic hunting check never runs.
+    // do_turn returns early during skipped windows, so its periodic hunting check never runs.
+    // Match its 10 minute cadence over the whole skipped span, not just the last tick.
+    const auto skip_start = calendar::turn - time_duration::from_turns( skipped_turns );
+    if( calendar::ticks_between( skip_start, calendar::turn, 10_minutes ) > 0 ) {
         ZoneScopedN( "activity_fixed_window_hunting_traps" );
         trap_hunting::process_simulated( m.get_mapbuffer(), u.abs_pos() );
     }
