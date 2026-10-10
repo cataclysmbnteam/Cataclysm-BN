@@ -2965,6 +2965,11 @@ auto game::run_activity_skip_batch_turns( const int skipped_turns ) -> void
             } );
         } );
     }
+    {
+        // do_turn returns early during skipped windows, so its periodic hunting check never runs.
+        ZoneScopedN( "activity_fixed_window_hunting_traps" );
+        trap_hunting::process_simulated( m.get_mapbuffer(), u.abs_pos() );
+    }
 
     {
         ZoneScopedN( "do_map_process_items" );
