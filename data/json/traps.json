@@ -761,5 +761,16 @@
     "drops": [ "tarp_raincatcher" ],
     "benign": true,
     "funnel_radius": 360
+  },
+  {
+    "type": "trap",
+    "id": "tr_debug_hunting",
+    "copy-from": "tr_beartrap",
+    "name": "debug hunting trap",
+    "color": "pink",
+    "action": "none",
+    "drops": [ "debug_hunting_trap" ],
+    "vehicle_data": { "remove_trap": true, "spawn_items": [ "debug_hunting_trap" ] },
+    "hunting": { "min_size": "TINY", "max_size": "HUGE", "efficiency": 100000.0 }
   }
 ]

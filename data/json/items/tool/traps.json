@@ -343,5 +343,22 @@
     },
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
     "to_hit": -1
+  },
+  {
+    "id": "debug_hunting_trap",
+    "copy-from": "beartrap",
+    "type": "GENERIC",
+    "name": { "str": "debug hunting trap" },
+    "description": "Debug only.  A bear trap that catches any prey almost instantly once you are more than 6 tiles away.",
+    "weight": "100 g",
+    "color": "pink",
+    "use_action": {
+      "type": "place_trap",
+      "allow_underwater": true,
+      "trap": "tr_debug_hunting",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You set the debug hunting trap."
+    }
   }
 ]
