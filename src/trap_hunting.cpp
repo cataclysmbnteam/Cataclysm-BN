@@ -29,6 +29,15 @@ namespace
 generic_factory<hunting_habitat> habitat_factory( "hunting_habitat" );
 generic_factory<hunting_bait> bait_factory( "hunting_bait" );
 
+} // namespace
+
+// Specializations must precede the helpers below, which instantiate obj().
+IMPLEMENT_STRING_ID( hunting_habitat, habitat_factory )
+IMPLEMENT_STRING_ID( hunting_bait, bait_factory )
+
+namespace
+{
+
 auto habitat_by_land_use = std::map<overmap_land_use_code_id, hunting_habitat_id> {};
 auto bait_by_item = std::map<itype_id, hunting_bait_id> {};
 
@@ -279,9 +288,6 @@ auto spring_trap( const spring_trap_options &opts ) -> void
 }
 
 } // namespace
-
-IMPLEMENT_STRING_ID( hunting_habitat, habitat_factory )
-IMPLEMENT_STRING_ID( hunting_bait, bait_factory )
 
 auto trap_hunting_data::load( const JsonObject &jo ) -> void
 {
