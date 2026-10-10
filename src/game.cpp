@@ -163,6 +163,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "trap_hunting.h"
 #include "travel/travel_destination.h"
 #include "type_id.h"
 #include "ui.h"
@@ -2346,6 +2347,10 @@ bool game::do_turn()
     if( action_time_scale::once_every_this_tick( 5_minutes ) ) {
         ZoneScopedN( "do_turn_overmap_npc_move" );
         overmap_npc_move();
+    }
+    if( action_time_scale::once_every_this_tick( 10_minutes ) ) {
+        ZoneScopedN( "do_turn_hunting_traps" );
+        trap_hunting::process_simulated( m.get_mapbuffer(), u.abs_pos() );
     }
 
     if( !soundperf ) {

@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -10,6 +11,7 @@
 #include "color.h"
 #include "magic/magic.h"
 #include "translations.h"
+#include "trap_hunting_data.h"
 #include "type_id.h"
 #include "units.h"
 #include "catalua_type_operators.h"
@@ -127,6 +129,8 @@ struct trap {
     public:
         std::string looks_like;
         vehicle_handle_trap_data vehicle_data;
+        /// Present when bait can be set on this trap to catch wildlife over time.
+        std::optional<trap_hunting_data> hunting;
         std::string name() const;
         /**
          * There are special always invisible traps. See player::search_surroundings
