@@ -765,7 +765,13 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "update_mapgen": { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": [
+        { "om_terrain": "ranch_camp_51", "place_nested": [ { "chunks": [ "tacoma_commune_bar_15" ], "x": 0, "y": 0 } ] },
+        {
+          "om_terrain": "ranch_camp_51_z1",
+          "place_nested": [ { "chunks": [ "tacoma_commune_bar_roof_1" ], "x": 0, "y": 0 } ]
+        }
+      ]
     }
   },
   {
