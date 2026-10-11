@@ -104,6 +104,7 @@
 #include "map/utils/map_functions.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
+#include "map_perception.h"
 #include "mapsharing.h"
 #include "memorial_logger.h"
 #include "memory_fast.h"
@@ -1951,7 +1952,8 @@ bool game::do_turn()
     // dynamic light state in build_map_cache and from explicit map mutations.
     {
         ZoneScopedN( "do_turn_invalidate_visibility" );
-        m.invalidate_visibility_caches();
+        reset_light_level();
+        map_perception::invalidate_stale_visibility( m );
         mon_info_cache_dirty = true;
     }
 
@@ -2022,6 +2024,7 @@ bool game::do_turn()
         ZoneScopedN( "do_turn_weather_update" );
         weather.update_weather();
         reset_light_level();
+        map_perception::invalidate_stale_visibility( m );
     }
 
     {
