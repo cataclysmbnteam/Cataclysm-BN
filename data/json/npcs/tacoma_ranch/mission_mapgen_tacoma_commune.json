@@ -1139,14 +1139,27 @@
       "rows": [
         "        ",
         " wwwwww ",
-        " wccccw ",
+        " w..ccw ",
         " +....[ ",
-        " wccccw ",
+        " w.tccw ",
         " wwwwww ",
         "        "
       ],
-      "terrain": { ".": "t_dirtfloor", "c": "t_dirtfloor", "w": "t_wall_wood", "+": "t_door_c", "[": "t_window_boarded_noglass" },
-      "furniture": { "c": "f_counter" }
+      "terrain": {
+        ".": "t_dirtfloor",
+        "c": "t_dirtfloor",
+        "t": "t_dirtfloor",
+        "w": "t_wall_wood",
+        "+": "t_door_c",
+        "[": "t_window_boarded_noglass"
+      },
+      "furniture": { "t": "f_table", "c": "f_rack_wood" },
+      "place_item": [ { "item": "stepladder", "repeat": 3, "x": 2, "y": 4 } ],
+      "items": { "c": { "item": "tools_common", "chance": 100, "repeat": [ 4, 8 ] } },
+      "place_vehicles": [
+        { "vehicle": "wheelbarrow", "x": 2, "y": 2, "chance": 100, "rotation": 270 },
+        { "vehicle": "wheelbarrow", "x": 3, "y": 2, "chance": 100, "rotation": 270 }
+      ]
     }
   }
 ]
