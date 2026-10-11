@@ -24,6 +24,7 @@
 #include "overmap/overmapbuffer.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "preload_config.h"
 #include "rng.h"
 #include "state_helpers.h"
 #include "vehicle/vehicle.h"
@@ -966,4 +967,134 @@ TEST_CASE(
     REQUIRE(without != nullptr);
     CHECK(with_items->cargo);
     CHECK_FALSE(without->cargo);
+}
+
+namespace {
+/// The partition wall seen, then left out of sight and captured, so a capture cache holds it as
+/// memory.
+struct remembered_wall {
+    tripoint_bub_ms where;
+    tripoint_abs_ms abs;
+};
+
+auto remember_wall() -> remembered_wall {
+    const auto setup = make_scene();
+    // A second layer of wall on the east side hides the partition from the doorway side.
+    for (const auto dy : std::views::iota(-6, 5)) {
+        get_map().ter_set(setup.start + tripoint(3, dy, 0), ter_id("t_wall"));
+    }
+    map_perception::acquire();
+    const auto wall = setup.start + tripoint(2, -2, 0);
+    REQUIRE(get_avatar().sees(wall));
+    step_to(setup.start + tripoint(4, 5, 0));
+    REQUIRE_FALSE(get_avatar().sees(wall));
+    const auto state = ec::world::capture_world();
+    const auto* cell = find_cell(state, at(wall));
+    REQUIRE(cell != nullptr);
+    REQUIRE(cell->known == ec::knowledge::remembered);
+    REQUIRE(cell->memory);
+    return {.where = wall, .abs = map_local_to_abs(get_map(), wall)};
+}
+
+auto memory_now(const remembered_wall& wall) -> std::optional<ec::memory_layers> {
+    const auto state = ec::world::capture_world();
+    const auto* cell = find_cell(state, at(wall.where));
+    return cell == nullptr ? std::nullopt : cell->memory;
+}
+} // namespace
+
+TEST_CASE(
+    "a remembered terrain changed in memory shows in the next capture", "[engine_client_world]") {
+    const auto wall = remember_wall();
+    CHECK(memory_now(wall)->terrain.id == "t_wall");
+    get_avatar().memorize_terrain_tile(wall.abs, "t_floor", 0, 0);
+    CHECK(memory_now(wall)->terrain.id == "t_floor");
+}
+
+TEST_CASE(
+    "a memorized overlay appears and is forgotten in the next capture", "[engine_client_world]") {
+    const auto wall = remember_wall();
+    CHECK_FALSE(memory_now(wall)->overlay);
+    get_avatar().memorize_tile(wall.abs, "f_bench", 0, 0);
+    REQUIRE(memory_now(wall)->overlay);
+    CHECK(memory_now(wall)->overlay->id == "f_bench");
+    get_avatar().clear_memorized_overlay(wall.abs);
+    CHECK_FALSE(memory_now(wall)->overlay);
+}
+
+TEST_CASE(
+    "a memorized symbol changes the next capture of a square without a terrain",
+    "[engine_client_world]") {
+    const auto wall = remember_wall();
+    get_avatar().clear_memorized_tile(wall.abs);
+    CHECK_FALSE(memory_now(wall));
+    get_avatar().memorize_tile(wall.abs, "f_bench", 0, 0);
+    get_avatar().memorize_symbol(wall.abs, 'B');
+    REQUIRE(memory_now(wall));
+    CHECK(memory_now(wall)->terrain.glyph == "B");
+    get_avatar().memorize_symbol(wall.abs, 'C');
+    CHECK(memory_now(wall)->terrain.glyph == "C");
+}
+
+TEST_CASE(
+    "forgetting one square or all of memory shows in the next capture", "[engine_client_world]") {
+    const auto wall = remember_wall();
+    const auto other = wall.where + tripoint_south;
+    const auto known = [&] {
+        const auto state = ec::world::capture_world();
+        return find_cell(state, at(other)) != nullptr;
+    };
+    REQUIRE(known());
+    get_avatar().clear_memorized_tile(wall.abs);
+    CHECK_FALSE(memory_now(wall));
+    CHECK(known());
+    get_avatar().clear_map_memory();
+    CHECK_FALSE(known());
+}
+
+namespace {
+
+/// Every memorized square of the avatar's levels after a walk through the scene under `accel`.
+auto walked_memory(const preload_config::compute_accel accel, const time_duration time_of_day)
+    -> std::string {
+    const auto previous = preload_config::get_compute_accel();
+    preload_config::set_compute_accel(accel);
+    const auto restore = on_out_of_scope([&] { preload_config::set_compute_accel(previous); });
+    const auto setup = make_scene();
+    calendar::turn = calendar::turn_zero + time_of_day;
+    g->reset_light_level();
+    get_map().invalidate_map_cache(0);
+    get_avatar().clear_map_memory();
+    map_perception::acquire();
+    for (const auto step : std::views::iota(1, 6)) {
+        step_to(setup.start + tripoint(step - 1, step, 0));
+    }
+    auto& you = get_avatar();
+    auto& here = get_map();
+    auto out = std::ostringstream{};
+    for (const auto z : std::views::iota(-OVERMAP_DEPTH, OVERMAP_HEIGHT + 1)) {
+        for (const auto y : std::views::iota(0, here.getmapsize() * SEEY)) {
+            for (const auto x : std::views::iota(0, here.getmapsize() * SEEX)) {
+                const auto abs = map_local_to_abs(here, tripoint_bub_ms(x, y, z));
+                const auto terrain = you.get_terrain_tile(abs);
+                if (!terrain.tile.empty()) {
+                    out << x << ',' << y << ',' << z << ':' << terrain.tile << '/'
+                        << you.get_memorized_tile(abs).tile << ';';
+                }
+            }
+        }
+    }
+    return out.str();
+}
+
+} // namespace
+
+TEST_CASE(
+    "map memory after a walk is the same under CPU and GPU compute", "[engine_client_world]") {
+    const auto time_of_day = GENERATE(12_hours, 0_hours, 6_hours);
+    CAPTURE(time_of_day);
+    const auto cpu = walked_memory(preload_config::compute_accel::cpu, time_of_day);
+    const auto gpu = walked_memory(preload_config::compute_accel::gpu_software, time_of_day);
+    REQUIRE_FALSE(cpu.empty());
+    CHECK(cpu == gpu);
 }
