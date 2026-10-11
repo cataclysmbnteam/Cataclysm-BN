@@ -1022,6 +1022,32 @@ TEST_CASE(
     CHECK_FALSE(find_cell(state, at(setup.start + tripoint_west))->items.back().tint_vars);
 }
 
+TEST_CASE(
+    "world capture publishes the tint variables of terrain and furniture and the tint of a field",
+    "[engine_client_world]") {
+    const auto setup = make_scene();
+    auto& here = get_map();
+    const auto furn_at = setup.start + tripoint_east;
+    here.furn_set(furn_at, furn_id("f_chair"));
+    here.ter_vars(setup.start)->set("tint_color_fg", RGBColor{16, 32, 48, 255});
+    here.furn_vars(furn_at)->set("tint_brightness", 0.5f);
+    here.add_field(setup.start + tripoint_west, field_type_id("fd_acid_water"), 1);
+    map_perception::acquire();
+    const auto state = ec::world::capture_world();
+    const auto& floor = *find_cell(state, at(setup.start))->terrain;
+    REQUIRE(floor.tint_vars);
+    CHECK(floor.tint_vars->fg.color == "#102030");
+    CHECK(floor.tint_vars->bg.color.empty());
+    const auto& chair = *find_cell(state, at(furn_at))->furniture;
+    REQUIRE(chair.tint_vars);
+    CHECK(chair.tint_vars->fg.brightness == 0.5f);
+    CHECK_FALSE(find_cell(state, at(setup.start + tripoint_west))->terrain->tint_vars);
+    const auto& field = find_cell(state, at(setup.start + tripoint_west))->fields.back().appearance;
+    REQUIRE(field.tint);
+    CHECK(field.tint->bg == field.tint->fg);
+    CHECK_FALSE(field.tint->fg.empty());
+}
+
 namespace {
 /// The partition wall seen, then left out of sight and captured, so a capture cache holds it as
 /// memory.

@@ -1818,6 +1818,35 @@
       }
     },
     {
+      "def": "look",
+      "name": "look of a field with the tint of its type",
+      "value": {
+        "kind": "field",
+        "id": "fd_acid_water",
+        "glyph": "~",
+        "color": "green",
+        "tint": {
+          "bg": "#00aa00",
+          "fg": "#00aa00"
+        }
+      }
+    },
+    {
+      "def": "look",
+      "name": "look of terrain with tint variables",
+      "value": {
+        "kind": "terrain",
+        "id": "t_floor",
+        "glyph": ".",
+        "color": "light_gray",
+        "tint_vars": {
+          "fg": {
+            "color": "#102030"
+          }
+        }
+      }
+    },
+    {
       "name": "walk one step keeping the sidebar and stats",
       "def": "events_notification",
       "value": {
