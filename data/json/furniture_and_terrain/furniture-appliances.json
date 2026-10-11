@@ -2086,6 +2086,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_gridmicrowave",
+    "looks_like": "microwave",
+    "name": "grid microwave",
+    "symbol": "=",
+    "description": "A home microwave plugged into the electrical grid.",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": 1,
+    "crafting_pseudo_item": "fake_microwave",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "hotplate", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "microwave", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gridsolderingiron",
     "looks_like": "soldering_iron",
     "name": "grid soldering iron",
