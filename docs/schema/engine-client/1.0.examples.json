@@ -1777,6 +1777,47 @@
       }
     },
     {
+      "def": "hello_params",
+      "name": "hello with the tints of a tileset",
+      "value": {
+        "versions": [
+          "1.0"
+        ],
+        "client": {
+          "name": "bn-client",
+          "version": "1"
+        },
+        "tiles": true,
+        "tint_ids": [
+          "hair_black",
+          "jeans"
+        ]
+      }
+    },
+    {
+      "def": "look",
+      "name": "look of a dyed item",
+      "value": {
+        "kind": "item",
+        "id": "jeans",
+        "glyph": "[",
+        "color": "blue",
+        "tint_keys": [
+          "jeans"
+        ],
+        "tint_vars": {
+          "bg": {
+            "color": "#ff3030"
+          },
+          "fg": {
+            "color": "#ff3030",
+            "blend_mode": "multiply",
+            "brightness": 0.5
+          }
+        }
+      }
+    },
+    {
       "name": "walk one step keeping the sidebar and stats",
       "def": "events_notification",
       "value": {
@@ -2793,6 +2834,37 @@
           }
         },
         "cargo": true
+      }
+    },
+    {
+      "def": "hello_params",
+      "name": "hello with an empty tint id",
+      "value": {
+        "versions": [
+          "1.0"
+        ],
+        "client": {
+          "name": "bn-client",
+          "version": "1"
+        },
+        "tint_ids": [
+          ""
+        ]
+      }
+    },
+    {
+      "def": "look",
+      "name": "item tint of a color that is not hex",
+      "value": {
+        "kind": "item",
+        "id": "jeans",
+        "glyph": "[",
+        "color": "blue",
+        "tint_vars": {
+          "fg": {
+            "color": "red"
+          }
+        }
       }
     },
     {
