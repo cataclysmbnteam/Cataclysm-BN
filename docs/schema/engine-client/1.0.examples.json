@@ -1816,6 +1816,63 @@
           }
         }
       }
+    },
+    {
+      "name": "walk one step keeping the sidebar and stats",
+      "def": "events_notification",
+      "value": {
+        "epoch": "epoch:e7f3",
+        "events": [
+          {
+            "sequence": "70",
+            "revision": "50",
+            "type": "cells.seen",
+            "command": "c:11",
+            "changes": {
+              "avatar": {
+                "id": "e:avatar",
+                "at": {
+                  "dim": "",
+                  "x": 5,
+                  "y": 4,
+                  "z": 0
+                },
+                "name": "Ada",
+                "keep": [
+                  "stats",
+                  "inventory",
+                  "sidebar"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "advanced inventory pane with totals",
+      "def": "pane",
+      "value": {
+        "id": "pane-destination",
+        "label": "Destination",
+        "role": "destination",
+        "area_id": "area-center",
+        "area_label": "Directly under you",
+        "area_description": "",
+        "filter": "",
+        "storage_kind": "ground",
+        "sort": "name",
+        "totals": {
+          "weight": "0.0",
+          "weight_max": "",
+          "weight_unit": "kg",
+          "volume": "0.00",
+          "volume_max": "1000.00",
+          "volume_unit": "L",
+          "over_weight": false,
+          "over_volume": false
+        }
+      }
     }
   ],
   "invalid": [
@@ -2807,6 +2864,31 @@
           "fg": {
             "color": "red"
           }
+        }
+      }
+    },
+    {
+      "name": "pane totals missing a field",
+      "def": "pane",
+      "why": "totals requires every field",
+      "value": {
+        "id": "pane-destination",
+        "label": "Destination",
+        "role": "destination",
+        "area_id": "area-center",
+        "area_label": "Directly under you",
+        "area_description": "",
+        "filter": "",
+        "storage_kind": "ground",
+        "sort": "name",
+        "totals": {
+          "weight": "0.0",
+          "weight_max": "",
+          "weight_unit": "kg",
+          "volume": "0.00",
+          "volume_unit": "L",
+          "over_weight": false,
+          "over_volume": false
         }
       }
     }

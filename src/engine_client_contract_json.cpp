@@ -323,6 +323,14 @@ auto interaction_json( const boundary_state &state ) -> json
             {"area_id", pane.area_id}, {"area_label", pane.area_label},
             {"area_description", pane.area_description}, {"filter", pane.filter},
             {"storage_kind", pane.storage_kind}};
+        if( !pane.sort.empty() ) { value["sort"] = pane.sort; }
+        if( pane.totals ) {
+            const auto &t = *pane.totals;
+            value["totals"] = {{"weight", t.weight}, {"weight_max", t.weight_max}, {"weight_unit", t.weight_unit},
+                {"volume", t.volume}, {"volume_max", t.volume_max}, {"volume_unit", t.volume_unit},
+                {"over_weight", t.over_weight}, {"over_volume", t.over_volume}
+            };
+        }
         if( !pane.blocked_areas.empty() ) { value["blocked_areas"] = pane.blocked_areas; }
         compat["panes"].push_back( std::move( value ) );
     }
@@ -356,7 +364,15 @@ auto to_json( const changes &delta ) -> json
         result["gone"] = json::array();
         for( const auto &value : delta.gone ) { result["gone"].push_back( {{"id", value.id}, {"reason", value.reason}} ); }
     }
-    if( delta.avatar ) { result["avatar"] = to_json( *delta.avatar ); }
+    if( delta.avatar ) {
+        result["avatar"] = to_json( *delta.avatar );
+        if( !delta.avatar_kept.empty() ) {
+            std::ranges::for_each( delta.avatar_kept, [&]( const auto & member ) {
+                result["avatar"].erase( member );
+            } );
+            result["avatar"]["keep"] = delta.avatar_kept;
+        }
+    }
     if( delta.environment ) { result["environment"] = to_json( *delta.environment ); }
     if( delta.route ) { result["route"] = to_array( *delta.route ); }
     if( delta.interaction ) {
