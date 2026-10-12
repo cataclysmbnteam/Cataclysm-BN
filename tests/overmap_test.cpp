@@ -78,15 +78,21 @@ TEST_CASE("fluid grids preserve multiple liquid types", "[overmap][fluid_grid]")
     const auto cleanup = on_out_of_scope([] { clear_all_state(); });
     clear_map();
     auto& here = get_map();
-    const auto tank_pos = tripoint_bub_ms{g_half_mapsize_x, g_half_mapsize_y, 0};
+    const auto center_abs =
+        map_local_to_abs(here, tripoint_bub_ms{g_half_mapsize_x, g_half_mapsize_y, 0});
+    const auto tank_abs_omt = project_to<coords::omt>(center_abs);
+    // Earlier tests can shift the bubble origin. Keep every fixture inside one absolute grid tile.
+    const auto tank_abs_ms = project_to<coords::ms>(tank_abs_omt) + tripoint_rel_ms{SEEX, SEEY, 0};
+    const auto tank_pos = abs_to_map_local(here, tank_abs_ms);
     const auto water_tank_pos = tank_pos + point_south;
     const auto autofill_tank_pos = tank_pos + point_east;
     const auto sink_pos = tank_pos + point_west;
-    const auto tank_abs_ms = map_local_to_abs(here, tank_pos);
     const auto water_tank_abs_ms = map_local_to_abs(here, water_tank_pos);
     const auto autofill_tank_abs_ms = map_local_to_abs(here, autofill_tank_pos);
     const auto sink_abs_ms = map_local_to_abs(here, sink_pos);
-    const auto tank_abs_omt = project_to<coords::omt>(tank_abs_ms);
+    REQUIRE(project_to<coords::omt>(water_tank_abs_ms) == tank_abs_omt);
+    REQUIRE(project_to<coords::omt>(autofill_tank_abs_ms) == tank_abs_omt);
+    REQUIRE(project_to<coords::omt>(sink_abs_ms) == tank_abs_omt);
     const auto grid_node_abs_omt = tank_abs_omt + tripoint_rel_omt{1, 0, 0};
     const auto gasoline = itype_id("gasoline");
     const auto water = itype_id("water");
@@ -133,6 +139,7 @@ TEST_CASE("fluid grids preserve multiple liquid types", "[overmap][fluid_grid]")
     CHECK_FALSE(fluid_grid::unassign_tank_liquid(tank_abs_ms));
     const auto spare_pos = tank_pos + point_north;
     const auto spare_abs = map_local_to_abs(here, spare_pos);
+    REQUIRE(project_to<coords::omt>(spare_abs) == tank_abs_omt);
     here.furn_set(spare_pos, furn_id("f_standing_tank_plumbed"));
     fluid_grid::on_structure_changed(spare_abs);
     REQUIRE(fluid_grid::assign_tank_liquid(spare_abs, gasoline));

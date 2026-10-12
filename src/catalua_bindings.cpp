@@ -665,6 +665,29 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_try_monster_interaction", []( const sol::table & ) {} );
 
+    DOC( "Called when building the examine menu of a pet monster.  " );
+    DOC( "Return an array of tables with `menu_id` (string) and `menu_label` (string) to add menu entries.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `avatar` (Avatar)  " );
+    DOC( "* `monster` (Monster)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_monster_get_examine_menu_entries", []( const sol::table & ) {} );
+
+    DOC( "Called when an entry is selected in the examine menu of a pet monster.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `avatar` (Avatar)  " );
+    DOC( "* `monster` (Monster)  " );
+    DOC( "* `entry` (string): The selected entry id, either built-in or a `menu_id` added by `on_monster_get_examine_menu_entries`  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_monster_examine_menu_entry", []( const sol::table & ) {} );
+
+    DOC( "Called when a monster is tamed by a character.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `avatar` (Character): The character who tamed the monster  " );
+    DOC( "* `monster` (Monster)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_monster_tame", []( const sol::table & ) {} );
+
     DOC( "Called when the player swaps control to an npc.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `npc` (NPC): The NPC being controlled.  " );
@@ -728,6 +751,35 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `success` (bool)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_creature_melee_attacked", []( const sol::table & ) {} );
+
+    DOC( "Called after a character has attacked a creature in melee or hit it with a projectile.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `target` (Creature)  " );
+    DOC( "* `success` (bool)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_creature_attacked_by_character", []( const sol::table & ) {} );
+
+    DOC( "Called every turn for each active creature, before it acts.  " );
+    DOC( "This is the base hook; `on_monster_do_turn` and `on_npc_do_turn` also trigger this.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `creature` (Creature)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_creature_do_turn", []( const sol::table & ) {} );
+
+    DOC( "Called every turn for each active monster, before it acts.  " );
+    DOC( "Also triggers `on_creature_do_turn`.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `monster` (Monster)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_monster_do_turn", []( const sol::table & ) {} );
+
+    DOC( "Called every turn for each simulated NPC, before it acts.  " );
+    DOC( "Also triggers `on_creature_do_turn`.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `npc` (Npc)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_npc_do_turn", []( const sol::table & ) {} );
 
     DOC( "Called when the player attempts to move.  " );
     DOC( "All registered callbacks run; if any returns false, movement is blocked.  " );
@@ -797,6 +849,75 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `character` (Character)  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_reset_stats", []( const sol::table & ) {} );
+
+    DOC( "Called when a character wakes up from sleep.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_wake_up", []( const sol::table & ) {} );
+
+    DOC( "Called when a character tries to wear an item.  " );
+    DOC( "Return false to block wearing the item.  " );
+    DOC( "Set `params.results.allowed = false` and `params.results.message` (string), then return `params.results` to block it with a custom message.  " );
+    DOC( "Once a callback blocks, the remaining callbacks registered to this hook are not called.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `who` (Character)  " );
+    DOC( "* `item` (Item)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_try_wear", []( const sol::table & ) {} );
+
+    DOC( "Called when a character tries to take off a worn item.  " );
+    DOC( "Return false to block taking off the item.  " );
+    DOC( "Set `params.results.allowed = false` and `params.results.message` (string), then return `params.results` to block it with a custom message.  " );
+    DOC( "Once a callback blocks, the remaining callbacks registered to this hook are not called.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `who` (Character)  " );
+    DOC( "* `item` (Item)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_try_takeoff", []( const sol::table & ) {} );
+
+    DOC( "Called after a character has put on an item.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `who` (Character)  " );
+    DOC( "* `item` (Item)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_item_wear", []( const sol::table & ) {} );
+
+    DOC( "Called after a character has taken off an item.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `who` (Character)  " );
+    DOC( "* `item` (Item)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_character_item_takeoff", []( const sol::table & ) {} );
+
+    DOC( "Called when a craft is completed, and when the crafting menu builds a preview of the result.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `crafter` (Character)  " );
+    DOC( "* `craft` (Item, nil in the crafting menu): The in-progress craft item  " );
+    DOC( "* `item` (Item): The resulting item, or its contents if the result is a container  " );
+    DOC( "* `recipe` (RecipeRaw)  " );
+    DOC( "* `batch_size` (int)  " );
+    DOC( "* `hot_result` (bool): True if the result is food and the recipe requires a heating tool (e.g. `surface_heat`)  " );
+    DOC( "* `dehydrated_result` (bool): True if the result is food and the recipe requires a dehydrator or a charcoal smoker  " );
+    DOC( "* `crafting_menu` (bool): True if called for the crafting menu preview  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_craft_result", []( const sol::table & ) {} );
+
+    DOC( "Called when the player tries to cast a spell, before the casting activity starts.  " );
+    DOC( "Return false to block casting.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Avatar)  " );
+    DOC( "* `spell` (Spell)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_spell_try_cast", []( const sol::table & ) {} );
+
+    DOC( "Called after a spell has been cast.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `char` (Character)  " );
+    DOC( "* `spell` (Spell)  " );
+    DOC( "* `target_pos` (TripointBubMs)  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_spell_cast", []( const sol::table & ) {} );
 
     DOC( "Called when a skill is confirmed on the character display (`@`) skill tab.  " );
     DOC( "The hook receives a table with keys:  " );
@@ -952,6 +1073,13 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `when` (TimePoint): The current time (for time-based effects).  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_mapgen_postprocess", []( const sol::table & ) {} );
+
+    DOC( "Called when checking which mapgen ids are used, during mapgen consistency checks.  " );
+    DOC( "Insert mapgen ids that are only used from Lua to suppress the \"not used by anything\" error.  " );
+    DOC( "The hook receives a table with keys:  " );
+    DOC( "* `results` (set of string): The mapgen ids that are in use  " );
+    DOC_PARAMS( "params" );
+    luna::set_fx( lib, "on_make_mapgen_factory_list", []( const sol::table & ) {} );
 
     DOC( "Called right after mission has started.  " );
     DOC( "The hook receives a table with keys:  " );
