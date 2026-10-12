@@ -526,7 +526,7 @@
   {
     "id": "blankets",
     "type": "item_group",
-    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
+    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS and MISSION_RANCH_FOREMAN_2 quests",
     "items": [
       [ "blanket", 100 ],
       [ "fur_blanket", 100 ],
@@ -541,6 +541,12 @@
     "type": "item_group",
     "//": "Level 3 anvil quality, used for the MISSION_ISHERWOOD_CARLOS_1 quest",
     "items": [ [ "anvil", 100 ], [ "anvil_bronze", 100 ] ]
+  },
+  {
+    "id": "first_aid_kits_any",
+    "type": "item_group",
+    "//": "Used for the MISSION_RANCH_FOREMAN_10 quest",
+    "items": [ [ "1st_aid", 100 ], [ "1st_aid_deluxe", 100 ], [ "1st_aid_ifak", 100 ] ]
   },
   {
     "id": "file_room",
