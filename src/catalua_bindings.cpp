@@ -1054,8 +1054,10 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_npc_loaded", []( const sol::table & ) {} );
 
-    DOC( "Called every in-game period" );
-    luna::set_fx( lib, "on_every_x", []( const sol::table & ) {} );
+    DOC( "Called every in-game period.  " );
+    DOC( "Not registered through `game.add_hook`; use `gapi.add_on_every_x_hook( interval, fn )` instead.  " );
+    DOC( "The callback receives no arguments. Return `false` to unregister it." );
+    luna::set_fx( lib, "on_every_x", []() {} );
 
     DOC( "Called when an explosion starts.  " );
     DOC( "The hook receives a table with keys:  " );
