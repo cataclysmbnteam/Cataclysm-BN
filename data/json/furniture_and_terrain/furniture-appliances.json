@@ -2097,7 +2097,7 @@
     "required_str": 1,
     "crafting_pseudo_item": "fake_microwave",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "hotplate", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
