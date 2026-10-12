@@ -95,7 +95,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "C4",
+    "use_action": { "target": "c4armed", "active": true, "set_timer": true, "menu_text": "Arm bomb", "type": "transform" },
     "flags": [ "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -111,8 +111,8 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 9,
-    "max_charges": 9,
+    "//": "Doesn't affect timer but instead default value when called by C-4 hacks.",
+    "max_charges": 10,
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
@@ -137,7 +137,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "C4_BREACHING",
+    "use_action": { "target": "c4_breaching_armed", "active": true, "set_timer": true, "menu_text": "Arm bomb", "type": "transform" },
     "flags": [ "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -153,8 +153,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 9,
-    "max_charges": 9,
+    "max_charges": 10,
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
@@ -306,14 +305,7 @@
     "explode_in_fire": true,
     "explosion": { "damage": 50, "radius": 7 },
     "color": "light_gray",
-    "use_action": {
-      "target": "EMPbomb_act",
-      "msg": "You activate the EMP bomb.",
-      "target_charges": 10,
-      "active": true,
-      "menu_text": "Activate bomb",
-      "type": "transform"
-    },
+    "use_action": { "target": "EMPbomb_act", "set_timer": true, "active": true, "menu_text": "Activate bomb", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -333,7 +325,6 @@
     "explode_in_fire": true,
     "explosion": { "damage": 50, "radius": 7 },
     "color": "light_gray",
-    "initial_charges": 10,
     "max_charges": 10,
     "turns_per_charge": 1,
     "use_action": {
@@ -969,7 +960,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_green",
-    "use_action": "MININUKE",
+    "use_action": { "target": "mininuke_act", "active": true, "set_timer": true, "menu_text": "Arm mininuke", "type": "transform" },
     "flags": [
       "LEAK_DAM",
       "RADIOACTIVE",
@@ -997,7 +988,8 @@
     "symbol": "*",
     "color": "light_green",
     "turns_per_charge": 1,
-    "max_charges": 1000,
+    "//": "Doesn't affect timer but instead default value when called by mininuke hacks.",
+    "max_charges": 20,
     "use_action": {
       "type": "explosion",
       "fields_type": "fd_nuke_gas",
@@ -1013,7 +1005,7 @@
         "fragment": { "impact": { "damage_type": "heat", "amount": 3000, "armor_multiplier": 2 }, "range": 24 }
       }
     },
-    "//": "Allowed to 'use' remotely so that triggering the message telling you to run won't put it back in your inventory and cause a YASD",
+    "//2": "Allowed to 'use' remotely so that triggering the message telling you to run won't put it back in your inventory and cause a YASD",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL", "ALLOWS_REMOTE_USE" ]
   },
   {

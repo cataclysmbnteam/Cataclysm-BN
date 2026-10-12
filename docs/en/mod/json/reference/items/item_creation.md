@@ -912,6 +912,7 @@ All object defined use actions support the following two types.
     "need_dry": false,                  // Whether the item cannot transform while submerged in water, false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
+    "set_timer": false,   // Query the player on activation how many charges the transformed item should have, e.g. C-4. False by default.
     "container" : "jar",  // Container holding the target item.
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },

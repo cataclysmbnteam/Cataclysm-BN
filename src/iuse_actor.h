@@ -58,6 +58,9 @@ class iuse_transform : public iuse_actor
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
 
+        /** if true, ask player how many charges to set ammo of active item to */
+        bool set_timer = false;
+
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;
 
