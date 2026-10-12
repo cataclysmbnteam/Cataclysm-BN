@@ -609,7 +609,7 @@
         " www++www   wwwwwwww ",
         "                     "
       ],
-      "terrain": { ".": "t_region_soil", "w": "t_wall_wood", "+": "t_door_c", "[": "t_window_boarded_noglass" }
+      "terrain": { ".": "t_dirtfloor", "w": "t_wall_wood", "+": "t_door_c", "[": "t_window_boarded_noglass" }
     }
   },
   {
@@ -798,6 +798,76 @@
       "terrain": { ".": "t_floor", "w": "t_wall_wood", "+": "t_door_c", "[": "t_window_boarded_noglass" },
       "furniture": { "#": "f_makeshift_bed", "d": "f_dresser" },
       "place_npcs": [ { "class": "ranch_doctor", "x": 15, "y": 7 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_clinic_roof_1",
+    "object": {
+      "mapgensize": [ 21, 24 ],
+      "rows": [
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        " ........   ........ ",
+        " ........   ........ ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ........   ........ ",
+        "                     "
+      ],
+      "terrain": { ".": "t_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_clinic_roof_2",
+    "object": {
+      "mapgensize": [ 21, 24 ],
+      "rows": [
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        " ........   ........ ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        " ................... ",
+        "   ...............   ",
+        "   ...............   ",
+        "   ...............   ",
+        "         ...         ",
+        "         ...         ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     "
+      ],
+      "terrain": { ".": "t_flat_roof" }
     }
   },
   {
@@ -1082,6 +1152,30 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tacoma_commune_lumbermill_roof_1",
+    "object": {
+      "mapgensize": [ 12, 13 ],
+      "rows": [
+        "            ",
+        "            ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        " .......... ",
+        "            "
+      ],
+      "terrain": { ".": "t_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tacoma_commune_outhouse_8",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -1160,6 +1254,24 @@
         { "vehicle": "wheelbarrow", "x": 2, "y": 2, "chance": 100, "rotation": 270 },
         { "vehicle": "wheelbarrow", "x": 3, "y": 2, "chance": 100, "rotation": 270 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_toolshed_roof_1",
+    "object": {
+      "mapgensize": [ 8, 7 ],
+      "rows": [
+        "        ",
+        " ...... ",
+        " ...... ",
+        " ...... ",
+        " ...... ",
+        " ...... ",
+        "        "
+      ],
+      "terrain": { ".": "t_flat_roof" }
     }
   }
 ]

@@ -1039,7 +1039,25 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "ranch_camp_50_z1",
+    "object": { "fill_ter": "t_open_air" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "ranch_camp_51_z1",
+    "object": { "fill_ter": "t_open_air" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "ranch_camp_58_z1",
+    "object": { "fill_ter": "t_open_air" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "ranch_camp_59_z1",
     "object": { "fill_ter": "t_open_air" }
   }
 ]
