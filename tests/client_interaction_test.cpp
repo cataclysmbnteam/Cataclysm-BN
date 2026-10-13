@@ -4317,6 +4317,10 @@ TEST_CASE(
     const auto noted = here + point_east * 3;
     // A note with a glyph prefix: the corner shows only its text.
     ACTIVE_OVERMAP_BUFFER.add_note(noted, "C:cache");
+    const auto remove_note = on_out_of_scope([noted]() {
+        ACTIVE_OVERMAP_BUFFER.delete_note(noted);
+    });
+    const auto restore_path = restore_on_out_of_scope<std::vector<tripoint_abs_omt>>(you.omt_path);
     you.omt_path = {here + point_east, here + point_east * 2};
     auto reads = 0;
     game_client::memory::set_input_provider([&](const int /*timeout*/) {
@@ -4342,7 +4346,6 @@ TEST_CASE(
     });
     ui::omap::display();
     CHECK(reads == 2);
-    ACTIVE_OVERMAP_BUFFER.delete_note(noted);
 }
 
 TEST_CASE(
