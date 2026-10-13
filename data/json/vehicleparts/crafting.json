@@ -635,5 +635,29 @@
     ],
     "workbench": { "multiplier": 1.8, "mass": "300 kg", "volume": "30L" },
     "damage_reduction": { "all": 25 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "veh_microwave",
+    "integrated_tools": [ "fake_microwave" ],
+    "name": { "str": "microwave" },
+    "symbol": "#",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 50,
+    "item": "microwave",
+    "folded_volume": "9 L",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "15 m",
+        "using": [ [ "soldering_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
+      }
+    },
+    "flags": [ "FOLDABLE", "SHOCK_RESISTANT", "CRAFTER" ],
+    "breaks_into": [ { "item": "e_scrap", "count": [ 1, 2 ] }, { "item": "plastic_chunk", "count": [ 3, 6 ] } ]
   }
 ]

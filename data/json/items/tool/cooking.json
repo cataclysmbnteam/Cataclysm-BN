@@ -934,6 +934,7 @@
     "id": "multi_cooker_improved",
     "type": "TOOL",
     "copy-from": "multi_cooker",
+    "sub": "multi_cooker",
     "name": { "str": "improved multi cooker" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating. This has been tinkered with.",
     "use_action": [
