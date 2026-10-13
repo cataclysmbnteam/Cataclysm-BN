@@ -149,7 +149,6 @@ jobs:
           path: .
 
       - uses: denoland/setup-deno@v2
-        with: { cache: true }
 
       - name: Create VERSION.TXT
         shell: bash
