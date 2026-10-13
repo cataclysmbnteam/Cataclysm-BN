@@ -1018,6 +1018,80 @@ TEST_CASE(
 }
 
 TEST_CASE(
+    "advanced inventory publishes its area picker with the keys the player bound",
+    "[client][interaction][advanced_inventory][mcp]") {
+    const auto guard = interaction_test_guard{};
+    const auto fixture = advanced_inventory_fixture_guard{};
+    // The manager hands out its stored bindings; the test rebinds the key through them and restores
+    // it.
+    auto& bound = const_cast<std::vector<input_event>&>(
+        inp_mngr.get_input_for_action("ITEMS_N", "ADVANCED_INVENTORY"));
+    const auto original = bound;
+    const auto restore = on_out_of_scope([&]() { bound = original; });
+    bound = {input_event('z', input_event_t::keyboard)};
+    auto observed = game_client::interaction_snapshot{};
+    game_client::memory::set_input_provider([&](const int /*timeout*/) {
+        observed = game_client::current_interaction({.limit = 200});
+        return resolve({
+            .input_id = observed.input_id,
+            .operation = game_client::interaction_operation::cancel,
+        });
+    });
+
+    create_advanced_inv();
+
+    const auto area = [&](const std::string& action) {
+        const auto found =
+            std::ranges::find(observed.areas, action, &game_client::interaction_area::action_id);
+        REQUIRE(found != observed.areas.end());
+        return *found;
+    };
+    CHECK(observed.areas.size() == NUM_AIM_LOCATIONS);
+    const auto container = area("ITEMS_CONTAINER");
+    // With no vehicle grabbed that area does not exist; the inventory always does.
+    CHECK_FALSE(area("ITEMS_DRAGGED_CONTAINER").available);
+    CHECK(area("ITEMS_INVENTORY").available);
+    CHECK(container.label == "Container");
+    CHECK(container.key == "c");
+    CHECK(std::pair{container.x, container.y} == std::pair{0, 0});
+    const auto inventory = area("ITEMS_INVENTORY");
+    CHECK(inventory.label == "Inventory");
+    CHECK(std::pair{inventory.x, inventory.y} == std::pair{3, 1});
+    // The key is the player's binding, not the native header's fixed mark.
+    const auto north = area("ITEMS_N");
+    CHECK(north.label == "North");
+    CHECK(north.key == "z");
+    CHECK(std::pair{north.x, north.y} == std::pair{11, 0});
+    REQUIRE_FALSE(observed.panes.empty());
+    CHECK(observed.panes.front().area_label == inventory.label);
+}
+
+TEST_CASE(
+    "the in-game main menu names its rows by the action they run",
+    "[client][interaction][mcp][main_menu]") {
+    const auto guard = interaction_test_guard{};
+    auto observed = game_client::interaction_snapshot{};
+    game_client::memory::set_input_provider([&](const int /*timeout*/) {
+        observed = game_client::current_interaction({.limit = 200});
+        return resolve({
+            .input_id = observed.input_id,
+            .operation = game_client::interaction_operation::cancel,
+        });
+    });
+
+    CHECK(handle_main_menu() == ACTION_NULL);
+
+    CHECK(std::ranges::all_of(observed.choices, [](const auto& choice) {
+        return !choice.action_id.empty();
+    }));
+    const auto options = std::ranges::
+        find(observed.choices, "open_options", &game_client::interaction_choice::action_id);
+    REQUIRE(options != observed.choices.end());
+    CHECK(options->enabled);
+    CHECK(options->label == "Options");
+}
+
+TEST_CASE(
     "advanced inventory distinguishes inventory and mixed ground cargo storage",
     "[client][interaction][advanced_inventory][mcp]") {
     const auto guard = interaction_test_guard{};
@@ -2402,6 +2476,38 @@ TEST_CASE(
         pickup::pick_up(pickup_test_pos, 0, pickup::from_ground);
         finish_pickup_activity(get_avatar());
         CHECK(reads == 2);
+    }
+
+    SECTION("the header marks the predicted weight red once it passes the capacity") {
+        const auto fixture = pickup_fixture_guard{};
+        const auto id = itype_id("test_1kg_cube");
+        std::ranges::for_each(std::views::iota(0, 60), [&](const auto /*index*/) {
+            add_ground_item(id);
+        });
+        auto reads = 0;
+        auto message = std::string{};
+        game_client::memory::set_input_provider([&](const int /*timeout*/) {
+            const auto snapshot = game_client::current_interaction();
+            REQUIRE(snapshot.context == "PICKUP");
+            if (reads++ == 0) {
+                CHECK_FALSE(snapshot.message.contains("<color_c_red>"));
+                return resolve({
+                    .input_id = snapshot.input_id,
+                    .operation = game_client::interaction_operation::set_count,
+                    .target_id = snapshot.choices.front().id,
+                    .count = 60,
+                });
+            }
+            message = snapshot.message;
+            return resolve({
+                .input_id = snapshot.input_id,
+                .operation = game_client::interaction_operation::cancel,
+            });
+        });
+
+        pickup::pick_up(pickup_test_pos, 0, pickup::from_ground);
+        CHECK(reads == 2);
+        CHECK(message.contains("<color_c_red>"));
     }
 
     SECTION("three of ten charges") {
@@ -4081,6 +4187,13 @@ TEST_CASE(
         CHECK(om.foreground.size() == om.glyphs.size());
         CHECK(om.player == game_client::interaction_position{player.x(), player.y(), player.z()});
         CHECK_FALSE(om.legend.empty());
+        // The cursor square is described in plain words, not as the sidebar's framed text.
+        CHECK_FALSE(om.cursor_description.empty());
+        CHECK_FALSE(om.cursor_description.contains("│"));
+        INFO(om.cursor_description);
+        CHECK(std::ranges::any_of(om.legend, [&](const auto& line) {
+            return line.contains(om.cursor_description.substr(0, om.cursor_description.find(' ')));
+        }));
         const auto cursor = snapshot.target->cursor;
         // The window is centered on the cursor, as on the native screen.
         CHECK(om.origin.x == cursor.x - om.cols / 2);
@@ -5244,6 +5357,7 @@ TEST_CASE(
                 CHECK_FALSE(view.parts.empty());
                 CHECK_FALSE(view.stats.empty());
                 CHECK_FALSE(view.detail);
+                CHECK(view.verb.empty());
                 CHECK(view.owned);
                 // Every denied action says why; nothing is damaged yet, so repair is denied.
                 for (const auto& choice : snapshot.choices) {
@@ -5262,6 +5376,7 @@ TEST_CASE(
                 // The install list: tabs, candidate parts, and the requirements of the highlighted
                 // one.
                 CHECK(view.mode == "install");
+                CHECK(view.verb == "Install");
                 REQUIRE(view.tabs);
                 CHECK(view.tabs->labels.size() == 8);
                 CHECK(view.tabs->selected == 0);
@@ -5271,6 +5386,16 @@ TEST_CASE(
                 CHECK(view.detail->name == highlighted->label);
                 CHECK_FALSE(view.detail->requirements.empty());
                 CHECK_FALSE(view.detail->time.empty());
+                CHECK(view.detail->time_heading == "Time required:");
+                REQUIRE(view.detail->groups.size() == 4);
+                const auto& groups = view.detail->groups;
+                CHECK(groups[0].kind == "skill");
+                CHECK(groups[0].heading == "Skills required:");
+                CHECK(groups[0].empty_text == "NONE");
+                CHECK(groups[1].heading == "Components required:");
+                CHECK(groups[2].heading == "Tools required:");
+                CHECK(groups[3].heading == "Additional requirements:");
+                CHECK(groups[1].empty_text.empty());
                 // Without the materials the highlighted part cannot be installed, and says why.
                 CHECK(highlighted->enabled == view.detail->can_do);
                 CHECK((view.detail->can_do || !highlighted->denial.empty()));
@@ -5304,6 +5429,7 @@ TEST_CASE(
                 return command(choose, "action:REMOVE");
             case 6: {
                 CHECK(view.mode == "remove");
+                CHECK(view.verb == "Remove");
                 REQUIRE(view.detail);
                 CHECK(view.detail->name == highlighted->label);
                 // Removing needs a tool the character lacks, which the rows say.
