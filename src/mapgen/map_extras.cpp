@@ -2933,6 +2933,11 @@ void map_extra::load(const JsonObject& jo, const std::string&) {
             jg.get_enum_value<map_extra_method>("generator_method", map_extra_method::null);
         mandatory(jg, was_loaded, "generator_id", generator_id);
     }
+    if (jo.has_object("path_cost")) {
+        JsonObject jp = jo.get_object("path_cost");
+        optional(jp, was_loaded, "on_foot", pathing_cost.on_foot);
+        optional(jp, was_loaded, "land_vehicle", pathing_cost.land_vehicle);
+    }
     optional(jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE);
     color = jo.has_member("color") ? color_from_string(jo.get_string("color")) : c_white;
     optional(jo, was_loaded, "looks_like", looks_like);
