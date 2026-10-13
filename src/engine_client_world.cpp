@@ -144,8 +144,8 @@ auto tint_generation() -> std::size_t & // *NOPAD*
     return generation;
 }
 
-auto flag_text( const std::string &flag ) -> const std::string& { return flag; }
-auto flag_text( const flag_id &flag ) -> const std::string& { return flag.str(); }
+auto flag_text( const std::string &flag ) -> const std::string & { return flag; }
+auto flag_text( const flag_id &flag ) -> const std::string & { return flag.str(); }
 
 /// What a tileset's tints are tried by for a thing, in the native order, kept to those the client has:
 /// its flags, then its id.
@@ -694,6 +694,16 @@ auto season_name() -> std::string
     }
 }
 
+/// The row text of a stack: what the native lists show for `count` equal items, and where a wielded or worn one is.
+auto stack_label( const item &thing, const std::size_t count,
+                  const std::optional<std::string> &slot ) -> std::string
+{
+    const auto name = thing.display_name( count );
+    if( slot == "wielded" ) { return string_format( _( "%s (wielded)" ), name ); }
+    if( slot == "worn" ) { return string_format( _( "%s (worn)" ), name ); }
+    return name;
+}
+
 /// One inventory row for a stack of equal items, named the way the native lists show it.
 auto stack_entry( const item &thing, const std::size_t count,
                   std::optional<std::string> slot = std::nullopt ) -> inventory_entry
@@ -705,7 +715,7 @@ auto stack_entry( const item &thing, const std::size_t count,
                       :
                       std::nullopt;
     return { .appearance = item_look( thing ), .name = remove_color_tags( thing.display_name() ), .count = count,
-             .slot = std::move( slot ), .durability = std::move( durability ) };
+             .slot = slot, .durability = std::move( durability ), .label = stack_label( thing, count, slot ) };
 }
 
 /// Gives each row an id from its slot, kind and name; equal rows are told apart by their order.
@@ -767,8 +777,11 @@ auto item_stacks( map &here, const avatar &you ) -> avatar_item_stacks
                 return entry.row.name == remove_color_tags( thing->display_name() ) &&
                        entry.row.appearance.id == thing->typeId().str();
             } );
-            if( same != result.ground.end() ) { same->items.push_back( thing ); ++*same->row.count; }
-            else { result.ground.push_back( { stack_entry( *thing, 1 ), { thing } } ); }
+            if( same != result.ground.end() ) {
+                same->items.push_back( thing );
+                ++*same->row.count;
+                same->row.label = stack_label( *thing, *same->row.count, std::nullopt );
+            } else { result.ground.push_back( { stack_entry( *thing, 1 ), { thing } } ); }
         }
     }
     result.inventory = identified( std::move( result.inventory ) );
