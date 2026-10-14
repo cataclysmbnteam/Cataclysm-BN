@@ -96,7 +96,7 @@
     "looks_like": "landmine",
     "description": "Mines are scattered here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_minefield" },
-    "path_cost": { "on_foot": -1, "land_vehicle": -1},
+    "path_cost": { "on_foot": -1, "land_vehicle": -1 },
     "sym": "M",
     "color": "red",
     "autonote": true
