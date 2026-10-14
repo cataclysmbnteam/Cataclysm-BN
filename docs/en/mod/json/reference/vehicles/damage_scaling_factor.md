@@ -32,7 +32,7 @@ Things to note:
 
 - Raising the option moves both thresholds up, so more of the bell curve falls into the damaged
   and broken ranges.
-- Partial damage never reaches 100%. Its highest value is `1 - 1 / (unhurt - broken)`, so HP jumps to
+- A damaged part never keeps 100% HP. Its highest HP is `1 - 1 / (unhurt - broken)`, so HP jumps to
   100% at `roll == unhurt`.
 - Values below `0.25` leave `unhurt` at 4 or less. Since the lowest possible roll is 4, no damage
   happens at all.
@@ -42,14 +42,20 @@ Things to note:
 ## Interactive chart
 
 Each row is one possible `4d8` result, from the highest roll at the top to the lowest at the bottom.
-The bar length is the chance of that roll, and its color is the outcome. A partial damage bar shifts
-from green to red as the resulting HP drops. The line under the `unhurt` row and the line above the
-`broken` row mark the thresholds.
+The bar length is the chance of that roll, and its color is the outcome, using in-game colors:
+
+- **Undamaged**: `light_green`.
+- **Damaged**: blends from `green` (full HP) to `light_red` (0 HP) in 5% steps.
+- **Broken**: `red`.
+
+The line under the `unhurt` row and the line above the `broken` row mark the thresholds.
 
 <style>
 #vehicle-damage-tool {
-  --vds-full: #3f9b5a;
-  --vds-broken: #c64a3f;
+  --vds-full: rgb(0 255 0);
+  --vds-broken: rgb(255 0 0);
+  --vds-damaged-high: rgb(0 110 0);
+  --vds-damaged-low: rgb(255 150 150);
   --vds-line: currentColor;
   margin: 1.5rem 0;
 }
@@ -81,8 +87,8 @@ from green to red as the resulting HP drops. The line under the `unhurt` row and
   vertical-align: middle;
 }
 #vehicle-damage-tool .vds-swatch.vds-full { background: var(--vds-full); }
-#vehicle-damage-tool .vds-swatch.vds-partial {
-  background: linear-gradient(90deg, var(--vds-broken), var(--vds-full));
+#vehicle-damage-tool .vds-swatch.vds-damaged {
+  background: linear-gradient(90deg, var(--vds-damaged-low), var(--vds-damaged-high));
 }
 #vehicle-damage-tool .vds-swatch.vds-broken { background: var(--vds-broken); }
 #vehicle-damage-tool .vds-chart {
@@ -116,9 +122,6 @@ from green to red as the resulting HP drops. The line under the `unhurt` row and
 }
 #vehicle-damage-tool .vds-row.vds-full .vds-bar { background: var(--vds-full); }
 #vehicle-damage-tool .vds-row.vds-broken .vds-bar { background: var(--vds-broken); }
-#vehicle-damage-tool .vds-row.vds-partial .vds-bar {
-  background: color-mix(in srgb, var(--vds-full) var(--hp), var(--vds-broken));
-}
 #vehicle-damage-tool .vds-row.vds-mark-unhurt { border-bottom: 2px dashed var(--vds-full); }
 #vehicle-damage-tool .vds-row.vds-mark-broken { border-top: 2px dashed var(--vds-broken); }
 </style>
@@ -144,7 +147,7 @@ from green to red as the resulting HP drops. The line under the `unhurt` row and
 
 ## Reference values
 
-| Factor | `broken` / `unhurt` | Broken | Partial | Undamaged | Expected HP |
+| Factor | `broken` / `unhurt` | Broken | Damaged | Undamaged | Expected HP |
 | ------ | ------------------- | ------ | ------- | --------- | ----------- |
 | 0.0    | 0 / 0               | 0%     | 0%      | 100%      | 100%        |
 | 0.5    | 4 / 10              | 0.0%   | 3.1%    | 96.9%     | 99.0%       |

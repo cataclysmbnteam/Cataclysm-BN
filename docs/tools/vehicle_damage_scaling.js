@@ -27,7 +27,22 @@ const truncFloatProduct = (factor, chance) => Math.trunc(Math.fround(factor * Ma
 const classify = (roll, broken, unhurt) => {
   if (roll >= unhurt) return { kind: "full", hp: 1 }
   if (roll <= broken) return { kind: "broken", hp: 0 }
-  return { kind: "partial", hp: (roll - broken) / (unhurt - broken) }
+  return { kind: "damaged", hp: (roll - broken) / (unhurt - broken) }
+}
+
+/** In-game RGB values from `data/raw/colors.json`. */
+const GAME_COLORS = {
+  green: [0, 110, 0],
+  light_red: [255, 150, 150],
+}
+
+/** Damaged bars blend `light_red` (0 HP) into `green` (full HP) in 5% steps. */
+const damagedColor = (hp) => {
+  const step = Math.round(hp * 20) / 20
+  const channels = GAME_COLORS.light_red.map((low, i) =>
+    Math.round(low + (GAME_COLORS.green[i] - low) * step)
+  )
+  return `rgb(${channels.join(" ")})`
 }
 
 const percent = (value, digits = 1) => `${(value * 100).toFixed(digits)}%`
@@ -45,7 +60,7 @@ const render = (chance) => {
   const unhurt = truncFloatProduct(20, chance)
 
   const rows = []
-  const totals = { full: 0, partial: 0, broken: 0 }
+  const totals = { full: 0, damaged: 0, broken: 0 }
   let expectedHp = 0
 
   for (let roll = maxRoll; roll >= minRoll; roll--) {
@@ -60,11 +75,12 @@ const render = (chance) => {
     if (roll === broken) row.classList.add("vds-mark-broken")
 
     const width = (probability / maxProbability) * 100
-    const hpLabel = kind === "partial" ? percent(hp, 0) : kind === "full" ? "100%" : "0%"
+    const hpLabel = kind === "damaged" ? percent(hp, 0) : kind === "full" ? "100%" : "0%"
+    const barColor = kind === "damaged" ? `;background:${damagedColor(hp)}` : ""
     row.innerHTML = `
       <span class="vds-roll">${roll}</span>
       <span class="vds-track">
-        <span class="vds-bar" style="width:${width}%;--hp:${hp * 100}%"></span>
+        <span class="vds-bar" style="width:${width}%${barColor}"></span>
       </span>
       <span class="vds-prob">${percent(probability, 2)}</span>
       <span class="vds-hp">${hpLabel}</span>`
@@ -77,8 +93,8 @@ const render = (chance) => {
     <li><span class="vds-swatch vds-full"></span>Undamaged: <strong>${
     percent(totals.full)
   }</strong></li>
-    <li><span class="vds-swatch vds-partial"></span>Partially damaged: <strong>${
-    percent(totals.partial)
+    <li><span class="vds-swatch vds-damaged"></span>Damaged: <strong>${
+    percent(totals.damaged)
   }</strong></li>
     <li><span class="vds-swatch vds-broken"></span>Broken (0 HP): <strong>${
     percent(totals.broken)
