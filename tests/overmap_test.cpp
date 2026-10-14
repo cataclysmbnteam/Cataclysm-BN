@@ -224,12 +224,14 @@ TEST_CASE("travel_path_prices_map_extras", "[overmap][travel_path]") {
         CHECK(!crosses_extra(path));
     }
     SECTION("a walker never enters an impassable extra") {
-        const auto path = omb.get_travel_path(road_start, road_end, overmap_path_params::for_player());
+        const auto path =
+            omb.get_travel_path(road_start, road_end, overmap_path_params::for_player());
         REQUIRE(!path.empty());
         CHECK(!crosses_extra(path));
     }
     SECTION("the destination is exempt from its extra's cost") {
-        CHECK(!omb.get_travel_path(road_start, extra_pos, overmap_path_params::for_player()).empty());
+        CHECK(
+            !omb.get_travel_path(road_start, extra_pos, overmap_path_params::for_player()).empty());
     }
     SECTION("without the extra, a vehicle stays on the road") {
         omb.delete_extra(extra_pos);

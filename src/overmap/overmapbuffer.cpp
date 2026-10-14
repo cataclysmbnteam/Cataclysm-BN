@@ -872,7 +872,8 @@ auto overmap_path_params::for_watercraft() -> overmap_path_params {
     overmap_path_params ret;
     ret.water_cost = 10;
     ret.shore_cost = 20;
-    ret.extra_cost = extra_mode_code::land_vehicle; // Don't think any map extras spawn on water atm, so...
+    ret.extra_cost = extra_mode_code::land_vehicle; // Don't think any map extras spawn on water
+                                                    // atm, so...
     return ret;
 }
 
