@@ -3361,6 +3361,7 @@
     "description": "You have a long tail that ends in a vicious stinger.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
+    "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],

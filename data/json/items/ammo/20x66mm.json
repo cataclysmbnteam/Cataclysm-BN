@@ -53,7 +53,7 @@
     "price": "100 USD",
     "price_postapoc": "80 USD",
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 4, "armor_multiplier": 1.5 },
+    "damage": { "damage_type": "bullet", "amount": 38, "armor_penetration": 13 },
     "dispersion": 120,
     "effects": [ "COOKOFF", "AMMO_20x66_EXP", "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ]
   },

@@ -1367,17 +1367,22 @@
   {
     "type": "construction_group",
     "id": "place_rv_kitchen_unit",
-    "name": "Place RV-kitchen unit"
+    "name": "Place RV-kitchen Unit"
   },
   {
     "type": "construction_group",
     "id": "place_hotplate",
-    "name": "Plug In hotplate"
+    "name": "Plug In Hotplate"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_microwave",
+    "name": "Plug In Microwave"
   },
   {
     "type": "construction_group",
     "id": "place_soldering_iron",
-    "name": "Plug In soldering iron"
+    "name": "Plug In Soldering Iron"
   },
   {
     "type": "construction_group",
@@ -1698,6 +1703,11 @@
     "type": "construction_group",
     "id": "build_shower",
     "name": "Build Shower Booth"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sink",
+    "name": "Build Sink"
   },
   {
     "type": "construction_group",

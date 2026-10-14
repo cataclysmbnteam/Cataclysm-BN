@@ -890,7 +890,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         } else {
-            // Look for any contents we can hold
+            // Look for any contents we can hold, exclude stackable generics
             src.visit_items( [&nested, &out]( item * node ) {
                 if( ( node->is_watertight_container() && node->contents_made_of( LIQUID ) ) ||
                     ( !node->is_in_container() && ( node->is_ammo() || node->is_comestible() ) &&

@@ -243,6 +243,10 @@
           "om_terrain": "ranch_camp_50",
           "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13" ], "x": 0, "y": 0 } ],
           "place_item": [ { "item": "chemistry_set", "x": 13, "y": 21 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_50_z1",
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_roof_2" ], "x": 0, "y": 0 } ]
         }
       ]
     }

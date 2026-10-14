@@ -9528,7 +9528,17 @@ int use_function::call( player &p, item &it, bool active, const tripoint_bub_ms 
 int iuse::bullet_vibe_on( player *p, item *it, bool t, const tripoint_bub_ms & )
 {
     if( t ) { // Normal use
-        if( p->has_item( *it ) ) {
+        if( p->get_fatigue() > fatigue_levels::dead_tired ) {
+
+            std::string active_item = it->typeId().str();
+            std::string base_item = active_item.erase( active_item.rfind( '_' ) );
+
+            p->add_msg_if_player( _( "You're too tired for a good time. You shut off your %s." ),
+                                  it->display_name() );
+            it->convert( itype_id( base_item ) );
+            it->deactivate();
+
+        } else if( p->has_item( *it ) ) {
             // Only triggers every 1 minute so that fatigue isn't ridiculous
             if( action_time_scale::once_every_this_tick( 2_minutes ) ) {
                 p->add_morale( MORALE_FEELING_GOOD, 1, 30, 20_minutes, 10_minutes, true );

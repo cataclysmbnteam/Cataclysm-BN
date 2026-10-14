@@ -135,6 +135,7 @@ auto cata::detail::reg_types( sol::state &lua ) -> void
         auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
         //SET_FX(combined_with);
+        DOC( "Returns flat resistance values keyed by damage type. Damage types without resistance may be absent." );
         luna::set_fx( ut, "get_all_resist", []( const UT_CLASS & c ) { return c.flat; } );
         SET_FX_N( type_resist, "get_resist" );
         SET_FX( get_effective_resist );

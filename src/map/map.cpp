@@ -96,6 +96,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
+#include "units_energy.h"
 #include "utils/map_functions.h"
 #include "value_ptr.h"
 #include "vehicle/veh_type.h"
@@ -3955,7 +3956,10 @@ auto map::bash_furn_success(const tripoint_bub_ms& p, const bash_params& params)
         }
         release_avatar_grabbed_furniture_if_destroyed(p, furnid, bash.furn_set);
         furn_set(p, bash.furn_set);
-        for (item* const& it : i_at(p)) { it->on_drop(p, *this); }
+        i_at(p).remove_top_items_with([&](auto&& it) -> detached_ptr<item> {
+            if (it->on_drop(p, *this)) { return detached_ptr<item>{}; }
+            return std::move(it);
+        });
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -5421,7 +5425,7 @@ static auto vehicle_item_needs_recharge(const item& it) -> bool {
         || (it.type->battery && it.type->battery->max_capacity > it.energy_remaining());
 }
 
-static auto process_vehicle_items(vehicle& cur_veh) -> void {
+static auto process_vehicle_items(vehicle& cur_veh, int turns) -> void {
     for (const cargo_recharge_target& entry : cur_veh.get_cargo_recharge_targets()) {
         if (!entry.target || !vehicle_item_needs_recharge(*entry.target)) { continue; }
 
@@ -5435,16 +5439,34 @@ static auto process_vehicle_items(vehicle& cur_veh) -> void {
             continue;
         }
 
-        auto power = recharge_part.info().bonus;
-        while (power >= 1000 || x_in_y(power, 1000)) {
-            const auto missing = cur_veh.discharge_battery(1, false);
+
+        auto power = recharge_part.info().bonus * turns;
+        power = power / 1000 + x_in_y(power % 1000, 1000);
+
+        if (power > 0) {
+            // check if we have battery at all, otherwise skip
+            auto missing = cur_veh.discharge_battery(1, false);
             if (missing > 0) { return; }
+
+            // apply recharger as if we have infinite battery, track amount
+            int charged_by = 0;
             if (target.is_battery()) {
-                target.mod_energy(1_kJ);
+                charged_by = units::to_joule(target.mod_energy(1_kJ * power)) / 1000;
             } else {
-                target.ammo_set(itype_battery, target.ammo_remaining() + 1);
+                int previous_ammo = target.ammo_remaining();
+                target.ammo_set(itype_battery, previous_ammo + power);
+                charged_by = target.ammo_remaining() - previous_ammo;
             }
-            power -= 1000;
+
+            // deplete battery properly, rescind any charge it didn't have enough juice to provide
+            missing = cur_veh.discharge_battery(charged_by - 1, false);
+            if (missing > 0) {
+                if (target.is_battery()) {
+                    target.mod_energy(1_kJ * -1 * missing);
+                } else {
+                    target.ammo_set(itype_battery, target.ammo_remaining() - missing);
+                }
+            }
         }
     }
 }
@@ -5593,7 +5615,7 @@ void map::process_items_in_vehicle(vehicle& cur_veh, submap& current_submap, int
     // If there is nothing to process, skip the expensive cargo-part collection.
     if (cur_veh.active_items.empty() && !cur_veh.has_cargo_recharge) { return; }
 
-    if (cur_veh.has_cargo_recharge) { process_vehicle_items(cur_veh); }
+    if (cur_veh.has_cargo_recharge) { process_vehicle_items(cur_veh, turns); }
 
     if (cur_veh.active_items.empty()) { return; }
 

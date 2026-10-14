@@ -1459,8 +1459,22 @@ void furn_t::load(const JsonObject& jo, const std::string& src) {
             fluid_grid_entry.role = *role;
             mandatory(fluid_grid_obj, was_loaded, "allow_input", fluid_grid_entry.allow_input);
             mandatory(fluid_grid_obj, was_loaded, "allow_output", fluid_grid_entry.allow_output);
-            mandatory(fluid_grid_obj, was_loaded, "allowed_liquids",
-                      fluid_grid_entry.allowed_liquids);
+            if (fluid_grid_obj.has_member("allowed_liquids")) {
+                const auto allowed_liquids = fluid_grid_obj.get_member("allowed_liquids");
+                if (allowed_liquids.test_string()) {
+                    if (allowed_liquids.get_string() != "universal") {
+                        allowed_liquids.throw_error(
+                            "allowed_liquids string value must be \"universal\"");
+                    }
+                    fluid_grid_entry.universal_liquids = true;
+                } else if (!allowed_liquids.read(fluid_grid_entry.allowed_liquids, true)) {
+                    allowed_liquids.throw_error(
+                        "allowed_liquids must be an array of item ids or \"universal\"");
+                }
+            } else if (!was_loaded) {
+                fluid_grid_obj.throw_error("missing mandatory member \"allowed_liquids\"");
+            }
+            optional(fluid_grid_obj, was_loaded, "autofill", fluid_grid_entry.autofill, false);
             optional(fluid_grid_obj, was_loaded, "use_keg_capacity",
                      fluid_grid_entry.use_keg_capacity, false);
             if (fluid_grid_obj.has_member("capacity")) {
@@ -1602,8 +1616,12 @@ void furn_t::check() const {
     }
     if (fluid_grid) {
         const auto& fluid_grid_data = *fluid_grid;
-        if (fluid_grid_data.allowed_liquids.empty()) {
+        if (fluid_grid_data.allowed_liquids.empty() && !fluid_grid_data.universal_liquids) {
             debugmsg("furn %s has fluid grid but no allowed_liquids set", id.c_str());
+        }
+        if (fluid_grid_data.autofill && !fluid_grid_data.universal_liquids) {
+            debugmsg("furn %s has fluid grid autofill enabled without universal liquids",
+                     id.c_str());
         }
         const auto invalid_liquid =
             std::ranges::find_if(fluid_grid_data.allowed_liquids, [](const itype_id& liquid) {

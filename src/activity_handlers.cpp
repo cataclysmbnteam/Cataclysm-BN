@@ -4462,7 +4462,7 @@ void activity_handlers::train_pet_finish( player_activity *act, player *p )
         if( mon && mon->type->pet_training ) {
             mon->training_level = std::min( mon->training_level + 1, mon->type->pet_training->max_level );
             for( const auto &lf : mon->type->pet_training->level_flags ) {
-                if( lf.level == mon->training_level ) {
+                if( lf.level <= mon->training_level ) {
                     for( const m_flag f : lf.flags ) {
                         mon->monster_flags.insert( f );
                     }

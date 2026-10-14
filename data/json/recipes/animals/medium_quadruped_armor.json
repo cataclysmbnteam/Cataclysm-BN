@@ -33,6 +33,15 @@
     "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
   },
   {
+    "result": "plate_armor_medium_quadruped",
+    "type": "recipe",
+    "copy-from": "armor_lightplate",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
+    "using": [ [ "blacksmithing_advanced", 80 ] ],
+    "components": [ [ [ "steel_armor", 32 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
+  },
+  {
     "result": "kevlar_armor_medium_quadruped",
     "type": "recipe",
     "category": "CC_ANIMALS",
