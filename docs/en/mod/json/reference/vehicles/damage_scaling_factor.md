@@ -39,16 +39,28 @@ Things to note:
 - At `4.0`, `broken` is 32, which is the highest possible roll. Every part of a damaged vehicle is
   broken.
 
+## Reference values
+
+| Factor | `broken` / `unhurt` | Broken | Damaged | Undamaged | Expected HP |
+| ------ | ------------------- | ------ | ------- | --------- | ----------- |
+| 0.0    | 0 / 0               | 0%     | 0%      | 100%      | 100%        |
+| 0.5    | 4 / 10              | 0.0%   | 3.1%    | 96.9%     | 99.0%       |
+| 0.8    | 6 / 16              | 0.4%   | 29.5%   | 70.1%     | 89.9%       |
+| 1.0    | 8 / 20              | 1.7%   | 60.7%   | 37.6%     | 75.0%       |
+| 1.5    | 12 / 30             | 12.0%  | 87.6%   | 0.4%      | 34.4%       |
+| 2.0    | 16 / 40             | 37.6%  | 62.4%   | 0%        | 12.5%       |
+| 3.0    | 24 / 60             | 91.9%  | 8.1%    | 0%        | 0.5%        |
+| 4.0    | 32 / 80             | 100%   | 0%      | 0%        | 0%          |
+
 ## Interactive chart
 
-Each row is one possible `4d8` result, from the highest roll at the top to the lowest at the bottom.
-The bar length is the chance of that roll, and its color is the outcome:
+Try any other value with the chart below. Each row is one possible `4d8` result, from the highest
+roll at the top to the lowest at the bottom. The bar length is the chance of that roll, and its color
+is the outcome:
 
 - **Undamaged**: light green.
 - **Damaged**: green, yellow-green, yellow, orange or red, one color per 20% of remaining HP.
 - **Broken**: gray, like broken parts in the vehicle interface.
-
-The line under the `unhurt` row and the line above the `broken` row mark the thresholds.
 
 <style>
 #vehicle-damage-tool {
@@ -127,8 +139,6 @@ The line under the `unhurt` row and the line above the `broken` row mark the thr
 }
 #vehicle-damage-tool .vds-row.vds-full .vds-bar { background: var(--vds-full); }
 #vehicle-damage-tool .vds-row.vds-broken .vds-bar { background: var(--vds-broken); }
-#vehicle-damage-tool .vds-row.vds-mark-unhurt { border-bottom: 2px dashed var(--vds-full); }
-#vehicle-damage-tool .vds-row.vds-mark-broken { border-top: 2px dashed var(--vds-broken); }
 </style>
 <div id="vehicle-damage-tool">
   <div class="vds-controls">
@@ -149,19 +159,6 @@ The line under the `unhurt` row and the line above the `broken` row mark the thr
 </div>
 
 <script type="module" src="/tools/vehicle_damage_scaling.js"></script>
-
-## Reference values
-
-| Factor | `broken` / `unhurt` | Broken | Damaged | Undamaged | Expected HP |
-| ------ | ------------------- | ------ | ------- | --------- | ----------- |
-| 0.0    | 0 / 0               | 0%     | 0%      | 100%      | 100%        |
-| 0.5    | 4 / 10              | 0.0%   | 3.1%    | 96.9%     | 99.0%       |
-| 0.8    | 6 / 16              | 0.4%   | 29.5%   | 70.1%     | 89.9%       |
-| 1.0    | 8 / 20              | 1.7%   | 60.7%   | 37.6%     | 75.0%       |
-| 1.5    | 12 / 30             | 12.0%  | 87.6%   | 0.4%      | 34.4%       |
-| 2.0    | 16 / 40             | 37.6%  | 62.4%   | 0%        | 12.5%       |
-| 3.0    | 24 / 60             | 91.9%  | 8.1%    | 0%        | 0.5%        |
-| 4.0    | 32 / 80             | 100%   | 0%      | 0%        | 0%          |
 
 ## Older worlds
 

@@ -61,8 +61,6 @@ const render = (chance) => {
 
     const row = document.createElement("div")
     row.className = `vds-row vds-${kind}`
-    if (roll === unhurt) row.classList.add("vds-mark-unhurt")
-    if (roll === broken) row.classList.add("vds-mark-broken")
 
     const width = (probability / maxProbability) * 100
     const hpLabel = kind === "damaged" ? percent(hp, 0) : kind === "full" ? "100%" : "0%"
