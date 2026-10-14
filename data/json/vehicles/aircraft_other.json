@@ -454,6 +454,7 @@
       "  OOOOOOOOOOOOOOOOOO  ",
       "    OOOOOOOOOOOOOO    "
     ],
+    "flags": [ "VEHICLE_NO_LOCKS" ],
     "color_palette": "wooden_standard",
     "blueprint_origin": { "x": 13, "y": 5 },
     "palette": {
@@ -514,6 +515,7 @@
       " OO3-+-9OOO ",
       "  OOOOOOOO  "
     ],
+    "flags": [ "VEHICLE_NO_LOCKS" ],
     "color_palette": "wooden_standard",
     "blueprint_origin": { "x": 6, "y": 2 },
     "palette": {
