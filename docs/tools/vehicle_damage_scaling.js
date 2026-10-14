@@ -30,20 +30,10 @@ const classify = (roll, broken, unhurt) => {
   return { kind: "damaged", hp: (roll - broken) / (unhurt - broken) }
 }
 
-/** In-game RGB values from `data/raw/colors.json`. */
-const GAME_COLORS = {
-  green: [0, 110, 0],
-  light_red: [255, 150, 150],
-}
+/** Damaged bar colors in 20% HP steps, from 0-20% (red) up to 80-100% (green). */
+const DAMAGED_COLORS = ["#d7301f", "#f08c1e", "#e8c21a", "#9ccb2f", "#2e8b3e"]
 
-/** Damaged bars blend `light_red` (0 HP) into `green` (full HP) in 5% steps. */
-const damagedColor = (hp) => {
-  const step = Math.round(hp * 20) / 20
-  const channels = GAME_COLORS.light_red.map((low, i) =>
-    Math.round(low + (GAME_COLORS.green[i] - low) * step)
-  )
-  return `rgb(${channels.join(" ")})`
-}
+const damagedColor = (hp) => DAMAGED_COLORS[Math.min(Math.floor(hp * 5), 4)]
 
 const percent = (value, digits = 1) => `${(value * 100).toFixed(digits)}%`
 

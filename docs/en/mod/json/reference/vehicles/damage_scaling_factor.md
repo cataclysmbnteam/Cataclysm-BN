@@ -42,20 +42,18 @@ Things to note:
 ## Interactive chart
 
 Each row is one possible `4d8` result, from the highest roll at the top to the lowest at the bottom.
-The bar length is the chance of that roll, and its color is the outcome, using in-game colors:
+The bar length is the chance of that roll, and its color is the outcome:
 
-- **Undamaged**: `light_green`.
-- **Damaged**: blends from `green` (full HP) to `light_red` (0 HP) in 5% steps.
-- **Broken**: `red`.
+- **Undamaged**: light green.
+- **Damaged**: green, yellow-green, yellow, orange or red, one color per 20% of remaining HP.
+- **Broken**: gray, like broken parts in the vehicle interface.
 
 The line under the `unhurt` row and the line above the `broken` row mark the thresholds.
 
 <style>
 #vehicle-damage-tool {
   --vds-full: rgb(0 255 0);
-  --vds-broken: rgb(255 0 0);
-  --vds-damaged-high: rgb(0 110 0);
-  --vds-damaged-low: rgb(255 150 150);
+  --vds-broken: #8c8c8c;
   --vds-line: currentColor;
   margin: 1.5rem 0;
 }
@@ -88,7 +86,14 @@ The line under the `unhurt` row and the line above the `broken` row mark the thr
 }
 #vehicle-damage-tool .vds-swatch.vds-full { background: var(--vds-full); }
 #vehicle-damage-tool .vds-swatch.vds-damaged {
-  background: linear-gradient(90deg, var(--vds-damaged-low), var(--vds-damaged-high));
+  background: linear-gradient(
+    90deg,
+    #d7301f 0 20%,
+    #f08c1e 20% 40%,
+    #e8c21a 40% 60%,
+    #9ccb2f 60% 80%,
+    #2e8b3e 80%
+  );
 }
 #vehicle-damage-tool .vds-swatch.vds-broken { background: var(--vds-broken); }
 #vehicle-damage-tool .vds-chart {
