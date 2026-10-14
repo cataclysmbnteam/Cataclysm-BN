@@ -13,7 +13,7 @@
     "looks_like": "crater",
     "description": "There is a crater here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_crater" },
-    "path_cost": { "on_foot": 20, "land_vehicle": 100 },
+    "path_cost": { "on_foot": 20, "land_vehicle": -1 },
     "sym": "o",
     "color": "red",
     "autonote": true
