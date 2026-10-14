@@ -455,6 +455,58 @@ TEST_CASE("mutable_overmap_placement", "[overmap][slow]") {
     }
 }
 
+namespace {
+
+const auto road_start = tripoint_abs_omt(50, 50, 0);
+const auto road_end = tripoint_abs_omt(56, 50, 0);
+const auto extra_pos = tripoint_abs_omt(53, 50, 0);
+
+/// Places an east-west road between two rows of field, seen by the player.
+auto lay_test_road() -> void {
+    auto& omb = ACTIVE_OVERMAP_BUFFER;
+    for (const auto x : std::views::iota(50, 57)) {
+        for (const auto y : std::views::iota(49, 52)) {
+            const auto p = tripoint_abs_omt(x, y, 0);
+            omb.ter_set(p, oter_id(y == 50 ? "road_ew" : "field"));
+            omb.set_seen(p);
+        }
+    }
+    omb.add_extra(extra_pos, string_id<map_extra>("mx_test_path_cost"));
+}
+
+auto crosses_extra(const std::vector<tripoint_abs_omt>& path) -> bool {
+    return std::ranges::find(path, extra_pos) != path.end();
+}
+
+} // namespace
+
+TEST_CASE("travel_path_prices_map_extras", "[overmap][travel_path]") {
+    clear_all_state();
+    lay_test_road();
+    auto& omb = ACTIVE_OVERMAP_BUFFER;
+    const auto vehicle = overmap_path_params::for_land_vehicle(1.0f, false, false);
+
+    SECTION("a vehicle drives around a costly extra") {
+        const auto path = omb.get_travel_path(road_start, road_end, vehicle);
+        REQUIRE(!path.empty());
+        CHECK(!crosses_extra(path));
+    }
+    SECTION("a walker never enters an impassable extra") {
+        const auto path =
+            omb.get_travel_path(road_start, road_end, overmap_path_params::for_player());
+        REQUIRE(!path.empty());
+        CHECK(!crosses_extra(path));
+    }
+    SECTION("the destination is exempt from its extra's cost") {
+        CHECK(
+            !omb.get_travel_path(road_start, extra_pos, overmap_path_params::for_player()).empty());
+    }
+    SECTION("without the extra, a vehicle stays on the road") {
+        omb.delete_extra(extra_pos);
+        CHECK(crosses_extra(omb.get_travel_path(road_start, road_end, vehicle)));
+    }
+}
+
 #if defined(TILES)
 
 // Regression tests for issue #9688: the main view and the (possibly shared) overmap
