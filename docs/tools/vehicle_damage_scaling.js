@@ -77,7 +77,7 @@ const render = (chance) => {
 
   chart.replaceChildren(...rows)
   summary.innerHTML = `
-    <li><span class="vds-swatch vds-full"></span>Undamaged: <strong>${
+    <li><span class="vds-swatch vds-full"></span>Intact: <strong>${
     percent(totals.full)
   }</strong></li>
     <li><span class="vds-swatch vds-damaged"></span>Damaged: <strong>${

@@ -7,7 +7,7 @@ pre-spawned vehicles are. It ranges from `0.0` to `4.0` in steps of `0.1`, and d
 
 The option only affects vehicles spawned with a non-mint status, i.e. `status` of `-1` (light
 damage, the default) or `1` (disabled). See [Spawning vehicles](/mod/json/reference/vehicles/vehicles_spawning/).
-Vehicles spawned with `status: 0` are always undamaged.
+Vehicles spawned with `status: 0` are always intact.
 
 Each vehicle part is rolled independently, so one vehicle usually has a mix of intact, damaged and
 broken parts.
@@ -24,7 +24,7 @@ int roll = dice( 4, 8 );  // 4..32, bell-shaped, mean 18
 
 | Condition                | Resulting part HP                                      |
 | ------------------------ | ------------------------------------------------------ |
-| `roll >= unhurt`         | 100% (undamaged)                                       |
+| `roll >= unhurt`         | 100% (intact)                                          |
 | `broken < roll < unhurt` | `(roll - broken) / (unhurt - broken)` of durability    |
 | `roll <= broken`         | 0% (broken); batteries and fuel tanks are also emptied |
 
@@ -41,16 +41,16 @@ Things to note:
 
 ## Reference values
 
-| Factor | `broken` / `unhurt` | Broken | Damaged | Undamaged | Expected HP |
-| ------ | ------------------- | ------ | ------- | --------- | ----------- |
-| 0.0    | 0 / 0               | 0%     | 0%      | 100%      | 100%        |
-| 0.5    | 4 / 10              | 0.0%   | 3.1%    | 96.9%     | 99.0%       |
-| 0.8    | 6 / 16              | 0.4%   | 29.5%   | 70.1%     | 89.9%       |
-| 1.0    | 8 / 20              | 1.7%   | 60.7%   | 37.6%     | 75.0%       |
-| 1.5    | 12 / 30             | 12.0%  | 87.6%   | 0.4%      | 34.4%       |
-| 2.0    | 16 / 40             | 37.6%  | 62.4%   | 0%        | 12.5%       |
-| 3.0    | 24 / 60             | 91.9%  | 8.1%    | 0%        | 0.5%        |
-| 4.0    | 32 / 80             | 100%   | 0%      | 0%        | 0%          |
+| Factor | `broken` / `unhurt` | Broken | Damaged | Intact | Expected HP |
+| ------ | ------------------- | ------ | ------- | ------ | ----------- |
+| 0.0    | 0 / 0               | 0%     | 0%      | 100%   | 100%        |
+| 0.5    | 4 / 10              | 0.0%   | 3.1%    | 96.9%  | 99.0%       |
+| 0.8    | 6 / 16              | 0.4%   | 29.5%   | 70.1%  | 89.9%       |
+| 1.0    | 8 / 20              | 1.7%   | 60.7%   | 37.6%  | 75.0%       |
+| 1.5    | 12 / 30             | 12.0%  | 87.6%   | 0.4%   | 34.4%       |
+| 2.0    | 16 / 40             | 37.6%  | 62.4%   | 0%     | 12.5%       |
+| 3.0    | 24 / 60             | 91.9%  | 8.1%    | 0%     | 0.5%        |
+| 4.0    | 32 / 80             | 100%   | 0%      | 0%     | 0%          |
 
 ## Interactive chart
 
@@ -58,7 +58,7 @@ Try any other value with the chart below. Each row is one possible `4d8` result,
 roll at the top to the lowest at the bottom. The bar length is the chance of that roll, and its color
 is the outcome:
 
-- **Undamaged**: light green.
+- **Intact**: light green.
 - **Damaged**: green, yellow-green, yellow, orange or red, one color per 20% of remaining HP.
 - **Broken**: gray, like broken parts in the vehicle interface.
 
