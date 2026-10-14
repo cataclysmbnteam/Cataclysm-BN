@@ -684,7 +684,9 @@ void vehicle::use_controls(const tripoint_bub_ms& pos) {
             actions.emplace_back([&] {
                 if (!confirm_stop_driving()) {
                     return;
-                } else if (engine_on && has_engine_type_not(fuel_type_muscle, true) && has_engine_type_not(fuel_type_animal, true) && has_engine_type_not(fuel_type_wind, true)) {
+                } else if (engine_on && has_engine_type_not(fuel_type_muscle, true)
+                           && has_engine_type_not(fuel_type_animal, true)
+                           && has_engine_type_not(fuel_type_wind, true)) {
                     add_msg(_("You turn the engine off and let go of the controls."));
                     sound_event se;
                     se.origin = pos;
@@ -724,7 +726,9 @@ void vehicle::use_controls(const tripoint_bub_ms& pos) {
                 refresh();
             });
 
-        } else if (has_engine_type_not(fuel_type_muscle, true) && has_engine_type_not(fuel_type_animal, true) && has_engine_type_not(fuel_type_wind, true)) {
+        } else if (has_engine_type_not(fuel_type_muscle, true)
+                   && has_engine_type_not(fuel_type_animal, true)
+                   && has_engine_type_not(fuel_type_wind, true)) {
             options.emplace_back(
                 engine_on ? _("Turn off the engine") : _("Turn on the engine"),
                 keybind("TOGGLE_ENGINE"));
