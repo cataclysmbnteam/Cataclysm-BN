@@ -1096,6 +1096,7 @@
     "material_thickness": 8,
     "max_charges": 500,
     "ammo": "battery",
+    "drained_resource": "radiation",
     "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "relic_data": {
       "passive_effects": [
@@ -1111,7 +1112,6 @@
       "need_charges": 1
     },
     "flags": [
-      "USE_UPS",
       "NAT_UPS",
       "COMPACT",
       "STURDY",

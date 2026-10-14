@@ -1,0 +1,8 @@
+[
+  {
+    "type": "character_resource",
+    "id": "radiation",
+    "drain_resource": "RAD",
+    "info": "Irradiates the player on usage"
+  }
+]

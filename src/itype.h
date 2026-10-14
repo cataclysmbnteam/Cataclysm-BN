@@ -1130,6 +1130,8 @@ struct itype {
 
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
+        character_resource_id resource_drained = character_resource_id::NULL_ID();
+
         /**
          * Efficiency of solar energy conversion for solarpacks.
          */

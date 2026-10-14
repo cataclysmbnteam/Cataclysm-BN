@@ -16,6 +16,7 @@
 #include "character_encumbrance.h"
 #include "character_functions.h"
 #include "character_id.h"
+#include "character_resource.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
 #include "cloning_utils.h"
@@ -8531,6 +8532,21 @@ double item::gun_aimed_crit_max_bonus( bool with_ammo ) const
     return std::max( 0, ret );
 }
 
+bool item::uses_external_resource() const
+{
+    return type->resource_drained.is_valid() && !type->resource_drained.is_null();
+}
+
+bool item::has_external_resource( const Character &ch, int qty ) const
+{
+    return type->resource_drained->has_charges( ch, qty );
+}
+
+bool item::consume_external_resource( Character &ch, int qty )
+{
+    return type->resource_drained->drain_charges( ch, qty );
+}
+
 units::energy item::energy_remaining() const
 {
     if( is_battery() ) {
@@ -9197,6 +9213,16 @@ int item::units_remaining( const Character &ch, int limit ) const
     }
 
     int res = ammo_remaining();
+
+    // First one is anything modern, second one is currently used
+    // By toggleable UPS usage along with legacy flag support
+    // TODO: Make resource drained on item so it can be modified.
+    if( res < limit && uses_external_resource() ) {
+        res += type->resource_drained->get_charges( ch );
+    } else if( res < limit && has_flag( flag_USE_UPS ) ) {
+        res += ch.charges_of( itype_UPS, limit - res );
+    }
+
     if( res < limit && is_power_armor() ) {
         if( character_funcs::can_interface_armor( ch ) && has_flag( flag_USE_UPS ) ) {
             res += std::max( ch.charges_of( itype_UPS, limit - res ), ch.charges_of( itype_bio_armor,
@@ -9206,8 +9232,6 @@ int item::units_remaining( const Character &ch, int limit ) const
         } else {
             res += ch.charges_of( itype_UPS, limit - res );
         }
-    } else if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += ch.charges_of( itype_UPS, limit - res );
     }
 
     return std::min( res, limit );
@@ -10938,7 +10962,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     }
 
     int energy = 0;
-    const bool uses_UPS = self->has_flag( flag_USE_UPS );
+    const bool uses_resource = self->uses_external_resource();
     bool revert_destroy = false;
     if( self->type->tool->turns_per_charge > 0 ) {
         while( self->type->tool->turns_active >= self->type->tool->turns_per_charge ) {
@@ -10967,8 +10991,8 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             }
 
             // for items in player possession if insufficient charges within tool try UPS
-            if( carrier && uses_UPS ) {
-                if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
+            if( carrier && uses_resource ) {
+                if( self->type->resource_drained->drain_charges( *carrier, energy ) ) {
                     energy = 0;
                 }
             }
@@ -10977,18 +11001,19 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
         // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
         // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
-        if( ( self->ammo_remaining() == 0 && !uses_UPS ) || energy > 0 ) {
+        if( ( self->ammo_remaining() == 0 && !uses_resource ) || energy > 0 ) {
             revert_destroy = true;
             if( carrier ) {
                 if( self->is_power_armor() ) {
-                    if( uses_UPS ) {
+                    if( uses_resource ) {
                         carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
                                                     self->tname() );
                     } else {
 
                     }
-                } else if( uses_UPS ) {
-                    carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
+                } else if( uses_resource ) {
+                    carrier->add_msg_if_player( m_info, _( "You need an external power source to run the %s!" ),
+                                                self->tname() );
                 }
             }
             if( carrier && self->type->can_use( "set_transform" ) ) {
