@@ -4244,6 +4244,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
             info.emplace_back( "DESCRIPTION",
                                _( "* This tool can draw power from a <info>Bionic Armor Interface</info>" ) );
         }
+        if( uses_external_resource() ) {
+            info.emplace_back( "DESCRIPTION", type->resource_drained->item_info.translated() );
+        }
         if( has_flag( flag_USE_UPS ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This tool uses a <info>universal power supply</info> "
@@ -11016,8 +11019,8 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             if( carrier ) {
                 if( self->is_power_armor() ) {
                     if( uses_resource ) {
-                        carrier->add_msg_if_player( m_info, _( "You need an external power source to run the %s!" ),
-                                                    self->tname() );
+                        carrier->add_msg_if_player( m_info, _( "You need an %2$s to run the %1$s!" ),
+                                                    self->tname(), self->type->resource_drained->need_info );
                     } else if( uses_UPS ) {
                         carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
                                                     self->tname() );
@@ -11028,8 +11031,8 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 } else if( uses_UPS ) {
                     carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
                 } else if( uses_resource ) {
-                    carrier->add_msg_if_player( m_info, _( "You need an external power source to run the %s!" ),
-                                                self->tname() );
+                    carrier->add_msg_if_player( m_info, _( "You need an %2$s to run the %1$s!" ),
+                                                self->tname(), self->type->resource_drained->need_info );
                 }
             }
             if( carrier && self->type->can_use( "set_transform" ) ) {

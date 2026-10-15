@@ -34,7 +34,8 @@ void character_resource::load_character_resources( const JsonObject &jo, const s
 
 void character_resource::load( const JsonObject &jo, const std::string &src )
 {
-    optional( jo, was_loaded, "info", info );
+    optional( jo, was_loaded, "need_info", need_info );
+    optional( jo, was_loaded, "item_info", item_info );
     optional( jo, was_loaded, "drain_flag", drain_flag, auto_flags_reader<flag_id> {},
               flag_id::NULL_ID() );
     optional( jo, was_loaded, "drain_resource", drain_resource,

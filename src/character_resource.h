@@ -47,7 +47,8 @@ class character_resource
         character_resource_id id;
 
         // Used for explination in enchantments & items
-        translation info;
+        translation item_info;
+        translation need_info;
 
         bool was_loaded = false;
 

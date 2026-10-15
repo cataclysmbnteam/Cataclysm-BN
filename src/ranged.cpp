@@ -4621,8 +4621,8 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     for( const auto &[resource, amount] : gmode->get_gun_resources_used() ) {
         if( !resource->has_charges( you, amount ) ) {
             messages.push_back( string_format(
-                                    _( "You need a compatible external power source with at least %2$d charges to fire the %1$s!" ),
-                                    gmode->tname(), amount ) );
+                                    _( "You need a %3$s with at least %2$d charges to fire the %1$s!" ),
+                                    gmode->tname(), amount, resource->need_info ) );
             result = false;
         }
     }
