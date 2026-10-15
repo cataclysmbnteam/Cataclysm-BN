@@ -71,8 +71,13 @@ let
       registry =
         registryById.${lock.id}
           or (throw "nix/registry-mods.nix: '${lock.id}' is not present in the mod registry");
+      # The lockfile uses 0.0.0 as a placeholder for branch-tracking
+      # mods the registry auto-versions, so those mismatches are
+      # permanent by convention. Warn only when a real pinned version
+      # disagrees with the registry: that is lockfile drift worth
+      # seeing, and the eval-time warning would otherwise be all noise.
       checked =
-        if registry.version != lock.version then
+        if registry.version != lock.version && lock.version != "0.0.0" then
           lib.warn "${lock.id} version mismatch: lockfile has ${lock.version}, registry has ${registry.version}; using locked version" registry
         else
           registry;
