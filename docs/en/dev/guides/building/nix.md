@@ -24,6 +24,31 @@ revision; flake sources carry no `.git`, so `nix/package.nix` seeds `src/version
 
 `gfx/` ships pre-composed, so the game package already bundles every tileset.
 
+## Registry mods and soundpack
+
+Release builds bundle the mod-registry content from `data/mods/external.json` via
+`build-scripts/bundle-registry-mods.ts` (external mods into `data/mods`, soundpacks
+into `data/sound`). The flake mirrors that with `nix/registry-mods.nix`: a pure
+derivation that pins each archive plus a snapshot of the registry metadata, extracts
+them with the same semantics (lock `extract_path` wins, marker files verified), and
+links the result into the game packages. Mods ship in every game build; the Otopack
+soundpack only where sound is on. `--check-mods` therefore validates the bundled
+registry content too.
+
+Branch archives are moving targets, so any upstream commit breaks its pin. Refresh
+with the updater app (it plans first, `--check` previews, and applying keeps a backup
+with post-write verification):
+
+```sh
+nix run .#update-registry-mods -- --check   # preview
+nix run .#update-registry-mods              # rewrite pins
+nix flake show                              # eval still clean (`check --no-build`
+                                            # forbids the eval-time registry fetch)
+```
+
+then review the diff and commit. The updater's mocked suite (`nix/test-update-registry-mods.sh`)
+runs as the `updater-tests` flake check.
+
 ## Packages
 
 - `tiles`: SDL3 + sound game, the default (`nix run .#tiles` plays it).

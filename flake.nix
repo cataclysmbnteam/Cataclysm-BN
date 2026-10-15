@@ -3,7 +3,9 @@
     Cataclysm: Bright Nights packaged with Nix. SDL3 tiles and ncurses
     builds plus the Catch2 test binary, built from this source with the
     repo's CMake setup. gfx/ ships pre-composed, so the game package
-    already bundles every tileset.
+    already bundles every tileset, and nix/registry-mods.nix bundles
+    the data/mods/external.json registry content (external mods plus
+    the Otopack soundpack), like a release.
   '';
 
   inputs = {
@@ -32,12 +34,18 @@
           # Docs require clang >= 22; the default gcc stdenv is not it.
           clangStdenv = pkgs.llvmPackages_22.stdenv;
 
+          # Registry mods + soundpack bundle, shared by every game
+          # package (built once per system, not per variant).
+          registryMods = pkgs.callPackage ./nix/registry-mods.nix {
+            src = self.outPath;
+          };
+
           mkCbn =
             attrs:
             pkgs.callPackage ./nix/package.nix (
               attrs
               // {
-                inherit version;
+                inherit version registryMods;
                 rev = self.rev or self.dirtyRev or "unknown";
                 src = self.outPath;
                 stdenv = clangStdenv;
@@ -130,6 +138,46 @@
                 ${tiles}/bin/cataclysm-bn-tiles --check-mods
                 touch $out
               '';
+
+              # Updater tests: the pin-refresh script suite runs mocked
+              # (no network).
+              updater-tests =
+                pkgs.runCommand "cbn-updater-tests"
+                  {
+                    nativeBuildInputs = with pkgs; [
+                      bash
+                      coreutils
+                      gawk
+                      gnugrep
+                      gnused
+                      jq
+                    ];
+                  }
+                  ''
+                    bash ${self + /nix/test-update-registry-mods.sh} ${self + /nix/update-registry-mods.sh}
+                    touch $out
+                  '';
+            };
+
+          apps.update-registry-mods =
+            let
+              updater = pkgs.writeShellApplication {
+                name = "update-registry-mods";
+                runtimeInputs = with pkgs; [
+                  coreutils
+                  gawk
+                  git
+                  gnugrep
+                  gnused
+                  jq
+                  nix
+                ];
+                text = builtins.readFile ./nix/update-registry-mods.sh;
+              };
+            in
+            {
+              type = "app";
+              program = lib.getExe updater;
             };
         };
     };

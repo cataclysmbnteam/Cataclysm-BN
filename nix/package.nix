@@ -5,6 +5,11 @@
 # Notes for maintainers:
 #   * gfx/ ships pre-composed, so there is no tileset pipeline here.
 #     The game package already bundles every tileset, like a release.
+#   * Registry content (external mods + Otopack soundpack) comes from
+#     the `registryMods` argument (nix/registry-mods.nix, same bundle
+#     build-scripts/bundle-registry-mods.ts produces for releases) and
+#     links into the data dir below. Mods ship in every game package;
+#     the soundpack only where `sound` is on.
 #   * CMake generates src/version.h and VERSION.txt from git at configure
 #     time. Nix sources carry no .git, so preConfigure seeds both from
 #     the `version` and `rev` arguments instead.
@@ -43,6 +48,9 @@
   # commit link in VERSION.txt.
   rev ? "unknown",
   src,
+  # Registry mods + soundpack bundle (nix/registry-mods.nix); linked
+  # into game packages below, never into the test package.
+  registryMods,
 }:
 
 assert lib.assertMsg (tiles || !sound) "cataclysm-bn: sound requires tiles";
@@ -148,13 +156,27 @@ stdenv.mkDerivation (
     # leftovers nothing sets), so ship the repo's files with Exec pointing
     # at the store binary. Tiles only: the shipped entry launches the
     # graphical build.
-    postInstall = lib.optionalString (tiles && !buildTests) ''
-      install -Dm644 ${src}/data/XDG/org.cataclysmbn.CataclysmBN.svg $out/share/icons/hicolor/scalable/apps/org.cataclysmbn.CataclysmBN.svg
-      install -Dm644 ${src}/data/XDG/org.cataclysmbn.CataclysmBN.metainfo.xml $out/share/metainfo/org.cataclysmbn.CataclysmBN.metainfo.xml
-      install -Dm644 ${src}/data/XDG/org.cataclysmbn.CataclysmBN.desktop $out/share/applications/org.cataclysmbn.CataclysmBN.desktop
-      substituteInPlace $out/share/applications/org.cataclysmbn.CataclysmBN.desktop \
-        --replace-fail "Exec=cataclysm-bn-tiles" "Exec=$out/bin/cataclysm-bn-tiles"
-    '';
+    postInstall =
+      lib.optionalString (!buildTests) ''
+        for d in ${registryMods}/mods/*/; do
+          [ -e "$d" ] || continue
+          ln -s "$d" $out/share/cataclysm-bn/mods/"$(basename "$d")"
+        done
+        ln -s ${registryMods}/mods/external-mods-CREDITS.txt $out/share/cataclysm-bn/mods/external-mods-CREDITS.txt
+      ''
+      + lib.optionalString sound ''
+        for d in ${registryMods}/sound/*/; do
+          [ -e "$d" ] || continue
+          ln -s "$d" $out/share/cataclysm-bn/sound/"$(basename "$d")"
+        done
+      ''
+      + lib.optionalString (tiles && !buildTests) ''
+        install -Dm644 ${src}/data/XDG/org.cataclysmbn.CataclysmBN.svg $out/share/icons/hicolor/scalable/apps/org.cataclysmbn.CataclysmBN.svg
+        install -Dm644 ${src}/data/XDG/org.cataclysmbn.CataclysmBN.metainfo.xml $out/share/metainfo/org.cataclysmbn.CataclysmBN.metainfo.xml
+        install -Dm644 ${src}/data/XDG/org.cataclysmbn.CataclysmBN.desktop $out/share/applications/org.cataclysmbn.CataclysmBN.desktop
+        substituteInPlace $out/share/applications/org.cataclysmbn.CataclysmBN.desktop \
+          --replace-fail "Exec=cataclysm-bn-tiles" "Exec=$out/bin/cataclysm-bn-tiles"
+      '';
 
     meta = {
       description = "Cataclysm: Bright Nights ${targetName} (${version})";
