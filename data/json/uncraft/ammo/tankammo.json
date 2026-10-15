@@ -1,5 +1,73 @@
 [
   {
+    "result": "105mm_slug",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 4 ], [ "electronics", 1 ] ],
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 2000 ] ],
+      [ [ "gunpowder", 6000 ] ],
+      [ [ "105mm_casing", 1 ] ],
+      [ [ "electric_primer_120mm", 1 ] ]
+    ],
+    "charges": 1
+  },
+  {
+    "result": "bp_105mm_slug",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 4 ], [ "electronics", 1 ] ],
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 2000 ] ],
+      [ [ "chem_black_powder", 6000 ] ],
+      [ [ "105mm_casing", 1 ] ],
+      [ [ "electric_primer_120mm", 1 ] ]
+    ],
+    "charges": 1
+  },
+  {
+    "result": "105mm_he_reloaded",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 4 ], [ "electronics", 1 ] ],
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "chem_compositionb", 800 ] ],
+      [ [ "gunpowder", 6000 ] ],
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "scrap", 20 ] ],
+      [ [ "105mm_casing", 1 ] ],
+      [ [ "electric_primer_120mm", 1 ] ]
+    ],
+    "charges": 1
+  },
+  {
+    "result": "bp_105mm_he_reloaded",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 4 ], [ "electronics", 1 ] ],
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "chem_compositionb", 800 ] ],
+      [ [ "chem_black_powder", 6000 ] ],
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "scrap", 20 ] ],
+      [ [ "105mm_casing", 1 ] ],
+      [ [ "electric_primer_120mm", 1 ] ]
+    ],
+    "charges": 1
+  },
+  {
     "result": "105mm_heat",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -10,7 +78,7 @@
     "components": [
       [ [ "copper", 2000 ] ],
       [ [ "chem_compositionb", 1000 ] ],
-      [ [ "gunpowder_artillery", 6000 ] ],
+      [ [ "gunpowder", 6000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "105mm_casing", 1 ] ],
@@ -27,7 +95,7 @@
     "time": "10 m",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "gunpowder_artillery", 6000 ] ],
+      [ [ "gunpowder", 6000 ] ],
       [ [ "scrap", 20 ] ],
       [ [ "105mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ]
@@ -45,7 +113,7 @@
     "components": [
       [ [ "copper", 2500 ] ],
       [ [ "chem_compositionb", 2000 ] ],
-      [ [ "gunpowder_artillery", 8000 ] ],
+      [ [ "gunpowder", 8000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "120mm_case_base", 1 ] ],
@@ -63,7 +131,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "//": "Realistically you'd get a fair bit of depleted uranium, and probably get horribly toxic oxides everywhere, but...",
     "components": [
-      [ [ "gunpowder_artillery", 8000 ] ],
+      [ [ "gunpowder", 8000 ] ],
       [ [ "scrap", 24 ] ],
       [ [ "120mm_case_base", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ]
@@ -81,7 +149,7 @@
     "components": [
       [ [ "copper", 4500 ] ],
       [ [ "chem_compositionb", 6000 ] ],
-      [ [ "gunpowder_artillery", 12000 ] ],
+      [ [ "gunpowder", 12000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 12 ] ],
       [ [ "primer_155mm", 1 ] ]
@@ -98,7 +166,7 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "chem_compositionb", 8000 ] ],
-      [ [ "gunpowder_artillery", 12000 ] ],
+      [ [ "gunpowder", 12000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 24 ] ],
       [ [ "primer_155mm", 1 ] ]
