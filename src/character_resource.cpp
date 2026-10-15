@@ -5,8 +5,12 @@
 #include "character.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flag.h"
+#include "itype.h"
 #include "generic_factory.h"
 #include "generic_readers.h"
+#include "mtype.h"
+#include "monster.h"
 #include "rng.h"
 #include "type_id.h"
 #include "type_id_implement.h"
@@ -79,6 +83,18 @@ bool character_resource::has_charges( const Character &ch, int amount ) const
 {
     if( drain_flag.is_valid() ) {
         int qty = 0;
+        if( drain_flag == flag_IS_UPS ) {
+            if( ch.has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+                qty = sum_no_wrap( qty, int( floor( units::to_kilojoule( ch.get_power_level() ) *
+                                                    charge_scalar ) ) );
+            }
+            if( ch.is_mounted() ) {
+                auto mon = ch.mounted_creature.get();
+                if( mon->has_flag( MF_RIDEABLE_MECH ) && mon->get_battery_item() ) {
+                    qty = sum_no_wrap( qty, int( floor( mon->get_battery_item()->ammo_remaining() * charge_scalar ) ) );
+                }
+            }
+        }
         ch.visit_items( [&]( const item * e ) {
             if( e->has_flag( drain_flag ) ) {
                 // TODO: Maybe make a custom ups_eff_mult esque value for this?
@@ -125,10 +141,24 @@ int character_resource::get_charges( const Character &ch ) const
 {
     if( drain_flag.is_valid() ) {
         int qty = 0;
+        if( drain_flag == flag_IS_UPS ) {
+            if( ch.has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+                qty = sum_no_wrap( qty, int( floor( units::to_kilojoule( ch.get_power_level() ) *
+                                                    charge_scalar ) ) );
+            }
+            if( ch.is_mounted() ) {
+                auto mon = ch.mounted_creature.get();
+                if( mon->has_flag( MF_RIDEABLE_MECH ) && mon->get_battery_item() ) {
+                    std::cout << qty << "\n";
+                    qty = sum_no_wrap( qty, int( floor( mon->get_battery_item()->ammo_remaining() * charge_scalar ) ) );
+                }
+            }
+        }
         ch.visit_items( [&]( const item * e ) {
             if( e->has_flag( drain_flag ) ) {
                 // TODO: Maybe make a custom ups_eff_mult esque value for this?
-                qty = sum_no_wrap( qty, int( round( e->ammo_remaining() * charge_scalar ) ) );
+                qty = sum_no_wrap( qty, int( round( e->ammo_remaining() * charge_scalar *
+                                                    e->type->tool->ups_eff_mult ) ) );
             }
             return VisitResponse::NEXT;
         } );
@@ -150,16 +180,17 @@ int character_resource::get_charges( const Character &ch ) const
             case hardcode_character_resource::bionic:
                 return units::to_kilojoule( ch.get_power_level() ) * charge_scalar;
             case hardcode_character_resource::fatigue:
-                return INT_MAX / 2;
+                // The / 2 is to prevent int overflows if it also has an internal battery
+                return item::INFINITE_CHARGES / 2;
             case hardcode_character_resource::thirst:
                 // You could technically do thirst_levels::dead here, but that seems insane
-                return INT_MAX / 2;
+                return item::INFINITE_CHARGES / 2;
             case hardcode_character_resource::pain:
                 // One can always be in more pain
-                return INT_MAX / 2;
+                return item::INFINITE_CHARGES / 2;
             case hardcode_character_resource::radiation:
                 // One can always be more irradiated
-                return INT_MAX / 2;
+                return item::INFINITE_CHARGES / 2;
             case hardcode_character_resource::health:
                 return ch.get_healthy() * charge_scalar;
             case hardcode_character_resource::hunger:
@@ -174,14 +205,28 @@ int character_resource::get_charges( const Character &ch ) const
 bool character_resource::drain_charges( Character &ch, int amount ) const
 {
     const auto smooth_scale = [this]( double amount ) {
-        return roll_remainder( amount * charge_scalar );
+        return roll_remainder( amount / charge_scalar );
     };
     if( drain_flag.is_valid() ) {
         if( has_charges( ch, amount ) ) {
-            int qty = 0;
+            int qty = amount;
+            if( drain_flag == flag_IS_UPS ) {
+                if( ch.is_mounted() && ch.mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+                    ch.mounted_creature.get()->get_battery_item() ) {
+                    auto mons = ch.mounted_creature.get();
+                    int power_drain = std::min( mons->get_battery_item()->ammo_remaining(), qty );
+                    mons->use_mech_power( smooth_scale( -power_drain ) );
+                    qty -= std::min( qty, smooth_scale( power_drain ) );
+                }
+                if( ch.has_active_bionic( bionic_id( "bio_ups" ) ) ) {
+                    int bio = std::min( units::to_kilojoule( ch.get_power_level() ), qty );
+                    ch.mod_power_level( units::from_kilojoule( -smooth_scale( bio ) ) );
+                    qty -= std::min( qty, bio );
+                }
+            }
             ch.remove_items_with( [ & ]( detached_ptr<item> &&e ) {
                 if( e->has_flag( drain_flag ) && e->ammo_remaining() > 0 ) {
-                    int eff_mult = charge_scalar;
+                    int eff_mult = charge_scalar * e->type->tool->ups_eff_mult;
                     detached_ptr<item> split = item::spawn( *e );
                     split->ammo_set( e->ammo_current(), e->ammo_remaining() );
                     int used = std::min( qty, e->ammo_remaining() * eff_mult );
@@ -192,14 +237,7 @@ bool character_resource::drain_charges( Character &ch, int amount ) const
                 }
                 return qty != 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
             } );
-            ch.visit_items( [&]( const item * e ) {
-                if( e->has_flag( drain_flag ) ) {
-                    // TODO: Maybe make a custom ups_eff_mult esque value for this?
-                    qty = sum_no_wrap( qty, int( round( e->ammo_remaining() * charge_scalar ) ) );
-                }
-                return qty < amount ? VisitResponse::NEXT : VisitResponse::ABORT;
-            } );
-            return qty >= amount;
+            return qty != 0;
         }
     }
     if( drain_resource != hardcode_character_resource::none ) {

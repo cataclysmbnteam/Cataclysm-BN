@@ -2325,6 +2325,7 @@ class item : public location_visitable<item>, public game_object<item>
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
+        std::map<character_resource_id, int> get_gun_resources_used() const;
         int get_gun_ups_drain() const;
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {

@@ -1066,8 +1066,8 @@ void reg_islot( sol::state &lua )
         DOC( "Modifies projectile speed as provided by the currently loaded ammo" );
         SET_MEMB_RO( speed );
 
-        DOC( "If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all" );
-        SET_MEMB_RO( ups_charges );
+        // DOC( "If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all" );
+        // SET_MEMB_RO( ups_charges );
 
         DOC( "One in X chance for gun to require major cleanup after firing blackpowder shot" );
         SET_MEMB_RO( blackpowder_tolerance );

@@ -11603,6 +11603,23 @@ bool item::count_by_charges( const itype_id &id )
     return id->count_by_charges();
 }
 
+std::map<character_resource_id, int> item::get_gun_resources_used() const
+{
+    std::map<character_resource_id, int> ret;
+    if( type->gun ) {
+        int modifier = 0;
+        float multiplier = 1.0f;
+        for( const item *mod : gunmods() ) {
+            modifier += mod->type->gunmod->ups_charges_modifier;
+            multiplier *= mod->type->gunmod->ups_charges_multiplier;
+        }
+        for( const auto &[resource, amount] : type->gun->resources_used ) {
+            ret[resource] = std::max( 0.0f, amount * multiplier + modifier );
+        }
+    }
+    return ret;
+}
+
 int item::get_gun_ups_drain() const
 {
     int draincount = 0;
@@ -11613,7 +11630,10 @@ int item::get_gun_ups_drain() const
             modifier += mod->type->gunmod->ups_charges_modifier;
             multiplier *= mod->type->gunmod->ups_charges_multiplier;
         }
-        draincount = ( type->gun->ups_charges * multiplier ) + modifier;
+        const auto ups_resource = character_resource_id( "ups" );
+        int charges = type->gun->resources_used.contains( ups_resource ) ?
+                      type->gun->resources_used[ups_resource] : 0;
+        draincount = ( charges * multiplier ) + modifier;
     }
     return draincount;
 }

@@ -2269,7 +2269,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint_bub_ms &pos 
 
         auto charges = std::max( 1, static_cast<int>( cbms.size() ) );
         charges -= it->ammo_consume( charges, pos );
-        if( possess && it->consume_external_resource( *p, charges ) ) {
+        if( possess && it->uses_external_resource() && it->consume_external_resource( *p, charges ) ) {
             charges = 0;
         }
         if( charges ) {

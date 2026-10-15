@@ -4,5 +4,11 @@
     "id": "radiation",
     "drain_resource": "RAD",
     "info": "Irradiates the player on usage"
+  },
+  {
+    "type": "character_resource",
+    "id": "ups",
+    "drain_flag": "IS_UPS",
+    "info": "Drains charges from UPSes"
   }
 ]
