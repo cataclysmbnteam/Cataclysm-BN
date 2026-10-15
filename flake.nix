@@ -178,6 +178,7 @@
             {
               type = "app";
               program = lib.getExe updater;
+              meta.description = "Refresh the nix/registry-mods.nix pins";
             };
         };
     };

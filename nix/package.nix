@@ -9,7 +9,8 @@
 #     the `registryMods` argument (nix/registry-mods.nix, same bundle
 #     build-scripts/bundle-registry-mods.ts produces for releases) and
 #     links into the data dir below. Mods ship in every game package;
-#     the soundpack only where `sound` is on.
+#     the soundpack only in game packages where `sound` is on (never in
+#     the test package, which ships only the Catch2 binary).
 #   * CMake generates src/version.h and VERSION.txt from git at configure
 #     time. Nix sources carry no .git, so preConfigure seeds both from
 #     the `version` and `rev` arguments instead.
@@ -164,7 +165,7 @@ stdenv.mkDerivation (
         done
         ln -s ${registryMods}/mods/external-mods-CREDITS.txt $out/share/cataclysm-bn/mods/external-mods-CREDITS.txt
       ''
-      + lib.optionalString sound ''
+      + lib.optionalString (!buildTests && sound) ''
         for d in ${registryMods}/sound/*/; do
           [ -e "$d" ] || continue
           ln -s "$d" $out/share/cataclysm-bn/sound/"$(basename "$d")"
