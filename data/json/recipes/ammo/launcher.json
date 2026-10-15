@@ -631,7 +631,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 2000 ] ],
     "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "105mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "gunpowder", 6000 ] ] ]
+    "components": [ [ [ "105mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "gunpowder", 5500 ] ] ]
   },
   {
     "type": "recipe",
@@ -647,7 +647,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 2000 ] ],
     "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "105mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "chem_black_powder", 6000 ] ] ]
+    "components": [ [ [ "105mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "chem_black_powder", 5500 ] ] ]
   },
   {
     "type": "recipe",
@@ -665,7 +665,7 @@
     "components": [
       [ [ "105mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ],
-      [ [ "gunpowder", 6000 ] ],
+      [ [ "gunpowder", 5500 ] ],
       [ [ "military_explosive", 100, "LIST" ], [ "stable_explosive", 100, "LIST" ] ],
       [ [ "impact_fuze", 1 ] ]
     ]
@@ -686,7 +686,7 @@
     "components": [
       [ [ "105mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ],
-      [ [ "chem_black_powder", 6000 ] ],
+      [ [ "chem_black_powder", 5500 ] ],
       [ [ "military_explosive", 100, "LIST" ], [ "stable_explosive", 100, "LIST" ] ],
       [ [ "impact_fuze", 1 ] ]
     ]
@@ -708,7 +708,7 @@
     "components": [
       [ [ "120mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ],
-      [ [ "gunpowder", 8000 ] ],
+      [ [ "gunpowder", 7000 ] ],
       [ [ "paper", 5 ], [ "wax", 5 ] ]
     ]
   },
@@ -729,7 +729,7 @@
     "components": [
       [ [ "120mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ],
-      [ [ "chem_black_powder", 8000 ] ],
+      [ [ "chem_black_powder", 7000 ] ],
       [ [ "paper", 5 ], [ "wax", 5 ] ]
     ]
   },
@@ -747,7 +747,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 30 ], [ "ammo_bullet", 3000 ] ],
     "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "120mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "gunpowder", 8000 ] ] ]
+    "components": [ [ [ "120mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "gunpowder", 7000 ] ] ]
   },
   {
     "type": "recipe",
@@ -763,7 +763,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 30 ], [ "ammo_bullet", 3000 ] ],
     "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "120mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "chem_black_powder", 8000 ] ] ]
+    "components": [ [ [ "120mm_casing", 1 ] ], [ [ "electric_primer_120mm", 1 ] ], [ [ "chem_black_powder", 7000 ] ] ]
   },
   {
     "type": "recipe",
@@ -781,7 +781,7 @@
     "components": [
       [ [ "120mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ],
-      [ [ "gunpowder", 8000 ] ],
+      [ [ "gunpowder", 7000 ] ],
       [ [ "military_explosive", 125, "LIST" ], [ "stable_explosive", 125, "LIST" ] ],
       [ [ "impact_fuze", 1 ] ]
     ]
@@ -802,7 +802,7 @@
     "components": [
       [ [ "120mm_casing", 1 ] ],
       [ [ "electric_primer_120mm", 1 ] ],
-      [ [ "chem_black_powder", 8000 ] ],
+      [ [ "chem_black_powder", 7000 ] ],
       [ [ "military_explosive", 125, "LIST" ], [ "stable_explosive", 125, "LIST" ] ],
       [ [ "impact_fuze", 1 ] ]
     ]
@@ -820,8 +820,8 @@
     "book_learn": [ [ "textbook_launcher", 5 ], [ "textbook_anarch", 6 ] ],
     "reversible": true,
     "using": [ [ "bullet_forming", 50 ], [ "ammo_bullet", 7000 ] ],
-    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "gunpowder", 12000 ] ], [ [ "paper", 10 ], [ "wax", 10 ] ] ]
+    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "gunpowder", 6000 ] ], [ [ "rag", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -836,8 +836,8 @@
     "book_learn": [ [ "textbook_launcher", 5 ], [ "textbook_anarch", 6 ] ],
     "reversible": true,
     "using": [ [ "bullet_forming", 50 ], [ "ammo_bullet", 7000 ] ],
-    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "chem_black_powder", 12000 ] ], [ [ "paper", 10 ], [ "wax", 10 ] ] ]
+    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "chem_black_powder", 6000 ] ], [ [ "rag", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -852,8 +852,8 @@
     "book_learn": [ [ "textbook_launcher", 6 ], [ "textbook_anarch", 8 ] ],
     "reversible": true,
     "using": [ [ "bullet_forming", 50 ], [ "ammo_bullet", 7000 ] ],
-    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "gunpowder", 12000 ] ] ]
+    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "gunpowder", 6000 ] ], [ [ "rag", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -868,8 +868,8 @@
     "book_learn": [ [ "textbook_launcher", 6 ], [ "textbook_anarch", 8 ] ],
     "reversible": true,
     "using": [ [ "bullet_forming", 50 ], [ "ammo_bullet", 7000 ] ],
-    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
-    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "chem_black_powder", 12000 ] ] ]
+    "qualities": [ { "id": "GRIP_HOT", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "primer_155mm", 1 ] ], [ [ "chem_black_powder", 6000 ] ], [ [ "rag", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -883,12 +883,13 @@
     "book_learn": [ [ "textbook_launcher", 7 ], [ "textbook_anarch", 9 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 40 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CASING_PRESSING", "level": 2 } ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "primer_155mm", 1 ] ],
-      [ [ "gunpowder", 12000 ] ],
+      [ [ "gunpowder", 6000 ] ],
       [ [ "military_explosive", 250, "LIST" ], [ "stable_explosive", 250, "LIST" ] ],
-      [ [ "impact_fuze", 1 ] ]
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "rag", 20 ] ]
     ]
   },
   {
@@ -903,12 +904,13 @@
     "book_learn": [ [ "textbook_launcher", 7 ], [ "textbook_anarch", 9 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 40 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CASING_PRESSING", "level": 2 } ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "primer_155mm", 1 ] ],
-      [ [ "chem_black_powder", 12000 ] ],
+      [ [ "chem_black_powder", 6000 ] ],
       [ [ "military_explosive", 250, "LIST" ], [ "stable_explosive", 250, "LIST" ] ],
-      [ [ "impact_fuze", 1 ] ]
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "rag", 20 ] ]
     ]
   },
   {
@@ -924,7 +926,18 @@
     "book_learn": [ [ "textbook_atomic_lab", 7 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 25 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "CASING_PRESSING", "level": 2 } ],
-    "components": [ [ [ "mininuke", 1 ] ], [ [ "primer_155mm", 1 ] ], [ [ "gunpowder", 12000 ] ] ]
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CASING_PRESSING", "level": 2 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "mininuke", 1 ] ],
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "primer_155mm", 1 ] ],
+      [ [ "gunpowder", 6000 ] ],
+      [ [ "rag", 20 ] ]
+    ]
   }
 ]

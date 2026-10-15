@@ -533,8 +533,6 @@
     ],
     "charges": 1
   },
-
-
   {
     "result": "277_fmj",
     "type": "uncraft",
@@ -562,7 +560,13 @@
     "skills_required": [ "gun", 1 ],
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
-    "components": [ [ [ "lead", 6 ] ], [ [ "copper", 3 ] ], [ [ "277_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ] ],
+    "components": [
+      [ [ "lead", 6 ] ],
+      [ [ "copper", 3 ] ],
+      [ [ "277_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 12 ] ]
+    ],
     "charges": 1
   },
   {
