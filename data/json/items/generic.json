@@ -1087,7 +1087,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "microwave" },
-    "description": "A home microwave, has probably seen its share of baked beans.  Good for scrap parts.",
+    "description": "A home microwave, has probably seen its share of baked beans.  Could be plugged in to use if you can get power going, or failing that it's good for scrap parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],

@@ -934,6 +934,7 @@
     "id": "multi_cooker_improved",
     "type": "TOOL",
     "copy-from": "multi_cooker",
+    "sub": "multi_cooker",
     "name": { "str": "improved multi cooker" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating. This has been tinkered with.",
     "use_action": [
@@ -1238,7 +1239,7 @@
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "light_battery_cell" ] ] ],
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_minus_battery_cell" ] ] ],
     "magazine_well": "250 ml"
   },
   {

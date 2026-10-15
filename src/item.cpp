@@ -5449,6 +5449,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_favorite ) {
         tagtext += _( " *" ); // Display asterisk for favorite items
     }
+    if( has_var( "DROP_WITH_CLOTHING_NAME" ) ) {
+        tagtext += _( " &" ); // Display ampersand for clothing-linked items
+    }
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
     std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext, burntext, modtext,
@@ -8072,6 +8075,15 @@ bool item::add_enchantment( const enchantment_id &ench )
     return true;
 }
 
+bool item::add_enchantment( const enchantment &ench )
+{
+    if( !relic_data ) {
+        relic_data = cata::make_value<relic>();
+    }
+    relic_data->add_passive_effect( ench );
+    return true;
+}
+
 const std::vector<enchantment> &item::get_enchantments( bool dynamic ) const
 {
     if( dynamic && is_relic( true ) ) {
@@ -8128,14 +8140,14 @@ double item::bonus_from_enchantments( double base, enchantment_value_id value,
     return ret;
 }
 
-const std::vector<relic_recharge> &item::get_relic_recharge_scheme() const
+auto item::get_relic_recharge_scheme() const -> std::vector<relic_recharge>
 {
-    std::vector<relic_recharge> recharge_schemes;
+    auto recharge_schemes = std::vector<relic_recharge> {};
     if( type->relic_data ) {
         recharge_schemes = type->relic_data->get_recharge_scheme();
     }
     if( is_relic( true ) ) {
-        std::vector<relic_recharge> dynamic_recharge_schemes = relic_data->get_recharge_scheme();
+        const auto &dynamic_recharge_schemes = relic_data->get_recharge_scheme();
         recharge_schemes.insert( recharge_schemes.end(), dynamic_recharge_schemes.begin(),
                                  dynamic_recharge_schemes.end() );
     }
@@ -9278,7 +9290,8 @@ bool item::reload( Character &who, item &loc, int qty )
     int limit = 0;
     if( is_watertight_container() && ammo->made_of( LIQUID ) ) {
         limit = get_remaining_capacity_for_liquid( *ammo, true );
-    } else if( is_container() && ammo->is_comestible() ) {
+        // Disallow stackable generic to avoid issues with damage melding
+    } else if( is_container() && ( ammo->is_ammo() || ammo->is_comestible() ) ) {
         limit = ammo->charges_per_volume( get_container_capacity() );
         if( !is_container_empty() ) {
             limit -= ammo_remaining();

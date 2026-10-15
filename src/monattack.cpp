@@ -146,11 +146,7 @@ static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
 static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
-static const itype_id itype_c4( "c4" );
-static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
-static const itype_id itype_mininuke( "mininuke" );
-static const itype_id itype_mininuke_act( "mininuke_act" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
@@ -6090,31 +6086,27 @@ bool mattack::kamikaze( monster *z )
     const itype *bomb_type = &*z->ammo.begin()->first;
     itype_id act_bomb_type;
     int charges;
-    // Hardcoded data for charge variant items
-    if( z->ammo.begin()->first == itype_mininuke ) {
-        act_bomb_type = itype_mininuke_act;
-        charges = 20;
-    } else if( z->ammo.begin()->first == itype_c4 ) {
-        act_bomb_type = itype_c4armed;
-        charges = 10;
+    auto usage = bomb_type->get_use( "transform" );
+    if( usage == nullptr ) {
+        // Invalid item usage, Toggle this special off so we stop processing
+        add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
+        z->disable_special( "KAMIKAZE" );
+        return true;
+    }
+    const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
+    if( actor == nullptr ) {
+        // Invalid bomb item, Toggle this special off so we stop processing
+        add_msg( m_debug, "Invalid bomb type in kamikaze special for %s.", z->name() );
+        z->disable_special( "KAMIKAZE" );
+        return true;
+    }
+    act_bomb_type = actor->target;
+    if( actor->set_timer ) {
+        charges = act_bomb_type->maximum_charges();
     } else {
-        auto usage = bomb_type->get_use( "transform" );
-        if( usage == nullptr ) {
-            // Invalid item usage, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
-            z->disable_special( "KAMIKAZE" );
-            return true;
-        }
-        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
-        if( actor == nullptr ) {
-            // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb type in kamikaze special for %s.", z->name() );
-            z->disable_special( "KAMIKAZE" );
-            return true;
-        }
-        act_bomb_type = actor->target;
         charges = actor->ammo_qty;
     }
+    add_msg( m_info, "kamikaze charges is %s.", charges );
 
     // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {

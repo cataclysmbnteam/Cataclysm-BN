@@ -2104,6 +2104,7 @@ bool game::handle_action()
             case ACTION_CENTER:
                 u.view_offset.x() = driving_view_offset.x;
                 u.view_offset.y() = driving_view_offset.y;
+                u.view_offset.z() = u.bub_pos().z();
                 break;
 
             case ACTION_SHIFT_N:

@@ -311,7 +311,7 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( remove_value, void( const std::string & ) );
         DOC( "Retrieves an arbitrary entry using the same key format as set_value." );
         SET_FX_T( get_value, std::string( const std::string & ) const );
-        DOC( "Returns all stored creature vars as a Lua table" );
+        DOC( "Returns all stored creature vars as a table mapping each key (string) to its value (string), as written by set_value." );
         luna::set_fx( ut, "values_table", []( const Creature & cr, sol::this_state state )
         {
             sol::state_view lua( state );
@@ -443,6 +443,10 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_MEMB( faction );
         SET_MEMB( death_drops );
         SET_MEMB( unique_name );
+        DOC( "Pet training level gained through pet training." );
+        SET_MEMB_RO( training_level );
+        DOC( "Bond level with the character this pet is bonded to." );
+        SET_MEMB_RO( pet_bond_level );
 
         // Methods
         // I really don't want to break the uniformity, but...
@@ -505,6 +509,19 @@ void cata::detail::reg_monster( sol::state &lua )
 
         SET_FX_T( move_target, tripoint_bub_ms() );
         SET_FX_N_T( is_wandering, "is_wandering", bool() const );
+        DOC( "Hostile creature this monster sees at its move target, or nil while wandering." );
+        SET_FX_T( attack_target, Creature * () );
+        DOC( "Whether this monster flees from the given character." );
+        SET_FX_T( is_fleeing, bool( Character & ) const );
+        DOC( "Whether this monster has moves left and is not stunned, downed or webbed." );
+        SET_FX_T( can_act, bool() const );
+        DOC( "Whether this monster has an effect that impairs movement." );
+        SET_FX_T( movement_impaired, bool() );
+        DOC( "Intensity of the grabbed effect this monster applies." );
+        SET_FX_T( get_grab_strength, int() const );
+        DOC( "Whether this monster is dead or at 0 HP. Unlike is_dead, which checks only HP," );
+        DOC( "this also includes monsters that already died with HP left, e.g. by self-destructing." );
+        SET_FX_N_T( is_dead, "is_dead_or_dying", bool() const );
 
         SET_FX_T( wander_to, void( const tripoint_bub_ms & p, int f ) );
         luna::set_fx( ut, "add_armor_item", []( monster & m, detached_ptr<item> &armor ) { return m.set_armor_item( std::move( armor ) ); } );
@@ -666,6 +683,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_MEMB( cash );
         SET_MEMB( follower_ids );
 
+        DOC( "Strength of each mutation category, computed from the character's mutations and their prerequisites. Categories without mutations are absent." );
         SET_MEMB( mutation_category_level );
 
         // Magic system
@@ -1223,7 +1241,17 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );
 
-        DOC( "Assigns a Lua-backed activity with opts.type, opts.duration, optional opts.on_finish, optional opts.on_turn, optional opts.data, optional opts.pos, optional opts.name, and optional opts.interruptable." );
+        DOC( "Assigns a Lua-backed activity.  " );
+        DOC( "The callbacks receive a table with keys `user` (Character), `activity` (PlayerActivity), `name`, `data` and `pos`.  " );
+        DOC( "Takes a table with keys:  " );
+        DOC( "* `type` (ActivityTypeId): Activity type.  " );
+        DOC( "* `duration` (TimeDuration): How long the activity takes.  " );
+        DOC( "* `on_finish` (string, optional): Key in `game.activity_functions` called when the activity finishes.  " );
+        DOC( "* `on_turn` (string, optional): Key in `game.activity_functions` called every turn of the activity.  " );
+        DOC( "* `data` (table, optional): Serializable Lua state passed back to the callbacks as `params.data`.  " );
+        DOC( "* `pos` (TripointBubMs, optional): Activity position. Callbacks receive it as `params.pos` in absolute coordinates.  " );
+        DOC( "* `name` (string, optional): Activity name, passed to the callbacks as `params.name`.  " );
+        DOC( "* `interruptable` (boolean, optional): Whether a key press can interrupt the activity. Defaults to true." );
         luna::set_fx( ut, "assign_lua_activity", []( UT_CLASS & c, const sol::table & opts ) -> void {
             c.assign_activity( make_lua_activity( parse_lua_activity_options( opts ) ) );
         } );
@@ -1361,6 +1389,7 @@ void cata::detail::reg_character( sol::state &lua )
             }
         } );
 
+        DOC( "Returns how exposed each body part is through worn items, from 0.0 (fully covered) to 1.0 (bare)." );
         SET_FX( bodypart_exposure );
 
         luna::set_fx( ut, "drench", []( UT_CLASS & c, const int saturation,
@@ -1389,7 +1418,10 @@ void cata::detail::reg_character( sol::state &lua )
         DOC( "Invalidates the cached crafting inventory" );
         SET_FX_T( invalidate_crafting_inventory, void() );
 
-        DOC( "Consumes a requirement's items from the inventory" );
+        DOC( "Consumes a requirement's item components from the inventory and nearby map. Tools and qualities are not used. Returns false if the player cancels a component choice.  " );
+        DOC( "Takes a table with keys:  " );
+        DOC( "* `range` (integer, optional): Radius for nearby map items. Defaults to the pickup range.  " );
+        DOC( "* `count` (integer, optional): Number of times to consume the requirement. Defaults to 1." );
         luna::set_fx( ut, "consume_requirement", []( UT_CLASS & ch, const requirement_data & req, const sol::table & opts ) -> bool {
             int range = opts.get_or( "range", PICKUP_RANGE );
             int size = opts.get_or( "count", 1 );

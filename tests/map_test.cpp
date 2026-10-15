@@ -143,6 +143,26 @@ auto total_field_intensity_in_radius(
 
 } // namespace
 
+TEST_CASE("mapgen_water_fixtures_are_already_plumbed", "[mapgen][fluid_grid][regression]") {
+    clear_all_state();
+    const auto cleanup = on_out_of_scope([] { clear_all_state(); });
+    auto& buffer = MAPBUFFER_REGISTRY.get(mapbuffer_registry::primary_dimension_id());
+    auto tm = mapgen_constructor(buffer);
+    tm.reset_scratch_omt(
+        tripoint_abs_omt(11, 13, 0), ter_id("t_floor"), furn_id("f_null"), trap_id("tr_null"));
+    const auto target = point_omt_ms(SEEX, SEEY);
+    const auto furniture = furn_id(GENERATE("f_sink", "f_shower", "f_bathtub"));
+    REQUIRE(tm.furn_set(target, furniture));
+    auto* vars = tm.furn_vars(target);
+    REQUIRE(vars != nullptr);
+    CHECK(vars->get("fluid_grid_assigned_liquid", "") == "water_clean");
+
+    // Reapplying the same furniture must preserve an explicitly changed assignment.
+    vars->set("fluid_grid_assigned_liquid", "water");
+    CHECK_FALSE(tm.furn_set(target, furniture));
+    CHECK(vars->get("fluid_grid_assigned_liquid", "") == "water");
+}
+
 TEST_CASE("mapgen_items_stay_on_sealed_container_tiles", "[mapgen][item][regression]") {
     clear_all_state();
     auto& buffer = MAPBUFFER_REGISTRY.get(mapbuffer_registry::primary_dimension_id());

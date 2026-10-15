@@ -44,6 +44,14 @@ auto cata::detail::reg_types( sol::state &lua ) -> void
         SET_MEMB_RO( id );
         SET_MEMB_RO( difficulty );
         SET_MEMB_RO( difficulty_base );
+        DOC( "Number of dice of bonus bashing damage on melee hit." );
+        SET_MEMB_RO( melee_dice );
+        DOC( "Number of sides of the melee bonus damage dice." );
+        SET_MEMB_RO( melee_sides );
+        DOC( "Base melee attack damage." );
+        SET_MEMB_RO( melee_damage );
+        DOC( "Intensity of the grabbed effect this monster type applies." );
+        SET_MEMB_RO( grab_strength );
         SET_FX_T( nname, std::string( unsigned int ) const );
     }
 #undef UT_CLASS
@@ -127,6 +135,7 @@ auto cata::detail::reg_types( sol::state &lua ) -> void
         auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
         //SET_FX(combined_with);
+        DOC( "Returns flat resistance values keyed by damage type. Damage types without resistance may be absent." );
         luna::set_fx( ut, "get_all_resist", []( const UT_CLASS & c ) { return c.flat; } );
         SET_FX_N( type_resist, "get_resist" );
         SET_FX( get_effective_resist );

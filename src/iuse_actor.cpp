@@ -235,6 +235,7 @@ void iuse_transform::load( const JsonObject &obj )
         }
     }
     obj.read( "target_ammo", ammo_type );
+    obj.read( "set_timer", set_timer );
 
     obj.read( "countdown", countdown );
 
@@ -319,6 +320,20 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint_bub_ms &pos
         }
     }
 
+    int time;
+    if( set_timer && !p.is_npc() ) {
+        bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+        if( !got_value || time <= 0 ) {
+            p.add_msg_if_player( _( "Never mind." ) );
+            return 0;
+        }
+        p.add_msg_if_player( _( "You set the timer on the %s's to %d." ), it.tname(), time );
+        // Default value in case an NPC uses one.
+    } else {
+        const itype_id act_bomb_type = target;
+        time = act_bomb_type.obj().maximum_charges();
+    }
+
     // All checks complete the damn thing can finally transform
     // Consume charges if necessary at this point.
     if( transform_charges ) {
@@ -378,6 +393,8 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint_bub_ms &pos
                 }
 
             }
+        } else if( set_timer ) {
+            it.set_charges( time );
         }
     } else {
         it.convert( container );
@@ -737,6 +754,7 @@ void unfold_vehicle_iuse::load( const JsonObject &obj )
     obj.read( "unfold_msg", unfold_msg );
     obj.read( "moves", moves );
     obj.read( "tools_needed", tools_needed );
+    obj.read( "full_battery", full_battery );
 }
 
 int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint_bub_ms & ) const
@@ -758,7 +776,8 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint_bub_ms &
         }
     }
 
-    vehicle *veh = get_map().add_vehicle( vehicle_id, p.bub_pos(), 0_degrees, 0, 0, false, false,
+    vehicle *veh = get_map().add_vehicle( vehicle_id, p.bub_pos(), 0_degrees, full_battery ? 100 : 0, 0,
+                                          false, false,
                                           true );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );

@@ -2389,6 +2389,7 @@ class item : public location_visitable<item>, public game_object<item>
         std::optional<dimension_info> pocket_dim;
 
         bool add_enchantment( const enchantment_id &ench );
+        bool add_enchantment( const enchantment &ench );
 
         const std::vector<enchantment> &get_enchantments( bool dynamic ) const;
 
@@ -2424,7 +2425,7 @@ class item : public location_visitable<item>, public game_object<item>
 
         /** returns the parent item, or a null pointer if it has no parent */
         item *parent_item() const;
-        const std::vector<relic_recharge> &get_relic_recharge_scheme() const;
+        auto get_relic_recharge_scheme() const -> std::vector<relic_recharge>;
 
     private:
         struct absolute_rot_process_options {

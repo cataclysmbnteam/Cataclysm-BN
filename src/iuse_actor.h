@@ -58,6 +58,9 @@ class iuse_transform : public iuse_actor
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
 
+        /** if true, ask player how many charges to set ammo of active item to */
+        bool set_timer = false;
+
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;
 
@@ -219,6 +222,10 @@ class unfold_vehicle_iuse : public iuse_actor
         /** Creature::moves it takes to unfold. */
         int moves = 0;
         std::map<itype_id, int> tools_needed;
+        /**
+         * Whether vehicle deploys with full battery/fuel.
+         */
+        bool full_battery = false;
 
         unfold_vehicle_iuse( const std::string &type = "unfold_vehicle" ) : iuse_actor( type ) {}
 

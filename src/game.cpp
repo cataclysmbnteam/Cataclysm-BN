@@ -157,6 +157,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "thread_pool.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -5025,7 +5026,7 @@ void game::draw_ter( const tripoint_bub_ms &center, const bool looking, const bo
                       POSY - u.bub_pos().y() ), c_white, 'X' );
     }
 
-    if( u.controlling_vehicle && !looking ) {
+    if( ( u.controlling_vehicle || remoteveh() ) && !looking ) {
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
@@ -5033,10 +5034,16 @@ void game::draw_ter( const tripoint_bub_ms &center, const bool looking, const bo
     wmove( w_terrain, -center.xy().raw() + g->u.bub_pos().xy().raw() + point( POSX, POSY ) );
 }
 
-std::optional<tripoint_rel_ms> game::get_veh_dir_indicator_location( bool next ) const
+std::optional<tripoint_rel_ms> game::get_veh_dir_indicator_location( bool next )
 {
     if( !get_option<bool>( "VEHICLE_DIR_INDICATOR" ) ) {
         return std::nullopt;
+    }
+    if( vehicle *veh = remoteveh() ) {
+        rl_vec2d face = next ? veh->dir_vec() : veh->face_vec();
+        float r = 10.0;
+        return tripoint_rel_ms( static_cast<int>( r * face.x ), static_cast<int>( r * face.y ),
+                                veh->bub_ms_location().z() );
     }
     const optional_vpart_position vp = m.veh_at( u.bub_pos() );
     if( !vp ) {
@@ -9152,6 +9159,27 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
             const int desc_lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
                                                    furniture_desc ) - 1;
             line += desc_lines;
+        }
+        if( furniture.fluid_grid && furniture.fluid_grid->role == fluid_grid_role::tank &&
+            furniture.fluid_grid->allow_output ) {
+            auto dispensable_liquids = std::vector<std::string> {};
+            if( furniture.fluid_grid->universal_liquids ) {
+                const auto *vars = m.furn_vars( lp );
+                const auto assigned_liquid = vars == nullptr ? std::string{} :
+                                             vars->get( "fluid_grid_assigned_liquid", "" );
+                if( !assigned_liquid.empty() ) {
+                    dispensable_liquids.emplace_back( item::nname( itype_id( assigned_liquid ) ) );
+                }
+            } else {
+                dispensable_liquids = furniture.fluid_grid->allowed_liquids |
+                std::views::transform( []( const itype_id & liquid ) {
+                    return item::nname( liquid );
+                } ) | std::ranges::to<std::vector>();
+            }
+            const auto dispense_desc = dispensable_liquids.empty() ?
+                                       _( "Can dispense any allowed liquid; the type is assigned when filled." ) :
+                                       string_format( _( "Can dispense: %s." ), join( dispensable_liquids, ", " ) );
+            fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, dispense_desc );
         }
     }
 
@@ -14188,11 +14216,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             force = std::min<float>( 1.5f * critter.type->hp, flvel );
             const int damage = rng( force, force * 2.0f ) / 6;
             c->impact( damage, pt );
-            // Multiply zed damage by 6 because no body parts
-            const int zed_damage = std::max( 0,
-                                             ( damage - critter.get_armor_bash( bodypart_id( "torso" ) ) ) * 6 );
-            // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
-            critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
+            critter.impact( damage, pt );
             critter.check_dead_state();
             if( !critter.is_dead() ) {
                 thru = false;

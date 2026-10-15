@@ -17,6 +17,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
+#include "data_vars.h"
 #include "debug.h"
 #include "debug_log_capture.h"
 #include "dimension_info.h"
@@ -154,6 +155,67 @@ TEST_CASE(
     // A disabled attack keeps its cooldown frozen, so it stays skippable.
     CHECK(mon.special_attack_ready("alpha"));
     CHECK_FALSE(mon.special_attack_ready("beta"));
+}
+
+TEST_CASE("Lua reads monster and monster type state", "[lua][monster]") {
+    clear_all_state();
+    const auto cleanup = on_out_of_scope([]() { clear_all_state(); });
+    auto& target = get_avatar();
+    target.setpos(map_local_to_abs(get_map(), tripoint_bub_ms(61, 60, 0)));
+    auto& mon = spawn_test_monster("mon_test_lua_read_bindings", tripoint_bub_ms(60, 60, 0));
+    mon.friendly = 0;
+    mon.anger = 100;
+    mon.moves = 100;
+    mon.training_level = 2;
+    mon.pet_bond_level = 3;
+    mon.set_dest(target.bub_pos());
+    REQUIRE(mon.attack_target() == &target);
+    auto lua = make_lua_state();
+    lua["test_monster"] = &mon;
+    lua["test_target"] = &target;
+
+    const auto alive = lua.safe_script(
+        R"(
+        local mt = test_monster:get_type():obj()
+        assert(mt.melee_dice == 2, "melee_dice was " .. tostring(mt.melee_dice))
+        assert(mt.melee_sides == 3, "melee_sides was " .. tostring(mt.melee_sides))
+        assert(mt.melee_damage:total_damage() == 4, "melee_damage was " .. tostring(mt.melee_damage:total_damage()))
+        assert(mt.grab_strength == 5, "grab_strength was " .. tostring(mt.grab_strength))
+        assert(test_monster:get_grab_strength() == 5)
+        assert(test_monster.training_level == 2)
+        assert(test_monster.pet_bond_level == 3)
+        assert(not pcall(function() test_monster.training_level = 0 end), "training_level must be read-only")
+        local attack_target = test_monster:attack_target()
+        assert(attack_target ~= nil and attack_target:is_avatar(), "attack_target was not the avatar")
+        assert(not test_monster:is_fleeing(test_target))
+        assert(test_monster:can_act())
+        assert(not test_monster:movement_impaired())
+        assert(not test_monster:is_dead())
+        assert(not test_monster:is_dead_or_dying())
+    )",
+        sol::script_pass_on_error);
+    if (!alive.valid()) { FAIL(alive.get<sol::error>().what()); }
+    CHECK(mon.training_level == 2);
+
+    mon.add_effect(efftype_id("downed"), 1_turns);
+    const auto downed = lua.safe_script(
+        R"(
+        assert(not test_monster:can_act())
+        assert(test_monster:movement_impaired())
+    )",
+        sol::script_pass_on_error);
+    if (!downed.valid()) { FAIL(downed.get<sol::error>().what()); }
+
+    // die() with HP left, as self-destructing special attacks do.
+    mon.die(nullptr);
+    REQUIRE(mon.get_hp() > 0);
+    const auto died = lua.safe_script(
+        R"(
+        assert(not test_monster:is_dead(), "is_dead checks only HP")
+        assert(test_monster:is_dead_or_dying())
+    )",
+        sol::script_pass_on_error);
+    if (!died.valid()) { FAIL(died.get<sol::error>().what()); }
 }
 
 TEST_CASE(
@@ -2088,6 +2150,78 @@ TEST_CASE("lua_mapgen_vehicle_replacement", "[lua][mapgen]") {
     CHECK(vehicles.front()->type == vproto_id("swivel_chair"));
     CHECK(normalize(vehicles.front()->face.dir()) == normalize(overridden_facing));
     CHECK(vehicles.front()->static_drag() == vehicles.front()->static_drag(false));
+}
+
+namespace {
+
+auto check_tile_vars_test_results(const sol::table& test_data) -> void {
+    CHECK_FALSE(test_data.get<bool>("furn_has_before"));
+    CHECK(test_data.get<std::string>("furn_default") == "fallback");
+    CHECK(test_data.get<bool>("furn_set_ok"));
+    CHECK(test_data.get<bool>("furn_has_after_set"));
+    CHECK(test_data.get<std::string>("furn_value") == "furn_value");
+    CHECK(test_data.get<std::string>("cpp_furn_key_value") == "cpp_value");
+
+    CHECK_FALSE(test_data.get<bool>("ter_has_before"));
+    CHECK(test_data.get<std::string>("ter_default").empty());
+    CHECK(test_data.get<bool>("ter_set_ok"));
+    CHECK(test_data.get<std::string>("ter_value") == "ter_value");
+
+    CHECK(test_data.get<bool>("ter_erase_ok"));
+    CHECK_FALSE(test_data.get<bool>("ter_erase_again"));
+    CHECK_FALSE(test_data.get<bool>("ter_has_after_erase"));
+    CHECK(test_data.get<bool>("furn_erase_ok"));
+}
+
+} // namespace
+
+TEST_CASE("lua_map_tile_vars", "[lua][map]") {
+    clear_all_state();
+
+    auto& here = get_map();
+    const auto pos = tripoint_bub_ms{50, 50, 0};
+    here.ter_set(pos, ter_id("t_floor"));
+    here.furn_set(pos, furn_id("f_chair"));
+    here.furn_vars(pos)->clear();
+    here.ter_vars(pos)->clear();
+    here.furn_vars(pos)->set("cpp_key", "cpp_value");
+
+    auto lua = make_lua_state();
+    auto test_data = lua.create_table();
+    test_data["target"] = &here;
+    test_data["pos"] = pos;
+    lua.globals()["test_data"] = test_data;
+
+    run_lua_test_script(lua, "tile_vars_test.lua");
+
+    check_tile_vars_test_results(test_data);
+    CHECK(here.furn_vars(pos)->get("lua_key") == "furn_value");
+    CHECK_FALSE(here.furn_vars(pos)->contains("cpp_key"));
+    CHECK_FALSE(here.ter_vars(pos)->contains("lua_key"));
+}
+
+TEST_CASE("lua_mapgen_tile_vars", "[lua][mapgen]") {
+    clear_all_state();
+
+    auto& buffer = MAPBUFFER_REGISTRY.get(mapbuffer_registry::primary_dimension_id());
+    auto tm = mapgen_constructor(buffer);
+    tm.reset_scratch_omt(
+        tripoint_abs_omt(11, 13, 0), ter_id("t_floor"), furn_id("f_chair"), trap_id("tr_null"));
+    const auto pos = point_omt_ms(12, 12);
+    tm.furn_vars(pos)->set("cpp_key", "cpp_value");
+
+    auto lua = make_lua_state();
+    auto test_data = lua.create_table();
+    test_data["target"] = &tm;
+    test_data["pos"] = pos;
+    lua.globals()["test_data"] = test_data;
+
+    run_lua_test_script(lua, "tile_vars_test.lua");
+
+    check_tile_vars_test_results(test_data);
+    CHECK(tm.furn_vars(pos)->get("lua_key") == "furn_value");
+    CHECK_FALSE(tm.furn_vars(pos)->contains("cpp_key"));
+    CHECK_FALSE(tm.ter_vars(pos)->contains("lua_key"));
 }
 
 TEST_CASE("lua_table_serde", "[lua]") {

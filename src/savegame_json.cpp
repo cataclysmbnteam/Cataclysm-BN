@@ -2174,6 +2174,17 @@ auto monster::load( const JsonObject &data,
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
     data.read( "monster_flags", monster_flags );
+    if( type->pet_training && training_level > 0 ) {
+        for( const auto &lf : type->pet_training->level_flags ) {
+            if( lf.level <= training_level ) {
+                for( const m_flag f : lf.flags ) {
+                    if( !has_flag( f ) ) {
+                        monster_flags.insert( f );
+                    }
+                }
+            }
+        }
+    }
 }
 
 /*
