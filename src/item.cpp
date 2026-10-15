@@ -10966,6 +10966,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     }
 
     int energy = 0;
+    const bool uses_UPS = self->has_flag( flag_USE_UPS );
     const bool uses_resource = self->uses_external_resource();
     bool revert_destroy = false;
     if( self->type->tool->turns_per_charge > 0 ) {
@@ -11000,21 +11001,32 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                     energy = 0;
                 }
             }
+            if( carrier && uses_UPS ) {
+                if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
+                    energy = 0;
+                }
+            }
         }
 
         // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
         // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
         // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
-        if( ( self->ammo_remaining() == 0 && !uses_resource ) || energy > 0 ) {
+        if( ( self->ammo_remaining() == 0 && !uses_resource && !uses_UPS ) || energy > 0 ) {
             revert_destroy = true;
             if( carrier ) {
                 if( self->is_power_armor() ) {
                     if( uses_resource ) {
+                        carrier->add_msg_if_player( m_info, _( "You need an external power source to run the %s!" ),
+                                                    self->tname() );
+                    } else if( uses_UPS ) {
                         carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
                                                     self->tname() );
                     } else {
 
                     }
+
+                } else if( uses_UPS ) {
+                    carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
                 } else if( uses_resource ) {
                     carrier->add_msg_if_player( m_info, _( "You need an external power source to run the %s!" ),
                                                 self->tname() );
