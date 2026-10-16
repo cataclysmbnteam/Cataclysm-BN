@@ -982,8 +982,7 @@
       { "group": "sopmod_2", "count": [ 1, 2 ], "prob": 100 },
       { "group": "rare", "count": 2, "prob": 100 },
       { "item": "pants_tacticool", "prob": 100 },
-      { "item": "jacket_tacticool", "prob": 100 },
-      { "item": "billybass", "prob": 100 }
+      { "item": "jacket_tacticool", "prob": 100 }
     ]
   },
   {
@@ -1027,7 +1026,8 @@
       { "group": "mil_food", "count": [ 3, 5 ], "prob": 100 },
       { "group": "tools_entry", "count": [ 1, 2 ], "prob": 100 },
       { "group": "tools_robotics", "count": [ 2, 4 ], "prob": 100 },
-      { "group": "rare", "count": 1, "prob": 100 }
+      { "group": "rare", "count": 1, "prob": 100 },
+      { "item": "billybass", "prob": 100 }
     ]
   },
   {
