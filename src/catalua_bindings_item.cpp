@@ -30,6 +30,7 @@
 #include "vitamin.h"
 
 #include <ranges>
+#include <vector>
 
 namespace
 {
@@ -423,6 +424,11 @@ void reg_item( sol::state &lua )
         DOC( "Is this item an effective melee weapon for the given damage type?" );
         luna::set_fx( ut, "is_melee", sol::resolve<bool( damage_type ) const>
                       ( &item::is_melee ) );
+
+        DOC( "Gets the weapon category of the item." );
+        luna::set_fx( ut, "weapon_categories", []( const item & it ) -> std::vector<weapon_category_id> {
+            return it.typeId()->weapon_category | std::ranges::to<std::vector>();
+        } );
 
         DOC( "Is this a magazine? (batteries are magazines)" );
         SET_FX( is_magazine );

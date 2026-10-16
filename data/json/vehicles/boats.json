@@ -321,6 +321,7 @@
       [ "||##==|______|| " ],
       [ " ||||||||++|||  " ]
     ],
+    "flags": [ "VEHICLE_NO_LOCKS" ],
     "color_palette": "wooden_standard",
     "parts": [
       { "x": -9, "y": 0, "parts": [ "frame_wood_horizontal", "windshield", "v_curtain", "boat_board" ] },
@@ -461,6 +462,7 @@
       [ "||##__|_____t||  " ],
       [ " ||||||||++|||   " ]
     ],
+    "flags": [ "VEHICLE_NO_LOCKS" ],
     "color_palette": "wooden_standard",
     "parts": [
       { "x": -9, "y": 0, "parts": [ "frame_wood_horizontal", "woodboard_horizontal", "plating_wood", "boat_board" ] },

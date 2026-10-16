@@ -223,6 +223,7 @@ static const itype_id itype_rope_makeshift_30( "rope_makeshift_30" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_vine_30( "vine_30" );
+static const itype_id itype_wind( "wind" );
 static const itype_id itype_wool_staple( "wool_staple" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
@@ -2473,13 +2474,13 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
         if( veh->is_engine_on( e ) ) {
             attempted++;
             if( !veh->is_engine_type( e, itype_muscle ) &&
-                !veh->is_engine_type( e, itype_animal ) ) {
+                !veh->is_engine_type( e, itype_animal ) && !veh->is_engine_type( e, itype_wind ) ) {
                 non_muscle_attempted++;
             }
             if( veh->start_engine( e ) ) {
                 started++;
                 if( !veh->is_engine_type( e, itype_muscle ) &&
-                    !veh->is_engine_type( e, itype_animal ) ) {
+                    !veh->is_engine_type( e, itype_animal ) && !veh->is_engine_type( e, itype_wind ) ) {
                     non_muscle_started++;
                 } else {
                     non_combustion_started++;
