@@ -8966,7 +8966,7 @@ bool Character::consume_charges( item &used, int qty )
         }
     }
 
-    if( used.consume_external_resource( *this, used.ammo_required() ) ) {
+    if( used.uses_external_resource() && used.consume_external_resource( *this, used.ammo_required() ) ) {
         return false;
     }
 
