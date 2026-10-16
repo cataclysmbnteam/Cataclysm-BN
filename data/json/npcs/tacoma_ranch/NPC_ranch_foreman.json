@@ -669,7 +669,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_12" ], "x": 0, "y": 9 } ] },
+        { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_12" ], "x": 0, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_12_done" ], "x": 0, "y": 4 } ]
@@ -706,7 +706,11 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 9 } ] },
+        { "om_terrain": "ranch_camp_49", "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13" ], "x": 0, "y": 0 } ] },
+        {
+          "om_terrain": "ranch_camp_49_z1",
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_roof_1" ], "x": 0, "y": 0 } ]
+        },
         { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ] },
         {
           "om_terrain": "ranch_camp_70",
@@ -742,7 +746,7 @@
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_49",
-          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_14_done" ], "x": 0, "y": 9 } ]
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_14_done" ], "x": 0, "y": 0 } ]
         },
         {
           "om_terrain": "ranch_camp_51",

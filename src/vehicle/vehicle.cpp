@@ -169,6 +169,7 @@ static const std::vector<std::string> vs_NO_HOTWIRING = {
     "MUSCLE_LEGS",
     "MUSCLE_ARMS",
     "ANIMAL_CTRL",
+    "WIND_POWERED",
 };
 
 static auto is_sm_tile_outside(const tripoint_abs_ms& pos) -> bool;
