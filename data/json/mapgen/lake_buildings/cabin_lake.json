@@ -42,7 +42,7 @@
         "0": "t_window_domestic",
         "+": "t_door_c",
         "4": "t_gutter_downspout",
-        "I": "t_wall_log",
+        "I": "t_wall_log"
       },
       "furniture": {
         "h": "f_chair",

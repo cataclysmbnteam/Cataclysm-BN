@@ -134,7 +134,7 @@
         "0": "t_laminated_glass",
         "#": "t_wall_wood",
         "^": "t_shingle_flat_roof",
-        "I": "t_wall_wood",
+        "I": "t_wall_wood"
       },
       "furniture": {
         "h": "f_chair",
