@@ -4143,7 +4143,6 @@ bool mattack::searchlight( monster *z )
         g->m.add_field( tripoint_bub_ms( x, y, z->bub_pos().z() ), fd_spotlight, 1 );
 
     }
-
     return true;
 }
 

@@ -54,6 +54,7 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "perk.h"
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
@@ -347,6 +348,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_btraits = 0;
     int tries = 0;
     newcharacter::add_traits( *this, points ); // adds mandatory profession/scenario traits.
+    newcharacter::add_perks( *this );
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
@@ -2484,6 +2486,12 @@ tab_direction set_profession( avatar &u, points_left &points,
                     buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
                 }
             }
+            if( !sorted_profs[cur_id]->get_perks().empty() ) {
+                buffer += colorize( _( "Perks:" ), c_light_blue ) + "\n";
+                for( const perk_id &perk : sorted_profs[cur_id]->get_perks() ) {
+                    buffer += string_format( _( "%s" ), perk->get_name() ) + "\n";
+                }
+            }
 
             // Profession money
             std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
@@ -2633,6 +2641,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             newcharacter::add_traits( u, points );
+            newcharacter::add_perks( u );
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -3722,9 +3731,26 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             wprintz( w_traits, c_light_red, _( "None!" ) );
         } else {
             for( size_t i = 0; i < current_traits.size(); i++ ) {
+                pos = i + 1;
                 const auto current_trait = current_traits[i];
-                trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
+                trim_and_print( w_traits, point( 0, pos ), getmaxx( w_traits ) - 1,
                                 current_trait->get_display_color(), "\t" + current_trait->name() );
+            }
+        }
+
+        if( !you.prof->get_perks().empty() || !g->scen->get_perks().empty() ) {
+            pos++;
+            mvwprintz( w_traits, point( 0, pos ), COL_HEADER, _( "Perks: " ) );
+            pos++;
+            for( const perk_id &perk : you.prof->get_perks() ) {
+                trim_and_print( w_traits, point( 0, pos ), getmaxx( w_traits ) - 1,
+                                c_white, "\t" + perk->get_name() );
+                pos++;
+            }
+            for( const perk_id &perk : g->scen->get_perks() ) {
+                trim_and_print( w_traits, point( 0, pos ), getmaxx( w_traits ) - 1,
+                                c_white, "\t" + perk->get_name() );
+                pos++;
             }
         }
 
@@ -4348,6 +4374,17 @@ void newcharacter::add_traits( Character &ch, points_left &points )
     }
 }
 
+void newcharacter::add_perks( Character &ch )
+{
+    for( const perk_id &perk : ch.prof->get_perks() ) {
+        ch.add_perk( perk );
+    }
+
+    for( const perk_id &perk : g->scen->get_perks() ) {
+        ch.add_perk( perk );
+    }
+}
+
 trait_id newcharacter::random_good_trait()
 {
     std::vector<trait_id> vTraitsGood;
@@ -4585,6 +4622,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.clear_skills();
     u.clear_bionics();
     newcharacter::add_traits( u );
+    newcharacter::add_perks( u );
     restore_cosmetic_trait( u, type_hair_color, previous_hair_color );
     restore_or_default_hair_style( u, previous_hair_style );
 }
