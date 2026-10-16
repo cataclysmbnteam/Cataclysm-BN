@@ -19,8 +19,9 @@ nix develop          # shell with cmake, ninja, git, nixfmt
 
 The game revision is the checkout itself (`src = self`), so the flake tracks whatever the
 working tree has. The binary banner combines the current stable version with the flake
-revision; flake sources carry no `.git`, so `nix/package.nix` seeds `src/version.h` and
-`VERSION.txt` from it at configure time. `flake.nix` holds the exact form.
+revision. Flake sources carry no `.git`, so CMake's version calls get answered by a
+stand-in script built from the flake's revision and commit time (`nix/package.nix`,
+`flake.nix` holds the exact values).
 
 `gfx/` ships pre-composed, so the game package already bundles every tileset.
 

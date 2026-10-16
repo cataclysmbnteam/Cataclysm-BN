@@ -26,10 +26,11 @@
         let
           inherit (pkgs) lib;
 
-          # No .git in flake sources, so CMake's git_describe finds
-          # nothing; the banner version comes from the flake revision
-          # instead (package.nix seeds src/version.h from this).
+          # No .git in flake sources, so the banner version comes from
+          # the flake revision instead (package.nix answers CMake's git
+          # calls with a stand-in script built from these values).
           version = "0.13.0+" + (self.shortRev or self.dirtyShortRev or "git");
+          commitTime = self.lastModified or null;
 
           # Docs require clang >= 22; the default gcc stdenv is not it.
           clangStdenv = pkgs.llvmPackages_22.stdenv;
@@ -45,7 +46,7 @@
             pkgs.callPackage ./nix/package.nix (
               attrs
               // {
-                inherit version registryMods;
+                inherit version registryMods commitTime;
                 rev = self.rev or self.dirtyRev or "unknown";
                 src = self.outPath;
                 stdenv = clangStdenv;

@@ -11,9 +11,14 @@
 #     links into the data dir below. Mods ship in every game package;
 #     the soundpack only in game packages where `sound` is on (never in
 #     the test package, which ships only the Catch2 binary).
-#   * CMake generates src/version.h and VERSION.txt from git at configure
-#     time. Nix sources carry no .git, so preConfigure seeds both from
-#     the `version` and `rev` arguments instead.
+#   * CMake still asks git for its version strings (root CMakeLists at
+#     configure, src/version.cmake at build time). Nix sources carry no
+#     .git, so -DGIT_BINARY points at a stand-in script answering from
+#     the `version` and `rev` arguments. Configure then rewrites
+#     VERSION.txt with the dirty-marked rev, so postConfigure re-seeds
+#     it with the clean sha for its commit link. The banner date comes
+#     from __DATE__, so SOURCE_DATE_EPOCH becomes the commit time
+#     instead of Nix's 1980 default.
 #   * Docs require clang >= 22, so callers pass llvmPackages_22.stdenv.
 #     Shadercross comes from nixpkgs (BUILD_SHADERCROSS=OFF) instead of
 #     building from source, which would need network at build time.
@@ -36,6 +41,9 @@
   sdl3-ttf,
   sdl3-mixer,
   sdl3-shadercross,
+  # Builds the git stand-in below (answers describe/rev-parse from the
+  # flake's version and rev).
+  writeShellScriptBin,
   # SDL3 graphical build; ncurses text build when false
   tiles ? true,
   # sound via SDL3_mixer; requires tiles
@@ -48,6 +56,9 @@
   # Full git revision of `src`, used for the version banner and the
   # commit link in VERSION.txt.
   rev ? "unknown",
+  # Commit timestamp (flake self.lastModified), for the banner date via
+  # SOURCE_DATE_EPOCH. Null keeps Nix's reproducibility default.
+  commitTime ? null,
   src,
   # Registry mods + soundpack bundle (nix/registry-mods.nix); linked
   # into game packages below, never into the test package.
@@ -96,6 +107,17 @@ let
       "cataclysm-bn-tiles"
     else
       "cataclysm-bn";
+
+  # version.cmake and the root CMakeLists only ever ask git two things:
+  # `describe` for the build version and `rev-parse HEAD` for the
+  # VERSION.txt sha. Answer both from the flake and ignore the rest.
+  gitDescribe = writeShellScriptBin "cbn-git-describe" ''
+    if [ "$1 $2" = "rev-parse HEAD" ]; then
+      echo "${rev}"
+    else
+      echo "${version}"
+    fi
+  '';
 in
 stdenv.mkDerivation (
   {
@@ -115,6 +137,14 @@ stdenv.mkDerivation (
 
     strictDeps = true;
 
+    # Banner date falls back to __DATE__ (version.h.in carries no
+    # BUILD_TIMESTAMP), and clang renders __DATE__ from
+    # SOURCE_DATE_EPOCH. Nix pins that to 1980; the commit time keeps
+    # the build reproducible while showing something true.
+    env = lib.optionalAttrs (commitTime != null) {
+      SOURCE_DATE_EPOCH = toString commitTime;
+    };
+
     # RelWithDebInfo takes the release path in CMakeLists.txt (PREFIX data
     # layout under share/cataclysm-bn); Debug would drop into dev mode
     # with binaries in the source dir and no install rules.
@@ -129,6 +159,7 @@ stdenv.mkDerivation (
     checkPhase = ":";
 
     cmakeFlags = [
+      "-DGIT_BINARY=${gitDescribe}/bin/cbn-git-describe"
       "-DTILES=${if tiles then "ON" else "OFF"}"
       "-DCURSES=${if tiles then "OFF" else "ON"}"
       "-DSOUND=${if sound then "ON" else "OFF"}"
@@ -141,16 +172,16 @@ stdenv.mkDerivation (
     ]
     ++ optionals useXdgDir [ "-DUSE_XDG_DIR=ON" ];
 
-    # Seed the two files CMake only generates when git_describe finds a
-    # repo. Nix sources carry no .git, so both are missing otherwise and
-    # the install rule aborts on VERSION.txt.
-    preConfigure = ''
-      cat > src/version.h <<EOF
-      // NOLINT(cata-header-guard)
-      #define VERSION "${version}"
-      #define BUILD_TIMESTAMP "nix-build"
-      EOF
-      printf 'build type: RelWithDebInfo\nbuild number: nix\ncommit sha: %s\ncommit url: https://github.com/cataclysmbn/Cataclysm-BN/commit/%s\n' '${rev}' '${rev}' > VERSION.txt
+    # Configure regenerates VERSION.txt from the stand-in's rev-parse
+    # answer, which carries the dirty marker. Re-seed it after configure
+    # with the clean sha so the commit link resolves. postConfigure runs
+    # in the build dir, so name the source root explicitly. src/version.h
+    # needs no seeding: configure and the build both generate it from the
+    # stand-in.
+    postConfigure = ''
+      rev='${rev}'
+      clean_rev="''${rev%-dirty}"
+      printf 'build type: RelWithDebInfo\nbuild number: nix\ncommit sha: %s\ncommit url: https://github.com/cataclysmbn/Cataclysm-BN/commit/%s\n' "$clean_rev" "$clean_rev" > "$NIX_BUILD_TOP/$sourceRoot/VERSION.txt"
     '';
 
     # The game installs no desktop entry itself (those CMake messages are
