@@ -40,7 +40,8 @@
       "place_nested": [ { "chunks": [ "lab_finale_loot_ice" ], "x": 6, "y": 11 } ],
       "place_loot": [
         { "group": "mech_power_cell_spawn", "x": [ 4, 5 ], "y": [ 3, 5 ] },
-        { "item": "id_science", "x": 17, "y": [ 11, 13 ] }
+        { "item": "id_science", "x": 17, "y": [ 11, 13 ] },
+        { "item": "billybass", "x": 17, "y": [ 11, 13 ] }
       ],
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
@@ -89,7 +90,7 @@
       "terrain": { "?": "t_nanoforge", "r": "t_metal_floor", "/": "t_nanoforge_body" },
       "mapping": { "R": { "item": { "item": "nanomaterial" } } },
       "place_nested": [ { "chunks": [ "lab_finale_loot_ice" ], "x": 7, "y": 15 } ],
-      "place_loot": [ { "item": "id_science", "x": 17, "y": [ 16, 17 ] } ],
+      "place_loot": [ { "item": "id_science", "x": 17, "y": [ 16, 17 ] }, { "item": "billybass", "x": 17, "y": [ 16, 17 ] } ],
       "items": {
         "m": { "item": "sheet_metal", "chance": 50, "repeat": [ 1, 2 ] },
         "y": { "item": "alloy_sheet", "chance": 100, "repeat": [ 1, 2 ] }
@@ -140,7 +141,7 @@
       "furniture": { "R": "f_rack", "P": "t_dimensional_portal" },
       "terrain": { ",": "t_metal_floor" },
       "place_nested": [ { "chunks": [ "lab_finale_loot_ice" ], "x": 4, "y": 11 } ],
-      "place_loot": [ { "item": "id_science", "x": 19, "y": [ 11, 13 ] } ],
+      "place_loot": [ { "item": "id_science", "x": 19, "y": [ 11, 13 ] }, { "item": "billybass", "x": 19, "y": [ 11, 13 ] } ],
       "place_monster": [ { "monster": "mon_mutant_medical", "x": 12, "y": 12, "chance": 100 } ],
       "computers": { "6": { "name": "High Risk Subject Containment", "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock" } ] } }
     }
@@ -194,7 +195,7 @@
         }
       },
       "place_nested": [ { "chunks": [ "lab_finale_loot_ice" ], "x": 4, "y": 1 } ],
-      "place_loot": [ { "item": "id_science", "x": [ 19, 20 ], "y": [ 2, 5 ] } ],
+      "place_loot": [ { "item": "id_science", "x": [ 19, 20 ], "y": [ 2, 5 ] }, { "item": "billybass", "x": [ 19, 20 ], "y": [ 2, 5 ] } ],
       "place_monster": [ { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 100 } ]
     }
   },
@@ -250,7 +251,11 @@
         "I": "t_strconc_floor"
       },
       "place_nested": [ { "chunks": [ "lab_finale_loot_ice" ], "x": 5, "y": 16 }, { "chunks": [ "lab_weapon_loot" ], "x": 8, "y": 15 } ],
-      "place_loot": [ { "group": "mech_power_cell_spawn", "x": 18, "y": 17 }, { "item": "id_science", "x": 18, "y": 16 } ],
+      "place_loot": [
+        { "group": "mech_power_cell_spawn", "x": 18, "y": 17 },
+        { "item": "id_science", "x": 18, "y": 16 },
+        { "item": "billybass", "x": 18, "y": 16 }
+      ],
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
         { "monster": "mon_secubot", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
@@ -298,7 +303,7 @@
       "terrain": { "a": "t_thconc_floor", "b": "t_thconc_floor", "y": "t_thconc_y" },
       "furniture": { "O": "f_standing_tank", "P": "t_dimensional_portal" },
       "liquids": { "O": { "liquid": "mutagen", "amount": [ 100, 200 ] } },
-      "place_loot": [ { "item": "id_science", "x": [ 8, 10 ], "y": 10 } ],
+      "place_loot": [ { "item": "id_science", "x": [ 8, 10 ], "y": 10 }, { "item": "billybass", "x": [ 8, 10 ], "y": 10 } ],
       "mapping": {
         "a": { "items": [ { "item": "55gal_drum", "chance": 100 } ] },
         "e": { "items": [ { "item": "exosuit_industrial", "chance": 100 } ] },
