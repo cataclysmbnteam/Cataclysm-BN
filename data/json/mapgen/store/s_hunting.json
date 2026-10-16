@@ -13,7 +13,7 @@
         ".`''''`''''`''''`''''`..",
         ".||||||||||**|~~~~~~~||.",
         ".| RRRRRRR^  ^RRRRRRR |.",
-        ".|                    |.",
+        ".b                    |.",
         ".| RRRRRRR    RRRRRRR |.",
         ".| RRRRRRR    RRRRRRR |.",
         ".|                    |.",
@@ -48,7 +48,8 @@
         "|": "t_wall_w",
         "~": "t_window_bars_alarm",
         "C": "t_console_broken",
-        "4": "t_gutter_downspout"
+        "4": "t_gutter_downspout",
+        "b": "t_wall_w",
       },
       "furniture": {
         "1": "f_street_light",
@@ -68,7 +69,8 @@
         "I": "f_desk",
         "Y": "f_trashcan",
         "L": "f_locker",
-        "m": "f_mannequin"
+        "m": "f_mannequin",
+        "b": "f_billybass"
       },
       "toilets": { "&": {  } },
       "items": {
