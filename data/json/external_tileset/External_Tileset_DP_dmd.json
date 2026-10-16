@@ -274,9 +274,7 @@
         "sprite_height": 32,
         "sprite_offset_y": 5,
         "sprite_offset_x": -1,
-        "tiles": [
-          { "id": "f_billybass", "fg": 168 }
-        ]
+        "tiles": [ { "id": "f_billybass", "fg": 168 } ]
       }
     ]
   }
