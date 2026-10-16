@@ -808,6 +808,10 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "add_npc_follower", []( npc & p ) { g->add_npc_follower( p.getID() ); } );
     luna::set_fx( lib, "remove_npc_follower", []( npc & p ) { g->remove_npc_follower( p.getID() ); } );
 
+    luna::set_fx( lib, "fling_creature", []( Creature & c, const units::angle & dir, float force,
+    bool controlled ) {
+        g->fling_creature( &c, dir, force, controlled );
+    } );
     DOC( "Opens an item selection menu listing the player's inventory and nearby items that pass a filter, and returns the chosen item or nil.  " );
     DOC( "Takes a table with keys:  " );
     DOC( "* `title` (string): Menu title.  " );
