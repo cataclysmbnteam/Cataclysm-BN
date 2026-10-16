@@ -251,7 +251,8 @@
           { "id": "SVD", "fg": 164 },
           { "id": "overlay_wielded_SVD", "fg": 165 },
           { "id": "PKM", "fg": 166 },
-          { "id": "overlay_wielded_PKM", "fg": 167 }
+          { "id": "overlay_wielded_PKM", "fg": 167 },
+          { "id": [ "billybass", "overlay_wielded_billybass" ], "fg": 168 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
@@ -265,6 +266,16 @@
           { "id": "overlay_worn_tac_fullhelmet", "fg": 43 },
           { "id": "overlay_worn_tac_helmet", "fg": 45 },
           { "id": "overlay_worn_helmet_army", "fg": 123 }
+        ]
+      },
+      {
+        "file": "external_tileset/External_Tileset_DP_dmd.png",
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_y": 5,
+        "sprite_offset_x": -1,
+        "tiles": [
+          { "id": "f_billybass", "fg": 168 }
         ]
       }
     ]
