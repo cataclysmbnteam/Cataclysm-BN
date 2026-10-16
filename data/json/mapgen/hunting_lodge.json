@@ -15,7 +15,7 @@
         ".*#    YY   YY  AAAAAAAA  ata ^        >#*......",
         ".%########+########################   ###*......",
         "ooooooooooGGGGGGG~~~~~~~~~~~~~~~~~#   #%**......",
-        "ooooooooooooooooG~~~~~%##I#########   #*........",
+        "ooooooooooooooooG~~~~~%############   #*........",
         "ooooooooooooooooG~~~~~*w              #*........",
         "ooooooooooooooooG~~~~~*#Y   c c c     w*........",
         "ooooooooooooooooGGGGGGG+    ttttt    bw*........",
@@ -32,12 +32,6 @@
         "......%###-###-###-##########+######%..........."
       ],
       "palettes": [ "lodge_palette" ],
-      "terrain": {
-        "I": "t_rock_wall"
-      },
-      "furniture": {
-        "I": "f_billybass"
-      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
       "place_nested": [
         {
