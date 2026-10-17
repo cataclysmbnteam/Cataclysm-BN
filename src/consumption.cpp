@@ -7,6 +7,8 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catalua_hooks.h"
+#include "catalua_sol.h"
 #include "character.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -845,6 +847,22 @@ bool Character::eat( item &food, bool force )
         !food.has_flag( flag_NO_BLOAT ) ) {
         add_msg_if_player( _( "You force yourself to vomit to make space for %s." ), food.tname() );
         vomit();
+    }
+
+    if( cata::has_hooks( "on_character_consume" ) ) {
+        const auto &hook_results = cata::run_hooks( "on_character_consume",
+        [ &, this ]( sol::table & params ) {
+            params["char"] = this;
+            params["item"] = &food;
+            params["nutrition"] = compute_effective_nutrients( food ).kcal;
+            params["thirst"] = food.get_comestible()->quench;
+            const auto fun = fun_for( food );
+            params["fun"] = fun.first;
+            params["fun_max"] = fun.second;
+        }, { .exit_early = true } );
+        if( !hook_results.get_or( "allowed", true ) ) {
+            return false;
+        }
     }
 
     int charges_used = 0;
