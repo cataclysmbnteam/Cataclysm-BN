@@ -462,6 +462,7 @@
       { "id": "scratch" },
       { "type": "bite", "cooldown": 10 },
       [ "SMASH", 20 ],
+      { "id": "hulk_lift_and_smash" },
       { "id": "hulk_wide_swing" }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
