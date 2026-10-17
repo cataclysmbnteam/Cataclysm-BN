@@ -395,14 +395,14 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
-    int distance = rl_dist( z->bub_pos(), target->bub_pos() );
+    int distance = rl_dist( z.bub_pos(), target->bub_pos() );
     if( distance < min_range || distance > max_range ) {
         return nullptr;
     }
 
-    auto prev_point = z->bub_pos();
+    auto prev_point = z.bub_pos();
     bool obstructed = false;
-    for( auto &pnt : g->m.find_clear_path( z->bub_pos(), target->bub_pos() ) ) {
+    for( auto &pnt : g->m.find_clear_path( z.bub_pos(), target->bub_pos() ) ) {
         if( g->m.obstructed_by_vehicle_rotation( prev_point, pnt ) ) {
             obstructed = true;
             if( one_in( 2 ) ) {
