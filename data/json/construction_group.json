@@ -1958,5 +1958,10 @@
     "type": "construction_group",
     "id": "place_roulette",
     "name": "Place Roulette Table"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_billybass",
+    "name": "Put Up Big Mouth Billy Bass"
   }
 ]
