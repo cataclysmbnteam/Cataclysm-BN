@@ -142,7 +142,7 @@ static const ammo_effect_str_id ammo_effect_LASER("LASER");
 static const ammo_effect_str_id ammo_effect_LIGHTNING("LIGHTNING");
 static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES("NO_PENETRATE_OBSTACLES");
 static const ammo_effect_str_id ammo_effect_PLASMA("PLASMA");
-static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
+static const ammo_effect_str_id ammo_effect_SHOT("SHOT");
 
 static const itype_id itype_autoclave("autoclave");
 static const itype_id itype_battery("battery");
