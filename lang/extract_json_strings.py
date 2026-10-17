@@ -1054,6 +1054,8 @@ use_action_msgs = {
     "lacks_fuel_message",
     "failure_message",
     "descriptions",
+    "player_descriptions",
+    "npc_descriptions",    
     "use_message",
     "noise_message",
     "bury_question",
