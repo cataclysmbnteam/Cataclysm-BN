@@ -812,6 +812,10 @@ Turns needed to complete special attack. 100 move_cost with 100 speed is equal t
 
 (Integer) How accurate it is. Not many monsters use it though.
 
+#### "requires_grab"
+
+Whether the attack requires the target to be grabbed first. Useful for multi-stage attacks or "finisher" attacks.
+
 #### "no_infection_chance"
 
 Chance to not give infection.
