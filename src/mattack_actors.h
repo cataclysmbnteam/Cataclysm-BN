@@ -97,6 +97,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_u;
         /** Message for damaging hit against the player. */
         translation hit_dmg_u;
+        /** Message for a ranged attack against the player that hits an obstacle. */
+        translation bounce_msg_u;
 
         /** Message for missed attack against a non-player. */
         translation miss_msg_npc;
@@ -104,6 +106,8 @@ class melee_actor : public mattack_actor
         translation no_dmg_msg_npc;
         /** Message for damaging hit against a non-player. */
         translation hit_dmg_npc;
+        /** Message for a ranged attack against a non-player that hits an obstacle. */
+        translation bounce_msg_npc;
 
         melee_actor();
         ~melee_actor() override;
