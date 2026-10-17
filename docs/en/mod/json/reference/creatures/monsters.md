@@ -788,6 +788,10 @@ Turns needed to complete special attack. 100 move_cost with 100 speed is equal t
 
 Whether the attack requires the target to be grabbed first. Useful for multi-stage attacks or "finisher" attacks.
 
+#### "spread_damage"
+
+Whether the attack spreads its damage to all body parts rather than a single body part.
+
 ### "leap"
 
 Makes the monster leap a few tiles. It supports the following additional properties:
