@@ -399,7 +399,7 @@ bool melee_actor::call( monster &z ) const
         return false;
     }
 
-    if( requires_grab && !target.has_effect( effect_grabbed ) ) {
+    if( requires_grab && !target->has_effect( effect_grabbed ) ) {
         return false;
     }
 
