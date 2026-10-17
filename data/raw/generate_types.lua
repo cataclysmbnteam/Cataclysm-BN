@@ -680,6 +680,15 @@ on_monster_try_move = {}
 ---@field mount Creature?
 on_character_try_move = {}
 
+---@class OnCharacterConsumeParams
+---@field char Character @the character eating or drinking the item
+---@field item Item @the comestible being consumed
+---@field nutrition integer @effective calories (kcal) the character would gain
+---@field thirst integer @thirst quenched by the item
+---@field fun integer @effective fun (joy) value, taking traits and rot into account
+---@field fun_max integer @maximum fun the joy would be capped at
+on_character_consume = {}
+
 ---@class OnCraftResultParams
 ---@field crafter Character
 ---@field craft Item?
