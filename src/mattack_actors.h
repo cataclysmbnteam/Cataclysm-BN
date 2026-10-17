@@ -76,6 +76,10 @@ class melee_actor : public mattack_actor
         int accuracy = INT_MIN;
         // Whether the attack requires the target to be grabbed
         bool requires_grab = false;
+        // Maximum range of the attack
+        float max_range = 1.0f;
+        // Minimum range of the attack
+        float min_range = 1.0f;
 
         /**
          * If empty, regular melee roll body part selection is used.
