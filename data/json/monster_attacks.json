@@ -166,6 +166,22 @@
     "no_dmg_msg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname> into the ground, but <npcname> withstands the blow!"
   },
   {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "hulk_wide_swing",
+    "accuracy": 8,
+    "cooldown": 15,
+    "move_cost": 250,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 35, "armor_penetration": 10 } ],
+    "effects": [ { "id": "downed", "chance": 95, "duration": 2 } ],
+    "hit_dmg_u": "%1$s pulls its arm back and swings wide, smashing into your %2$s!",
+    "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "miss_msg_u": "%1$s pulls its arm back and swings wide, but you dodge!",
+    "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
+    "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
+    "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
     "id": "acid_spray",
     "type": "GUN",
     "copy-from": "fake_item",
