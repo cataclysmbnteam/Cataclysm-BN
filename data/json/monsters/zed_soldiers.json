@@ -355,6 +355,7 @@
     "melee_skill": 8,
     "melee_dice": 3,
     "melee_dice_sides": 8,
+    "melee_damage": [ { "damage_type": "bash", "amount": 10, "armor_penetration": 10 } ],
     "melee_cut": 0,
     "dodge": 1,
     "//": "Matches armor value of a hard-steel MBR vest.",
@@ -367,7 +368,8 @@
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
       [ "LONGSWIPE", 20 ],
-      [ "SMASH", 20 ]
+      [ "SMASH", 20 ],
+      { "id": "hulk_wide_swing", "accuracy": 9 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
@@ -384,6 +386,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
+      "DESTROYS",
       "NO_SLIP"
     ]
   },
