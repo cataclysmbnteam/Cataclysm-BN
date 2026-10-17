@@ -349,7 +349,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
     requires_grab = obj.get_bool( "requires_grab", false );
-    
+
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
@@ -402,7 +402,7 @@ bool melee_actor::call( monster &z ) const
     if( requires_grab && !target.has_effect( effect_grabbed ) ) {
         return false;
     }
-    
+
     z.mod_moves( -move_cost );
 
     add_msg( m_debug, "%s attempting to melee_attack %s", z.name(),
