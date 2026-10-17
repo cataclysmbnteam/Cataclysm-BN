@@ -389,10 +389,6 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
-    if( requires_grab && !target->has_effect( effect_grabbed ) ) {
-        return nullptr;
-    }
-
     return target;
 }
 
@@ -400,6 +396,10 @@ bool melee_actor::call( monster &z ) const
 {
     Creature *target = find_target( z );
     if( target == nullptr ) {
+        return false;
+    }
+
+    if( requires_grab && !target->has_effect( effect_grabbed ) ) {
         return false;
     }
 
