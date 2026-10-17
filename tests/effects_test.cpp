@@ -111,38 +111,39 @@ TEST_CASE("Effect chances return top / bot where chance_bot is defined") {
     SECTION("chance_bot_base @ intensity 1 probability is 2/10") {
         dummy.add_effect(effect_test_chance_bot_base, 1_hours);
         dummy.get_effect(effect_test_chance_bot_base).set_intensity(1);
-        CHECK(dummy.get_effect(effect_test_chance_bot_base).get_percentage("PAIN", 0) == Approx(20) );
+        CHECK(
+            dummy.get_effect(effect_test_chance_bot_base).get_percentage("PAIN", 0) == Approx(20));
     }
 
     SECTION("chance_bot_base @ intensity 2 probability is 4/10") {
         dummy.add_effect(effect_test_chance_bot_base, 1_hours);
         dummy.get_effect(effect_test_chance_bot_base).set_intensity(2);
-        CHECK(dummy.get_effect(effect_test_chance_bot_base).get_percentage("PAIN", 0) == Approx(40) );
+        CHECK(
+            dummy.get_effect(effect_test_chance_bot_base).get_percentage("PAIN", 0) == Approx(40));
     }
 
     SECTION("chance_bot_scaling @ intensity 1 falls back to one_in(top)") {
         dummy.add_effect(effect_test_chance_bot_scaling, 1_hours);
         dummy.get_effect(effect_test_chance_bot_scaling).set_intensity(1);
-        CHECK(dummy.get_effect(effect_test_chance_bot_scaling).get_percentage("PAIN", 0) == Approx(50) );
+        CHECK(dummy.get_effect(effect_test_chance_bot_scaling).get_percentage("PAIN", 0)
+              == Approx(50));
     }
 
     SECTION("chance_bot_scaling @ intensity 2 probability is 2/10") {
         dummy.add_effect(effect_test_chance_bot_scaling, 1_hours);
         dummy.get_effect(effect_test_chance_bot_scaling).set_intensity(2);
-        CHECK(dummy.get_effect(effect_test_chance_bot_scaling).get_percentage("PAIN", 0) == Approx(20) );
+        CHECK(dummy.get_effect(effect_test_chance_bot_scaling).get_percentage("PAIN", 0)
+              == Approx(20));
     }
 
     SECTION("activated() fires on every roll when chance equals chance_bot") {
         // pain_chance equals pain_chance_bot, so every roll should fire
         dummy.add_effect(effect_test_chance_bot_guaranteed, 1_hours);
-        const effect &e = dummy.get_effect(effect_test_chance_bot_guaranteed);
+        const effect& e = dummy.get_effect(effect_test_chance_bot_guaranteed);
         int fired = 0;
         for (int i = 0; i < 50; ++i) {
-            if (e.activated(calendar::turn, "PAIN", 0, false, 1.0)) {
-                fired++;
-            }
+            if (e.activated(calendar::turn, "PAIN", 0, false, 1.0)) { fired++; }
         }
         CHECK(fired == 50);
     }
-
 }
