@@ -86,7 +86,7 @@
     "recoil": 2500,
     "loudness": 160,
     "speed": 370,
-    "effects": [ "COOKOFF", "SHOT" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "id": "shot_00",
@@ -94,7 +94,8 @@
     "type": "AMMO",
     "name": { "str": "00 shot" },
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
-    "shot": { "count": 5, "half_angle": 3 }
+    "shot": { "count": 5, "half_angle": 3 },
+    "extend": { "effects": [ "SHOT" ] }
   },
   {
     "id": "shot_beanbag",
@@ -136,7 +137,7 @@
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB", "NO_PENETRATE_OBSTACLES" ] }
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB", "NO_PENETRATE_OBSTACLES", "SHOT" ] }
   },
   {
     "id": "shot_flechette",
