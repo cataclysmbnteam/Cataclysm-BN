@@ -348,7 +348,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     max_mul = obj.get_float( "max_mul", 1.0f );
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
-    requires_grab = obj.get_bool( "requires_grab" );
+    requires_grab = obj.get_bool( "requires_grab", false );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
