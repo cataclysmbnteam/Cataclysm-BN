@@ -349,6 +349,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "move_cost", move_cost, 100 );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "requires_grab", requires_grab, false );
+    optional( obj, was_loaded, "max_range", max_range, 1.0f );
+    optional( obj, was_loaded, "min_range", min_range, 1.0f );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -385,10 +387,36 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || !is_adjacent( z, *target ) ) {
+    if( target == nullptr || ( min_range > 1 && is_adjacent( z, *target ) ) ) {
         return nullptr;
     }
 
+    if( max_range == 1 && !is_adjacent( z, *target ) ) {
+        return nullptr;
+    }
+    
+    int distance = rl_dist( z->bub_pos(), target->bub_pos() );
+    if( distance < min_range || distance > max_range ) {
+        return nullptr;
+    }
+    
+    auto prev_point = z->bub_pos();
+    bool obstructed = false;
+    for( auto &pnt : g->m.find_clear_path( z->bub_pos(), target->bub_pos() ) ) {
+        if( g->m.obstructed_by_vehicle_rotation( prev_point, pnt ) ) {
+            obstructed = true;
+            if( one_in( 2 ) ) {
+                pnt.x() = prev_point.x();
+            } else {
+                pnt.y() = prev_point.y();
+            }
+        }
+        if( obstructed || g->m.impassable( pnt ) ) {
+            return nullptr;
+        }
+        prev_point = pnt;
+    }
+    
     return target;
 }
 
