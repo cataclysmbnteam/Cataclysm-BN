@@ -394,12 +394,12 @@ Creature *melee_actor::find_target( monster &z ) const
     if( max_range == 1 && !is_adjacent( z, *target ) ) {
         return nullptr;
     }
-    
+
     int distance = rl_dist( z->bub_pos(), target->bub_pos() );
     if( distance < min_range || distance > max_range ) {
         return nullptr;
     }
-    
+
     auto prev_point = z->bub_pos();
     bool obstructed = false;
     for( auto &pnt : g->m.find_clear_path( z->bub_pos(), target->bub_pos() ) ) {
@@ -416,7 +416,7 @@ Creature *melee_actor::find_target( monster &z ) const
         }
         prev_point = pnt;
     }
-    
+
     return target;
 }
 
