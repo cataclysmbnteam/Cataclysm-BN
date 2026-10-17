@@ -344,7 +344,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         damage_max_instance = load_damage_instance( obj );
     }
 
-    optional( obj, was_loaded, "min_mul", min_mul, 0.0f );
+    optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
     optional( obj, was_loaded, "move_cost", move_cost, 100 );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
