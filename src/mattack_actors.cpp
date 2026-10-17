@@ -331,8 +331,6 @@ melee_actor::melee_actor()
     min_mul = 0.5f;
     max_mul = 1.0f;
     move_cost = 100;
-    accuracy = INT_MIN;
-    requires_grab = false;
 }
 
 melee_actor::~melee_actor() = default;
@@ -346,11 +344,11 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         damage_max_instance = load_damage_instance( obj );
     }
 
-    min_mul = obj.get_float( "min_mul", 0.5f );
-    max_mul = obj.get_float( "max_mul", 1.0f );
-    move_cost = obj.get_int( "move_cost", 100 );
-    accuracy = obj.get_int( "accuracy", INT_MIN );
-    requires_grab = obj.get_bool( "requires_grab", false );
+    optional( obj, was_loaded, "min_mul", min_mul, 0.0f );
+    optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
+    optional( obj, was_loaded, "move_cost", move_cost, 100 );
+    optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
+    optional( obj, was_loaded, "requires_grab", requires_grab, false );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
