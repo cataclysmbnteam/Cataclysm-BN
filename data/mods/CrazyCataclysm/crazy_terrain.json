@@ -1,0 +1,31 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_tree_money",
+    "copy-from": "t_tree_apple",
+    "name": "money tree",
+    "symbol": "$",
+    "description": "Crisp banknotes rustle among the branches of this tree.  Whoever said money doesn't grow on trees clearly wasn't looking hard enough.  Examine it to cash in.",
+    "looks_like": "t_tree_apple",
+    "color": "light_blue",
+    "examine_action": "harvest_ter",
+    "transforms_into": "t_tree_money_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn", "winter" ],
+        "entries": [ { "drop": "money_bundle", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_money_harvested",
+    "copy-from": "t_tree_apple_harvested",
+    "name": "money tree",
+    "description": "This tree has been stripped of its banknotes.  You'll have to wait until next season for your next dividend.",
+    "looks_like": "t_tree_apple_harvested",
+    "symbol": "$",
+    "color": "blue",
+    "transforms_into": "t_tree_money"
+  }
+]
