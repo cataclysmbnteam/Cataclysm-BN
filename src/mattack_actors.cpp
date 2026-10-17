@@ -403,7 +403,7 @@ Creature *melee_actor::find_target( monster &z ) const
     if( distance < min_range || distance > max_range ) {
         return nullptr;
     }
-    
+
     return target;
 }
 
@@ -435,12 +435,13 @@ bool melee_actor::call( monster &z ) const
             }
         }
         if( obstructed || g->m.impassable( pnt ) ) {
-            target->add_msg_player_or_npc( m_neutral, bounce_msg_u, bounce_msg_npc, z.name(), g->m.obstacle_name( pnt ) );
+            target->add_msg_player_or_npc( m_neutral, bounce_msg_u, bounce_msg_npc, z.name(),
+                                           g->m.obstacle_name( pnt ) );
             return true;
         }
         prev_point = pnt;
     }
-    
+
     const int acc = accuracy >= 0 ? accuracy : static_cast<int>( z.get_melee() );
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
