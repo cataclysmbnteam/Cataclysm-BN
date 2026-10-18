@@ -768,6 +768,26 @@ Some properties allow adding and removing entries, as documented above, usually 
 
 The listed attack types can be as monster special attacks (see "special_attacks").
 
+### "melee"
+
+Makes a general melee special attack
+
+#### "damage_max_instance"
+
+Max damage it can deal on one attack.
+
+#### "move_cost"
+
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+
+#### "accuracy"
+
+(Integer) How accurate it is. Not many monsters use it though.
+
+#### "requires_grab"
+
+Whether the attack requires the target to be grabbed first. Useful for multi-stage attacks or "finisher" attacks.
+
 ### "leap"
 
 Makes the monster leap a few tiles. It supports the following additional properties:

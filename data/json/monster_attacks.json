@@ -9,9 +9,11 @@
     "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
     "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true }, { "id": "downed", "duration": 3 } ],
     "hit_dmg_u": "The %1$s impales your %2$s!",
-    "hit_dmg_npc": "The %1$s impales <npcname>'s %2$s!",
-    "no_dmg_msg_u": "The %1$s tries to impale you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>, but fails to."
+    "hit_dmg_npc": "The %1$s impales <npcname>!",
+    "miss_msg_u": "The %1$s tries to impale your %2$s, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to impale <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s tries to impale your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>, but fails to penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -23,9 +25,11 @@
     "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
     "effects": [ { "id": "bleed", "duration": 50, "affect_hit_bp": true } ],
     "hit_dmg_u": "The %1$s impales your %2$s!",
-    "hit_dmg_npc": "The %1$s impales <npcname>'s %2$s!",
-    "no_dmg_msg_u": "The %1$s tries to impale you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>, but fails to."
+    "hit_dmg_npc": "The %1$s impales <npcname>!",
+    "miss_msg_u": "The %1$s tries to impale your %2$s, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to impale <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s tries to impale your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>, but fails to penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -48,10 +52,12 @@
       [ "arm_r", 3 ],
       [ "torso", 4 ]
     ],
-    "hit_dmg_u": "The %1$s claws at you!",
+    "hit_dmg_u": "The %1$s claws at your %2$s!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
-    "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
+    "miss_msg_u": "The %1$s claws at you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to claw at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s claws at your %2$s, but fails to penetrate armor.",
+    "no_dmg_msg_npc": "The %1$s tries to claw at <npcname>, but fails to penetrate armor."
   },
   {
     "type": "monster_attack",
@@ -74,10 +80,12 @@
       [ "arm_r", 3 ],
       [ "torso", 4 ]
     ],
-    "hit_dmg_u": "The %1$s slams into you!",
+    "hit_dmg_u": "The %1$s slams into your %2$s!",
     "hit_dmg_npc": "The %1$s slams into <npcname>!",
-    "no_dmg_msg_u": "The %1$s tries to slam into you, but stumbles aside.",
-    "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to."
+    "miss_msg_u": "The %1$s tries to slam into you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to slam into <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s slams into your %2$s, but your armor protects you.",
+    "no_dmg_msg_npc": "The %1$s slams into <npcname>, but their armor protects them."
   },
   {
     "type": "monster_attack",
@@ -99,10 +107,12 @@
       [ "torso", 8 ]
     ],
     "effects": [ { "id": "bleed", "duration": 10, "affect_hit_bp": true }, { "id": "poison", "duration": 30, "bp": "torso" } ],
-    "hit_dmg_u": "The %1$s stabs you!",
+    "hit_dmg_u": "The %1$s stabs your %2$s!",
     "hit_dmg_npc": "The %1$s stabs <npcname>!",
-    "no_dmg_msg_u": "The %1$s tries to stab you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to stab <npcname>, but fails to."
+    "miss_msg_u": "The %1$s tries to stab you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to stab <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s tries to stab your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to stab <npcname>, but fails to penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -114,11 +124,11 @@
     "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
     "effects": [ { "id": "venom_weaken", "duration": 400, "chance": 50 } ],
     "hit_dmg_u": "The %1$s stings your %2$s!",
-    "hit_dmg_npc": "The %1$s stings <npcname>'s %2$s!",
+    "hit_dmg_npc": "The %1$s stings <npcname>!",
     "miss_msg_u": "The %1$s tries to sting you, but you dodge!",
     "miss_msg_npc": "The %1$s tries to sting <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %1$s tries to sting your %2$s, but it fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>'s %2$s, but it fails to."
+    "no_dmg_msg_u": "The %1$s tries to sting your %2$s, but it fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to sting <npcname>, but it fails to penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -128,13 +138,32 @@
     "cooldown": 15,
     "move_cost": 250,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 35, "armor_penetration": 10 } ],
+    "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
     "effects": [ { "id": "downed", "chance": 95, "duration": 2 } ],
-    "hit_dmg_u": "%1$s pulls its arm back and swings wide, smashing into your %2$s!",
-    "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
-    "miss_msg_u": "%1$s pulls its arm back and swings wide, but you dodge!",
-    "miss_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> dodges!",
-    "no_dmg_msg_u": "%1$s pulls its arm back and swings wide, but you withstand the blow!",
-    "no_dmg_msg_npc": "%1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+    "hit_dmg_u": "The %1$s pulls its arm back and swings wide, smashing into your %2$s!",
+    "hit_dmg_npc": "The %1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "miss_msg_u": "The %1$s pulls its arm back and swings wide, but you dodge!",
+    "miss_msg_npc": "The %1$s pulls its arm back and swings wide, but <npcname> dodges!",
+    "no_dmg_msg_u": "The %1$s pulls its arm back and swings wide, but you withstand the blow!",
+    "no_dmg_msg_npc": "The %1$s pulls its arm back and swings wide, but <npcname> withstands the blow!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "hulk_lift_and_smash",
+    "accuracy": 8,
+    "cooldown": 15,
+    "move_cost": 250,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 120 } ],
+    "requires_grab": true,
+    "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "effects": [ { "id": "downed", "chance": 95, "duration": 2 } ],
+    "hit_dmg_u": "The %1$s lifts you off the ground and swings you like a sack, smashing your %2$s into the ground!",
+    "hit_dmg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname>'s %2$s into the ground!",
+    "miss_msg_u": "The %1$s tries to smash you into the ground, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to smash <npcname> into the ground, but <npcname> dodges!",
+    "no_dmg_msg_u": "The %1$s lifts you off the ground and swings you like a sack, smashing your %2$s into the ground, but you withstand the blow!",
+    "no_dmg_msg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname>'s %2$s into the ground, but <npcname> withstands the blow!"
   },
   {
     "id": "acid_spray",
