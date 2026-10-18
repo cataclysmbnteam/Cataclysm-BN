@@ -160,7 +160,7 @@
       { "point": [ 1, 3, -5 ], "overmap": "oil_platform_4b_z-9_north", "locations": [ "lake_bed" ] },
       { "point": [ 2, 3, -5 ], "overmap": "oil_platform_4c_z-9_north", "locations": [ "lake_bed" ] }
     ],
-    "city_distance": [ 12, -1 ],
+    "city_distance": [ 25, -1 ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 25, 100 ],
     "flags": [ "MAN_MADE", "LAKE", "UNIQUE" ]
