@@ -403,7 +403,7 @@
     "vision_night": 10,
     "mountable_weight_ratio": 0.9,
     "path_settings": { "max_dist": 10 },
-    "special_attacks": [ [ "SMASH", 25 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 50, "cooldown": 25 } ],
     "regenerates": 1,
     "regeneration_modifiers": [ { "effect": "dazed", "base_mod": -1 } ],
     "death_function": [ "MELT" ],
