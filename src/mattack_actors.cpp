@@ -349,6 +349,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "move_cost", move_cost, 100 );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "requires_grab", requires_grab, false );
+    optional( obj, was_loaded, "max_range", max_range, 1.0f );
+    optional( obj, was_loaded, "min_range", min_range, 1.0f );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -356,12 +358,16 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_u", hit_dmg_u,
               to_translation( "The %1$s bites your %2$s!" ) );
+    optional( obj, was_loaded, "bounce_msg_u", bounce_msg_u,
+              to_translation( "The %s lunges at you, but bounces off the %2$s!" ) );
     optional( obj, was_loaded, "miss_msg_npc", miss_msg_npc,
               to_translation( "The %s lunges at <npcname>, but they dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_npc,
               to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "bounce_msg_npc", bounce_msg_npc,
+              to_translation( "The %s lunges at <npcname>, but bounces off the %2$s!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -385,7 +391,16 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || !is_adjacent( z, *target ) ) {
+    if( target == nullptr || ( min_range > 1 && is_adjacent( z, *target ) ) ) {
+        return nullptr;
+    }
+
+    if( max_range == 1 && !is_adjacent( z, *target ) ) {
+        return nullptr;
+    }
+
+    int distance = rl_dist( z.bub_pos(), target->bub_pos() );
+    if( distance < min_range || distance > max_range ) {
         return nullptr;
     }
 
@@ -407,6 +422,25 @@ bool melee_actor::call( monster &z ) const
 
     add_msg( m_debug, "%s attempting to melee_attack %s", z.name(),
              target->disp_name() );
+
+    auto prev_point = z.bub_pos();
+    bool obstructed = false;
+    for( auto &pnt : g->m.find_clear_path( z.bub_pos(), target->bub_pos() ) ) {
+        if( g->m.obstructed_by_vehicle_rotation( prev_point, pnt ) ) {
+            obstructed = true;
+            if( one_in( 2 ) ) {
+                pnt.x() = prev_point.x();
+            } else {
+                pnt.y() = prev_point.y();
+            }
+        }
+        if( obstructed || g->m.impassable( pnt ) ) {
+            target->add_msg_player_or_npc( m_neutral, bounce_msg_u, bounce_msg_npc, z.name(),
+                                           g->m.obstacle_name( pnt ) );
+            return true;
+        }
+        prev_point = pnt;
+    }
 
     const int acc = accuracy >= 0 ? accuracy : static_cast<int>( z.get_melee() );
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );

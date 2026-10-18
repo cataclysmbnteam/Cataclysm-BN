@@ -232,7 +232,7 @@
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie_heavy",
-    "special_attacks": [ [ "SMASH", 40 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "SMASH", 40 ], { "id": "stretch_attack", "cooldown": 40 }, { "id": "longswipe" }, { "id": "cut_throat" } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
@@ -423,7 +423,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "STRETCH_BITE", 10 ], [ "STRETCH_ATTACK", 5 ] ],
+    "special_attacks": [ [ "STRETCH_BITE", 10 ], { "id": "stretch_attack", "cooldown": 5 } ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE" ]
   },
@@ -999,7 +999,13 @@
     "description": "A pale, gaunt corpse with smoke billowing from its torn flesh.  Its skin hangs in dry, tatter strips, but the exposed muscle underneath seems raw and pulsing with unlife, forming a nest of writhing worm-life tendrils.",
     "relative": { "hp": 50, "melee_dice": 1 },
     "grab_strength": 3,
-    "special_attacks": [ [ "TENTACLE", 5 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 3 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
+    "special_attacks": [
+      { "id": "tentacle" },
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 3 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "scratch", "cooldown": 15 }
+    ],
     "delete": { "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_SMOKER_UPGRADE" } }
   },
   {
@@ -1077,7 +1083,7 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.3 } ]
       },
       [ "RANGED_PULL", 20 ],
-      [ "STRETCH_ATTACK", 5 ],
+      { "id": "stretch_attack", "cooldown": 5 },
       [ "BOOMER", 20 ]
     ],
     "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_SWIMMER_UPGRADE" } }
