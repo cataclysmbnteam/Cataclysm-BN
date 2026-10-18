@@ -141,7 +141,7 @@
     "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
     "effects": [ { "id": "downed", "chance": 95, "duration": 2 } ],
     "hit_dmg_u": "The %1$s pulls its arm back and swings wide, smashing into your %2$s!",
-    "hit_dmg_npc": "The %1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",
+    "hit_dmg_npc": "The %1$s pulls its arm back and swings wide, smashing into <npcname>!",
     "miss_msg_u": "The %1$s pulls its arm back and swings wide, but you dodge!",
     "miss_msg_npc": "The %1$s pulls its arm back and swings wide, but <npcname> dodges!",
     "no_dmg_msg_u": "The %1$s pulls its arm back and swings wide, but you withstand the blow!",
@@ -159,11 +159,11 @@
     "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
     "effects": [ { "id": "downed", "chance": 95, "duration": 2 } ],
     "hit_dmg_u": "The %1$s lifts you off the ground and swings you like a sack, smashing your %2$s into the ground!",
-    "hit_dmg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname>'s %2$s into the ground!",
+    "hit_dmg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname> into the ground!",
     "miss_msg_u": "The %1$s tries to smash you into the ground, but you dodge!",
     "miss_msg_npc": "The %1$s tries to smash <npcname> into the ground, but <npcname> dodges!",
     "no_dmg_msg_u": "The %1$s lifts you off the ground and swings you like a sack, smashing your %2$s into the ground, but you withstand the blow!",
-    "no_dmg_msg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname>'s %2$s into the ground, but <npcname> withstands the blow!"
+    "no_dmg_msg_npc": "The %1$s lifts <npcname> off the ground and swings <npcname> like a sack, smashing <npcname> into the ground, but <npcname> withstands the blow!"
   },
   {
     "type": "monster_attack",
@@ -288,11 +288,11 @@
     "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_penetration": 6 } ],
     "effects": [ { "id": "bouldering", "chance": 100, "duration": 2 }, { "id": "downed", "chance": 50, "duration": 1 } ],
     "hit_dmg_u": "The %1$s smashes a heavy fist into your %2$s, sending you reeling!",
-    "hit_dmg_npc": "The %1$s smashes a heavy fist into <npcname>'s %2$s, sending them reeling!",
+    "hit_dmg_npc": "The %1$s smashes a heavy fist into <npcname>, sending them reeling!",
     "miss_msg_u": "The %1$s swings a heavy fist at you, but you dodge!",
     "miss_msg_npc": "The %1$s swings a heavy fist at <npcname>, but they dodge!",
     "no_dmg_msg_u": "The %1$s smashes a heavy fist into your %2$s, but your armor blunts the impact!",
-    "no_dmg_msg_npc": "The %1$s smashes a heavy fist into <npcname>'s %2$s, but their armor blunts the impact!"
+    "no_dmg_msg_npc": "The %1$s smashes a heavy fist into <npcname>, but their armor blunts the impact!"
   },
   {
     "id": "acid_spray",
