@@ -441,7 +441,7 @@
     "special_attacks": [
       [ "GRAB", 10 ],
       { "type": "bite", "cooldown": 10 },
-      [ "SMASH", 20 ],
+      { "id": "smash", "throw_strength": 54 },
       { "id": "stretch_attack" },
       { "id": "longswipe" },
       { "id": "cut_throat" },
