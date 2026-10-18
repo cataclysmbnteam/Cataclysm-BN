@@ -103,33 +103,15 @@
     "harvest": "human_large_fur_maybe_cyborg",
     "special_attacks": [
       [ "PARROT", 80 ],
-      {
-        "id": "scratch",
-        "move_cost": 110,
-        "cooldown": 4,
-        "min_mul": 1.5,
-        "max_mul": 3.5
-      },
-      {
-        "id": "smash",
-        "move_cost": 110,
-        "cooldown": 8,
-        "min_mul": 0.8,
-        "throw_strength": 50
-      },
+      { "id": "scratch", "move_cost": 110, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
+      { "id": "smash", "move_cost": 110, "cooldown": 8, "min_mul": 0.8, "throw_strength": 50 },
       { "type": "leap", "cooldown": 10, "max_range": 5 },
       {
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
       },
-      {
-        "id": "impale",
-        "move_cost": 110,
-        "cooldown": 12,
-        "min_mul": 1.5,
-        "max_mul": 3
-      }
+      { "id": "impale", "move_cost": 110, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 }
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,

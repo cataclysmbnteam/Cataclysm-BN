@@ -315,11 +315,7 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      {
-        "id": "smash",
-        "throw_strength": 36,
-        "cooldown": 30
-      }
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
@@ -376,10 +372,7 @@
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
       { "id": "longswipe" },
       { "id": "cut_throat" },
-      {
-        "id": "smash",
-        "throw_strength": 72
-      },
+      { "id": "smash", "throw_strength": 72 },
       { "id": "hulk_wide_swing", "accuracy": 9 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",

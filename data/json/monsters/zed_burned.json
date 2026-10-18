@@ -54,13 +54,7 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 6,
-        "armor_penetration": 6
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 6, "armor_penetration": 6 } ],
     "melee_cut": 0,
     "grab_strength": 2,
     "armor_bash": 6,
@@ -71,10 +65,28 @@
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 2 ], { "type": "bite", "cooldown": 5 }, { "id": "scratch" }, { "id": "staggering_blow" }, { "id": "smash", "throw_strength": 72, "cooldown": 30, "requires_grab": true } ],
+    "special_attacks": [
+      [ "GRAB", 2 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "scratch" },
+      { "id": "staggering_blow" },
+      { "id": "smash", "throw_strength": 72, "cooldown": 30, "requires_grab": true }
+    ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "REVIVES_HEALTHY",
+      "NO_NECRO",
+      "PUSH_MON",
+      "PUSH_VEH"
+    ]
   },
   {
     "id": "mon_zombie_scorched",

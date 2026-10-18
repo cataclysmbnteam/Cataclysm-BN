@@ -28,11 +28,31 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "CBM_SUBS",
-    "special_attacks": [ [ "GRAB", 2 ], { "type": "bite", "cooldown": 5 }, { "id": "scratch" }, { "id": "smash", "throw_strength": 36, "cooldown": 30, "requires_grab": true }, [ "SHOCKSTORM", 15 ] ],
+    "special_attacks": [
+      [ "GRAB", 2 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "scratch" },
+      { "id": "smash", "throw_strength": 36, "cooldown": 30, "requires_grab": true },
+      [ "SHOCKSTORM", 15 ]
+    ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "NO_BREATHE", "REVIVES", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ELECTRIC",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "PUSH_VEH"
+    ]
   },
   {
     "id": "mon_zombie_electric",

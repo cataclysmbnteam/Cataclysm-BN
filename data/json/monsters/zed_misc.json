@@ -126,13 +126,7 @@
     "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 6,
-        "armor_penetration": 6
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 6, "armor_penetration": 6 } ],
     "melee_cut": 0,
     "grab_strength": 2,
     "armor_bash": 4,
@@ -140,7 +134,12 @@
     "armor_bullet": 5,
     "vision_night": 4,
     "harvest": "zombie_heavy",
-    "special_attacks": [ [ "GRAB", 2 ], { "type": "bite", "cooldown": 5 }, { "id": "scratch" }, { "id": "smash", "throw_strength": 72, "cooldown": 30 } ],
+    "special_attacks": [
+      [ "GRAB", 2 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "scratch" },
+      { "id": "smash", "throw_strength": 72, "cooldown": 30 }
+    ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
@@ -182,13 +181,7 @@
     "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 6,
-        "armor_penetration": 6
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 6, "armor_penetration": 6 } ],
     "melee_cut": 0,
     "grab_strength": 3,
     "dodge": 3,
@@ -198,9 +191,9 @@
     "armor_stab": 8,
     "vision_night": 3,
     "harvest": "zombie_heavy",
-    "special_attacks": [ 
-      { "id": "staggering_blow" }, 
-      { "id": "smash", "throw_strength": 72, "cooldown": 30, "requires_grab": true }, 
+    "special_attacks": [
+      { "id": "staggering_blow" },
+      { "id": "smash", "throw_strength": 72, "cooldown": 30, "requires_grab": true },
       [ "GRAB", 11 ],
       [ "RANGED_PULL", 20 ],
       { "type": "bite", "cooldown": 10 },
@@ -246,13 +239,7 @@
     "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 5,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 6,
-        "armor_penetration": 6
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 6, "armor_penetration": 6 } ],
     "melee_cut": 4,
     "dodge": 4,
     "armor_bash": 8,
@@ -261,7 +248,13 @@
     "vision_day": 5,
     "vision_night": 40,
     "harvest": "zombie_heavy",
-    "special_attacks": [ { "id": "staggering_blow" }, { "id": "smash", "throw_strength": 48, "cooldown": 40 }, { "id": "stretch_attack", "cooldown": 40 }, { "id": "longswipe" }, { "id": "cut_throat" } ],
+    "special_attacks": [
+      { "id": "staggering_blow" },
+      { "id": "smash", "throw_strength": 48, "cooldown": 40 },
+      { "id": "stretch_attack", "cooldown": 40 },
+      { "id": "longswipe" },
+      { "id": "cut_throat" }
+    ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
@@ -1190,7 +1183,12 @@
     "regenerates": 5,
     "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
     "grab_strength": 2,
-    "special_attacks": [ { "id": "smash", "throw_strength": 36, "cooldown": 30, "requires_grab": true }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 36, "cooldown": 30, "requires_grab": true },
+      [ "GRAB", 7 ],
+      [ "scratch", 20 ],
+      [ "PARA_STING", 30 ]
+    ],
     "extend": { "flags": [ "PUSH_MON", "PUSH_VEH" ] },
     "delete": { "upgrades": { "half_life": 28, "into": "mon_zombie_seaweed_brute" } }
   },

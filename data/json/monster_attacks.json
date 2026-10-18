@@ -286,10 +286,7 @@
     "move_cost": 175,
     "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 3 ] ],
     "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_penetration": 6 } ],
-    "effects": [
-      { "id": "bouldering", "chance": 100, "duration": 2 },
-      { "id": "downed", "chance": 50, "duration": 1 }
-    ],
+    "effects": [ { "id": "bouldering", "chance": 100, "duration": 2 }, { "id": "downed", "chance": 50, "duration": 1 } ],
     "hit_dmg_u": "The %1$s smashes a heavy fist into your %2$s, sending you reeling!",
     "hit_dmg_npc": "The %1$s smashes a heavy fist into <npcname>'s %2$s, sending them reeling!",
     "miss_msg_u": "The %1$s swings a heavy fist at you, but you dodge!",
