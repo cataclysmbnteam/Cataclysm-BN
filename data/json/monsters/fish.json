@@ -917,7 +917,7 @@
     "regen_morale": true,
     "special_attacks": [
       [ "RANGED_PULL", 15 ],
-      [ "SMASH", 15 ],
+      { "id": "smash" },
       [ "GRAB_DRAG", 10 ],
       { "id": "tentacle", "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ] }
     ],

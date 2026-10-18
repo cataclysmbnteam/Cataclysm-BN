@@ -351,6 +351,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "requires_grab", requires_grab, false );
     optional( obj, was_loaded, "max_range", max_range, 1.0f );
     optional( obj, was_loaded, "min_range", min_range, 1.0f );
+    optional( obj, was_loaded, "throw_strength", throw_strength, 0.0f );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -476,6 +477,16 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.bub_pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
                                        body_part_name_accusative( bp_hit ) );
+    }
+    if( throw_strength > 0 && !target->has_flag( MF_IMMOBILE ) ) {
+        auto msg_type = target->attitude_to( g->u ) == Attitude::A_FRIENDLY ? m_bad : m_neutral;
+        target->add_msg_player_or_npc( msg_type,
+                                       _( "The %s hits you with such a force that it sends you flying!" ),
+                                       _( "The %s hits <npcname> with such a force that it sends them flying!" ),
+                                       z.name() );
+        // TODO: Make this parabolic
+        g->fling_creature( target, coord_to_angle( z.bub_pos(), target->bub_pos() ),
+                           throw_strength );
     }
     target->on_hit( &z, bp_hit.id() );
     return true;

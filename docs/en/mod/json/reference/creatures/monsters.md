@@ -820,6 +820,10 @@ Turns needed to complete special attack. 100 move_cost with 100 speed is equal t
 
 Minimal range and maximal range to consider for using specific attack.
 
+#### "throw_strength"
+
+Whether and how much the attack throws its target.
+
 ### "bite"
 
 Makes monster use teeth to bite opponent. Some monsters can give infection by doing so.
