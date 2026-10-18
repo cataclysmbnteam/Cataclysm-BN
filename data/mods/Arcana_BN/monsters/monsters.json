@@ -112,7 +112,7 @@
     "harvest": "moruboru_harvest",
     "special_attacks": [
       { "type": "bite", "cooldown": 5 },
-      [ "TENTACLE", 5 ],
+      { "id": "tentacle", "damage_max_instance": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "acid", "amount": 10 } ] },
       {
         "type": "spell",
         "spell_data": { "id": "arcana_monster_moruboru_fetid_exhalation" },
