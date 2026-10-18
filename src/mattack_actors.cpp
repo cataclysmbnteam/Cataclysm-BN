@@ -485,7 +485,7 @@ bool melee_actor::call( monster &z ) const
         // TODO: Make this parabolic
         g->fling_creature( target, coord_to_angle( z.bub_pos(), target->bub_pos() ),
                            throw_strength );
-    }   
+    }
     target->on_hit( &z, bp_hit.id() );
     return true;
 }
