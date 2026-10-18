@@ -109,8 +109,6 @@
         "........................................................................"
       ],
       "palettes": [ "oil_platform_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "terrain": {
         "3": "t_floor_noroof",
         "≥": "t_floor_noroof",

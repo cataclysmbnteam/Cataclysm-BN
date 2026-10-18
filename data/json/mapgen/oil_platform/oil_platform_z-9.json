@@ -109,8 +109,6 @@
         "𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶𓏶"
       ],
       "palettes": [ "oil_platform_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "terrain": { "☼": "t_ocean_bed", "‼": "t_underwater_drill_string" }
     }
   }

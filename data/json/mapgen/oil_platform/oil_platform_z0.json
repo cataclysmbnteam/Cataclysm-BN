@@ -109,8 +109,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "oil_platform_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "terrain": { "i": "t_water_dp", "n": "t_water_dp", "‼": "t_drill_string" },
       "place_vehicles": [
         {

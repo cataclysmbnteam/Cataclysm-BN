@@ -109,8 +109,6 @@
         "........................................................................"
       ],
       "palettes": [ "parametrized_linoleum_palette", "oil_platform_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "liquids": { "0": [ { "liquid": "diesel", "amount": [ 500, 2000 ] } ] },
       "terrain": {
         "8": "t_strconc_floor_no_roof",

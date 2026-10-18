@@ -109,8 +109,6 @@
         "........................................................................"
       ],
       "palettes": [ "oil_platform_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "liquids": { "…": { "liquid": "salt_water", "amount": [ 250, 3000 ] }, "0": [ { "liquid": "diesel", "amount": [ 500, 3000 ] } ] },
       "furniture": { "♀": "f_sink" },
       "terrain": { "n": "t_bridge", "‼": "t_drill_string", "☼": "t_machinery_electronic" },

@@ -109,8 +109,6 @@
         "........................................................................"
       ],
       "palettes": [ "oil_platform_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "terrain": { "π": "t_tile_flat_roof", "È": "t_tile_flat_roof" },
       "items": {
         "K": [
