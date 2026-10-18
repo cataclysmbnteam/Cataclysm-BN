@@ -1213,7 +1213,7 @@
     "path_settings": { "max_dist": 40, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
     "special_attacks": [
       [ "PULL_METAL_WEAPON", 10 ],
-      [ "SMASH", 15 ],
+      { "id": "smash", "throw_strength": 50, "cooldown": 15 },
       {
         "type": "spell",
         "spell_data": { "id": "anomaly_clone", "hit_self": true },
@@ -1274,7 +1274,7 @@
       [ "GRAB_DRAG", 4 ],
       [ "RANGED_PULL", 3 ],
       [ "GRAB", 2 ],
-      [ "SMASH", 6 ],
+      { "id": "smash", "throw_strength": 50, "cooldown": 6 },
       {
         "type": "gun",
         "cooldown": 5,
