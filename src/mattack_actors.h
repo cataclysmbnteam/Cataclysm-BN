@@ -80,6 +80,8 @@ class melee_actor : public mattack_actor
         float max_range = 1.0f;
         // Minimum range of the attack
         float min_range = 1.0f;
+        // Throw strength of the attack, 0 means no throw
+        float throw_strength = 0.0f;
 
         /**
          * If empty, regular melee roll body part selection is used.
