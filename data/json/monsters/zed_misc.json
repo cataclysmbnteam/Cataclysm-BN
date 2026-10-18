@@ -999,7 +999,13 @@
     "description": "A pale, gaunt corpse with smoke billowing from its torn flesh.  Its skin hangs in dry, tatter strips, but the exposed muscle underneath seems raw and pulsing with unlife, forming a nest of writhing worm-life tendrils.",
     "relative": { "hp": 50, "melee_dice": 1 },
     "grab_strength": 3,
-    "special_attacks": [ { "id": "tentacle" }, [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 3 ], { "type": "bite", "cooldown": 5 }, { "id": "scratch", "cooldown": 15 } ],
+    "special_attacks": [
+      { "id": "tentacle" },
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 3 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "scratch", "cooldown": 15 }
+    ],
     "delete": { "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_SMOKER_UPGRADE" } }
   },
   {
