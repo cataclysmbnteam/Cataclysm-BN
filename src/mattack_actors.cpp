@@ -481,9 +481,9 @@ bool melee_actor::call( monster &z ) const
     if( throw_strength > 0 && !target->has_flag( MF_IMMOBILE ) ) {
         target->add_msg_player_or_npc( _( "A blow from %1$s sends %2$s flying!" ),
                                        _( "A blow from %s sends <npcname> flying!" ),
-                                       z.name(), body_part_name_accusative( bp ) );
+                                       z.name(), body_part_name_accusative( bp_hit ) );
         // TODO: Make this parabolic
-        g->fling_creature( target, coord_to_angle( z->bub_pos(), target->bub_pos() ),
+        g->fling_creature( target, coord_to_angle( z.bub_pos(), target->bub_pos() ),
                            throw_strength );
     }   
     target->on_hit( &z, bp_hit.id() );
