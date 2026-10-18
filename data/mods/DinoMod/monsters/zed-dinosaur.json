@@ -1451,7 +1451,7 @@
     "upgrades": { "half_life": 30, "into_group": "GROUP_zachyrhinosaurus_UPGRADE" },
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "smash", "cooldown": 30 }
     ]
   },
   {
