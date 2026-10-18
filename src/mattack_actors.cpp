@@ -479,7 +479,8 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_hit ) );
     }
     if( throw_strength > 0 && !target->has_flag( MF_IMMOBILE ) ) {
-        target->add_msg_player_or_npc( m_bad, _( "The %s hits you with such a force that it sends you flying!" ),
+        target->add_msg_player_or_npc( m_bad,
+                                       _( "The %s hits you with such a force that it sends you flying!" ),
                                        _( "The %s hits <npcname> with such a force that it sends them flying!" ),
                                        z.name() );
         // TODO: Make this parabolic
