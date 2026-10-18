@@ -790,11 +790,11 @@ Whether the attack requires the target to be grabbed first. Useful for multi-sta
 
 #### "max_range"
 
-The maximum range of the attack. Monsters will not use special attacks against enemies outside of max range.
+The maximum range of the attack. Monsters will not use this special attack against enemies outside of max range.
 
 #### "min_range"
 
-The minimum range of the attack. Monsters will not use special attacks against enemies inside of minimum range.
+The minimum range of the attack. Monsters will not use this special attack against enemies inside of minimum range.
 
 ### "leap"
 
