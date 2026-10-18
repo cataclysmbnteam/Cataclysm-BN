@@ -531,6 +531,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_oil_platform",
+    "name": "Oil Platform",
+    "terrain": [ "oil_platform_2c_2" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_lodge_ground",
     "name": "Hunting Lodge",
     "terrain": [ "lodge_ground1" ]
