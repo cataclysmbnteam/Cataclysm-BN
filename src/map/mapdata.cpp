@@ -484,8 +484,11 @@ auto null_terrain_t() -> ter_t {
 }
 
 template <typename C, typename F>
-void load_season_array(const JsonObject& jo, const std::string& key, C& container, F load_func) {
+void load_season_array(
+    const JsonObject& jo, const bool was_loaded, const std::string& key, C& container,
+    F load_func) {
     if (!jo.has_member(key)) {
+        if (was_loaded) { return; }
         // Throw 'member not found' error
         jo.get_member(key);
 
@@ -517,7 +520,7 @@ void map_data_common_t::load_symbol(const JsonObject& jo) {
     }
     jo.read("looks_like", looks_like);
 
-    load_season_array(jo, "symbol", symbol_, [&jo](const std::string& str) {
+    load_season_array(jo, was_loaded, "symbol", symbol_, [&jo](const std::string& str) {
         if (str == "LINE_XOXO") {
             return LINE_XOXO;
         } else if (str == "LINE_OXOX") {
@@ -533,13 +536,13 @@ void map_data_common_t::load_symbol(const JsonObject& jo) {
     if (has_color && has_bgcolor) {
         jo.throw_error("Found both color and bgcolor, only one of these is allowed.");
     } else if (has_color) {
-        load_season_array(jo, "color", color_, [](const std::string& str) {
+        load_season_array(jo, was_loaded, "color", color_, [](const std::string& str) {
             // has to use a lambda because of default params
             return color_from_string(str);
         });
     } else if (has_bgcolor) {
-        load_season_array(jo, "bgcolor", color_, bgcolor_from_string);
-    } else {
+        load_season_array(jo, was_loaded, "bgcolor", color_, bgcolor_from_string);
+    } else if (!was_loaded) {
         jo.throw_error(R"(Missing member: one of: "color", "bgcolor" must exist.)");
     }
 }

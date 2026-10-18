@@ -1976,6 +1976,7 @@ class Character : public Creature, public location_visitable<Character>
         /** Regenerates stamina */
         void update_stamina( int turns );
 
+        location_inventory &get_inv() { return inv; };
     protected:
         void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
         location_inventory inv;
