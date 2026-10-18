@@ -1,6 +1,7 @@
 [
   {
-    "type": "mapgen", "method": "json",
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [
       [ "oil_platform_1a_2", "oil_platform_1b_2", "oil_platform_1c_2" ],
       [ "oil_platform_2a_2", "oil_platform_2b_2", "oil_platform_2c_2" ],
@@ -110,16 +111,13 @@
       "palettes": [ "oil_platform_palette" ],
       "gaspumps": {  },
       "signs": {  },
-      "liquids": {
-        "…": { "liquid": "salt_water", "amount": [ 250, 3000 ] },
-        "0": [ { "liquid": "diesel", "amount": [ 500, 3000 ] } ]
-      },
+      "liquids": { "…": { "liquid": "salt_water", "amount": [ 250, 3000 ] }, "0": [ { "liquid": "diesel", "amount": [ 500, 3000 ] } ] },
       "furniture": { "♀": "f_sink" },
       "terrain": { "n": "t_bridge", "‼": "t_drill_string", "☼": "t_machinery_electronic" },
       "items": {
         "p": [
           { "item": "SUS_welding_gear", "chance": 25, "repeat": [ 0, 1 ] },
-          { "item": "SUS_scuba_gear", "chance": 35, "repeat": [ 0, 1 ] },
+          { "item": "SUS_scuba_gear", "chance": 35, "repeat": [ 0, 1 ] }
         ],
         "Q": [
           { "item": "power_tools", "chance": 2 },

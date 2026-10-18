@@ -62,11 +62,8 @@
       "]": "t_scrap_wall_halfway",
       "↓": "t_rope_up",
       "‼": "t_machinery_heavy",
-      "8": [
-        [ "t_generator_broken", 25 ],
-        [ "t_plut_generator", 5 ]
-      ],
-      "é": "t_console_broken",
+      "8": [ [ "t_generator_broken", 25 ], [ "t_plut_generator", 5 ] ],
+      "é": "t_console_broken"
     },
     "furniture": {
       "0": "f_standing_tank",
