@@ -80,7 +80,7 @@
         "..=Z#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#,,#BBBðFDð3,,,,,#U)U#Z=..",
         ".==Z###+##>,,,,,,,,,,h3h,h3h,h3h,######h3h,h3h#,,#,,,,,,,,,▀▀▀,#U)U÷Z==.",
         ".=>Z#},,}##ð,,,,,,,,,h3h,h3h,h3h,#>,,>#h3h,h3h#,,*ð3ð3ðÄ,,,▀▀▀,#U)U#Z>=.",
-        ".=<Z#}z,}#ψðððz,,,,z,h3h,h3h,h3h,#,,,,#h3h,h3h#,,+,,,,,,,,,,,,,#####Z<=.",
+        ".=<Z#}z,}#ψðððz,,,,z,h3h,h3h,h3h,#,,,,#h3h,h3h#,,+,,,,,,,,,,,,,☒####Z<=.",
         ".==Z###+#######*++*###############<,,<#########,,+,,,,,,,,,,,,,,,,ð#Z==.",
         "..=Z+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,33ð#Z=..",
         "..=Z+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#φ3φ3φ,φ3φ3φÄψðððð#Z=..",
@@ -130,9 +130,10 @@
         "ç": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "≡": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "f": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "‼": "t_drill_string"
+        "‼": "t_drill_string",
+        "☒": "t_concrete_wall"
       },
-      "furniture": { "®": "f_glass_cabinet" },
+      "furniture": { "®": "f_glass_cabinet", "☒": "f_billybass" },
       "items": {
         "®": [ { "item": "fireman_cabinet", "chance": 80 } ],
         "N": [
