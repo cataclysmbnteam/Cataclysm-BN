@@ -407,11 +407,7 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
-    if( map_funcs::physical_floor_between( {
-    .m = g->m,
-    .from = z.bub_pos(),
-        .to = target->bub_pos()
-    } ) ) {
+    if( map_funcs::physical_floor_between( g->m, z.bub_pos(), target->bub_pos() ) ) {
         return nullptr;
     }
 
