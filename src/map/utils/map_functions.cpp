@@ -106,14 +106,6 @@ auto physical_barrier_between(const map& m, const tripoint_bub_ms& from, const t
 
 namespace map_funcs {
 
-auto physical_floor_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
-    -> bool {
-    const auto z_delta = std::abs(from.z() - to.z());
-    if (z_delta == 0) { return false; }
-    if (z_delta > 1) { return true; }
-    return m.floor_between(from, to) || vehicle_vertical_barrier_between(m, from, to);
-}
-
 auto physical_clear_path(const physical_clear_path_opts& opts) -> bool {
     if (opts.require_clear_path
         && !opts.m.clear_path(opts.from, opts.to, opts.range, opts.cost_min, opts.cost_max)) {
@@ -126,6 +118,14 @@ auto physical_clear_path(const physical_clear_path_opts& opts) -> bool {
         previous = point;
     }
     return true;
+}
+
+auto physical_floor_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
+    -> bool {
+    const auto z_delta = std::abs(from.z() - to.z());
+    if (z_delta == 0) { return false; }
+    if (z_delta > 1) { return true; }
+    return m.floor_between(from, to) || vehicle_vertical_barrier_between(m, from, to);
 }
 
 auto climbing_cost(mapbuffer& buffer, const tripoint_abs_ms& from, const tripoint_abs_ms& to)
