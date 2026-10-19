@@ -18,6 +18,7 @@
 #include "line.h"
 #include "map/field_type.h"
 #include "map/map.h"
+#include "map/utils/map_functions.h"
 #include "map_iterator.h"
 #include "material.h"
 #include "messages.h"
@@ -406,6 +407,14 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
+    if( map_funcs::physical_floor_between( {
+    .m = g->m,
+    .from = z.bub_pos(),
+        .to = target->bub_pos()
+    } ) ) {
+        return nullptr;
+    }
+    
     return target;
 }
 
