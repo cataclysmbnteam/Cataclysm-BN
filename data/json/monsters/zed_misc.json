@@ -138,7 +138,7 @@
       [ "GRAB", 2 ],
       { "type": "bite", "cooldown": 5 },
       { "id": "scratch" },
-      { "id": "smash", "throw_strength": 72, "cooldown": 30 }
+      { "id": "smash", "throw_strength": 72, "cooldown": 30, "requires_grab": true }
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
