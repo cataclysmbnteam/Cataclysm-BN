@@ -38,6 +38,7 @@
 #include "line.h"
 #include "magic/magic.h"
 #include "map/map.h"
+#include "map/utils/map_functions.h"
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -2960,6 +2961,11 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
                 // TODO: Handle armored glass
                 return false;
             }
+        }
+
+        // Check if there's a floor in the way
+        if( map_funcs::physical_floor_between( here, shooter_pos, critter_pos ) ) {
+            return false;
         }
 
         return true;
