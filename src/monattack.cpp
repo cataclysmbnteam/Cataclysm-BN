@@ -2982,7 +2982,7 @@ bool mattack::grab( monster *z )
             return true;
         }
     }
-    
+
     const int prev_effect = target->get_effect_int( effect_grabbed );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, body_part_torso,
