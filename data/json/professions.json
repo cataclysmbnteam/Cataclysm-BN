@@ -2302,7 +2302,12 @@
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "ammo_satchel_leg", "contents-group": "ammopouch_shot_droneop" },
-          { "item": "mossberg_590", "ammo-item": "shot_00", "charges": 9, "contents-item": [ "shoulder_strap", "holo_sight" ] },
+          {
+            "item": "mossberg_590",
+            "ammo-item": "shot_00",
+            "charges": 9,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          },
           { "item": "grenadebandolier", "contents-item": [ "c4_breaching", "c4_breaching", "c4", "c4" ] }
         ]
       },
