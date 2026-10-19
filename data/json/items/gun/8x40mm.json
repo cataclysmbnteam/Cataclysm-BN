@@ -280,7 +280,7 @@
     "bashing": 12,
     "handling": 20,
     "material": [ "superalloy", "ceramic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 175,
     "durability": 9,
     "ammo": "8x40mm",
