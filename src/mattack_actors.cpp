@@ -18,6 +18,7 @@
 #include "line.h"
 #include "map/field_type.h"
 #include "map/map.h"
+#include "map/utils/map_functions.h"
 #include "map_iterator.h"
 #include "material.h"
 #include "messages.h"
@@ -403,6 +404,10 @@ Creature *melee_actor::find_target( monster &z ) const
 
     int distance = rl_dist( z.bub_pos(), target->bub_pos() );
     if( distance < min_range || distance > max_range ) {
+        return nullptr;
+    }
+
+    if( map_funcs::physical_floor_between( g->m, z.bub_pos(), target->bub_pos() ) ) {
         return nullptr;
     }
 
