@@ -2297,7 +2297,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "webbing_belt", "contents-item": "e_tool" },
           { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "modularvestceramic" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
