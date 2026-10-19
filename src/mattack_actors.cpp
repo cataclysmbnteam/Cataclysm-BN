@@ -43,6 +43,7 @@
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_monster_disarmed( "monster_disarmed" );
@@ -415,7 +416,7 @@ bool melee_actor::call( monster &z ) const
         return false;
     }
 
-    if( requires_grab && !target->has_effect( effect_grabbed ) ) {
+    if( requires_grab && !target->has_effect( effect_grabbed ) && !z.has_effect( effect_grabbing ) ) {
         return false;
     }
 
