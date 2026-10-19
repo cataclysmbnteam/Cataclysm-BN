@@ -23,7 +23,8 @@ struct physical_clear_path_opts {
 auto physical_clear_path(const physical_clear_path_opts& opts) -> bool;
 
 /// Checks whether there is a terrain or vehicle floor between the points.
-auto physical_floor_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to) -> bool;
+auto physical_floor_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
+    -> bool;
 
 /**
  * Checks both the neighborhoods of from and to for climbable surfaces,
