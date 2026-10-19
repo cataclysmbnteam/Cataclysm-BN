@@ -290,7 +290,7 @@
     "magazines": [ [ "8x40mm", [ "8x40_speedloader5" ] ] ],
     "extend": { "flags": [ "WATERPROOF_GUN" ] },
     "faults": [  ],
-    "//": "Explicitly permitting muzzle slot.",
+    "//2": "Explicitly permitting muzzle slot.",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
