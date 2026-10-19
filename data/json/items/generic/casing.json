@@ -140,7 +140,9 @@
     "volume": "55ml",
     "material": "steel",
     "symbol": "=",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "stackable": true,
+    "damage_states": [ 0, 0 ]
   },
   {
     "id": "40x53mm_casing",
@@ -152,7 +154,9 @@
     "volume": "64ml",
     "material": "steel",
     "symbol": "=",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "stackable": true,
+    "damage_states": [ 0, 0 ]
   },
   {
     "id": "44_casing",
