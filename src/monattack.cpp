@@ -2959,7 +2959,7 @@ bool mattack::grab( monster *z )
     }
 
     player *pl = dynamic_cast<player *>( target );
-    if( pl == !nullptr ) {
+    if( pl != nullptr ) {
         item &cur_weapon = pl->primary_weapon();
         ///\EFFECT_DEX increases chance to avoid being grabbed
         if( pl->can_use_grab_break_tec( cur_weapon ) &&
