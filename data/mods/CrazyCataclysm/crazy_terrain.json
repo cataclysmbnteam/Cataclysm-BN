@@ -2,11 +2,11 @@
   {
     "type": "terrain",
     "id": "t_tree_money",
-    "copy-from": "t_tree_apple",
+    "copy-from": "t_tree_chestnut",
     "name": "money tree",
     "symbol": "$",
     "description": "Crisp banknotes rustle among the branches of this tree.  Whoever said money doesn't grow on trees clearly wasn't looking hard enough.  Examine it to cash in.",
-    "looks_like": "t_tree_apple",
+    "looks_like": "t_tree_chestnut",
     "color": "light_blue",
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_money_harvested",
@@ -20,10 +20,10 @@
   {
     "type": "terrain",
     "id": "t_tree_money_harvested",
-    "copy-from": "t_tree_apple_harvested",
+    "copy-from": "t_tree_chestnut_harvested",
     "name": "money tree",
     "description": "This tree has been stripped of its banknotes.  You'll have to wait until next season for your next dividend.",
-    "looks_like": "t_tree_apple_harvested",
+    "looks_like": "t_tree_chestnut_harvested",
     "symbol": "$",
     "color": "blue",
     "transforms_into": "t_tree_money"
@@ -31,11 +31,11 @@
   {
     "type": "terrain",
     "id": "t_tree_knowledge",
-    "copy-from": "t_tree_apple",
+    "copy-from": "t_tree_willow",
     "name": "tree of knowledge",
     "symbol": "?",
     "description": "Books dangle from the branches of this tree, their pages fluttering in the breeze.  Examine it to pick some reading material.",
-    "looks_like": "t_tree_apple",
+    "looks_like": "t_tree_willow",
     "color": "light_cyan",
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_knowledge_harvested",
@@ -68,10 +68,10 @@
   {
     "type": "terrain",
     "id": "t_tree_knowledge_harvested",
-    "copy-from": "t_tree_apple_harvested",
+    "copy-from": "t_tree_willow_harvested",
     "name": "tree of knowledge",
     "description": "The books have all been picked from this tree.  A new edition should be ready next season.",
-    "looks_like": "t_tree_apple_harvested",
+    "looks_like": "t_tree_willow_harvested",
     "symbol": "?",
     "color": "cyan",
     "transforms_into": "t_tree_knowledge"
