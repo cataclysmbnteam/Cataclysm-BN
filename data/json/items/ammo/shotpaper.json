@@ -21,7 +21,7 @@
     "recoil": 2000,
     "loudness": 144,
     "speed": 200,
-    "effects": [ "COOKOFF", "SHOT", "MUZZLE_SMOKE", "BLACKPOWDER" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
   },
   {
     "id": "shot_paper_00",
@@ -29,7 +29,8 @@
     "type": "AMMO",
     "name": { "str": "20ga paper shot" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot.",
-    "shot": { "count": 5, "half_angle": 5 }
+    "shot": { "count": 5, "half_angle": 5 },
+    "extend": { "effects": [ "SHOT" ] }
   },
   {
     "id": "shot_paper_bird",
@@ -53,7 +54,7 @@
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 10 } ],
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB", "NO_PENETRATE_OBSTACLES" ] }
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB", "NO_PENETRATE_OBSTACLES", "SHOT" ] }
   },
   {
     "id": "shot_paper_slug",

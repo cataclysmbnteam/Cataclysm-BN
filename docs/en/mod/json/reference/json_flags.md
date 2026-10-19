@@ -1064,7 +1064,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `GROUP_BASH` Gets help from monsters around it when bashing.
 - `GROUP_MORALE` More courageous when near friends.
 - `GUILT` You feel guilty for killing it.
-- `HARDTOSHOOT` It's one size smaller for ranged attacks, no less then MS_TINY
+- `HARDTOSHOOT` It's one size smaller for ranged attacks, no less then MS_TINY. Ammo with the `WIDE`,
+  `SHOT`, or `BOUNCE` ammo effects will negate this.
 - `HEARS` It can hear you.
 - `HIT_AND_RUN` Flee for several turns after a melee attack.
 - `HUMAN` It's a live human, as long as it's alive.

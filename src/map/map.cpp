@@ -142,6 +142,7 @@ static const ammo_effect_str_id ammo_effect_LASER("LASER");
 static const ammo_effect_str_id ammo_effect_LIGHTNING("LIGHTNING");
 static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES("NO_PENETRATE_OBSTACLES");
 static const ammo_effect_str_id ammo_effect_PLASMA("PLASMA");
+static const ammo_effect_str_id ammo_effect_SHOT("SHOT");
 
 static const itype_id itype_autoclave("autoclave");
 static const itype_id itype_battery("battery");
@@ -4420,10 +4421,13 @@ void map::shoot(
 
     double range = rl_dist(origin, p);
     const bool point_blank = range <= 1;
+    // Point-blank shots to terrain count as a crit, also increase damage for shotshells
+    // 5x since base damage is typically divided into 5 projectiles, times 1.5 comes out to 7.5
+    const float breaching_mod = proj.has_effect(ammo_effect_SHOT) ? 7.5 : 1.5;
     if (furn.bash.ranged) {
         // Damage cover like a crit if we're breaching at point blank range, otherwise randomize
         // like a normal hit.
-        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float(0.9, 1.1);
+        float destroy_roll = point_blank ? dam * breaching_mod : dam * rng_float(0.9, 1.1);
         const ranged_bash_info& rfi = *furn.bash.ranged;
         if (!hit_items
             && (!check(rfi.block_unaimed_chance)
@@ -4473,7 +4477,7 @@ void map::shoot(
         float modified_dam = dam;
         float modified_pen = pen;
         // Separate hit roll since damage might have been lowered by furniture first.
-        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float(0.9, 1.1);
+        float destroy_roll = point_blank ? dam * breaching_mod : dam * rng_float(0.9, 1.1);
         const ranged_bash_info& ri = *ter.bash.ranged;
         if (!hit_items
             && (!check(ri.block_unaimed_chance)
