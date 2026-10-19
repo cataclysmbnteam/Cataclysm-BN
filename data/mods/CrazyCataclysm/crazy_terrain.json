@@ -27,5 +27,47 @@
     "symbol": "$",
     "color": "blue",
     "transforms_into": "t_tree_money"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_knowledge",
+    "copy-from": "t_tree_apple",
+    "name": "tree of knowledge",
+    "symbol": "?",
+    "description": "Books dangle from the branches of this tree, their pages fluttering in the breeze.  Examine it to pick some reading material.",
+    "looks_like": "t_tree_apple",
+    "color": "light_cyan",
+    "examine_action": "harvest_ter",
+    "transforms_into": "t_tree_knowledge_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn", "winter" ],
+        "entries": [
+          { "drop": "manual_electronics", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "manual_tailor", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "manual_mechanics", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "manual_first_aid", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "manual_computers", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "manual_speech", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "textbook_computer", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "textbook_chemistry", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "textbook_mechanics", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "textbook_fabrication", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "carpentry_book", "base_num": [ -1, 1 ], "max": 1 },
+          { "drop": "brewing_cookbook", "base_num": [ -1, 1 ], "max": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_knowledge_harvested",
+    "copy-from": "t_tree_apple_harvested",
+    "name": "tree of knowledge",
+    "description": "The books have all been picked from this tree.  A new edition should be ready next season.",
+    "looks_like": "t_tree_apple_harvested",
+    "symbol": "?",
+    "color": "cyan",
+    "transforms_into": "t_tree_knowledge"
   }
 ]
