@@ -2991,8 +2991,10 @@ bool mattack::grab( monster *z )
                                    z->name() );
 
     // Stop player from hauling since they have been grabbed
-    if( pl->is_player() && pl->is_hauling() ) {
-        pl->stop_hauling();
+    if( pl != nullptr ) {
+        if( pl->is_player() && pl->is_hauling() ) {
+            pl->stop_hauling();
+        }
     }
 
     // A hit to use up our moves
