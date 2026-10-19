@@ -2935,7 +2935,7 @@ bool mattack::grab( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target ) ) {
+    if( target == nullptr || !is_adjacent( z, target, false ) ) {
         return false;
     }
 
