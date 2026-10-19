@@ -1876,7 +1876,7 @@ auto vehicle::can_unmount(const int p, std::string& reason) const -> bool {
         if (no_remove_locked && is_working) {
                 const auto lock = part_with_feature(pt, str_DOOR_LOCKING, true);
                 if (lock >= 0 && parts[lock].enabled) {
-            reason = string_format(_("Unlocked the attached %s first."), part_info(lock).name());
+            reason = string_format(_("Unlock the attached %s first."), part_info(lock).name());
             return false;
                 }
         }
