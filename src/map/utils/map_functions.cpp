@@ -99,7 +99,7 @@ auto vehicle_enclosure_between(const map& m, const tripoint_bub_ms& from, const 
 
 auto physical_barrier_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
     -> bool {
-    return physical_floor_between(m, from, to) || vehicle_enclosure_between(m, from, to);
+    return map_funcs::physical_floor_between(m, from, to) || vehicle_enclosure_between(m, from, to);
 }
 
 } // namespace
