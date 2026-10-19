@@ -43,18 +43,24 @@
       {
         "seasons": [ "spring", "summer", "autumn", "winter" ],
         "entries": [
-          { "drop": "manual_electronics", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "manual_tailor", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "manual_mechanics", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "manual_first_aid", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "manual_computers", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "manual_speech", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "textbook_computer", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "textbook_chemistry", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "textbook_mechanics", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "textbook_fabrication", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "carpentry_book", "base_num": [ -1, 1 ], "max": 1 },
-          { "drop": "brewing_cookbook", "base_num": [ -1, 1 ], "max": 1 }
+          { "drop": "manual_electronics", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_tailor", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_mechanics", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_first_aid", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_computers", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_speech", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "textbook_computer", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "textbook_chemistry", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "textbook_mechanics", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "textbook_fabrication", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "carpentry_book", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "brewing_cookbook", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_archery", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_traps", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "textbook_survival", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_swimming", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "baking_book", "base_num": [ -2, 1 ], "max": 1 },
+          { "drop": "manual_business", "base_num": [ -2, 1 ], "max": 1 }
         ]
       }
     ]
