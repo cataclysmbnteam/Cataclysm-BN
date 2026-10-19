@@ -6106,7 +6106,6 @@ bool mattack::kamikaze( monster *z )
     } else {
         charges = actor->ammo_qty;
     }
-    add_msg( m_info, "kamikaze charges is %s.", charges );
 
     // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {

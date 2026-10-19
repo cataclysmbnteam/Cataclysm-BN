@@ -448,7 +448,7 @@
     "armor_fire": 20,
     "vision_night": 5,
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "smash", "throw_strength": 72 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "mon_robofac_prototype_drops",
     "death_function": [ "BROKEN" ],
     "flags": [

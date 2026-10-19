@@ -76,7 +76,7 @@
     "path_settings": { "max_dist": 6 },
     "revert_to_itype": "bot_sentinel_lx",
     "special_attacks": [
-      [ "SMASH", 20 ],
+      { "id": "smash", "throw_strength": 72 },
       [ "TAZER", 5 ],
       {
         "type": "gun",

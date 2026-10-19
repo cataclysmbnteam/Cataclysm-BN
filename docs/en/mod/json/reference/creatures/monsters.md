@@ -788,6 +788,14 @@ Turns needed to complete special attack. 100 move_cost with 100 speed is equal t
 
 Whether the attack requires the target to be grabbed first. Useful for multi-stage attacks or "finisher" attacks.
 
+#### "max_range"
+
+The maximum range of the attack. Monsters will not use this special attack against enemies outside of max range.
+
+#### "min_range"
+
+The minimum range of the attack. Monsters will not use this special attack against enemies inside of minimum range.
+
 ### "leap"
 
 Makes the monster leap a few tiles. It supports the following additional properties:
@@ -811,6 +819,10 @@ Turns needed to complete special attack. 100 move_cost with 100 speed is equal t
 #### "min_consider_range", "max_consider_range"
 
 Minimal range and maximal range to consider for using specific attack.
+
+#### "throw_strength"
+
+Whether and how much the attack throws its target.
 
 ### "bite"
 

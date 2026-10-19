@@ -204,6 +204,8 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 30,
     "attack_cost": 100,
+    "volume": "92500 ml",
+    "weight": "120 kg",
     "harvest": "zombie_maybe_mil_bionics_acid",
     "relative": { "hp": 160, "speed": -20, "melee_skill": 8, "armor_bash": 15, "armor_cut": 10, "armor_bullet": 10 },
     "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
@@ -211,7 +213,7 @@
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 3 ],
-        [ "SMASH", 15 ],
+        { "id": "smash", "throw_strength": 36, "cooldown": 15 },
         { "id": "slam" },
         {
           "type": "gun",
@@ -227,7 +229,7 @@
         }
       ],
       "death_function": [ "ACID" ],
-      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+      "flags": [ "ACIDPROOF", "ACID_BLOOD", "PUSH_VEH" ]
     }
   },
   {
@@ -313,7 +315,7 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
@@ -331,6 +333,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "NO_SLIP"
     ]
   },
@@ -367,8 +370,9 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
-      [ "LONGSWIPE", 20 ],
-      [ "SMASH", 20 ],
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "smash", "throw_strength": 72 },
       { "id": "hulk_wide_swing", "accuracy": 9 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
