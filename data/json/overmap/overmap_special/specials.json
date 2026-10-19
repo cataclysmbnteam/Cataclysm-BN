@@ -6666,7 +6666,7 @@
       { "point": [ 1, 0, -5 ], "overmap": "wooden_shipwreck_b_north", "locations": [ "lake_bed" ] }
     ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 8 ],
     "flags": [ "LAKE" ]
   },
   {
