@@ -414,7 +414,7 @@ Creature *melee_actor::find_target( monster &z ) const
     } ) ) {
         return nullptr;
     }
-    
+
     return target;
 }
 
