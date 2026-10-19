@@ -85,14 +85,6 @@ auto vehicle_vertical_barrier_between(
                 || has_vehicle_ceiling(m.veh_at(lower_to))));
 }
 
-auto physical_floor_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
-    -> bool {
-    const auto z_delta = std::abs(from.z() - to.z());
-    if (z_delta == 0) { return false; }
-    if (z_delta > 1) { return true; }
-    return m.floor_between(from, to) || vehicle_vertical_barrier_between(m, from, to);
-}
-
 auto is_inside_vehicle(const optional_vpart_position& vp) -> bool { return vp && vp->is_inside(); }
 
 auto vehicle_enclosure_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
@@ -113,6 +105,14 @@ auto physical_barrier_between(const map& m, const tripoint_bub_ms& from, const t
 } // namespace
 
 namespace map_funcs {
+
+auto physical_floor_between(const map& m, const tripoint_bub_ms& from, const tripoint_bub_ms& to)
+    -> bool {
+    const auto z_delta = std::abs(from.z() - to.z());
+    if (z_delta == 0) { return false; }
+    if (z_delta > 1) { return true; }
+    return m.floor_between(from, to) || vehicle_vertical_barrier_between(m, from, to);
+}
 
 auto physical_clear_path(const physical_clear_path_opts& opts) -> bool {
     if (opts.require_clear_path
