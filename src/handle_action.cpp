@@ -56,6 +56,7 @@
 #include "map/map.h"
 #include "map/map_selector.h"
 #include "map/mapdata.h"
+#include "map_memory.h"
 #include "mapsharing.h"
 #include "messages.h"
 #include "monster.h"
@@ -145,6 +146,22 @@ static const enchantment_value_id ench_val_REACH_RANGE_UNARMED( "REACH_RANGE_UNA
 
 namespace
 {
+
+auto is_terrain_memory( const memorized_terrain_tile &memory ) -> bool
+{
+    return !memory.tile.empty() && ter_str_id( memory.tile ).is_valid();
+}
+
+auto has_memorized_terrain_at( avatar &you, map &/*here*/, const tripoint_bub_ms &target ) -> bool
+{
+    if( !you.should_show_map_memory() ) {
+        return false;
+    }
+
+    const auto abs_target = bub_to_abs( target );
+    return is_terrain_memory( you.get_terrain_tile( abs_target ) ) ||
+           is_terrain_memory( you.get_memorized_tile( abs_target ) );
+}
 
 const flag_id flag_NO_GRAB( "NO_GRAB" );
 
@@ -2030,7 +2047,8 @@ bool game::handle_action()
             mouse_target = mouse_pos;
 
             if( act == ACTION_SELECT ) {
-                if( !avatar_knows_travel_destination( u, *mouse_target ) ) {
+                if( !avatar_knows_travel_destination( u, *mouse_target ) &&
+                    !has_memorized_terrain_at( u, m, *mouse_target ) ) {
                     return false;
                 }
                 // Note: The following has the potential side effect of
