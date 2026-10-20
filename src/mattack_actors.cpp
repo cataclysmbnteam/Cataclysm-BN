@@ -33,6 +33,8 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "ui.h"
+#include "ui_manager.h"
 #include "vehicle/vehicle.h"
 #include "vehicle/vehicle_part.h"
 #include "vehicle/vpart_range.h"
