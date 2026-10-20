@@ -327,6 +327,15 @@ bool deployer_actor::call( monster &mon ) const
     return true;
 }
 
+void grab::load_grab( const JsonObject &jo )
+{
+    optional( obj, was_loaded, "grab_strength", grab_strength, 1 );
+    optional( obj, was_loaded, "is_pull", is_pull, false );
+    optional( obj, was_loaded, "pull_msg_u", pull_msg_u, to_translation( "The %s pulls you in!" ) );
+    optional( obj, was_loaded, "pull_msg_npc", pull_msg_npc,
+              to_translation( "The %s pulls <npcname> in!" ) );
+}
+
 melee_actor::melee_actor()
 {
     damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
@@ -354,6 +363,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "max_range", max_range, 1.0f );
     optional( obj, was_loaded, "min_range", min_range, 1.0f );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0.0f );
+    optional( obj, was_loaded, "is_grab", is_grab, false );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -372,6 +382,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "bounce_msg_npc", bounce_msg_npc,
               to_translation( "The %s lunges at <npcname>, but bounces off the %2$s!" ) );
 
+    if( is_grab ) {
+        grab_data.load_grab( obj.get_object( "grab_data" ) );
+    }
+
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
             const body_part bp = get_body_part_token( sub.get_string( 0 ) );
@@ -383,6 +397,96 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     if( obj.has_array( "effects" ) ) {
         for( JsonObject eff : obj.get_array( "effects" ) ) {
             effects.push_back( load_mon_effect_data( eff ) );
+        }
+    }
+}
+
+void melee_actor::do_grab( monster &z, Creature *target ) const
+{
+    if( z.has_effect( effect_grabbing ) ) {
+        return;
+    }
+
+    // Check grab break stuff
+    player *pl = dynamic_cast<player *>( target );
+    if( pl != nullptr ) {
+        item &cur_weapon = pl->primary_weapon();
+        ///\EFFECT_DEX increases chance to avoid being grabbed
+        if( pl->can_use_grab_break_tec( cur_weapon ) &&
+            rng( 0, pl->get_dex() ) > rng( 0, z.type->melee_sides + z.type->melee_dice ) ) {
+            if( target->has_effect( effect_grabbed ) ) {
+                target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
+                                           z.name() );
+            } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
+                                                  pl->martial_arts_data->selected_has_weapon( pl->primary_weapon().typeId() ) ) ) {
+                target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z.name() );
+                thrown_by_judo( z );
+            } else if( pl->has_grab_break_tec() ) {
+                ma_technique tech = pl->martial_arts_data->get_grab_break_tec( cur_weapon );
+                target->add_msg_player_or_npc( m_info, _( tech.avatar_message ), _( tech.npc_message ), z.name() );
+            } else {
+                target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
+                                               _( "The %s tries to grab <npcname>, but they break its grab!" ),
+                                               z.name() );
+            }
+            return;
+        }
+    }
+
+    // Pull section
+    // Limit the range in case some weird math thing would cause the target to fly past us
+    range = max_range;
+    auto pt = target->bub_pos();
+    while( range > min_range ) {
+        // Recalculate the ray each step
+        // We can't depend on either the target position being constant (obviously),
+        // but neither on z pos staying constant, because we may want to shift the map mid-pull
+        const units::angle dir = coord_to_angle( target->bub_pos(), z.bub_pos() );
+        tileray tdir( dir );
+        tdir.advance();
+        pt.x() = target->bub_pos().x() + tdir.dx();
+        pt.y() = target->bub_pos().y() + tdir.dy();
+        if( !g->is_empty( pt ) ) { //Cancel the grab if the space is occupied by something
+            break;
+        }
+
+        if( foe != nullptr ) {
+            if( foe->in_vehicle ) {
+                here.unboard_vehicle( foe->bub_pos() );
+            }
+        }
+
+        target->setpos( pt );
+        range--;
+        if( target->is_player() && seen ) {
+            g->invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
+            ui_manager::redraw_invalidated();
+            refresh_display();
+        }
+    }
+    // The monster might drag a target that's not on it's z level
+    // So if they leave them on open air, make them fall
+    here.creature_on_trap( *target );
+    if( seen ) {
+        auto msg_type = target->attitude_to( g->u ) == Attitude::A_FRIENDLY ? m_bad : m_neutral;
+        const bodypart_str_id bp = dealt.bp_hit;
+        target->add_msg_player_or_npc( msg_type,
+                                       pull_msg_u,
+                                       pull_msg_npc,
+                                       z.name(), body_part_name_accusative( bp_hit ) );
+    }
+
+    // Back to general section
+    const int prev_effect = target->get_effect_int( effect_grabbed );
+    z.add_effect( effect_grabbing, 2_turns );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso,
+                        prev_effect + grab_strength );
+
+    // Stop player from hauling since they have been grabbed
+    if( pl != nullptr ) {
+        if( pl->is_player() && pl->is_hauling() ) {
+            pl->stop_hauling();
         }
     }
 }
@@ -460,6 +564,8 @@ bool melee_actor::call( monster &z ) const
         return true;
     }
 
+    do_grab( z, target );
+    
     damage_instance damage = damage_max_instance;
     damage.add_damage( DT_BASH, z.get_bash_bonus() );
     damage.add_damage( DT_CUT, z.get_cut_bonus() );
