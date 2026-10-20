@@ -68,7 +68,7 @@ struct grab {
     // Messages for pulls
     translation pull_msg_u;
     translation pull_msg_npc;
-    void load_grab( const JsonObject &jo );
+    void load_grab( const JsonObject &obj );
 };
 
 class melee_actor : public mattack_actor
