@@ -2872,7 +2872,8 @@ bool mattack::ranged_pull( monster *z )
     }
 
     // Limit the range in case some weird math thing would cause the target to fly past us
-    int range = std::min( std::max( ( z->type->melee_sides * z->type->melee_dice ) / 10, z->get_grab_strength() ),
+    int range = std::min( std::max( ( z->type->melee_sides * z->type->melee_dice ) / 10,
+                                    z->get_grab_strength() ),
                           rl_dist( z->bub_pos(), target->bub_pos() ) + 1 );
     auto pt = target->bub_pos();
     while( range > 0 ) {
