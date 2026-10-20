@@ -6654,8 +6654,8 @@
       { "point": [ 0, 2, -3 ], "overmap": "cargo_ship_2_c_east", "locations": [ "lake_water_cube" ] }
     ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 3 ],
-    "city_distance": [ 20, -1 ],
+    "occurrences": [ 0, 8 ],
+    "city_distance": [ 10, -1 ],
     "flags": [ "LAKE" ]
   },
   {
@@ -6666,7 +6666,7 @@
       { "point": [ 1, 0, -5 ], "overmap": "wooden_shipwreck_b_north", "locations": [ "lake_bed" ] }
     ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 0, 8 ],
     "flags": [ "LAKE" ]
   },
   {
