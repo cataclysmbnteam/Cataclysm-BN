@@ -2838,6 +2838,10 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
+    if( map_funcs::physical_floor_between( g->m, z->bub_pos(), target->bub_pos() ) ) {
+        return false;
+    }
+
     map &here = get_map();
 
     player *foe = dynamic_cast< player * >( target );
@@ -2872,7 +2876,8 @@ bool mattack::ranged_pull( monster *z )
     }
 
     // Limit the range in case some weird math thing would cause the target to fly past us
-    int range = std::min( ( z->type->melee_sides * z->type->melee_dice ) / 10,
+    int range = std::min( std::max( ( z->type->melee_sides * z->type->melee_dice ) / 10,
+                                    z->get_grab_strength() ),
                           rl_dist( z->bub_pos(), target->bub_pos() ) + 1 );
     auto pt = target->bub_pos();
     while( range > 0 ) {
