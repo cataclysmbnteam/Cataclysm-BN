@@ -2838,6 +2838,10 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
+    if( map_funcs::physical_floor_between( g->m, z->bub_pos(), target->bub_pos() ) ) {
+        return false;
+    }
+
     map &here = get_map();
 
     player *foe = dynamic_cast< player * >( target );
