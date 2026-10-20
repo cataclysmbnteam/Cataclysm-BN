@@ -327,7 +327,7 @@ bool deployer_actor::call( monster &mon ) const
     return true;
 }
 
-void grab::load_grab( const JsonObject &jo )
+void grab::load_grab( const JsonObject &obj )
 {
     optional( obj, was_loaded, "grab_strength", grab_strength, 1 );
     optional( obj, was_loaded, "is_pull", is_pull, false );
