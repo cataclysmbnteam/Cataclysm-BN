@@ -132,7 +132,7 @@ class melee_actor : public mattack_actor
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
-        void do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
+        void do_grab( monster &, Creature *target ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
