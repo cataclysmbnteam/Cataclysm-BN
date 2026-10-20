@@ -2011,7 +2011,7 @@ bool game::handle_action()
             user_action_counter += 1;
         }
 
-        if( act == ACTION_SELECT || act == ACTION_SEC_SELECT ) {
+        if( act == ACTION_SELECT || act == ACTION_SEC_SELECT || act == ACTION_DESCRIBE_TILE ) {
             // Mouse button click
             if( veh_ctrl ) {
                 // No mouse use in vehicle
@@ -2039,6 +2039,9 @@ bool game::handle_action()
                 if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
+            } else if( act == ACTION_DESCRIBE_TILE ) {
+                describe_tile( *mouse_target );
+                return false;
             } else if( act == ACTION_SEC_SELECT ) {
                 if( !u.sees( *mouse_target ) ) {
                     // Right-click actions examine or target current terrain and creatures.
