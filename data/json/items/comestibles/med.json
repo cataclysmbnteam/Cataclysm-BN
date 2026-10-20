@@ -501,7 +501,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "UNSAFE_CONSUME" ],
     "fun": 30,
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
@@ -1202,6 +1202,7 @@
     "calories": 65,
     "addiction_potential": 45,
     "addiction_type": "opiate",
+    "flags": [ "UNSAFE_CONSUME" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take a sip of purple.",

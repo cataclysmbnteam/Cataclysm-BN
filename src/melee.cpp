@@ -32,6 +32,7 @@
 #include "line.h"
 #include "map/map.h"
 #include "map/mapdata.h"
+#include "map/utils/map_functions.h"
 #include "map_iterator.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -1870,6 +1871,11 @@ void Character::reach_attack( const tripoint_bub_ms &p )
         }
 
         mod_moves( -move_cost );
+        return;
+    }
+
+    if( map_funcs::physical_floor_between( here, bub_pos(), p ) ) {
+        add_msg_if_player( _( "There's a floor in the way!" ) );
         return;
     }
 

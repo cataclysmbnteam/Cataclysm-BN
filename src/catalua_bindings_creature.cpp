@@ -311,7 +311,7 @@ void cata::detail::reg_creature( sol::state &lua )
         SET_FX_T( remove_value, void( const std::string & ) );
         DOC( "Retrieves an arbitrary entry using the same key format as set_value." );
         SET_FX_T( get_value, std::string( const std::string & ) const );
-        DOC( "Returns all stored creature vars as a Lua table" );
+        DOC( "Returns all stored creature vars as a table mapping each key (string) to its value (string), as written by set_value." );
         luna::set_fx( ut, "values_table", []( const Creature & cr, sol::this_state state )
         {
             sol::state_view lua( state );
@@ -683,6 +683,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_MEMB( cash );
         SET_MEMB( follower_ids );
 
+        DOC( "Strength of each mutation category, computed from the character's mutations and their prerequisites. Categories without mutations are absent." );
         SET_MEMB( mutation_category_level );
 
         // Magic system
@@ -1076,6 +1077,8 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_wielding, bool( const item & ) const );
 
+        SET_FX( wielded_items );
+
         SET_FX_T( is_wearing, bool( const item & ) const );
 
         SET_FX_T( is_wearing_on_bp, bool( const itype_id &, const bodypart_id & ) const );
@@ -1238,7 +1241,17 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );
 
-        DOC( "Assigns a Lua-backed activity with opts.type, opts.duration, optional opts.on_finish, optional opts.on_turn, optional opts.data, optional opts.pos, optional opts.name, and optional opts.interruptable." );
+        DOC( "Assigns a Lua-backed activity.  " );
+        DOC( "The callbacks receive a table with keys `user` (Character), `activity` (PlayerActivity), `name`, `data` and `pos`.  " );
+        DOC( "Takes a table with keys:  " );
+        DOC( "* `type` (ActivityTypeId): Activity type.  " );
+        DOC( "* `duration` (TimeDuration): How long the activity takes.  " );
+        DOC( "* `on_finish` (string, optional): Key in `game.activity_functions` called when the activity finishes.  " );
+        DOC( "* `on_turn` (string, optional): Key in `game.activity_functions` called every turn of the activity.  " );
+        DOC( "* `data` (table, optional): Serializable Lua state passed back to the callbacks as `params.data`.  " );
+        DOC( "* `pos` (TripointBubMs, optional): Activity position. Callbacks receive it as `params.pos` in absolute coordinates.  " );
+        DOC( "* `name` (string, optional): Activity name, passed to the callbacks as `params.name`.  " );
+        DOC( "* `interruptable` (boolean, optional): Whether a key press can interrupt the activity. Defaults to true." );
         luna::set_fx( ut, "assign_lua_activity", []( UT_CLASS & c, const sol::table & opts ) -> void {
             c.assign_activity( make_lua_activity( parse_lua_activity_options( opts ) ) );
         } );
@@ -1376,6 +1389,7 @@ void cata::detail::reg_character( sol::state &lua )
             }
         } );
 
+        DOC( "Returns how exposed each body part is through worn items, from 0.0 (fully covered) to 1.0 (bare)." );
         SET_FX( bodypart_exposure );
 
         luna::set_fx( ut, "drench", []( UT_CLASS & c, const int saturation,
@@ -1404,7 +1418,10 @@ void cata::detail::reg_character( sol::state &lua )
         DOC( "Invalidates the cached crafting inventory" );
         SET_FX_T( invalidate_crafting_inventory, void() );
 
-        DOC( "Consumes a requirement's items from the inventory" );
+        DOC( "Consumes a requirement's item components from the inventory and nearby map. Tools and qualities are not used. Returns false if the player cancels a component choice.  " );
+        DOC( "Takes a table with keys:  " );
+        DOC( "* `range` (integer, optional): Radius for nearby map items. Defaults to the pickup range.  " );
+        DOC( "* `count` (integer, optional): Number of times to consume the requirement. Defaults to 1." );
         luna::set_fx( ut, "consume_requirement", []( UT_CLASS & ch, const requirement_data & req, const sol::table & opts ) -> bool {
             int range = opts.get_or( "range", PICKUP_RANGE );
             int size = opts.get_or( "count", 1 );
@@ -1436,6 +1453,10 @@ void cata::detail::reg_character( sol::state &lua )
             return ch.bonus_from_enchantments( base, ench_val_id, round.value_or( false ) );
         } );
         SET_FX( has_enchantment_flag );
+
+        SET_FX( add_perk );
+        SET_FX( remove_perk );
+        SET_FX( has_perk );
     }
 #undef UT_CLASS // #define UT_CLASS Character
 

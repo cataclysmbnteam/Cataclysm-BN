@@ -1005,5 +1005,16 @@
     "pre_special": "check_empty",
     "pre_furniture": "f_cupboard",
     "post_furniture": "f_sink"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_billybass",
+    "group": "place_billybass",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "billybass", 1 ] ] ],
+    "pre_flags": [ "WALL" ],
+    "post_furniture": "f_billybass"
   }
 ]

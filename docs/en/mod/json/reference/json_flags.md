@@ -1064,7 +1064,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `GROUP_BASH` Gets help from monsters around it when bashing.
 - `GROUP_MORALE` More courageous when near friends.
 - `GUILT` You feel guilty for killing it.
-- `HARDTOSHOOT` It's one size smaller for ranged attacks, no less then MS_TINY
+- `HARDTOSHOOT` It's one size smaller for ranged attacks, no less then MS_TINY. Ammo with the `WIDE`,
+  `SHOT`, or `BOUNCE` ammo effects will negate this.
 - `HEARS` It can hear you.
 - `HIT_AND_RUN` Flee for several turns after a melee attack.
 - `HUMAN` It's a live human, as long as it's alive.
@@ -1702,6 +1703,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NOREMOVE_OPEN` Cannot be uninstalled if there's an open `OPENABLE` part in the same tile.
 - `NOREMOVE_CLOSED` Cannot be uninstalled if there's a closed `OPENABLE` part in the same tile.
 - `NOREMOVE_INSIDE` Cannot be uninstalled from inside the vehicle.
+- `NOREMOVE_LOCKED` Cannot be uninstalled if there's an enabled `DOOR_LOCKING` part on the same tile.
 - `NOREMOVE_OUTSIDE` Cannot be uninstalled from outside the vehicle.
 - `OBSTACLE` Cannot walk through part, unless the part is also `OPENABLE`.
 - `ODDTURN` Only on during odd turns.
@@ -1764,6 +1766,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `UNMOUNT_ON_MOVE` Dismount this part when the vehicle moves. Doesn't drop the part, unless you
   give it special handling.
 - `VARIABLE_SIZE` Has 'bigness' for power, wheel radius, etc.
+- `VEHICLEPART_NO_LOCKS` Doors with this flag won't generate with locks installed on spawn.
+  Players can still manually add locks to these parts during gameplay.
 - `VISION`
 - `WATER_WHEEL` Recharges vehicle batteries when in flowing water.
 - `WELDRIG` Gives the welding repair action

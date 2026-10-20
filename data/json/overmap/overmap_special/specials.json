@@ -2052,6 +2052,7 @@
       { "point": [ 1, 5, 0 ], "overmap": "ranch_camp_47_north" },
       { "point": [ 2, 5, 0 ], "overmap": "ranch_camp_48_north" },
       { "point": [ 3, 5, 0 ], "overmap": "ranch_camp_49_north" },
+      { "point": [ 3, 5, 1 ], "overmap": "ranch_camp_49_z1_north" },
       { "point": [ 4, 5, 0 ], "overmap": "ranch_camp_50_north" },
       { "point": [ 4, 5, 1 ], "overmap": "ranch_camp_50_z1_north" },
       { "point": [ 5, 5, 0 ], "overmap": "ranch_camp_51_north" },
@@ -6653,8 +6654,8 @@
       { "point": [ 0, 2, -3 ], "overmap": "cargo_ship_2_c_east", "locations": [ "lake_water_cube" ] }
     ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 3 ],
-    "city_distance": [ 20, -1 ],
+    "occurrences": [ 0, 8 ],
+    "city_distance": [ 10, -1 ],
     "flags": [ "LAKE" ]
   },
   {
@@ -6665,7 +6666,7 @@
       { "point": [ 1, 0, -5 ], "overmap": "wooden_shipwreck_b_north", "locations": [ "lake_bed" ] }
     ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 0, 8 ],
     "flags": [ "LAKE" ]
   },
   {

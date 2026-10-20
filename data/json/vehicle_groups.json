@@ -302,8 +302,6 @@
       [ "tank_m60_patton", 50 ],
       [ "howitzer_m109", 75 ],
       [ "tank_xm7_elec", 25 ],
-      [ "tank_xm_hover", 25 ],
-      [ "xapc_hover", 25 ],
       [ "tractor_bandit", 5 ]
     ]
   },
@@ -471,9 +469,7 @@
       [ "tank_m60_patton", 10 ],
       [ "tank_m60_patton_mothballed", 10 ],
       [ "howitzer_m109", 50 ],
-      [ "tank_xm7_elec", 5 ],
-      [ "tank_xm_hover", 5 ],
-      [ "xapc_hover", 5 ]
+      [ "tank_xm7_elec", 5 ]
     ]
   },
   {

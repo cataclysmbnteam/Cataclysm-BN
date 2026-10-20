@@ -646,9 +646,9 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_weather_updated", []( const sol::table & ) {} );
 
     DOC( "Called when the player tries to interact with an NPC.  " );
+    DOC( "Return false to prevent the npc interaction menu from appearing.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `npc` (NPC): The NPC being interacted with  " );
-    DOC( "Return false to prevent the npc interaction menu from appearing.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_try_npc_interaction", []( const sol::table & ) {} );
 
@@ -659,9 +659,9 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_npc_interaction", []( const sol::table & ) {} );
 
     DOC( "Called when the player tries to interact with a monster.  " );
+    DOC( "Return false to prevent monster interaction actions from running.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `monster` (Monster): The monster being interacted with  " );
-    DOC( "Return false to prevent monster interaction actions from running.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_try_monster_interaction", []( const sol::table & ) {} );
 
@@ -695,18 +695,18 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_control_npc", []( const sol::table & ) {} );
 
     DOC( "Called just before the dialogue window opens and the first topic is chosen.  " );
+    DOC( "Return a new talk_topic id to add it as the next topic.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `npc` (NPC): The NPC speaking  " );
     DOC( "* `next_topic` (string): The topic that will be shown first  " );
-    DOC( "Return a new talk_topic id to add it as the next topic.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_dialogue_start", []( const sol::table & ) {} );
 
     DOC( "Called when a dialogue option is selected.  " );
+    DOC( "Return a new talk_topic id to add it as the next topic.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `npc` (NPC): The NPC speaking  " );
     DOC( "* `next_topic` (string): The topic that was selected  " );
-    DOC( "Return a new talk_topic id to add it as the next topic.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_dialogue_option", []( const sol::table & ) {} );
 
@@ -783,6 +783,7 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
 
     DOC( "Called when the player attempts to move.  " );
     DOC( "All registered callbacks run; if any returns false, movement is blocked.  " );
+    DOC( "Return false to block the move.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `player` (Player)  " );
     DOC( "* `from` (TripointBubMs)  " );
@@ -791,12 +792,12 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `via_ramp` (bool)  " );
     DOC( "* `mounted` (bool)  " );
     DOC( "* `mount` (Creature, if mounted)  " );
-    DOC( "Return false to block the move." );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_player_try_move", []( const sol::table & ) {} );
 
     DOC( "Called when an NPC attempts to move.  " );
     DOC( "All registered callbacks run; if any returns false, movement is blocked.  " );
+    DOC( "Return false to block the move.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `npc` (Npc)  " );
     DOC( "* `from` (TripointBubMs)  " );
@@ -805,33 +806,33 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `via_ramp` (bool)  " );
     DOC( "* `mounted` (bool)  " );
     DOC( "* `mount` (Creature, if mounted)  " );
-    DOC( "Return false to block the move." );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_npc_try_move", []( const sol::table & ) {} );
 
     DOC( "Called when a monster attempts to move.  " );
     DOC( "All registered callbacks run; if any returns false, movement is blocked.  " );
+    DOC( "Return false to block the move.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `monster` (Monster)  " );
     DOC( "* `from` (TripointBubMs)  " );
     DOC( "* `to` (TripointBubMs)  " );
     DOC( "* `force` (bool): If the monster move call was forced  " );
-    DOC( "Return false to block the move." );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_monster_try_move", []( const sol::table & ) {} );
 
     DOC( "Called before the player uses elevator controls.  " );
     DOC( "All registered callbacks run; if any returns false, elevator use is blocked.  " );
+    DOC( "Return false to block elevator use.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `player` (Player)  " );
     DOC( "* `pos` (TripointBubMs)  " );
     DOC( "* `om_terrain` (string)  " );
-    DOC( "Return false to block elevator use." );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_elevator_try_use", []( const sol::table & ) {} );
 
     DOC( "Called after on_player_try_move or on_npc_try_move regardless of whether the specific hook vetoed.  " );
     DOC( "All registered callbacks run; if any returns false, movement is blocked.  " );
+    DOC( "Return false to block the move.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `char` (Character)  " );
     DOC( "* `from` (TripointBubMs)  " );
@@ -840,7 +841,6 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "* `via_ramp` (bool)  " );
     DOC( "* `mounted` (bool)  " );
     DOC( "* `mount` (Creature, if mounted)  " );
-    DOC( "Return false to block the move." );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_try_move", []( const sol::table & ) {} );
 
@@ -920,18 +920,18 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_spell_cast", []( const sol::table & ) {} );
 
     DOC( "Called when a skill is confirmed on the character display (`@`) skill tab.  " );
+    DOC( "Set `params.results.handled = true` to prevent the default training toggle.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `character` (Character)  " );
     DOC( "* `skill` (SkillId)  " );
-    DOC( "Set `params.results.handled = true` to prevent the default training toggle.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_display_skill_action", []( const sol::table & ) {} );
 
     DOC( "Called when drawing skill info on the character display (`@`) skill tab.  " );
+    DOC( "Set `params.results.text` to append text below the regular skill description.  " );
     DOC( "The hook receives a table with keys:  " );
     DOC( "* `character` (Character)  " );
     DOC( "* `skill` (SkillId)  " );
-    DOC( "Set `params.results.text` to append text below the regular skill description.  " );
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_character_display_skill_info", []( const sol::table & ) {} );
 
@@ -1054,8 +1054,10 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC_PARAMS( "params" );
     luna::set_fx( lib, "on_npc_loaded", []( const sol::table & ) {} );
 
-    DOC( "Called every in-game period" );
-    luna::set_fx( lib, "on_every_x", []( const sol::table & ) {} );
+    DOC( "Called every in-game period.  " );
+    DOC( "Not registered through `game.add_hook`; use `gapi.add_on_every_x_hook( interval, fn )` instead.  " );
+    DOC( "The callback receives no arguments. Return `false` to unregister it." );
+    luna::set_fx( lib, "on_every_x", []() {} );
 
     DOC( "Called when an explosion starts.  " );
     DOC( "The hook receives a table with keys:  " );
@@ -1261,4 +1263,5 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_requirement( lua );
     reg_inventory( lua );
     reg_mapgendata( lua );
+    reg_perk( lua );
 }

@@ -511,7 +511,12 @@ void cata::detail::reg_map( sol::state &lua )
         DOC( "Drains fuel charges from the vehicle when the position has a part with the given feature. Returns the charges drained." );
         luna::set_fx( ut, "drain_vehicle_fuel_at", drain_vehicle_fuel_at_lua );
 
-        DOC( "Replaces a specific vehicle with a different prototype, preserving origin tile by default. Pass an optional table with `orientation` (Angle or degrees), `status`, and `locks` to override spawn settings." );
+        DOC( "Replaces a specific vehicle with a different prototype at the same origin tile.  " );
+        DOC( "Returns false if the vehicle id or an option is invalid.  " );
+        DOC( "Pass an optional table with keys:  " );
+        DOC( "* `orientation` (Angle or number, optional): Facing of the new vehicle, as an Angle or in degrees. Defaults to the old vehicle's facing.  " );
+        DOC( "* `status` (integer, optional): Initial damage. -1 is light damage, 0 is undamaged, 1 is disabled (destroyed tires or engine). Defaults to -1.  " );
+        DOC( "* `locks` (boolean, optional): If false, removes locking door parts and spawns the vehicle unlocked with keys. Otherwise locks follow the normal spawn rules." );
         luna::set_fx( ut, "replace_vehicle", sol::overload(
                           []( map & m, const wrapped_vehicle & wrapped, const std::string & vehicle_id,
         sol::optional<sol::table> opts ) -> bool {
@@ -736,6 +741,12 @@ void cata::detail::reg_map( sol::state &lua )
 
         luna::set_fx( ut, "get_vehicles",
                       []( mapgen_constructor & m ) -> std::vector<vehicle *> { return m.get_vehicles(); } );
+        DOC( "Replaces a vehicle spawned by mapgen with a different prototype at the same position.  " );
+        DOC( "Returns false if the vehicle id or an option is invalid.  " );
+        DOC( "Pass an optional table with keys:  " );
+        DOC( "* `orientation` (Angle or number, optional): Facing of the new vehicle, as an Angle or in degrees. Defaults to the old vehicle's facing.  " );
+        DOC( "* `status` (integer, optional): Initial damage. -1 is light damage, 0 is undamaged, 1 is disabled (destroyed tires or engine). Defaults to -1.  " );
+        DOC( "* `locks` (boolean, optional): If false, removes locking door parts and spawns the vehicle unlocked with keys. Otherwise locks follow the normal spawn rules." );
         luna::set_fx( ut, "replace_vehicle", []( mapgen_constructor & m, vehicle * target,
         const std::string & vehicle_id, const sol::optional<sol::table> &opts ) -> bool {
             if( target == nullptr )

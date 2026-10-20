@@ -38,6 +38,7 @@
 #include "line.h"
 #include "magic/magic.h"
 #include "map/map.h"
+#include "map/utils/map_functions.h"
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -244,7 +245,8 @@ auto get_shot_target( const shot_target_options &options ) -> tripoint_bub_ms
 {
     const auto range = rl_dist( options.source, options.target );
     Creature *target_critter = g->critter_at( options.target );
-    const auto target_size = target_critter != nullptr ? target_critter->ranged_target_size() : 0.0;
+    const auto target_size = target_critter != nullptr ? target_critter->ranged_target_size(
+                                 true ) : 0.0;
     const auto aim = projectile_attack_roll( options.dispersion, range, target_size );
     if( aim.missed_by_tiles < 1.0 ) {
         return options.target;
@@ -832,7 +834,7 @@ static double occupied_tile_fraction( creature_size target_size )
     return 0.5;
 }
 
-double Creature::ranged_target_size() const
+double Creature::ranged_target_size( bool shot ) const
 {
     if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
         return 0.0;
@@ -847,7 +849,7 @@ double Creature::ranged_target_size() const
             is_prone = true;
         }
     }
-    if( has_flag( MF_HARDTOSHOOT ) || is_crouched || is_prone ) {
+    if( ( has_flag( MF_HARDTOSHOOT ) || is_crouched || is_prone ) && !shot ) {
         switch( get_size() ) {
             case creature_size::tiny:
                 // We can't be smaller than tiny, but we can make the hit rate lower.
@@ -868,6 +870,11 @@ double Creature::ranged_target_size() const
         }
     }
     return occupied_tile_fraction( get_size() );
+}
+
+double Creature::ranged_target_size() const
+{
+    return ranged_target_size( false );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )
@@ -2954,6 +2961,12 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
                 // TODO: Handle armored glass
                 return false;
             }
+        }
+
+        // Check if there's a floor in the way
+        if( map_funcs::physical_floor_between( here, shooter_pos, critter_pos ) )
+        {
+            return false;
         }
 
         return true;
