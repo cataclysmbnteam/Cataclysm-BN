@@ -60,6 +60,17 @@ class mon_spellcasting_actor : public mattack_actor
         void finalize() override;
 };
 
+struct grab {
+    // Intensity of grab effect applied, defaults to the monster's defined grab_strength unless specified, or 1 if both are unspecified
+    int grab_strength;
+    // Whether the grab does a pull
+    bool is_pull;
+    // Messages for pulls
+    translation pull_msg_u;
+    translation pull_msg_npc;
+    void load_grab( const JsonObject &jo );
+};
+
 class melee_actor : public mattack_actor
 {
     public:
@@ -82,6 +93,9 @@ class melee_actor : public mattack_actor
         float min_range = 1.0f;
         // Throw strength of the attack, 0 means no throw
         float throw_strength = 0.0f;
+        // Whether the attack should grab
+        grab grab_data;
+        bool is_grab = false;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -118,6 +132,7 @@ class melee_actor : public mattack_actor
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        void do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
