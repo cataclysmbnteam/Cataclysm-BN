@@ -445,7 +445,7 @@
   },
   {
     "type": "recipe",
-    "result": "20x66_shot",
+    "result": "20x66_shot_reloaded",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -461,7 +461,7 @@
   },
   {
     "type": "recipe",
-    "result": "20x66_flechette",
+    "result": "20x66_flechette_reloaded",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -483,7 +483,7 @@
   },
   {
     "type": "recipe",
-    "result": "20x66_slug",
+    "result": "20x66_slug_reloaded",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",

@@ -189,6 +189,39 @@
     "charges": 1
   },
   {
+    "result": "20x66_shot_reloaded",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 1 ],
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shotgun_primer", 1 ] ], [ [ "oxy_powder", 3 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 8 ] ] ],
+    "charges": 1
+  },
+  {
+    "result": "20x66_flechette_reloaded",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 1 ],
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shotgun_primer", 1 ] ], [ [ "oxy_powder", 3 ] ], [ [ "gunpowder", 6 ] ], [ [ "combatnail", 12 ] ] ],
+    "charges": 1
+  },
+  {
+    "result": "20x66_slug_reloaded",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 1 ],
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shotgun_primer", 1 ] ], [ [ "oxy_powder", 4 ] ], [ [ "gunpowder", 8 ] ], [ [ "lead", 12 ] ] ],
+    "charges": 1
+  },
+  {
     "result": "20x66_shot",
     "type": "uncraft",
     "skill_used": "fabrication",

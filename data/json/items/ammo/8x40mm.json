@@ -1,5 +1,45 @@
 [
   {
+    "id": "8mm_jhp_reloaded",
+    "copy-from": "8mm_jhp",
+    "type": "AMMO",
+    "name": { "str": "8x40mm JHP, handmade" },
+    "description": "Handmade duplicates of Rivtech 8x40mm JHP rounds.  Being caseless rounds, these are almost irreplaceable once fired.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.6 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "8mm_caseless_reloaded",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str": "8x40mm caseless, handmade" },
+    "description": "Handmade duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these are almost irreplaceable once fired.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.6 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "8mm_hvp_reloaded",
+    "copy-from": "8mm_hvp",
+    "type": "AMMO",
+    "name": { "str": "8x40mm HVP, handmade" },
+    "description": "Handmade duplicates of Rivtech 8x40mm HVP rounds.  Being caseless rounds, these are almost irreplaceable once fired.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.6 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "8mm_inc_reloaded",
+    "copy-from": "8mm_inc",
+    "type": "AMMO",
+    "name": { "str": "8x40mm tracer, handmade" },
+    "description": "Handmade duplicates of Rivtech 8x40mm tracer rounds.  Being caseless rounds, these are almost irreplaceable once fired.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.6 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "8mm_caseless",
     "type": "AMMO",
     "name": { "str_sp": "8x40mm caseless" },
