@@ -2023,7 +2023,9 @@ bool game::handle_action()
                 return false;
             }
 
-            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const auto mouse_pos = act == ACTION_DESCRIBE_TILE &&
+                                   ctxt.get_raw_input().type != input_event_t::mouse ?
+                                   look_around() : ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
             }
@@ -2153,6 +2155,7 @@ bool game::handle_action()
             case ACTION_NULL:
             case NUM_ACTIONS:
                 break; // dummy entries
+            case ACTION_DESCRIBE_TILE:
             case ACTION_ACTIONMENU:
             case ACTION_MAIN_MENU:
             case ACTION_KEYBINDINGS:

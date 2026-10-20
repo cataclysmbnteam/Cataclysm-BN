@@ -533,6 +533,8 @@ std::string action_ident( action_id act )
             return "SELECT";
         case ACTION_SEC_SELECT:
             return "SEC_SELECT";
+        case ACTION_DESCRIBE_TILE:
+            return "DESCRIBE_TILE";
         case ACTION_AUTOATTACK:
             return "autoattack";
         case ACTION_TOGGLE_MANUAL_COMBAT_MODE:
@@ -583,6 +585,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SHIFT_W:
         case ACTION_SHIFT_NW:
         // Environment Interaction
+        case ACTION_DESCRIBE_TILE:
         case ACTION_LOOK:
         case ACTION_LIST_ITEMS:
         case ACTION_ZONES:
