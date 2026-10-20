@@ -6476,6 +6476,23 @@
   },
   {
     "type": "profession",
+    "id": "jetskier",
+    "name": "Jetskier",
+    "description": "Every year during spring break and all summer you'd be out on the lake, riding the waves.  The end of the world can wait for when you make it back to shore.",
+    "points": 1,
+    "vehicle": "jetski",
+    "skills": [ { "level": 1, "name": "swimming" }, { "level": 2, "name": "driving" } ],
+    "items": {
+      "both": {
+        "items": [ "crocs_sport", "tank_top", "flotation_vest", "dive_bag", "diving_watch", "fancy_sunglasses", "smart_phone" ]
+      },
+      "male": [ "trunks" ],
+      "female": [ "bikini_top", "bikini_bottom" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "fisher",
     "name": "Fisher",
     "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught.  You found the buzzing of insects enjoyable, but they got bigger and more mean.  Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
