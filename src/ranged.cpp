@@ -4860,7 +4860,7 @@ bool ranged::is_amateur( const Character &who, const item &gun )
 
     skill_id gun_skill = gun.gun_skill();
     bool amateur = true;
-    // If you have 1 or above for the specific gun skill you don't get the penalty
+    // If you have 2 or above for the specific gun skill you don't get the penalty
     if( who.get_skill_level( gun_skill ) >= 2 ) {
         amateur = false;
     }
