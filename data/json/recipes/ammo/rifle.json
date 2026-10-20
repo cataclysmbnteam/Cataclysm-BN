@@ -382,7 +382,7 @@
   },
   {
     "type": "recipe",
-    "result": "8mm_jhp_reloaded",
+    "result": "8mm_jhp",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -404,7 +404,7 @@
   },
   {
     "type": "recipe",
-    "result": "8mm_caseless_reloaded",
+    "result": "8mm_caseless",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -426,7 +426,7 @@
   },
   {
     "type": "recipe",
-    "result": "8mm_hvp_reloaded",
+    "result": "8mm_hvp",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -449,7 +449,7 @@
   },
   {
     "type": "recipe",
-    "result": "8mm_inc_reloaded",
+    "result": "8mm_inc",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",

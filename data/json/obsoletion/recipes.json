@@ -2340,5 +2340,40 @@
     "type": "recipe",
     "result": "xlkevlar",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "8mm_jhp_reloaded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "8mm_caseless_reloaded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "8mm_hvp_reloaded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "8mm_inc_reloaded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "20x66_shot_reloaded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "20x66_flechette_reloaded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "20x66_slug_reloaded",
+    "obsolete": true
   }
 ]

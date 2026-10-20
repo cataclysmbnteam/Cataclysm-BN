@@ -868,5 +868,40 @@
     "type": "MIGRATION",
     "replace": "smg_luty",
     "contents": [ "retool_luty_45" ]
+  },
+  {
+    "id": "8mm_jhp_reloaded",
+    "type": "MIGRATION",
+    "replace": "8mm_jhp"
+  },
+  {
+    "id": "8mm_caseless_reloaded",
+    "type": "MIGRATION",
+    "replace": "8mm_caseless"
+  },
+  {
+    "id": "8mm_hvp_reloaded",
+    "type": "MIGRATION",
+    "replace": "8mm_hvp"
+  },
+  {
+    "id": "8mm_inc_reloaded",
+    "type": "MIGRATION",
+    "replace": "8mm_inc"
+  },
+  {
+    "id": "20x66_flechette_reloaded",
+    "type": "MIGRATION",
+    "replace": "20x66_flechette"
+  },
+  {
+    "id": "20x66_shot_reloaded",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_slug_reloaded",
+    "type": "MIGRATION",
+    "replace": "20x66_slug"
   }
 ]

@@ -470,6 +470,11 @@
     "explosion": { "damage": 70, "radius": 1 }
   },
   {
+    "id": "AMMO_20x66_FRAG",
+    "type": "ammo_effect",
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 2 }, "range": 3 } }
+  },
+  {
     "id": "AMMO_25MM_HEI",
     "type": "ammo_effect",
     "explosion": {
