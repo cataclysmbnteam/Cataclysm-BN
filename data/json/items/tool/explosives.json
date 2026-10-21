@@ -1050,6 +1050,7 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
+    "light_color": "#ffb05f",
     "initial_charges": 1,
     "max_charges": 1,
     "turns_per_charge": 5,
