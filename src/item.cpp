@@ -1063,7 +1063,7 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) ) &&
+    return( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) || has_flag( flag_POWERARMOR_PLATING ) ) &&
             it.has_flag( flag_POWERARMOR_EXO ) );
 }
 
