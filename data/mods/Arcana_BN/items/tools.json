@@ -1016,6 +1016,7 @@
     "symbol": ";",
     "looks_like": "hatchet",
     "color": "brown",
+    "light_color": "#ff5f5f",
     "max_charges": 5,
     "turns_per_charge": 1,
     "ammo": "essence_blood_type",
@@ -1182,7 +1183,7 @@
     "repairs_like": "candle_warding",
     "symbol": ",",
     "color": "white",
-    "light_color": "#b8ffc0",
+    "light_color": "#a0a0ff",
     "use_action": [
       {
         "target": "candle_warding",

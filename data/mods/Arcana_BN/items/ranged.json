@@ -301,6 +301,7 @@
     "looks_like": "bagh_nakha",
     "repairs_like": "bloodscourge",
     "color": "yellow",
+    "light_color": "#ffb05f",
     "ammo": "essence_pure_type",
     "skill": "magic",
     "range": 50,
