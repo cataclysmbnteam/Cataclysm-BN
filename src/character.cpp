@@ -3045,7 +3045,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
             if( wit->has_flag( flag_ARMOR_PLATE ) ) {
                 plates += 1;
             }
-            if( plates < carriers ) {
+            if( wit->has_flag( flag_ARMOR_PLATE ) && plates <= carriers ) {
                 continue;
             }
             const auto iter = std::ranges::find_if( dependent,
