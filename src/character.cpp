@@ -3603,6 +3603,18 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
+    for( auto &elem : worn ) {
+        if( it.has_flag( flag_ARMOR_PLATE ) && !is_wearing_plate_carrier() ) {
+            return ret_val<bool>::make_failure( _( "Can't wear armor plates without a compatible plate carrier!" ) );
+        }
+    }
+
+    for( auto &elem : worn ) {
+        if( it.has_flag( flag_SIDE_ARMOR_PLATE ) && !is_wearing_plate_carrier_sides() ) {
+            return ret_val<bool>::make_failure( _( "Can't wear side armor plates without a compatible plate carrier!" ) );
+        }
+    }
+    
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
@@ -4833,6 +4845,28 @@ bool Character::is_wearing_active_power_armor() const
         }
     }
     return false;
+}
+
+bool Character::is_wearing_plate_carrier() const
+{
+    bool result = false;
+    for( auto &elem : worn ) {
+        if( elem->has_flag( flag_PLATE_CARRIER ) ) {
+            result = true;
+        }
+    }
+    return result;
+}
+
+bool Character::is_wearing_plate_carrier_sides() const
+{
+    bool result = false;
+    for( auto &elem : worn ) {
+        if( elem->has_flag( flag_PLATE_CARRIER_SIDES ) ) {
+            result = true;
+        }
+    }
+    return result;
 }
 
 bool Character::is_wearing_active_optcloak() const
