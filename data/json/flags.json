@@ -1086,6 +1086,34 @@
     "info": "This item can be worn simultaneously with power armor."
   },
   {
+    "id": "PLATE_CARRIER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines a plate carrier that will allow armor plates to be worn.",
+    "info": "This item has pouches on the front and back for armor plates, allowing armor plates to be worn."
+  },
+  {
+    "id": "PLATE_CARRIER_SIDES",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines a plate carrier that will allow side armor plates to be worn.",
+    "info": "This item has pouches on the sides for armor plates, allowing side armor plates to be worn."
+  },
+  {
+    "id": "ARMOR_PLATE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines an armor plate that can be worn with clothing with the PLATE_CARRIER flag.",
+    "info": "This item is an armor plate, meant to be inserted into a plate carrier, and can only be worn with one."
+  },
+  {
+    "id": "SIDE_ARMOR_PLATE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines a side armor plate that can be worn with clothing with the PLATE_CARRIER_SIDES flag.",
+    "info": "This item is a side armor plate, meant to be inserted into a plate carrier, and can only be worn with one."
+  },
+  {
     "id": "ZERO_WEIGHT",
     "type": "json_flag",
     "context": [ "GENERIC", "AMMO", "TOOL", "GUNMOD", "GUN" ]
