@@ -3031,21 +3031,10 @@ detached_ptr<item> Character::i_add_or_drop( detached_ptr<item> &&it )
 std::list<item *> Character::get_dependent_worn_items( const item &it ) const
 {
     std::list<item *> dependent;
-    int plates = 0;
-    int carriers = 0;
     // Adds dependent worn items recursively
     const std::function<void( const item &it )> add_dependent = [&]( const item & it ) {
         for( const item * const &wit : worn ) {
             if( wit == &it || !wit->is_worn_only_with( it ) ) {
-                continue;
-            }
-            if( wit->has_flag( flag_PLATE_CARRIER ) ) {
-                carriers += 1;
-            }
-            if( wit->has_flag( flag_ARMOR_PLATE ) ) {
-                plates += 1;
-            }
-            if( wit->has_flag( flag_ARMOR_PLATE ) && plates <= carriers ) {
                 continue;
             }
             const auto iter = std::ranges::find_if( dependent,
