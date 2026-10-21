@@ -4869,12 +4869,12 @@ bool Character::is_wearing_active_optcloak() const
     return false;
 }
 
-bool Character::is_wearing_plate_carrier() const
+int Character::is_wearing_plate_carrier() const
 {
-    bool result = false;
+    bool result = 0;
     for( auto &elem : worn ) {
         if( elem->has_flag( flag_PLATE_CARRIER ) ) {
-            result = true;
+            result += 1;
         }
     }
     return result;
