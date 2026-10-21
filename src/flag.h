@@ -257,6 +257,8 @@ extern const flag_id flag_POWERARMOR_EXO;
 extern const flag_id flag_POWERARMOR_EXTERNAL;
 extern const flag_id flag_POWERARMOR_PLATING;
 extern const flag_id flag_POWERARMOR_MOD;
+extern const flag_id flag_PLATE_CARRIER;
+extern const flag_id flag_ARMOR_PLATE;
 extern const flag_id flag_POWERED;
 extern const flag_id flag_PRIMITIVE_RANGED_WEAPON;
 extern const flag_id flag_PROCESSING;
