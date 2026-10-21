@@ -260,7 +260,7 @@ const flag_id flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 const flag_id flag_PLATE_CARRIER( "PLATE_CARRIER" );
 const flag_id flag_PLATE_CARRIER_SIDES( "PLATE_CARRIER_SIDES" );
 const flag_id flag_ARMOR_PLATE( "ARMOR_PLATE" );
-const flag_id flag_ARMOR_PLATE_SIDES( "ARMOR_PLATE_SIDES );
+const flag_id flag_SIDE_ARMOR_PLATE( "SIDE_ARMOR_PLATE" );
 const flag_id flag_POWERED( "POWERED" );
 const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );
