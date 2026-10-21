@@ -3603,6 +3603,19 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
+    for( auto &i : worn ) {
+        int plates = 0;
+        if( it.has_flag( flag_ARMOR_PLATE ) ) {
+            plates += 1;
+        }
+        if( it.has_flag( flag_ARMOR_PLATE ) && ( is_wearing_plate_carrier() == 0 ) ) {
+            return ret_val<bool>::make_failure(
+                       _( "Can't wear armor plates without a compatible plate carrier!" ) );
+        } else if( ( plates >= is_wearing_plate_carrier() ) && it.has_flag( flag_ARMOR_PLATE ) ) {
+            return ret_val<bool>::make_failure( _( "Can't wear more armor plates than worn plate carriers!" ) );
+        }
+    }
+    
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
@@ -4843,6 +4856,17 @@ bool Character::is_wearing_active_optcloak() const
         }
     }
     return false;
+}
+
+int Character::is_wearing_plate_carrier() const
+{
+    int result = 0;
+    for( auto &elem : worn ) {
+        if( elem->has_flag( flag_PLATE_CARRIER ) ) {
+            result += 1;
+        }
+    }
+    return result;
 }
 
 bool Character::in_climate_control()
