@@ -3622,7 +3622,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         if( it.has_flag( flag_ARMOR_PLATE ) && ( is_wearing_plate_carrier() == 0 ) ) {
             return ret_val<bool>::make_failure(
                        _( "Can't wear armor plates without a compatible plate carrier!" ) );
-        } else if( ( plates >= is_wearing_plate_carrier() ) && it.has_flag( flag_ARMOR_PLATE ) ) {
+        } else if( ( plates > is_wearing_plate_carrier() ) && it.has_flag( flag_ARMOR_PLATE ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear more armor plates than worn plate carriers!" ) );
         }
     }
