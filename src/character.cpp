@@ -3616,13 +3616,13 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     for( auto &i : worn ) {
         int plates = 0;
-        if( it.has_flag( flag_ARMOR_PLATE ) ) {
+        if( i->has_flag( flag_ARMOR_PLATE ) ) {
             plates += 1;
         }
         if( it.has_flag( flag_ARMOR_PLATE ) && ( is_wearing_plate_carrier() == 0 ) ) {
             return ret_val<bool>::make_failure(
                        _( "Can't wear armor plates without a compatible plate carrier!" ) );
-        } else if( ( plates > is_wearing_plate_carrier() ) && it.has_flag( flag_ARMOR_PLATE ) ) {
+        } else if( ( plates >= is_wearing_plate_carrier() ) && it.has_flag( flag_ARMOR_PLATE ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear more armor plates than worn plate carriers!" ) );
         }
     }
