@@ -1341,9 +1341,6 @@
       { "item": "pants_ski", "prob": 45 },
       { "item": "pants_fur", "prob": 5 },
       { "item": "pants_faux_fur", "prob": 15 },
-      { "item": "hot_pants", "prob": 30 },
-      { "item": "hot_pants_fur", "prob": 5 },
-      { "item": "hot_pants_leather", "prob": 25 },
       { "item": "breeches", "prob": 25 },
       { "item": "kilt", "prob": 5 }
     ]
@@ -1356,8 +1353,11 @@
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
-      { "item": "leggings", "prob": 15 },
-      { "item": "nanoskirt", "prob": 10 }
+      { "item": "leggings", "prob": 200 },
+      { "item": "nanoskirt", "prob": 10 },
+      { "item": "hot_pants", "prob": 75 },
+      { "item": "hot_pants_fur", "prob": 5 },
+      { "item": "hot_pants_leather", "prob": 25 }
     ]
   },
   {
@@ -3105,12 +3105,13 @@
       { "item": "sweatshirt", "prob": 50 },
       { "item": "tank_top", "prob": 30 },
       { "item": "tshirt", "prob": 80 },
+      { "item": "tshirt_tour", "prob": 15 },
       { "item": "alohashirt", "prob": 15 },
       { "item": "tshirt_text", "prob": 50 },
       { "item": "tunic", "prob": 10 },
       { "item": "waistcoat", "prob": 10 },
       { "item": "wool_hoodie", "prob": 10 },
-      { "item": "hoodie", "prob": 40 }
+      { "item": "hoodie", "prob": 90 }
     ]
   },
   {
@@ -3119,6 +3120,13 @@
     "//": "womens shirts",
     "subtype": "distribution",
     "items": [ { "item": "halter_top", "prob": 30 } ]
+  },
+  {
+    "id": "shirts_female",
+    "type": "item_group",
+    "//": "womens shirts + unisex shirts",
+    "subtype": "distribution",
+    "items": [ { "group": "shirts_unisex", "prob": 200 }, { "item": "halter_top", "prob": 30 } ]
   },
   {
     "id": "underwear_unisex",
@@ -3554,7 +3562,7 @@
       { "item": "boots_rubber", "prob": 50 },
       { "item": "clogs", "prob": 20 },
       { "item": "geta", "prob": 10 },
-      { "item": "slippers", "prob": 75 }
+      { "item": "slippers", "prob": 100 }
     ]
   },
   {
@@ -3576,6 +3584,13 @@
     "//": "womens only shoes",
     "subtype": "distribution",
     "items": [ { "item": "heels", "prob": 100 } ]
+  },
+  {
+    "id": "shoes_female",
+    "type": "item_group",
+    "//": "womens only shoes + unisex shoes",
+    "subtype": "distribution",
+    "items": [ { "group": "shoes_unisex", "prob": 200 }, { "item": "heels", "prob": 30 } ]
   },
   {
     "id": "accessory_ring",
@@ -3843,6 +3858,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "armguard_hard", "prob": 5 },
+      { "item": "armguard_soft", "prob": 10 },
       { "item": "boxing_gloves", "prob": 20 },
       { "item": "chestguard_hard", "prob": 5 },
       { "item": "fencing_jacket", "prob": 5 },
