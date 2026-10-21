@@ -3605,16 +3605,18 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     for( auto &elem : worn ) {
         if( it.has_flag( flag_ARMOR_PLATE ) && !is_wearing_plate_carrier() ) {
-            return ret_val<bool>::make_failure( _( "Can't wear armor plates without a compatible plate carrier!" ) );
+            return ret_val<bool>::make_failure(
+                       _( "Can't wear armor plates without a compatible plate carrier!" ) );
         }
     }
 
     for( auto &elem : worn ) {
         if( it.has_flag( flag_SIDE_ARMOR_PLATE ) && !is_wearing_plate_carrier_sides() ) {
-            return ret_val<bool>::make_failure( _( "Can't wear side armor plates without a compatible plate carrier!" ) );
+            return ret_val<bool>::make_failure(
+                       _( "Can't wear side armor plates without a compatible plate carrier!" ) );
         }
     }
-    
+
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
