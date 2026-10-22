@@ -287,11 +287,11 @@
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": { "str": "Old Guard IOTV suit" },
-    "description": "A military ballistic vest rated for .40 S&W, modified with additional protective panels to improve coverage at the expense of encumbrance.  Made and used by military remnants to provide robust protection against the new threats of the cataclysm.  It has pouches for ballistic armor plates, allowing them to be worn, along with four pouches capable of carrying magazines.",
+    "description": "A military ballistic vest rated for .40 S&W, modified with additional protective panels to improve coverage at the expense of limb encumbrance.  Made and used by military remnants to provide robust protection against the new threats of the cataclysm.  It has pouches for ballistic armor plates, allowing them to be worn, along with four pouches capable of carrying magazines.",
     "armor_portion_data": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "arms" ], "coverage": 95, "encumbrance": 15 },
-      { "covers": [ "legs" ], "coverage": 95, "encumbrance": 15 }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 13 },
+      { "covers": [ "arms" ], "coverage": 95, "encumbrance": 10 },
+      { "covers": [ "legs" ], "coverage": 95, "encumbrance": 10 }
     ],
     "proportional": { "weight": 2, "volume": 2, "price": 2, "price_postapoc": 2, "storage": 2 }
   },
