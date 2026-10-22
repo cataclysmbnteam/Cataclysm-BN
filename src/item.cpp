@@ -6725,7 +6725,8 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_PLATING ) ||
+    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) ||
+             has_flag( flag_POWERARMOR_PLATING ) ||
              has_flag( flag_POWERARMOR_MOD ) );
 }
 
