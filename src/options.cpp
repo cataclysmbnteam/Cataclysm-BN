@@ -2887,7 +2887,7 @@ void options_manager::add_options_world_default()
          false );
     add( "REVIVIFICATION_FREQUENCY", world_default, translate_marker( "Revivification Frequency" ),
          translate_marker( "Determines how soon in hours a freshly-killed zombie will attempt to revive, before damaged or burnt status is taken into account.  No effect if Prevent Zombie Revivification mod is used." ),
-         0, 1000, 6
+         1, 1000, 6
        );
     add( "CROWD_CRUSH", world_default,
          translate_marker( "Crowd crush" ),
