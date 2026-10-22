@@ -76,7 +76,8 @@
                 { "item": "ballistic_vest_light", "prob": 25 },
                 { "item": "ballistic_vest_esapi", "prob": 50 },
                 { "item": "ballistic_vest_heavy", "prob": 25 }
-              ], "prob": 20
+              ],
+              "prob": 20
             },
             { "item": "dragonskinempty", "prob": 5 },
             { "item": "kevlar", "prob": 10 },

@@ -14,7 +14,7 @@
       { "item": "tshirt", "prob": 20 },
       { "item": "polo_shirt", "prob": 20 },
       { "item": "longshirt", "prob": 20 },
-      { "item": "jacket_army", "prob": 50 },
+      { "item": "jacket_army", "prob": 50 }
     ]
   },
   {

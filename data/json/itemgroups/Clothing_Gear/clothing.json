@@ -194,10 +194,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       {
-        "distribution": [
-          { "group": "military_ballistic_vests_and_plates", "prob": 100 },
-          { "item": "exosuit_military", "prob": 3 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vests_and_plates", "prob": 100 }, { "item": "exosuit_military", "prob": 3 } ],
         "prob": 90
       },
       {
@@ -241,10 +238,7 @@
         "prob": 5
       },
       {
-        "distribution": [
-          { "group": "military_ballistic_vests_and_plates", "prob": 100 },
-          { "item": "exosuit_military", "prob": 3 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vests_and_plates", "prob": 100 }, { "item": "exosuit_military", "prob": 3 } ],
         "prob": 90
       },
       { "item": "molle_pack", "prob": 85 },

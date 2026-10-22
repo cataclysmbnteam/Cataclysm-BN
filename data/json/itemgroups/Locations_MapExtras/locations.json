@@ -1532,12 +1532,7 @@
     "items": [
       [ "helmet_riot", 25 ],
       [ "mask_gas", 25 ],
-      {
-        "collection": [
-          { "item": "ballistic_vest_esapi" },
-          { "item": "steel_ballistic_plate" }
-        ], "prob": 20
-      },
+      { "collection": [ { "item": "ballistic_vest_esapi" }, { "item": "steel_ballistic_plate" } ], "prob": 20 },
       [ "gloves_tactical", 10 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 20 ],
