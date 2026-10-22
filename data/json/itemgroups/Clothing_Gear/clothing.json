@@ -283,7 +283,7 @@
       { "item": "gloves_tactical", "prob": 60 },
       {
         "distribution": [
-          { "group": "military_ballistic_vests_and_plates", "prob": 100 },
+          { "group": "military_ballistic_vests_and_plates", "prob": 50 },
           { "item": "dragonskin", "prob": 15 },
           { "item": "dragonskinempty", "prob": 5 },
           { "item": "exosuit_military", "prob": 5 }
@@ -349,7 +349,7 @@
       },
       {
         "distribution": [
-          { "group": "military_ballistic_vests_and_plates", "prob": 100 },
+          { "group": "military_ballistic_vests_and_plates", "prob": 50 },
           { "item": "dragonskin", "prob": 15 },
           { "item": "dragonskinempty", "prob": 5 },
           { "item": "exosuit_military", "prob": 5 }
