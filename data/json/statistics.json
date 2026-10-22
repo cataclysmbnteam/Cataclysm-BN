@@ -93,7 +93,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_headshots",
-    "description": { "str": "headshot", "str_pl": "headshots" }
+    "description": { "str": "headshot" }
   },
   {
     "id": "num_moves",
