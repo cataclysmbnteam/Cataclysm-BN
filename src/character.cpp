@@ -3724,9 +3724,9 @@ ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
     }
     if( dropping && !get_dependent_worn_items( it ).empty() ) {
         if( it.has_flag( flag_POWERARMOR_EXO ) ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
-                                            _( "You can't take off power armor while wearing other power armor components." ) :
-                                            _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+            return ret_val<bool>::make_failure( !is_npc() ?
+                                                _( "You can't take off power armor while wearing other power armor components." ) :
+                                                _( "<npcname> can't take off power armor while wearing other power armor components." ) );
         } else {
             return ret_val<bool>::make_failure( !is_npc() ?
                                                 _( "You can't take off a plate carrier while wearing armor plates." ) :
