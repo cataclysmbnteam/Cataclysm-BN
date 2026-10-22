@@ -1774,5 +1774,17 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
     "components": [ [ [ "orange", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "budget_insuls",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "energy_drink", 1 ] ], [ [ "vodka", 1 ] ], [ [ "tequila", 1 ] ] ]
   }
 ]
