@@ -133,6 +133,7 @@
         ]
       },
       { "item": "clown_wig", "damage": [ 1, 4 ] },
+      { "item": "clown_nose", "damage": [ 1, 4 ] },
       { "item": "clown_suit", "damage": [ 1, 4 ] },
       { "item": "clownshoes", "damage": [ 1, 4 ] },
       { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
@@ -143,20 +144,26 @@
   },
   {
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "id": "mon_zombie_clown_lube_death_drops",
     "entries": [
-      { "group": "zombie_clown_outfit" },
-      { "item": "super_soaker", "damage": [ 0, 2 ], "charges": [ 1, 8 ], "ammo-item": "industrial_lubricant" }
+      { "group": "zombie_clown_outfit", "prob": 100 },
+      {
+        "item": "super_soaker",
+        "prob": 100,
+        "damage": [ 0, 2 ],
+        "charges": [ 1, 8 ],
+        "ammo-item": "industrial_lubricant"
+      }
     ]
   },
   {
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "id": "mon_zombie_clown_glue_death_drops",
     "entries": [
-      { "group": "zombie_clown_outfit" },
-      { "item": "super_soaker", "damage": [ 0, 2 ], "charges": [ 1, 8 ], "ammo-item": "superglue" }
+      { "group": "zombie_clown_outfit", "prob": 100 },
+      { "item": "super_soaker", "prob": 100, "damage": [ 0, 2 ], "charges": [ 1, 8 ], "ammo-item": "superglue" }
     ]
   },
   {
