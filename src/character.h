@@ -569,6 +569,8 @@ class Character : public Creature, public location_visitable<Character>
         bool is_wearing_active_power_armor() const;
         /** Returns true if the player is wearing an active optical cloak */
         bool is_wearing_active_optcloak() const;
+        /** Returns 0 if the player is not wearing a plate carrier, otherwise returns the number of plate carriers the player is wearing */
+        int is_wearing_plate_carrier() const;
 
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();

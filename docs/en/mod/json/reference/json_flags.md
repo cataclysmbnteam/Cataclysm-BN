@@ -199,6 +199,8 @@ to find which flags work elsewhere.
   piece.
 - `POWERARMOR_COMPATIBLE` Makes item compatible with power armor despite other parameters causing
   failure.
+- `PLATE_CARRIER` Marks the item as a plate carrier which allows armor plates to be worn.
+- `ARMOR_PLATE` Marks the item as a set of armor plates, which can only be worn when the player is wearing an item with the PLATE_CARRIER flag. One set of armor plates can be worn per plate carrier.
 - `PSYSHIELD_PARTIAL` 25% chance to protect against fear_paralyze monster attack when worn.
 - `RAD_PROOF` This piece of clothing completely protects you from radiation.
 - `RAD_RESIST` This piece of clothing partially protects you from radiation.

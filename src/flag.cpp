@@ -257,6 +257,8 @@ const flag_id flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
 const flag_id flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
 const flag_id flag_POWERARMOR_PLATING( "POWERARMOR_PLATING" );
 const flag_id flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
+const flag_id flag_PLATE_CARRIER( "PLATE_CARRIER" );
+const flag_id flag_ARMOR_PLATE( "ARMOR_PLATE" );
 const flag_id flag_POWERED( "POWERED" );
 const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );

@@ -2041,7 +2041,8 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m4" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -2128,7 +2129,8 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m17" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m17" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -2180,7 +2182,8 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m4" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -2231,7 +2234,8 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m14" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m14" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -2297,7 +2301,8 @@
           { "group": "charged_two_way_radio" },
           { "item": "webbing_belt", "contents-item": "e_tool" },
           { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" },
-          { "item": "modularvestceramic" },
+          { "item": "ballistic_vest_heavy" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -2362,7 +2367,8 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "webbing_belt", "contents-item": "e_tool" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ballistic_vest_heavy", "contents-group": "army_mags_m4" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] },
@@ -2414,7 +2420,8 @@
           { "group": "charged_headseat", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "jacket_flannel" },
-          { "item": "modularvestsuper", "contents-group": "army_mags_mp5" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_mp5" },
+          { "item": "super_ballistic_plate" },
           { "item": "tac_helmet" },
           {
             "item": "light_disposable_cell",
@@ -4574,7 +4581,8 @@
             "charges": 50,
             "contents-item": [ "shoulder_strap", "hybrid_sight" ]
           },
-          { "item": "modularvestceramic", "contents-group": "army_mags_rm51" }
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_rm51" },
+          { "item": "ceramic_ballistic_plate" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -4647,7 +4655,8 @@
           },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "modularvest", "contents-group": [ "army_mags_rm11b" ] }
+          { "item": "ballistic_vest_light", "contents-group": [ "army_mags_rm11b" ] },
+          { "item": "ceramic_ballistic_plate" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -4707,7 +4716,8 @@
           { "item": "exosuit_military", "charges": 500 },
           { "group": "charged_headseat", "custom-flags": [ "no_auto_equip" ] },
           { "item": "winter_jacket_army" },
-          { "item": "modularvestsuper", "contents-group": "army_mags_rm216" },
+          { "item": "ballistic_vest_light", "contents-group": "army_mags_rm216" },
+          { "item": "super_ballistic_plate" },
           { "item": "5x50_50_mag", "ammo-item": "5x50heavy", "charges": 50, "container-item": "needlegun" }
         ]
       },
@@ -6251,7 +6261,8 @@
             "container-item": "mil_mess_kit"
           },
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m4" },
+          { "item": "ceramic_ballistic_plate" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -8219,7 +8230,8 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m4" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -8793,7 +8805,8 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
+          { "item": "ballistic_vest_esapi", "contents-group": "army_mags_m4" },
+          { "item": "ceramic_ballistic_plate" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "e_tool", "container-item": "webbing_belt" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -9209,7 +9222,7 @@
           "socks",
           "boots_combat",
           "diving_watch",
-          "modularvest",
+          "ballistic_vest_light",
           "tacvest",
           "goggles_nv",
           "canteen",

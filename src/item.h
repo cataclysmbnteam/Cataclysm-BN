@@ -1898,6 +1898,10 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool is_power_armor() const;
         /**
+         * Whether this is a armor plate item.
+         */
+        bool is_armor_plate() const;
+        /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.
          */
