@@ -888,5 +888,25 @@
     "id": "modularvestsuper",
     "type": "MIGRATION",
     "replace": "super_ballistic_plate"
+  },
+  {
+    "id": "oldguard_armor_ceramic",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
+  },
+  {
+    "id": "oldguard_armor_hardsteel",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
+  },
+  {
+    "id": "oldguard_armor_steel",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
+  },
+  {
+    "id": "oldguard_armor_superalloy",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
   }
 ]
