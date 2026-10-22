@@ -94,7 +94,6 @@ ignorable = {
     "emit",
     "enchantment",
     "event_transformation",
-    "event_statistic",
     "EXTERNAL_OPTION",
     "hit_range",
     "ITEM_BLACKLIST",
@@ -161,7 +160,6 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
-    "event_statistic",
     "faction",
     "furniture",
     "GENERIC",
@@ -902,7 +900,15 @@ def extract_nested_category(state, item):
     if "description" in item:
         writestr(state, item["description"],
                  comment=f"Name for nested category '{nested_name}'")
-
+                 
+def extract_event_statistic(state, item):
+    stat_id = item.get("id")
+    writestr(state, item.get("name"),
+             comment=f"Name of event statistic '{stat_id}'")
+    desc = item.get("description")
+    has_plural = isinstance(desc, dict) and ("str_pl" in desc or "str_sp" in desc)
+    writestr(state, desc, pl_fmt=has_plural,
+             comment=f"Description of character stats near achievments for '{stat_id}'")
 
 # these objects need to have their strings specially extracted
 extract_specials = {
@@ -943,7 +949,8 @@ extract_specials = {
     "enchantment_condition": extract_enchantment_condition,
     "enchantment_value": extract_enchantment_value,
     "enchantment_vision": extract_enchantment_vision,
-    "nested_category": extract_nested_category,    
+    "nested_category": extract_nested_category,
+    "event_statistic": extract_event_statistic,    
 }
 
 
