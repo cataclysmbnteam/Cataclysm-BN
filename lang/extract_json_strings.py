@@ -197,7 +197,7 @@ automatically_convertible = {
     "WHEEL",
     "help",
     "weather_type",
-    "world_type"
+    "world_type",
     "enchantment_flag",
     "named_color",
     "nested_category",
@@ -942,7 +942,8 @@ extract_specials = {
     "map_feature_description": extract_map_feature_description,
     "enchantment_condition": extract_enchantment_condition,
     "enchantment_value": extract_enchantment_value,
-    "enchantment_vision": extract_enchantment_vision,    
+    "enchantment_vision": extract_enchantment_vision,
+    "nested_category": extract_nested_category,    
 }
 
 
