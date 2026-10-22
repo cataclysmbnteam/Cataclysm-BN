@@ -3603,6 +3603,25 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
+    if( it.is_armor_plate() ) {
+        if( is_wearing_plate_carrier() == 0 ) {
+            return ret_val<bool>::make_failure(
+                       _( "Can't wear armor plates without a compatible plate carrier!" ) );
+        }
+        for( auto &i : worn ) {
+            int plates = 0;
+            if( i->has_flag( flag_ARMOR_PLATE ) ) {
+                plates += 1;
+            }
+            if( it.has_flag( flag_ARMOR_PLATE ) && ( is_wearing_plate_carrier() == 0 ) ) {
+                return ret_val<bool>::make_failure(
+                           _( "Can't wear armor plates without a compatible plate carrier!" ) );
+            } else if( ( plates >= is_wearing_plate_carrier() ) && it.has_flag( flag_ARMOR_PLATE ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear more armor plates than worn plate carriers!" ) );
+            }
+        }
+    }
+
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %i or more %s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
@@ -3710,9 +3729,15 @@ ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
         }
     }
     if( dropping && !get_dependent_worn_items( it ).empty() ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
-                                            _( "You can't take off power armor while wearing other power armor components." ) :
-                                            _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+        if( it.has_flag( flag_POWERARMOR_EXO ) ) {
+            return ret_val<bool>::make_failure( !is_npc() ?
+                                                _( "You can't take off power armor while wearing other power armor components." ) :
+                                                _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+        } else {
+            return ret_val<bool>::make_failure( !is_npc() ?
+                                                _( "You can't take off a plate carrier while wearing armor plates." ) :
+                                                _( "<npcname> can't take off a plate carrier while wearing armor plates." ) );
+        }
     }
     if( it.has_flag( flag_NO_TAKEOFF ) ) {
         return ret_val<bool>::make_failure( !is_npc() ?
@@ -4843,6 +4868,17 @@ bool Character::is_wearing_active_optcloak() const
         }
     }
     return false;
+}
+
+int Character::is_wearing_plate_carrier() const
+{
+    int result = 0;
+    for( auto &elem : worn ) {
+        if( elem->has_flag( flag_PLATE_CARRIER ) ) {
+            result += 1;
+        }
+    }
+    return result;
 }
 
 bool Character::in_climate_control()

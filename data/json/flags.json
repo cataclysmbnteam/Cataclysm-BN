@@ -1086,6 +1086,20 @@
     "info": "This item can be worn simultaneously with power armor."
   },
   {
+    "id": "PLATE_CARRIER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines a plate carrier that will allow armor plates to be worn.",
+    "info": "This item is a <info>plate carrier</info> with specialized inserts for armor plates, <good>allowing armor plates to be worn</good>."
+  },
+  {
+    "id": "ARMOR_PLATE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines an armor plate that can be worn with clothing with the PLATE_CARRIER flag. One set of armor plates can be worn per plate carrier.",
+    "info": "This item is a <info>set of armor plates</info>, meant to be inserted into a plate carrier, and <bad>can only be worn with a plate carrier</bad>."
+  },
+  {
     "id": "ZERO_WEIGHT",
     "type": "json_flag",
     "context": [ "GENERIC", "AMMO", "TOOL", "GUNMOD", "GUN" ]

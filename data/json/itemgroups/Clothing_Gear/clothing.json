@@ -194,14 +194,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       {
-        "distribution": [
-          { "item": "modularvestceramic", "prob": 50 },
-          { "item": "modularvest", "prob": 25 },
-          { "item": "modularveststeel", "prob": 10 },
-          { "item": "modularvesthard", "prob": 10 },
-          { "item": "modularvestsuper", "prob": 5 },
-          { "item": "exosuit_military", "prob": 3 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vests_and_plates", "prob": 100 }, { "item": "exosuit_military", "prob": 3 } ],
         "prob": 90
       },
       {
@@ -245,14 +238,7 @@
         "prob": 5
       },
       {
-        "distribution": [
-          { "item": "modularvestceramic", "prob": 50 },
-          { "item": "modularvest", "prob": 25 },
-          { "item": "modularveststeel", "prob": 10 },
-          { "item": "modularvesthard", "prob": 10 },
-          { "item": "modularvestsuper", "prob": 5 },
-          { "item": "exosuit_military", "prob": 3 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vests_and_plates", "prob": 100 }, { "item": "exosuit_military", "prob": 3 } ],
         "prob": 90
       },
       { "item": "molle_pack", "prob": 85 },
@@ -291,11 +277,7 @@
       { "item": "gloves_tactical", "prob": 60 },
       {
         "distribution": [
-          { "item": "modularvestceramic", "prob": 25 },
-          { "item": "modularvest", "prob": 10 },
-          { "item": "modularveststeel", "prob": 5 },
-          { "item": "modularvesthard", "prob": 5 },
-          { "item": "modularvestsuper", "prob": 5 },
+          { "group": "military_ballistic_vests_and_plates", "prob": 50 },
           { "item": "dragonskin", "prob": 15 },
           { "item": "dragonskinempty", "prob": 5 },
           { "item": "exosuit_military", "prob": 5 }
@@ -361,11 +343,7 @@
       },
       {
         "distribution": [
-          { "item": "modularvestceramic", "prob": 25 },
-          { "item": "modularvest", "prob": 10 },
-          { "item": "modularveststeel", "prob": 5 },
-          { "item": "modularvesthard", "prob": 5 },
-          { "item": "modularvestsuper", "prob": 5 },
+          { "group": "military_ballistic_vests_and_plates", "prob": 50 },
           { "item": "dragonskin", "prob": 15 },
           { "item": "dragonskinempty", "prob": 5 },
           { "item": "exosuit_military", "prob": 5 }
@@ -576,9 +554,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "kevlar", "prob": 5 },
-      { "item": "modularvest", "prob": 10 },
-      { "item": "modularvestceramic", "prob": 20 },
-      { "item": "modularvesthard", "prob": 5 },
+      { "group": "military_ballistic_vests_and_plates", "prob": 35 },
       { "item": "exosuit_military", "prob": 3 },
       { "item": "helmet_army", "prob": 30 },
       { "item": "tac_helmet", "prob": 10 },
@@ -586,6 +562,30 @@
       { "item": "mask_bal", "prob": 5 },
       { "item": "shield_ballistic", "prob": 5 },
       { "item": "shield_ballistic_large", "prob": 5 }
+    ]
+  },
+  {
+    "id": "military_ballistic_vests_and_plates",
+    "type": "item_group",
+    "//": "All ballistic vests and ballistic plates items one might see in a military stockpile",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ballistic_vest_light", "prob": 25 },
+          { "item": "ballistic_vest_esapi", "prob": 50 },
+          { "item": "ballistic_vest_heavy", "prob": 25 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "null", "prob": 25 },
+          { "item": "ceramic_ballistic_plate", "prob": 50 },
+          { "item": "hard_ballistic_plate", "prob": 10 },
+          { "item": "steel_ballistic_plate", "prob": 10 },
+          { "item": "super_ballistic_plate", "prob": 5 }
+        ]
+      }
     ]
   },
   {
@@ -2268,8 +2268,7 @@
       { "group": "clothing_tactical_torso", "prob": 20 },
       { "group": "clothing_soldier_shirt", "prob": 30 },
       [ "kevlar", 10 ],
-      [ "modularvest", 25 ],
-      [ "modularvestceramic", 30 ],
+      { "group": "military_ballistic_vests_and_plates", "prob": 55 },
       [ "winter_jacket_army", 30 ],
       [ "vest", 15 ],
       [ "under_armor", 20 ],
@@ -2317,10 +2316,7 @@
       [ "sleeveless_duster_leather", 5 ],
       [ "kevlar", 30 ],
       [ "flotation_vest_sandbag", 15 ],
-      [ "modularvest", 12 ],
-      [ "modularvestceramic", 8 ],
-      [ "modularveststeel", 5 ],
-      [ "modularvestsuper", 1 ],
+      { "group": "military_ballistic_vests_and_plates", "prob": 26 },
       [ "dump_pouch", 20 ],
       [ "mask_bal", 5 ],
       [ "mask_cavalry_iron", 2 ],
@@ -2551,11 +2547,7 @@
       [ "vest_leather_mod", 22 ],
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
-      [ "modularvest", 4 ],
-      [ "modularvesthard", 1 ],
-      [ "modularvestceramic", 2 ],
-      [ "modularveststeel", 1 ],
-      [ "modularvestsuper", 1 ],
+      { "group": "military_ballistic_vests_and_plates", "prob": 9 },
       [ "dragonskin", 1 ],
       [ "football_armor", 18 ],
       [ "chestguard_hard", 9 ],

@@ -1063,8 +1063,10 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) ) &&
-            it.has_flag( flag_POWERARMOR_EXO ) );
+    return( ( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) ||
+                has_flag( flag_POWERARMOR_PLATING ) ) &&
+              it.has_flag( flag_POWERARMOR_EXO ) ) || ( has_flag( flag_ARMOR_PLATE ) &&
+                      it.has_flag( flag_PLATE_CARRIER ) ) );
 }
 
 detached_ptr<item> item::in_its_container( detached_ptr<item> &&self )
@@ -6724,7 +6726,13 @@ int item::get_base_env_resist_w_filter() const
 bool item::is_power_armor() const
 {
     return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) ||
+             has_flag( flag_POWERARMOR_PLATING ) ||
              has_flag( flag_POWERARMOR_MOD ) );
+}
+
+bool item::is_armor_plate() const
+{
+    return has_flag( flag_ARMOR_PLATE );
 }
 
 int item::get_avg_encumber( const Character &who ) const
