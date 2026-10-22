@@ -18,7 +18,7 @@
     "id": "mon_zombie_skeltal",
     "type": "MONSTER",
     "name": { "str": "mr skeltal" },
-    "looks_like": "mon_skeleton",
+    "looks_like": "mon_skeleton_brute",
     "description": "Devoid entirely of flesh and organs, this walking skeleton rattles you to the bone.  In its bony hand, it holds a pristine trumpet, unmarred by the end of the world.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "SKELETON", "HUMAN" ],
