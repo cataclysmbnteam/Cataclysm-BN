@@ -59,6 +59,7 @@
     "species": [ "ZOMBIE", "HUMAN", "CLOWN_ZOMBIE" ],
     "color": "magenta",
     "upgrades": false,
+    "death_drops": "mon_zombie_clown_lube_death_drops",
     "special_attacks": [
       [ "PARROT", 10 ],
       [ "GRAB", 7 ],
@@ -79,6 +80,7 @@
     "description": "A shambling clown with red hair, a ragged blue costume, and enormous squeaky shoes.  Strings of glue hang from its painted grin, and its red nose gives an occasional cheerful honk.  This performer really wants you to stick around.",
     "looks_like": "mon_zombie",
     "color": "light_blue",
+    "death_drops": "mon_zombie_clown_glue_death_drops",
     "special_attacks": [
       [ "PARROT", 10 ],
       [ "GRAB", 7 ],
@@ -89,6 +91,72 @@
         "cooldown": 12,
         "monster_message": "%1$s spits a stream of glue at %3$s!"
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "zombie_clown_outfit",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 }
+            ],
+            "prob": 50
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "distribution": [
+                      { "item": "stockings", "prob": 40, "damage": [ 1, 4 ] },
+                      { "item": "stockings_wool", "prob": 10, "damage": [ 1, 4 ] },
+                      { "item": "tights", "prob": 50, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                ]
+              }
+            ],
+            "prob": 50
+          }
+        ]
+      },
+      { "item": "clown_wig", "damage": [ 1, 4 ] },
+      { "item": "clown_suit", "damage": [ 1, 4 ] },
+      { "item": "clownshoes", "damage": [ 1, 4 ] },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      { "group": "default_zombie_items_pockets", "prob": 50 },
+      { "item": "airhorn", "charges": [ 1, 50 ], "prob": 75 },
+      { "item": "balloon", "count": [ 1, 6 ], "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "mon_zombie_clown_lube_death_drops",
+    "entries": [
+      { "group": "zombie_clown_outfit" },
+      { "item": "super_soaker", "damage": [ 0, 2 ], "charges": [ 1, 8 ], "ammo-item": "industrial_lubricant" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "mon_zombie_clown_glue_death_drops",
+    "entries": [
+      { "group": "zombie_clown_outfit" },
+      { "item": "super_soaker", "damage": [ 0, 2 ], "charges": [ 1, 8 ], "ammo-item": "superglue" }
     ]
   },
   {
