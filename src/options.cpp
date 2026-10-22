@@ -2908,11 +2908,13 @@ void options_manager::add_options_world_default()
                                             to_translation( "Enabled Skill Buffs" ),
                                             to_translation( "Enable or disable major skill buffs" ) ),
     [&]( const std::string & page_id ) {
-        add( "cooking_kcal_buff", page_id, "Cooking Calories Buff",
-             "Include the scaling calories from cooking buff?",
+        add( "cooking_kcal_buff", page_id,
+             translate_marker( "Cooking Calories Buff" ),
+             translate_marker( "Include the scaling calories from cooking buff?" ),
              true );
-        add( "althletics_encumbrance_buff", page_id, "Althletics Encumbrance Buff",
-             "Include the reduce all encumbrance per level of althletics buff?",
+        add( "althletics_encumbrance_buff", page_id,
+             translate_marker( "Athletics Encumbrance Buff" ),
+             translate_marker( "Include the reduce all encumbrance per level of athletics buff?" ),
              true );
     }
                     );
