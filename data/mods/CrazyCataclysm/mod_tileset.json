@@ -1,0 +1,19 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE", "UltimateCataclysm" ],
+    "tiles-new": [
+      {
+        "file": "crazy_monsters.png",
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0,
+        "tiles": [
+          { "id": "mon_zombie_clown_lube", "fg": 0, "rotates": false },
+          { "id": "mon_zombie_clown_glue", "fg": 1, "rotates": false }
+        ]
+      }
+    ]
+  }
+]
