@@ -2409,6 +2409,29 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
+bool monster::uncanny_dodge()
+{
+    if( !has_flag( MF_UNCANNY_DODGE ) ) {
+        return false;
+    }
+
+    const bool u_see_me = g->u.sees( *this );
+    if( x_in_y( get_dodge(), 10 ) ) {
+        if( u_see_me ) {
+            add_msg( _( "%s dodges… so fast!" ),
+                     disp_name( false, true ) );
+        }
+        mod_moves( -get_uncanny_dodge_cost() );
+        return true;
+    } else {
+        if( u_see_me ) {
+            add_msg( _( "%s tries to dodge but fails!" ),
+                     disp_name( false, true ) );
+        }
+        return false;
+    }
+}
+
 bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
@@ -3119,6 +3142,11 @@ float monster::dodge_roll()
 int monster::get_grab_strength() const
 {
     return type->grab_strength;
+}
+
+int monster::get_uncanny_dodge_cost() const
+{
+    return type->uncanny_dodge_cost;
 }
 
 float monster::fall_damage_mod() const
