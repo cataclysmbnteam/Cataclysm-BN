@@ -560,6 +560,7 @@ struct hook_entry {
 
 struct hook_cache_entry {
     int rawlen = -1;
+    sol::table hooks;
     std::vector<hook_entry> entries;
 };
 
@@ -648,8 +649,12 @@ auto get_hook_entries( sol::state_view lua, std::string_view hook_name,
     auto &entry = cache[std::string{ hook_name }];
 
     const int len = table_rawlen( lua, hooks );
-    if( entry.rawlen != len ) {
+    // The list of hooks for a hook name can be replaced wholesale with another
+    // list of the same length, so the cached entries are also keyed on the
+    // identity of the list table they were built from.
+    if( entry.rawlen != len || entry.hooks != hooks ) {
         entry.rawlen = len;
+        entry.hooks = hooks;
         entry.entries = build_hook_entries( lua, hook_name, hooks );
     }
 
