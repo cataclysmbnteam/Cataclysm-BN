@@ -608,6 +608,9 @@ doc_gen_func.impl = function()
 ---@field on_pickup? fun(params: ItemStateParams)
 ---@field on_drop? fun(params: ItemStateParams): boolean
 
+---@class IconsumeFunctionTable
+---@field on_try_consume? fun(params: ItemTryConsumeParams): boolean @runs before the eat-confirmation prompt; return false to interrupt the consume, modify params.nutrition/params.thirst/params.fun/params.fun_max to override them, set params.skip_cannibalism to true to skip the human-flesh consequence (overrides also affect the "eat anyway?" warnings)
+
 ---@class BionicFunctionTable
 ---@field on_activate? fun(params: BionicCallbackParams)
 ---@field on_deactivate? fun(params: BionicCallbackParams)
@@ -626,6 +629,7 @@ doc_gen_func.impl = function()
 ---@field iwearable_functions table<string, IwearableFunctionTable>
 ---@field iequippable_functions table<string, IequippableFunctionTable>
 ---@field istate_functions table<string, IstateFunctionTable>
+---@field iconsume_functions table<string, IconsumeFunctionTable>
 ---@field imelee_functions table<string, table<string, function>>
 ---@field iranged_functions table<string, table<string, function>>
 ---@field bionic_functions table<string, BionicFunctionTable>
@@ -680,14 +684,35 @@ on_monster_try_move = {}
 ---@field mount Creature?
 on_character_try_move = {}
 
----@class OnCharacterConsumeParams
+---@class OnCharacterTryConsumeParams
 ---@field char Character @the character eating or drinking the item
 ---@field item Item @the comestible being consumed
 ---@field nutrition integer @effective calories (kcal) the character would gain
 ---@field thirst integer @thirst quenched by the item
 ---@field fun integer @effective fun (joy) value, taking traits and rot into account
 ---@field fun_max integer @maximum fun the joy would be capped at
-on_character_consume = {}
+on_character_try_consume = {}
+
+--- The hook runs before the eat-confirmation prompt; a returned table with
+--- override values also affects the "eat anyway?" warnings.
+---@class OnCharacterTryConsumeResult
+---@field allowed? boolean @defaults to true; false interrupts the consume
+---@field nutrition? integer @overrides the calories (kcal) applied by the game
+---@field thirst? integer @overrides the thirst quenched by the item
+---@field fun? integer @overrides the fun (joy) value applied by the game
+---@field fun_max? integer @overrides the cap the fun value is capped at
+---@field skip_cannibalism? boolean @true skips the human-flesh (cannibalism) consequence of the "eat anyway?" warnings
+on_character_try_consume_result = {}
+
+---@class ItemTryConsumeParams
+---@field char Character @the character eating or drinking the item
+---@field item Item @the comestible being consumed
+---@field nutrition integer @effective calories (kcal) the character would gain; may be modified to override the value applied by the game
+---@field thirst integer @thirst quenched by the item; may be modified to override the value applied by the game
+---@field fun integer @effective fun (joy) value, taking traits and rot into account; may be modified to override the value applied by the game
+---@field fun_max integer @maximum fun the joy would be capped at; may be modified to override the value applied by the game
+---@field skip_cannibalism boolean @set to true to skip the human-flesh (cannibalism) consequence of the "eat anyway?" warnings
+item_try_consume_params = {}
 
 ---@class OnCraftResultParams
 ---@field crafter Character

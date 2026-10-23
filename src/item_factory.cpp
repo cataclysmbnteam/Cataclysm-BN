@@ -3112,6 +3112,7 @@ void Item_factory::clear()
     iwearable_actors.clear();
     iequippable_actors.clear();
     istate_actors.clear();
+    iconsume_actors.clear();
     imelee_actors.clear();
     iranged_actors.clear();
 
@@ -3140,6 +3141,12 @@ void Item_factory::add_istate_actor( const itype_id &id,
                                      std::unique_ptr<lua_istate_actor> actor )
 {
     istate_actors[id] = std::move( actor );
+}
+
+auto Item_factory::add_iconsume_actor( const itype_id &id,
+                                       std::unique_ptr<lua_iconsume_actor> actor ) -> void
+{
+    iconsume_actors[id] = std::move( actor );
 }
 
 void Item_factory::add_imelee_actor( const itype_id &id,
@@ -3186,6 +3193,14 @@ void Item_factory::resolve_lua_callbacks()
             it->second.istate_callbacks = actor.get();
         } else {
             debugmsg( "istate_functions refers to unknown item type '%s'", id.c_str() );
+        }
+    }
+    for( auto &[id, actor] : iconsume_actors ) {
+        auto it = m_templates.find( id );
+        if( it != m_templates.end() ) {
+            it->second.iconsume_callbacks = actor.get();
+        } else {
+            debugmsg( "iconsume_functions refers to unknown item type '%s'", id.c_str() );
         }
     }
     for( auto &[id, actor] : imelee_actors ) {
