@@ -853,7 +853,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         // Messages are handled by uncanny_dodge itself
         return;
     }
-    
+
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 ) {
         // Total miss.
