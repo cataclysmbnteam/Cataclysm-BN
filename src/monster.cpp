@@ -3149,6 +3149,11 @@ int monster::get_grab_strength() const
     return type->grab_strength;
 }
 
+int monster::get_uncanny_dodge_cost() const
+{
+    return type->uncanny_dodge_cost;
+}
+
 float monster::fall_damage_mod() const
 {
     if( flies() ) {
