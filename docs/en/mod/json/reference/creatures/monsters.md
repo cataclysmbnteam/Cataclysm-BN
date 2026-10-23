@@ -357,7 +357,7 @@ was n zombies. A player with max(Str,Dex)<=n has no chance of breaking that grab
 
 (integer, optional)
 
-How many moves it costs this monster to uncanny dodge. Defaults to 100, is only useful for monster with the UNCANNY_DODGE flag. A monster with less max moves than it's cost cannot uncanny dodge even with the flag.
+How many moves it costs this monster to uncanny dodge. Defaults to 100, is only useful for monster with the UNCANNY_DODGE flag.
 
 ## "melee_cut"
 
