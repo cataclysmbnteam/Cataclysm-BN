@@ -7,12 +7,7 @@
         "file": "crazy_monsters.png",
         "sprite_width": 32,
         "sprite_height": 32,
-        "sprite_offset_x": 0,
-        "sprite_offset_y": 0,
-        "tiles": [
-          { "id": "mon_zombie_clown_lube", "fg": 0, "rotates": false },
-          { "id": "mon_zombie_clown_glue", "fg": 1, "rotates": false }
-        ]
+        "tiles": [ { "id": "mon_zombie_clown_lube", "fg": 0 }, { "id": "mon_zombie_clown_glue", "fg": 1 } ]
       }
     ]
   }

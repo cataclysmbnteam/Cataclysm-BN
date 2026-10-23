@@ -2360,5 +2360,25 @@
     "result": "modularvestsuper",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "oldguard_armor_ceramic",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "oldguard_armor_hardsteel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "oldguard_armor_steel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "oldguard_armor_superalloy",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
