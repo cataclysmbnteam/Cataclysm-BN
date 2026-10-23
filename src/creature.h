@@ -380,8 +380,6 @@ class Creature
         double ranged_target_size( bool shot ) const;
         double ranged_target_size() const;
 
-        bool uncanny_dodge() override;
-
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
