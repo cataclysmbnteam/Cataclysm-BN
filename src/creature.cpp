@@ -912,7 +912,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         // Messages are handled by uncanny_dodge itself
         return;
     }
-    
+
     if( goodhit >= 1.0 ) {
         attack.missed_by = 1.0; // Arbitrary value
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
