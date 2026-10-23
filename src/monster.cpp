@@ -2415,10 +2415,6 @@ bool monster::uncanny_dodge()
         return false;
     }
 
-    if( get_moves() < get_uncanny_dodge_cost() ) {
-        return false;
-    }
-
     const bool u_see_me = g->u.sees( *this );
     if( x_in_y( get_dodge(), 10 ) ) {
         if( u_see_me ) {
