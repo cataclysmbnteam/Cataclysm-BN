@@ -1186,7 +1186,7 @@ void Character::modify_morale( item &food, int nutr, const consume_overrides &ov
         }
     }
 
-    if( food.has_vitamin( vitamin_human_flesh_vitamin ) ) {
+    if( food.has_vitamin( vitamin_human_flesh_vitamin ) && !overrides.skip_cannibalism ) {
         const bool cannibal = has_trait( trait_CANNIBAL );
         const bool psycho = has_trait( trait_PSYCHOPATH );
         const bool sapiovore = has_trait( trait_SAPIOVORE );

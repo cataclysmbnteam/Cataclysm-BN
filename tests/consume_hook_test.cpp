@@ -63,6 +63,8 @@ TEST_CASE("on_character_try_consume hook", "[consume_hook][lua]") {
         CHECK(blood.charges == 9);
         // Normal consumption happened: blood has fun -50.
         CHECK(dummy.get_morale(MORALE_FOOD_BAD) == -50);
+        // Without a skip the human-flesh guilt applies after eating.
+        CHECK(dummy.get_morale(MORALE_CANNIBAL) == -60);
 
         const auto seen = lua.globals()["consume_hook_seen"].get<sol::table>();
         REQUIRE(seen.valid());
@@ -136,6 +138,8 @@ TEST_CASE("on_character_try_consume hook", "[consume_hook][lua]") {
         CHECK(blood.charges == 9);
         // No values were overridden, so the base fun of -50 applies.
         CHECK(dummy.get_morale(MORALE_FOOD_BAD) == -50);
+        // The skip also suppresses the post-eat human-flesh guilt.
+        CHECK(dummy.get_morale(MORALE_CANNIBAL) == 0);
     }
 }
 
@@ -288,6 +292,8 @@ TEST_CASE("iconsume per-item callback", "[consume_hook][lua]") {
         CHECK(blood.charges == 9);
         // No values were overridden, so the base fun of -50 applies.
         CHECK(dummy.get_morale(MORALE_FOOD_BAD) == -50);
+        // The skip also suppresses the post-eat human-flesh guilt.
+        CHECK(dummy.get_morale(MORALE_CANNIBAL) == 0);
     }
 
     SECTION("returning false interrupts the rest of the consume") {

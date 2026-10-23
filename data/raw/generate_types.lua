@@ -701,7 +701,7 @@ on_character_try_consume = {}
 ---@field thirst? integer @overrides the thirst quenched by the item
 ---@field fun? integer @overrides the fun (joy) value applied by the game
 ---@field fun_max? integer @overrides the cap the fun value is capped at
----@field skip_cannibalism? boolean @true skips the human-flesh (cannibalism) consequence of the "eat anyway?" warnings
+---@field skip_cannibalism? boolean @true skips the human-flesh (cannibalism) consequence of the "eat anyway?" warnings and the post-consume guilt morale penalty
 on_character_try_consume_result = {}
 
 ---@class ItemTryConsumeParams
@@ -711,7 +711,7 @@ on_character_try_consume_result = {}
 ---@field thirst integer @thirst quenched by the item; may be modified to override the value applied by the game
 ---@field fun integer @effective fun (joy) value, taking traits and rot into account; may be modified to override the value applied by the game
 ---@field fun_max integer @maximum fun the joy would be capped at; may be modified to override the value applied by the game
----@field skip_cannibalism boolean @set to true to skip the human-flesh (cannibalism) consequence of the "eat anyway?" warnings
+---@field skip_cannibalism boolean @set to true to skip the human-flesh (cannibalism) consequence of the "eat anyway?" warnings and the post-consume guilt morale penalty
 item_try_consume_params = {}
 
 ---@class OnCraftResultParams
