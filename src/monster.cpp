@@ -2431,6 +2431,7 @@ bool monster::uncanny_dodge() {
             add_msg( _( "%s tries to dodge but fails!" ),
                      disp_name( false, true ) );
         }
+        mod_moves( -get_uncanny_dodge_cost() );
         return false;
     }
 }
