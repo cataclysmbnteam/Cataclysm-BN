@@ -103,6 +103,7 @@
 #include "map/utils/map_functions.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
+#include "map_memory.h"
 #include "mapsharing.h"
 #include "memorial_logger.h"
 #include "memory_fast.h"
@@ -890,18 +891,77 @@ void game::load_map( const point_abs_sm &pos_sm, const bool pump_events )
     }
 }
 
+namespace
+{
+
+auto memorized_terrain_has_stair_flag( const memorized_terrain_tile &memory,
+                                       const bool going_up, const bool going_down ) -> bool
+{
+    if( memory.tile.empty() ) {
+        return false;
+    }
+
+    const auto terrain = ter_str_id( memory.tile );
+    if( !terrain.is_valid() ) {
+        return false;
+    }
+
+    const auto &terrain_obj = terrain.obj();
+    return ( going_up && ( terrain_obj.has_flag( TFLAG_GOES_UP ) ||
+                           terrain_obj.has_flag( TFLAG_ELEVATOR ) ||
+                           terrain_obj.has_flag( TFLAG_RAMP ) ||
+                           terrain_obj.has_flag( TFLAG_RAMP_UP ) ) ) ||
+           ( going_down && ( terrain_obj.has_flag( TFLAG_GOES_DOWN ) ||
+                             terrain_obj.has_flag( TFLAG_ELEVATOR ) ||
+                             terrain_obj.has_flag( TFLAG_RAMP_DOWN ) ) );
+}
+
+auto terrain_leads_to_zlevel( map &here, const tripoint_bub_ms &candidate, const int movez ) -> bool
+{
+    return ( movez == 1 && ( here.has_flag( TFLAG_GOES_UP, candidate ) ||
+                             here.has_flag( TFLAG_ELEVATOR, candidate ) ||
+                             here.has_flag( TFLAG_RAMP, candidate ) ||
+                             here.has_flag( TFLAG_RAMP_UP, candidate ) ) ) ||
+           ( movez == -1 && ( here.has_flag( TFLAG_GOES_DOWN, candidate ) ||
+                              here.has_flag( TFLAG_ELEVATOR, candidate ) ||
+                              here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) );
+}
+
+struct avatar_remembers_stairs_at_options {
+    const avatar &you;
+    map &here;
+    tripoint_bub_ms candidate;
+    bool going_up = false;
+    bool going_down = false;
+};
+
+auto avatar_remembers_stairs_at( const avatar_remembers_stairs_at_options &opts ) -> bool
+{
+    const auto abs_candidate = bub_to_abs( opts.candidate );
+    return memorized_terrain_has_stair_flag( opts.you.get_terrain_tile( abs_candidate ), opts.going_up,
+            opts.going_down ) ||
+           memorized_terrain_has_stair_flag( opts.you.get_memorized_tile( abs_candidate ), opts.going_up,
+                   opts.going_down );
+}
+
+auto avatar_knows_zlevel_transition_at( const avatar_remembers_stairs_at_options &opts ) -> bool
+{
+    return terrain_leads_to_zlevel( opts.here, opts.candidate, opts.going_up ? 1 : -1 ) ||
+           avatar_remembers_stairs_at( opts );
+}
+
+} // namespace
+
 std::optional<tripoint_bub_ms> game::find_local_stairs_leading_to( map &mp, const int z_after )
 {
-    const int movez = z_after - get_levz();
-    const bool going_down = movez == -1;
-    const bool going_up = movez == 1;
+    const auto movez = z_after - get_levz();
+    const auto going_down = movez == -1;
+    const auto going_up = movez == 1;
 
     //i tried 40, 80, and 100 here and got the same result almost every time? works for our purposes though
-    for( const tripoint_bub_ms &candidate : closest_points_first( u.bub_pos(), 80 ) ) {
-        if( ( going_up && ( mp.has_flag( TFLAG_GOES_UP, candidate ) ||
-                            mp.has_flag( TFLAG_ELEVATOR, candidate ) ) ) ||
-            ( going_down && ( mp.has_flag( TFLAG_GOES_DOWN, candidate ) ||
-                              mp.has_flag( TFLAG_ELEVATOR, candidate ) ) ) ) {
+    for( const auto &candidate : closest_points_first( u.bub_pos(), 80 ) ) {
+        if( avatar_knows_zlevel_transition_at( { .you = u, .here = mp, .candidate = candidate,
+                                               .going_up = going_up, .going_down = going_down } ) ) {
             return candidate;
         }
     }
@@ -909,25 +969,36 @@ std::optional<tripoint_bub_ms> game::find_local_stairs_leading_to( map &mp, cons
     return std::nullopt;
 }
 
-void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
+auto game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction ) -> bool
 {
-    const bool can_autowalk_stairs = get_option<bool>( "SUGGEST_AUTOWALK_STAIRCASE" );
+    const auto can_autowalk_stairs = get_option<bool>( "SUGGEST_AUTOWALK_STAIRCASE" );
 
     if( !can_autowalk_stairs ) {
-        return;
+        return false;
     }
 
-    const int z_after = direction == "up" ? u.bub_pos().z() + 1 : u.bub_pos().z() - 1;
-    std::optional<tripoint_bub_ms> stair_pos = find_local_stairs_leading_to( m, z_after );
+    const auto z_after = direction == "up" ? u.bub_pos().z() + 1 : u.bub_pos().z() - 1;
+    const auto movez = z_after - get_levz();
+    const auto going_down = movez == -1;
+    const auto going_up = movez == 1;
+    auto stair_pos = std::optional<tripoint_bub_ms> {};
+    auto route = std::vector<tripoint_bub_ms> {};
 
-    if( !stair_pos || !u.sees( *stair_pos ) ) {
-        return;
+    for( const auto &candidate : closest_points_first( u.bub_pos(), 80 ) ) {
+        if( !avatar_knows_zlevel_transition_at( { .you = get_avatar(), .here = m, .candidate = candidate,
+                                                .going_up = going_up, .going_down = going_down } ) ) {
+            continue;
+        }
+        route = m.route( u.bub_pos(), candidate, u.get_legacy_pathfinding_settings(),
+                         u.get_legacy_path_avoid() );
+        if( !route.empty() ) {
+            stair_pos = candidate;
+            break;
+        }
     }
 
-    auto route = m.route( u.bub_pos(), *stair_pos, u.get_legacy_pathfinding_settings(),
-                          u.get_legacy_path_avoid() );
-    if( route.size() <= 1 ) {
-        return;
+    if( !stair_pos ) {
+        return false;
     }
 
     // Detect if it's an elevator
@@ -938,10 +1009,12 @@ void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string 
         dir_text = direction == "up" ? " (up)" : " (down)";
     }
     if( query_yn( "Walk to %s%s?", m.ter( *stair_pos ).obj().name(), dir_text ) ) {
-        route.pop_back();
+        route.emplace_back( stair_pos->xy(), z_after );
         u.set_destination( route, u.remove_activity() );
         u.activity = std::make_unique<player_activity>();
+        return true;
     }
+    return false;
 }
 
 // Set up all default values for a new game
@@ -3643,6 +3716,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
+    ctxt.register_action( "perks" );
     ctxt.register_action( "sort_armor" );
     ctxt.register_action( "wait" );
     ctxt.register_action( "craft" );
@@ -14366,6 +14440,11 @@ static std::optional<tripoint_bub_ms> find_empty_spot_nearby( const tripoint_bub
 
 void game::vertical_move( int movez, bool force, bool peeking )
 {
+    if( u.is_auto_moving() && !check_safe_mode_allowed() ) {
+        u.clear_destination();
+        return;
+    }
+
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -14383,16 +14462,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
     const bool can_noclip = character_funcs::can_noclip( get_avatar() );
     int move_cost = 100;
     tripoint_bub_ms stairs( u.bub_pos().x(), u.bub_pos().y(), u.bub_pos().z() + movez );
-    if( !force && movez == 1 && !m.has_flag( "GOES_UP", u.bub_pos() ) &&
+    if( !force && movez == 1 &&
+        !terrain_leads_to_zlevel( m, u.bub_pos(), movez ) &&
         !u.is_underwater() && !can_fly ) {
 
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
-            // Don't prompt the player if they're already standing on stairs, they might've just hit the wrong key
-            if( !m.has_flag( "GOES_DOWN", u.bub_pos() ) ) {
-                suggest_auto_walk_to_stairs( u, m, "up" );
-            }
+            suggest_auto_walk_to_stairs( u, m, "up" );
             return;
         }
 
@@ -14428,9 +14505,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
             } else {
                 add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
-                if( !m.has_flag( "GOES_DOWN", u.bub_pos() ) ) {
-                    suggest_auto_walk_to_stairs( u, m, "up" );
-                }
+                suggest_auto_walk_to_stairs( u, m, "up" );
             }
             return;
 
@@ -14439,9 +14514,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
-            if( !m.has_flag( "GOES_DOWN", u.bub_pos() ) ) {
-                suggest_auto_walk_to_stairs( u, m, "up" );
-            }
+            suggest_auto_walk_to_stairs( u, m, "up" );
             return;
         } else {
             // TODO: Make it an extended action
@@ -14456,7 +14529,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.bub_pos() ) &&
+    if( !climbing && !force && movez == 1 && !terrain_leads_to_zlevel( m, u.bub_pos(), movez ) &&
         !u.is_underwater() ) {
 
         const auto dest = u.bub_pos() + tripoint_above;
@@ -14466,6 +14539,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         const auto &mutations = get_avatar().get_mutations();
 
         if( !can_fly ) {
+            if( suggest_auto_walk_to_stairs( u, m, "up" ) ) {
+                return;
+            }
             add_msg( m_info, _( "You can't go up here!" ) );
             return;
         }
@@ -14504,7 +14580,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // add flying flavor text here
         }
 
-    } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.bub_pos() ) &&
+    } else if( !force && movez == -1 && !terrain_leads_to_zlevel( m, u.bub_pos(), movez ) &&
                !u.is_underwater() ) {
 
         const auto dest = u.bub_pos() + tripoint_below;
@@ -14514,19 +14590,19 @@ void game::vertical_move( int movez, bool force, bool peeking )
         const bool standing_on_air = here_terrain == t_open_air;
 
         if( !can_fly ) {
-            add_msg( m_info, _( "You can't go down here!" ) );
-            if( !m.has_flag( "GOES_UP", u.bub_pos() ) ) {
-                suggest_auto_walk_to_stairs( u, m, "down" );
+            if( suggest_auto_walk_to_stairs( u, m, "down" ) ) {
+                return;
             }
+            add_msg( m_info, _( "You can't go down here!" ) );
             return;
         }
 
         if( m.impassable( dest ) || !standing_on_air ) {
             if( !can_noclip ) {
-                add_msg( m_info, _( "You can't go down here!" ) );
-                if( !m.has_flag( "GOES_UP", u.bub_pos() ) ) {
-                    suggest_auto_walk_to_stairs( u, m, "down" );
+                if( suggest_auto_walk_to_stairs( u, m, "down" ) ) {
+                    return;
                 }
+                add_msg( m_info, _( "You can't go down here!" ) );
                 return;
             } else {
                 if( dest.z() < -OVERMAP_DEPTH ) {
@@ -14545,8 +14621,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    // Because get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
-    // is called or when the map is loaded on new z-level (== false).
+    // Because get_levz takes z-value from the map, it will change when vertical_shift
+    // is called or when the map is loaded on a new z-level.
     // This caches the z-level we start the movement on (current) and the level we're want to end.
     const int z_before = get_levz();
     const int z_after = get_levz() + movez;
@@ -15246,8 +15322,17 @@ std::optional<tripoint_bub_ms> game::find_stairs( map &mp, const int z_after, bo
     if( movez.z() == -1 && mp.has_flag( TFLAG_GOES_UP, bub_pos + movez ) ) {
         return bub_pos + movez;
     }
+    if( movez.z() == -1 && mp.has_flag( TFLAG_RAMP_DOWN, bub_pos ) &&
+        mp.valid_move( bub_pos, bub_pos + movez, false, true, true ) ) {
+        return bub_pos + movez;
+    }
     if( movez.z() == 1 && mp.has_flag( TFLAG_GOES_DOWN, bub_pos + movez ) &&
         !mp.has_flag( TFLAG_DEEP_WATER, bub_pos + movez ) ) {
+        return bub_pos + movez;
+    }
+    if( movez.z() == 1 && ( mp.has_flag( TFLAG_RAMP, bub_pos ) ||
+                            mp.has_flag( TFLAG_RAMP_UP, bub_pos ) ) &&
+        mp.valid_move( bub_pos, bub_pos + movez, false, true, true ) ) {
         return bub_pos + movez;
     }
     // We did not find stairs directly above or below, so search the map for them
@@ -15304,7 +15389,7 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
         bool peeking )
 {
     const auto bub_pos = abs_to_map_local( mp, u.abs_pos() );
-    const int movez = z_after - bub_pos.z();
+    const auto movez = z_after - bub_pos.z();
 
     // Try to find the stairs.
     std::optional<tripoint_bub_ms> stairs = find_stairs( mp, z_after, peeking );

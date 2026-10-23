@@ -1635,5 +1635,53 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "material_soil", "count": [ 5, 15 ] }, { "item": "material_niter", "count": [ 0, 1 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drill_string",
+    "name": "drill string",
+    "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
+    "looks_like": "t_little_column",
+    "symbol": "O",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "PERMEABLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "steel_plate", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_underwater_drill_string",
+    "name": "drill string",
+    "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
+    "looks_like": "t_little_column",
+    "symbol": "O",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "PERMEABLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_water_cube",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
   }
 ]

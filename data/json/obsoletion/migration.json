@@ -487,11 +487,6 @@
     "replace": "modularvest"
   },
   {
-    "id": "ballistic_vest_esapi",
-    "type": "MIGRATION",
-    "replace": "modularvestceramic"
-  },
-  {
     "id": "esapi_plate",
     "type": "MIGRATION",
     "replace": "kevlar_plate"
@@ -868,5 +863,50 @@
     "type": "MIGRATION",
     "replace": "smg_luty",
     "contents": [ "retool_luty_45" ]
+  },
+  {
+    "id": "modularvest",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "modularvestceramic",
+    "type": "MIGRATION",
+    "replace": "ceramic_ballistic_plate"
+  },
+  {
+    "id": "modularvesthard",
+    "type": "MIGRATION",
+    "replace": "hard_ballistic_plate"
+  },
+  {
+    "id": "modularveststeel",
+    "type": "MIGRATION",
+    "replace": "steel_ballistic_plate"
+  },
+  {
+    "id": "modularvestsuper",
+    "type": "MIGRATION",
+    "replace": "super_ballistic_plate"
+  },
+  {
+    "id": "oldguard_armor_ceramic",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
+  },
+  {
+    "id": "oldguard_armor_hardsteel",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
+  },
+  {
+    "id": "oldguard_armor_steel",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
+  },
+  {
+    "id": "oldguard_armor_superalloy",
+    "type": "MIGRATION",
+    "replace": "oldguard_armor"
   }
 ]

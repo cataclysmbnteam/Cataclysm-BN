@@ -66,13 +66,16 @@
     "vision_night": 3,
     "harvest": "mr_bones_heavy",
     "special_attacks": [
-      [ "SMASH", 45 ],
+      [ "GRAB", 21 ],
+      { "id": "staggering_blow" },
+      { "type": "bite", "cooldown": 5 },
+      { "id": "smash", "throw_strength": 56, "cooldown": 45, "requires_grab": true },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ],
     "upgrades": { "half_life": 24, "into_group": "GROUP_SKELETON_BRUTE_UPGRADE" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON" ]
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "PUSH_MON", "PUSH_VEH" ]
   },
   {
     "id": "mon_skeleton_electric",
@@ -128,10 +131,11 @@
     "color": "dark_gray_white",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 5,
+    "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_cut": 15,
+    "grab_strength": 4,
     "armor_bash": 20,
     "armor_cut": 45,
     "armor_bullet": 36,
@@ -139,9 +143,12 @@
     "vision_night": 4,
     "harvest": "mr_bones_heavy",
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
+      [ "GRAB", 10 ],
+      { "type": "bite", "cooldown": 10 },
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",

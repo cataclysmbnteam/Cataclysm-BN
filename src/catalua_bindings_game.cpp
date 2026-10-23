@@ -13,6 +13,7 @@
 #include "game.h"
 #include "iexamine.h"
 #include "init.h"
+#include "inventory.h"
 #include "line.h"
 #include "lua_action_menu.h"
 #include "map/lightmap.h"
@@ -808,6 +809,10 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "add_npc_follower", []( npc & p ) { g->add_npc_follower( p.getID() ); } );
     luna::set_fx( lib, "remove_npc_follower", []( npc & p ) { g->remove_npc_follower( p.getID() ); } );
 
+    luna::set_fx( lib, "fling_creature", []( Creature & c, const units::angle & dir, float force,
+    bool controlled ) {
+        g->fling_creature( &c, dir, force, controlled );
+    } );
     DOC( "Opens an item selection menu listing the player's inventory and nearby items that pass a filter, and returns the chosen item or nil.  " );
     DOC( "Takes a table with keys:  " );
     DOC( "* `title` (string): Menu title.  " );
@@ -833,6 +838,29 @@ void cata::detail::reg_game_api( sol::state &lua )
             }
             return res.get<bool>();
         }, title, radius, failure );
+    } );
+
+    DOC( "Runs a function editing the player's inventory and nearby items.  " );
+    DOC( "Takes a table with keys:  " );
+    DOC( "* `func` (function): Editing function called with a table { item = Item }. Must return a boolean.  " );
+    DOC( "* `radius` (integer, optional): Search radius for nearby items. Defaults to the pickup range." );
+    luna::set_fx( lib, "map_inv_edit", []( sol::table opts ) -> void {
+        auto radius = opts.get_or<int>( "radius", PICKUP_RANGE );
+        auto fn = opts.get<sol::protected_function>( "func" );
+        auto &state = *DynamicDataLoader::get_instance().lua.get();
+        inventory map_inv;
+        map_inv.form_from_map( g->u.bub_pos(), radius, &g->u );
+        map_inv.add_items( g->u.get_inv(), true );
+        map_inv.add_item( g->u.primary_weapon(), true );
+        map_inv.add_items( g->u.worn, true );
+        map_inv.edit_all_items( [&]( item & e )
+        {
+            auto params = state.lua.create_table();
+            params["item"] = &e;
+            sol::protected_function_result res = fn( params );
+
+            check_func_result( res );
+        } );
     } );
 
     reg_game_api_creature_queries( lib );

@@ -53,8 +53,8 @@
                   {
                     "collection": [
                       { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
-                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
-                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shoes_female", "prob": 30, "damage": [ 1, 4 ] },
+                      { "group": "shirts_female", "prob": 60, "damage": [ 1, 4 ] },
                       {
                         "distribution": [
                           {

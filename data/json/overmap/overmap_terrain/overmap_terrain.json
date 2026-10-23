@@ -327,7 +327,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "Cargoship1_0_0", "Cargoship1_1_0", "Cargoshipu_0_0", "Cargoshipu_1_0" ],
-    "name": "cargo ship",
+    "name": "river barge",
     "sym": "H",
     "color": "red",
     "see_cost": 5,

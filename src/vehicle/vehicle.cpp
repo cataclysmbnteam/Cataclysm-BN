@@ -797,7 +797,7 @@ void vehicle::init_state(
         std::set<tripoint_mnt_veh> doors;
         for (const vpart_reference& vp : get_all_parts()) {
             if (vp.has_feature("OPENABLE") && vp.has_feature("BOARDABLE")
-                && !vp.has_feature("CURTAIN")) {
+                && !vp.has_feature("CURTAIN") && !vp.has_feature("VEHICLEPART_NO_LOCKS")) {
                 doors.emplace(vp.mount());
             }
         }
@@ -1861,17 +1861,25 @@ auto vehicle::can_unmount(const int p, std::string& reason) const -> bool {
 
     if (part_info(p).has_flag("NOREMOVE_SECURITY")) {
         const auto [c, s] = get_controls_and_security();
-        if (s >= 0) {
-            reason = string_format(_("Remove the %1$s %2$s first."), name, part_info(s).name());
+        if (s >= 0 && is_locked) {
+            reason = string_format(_("Disable the %1$s %2$s first."), name, part_info(s).name());
             return false;
         }
     }
 
+    const auto no_remove_locked = part_info(p).has_flag("NOREMOVE_LOCKED");
     const auto no_remove_closed = part_info(p).has_flag("NOREMOVE_CLOSED");
     const auto no_remove_open = part_info(p).has_flag("NOREMOVE_OPEN");
     for (const auto& elem : parts_here) {
         const auto is_openable = part_info(elem).has_flag("OPENABLE");
         const auto is_working = !parts[elem].is_broken();
+        if (no_remove_locked && is_working) {
+            const auto lock = part_with_feature(pt, str_DOOR_LOCKING, true);
+            if (lock >= 0 && parts[lock].enabled) {
+                reason = string_format(_("Unlock the attached %s first."), part_info(lock).name());
+                return false;
+            }
+        }
         if (no_remove_closed && is_openable && is_working && !parts[elem].open) {
             reason = string_format(_("Open the attached %s first."), part_info(elem).name());
             return false;

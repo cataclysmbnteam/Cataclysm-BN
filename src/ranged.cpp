@@ -38,6 +38,7 @@
 #include "line.h"
 #include "magic/magic.h"
 #include "map/map.h"
+#include "map/utils/map_functions.h"
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -244,7 +245,8 @@ auto get_shot_target( const shot_target_options &options ) -> tripoint_bub_ms
 {
     const auto range = rl_dist( options.source, options.target );
     Creature *target_critter = g->critter_at( options.target );
-    const auto target_size = target_critter != nullptr ? target_critter->ranged_target_size() : 0.0;
+    const auto target_size = target_critter != nullptr ? target_critter->ranged_target_size(
+                                 true ) : 0.0;
     const auto aim = projectile_attack_roll( options.dispersion, range, target_size );
     if( aim.missed_by_tiles < 1.0 ) {
         return options.target;
@@ -832,7 +834,7 @@ static double occupied_tile_fraction( creature_size target_size )
     return 0.5;
 }
 
-double Creature::ranged_target_size() const
+double Creature::ranged_target_size( bool shot ) const
 {
     if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
         return 0.0;
@@ -847,7 +849,7 @@ double Creature::ranged_target_size() const
             is_prone = true;
         }
     }
-    if( has_flag( MF_HARDTOSHOOT ) || is_crouched || is_prone ) {
+    if( ( has_flag( MF_HARDTOSHOOT ) || is_crouched || is_prone ) && !shot ) {
         switch( get_size() ) {
             case creature_size::tiny:
                 // We can't be smaller than tiny, but we can make the hit rate lower.
@@ -868,6 +870,11 @@ double Creature::ranged_target_size() const
         }
     }
     return occupied_tile_fraction( get_size() );
+}
+
+double Creature::ranged_target_size() const
+{
+    return ranged_target_size( false );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )
@@ -2956,6 +2963,12 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             }
         }
 
+        // Check if there's a floor in the way
+        if( map_funcs::physical_floor_between( here, shooter_pos, critter_pos ) )
+        {
+            return false;
+        }
+
         return true;
     } );
 }
@@ -3811,7 +3824,9 @@ void target_ui::recalc_aim_turning_penalty()
     } else {
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
-        const double recoil_per_degree = MAX_RECOIL / 180.0;
+        // Player has worse recoil control until 4 skill in marksmanship
+        const double skill_penalty = std::max( 0.0, 4.0 - you->get_skill_level( skill_gun ) );
+        const double recoil_per_degree = skill_penalty * MAX_RECOIL / 180.0;
         const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
         const units::angle angle_desired = coord_to_angle( src, dst );
         const units::angle phi = normalize( angle_curr - angle_desired );
@@ -4812,8 +4827,8 @@ double ranged::aim_per_move( const Character &who, const item &gun, double recoi
     // If the player can point shoot give them an extremely high multiplier while recoil is above half of max.
     if( get_point_shoot_modifier( who, gun ) > 0 && recoil > ( MAX_RECOIL / 2 ) ) {
         aim_speed *= get_point_shoot_modifier( who, gun );
-        // Make sure the aim speed can't exceed 75% of max recoil.
-        aim_speed = std::min( aim_speed, MAX_RECOIL * 0.75 );
+        // Make sure the aim speed can't exceed 50% of max recoil.
+        aim_speed = std::min( aim_speed, MAX_RECOIL * 0.5 );
     } else {
         // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
         aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
@@ -4829,8 +4844,8 @@ double ranged::aim_per_move( const Character &who, const item &gun, double recoi
     // To prevent a bug where aiming does not proceed at all because the aiming speed drops below the game's minimum limit (5.0) due to debuffs (such as Cursed Artifacts),
     // so applying the max value once more.
     aim_speed = std::max( 5.0, aim_speed + ench_aim_bonus );
-    // Bypass the sight limit if the player can point shoot.
-    if( get_point_shoot_modifier( who, gun ) > 0 ) {
+    // Bypass the sight limit while the player is point shoot.
+    if( get_point_shoot_modifier( who, gun ) > 0 && recoil > ( MAX_RECOIL / 2 ) ) {
         return aim_speed;
     }
     // Never improve by more than the currently used sights permit.
@@ -4845,8 +4860,8 @@ bool ranged::is_amateur( const Character &who, const item &gun )
 
     skill_id gun_skill = gun.gun_skill();
     bool amateur = true;
-    // If you have 1 or above for the specific gun skill you don't get the penalty
-    if( who.get_skill_level( gun_skill ) >= 1 ) {
+    // If you have 2 or above for the specific gun skill you don't get the penalty
+    if( who.get_skill_level( gun_skill ) >= 2 ) {
         amateur = false;
     }
     // If you have 4 or above for marksmanship skill in general you don't get the penalty
