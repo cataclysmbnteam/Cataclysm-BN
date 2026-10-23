@@ -907,6 +907,12 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Headshot < 0.1, Crit < 0.2, Goodhit < 0.5, Normal < 0.8, 0.8 =< Graze
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 
+    if( uncanny_dodge() ) {
+        attack.missed_by = 1.0;
+        // Messages are handled by uncanny_dodge itself
+        return;
+    }
+    
     if( goodhit >= 1.0 ) {
         attack.missed_by = 1.0; // Arbitrary value
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
