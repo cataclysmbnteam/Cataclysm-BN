@@ -2414,9 +2414,7 @@ bool monster::uncanny_dodge() {
         return false;
     }
 
-    auto uncanny_dodge_cost = 100;
-
-    if ( moves < uncanny_dodge_cost ) {
+    if ( moves < get_uncanny_dodge_cost() ) {
         return false;
     }
 
@@ -2426,7 +2424,7 @@ bool monster::uncanny_dodge() {
             add_msg( _( "%s dodges… so fast!" ),
                      disp_name( false, true ) );
         }
-        mod_moves( -uncanny_dodge_cost );
+        mod_moves( -get_uncanny_dodge_cost() );
         return true;
     } else {
         if( u_see_me ) {
