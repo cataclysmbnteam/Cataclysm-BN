@@ -1258,7 +1258,7 @@
       { "damage_type": "dark", "amount": 6 },
       { "damage_type": "cut", "amount": 36, "armor_penetration": 28 }
     ],
-    "//": "Matches armor value of powered RM13 + alloy plating. Night vision simulates active gpnvgs. Melee stats simulate monomolecular blade, hence no monster_weapon. Health regen simulates repair nanobots. Hard to shoot simulates uncanny dodge + high speed.",
+    "//": "Matches armor value of powered RM13 + alloy plating. Night vision simulates active gpnvgs. Melee stats simulate monomolecular blade, hence no monster_weapon. Health regen simulates repair nanobots.",
     "armor_bash": 27,
     "armor_cut": 41,
     "armor_bullet": 80,
@@ -1267,6 +1267,7 @@
     "dodge": 8,
     "harvest": "CBM_OP_BOSS_FERAL",
     "vision_night": 20,
+    "uncanny_dodge_cost": 50,
     "emit_fields": [ { "emit_id": "emit_shadow_field_darkfield", "delay": "1 s" } ],
     "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], [ "BIO_OP_BIOJUTSU", 10 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -1289,7 +1290,7 @@
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "NIGHT_INVISIBILITY",
-      "HARDTOSHOOT",
+      "UNCANNY_DODGE",
       "PRIORITIZE_TARGETS",
       "NO_SLIP"
     ]
