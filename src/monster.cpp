@@ -2414,7 +2414,7 @@ bool monster::uncanny_dodge() {
         return false;
     }
 
-    auto uncanny_dodge_cost = 50;
+    auto uncanny_dodge_cost = 100;
 
     if ( moves < uncanny_dodge_cost ) {
         return false;
