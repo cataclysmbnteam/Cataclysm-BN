@@ -159,7 +159,7 @@ class lua_iconsume_actor : public lua_icallback_actor_base
          * (the item is left alone unless the callback changed it).
          */
         auto call_on_try_consume( Character &who, item &it,
-                                   consume_overrides &overrides ) const -> bool;
+                                  consume_overrides &overrides ) const -> bool;
 };
 
 /** Lua callbacks for melee combat events. */
