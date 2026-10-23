@@ -7922,7 +7922,9 @@ float Character::rest_quality() const
         }
 
         // rest_quality() theoretically gets called every 5 minutes, so these messages should display once every 90 minutes on average
-        if( !activity->get_suppress_comfort() && !has_effect( effect_sleep ) && one_in( 18 ) ) {
+        // Additionally only print messages if we could actually benefit from healing OR if we're actually trying to sleep.
+        if( !activity->get_suppress_comfort() && !has_effect( effect_sleep ) &&
+            ( has_activity( ACT_TRY_SLEEP ) || hp_percentage() < 100 ) && one_in( 18 ) ) {
             if( comfort >= character_funcs::comfort_level::very_comfortable ) {
                 add_msg_if_player( _( "Resting here is very comfortable." ) );
             } else if( comfort >= character_funcs::comfort_level::comfortable ) {
