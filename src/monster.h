@@ -492,7 +492,8 @@ class monster : public Creature, public location_visitable<monster>
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
-        int get_uncanny_dodge_cost() const; // moves cost for uncanny dodge, if the monster can uncanny dodge
+        int get_uncanny_dodge_cost()
+        const; // moves cost for uncanny dodge, if the monster can uncanny dodge
 
         monster_horde_attraction get_horde_attraction();
         void set_horde_attraction( monster_horde_attraction mha );

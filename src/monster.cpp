@@ -2409,12 +2409,13 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::uncanny_dodge() {
-    if ( !has_flag( MF_UNCANNY_DODGE ) ) {
+bool monster::uncanny_dodge()
+{
+    if( !has_flag( MF_UNCANNY_DODGE ) ) {
         return false;
     }
 
-    if ( moves < get_uncanny_dodge_cost() ) {
+    if( moves < get_uncanny_dodge_cost() ) {
         return false;
     }
 
