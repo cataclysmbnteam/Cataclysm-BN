@@ -351,6 +351,7 @@ struct mtype {
         int melee_sides = 0;    /** number of sides those dice have */
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
+        int uncanny_dodge_cost = 100;    /**moves cost for uncanny dodge, if the monster can uncanny dodge*/
 
         // Pet food category this monster is in
         pet_food_data petfood;
