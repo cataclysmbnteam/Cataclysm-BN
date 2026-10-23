@@ -849,6 +849,11 @@ auto get_stun_srength( const projectile &proj, creature_size size ) -> int
 void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
                                        dealt_projectile_attack &attack )
 {
+    if( uncanny_dodge() ) {
+        // Messages are handled by uncanny_dodge itself
+        return;
+    }
+    
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 ) {
         // Total miss.
@@ -906,12 +911,6 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // How well a projectile hit after dodge adjustment. 0->1, lower is a better hit
     // Headshot < 0.1, Crit < 0.2, Goodhit < 0.5, Normal < 0.8, 0.8 =< Graze
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
-
-    if( uncanny_dodge() ) {
-        attack.missed_by = 1.0;
-        // Messages are handled by uncanny_dodge itself
-        return;
-    }
 
     if( goodhit >= 1.0 ) {
         attack.missed_by = 1.0; // Arbitrary value
