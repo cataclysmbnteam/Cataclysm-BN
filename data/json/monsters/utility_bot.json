@@ -161,6 +161,7 @@
     "armor_bullet": 10,
     "armor_fire": 10,
     "vision_day": 50,
+    "mountable_pixels_up": 13,
     "revert_to_itype": "bot_haulerbot",
     "//": "Marks targets for you if friendly, does nothing else otherwise since lacks POLICE_EYEBOT flag.",
     "special_attacks": [ [ "PHOTOGRAPH", 60 ] ],
