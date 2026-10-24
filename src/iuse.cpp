@@ -326,6 +326,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_WAYFARER_SELF( "WAYFARER_SELF" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -5342,6 +5343,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint_bub_ms & )
         return 0;
     }
     veh->name = it->get_var( "vehicle_name" );
+    veh->type = vproto_id( it->get_var( "vehicle_id", "none" ) );
     if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
         g->m.destroy_vehicle( veh );
         return 0;
@@ -8211,6 +8213,9 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint_bub_ms &pos )
 
     if( choice == 0 ) {
         if( g->u.has_trait( trait_WAYFARER ) ) {
+            add_msg( m_info,
+                     _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
+        } else if( g->u.has_trait( trait_WAYFARER_SELF ) && veh->type != vproto_id( "none" ) ) {
             add_msg( m_info,
                      _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
         } else {
