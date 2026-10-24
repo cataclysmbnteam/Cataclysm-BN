@@ -4847,5 +4847,28 @@
     "material": [ "kevlar", "superalloy" ],
     "encumbrance": 20,
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "bio_ods",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Obsolete Bionic" },
+    "looks_like": "bio_int_enhancer",
+    "description": "The effects of this bionic in the code have been replaced with Electroshock Unit, so this should no longer spawn.  If you're still finding these in the wild, update your mods."
+  },
+  {
+    "id": "bio_infrared",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Obsolete Bionic" },
+    "looks_like": "bio_int_enhancer",
+    "description": "The effects of this bionic in the code have been replaced with Hybrid Night Vision, so this should no longer spawn.  If you're still finding these in the wild, update your mods."
+  },
+  {
+    "id": "afs_bio_linguistic_coprocessor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Obsolete Bionic" },
+    "description": "The effects of this bionic in the code have been replaced with Memory Coprocessor, so this should no longer spawn.  If you're still finding these in the wild, update your mods."
   }
 ]

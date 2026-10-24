@@ -278,7 +278,6 @@ static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
-static const bionic_id bio_infrared( "bio_infrared" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
@@ -286,17 +285,14 @@ static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_night_vision( "bio_night_vision" );
-static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_recycler( "bio_recycler" );
+static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-
-// Aftershock stuff!
-static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
@@ -9978,20 +9974,19 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    units::energy trigger_cost_base = bio_ods->power_trigger;
-    if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
+    units::energy trigger_cost = bio_shock->power_trigger;
+    if( has_active_bionic( bio_shock ) && get_power_level() >= trigger_cost ) {
         if( is_player() ) {
-            add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
+            add_msg( m_good, _( "Your electroshock unit shocks %s in mid-attack!" ),
                      source->disp_name() );
         } else if( u_see ) {
-            add_msg( _( "%1$s's offensive defense system shocks %2$s in mid-attack!" ),
+            add_msg( _( "%1$s's electroshock unit shocks %2$s in mid-attack!" ),
                      disp_name(),
                      source->disp_name() );
         }
-        int shock = rng( 1, 4 );
-        mod_power_level( -shock * trigger_cost_base );
+        mod_power_level( -trigger_cost );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        ods_shock_damage.add_damage( DT_ELECTRIC, rng( 5, 10 ) );
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
