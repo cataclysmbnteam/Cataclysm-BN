@@ -505,7 +505,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Heat Drain CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and recharging the user's bionic power reserves slightly.",
+    "description": "While fighting against a warm-blooded opponent, striking them with unarmed attacks or being struck by them will drain body heat, inflicting a small amount of extra damage, and increasing your power reserves slightly.",
     "price": "5500 USD",
     "weight": "500 g",
     "difficulty": 5

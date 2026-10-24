@@ -277,6 +277,7 @@ static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
@@ -9975,7 +9976,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
 
     bool u_see = g->u.sees( *this );
     units::energy trigger_cost = bio_shock->power_trigger;
-    if( has_active_bionic( bio_shock ) && get_power_level() >= trigger_cost ) {
+    if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your electroshock unit shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -9984,11 +9985,26 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                      disp_name(),
                      source->disp_name() );
         }
-        mod_power_level( -trigger_cost );
-        damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage( DT_ELECTRIC, rng( 5, 10 ) );
+        mod_power_level( -bio_shock->power_trigger );
+        damage_instance bio_shock_damage;
+        bio_shock_damage.add_damage( DT_ELECTRIC, rng( 5, 10 ) );
         // Should hit body part used for attack
-        source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), bio_shock_damage );
+    }
+    if( has_active_bionic( bio_heat_absorb ) && get_power_level() >= bio_heat_absorb->power_trigger && source->is_warm() ) {
+        if( is_player() ) {
+            add_msg( m_good, _( "You drain %s's body heat in mid-attack!" ),
+                     source->disp_name() );
+        } else if( u_see ) {
+            add_msg( _( "%1$s's drains %s's body heat in mid-attack!" ),
+                     disp_name(),
+                     source->disp_name() );
+        }
+        mod_power_level( bio_heat_absorb->power_trigger );
+        damage_instance bio_heat_absorb_damage;
+        bio_heat_absorb_damage.add_damage( DT_COLD, 3 );
+        // Should hit body part used for attack
+        source->deal_damage( this, bodypart_id( "torso" ), bio_heat_absorb_damage );
     }
     if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
