@@ -70,7 +70,6 @@
     "muscle_power_factor": 40,
     "noise_factor": 8,
     "m2c": 45,
-    "exclusions": [ "manual" ],
     "item": "hand_paddles",
     "location": "engine_block",
     "folded_volume": "500 ml",
