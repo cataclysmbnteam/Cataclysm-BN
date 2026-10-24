@@ -76,7 +76,6 @@
 #include <optional>
 #include <queue>
 #include <ranges>
-#include <sched.h>
 #include <set>
 #include <sstream>
 #include <unordered_map>
@@ -1611,10 +1610,7 @@ auto vehicle::part_vpower_w(const int index, const bool at_full_hp) const -> int
             }
         }
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        if (get_passenger(index)) {
-            pwr +=
-                (get_passenger(index)->str_cur - 8) * part_info(index).engine_muscle_power_factor();
-        }
+        pwr += (g->u.str_cur - 8) * part_info(index).engine_muscle_power_factor();
         /// wind-powered vehicles have differing power depending on wind direction
         if (vp.info().fuel_type == fuel_type_wind) {
             const weather_manager& weather = get_weather();
