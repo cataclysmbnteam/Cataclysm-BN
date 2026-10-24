@@ -7,7 +7,7 @@
     "color_palette": "wooden_standard",
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood_horizontal", "seat_wood_light", "hand_paddles", "boat_board" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board", "seat_wood_light" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_horizontal", "seat_wood_light", "hand_paddles", "boat_board" ] },
       { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] }
     ],
@@ -288,7 +288,7 @@
     "color_palette": "wooden_standard",
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "hand_paddles", "boat_board" ] },
-      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "boat_board" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "hand_paddles", "boat_board" ] },
       { "x": 0, "y": 2, "parts": [ "frame_wood_vertical", "boat_board" ] },
       { "x": 0, "y": -1, "parts": [ "frame_wood_vertical", "boat_board" ] },
       { "x": -1, "y": -1, "parts": [ "frame_wood_sw", "boat_board" ] },
