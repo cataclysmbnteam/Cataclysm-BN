@@ -9991,7 +9991,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), bio_shock_damage );
     }
-    if( has_active_bionic( bio_heat_absorb ) && get_power_level() >= bio_heat_absorb->power_trigger && source->is_warm() ) {
+    if( has_active_bionic( bio_heat_absorb ) && get_power_level() >= bio_heat_absorb->power_trigger &&
+        source->is_warm() ) {
         if( is_player() ) {
             add_msg( m_good, _( "You drain %s's body heat in mid-attack!" ),
                      source->disp_name() );
