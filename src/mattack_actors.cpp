@@ -452,7 +452,7 @@ bool melee_actor::call( monster &z ) const
     const int acc = accuracy >= 0 ? accuracy : static_cast<int>( z.get_melee() );
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
-    if( hitspread < 0 ) {
+    if( hitspread < 0 || target->uncanny_dodge() ) {
         auto msg_type = target->is_avatar() ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.bub_pos(), 50 ),
                                  sfx::get_heard_angle( z.bub_pos() ) );
