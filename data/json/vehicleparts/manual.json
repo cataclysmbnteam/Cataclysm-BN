@@ -82,7 +82,7 @@
         "using": [ [ "nail_any_adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ]
       }
     },
-    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY", "SHOCK_RESISTANT" ],
+    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_NO_POWER_DECAY", "E_STARTS_INSTANTLY", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
     "damage_reduction": { "all": 5 }
   }
