@@ -7006,8 +7006,8 @@ bool item::ready_to_revive( const tripoint_bub_ms &pos ) const
     if( damage_level( 4 ) > 0 ) {
         age_in_hours /= ( damage_level( 4 ) + 1 );
     }
-    int rez_factor = 48 - age_in_hours;
-    if( age_in_hours > 6 && ( rez_factor <= 0 || one_in( rez_factor ) ) ) {
+    int rez_factor = get_option< int >( "REVIVIFICATION_FREQUENCY" );
+    if( age_in_hours >= rez_factor && ( age_in_hours >= rez_factor * 2 || one_in( rez_factor ) ) ) {
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag( flag_REVIVE_SPECIAL );
         if( isReviveSpecial ) {

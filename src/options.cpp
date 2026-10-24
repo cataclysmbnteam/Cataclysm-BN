@@ -2885,6 +2885,10 @@ void options_manager::add_options_world_default()
          translate_marker( "Zombies Always Evolve" ),
          translate_marker( "When reaching the maximum half lives, instead of never evolving they will evolve at that time." ),
          false );
+    add( "REVIVIFICATION_FREQUENCY", world_default, translate_marker( "Revivification Frequency" ),
+         translate_marker( "Determines how soon in hours a freshly-killed zombie will attempt to revive, before damaged or burnt status is taken into account.  No effect if Prevent Zombie Revivification mod is used." ),
+         1, 1000, 6
+       );
     add( "CROWD_CRUSH", world_default,
          translate_marker( "Crowd crush" ),
          translate_marker( "When enabled, being grabbed by enough adjacent creatures can drain breath and eventually cause crushing damage." ),
