@@ -2865,6 +2865,11 @@ void options_manager::add_options_world_default()
          0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
+    add( "ROT_RATE", world_default, translate_marker( "Food spoilage rate scaling factor" ),
+         translate_marker( "A scaling factor that determines how fast food and corpses spoil.  A higher number means faster spoilage.  Set to 0.00 to stop spoilage." ),
+         0.0, 100.0, 1.0, 0.05, COPT_NO_HIDE
+       );
+
     add( "NPC_DENSITY", world_default, translate_marker( "NPC spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
          0.0, 100.0, 0.1, 0.01

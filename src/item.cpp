@@ -1347,6 +1347,13 @@ static float get_ranged_armor_mult( const common_ranged_data &ranged )
     return ranged.damage.damage_units.front().res_mult;
 }
 
+/// Converts a time until spoilage at normal rot speed into the time under the global ROT_RATE option.
+static auto scale_by_rot_rate( const time_duration &d ) -> time_duration
+{
+    const auto rate = get_option<float>( "ROT_RATE" );
+    return rate > 0.0f ? d / rate : calendar::INDEFINITELY_LONG_DURATION;
+}
+
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
 static std::string get_freshness_description( const item &food_item )
@@ -1363,6 +1370,7 @@ static std::string get_freshness_description( const item &food_item )
     if( time_left > shelf_life ) {
         time_left = shelf_life;
     }
+    time_left = scale_by_rot_rate( time_left );
     avatar &you = get_avatar();
     if( food_item.is_fresh() ) {
         // Fresh food is assumed to be obviously so regardless of skill.
@@ -2104,14 +2112,19 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     }
 
     if( food_item->goes_bad() && parts->test( iteminfo_parts::FOOD_ROT ) ) {
-        const std::string rot_time = to_string_clipped( food_item->get_shelf_life() );
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "* This food is <neutral>perishable</neutral>, "
-                                             "and at room temperature has an estimated nominal "
-                                             "shelf life of <info>%s</info>." ), rot_time ) );
+        const auto spoilage_enabled = get_option<float>( "ROT_RATE" ) > 0.0f;
+        if( spoilage_enabled ) {
+            const auto rot_time = to_string_clipped( scale_by_rot_rate( food_item->get_shelf_life() ) );
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "* This food is <neutral>perishable</neutral>, "
+                                                 "and at room temperature has an estimated nominal "
+                                                 "shelf life of <info>%s</info>." ), rot_time ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* Spoilage is <good>disabled</good>.  This food will stay fresh indefinitely." ) );
+        }
 
-
-        if( parts->test( iteminfo_parts::FOOD_ROT_STORAGE ) ) {
+        if( spoilage_enabled && parts->test( iteminfo_parts::FOOD_ROT_STORAGE ) ) {
             const char *temperature_description;
             bool print_freshness_duration = false;
             const bool preserved_by_container = food_item->is_in_preserving_container();
@@ -2154,7 +2167,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             }
         }
 
-        if( !food_item->rotten() ) {
+        if( spoilage_enabled && !food_item->rotten() ) {
             info.emplace_back( "DESCRIPTION", get_freshness_description( *food_item ) );
         }
 
@@ -6592,9 +6605,9 @@ auto item::calc_rot( time_point time, const units::temperature temp ) const -> t
     }
 
     // rot modifier
-    float factor = 1.0;
+    auto factor = get_option<float>( "ROT_RATE" );
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
-        factor = 0.75;
+        factor *= 0.75f;
     }
 
     time_duration added_rot = 0_seconds;
@@ -6640,7 +6653,8 @@ time_duration item::minimum_freshness_duration( temperature_flag temperature ) c
         return calendar::INDEFINITELY_LONG_DURATION;
     }
     const units::temperature temp = temperature_flag_to_highest_temperature( temperature );
-    unsigned long long rot_per_hour = get_hourly_rotpoints_at_temp( temp );
+    const auto rot_per_hour = get_hourly_rotpoints_at_temp( temp ) * static_cast<double>
+                              ( get_option<float>( "ROT_RATE" ) );
 
     if( rot_per_hour <= 0 || !type->comestible ) {
         return calendar::INDEFINITELY_LONG_DURATION;
@@ -6648,9 +6662,10 @@ time_duration item::minimum_freshness_duration( temperature_flag temperature ) c
 
     time_duration remaining_rot = type->comestible->spoils - rot;
     // Has to be in int64 or it will overflow for long lasting food
-    unsigned long long duration = to_turns<unsigned long long>( remaining_rot )
-                                  * to_turns<unsigned long long>( 1_hours )
-                                  / rot_per_hour;
+    const auto duration = static_cast<unsigned long long>(
+                              to_turns<unsigned long long>( remaining_rot )
+                              * static_cast<double>( to_turns<unsigned long long>( 1_hours ) )
+                              / rot_per_hour );
     if( duration > to_turns<unsigned long long>( calendar::INDEFINITELY_LONG_DURATION ) ) {
         return calendar::INDEFINITELY_LONG_DURATION;
     }
