@@ -523,7 +523,8 @@
         "y": 2,
         "parts": [
           "frame_wood_vertical",
-          "wood box", "folding_seat",
+          "wood box",
+          "folding_seat",
           "turret_mount_manual_wood",
           {
             "ammo_types": [ "cannon_round_ball", "cannon_canister_shot" ],
@@ -572,7 +573,11 @@
       { "x": -5, "y": -2, "parts": [ "frame_wood_vertical", "veh_table_wood", "roof_wood", "boat_board" ] },
       { "x": -4, "y": -2, "parts": [ "frame_wood_vertical", "seat_wood", "roof_wood", "boat_board" ] },
       { "x": -3, "y": -2, "parts": [ "frame_wood_horizontal", "woodboard_horizontal", "boat_board" ] },
-      { "x": -2, "y": -2, "parts": [ "frame_wood_horizontal", "wooden_aisle_vertical", "folding_seat", "boat_board" ] },
+      {
+        "x": -2,
+        "y": -2,
+        "parts": [ "frame_wood_horizontal", "wooden_aisle_vertical", "folding_seat", "boat_board" ]
+      },
       { "x": -1, "y": -2, "parts": [ "frame_wood_vertical", "wooden_aisle_vertical", "boat_board" ] },
       { "x": 0, "y": -2, "parts": [ "frame_wood_vertical", "wooden_aisle_vertical", "boat_board" ] },
       { "x": 1, "y": -2, "parts": [ "frame_wood_vertical", "wooden_aisle_vertical", "boat_board" ] },
@@ -582,7 +587,8 @@
         "y": -2,
         "parts": [
           "frame_wood_vertical",
-          "wood box", "folding_seat",
+          "wood box",
+          "folding_seat",
           "turret_mount_manual_wood",
           {
             "ammo_types": [ "cannon_round_ball", "cannon_canister_shot" ],
